@@ -11,7 +11,9 @@ class DrawList : ArrayList<BaseObject>() {
     }
 
     fun move(posX: Float, posY: Float) {
-
+        for (baseObject in this) {
+            baseObject.move(posX,posY)
+        }
     }
 
     fun collide(field: Field): Field {
@@ -20,7 +22,7 @@ class DrawList : ArrayList<BaseObject>() {
                  return baseObject.field
              }
         }
-        return field
+        return Field()
     }
 
 }
