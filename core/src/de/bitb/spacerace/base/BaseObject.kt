@@ -1,37 +1,16 @@
 package de.bitb.spacerace.base
 
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import de.bitb.spacerace.model.Field
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 
-open class BaseObject(val img: Texture) {
+open class BaseObject(img: Texture) : Image(img) {
 
-    open var field: Field = Field()
-
-    fun move(posX: Float = 0f, posY: Float = 0f) {
-        field.posX += posX
-        field.posY += posY
+    init {
+        setBounds(x, y, width, height)
     }
 
-    fun moveTo(field:Field){
-        moveTo(field.posX, field.posY)
-    }
-
-    fun moveTo(posX: Float = 0f, posY: Float = 0f) {
-        field.posX = posX
-        field.posY = posY
-    }
-
-    fun draw(batch: SpriteBatch) {
-        batch.draw(img, field.posX, field.posY)
-    }
-
-    fun dispose() {
-        img.dispose()
-    }
-
-    fun collide(pointer: Field): Boolean {
-        return field.posX < pointer.posX && field.posX + img.width > pointer.posX
-                && field.posY < pointer.posY && field.posY + img.height > pointer.posY
-    }
+//    fun collide(pointer: Field): Boolean {
+//        return field.x < pointer.x && field.x + img.width > pointer.x
+//                && field.y < pointer.y && field.y + img.height > pointer.y
+//    }
 }

@@ -1,7 +1,5 @@
 package de.bitb.spacerace
 
-import android.util.Log
-
 object Logger {
 
     private val isAllowedToLog: Boolean
@@ -24,47 +22,47 @@ object Logger {
                     } catch (e: Exception) {
                         Logger::class.java.simpleName
                     }
-
                 }
             }
             return Logger::class.java.simpleName
         }
 
-    fun error(message: String) {
-        if (isAllowedToLog) {
-            Log.e(callingClass, message)
-        }
-    }
-
-    fun debug(message: String) {
-        if (isAllowedToLog) {
-            Log.d(callingClass, message)
-        }
-    }
-
-    fun info(message: String) {
-        if (isAllowedToLog) {
-            Log.i(callingClass, message)
-        }
-    }
-
-    fun verbose(message: String) {
-        if (isAllowedToLog) {
-            Log.v(callingClass, message)
-        }
-    }
-
-    fun warn(message: String) {
-        if (isAllowedToLog) {
-            Log.w(callingClass, message)
-        }
-    }
+//    fun error(message: String) {
+//        if (isAllowedToLog) {
+//            Log.e(callingClass, message)
+//        }
+//    }
+//
+//    fun debug(message: String) {
+//        if (isAllowedToLog) {
+//            Log.d(callingClass, message)
+//        }
+//    }
+//
+//    fun info(message: String) {
+//        if (isAllowedToLog) {
+//            Log.i(callingClass, message)
+//        }
+//    }
+//
+//    fun verbose(message: String) {
+//        if (isAllowedToLog) {
+//            Log.v(callingClass, message)
+//        }
+//    }
+//
+//    fun warn(message: String) {
+//        if (isAllowedToLog) {
+//            Log.w(callingClass, message)
+//        }
+//    }
 
     fun println(message: String) {
         if (isAllowedToLog) {
             System.out.println("$callingClass: $message")
         }
     }
+
 //    fun wtf(message: String) {
 //        if (isAllowedToLog) {
 //            Log.wtf(callingClass, message)

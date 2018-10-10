@@ -1,14 +1,13 @@
 package de.bitb.spacerace.model
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.math.Vector2
 
-class Field {
-
-    var posX: Float = 0f
-    var posY: Float = 0f
+class Field : Vector2(){
 
     fun setAsInput() {
-        posX = Gdx.input.x.toFloat()
-        posY = Gdx.graphics.height.toFloat() - Gdx.input.y.toFloat()
+        x = Gdx.input.x.toFloat()
+        y = Gdx.graphics.height.toFloat() - Gdx.input.y.toFloat()
     }
+
 }
