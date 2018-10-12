@@ -2,20 +2,20 @@ package de.bitb.spacerace.screens
 
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.model.Asteroid
+import de.bitb.spacerace.model.Ship
 
 
 class StartScreen(game: BaseGame) : BaseScreen(game) {
 
     override fun show() {
         super.show()
-        stage.addActor(Asteroid())
+        gameStage.addActor(Ship())
     }
 
     override fun render(delta: Float) {
         super.render(delta)
-        stage.act(delta)
-        stage.draw()
+        gameStage.act(delta)
+        gameStage.draw()
     }
 
 }

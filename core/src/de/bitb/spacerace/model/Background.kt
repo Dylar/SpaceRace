@@ -3,6 +3,6 @@ package de.bitb.spacerace.model
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.base.BaseObject
 
-class SpaceField : BaseObject(Texture("asteroid.png")) {
+class Background : BaseObject(Texture("spongebob.jpg")) {
 
 }
