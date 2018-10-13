@@ -23,22 +23,7 @@ abstract class BaseGame : Game() {
 
     override fun render() {
         super.render()
-//        clearScreen()
-//        updateObjects()
-//        batch.begin()
-//        renderBackground(batch)
-//        renderObjects(batch)
-//        renderGUI(batch)
-//        batch.end()
     }
-//
-//    abstract fun updateObjects()
-//
-//    abstract fun renderBackground(batch: SpriteBatch)
-//
-//    abstract fun renderObjects(batch: SpriteBatch)
-//
-//    abstract fun renderGUI(batch: SpriteBatch)
 
     override fun dispose() {
         batch.dispose()

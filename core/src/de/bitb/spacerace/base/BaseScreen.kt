@@ -10,25 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.bitb.spacerace.CameraActions.*
 import de.bitb.spacerace.GestureListenerAdapter
+import com.badlogic.gdx.utils.viewport.FitViewport
+
+
 
 
 open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
 
+    val backgroundStage: Stage = Stage(ScreenViewport())
     val gameStage: Stage = Stage(ScreenViewport())
     val guiStage: Stage = Stage(ScreenViewport())
     var cameraStatus = CAMERA_FREE
 
-    private var currentZoom: Float = 5f
+    private var currentZoom: Float = (gameStage.camera as OrthographicCamera).zoom
     private var cameraTarget: BaseObject? = null
-
-//    override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-//        val camera = gameStage.camera
-//
-//        var posX = Gdx.input.x.toFloat()
-//        var posY = Gdx.graphics.height.toFloat() - Gdx.input.y.toFloat()
-//        camera.position.set(posX, posY, 0f)
-//        return true
-//    }
 
     override fun show() {
         Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this))
@@ -36,11 +31,10 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
 
     override fun render(delta: Float) {
         game.clearScreen()
-        gameStage.act(delta)
-        gameStage.draw()
 
-        guiStage.act(delta)
-        guiStage.draw()
+        renderBackground(delta)
+        renderGame(delta)
+        renderGui(delta)
 
         if (!cameraStatus.isFree()) {
             val posX = cameraTarget!!.x + cameraTarget!!.width / 2
@@ -48,6 +42,21 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
             gameStage.camera.position.set(posX, posY, 0f)
             gameStage.camera.update()
         }
+    }
+
+    open fun renderBackground(delta: Float) {
+        backgroundStage.act(delta)
+        backgroundStage.draw()
+    }
+
+    open fun renderGame(delta: Float) {
+        gameStage.act(delta)
+        gameStage.draw()
+    }
+
+    open fun renderGui(delta: Float) {
+        guiStage.act(delta)
+        guiStage.draw()
     }
 
     override fun pause() {
@@ -58,7 +67,10 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
 
     override fun resize(width: Int, height: Int) {
         gameStage.viewport.update(width, height, true)
-        guiStage.viewport.update(width, height, true)
+//        guiStage.viewport.update(width, height, true)
+        backgroundStage.viewport.update(width, height, true)
+
+
     }
 
     override fun hide() {
@@ -67,6 +79,7 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
     override fun dispose() {
         gameStage.dispose()
         guiStage.dispose()
+        backgroundStage.dispose()
     }
 
     override fun pinch(initialPointer1: Vector2?, initialPointer2: Vector2?, pointer1: Vector2?, pointer2: Vector2?): Boolean {
@@ -91,7 +104,10 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
         Gdx.app.log("INFO", "PAN")
 
         if (cameraStatus.isFree()) {
-            val gameCam = gameStage.camera
+            var gameCam = gameStage.camera
+            gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom, 0f)
+            gameCam.update()
+            gameCam = backgroundStage.camera
             gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom, 0f)
             gameCam.update()
         }
