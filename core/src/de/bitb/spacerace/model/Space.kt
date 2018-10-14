@@ -2,9 +2,14 @@ package de.bitb.spacerace.model
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.core.TextureCollection
+import com.badlogic.gdx.graphics.Pixmap
+
 
 class Space {
     var ships = ArrayList<Ship>()
@@ -22,17 +27,17 @@ class Space {
         val screenWidth = Gdx.graphics.width
         val screenHeight = Gdx.graphics.height
 
-        val spaceField1 = SpaceField(1)
+        val spaceField1 = SpaceField(1, TextureCollection.blueField)
         addField(spaceField1)
-        val spaceField2 = SpaceField(2)
+        val spaceField2 = SpaceField(2, TextureCollection.redField)
         addField(spaceField2, screenWidth - spaceField2.width)
-        val spaceField3 = SpaceField(3)
+        val spaceField3 = SpaceField(3, TextureCollection.greenField)
         addField(spaceField3, screenWidth / 2 - spaceField3.width / 2)
-        val spaceField4 = SpaceField(4)
+        val spaceField4 = SpaceField(4, TextureCollection.grayField)
         addField(spaceField4, screenWidth - spaceField4.width, screenHeight - spaceField4.height)
-        val spaceField5 = SpaceField(5)
+        val spaceField5 = SpaceField(5, TextureCollection.yellowField)
         addField(spaceField5, screenWidth / 2 - spaceField5.width / 2, screenHeight - spaceField5.height)
-        val spaceField6 = SpaceField(6)
+        val spaceField6 = SpaceField(6, TextureCollection.brownField)
         addField(spaceField6, posY = screenHeight - spaceField6.height)
         val spaceField7 = SpaceField(7)
         addField(spaceField7, ((screenWidth / 3 - spaceField7.width * 2 / 3).toFloat()), (screenHeight / 2 - spaceField7.height / 2))
@@ -117,6 +122,14 @@ class Space {
             diceResult = (Math.random() * maxResult).toInt() + 2
             Logger.println("DiceResult: $diceResult")
         }
+    }
+
+    fun stepsLeft(): Int {
+        return diceResult - steps.size
+    }
+
+    fun getPreviousStep(): SpaceField {
+        return steps[steps.size - 2]
     }
 }
 

@@ -3,6 +3,6 @@ package de.bitb.spacerace.model
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.base.BaseObject
 
-class Background : BaseObject(Texture("spongebob.jpg")) {
+class Background : BaseObject(Texture("bg_star.png")) {
 
 }
