@@ -2,6 +2,7 @@ package de.bitb.spacerace.base
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.input.GestureDetector
@@ -15,9 +16,9 @@ import de.bitb.spacerace.Logger
 
 open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
 
-    val backgroundStage: Stage = Stage(ScreenViewport())
-    val gameStage: Stage = Stage(ScreenViewport())
-    val guiStage: Stage = Stage(ScreenViewport())
+    var backgroundStage: Stage = Stage(ScreenViewport())
+    var gameStage: Stage = Stage(ScreenViewport())
+    var guiStage: Stage = Stage(ScreenViewport())
     var cameraStatus = CAMERA_FREE
 
     var currentZoom: Float = (gameStage.camera as OrthographicCamera).zoom
@@ -26,10 +27,19 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
                 field = value
             }
         }
-     var cameraTarget: BaseObject? = null
 
     override fun show() {
+        guiStage = createGuiStage()
+        gameStage = createGameStage()
         Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this))
+    }
+
+    open fun createGuiStage(): Stage {
+        return Stage(ScreenViewport())
+    }
+
+    open fun createGameStage(): Stage {
+        return Stage(ScreenViewport())
     }
 
     override fun render(delta: Float) {
@@ -40,11 +50,18 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
         renderGui(delta)
 
         if (!cameraStatus.isFree()) {
-            val posX = cameraTarget!!.x + cameraTarget!!.width / 2
-            val posY = cameraTarget!!.y + cameraTarget!!.height / 2
-            gameStage.camera.position.set(posX, posY, 0f)
-            gameStage.camera.update()
+            val cameraTarget = getCameraTarget()
+            if (cameraTarget != null) {
+                val posX = cameraTarget.x + cameraTarget.width / 2
+                val posY = cameraTarget.y + cameraTarget.height / 2
+                gameStage.camera.position.set(posX, posY, 0f)
+                gameStage.camera.update()
+            }
         }
+    }
+
+    open fun getCameraTarget(): BaseObject? {
+        return null
     }
 
     open fun renderBackground(delta: Float) {
@@ -109,7 +126,7 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
             gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom, 0f)
             gameCam.update()
             gameCam = backgroundStage.camera
-            gameCam.translate(-deltaX , deltaY, 0f)
+            gameCam.translate(-deltaX, deltaY, 0f)
             gameCam.update()
         }
         return false
@@ -132,9 +149,8 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
         return false
     }
 
-    fun lockCamera(target: BaseObject) {
-        cameraTarget = target
-        cameraStatus = if (CAMERA_LOCKED == cameraStatus) CAMERA_FREE else CAMERA_LOCKED
+    fun lockCamera(lock: Boolean = cameraStatus == CAMERA_FREE) {
+        cameraStatus = if (lock) CAMERA_LOCKED else CAMERA_FREE
     }
 
 }

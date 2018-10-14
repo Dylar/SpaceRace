@@ -9,7 +9,6 @@ class StartScreen(game: BaseGame) : BaseScreen(game) {
 
     override fun show() {
         super.show()
-        gameStage.addActor(Ship())
     }
 
     override fun render(delta: Float) {

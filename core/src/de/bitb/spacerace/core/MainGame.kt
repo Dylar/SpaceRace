@@ -1,9 +1,7 @@
 package de.bitb.spacerace.core
 
 import de.bitb.spacerace.base.BaseGame
-import de.bitb.spacerace.screens.GameOverScreen
-import de.bitb.spacerace.screens.GameScreen
-import de.bitb.spacerace.screens.StartScreen
+import de.bitb.spacerace.screens.game.GameScreen
 
 class MainGame : BaseGame() {
 
