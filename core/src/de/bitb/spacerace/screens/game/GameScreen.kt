@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
+import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.model.Background
 import de.bitb.spacerace.model.BaseSpace
@@ -16,30 +17,16 @@ class GameScreen(game: BaseGame) : BaseScreen(game) {
 
     private var space: BaseSpace = BaseSpace()
 
-    override fun show() {
-        super.show()
-        createBackground()
-        createSpace()
-    }
-
-    private fun createSpace() {
-        for (spaceField in space.fields) {
-            gameStage.addActor(spaceField)
-        }
-        for (ship in space.ships) {
-            gameStage.addActor(ship)
-        }
-    }
-
-    override fun createGuiStage(): Stage {
+    override fun createGuiStage(): BaseStage {
         return GameGuiStage(space, this)
     }
 
-    private fun createBackground() {
-        val background = Background()
-        background.width = backgroundStage.width
-        background.height = backgroundStage.height
-        backgroundStage.addActor(background)
+    override fun createGameStage(): BaseStage {
+        return GameStage(space, this)
+    }
+
+    override fun createBackgroundStage(): BaseStage {
+        return BackgroundStage(space, this)
     }
 
     override fun renderGame(delta: Float) {

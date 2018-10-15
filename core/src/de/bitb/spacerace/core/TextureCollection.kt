@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.Texture
 object TextureCollection {
     private const val imageSize = 64
 
-    val background: Texture
+    val guiBackground: Texture
+    val gameBackground: Texture
 
     val brownField: Texture
     val grayField: Texture
@@ -23,7 +24,9 @@ object TextureCollection {
     init {
         val allTexture = Pixmap(Gdx.files.internal("objects.png"))
 
-        background = Texture(Gdx.files.internal("bg_silver.png"))
+        guiBackground = Texture(Gdx.files.internal("background/bg_silver.png"))
+        gameBackground = Texture(Gdx.files.internal("background/bg_star.png"))
+        gameBackground.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat)
 
         var section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
         section.drawPixmap(allTexture, imageSize * 0, imageSize * 0, imageSize * 2, imageSize * 0, imageSize, imageSize)

@@ -28,7 +28,7 @@ class GameGuiStage(val space: BaseSpace, screen: GameScreen) : BaseStage() {
         val guiWidth = slotWidth * 4 * padding + slotWidth * 0.2f
         val guiPosX = Gdx.graphics.width - guiWidth
 
-        val background = Image(TextureCollection.background)
+        val background = Image(TextureCollection.guiBackground)
         background.width = guiWidth
         background.height = guiHeight
         background.setPosition(guiPosX, 0f)

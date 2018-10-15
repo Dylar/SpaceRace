@@ -1,8 +1,8 @@
 package de.bitb.spacerace.model
 
-import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.base.BaseObject
+import de.bitb.spacerace.core.TextureCollection
 
-class Background : BaseObject(Texture("bg_star.png")) {
+class Background : BaseObject(TextureCollection.gameBackground) {
 
 }

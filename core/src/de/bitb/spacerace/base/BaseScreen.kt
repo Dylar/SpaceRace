@@ -2,28 +2,27 @@ package de.bitb.spacerace.base
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
-import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.input.GestureDetector
-import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.bitb.spacerace.CameraActions.*
 import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.Logger
 
 
 open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
-
-    var backgroundStage: Stage = Stage(ScreenViewport())
-    var gameStage: Stage = Stage(ScreenViewport())
-    var guiStage: Stage = Stage(ScreenViewport())
+companion object {
+    const val MAX_ZOOM = 3
+    const val MIN_ZOOM = 1
+}
+    var backgroundStage: BaseStage = BaseStage()
+    var gameStage: BaseStage = BaseStage()
+    var guiStage: BaseStage = BaseStage()
     var cameraStatus = CAMERA_FREE
 
-    var currentZoom: Float = (gameStage.camera as OrthographicCamera).zoom
+    var currentZoom: Float = 2f
         set(value) {
-            if (value < 4 && value >= 1) {
+            if (value in MIN_ZOOM..MAX_ZOOM) {
                 field = value
             }
         }
@@ -31,15 +30,24 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
     override fun show() {
         guiStage = createGuiStage()
         gameStage = createGameStage()
+        backgroundStage = createBackgroundStage()
         Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this))
+
+        val gameCam = gameStage.camera as OrthographicCamera
+        gameCam.zoom = currentZoom
+        zoom()
     }
 
-    open fun createGuiStage(): Stage {
-        return Stage(ScreenViewport())
+    open fun createBackgroundStage(): BaseStage {
+        return BaseStage()
     }
 
-    open fun createGameStage(): Stage {
-        return Stage(ScreenViewport())
+    open fun createGuiStage(): BaseStage {
+        return BaseStage()
+    }
+
+    open fun createGameStage(): BaseStage {
+        return BaseStage()
     }
 
     override fun render(delta: Float) {
@@ -49,6 +57,10 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
         renderGame(delta)
         renderGui(delta)
 
+        renderCamera(delta)
+    }
+
+    open fun renderCamera(delta: Float) {
         if (!cameraStatus.isFree()) {
             val cameraTarget = getCameraTarget()
             if (cameraTarget != null) {
@@ -56,6 +68,9 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
                 val posY = cameraTarget.y + cameraTarget.height / 2
                 gameStage.camera.position.set(posX, posY, 0f)
                 gameStage.camera.update()
+
+                backgroundStage.translateTo(posX / currentZoom, -posY / currentZoom)
+
             }
         }
     }
@@ -100,43 +115,26 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
         backgroundStage.dispose()
     }
 
-    override fun pinch(initialPointer1: Vector2?, initialPointer2: Vector2?, pointer1: Vector2?, pointer2: Vector2?): Boolean {
-//        val deltaX = pointer2!!.x - pointer1!!.x
-//        val deltaY = pointer2.y - pointer1.y
-//
-//        var angle = Math.atan2(deltaY.toDouble(), deltaX.toDouble()).toFloat() * MathUtils.radiansToDegrees
-//
-//        angle += 90f
-//
-//        if (angle < 0) {
-//            angle = 360f - -angle
-//        }
-//        for (actor in gameStage.actors) {
-//            actor.rotation = -angle
-//        }
-
-        return true
-    }
-
     override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
         Gdx.app.log("INFO", "PAN")
 
         if (cameraStatus.isFree()) {
-            var gameCam = gameStage.camera
-            gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom, 0f)
+            var gameCam = gameStage.camera as OrthographicCamera
+            gameCam.translate(-deltaX * gameCam.zoom, deltaY * gameCam.zoom, 0f)
             gameCam.update()
-            gameCam = backgroundStage.camera
-            gameCam.translate(-deltaX, deltaY, 0f)
-            gameCam.update()
+
+            gameCam = backgroundStage.camera as OrthographicCamera
+            backgroundStage.translateBy(-deltaX * gameCam.zoom, -deltaY * gameCam.zoom)
         }
         return false
     }
 
     fun zoom(zoom: Float = 1f) {
         val gameCam = gameStage.camera as OrthographicCamera
-        Logger.println("Zoom: $currentZoom")
         gameCam.zoom = zoom * currentZoom
         gameCam.update()
+
+        Logger.println("Zoom: $currentZoom")
     }
 
     override fun zoom(initialDistance: Float, distance: Float): Boolean {
