@@ -8,7 +8,8 @@ enum class FieldType(val texture: Texture) {
     LOSE(TextureCollection.redField),
     SHOP(TextureCollection.grayField),
     GIFT(TextureCollection.yellowField),
+    AMBUSH(TextureCollection.brownField),
     MINE(TextureCollection.blueField),
     RANDOM(TextureCollection.brownField), 
-    UNKNOWN(TextureCollection.brownField);
+    UNKNOWN(TextureCollection.blackhole);
 }

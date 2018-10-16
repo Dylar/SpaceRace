@@ -14,9 +14,9 @@ import de.bitb.spacerace.model.BaseSpace
 
 class GameGuiStage(val space: BaseSpace, screen: GameScreen) : BaseStage() {
 
-    private var currentShip: Label
-    private var diceResult: Label
-    private var currentPhase: Label
+    private var shipLabel: Label
+    private var diceLabel: Label
+    private var phaseLabel: Label
 
     init {
         val skin = Skin(Gdx.files.internal("uiskin.json"))
@@ -46,8 +46,8 @@ class GameGuiStage(val space: BaseSpace, screen: GameScreen) : BaseStage() {
         addActor(phaseBtn)
 
         posY += slotHeight
-        currentPhase = createLabel(skin, "-", slotWidth, posX, posY)
-        addActor(currentPhase)
+        phaseLabel = createLabel(skin, "-", slotWidth, posX, posY)
+        addActor(phaseLabel)
 
         posX -= slotWidth * padding
         posY = 0f
@@ -60,8 +60,8 @@ class GameGuiStage(val space: BaseSpace, screen: GameScreen) : BaseStage() {
         addActor(diceBtn)
 
         posY += slotHeight
-        diceResult = createLabel(skin, "-", slotWidth, posX, posY)
-        addActor(diceResult)
+        diceLabel = createLabel(skin, "-", slotWidth, posX, posY)
+        addActor(diceLabel)
 
         posX -= slotWidth * padding
         posY = 0f
@@ -95,8 +95,8 @@ class GameGuiStage(val space: BaseSpace, screen: GameScreen) : BaseStage() {
         addActor(followBtn)
 
         posY += slotHeight
-        currentShip = createLabel(skin, "-", slotWidth, posX, posY)
-        addActor(currentShip)
+        shipLabel = createLabel(skin, "-", slotWidth, posX, posY)
+        addActor(shipLabel)
     }
 
     private fun createLabel(skin: Skin, name: String, width: Float, posX: Float, posY: Float, color: Color = Color.ROYAL, colorText: Color = Color.RED): Label {
@@ -120,9 +120,10 @@ class GameGuiStage(val space: BaseSpace, screen: GameScreen) : BaseStage() {
 
     override fun act(delta: Float) {
         super.act(delta)
-        diceResult.setText("${(space.stepsLeft())}/${(space.diceResult - 1)}")
-        currentShip.setText(space.getCurrentShip().gameColor.name)
-        currentPhase.setText(space.phase.name)
+        val diceResult = if(space.diced) "${(space.diceResult - space.stepsLeft())}/${(space.diceResult)}" else "0/0"
+        diceLabel.setText(diceResult)
+        shipLabel.setText(space.getCurrentShip().gameColor.name)
+        phaseLabel.setText(space.phase.name)
     }
 
 }

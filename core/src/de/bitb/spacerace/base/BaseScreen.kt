@@ -116,8 +116,6 @@ companion object {
     }
 
     override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
-        Gdx.app.log("INFO", "PAN")
-
         if (cameraStatus.isFree()) {
             var gameCam = gameStage.camera as OrthographicCamera
             gameCam.translate(-deltaX * gameCam.zoom, deltaY * gameCam.zoom, 0f)

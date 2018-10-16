@@ -110,10 +110,24 @@
       "stageBackground": "dialogDim"
     }
   },
+  "com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle": {
+    "default-horizontal": {
+      "background": "default-slider",
+      "knob": "default-slider-knob"
+    },
+    "default-vertical": {
+      "background": "default-slider",
+      "knob": "default-round-large"
+    }
+  },
   "com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
     "default-horizontal": {
       "background": "default-slider",
       "knob": "default-slider-knob"
+    },
+    "default-vertical": {
+      "background": "default-slider",
+      "knob": "default-round-large"
     }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
@@ -142,7 +156,7 @@
   "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
     "default": {
       "fontColorUnselected": "white",
-      "selection": "default-rect-pad",
+      "selection": "selection",
       "fontColorSelected": "white",
       "font": "default-font"
     }
@@ -158,6 +172,16 @@
       "minus": "tree-minus",
       "plus": "tree-plus",
       "selection": "default-select-selection"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
+    "default": {
+      "label": {
+        "font": "default-font",
+        "fontColor": "white"
+      },
+      "background": "default-pane",
+      "wrapWidth": 150
     }
   }
 }

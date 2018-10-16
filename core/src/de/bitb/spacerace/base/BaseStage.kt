@@ -18,4 +18,5 @@ open class BaseStage(viewport: Viewport = ScreenViewport()) : Stage(viewport) {
         this.posX = posX
         this.posY = posY
     }
+
 }

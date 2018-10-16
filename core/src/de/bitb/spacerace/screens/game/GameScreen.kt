@@ -2,20 +2,19 @@ package de.bitb.spacerace.screens.game
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.Stage
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.core.LineRenderer
-import de.bitb.spacerace.model.Background
 import de.bitb.spacerace.model.BaseSpace
 import de.bitb.spacerace.model.SpaceField
+import de.bitb.spacerace.model.space.TestSpace
 
 
 class GameScreen(game: BaseGame) : BaseScreen(game) {
 
-    private var space: BaseSpace = BaseSpace()
+    private var space: BaseSpace = TestSpace()
 
     override fun createGuiStage(): BaseStage {
         return GameGuiStage(space, this)
@@ -48,10 +47,6 @@ class GameScreen(game: BaseGame) : BaseScreen(game) {
         }
 
         super.renderGame(delta)
-        val batch = gameStage.batch
-        batch.begin()
-        ship.draw(batch, 0f)
-        batch.end()
 
     }
 

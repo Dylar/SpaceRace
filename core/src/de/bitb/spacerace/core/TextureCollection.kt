@@ -11,6 +11,7 @@ object TextureCollection {
     val guiBackground: Texture
     val gameBackground: Texture
 
+    val blackhole: Texture
     val brownField: Texture
     val grayField: Texture
     val blueField: Texture
@@ -24,8 +25,8 @@ object TextureCollection {
     init {
         val allTexture = Pixmap(Gdx.files.internal("objects.png"))
 
-        guiBackground = Texture(Gdx.files.internal("background/bg_silver.png"))
-        gameBackground = Texture(Gdx.files.internal("background/bg_star.png"))
+        guiBackground = Texture("background/bg_silver.png")
+        gameBackground = Texture("background/bg_star.png")
         gameBackground.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat)
 
         var section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
@@ -48,6 +49,8 @@ object TextureCollection {
         section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
         section.drawPixmap(allTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize, imageSize, imageSize)
         ship2 = Texture(section)
+
+        blackhole = Texture("objects/blackhole.png")
 
     }
 }
