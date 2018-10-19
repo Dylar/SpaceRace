@@ -16,7 +16,7 @@ abstract class BaseGame : Game() {
 
     abstract fun initScreen()
 
-    fun clearScreen(red: Float = 0f, green: Float = 0f, blue: Float = 0f, alpha: Float = 1f) {
+    fun clearScreen(red: Float = 255f, green: Float = 255f, blue: Float = 255f, alpha: Float = 1f) {
         Gdx.gl.glClearColor(red, green, blue, alpha)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }

@@ -12,6 +12,8 @@ object TextureCollection {
     val gameBackground: Texture
 
     val blackhole: Texture
+    val fallingStar: Texture
+
     val brownField: Texture
     val grayField: Texture
     val blueField: Texture
@@ -51,6 +53,7 @@ object TextureCollection {
         ship2 = Texture(section)
 
         blackhole = Texture("objects/blackhole.png")
+        fallingStar = Texture("objects/falling_star.png")
 
     }
 }

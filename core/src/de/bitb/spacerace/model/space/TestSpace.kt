@@ -31,7 +31,6 @@ class TestSpace : BaseSpace() {
         val spaceField9 = SpaceField(fields.size, FieldType.WIN)
         addField(spaceField9, screenWidth.toFloat(), posY = -(screenHeight / 2 - spaceField9.height / 2))
 
-
         addConnection(spaceField1, spaceField3)
         addConnection(spaceField2, spaceField3)
         addConnection(spaceField5, spaceField6)

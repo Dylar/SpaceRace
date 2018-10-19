@@ -7,7 +7,7 @@ import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.GameColors
 import de.bitb.spacerace.core.TextureCollection
 
-class Ship(val gameColor: GameColors, val img: Texture = TextureCollection.ship1) : BaseObject(img) {
+class Ship(val gameColor: GameColors, img: Texture = TextureCollection.ship1) : BaseObject(img) {
 
     lateinit var fieldPosition: SpaceField
 

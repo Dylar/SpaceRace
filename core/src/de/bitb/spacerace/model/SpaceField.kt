@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
 import de.bitb.spacerace.base.BaseObject
-import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType
 
 class SpaceField(var id: Int = -1,var fieldType: FieldType = FieldType.UNKNOWN, img: Texture = fieldType.texture) : BaseObject(img) {

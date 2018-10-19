@@ -1,6 +1,5 @@
 package de.bitb.spacerace.model
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.Logger
@@ -39,7 +38,7 @@ abstract class BaseSpace {
     }
 
     fun addField(spaceField: SpaceField, posX: Float = 0F, posY: Float = 0f) {
-        spaceField.setPosition(posX, posY)
+//        spaceField.setPosition(posX, posY)
         spaceField.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 moveTo(spaceField)
@@ -122,7 +121,7 @@ abstract class BaseSpace {
             FieldType.LOSE -> ship.substractRandomWin()
             FieldType.SHOP -> openShop()
             FieldType.GIFT -> ship.addRandomGift()
-            FieldType.GIFT -> ship.addRandomGift()
+            FieldType.AMBUSH -> Logger.println("AMBUSH ACTION")
             FieldType.MINE -> Logger.println("MINE ACTION")
             FieldType.RANDOM -> Logger.println("RANDOM ACTION")
             FieldType.UNKNOWN -> Logger.println("UNKNOWN ACTION")

@@ -15,6 +15,7 @@ import kotlin.collections.ArrayList
 open class BaseObject(img: Texture) : Image(img) {
 
     private val actionQueue: MutableList<Action> = ArrayList()
+    open var movingSpeed: Float = de.bitb.spacerace.MOVING_SPEED
 
     init {
         setBounds(x, y, width, height)
@@ -22,9 +23,6 @@ open class BaseObject(img: Texture) : Image(img) {
     }
 
     //Stats
-    private fun getMovingSpeed(): Float {
-        return MOVING_SPEED
-    }
 
     //State
     fun isIdling(): Boolean {
@@ -72,7 +70,7 @@ open class BaseObject(img: Texture) : Image(img) {
     }
 
     private fun getDurationToTarget(targetX: Float, targetY: Float, targetWidth: Float, targetHeight: Float): Float {
-        return ((getDistanceToTarget(targetX, targetY, targetWidth, targetHeight) / getMovingSpeed()) / GAME_SPEED)
+        return ((getDistanceToTarget(targetX, targetY, targetWidth, targetHeight) / movingSpeed) / GAME_SPEED)
     }
 
 }
