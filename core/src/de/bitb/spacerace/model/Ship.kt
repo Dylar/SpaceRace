@@ -6,15 +6,30 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.GameColors
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemCollection
+import de.bitb.spacerace.model.space.SpaceField
+import de.bitb.spacerace.ui.MenuItem
 
-class Ship(val gameColor: GameColors, img: Texture = TextureCollection.ship1) : BaseObject(img) {
+class Ship(val gameColor: GameColors, img: Texture = TextureCollection.ship1) : BaseObject(img), MenuItem {
 
     lateinit var fieldPosition: SpaceField
+    lateinit var fieldGroup: SpaceField
 
     var credits = 0
+    var items = ArrayList<Item>()
+
+    override fun getImage(): Texture {
+        return img
+    }
 
     init {
         setBounds(x, y, width * 0.55f, height * 0.55f)
+//        setOrigin(width / 2, height / 2)
+        addRandomGift()
+//        addRandomGift()
+//        addRandomGift()
+//        addRandomGift()
     }
 
     fun accelerateForward(speed: Float) {
@@ -44,6 +59,7 @@ class Ship(val gameColor: GameColors, img: Texture = TextureCollection.ship1) : 
 
     fun addRandomGift() {
         Logger.println("U got a gift")
+        items.add(ItemCollection.getRandomItem())
     }
 
 }

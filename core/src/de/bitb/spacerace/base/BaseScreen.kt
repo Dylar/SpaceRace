@@ -51,7 +51,7 @@ companion object {
     }
 
     override fun render(delta: Float) {
-        game.clearScreen()
+        game.clearScreen(blue = 200f)
 
         renderBackground(delta)
         renderGame(delta)

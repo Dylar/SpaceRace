@@ -20,8 +20,12 @@ open class BaseStage(viewport: Viewport = ScreenViewport()) : Stage(viewport) {
         this.posY = posY
     }
 
+    fun setColor(red: Float = 1f, green: Float = 1F, blue: Float = 1f, alpha: Float = 1f) {
+        batch!!.color = Color(red, green, blue, alpha)
+    }
+
     fun clearColor() {
-        batch!!.color = Color(1f, 1f, 1f, 1f)
+        setColor()
     }
 
 }

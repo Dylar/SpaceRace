@@ -2,8 +2,9 @@ package de.bitb.spacerace
 
 object Logger {
 
-    private val isAllowedToLog: Boolean
-        get() = true
+    const val debug: Boolean = true
+
+    private const val isAllowedToLog: Boolean = true
 
     private val callingClass: String
         get() {

@@ -1,8 +1,9 @@
-package de.bitb.spacerace.model
+package de.bitb.spacerace.model.background
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.math.RandomXS128
 import com.badlogic.gdx.utils.Align
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
@@ -15,29 +16,41 @@ class FallingStar(var startX: Float = 0f,
     : BaseObject(TextureCollection.fallingStar) {
 
     init {
-        color = Color.RED
-        setOrigin(Align.center)
+        randomColor()
+        scaleBy(-0.5f)
     }
 
     override fun act(delta: Float) {
         super.act(delta)
         if (isIdling()) {
+            randomColor()
             calculateValues()
             setPosition(startX, startY)
-            Logger.println("ROTATION: $rotation")
-            moveTo(endX, endY, 0f, 0f)
+//            Logger.println("ROTATION: $rotation")
+            moveTo(endX, endY)
         }
     }
 
-    private fun calculateValues(){
+    private fun randomColor() {
+        val random: Int = (Math.random() * 3).toInt()
+        color = when (random) {
+            0 -> Color.RED
+            1 -> Color.BLUE
+            2 -> Color.GREEN
+            else -> Color.YELLOW
+        }
+    }
+
+    private fun calculateValues() {
+        movingSpeed = (Math.random() * 35f + 25).toFloat()
+        startY = (Math.random() * Gdx.graphics.height).toFloat()
+        endY = (Math.random() * Gdx.graphics.height).toFloat()
+
         val degrees = Math.atan2(
                 (endY - startY).toDouble(),
                 (endX - startX).toDouble()
         ) * 180.0 / Math.PI
-        rotation = 125f + degrees.toFloat()
-        movingSpeed = (Math.random() * 15f + 5).toFloat()
-        startY = (Math.random() * Gdx.graphics.height).toFloat()
-        endY = (Math.random() * Gdx.graphics.height).toFloat()
+        rotation = 120f + degrees.toFloat()
     }
 
 }

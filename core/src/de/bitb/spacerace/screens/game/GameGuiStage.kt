@@ -1,38 +1,34 @@
 package de.bitb.spacerace.screens.game
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.Image
-import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import de.bitb.spacerace.base.BaseStage
+import com.badlogic.gdx.scenes.scene2d.ui.*
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.Logger
+import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.BaseSpace
+import de.bitb.spacerace.model.space.BaseSpace
+import de.bitb.spacerace.ui.ItemMenu
+import de.bitb.spacerace.ui.NextTurnMenu
 
-class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseStage() {
+class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage() {
+
+    private var itemMenu: ItemMenu = ItemMenu(space, this)
+    private var nextTurnMenu: NextTurnMenu = NextTurnMenu(space, this)
 
     private lateinit var shipLabel: Label
     private lateinit var creditsLabel: Label
+    private lateinit var itemsButton: TextButton
 
     private lateinit var diceLabel: Label
     private lateinit var phaseLabel: Label
 
-    private var skin: Skin = Skin(Gdx.files.internal("uiskin.json"))
-    private val slotHeight = 32f
-    private val slotWidth = 120f
-    private val singlePadding = slotWidth * 0.2f
-    private val guiHeight = slotHeight * 2
-    private val guiWidth = slotWidth * 2 + singlePadding * 2
-    private val guiPosX = Gdx.graphics.width - guiWidth
-
     init {
 
-        var background = Image(TextureCollection.guiBackground)
+        val background = Image(TextureCollection.guiBackground)
         background.width = guiWidth
         background.height = guiHeight
         background.setPosition(guiPosX, 0f)
@@ -57,33 +53,17 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseStage() {
 
     }
 
-    private fun createGroup(vararg actors: Actor): Group {
-        val group = Group()
-
-        group.width = slotWidth + singlePadding * 2
-        group.height = slotHeight * actors.size
-
-        val background = Image(TextureCollection.guiBackground)
-        background.width = group.width
-        background.height = group.height
-        group.addActor(background)
-        var posY = 0f
-        for (actor in actors) {
-            actor.setPosition(singlePadding, posY)
-            group.addActor(actor)
-            posY += slotHeight
-        }
-
-        return group
-    }
-
     private fun createInfoGroup(): Group {
+        shipLabel = createLabel()
         creditsLabel = createLabel()
 
-        posY += slotHeight
-        shipLabel = createLabel()
-
-        return createGroup(shipLabel)
+        itemsButton = createButton(listener = object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                itemMenu.toggle()
+                return true
+            }
+        })
+        return createGroup(itemsButton, creditsLabel, shipLabel)
     }
 
     private fun createZoomGroup(): Group {
@@ -121,38 +101,22 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseStage() {
             }
         })
         diceLabel = createLabel()
-        return createGroup(diceBtn, diceLabel)
+        return createGroup(diceLabel, diceBtn)
     }
 
     private fun createPhaseGroup(): Group {
         val phaseBtn = createButton(name = "Phase", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 space.nextPhase()
+                if (space.isNextTurn()) {
+                    nextTurnMenu.toggle()
+                }
                 return true
             }
         })
 
         phaseLabel = createLabel()
-        return createGroup(phaseBtn, phaseLabel)
-    }
-
-    private fun createLabel(skin: Skin = this.skin, name: String = "-", width: Float = slotWidth, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED): Label {
-        val label = Label(name, skin, "default")
-        label.width = width
-        label.setPosition(posX, posY)
-        label.color = color
-        label.style.fontColor = colorText
-        return label
-    }
-
-    private fun createButton(skin: Skin = this.skin, name: String = "-", width: Float = slotWidth, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED, listener: InputListener): TextButton {
-        val button = TextButton(name, skin, "default")
-        button.width = width
-        button.setPosition(posX, posY)
-        button.color = color
-        button.style.fontColor = colorText
-        button.addListener(listener)
-        return button
+        return createGroup(phaseLabel, phaseBtn)
     }
 
     override fun act(delta: Float) {
@@ -161,10 +125,38 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseStage() {
         diceLabel.setText(diceResult)
         phaseLabel.setText(space.phase.name)
 
-        val ship = space.getCurrentShip()
+        val ship = space.currentShip
         shipLabel.setText(ship.gameColor.name)
         creditsLabel.setText(ship.credits.toString())
+        itemsButton.setText(ship.items.size.toString())
+        itemsButton.setText(ship.items.size.toString())
 
+    }
+
+
+    //TEST
+    private class ItemsDialog : Dialog("Items", TextureCollection.skin, "default") {
+        override fun result(result: Any?) {
+            Logger.println("Result: $result")
+        }
+    }
+
+    private fun openItemsDialog() {
+        Logger.println("OPEN ITEMS")
+        val dialog = ItemsDialog()
+        dialog.text("Are you sure you want to yada yada?")
+        for (item in space.currentShip.items) {
+            item.toString()
+            val image2 = TextureRegionDrawable(TextureRegion(TextureCollection.blackhole))
+            val image1 = TextureRegionDrawable(TextureRegion(TextureCollection.blueField))
+            val image3 = TextureRegionDrawable(TextureRegion(TextureCollection.yellowField))
+            val btn = ImageButton(image1, image2, image3)
+
+            dialog.button(btn, item)
+        }
+//        dialog.button("Yes", true) //sends "true" as the result
+        dialog.button("No", false) //sends "false" as the result
+        dialog.show(this)
     }
 
 }

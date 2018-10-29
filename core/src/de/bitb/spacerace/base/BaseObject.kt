@@ -7,19 +7,26 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.utils.Align
 import de.bitb.spacerace.GAME_SPEED
-import de.bitb.spacerace.Logger
-import de.bitb.spacerace.MOVING_SPEED
 import kotlin.collections.ArrayList
 
-open class BaseObject(img: Texture) : Image(img) {
+open class BaseObject(val img: Texture) : Image(img) {
 
     private val actionQueue: MutableList<Action> = ArrayList()
     open var movingSpeed: Float = de.bitb.spacerace.MOVING_SPEED
 
     init {
         setBounds(x, y, width, height)
-//        setScale(0.5f)
+        setOrigin(Align.center)
+    }
+
+    open fun getAbsolutX(): Float {
+        return x
+    }
+
+    open fun getAbsolutY(): Float {
+        return y
     }
 
     //Stats
@@ -31,19 +38,19 @@ open class BaseObject(img: Texture) : Image(img) {
 
     //Actions
     fun moveTo(target: BaseObject) {
-        moveTo(target.x, target.y, target.width, target.height)
+        moveTo(target.getAbsolutX(), target.getAbsolutY(), target.width, target.height)
     }
 
-    fun moveTo(targetX: Float, targetY: Float, targetWidth: Float, targetHeight: Float) {
-        val move = MoveToAction()
-        move.setPosition(targetX + targetWidth / 2 - width / 2, targetY + targetHeight / 2 - height / 2)
-        move.duration = getDurationToTarget(targetX, targetY, targetWidth, targetHeight)
+    fun moveTo(targetX: Float, targetY: Float, targetWidth: Float = 0f, targetHeight: Float = 0f) {
+        val moveTo = MoveToAction()
+        moveTo.setPosition(targetX - width / 2, targetY - height / 2)
+        moveTo.duration = getDurationToTarget(targetX, targetY, targetWidth, targetHeight)
 
-        Logger.println("Duration: ${move.duration}, Distance: ${getDistanceToTarget(targetX, targetY, targetWidth, targetHeight)}")
+//        Logger.println("Duration: ${move.duration}, Distance: ${getDistanceToTarget(targetX, targetY, targetWidth, targetHeight)}")
         if (isIdling()) {
-            addAction(Actions.sequence(move, getCheckAction()))
+            addAction(Actions.sequence(moveTo, getCheckAction()))
         } else {
-            actionQueue.add(move)
+            actionQueue.add(moveTo)
         }
     }
 

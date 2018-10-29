@@ -3,10 +3,13 @@ package de.bitb.spacerace.core
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 
 
 object TextureCollection {
     private const val imageSize = 64
+
+    val skin = Skin(Gdx.files.internal("uiskin.json"))
 
     val guiBackground: Texture
     val gameBackground: Texture
