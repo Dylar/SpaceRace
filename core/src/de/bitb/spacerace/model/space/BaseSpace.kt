@@ -1,17 +1,19 @@
 package de.bitb.spacerace.model.space
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.GameColors
-import de.bitb.spacerace.model.Ship
+import de.bitb.spacerace.model.player.Ship
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.enums.Phase.*
+import de.bitb.spacerace.model.player.history.*
 
 
 abstract class BaseSpace {
+    val history: History = History()
+
     var phase: Phase = MAIN1
     private var firstShip: Ship = Ship(GameColors.NONE)
     var currentShip: Ship = firstShip
@@ -20,17 +22,18 @@ abstract class BaseSpace {
 
     val fieldGroups: MutableList<SpaceGroup> = ArrayList()
     val fields: MutableList<SpaceField> = ArrayList()
+    val fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
     val connections: MutableList<SpaceConnection> = ArrayList()
 
     var diced: Boolean = false
     var diceResult: Int = 0
-    val steps: MutableList<SpaceField> = ArrayList()
+    var steps: MutableList<SpaceField> = ArrayList()
     var previousStep: SpaceField = SpaceField()
         get() = steps[steps.size - 2]
 
-
     init {
         createSpace()
+        history.nextRound(currentShip)
     }
 
     abstract fun createSpace()
@@ -53,6 +56,16 @@ abstract class BaseSpace {
             }
         })
         fields.add(spaceField)
+        addFieldMap(spaceField)
+    }
+
+    private fun addFieldMap(spaceField: SpaceField) {
+        var list = fieldsMap[spaceField.fieldType]
+        if (list == null) {
+            list = ArrayList()
+            fieldsMap[spaceField.fieldType] = list
+        }
+        list.add(spaceField)
     }
 
     fun addFields(vararg spaceGroups: SpaceGroup) {
@@ -81,7 +94,7 @@ abstract class BaseSpace {
     fun moveTo(spaceField: SpaceField) {
         val ship = currentShip
         if (hasConnectionTo(ship.fieldPosition, spaceField) && phase == MOVE) {
-            val sameField = steps.size > 1 && steps[steps.size - 2] == spaceField
+            val sameField = steps.size > 1 && previousStep == spaceField
             if (steps.size <= diceResult || sameField) {
                 if (sameField) {
                     steps.removeAt(steps.size - 1)
@@ -104,9 +117,8 @@ abstract class BaseSpace {
     fun dice(maxResult: Int = 6, anyway: Boolean = false) {
         if (anyway || diceResult - steps.size <= 0 && !diced && phase == MAIN1) {
             diced = if (anyway) diced else true
-            steps.clear()
             steps.add(currentShip.fieldPosition)
-            diceResult = (Math.random() * maxResult).toInt() + 1
+            diceResult += (Math.random() * maxResult).toInt() + 1
             Logger.println("DiceResult: $diceResult")
         }
     }
@@ -115,17 +127,16 @@ abstract class BaseSpace {
         return diceResult - (steps.size - 1)
     }
 
-
     fun nextPhase() {
         val allowed = when (phase) {
             MAIN1 -> endMain1()
             MOVE -> endMove()
             MAIN2 -> endMain2()
-            NEXT_TURN -> true
+            START_ROUND -> true
         }
         if (allowed) {
             phase = Phase.next(phase)
-            if (phase == NEXT_TURN && firstShip != currentShip) {
+            if (phase == START_ROUND && firstShip != currentShip) {
                 phase = MAIN1
             }
 
@@ -133,17 +144,24 @@ abstract class BaseSpace {
                 MAIN1 -> startMain1()
                 MOVE -> startMove()
                 MAIN2 -> startMain2()
-                NEXT_TURN -> startNextTurn()
+                START_ROUND -> startEndRound()
             }
         }
         Logger.println("Phase: ${phase.name}")
     }
 
-    private fun startNextTurn() {
+    private fun startEndRound() {
+        val list: MutableList<SpaceField> = fieldsMap[FieldType.MINE]!!
+        for (spaceField in list) {
+           val harvest = (spaceField as MineField).harvestOres()
+            history.addRoundActivity(HarvestOres(harvest))
+        }
 
+        history.nextRound(currentShip)
     }
 
     private fun startMain1() {
+        history.nextPlayer(currentShip)
     }
 
     private fun startMove() {
@@ -153,20 +171,32 @@ abstract class BaseSpace {
     private fun startMain2() {
         val ship = currentShip
         when (ship.fieldPosition.fieldType) {
-            FieldType.WIN -> ship.addRandomWin()
-            FieldType.LOSE -> ship.substractRandomWin()
+            FieldType.WIN ->{
+                val lose = ship.addRandomWin()
+                history.addActivity(ChangeCredits(lose))
+            }
+            FieldType.LOSE ->{
+                val lose = ship.substractRandomWin()
+                history.addActivity(ChangeCredits(lose))
+            }
+            FieldType.GIFT -> {
+                val item = ship.addRandomGift()
+                history.addActivity(AddItem(item))
+            }
+            FieldType.MINE ->{
+                activateMine(ship)
+                history.addActivity(OccupyMine(ship.fieldPosition as MineField))
+            }
             FieldType.SHOP -> openShop()
-            FieldType.GIFT -> ship.addRandomGift()
-            FieldType.AMBUSH -> Logger.println("AMBUSH ACTION")
-            FieldType.MINE -> activateMine(ship)
             FieldType.RANDOM -> Logger.println("RANDOM ACTION")
             FieldType.UNKNOWN -> Logger.println("UNKNOWN ACTION")
+            FieldType.AMBUSH -> Logger.println("AMBUSH ACTION")
         }
     }
 
     private fun activateMine(ship: Ship) {
-        val mine: Mine = ship.fieldPosition as Mine
-        mine.setOwner(ship)
+        val mineField: MineField = ship.fieldPosition as MineField
+        mineField.setOwner(ship)
     }
 
     private fun openShop() {
@@ -193,9 +223,12 @@ abstract class BaseSpace {
             ships.add(oldShip)
             ships.removeAt(0)
 
-            diced = false
-            steps.clear()
+
+            history.setSteps(steps)
+            steps = ArrayList()
+
             diceResult = 0
+            diced = false
             return true
         }
         return false

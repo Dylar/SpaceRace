@@ -9,7 +9,6 @@ abstract class BaseGame : Game() {
     lateinit var batch: SpriteBatch
 
     override fun create() {
-        System.out.println("create")
         batch = SpriteBatch()
         initScreen()
     }

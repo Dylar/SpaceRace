@@ -10,15 +10,15 @@ class GameStage(val space: BaseSpace, screen: GameScreen) : BaseStage() {
     }
 
     private fun createSpace() {
-        for (connection in space.connections) {
-            addActor(connection)
-        }
+//        for (connection in space.connections) {
+//            addActor(connection)
+//        }
         for (spaceGroup in space.fieldGroups) {
             addActor(spaceGroup)
         }
-//        for (ship in space.ships) {
-//            addActor(ship)
-//        }
+        for (ship in space.ships) {
+            addActor(ship)
+        }
     }
 
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2
 
 
 object LineRenderer : com.badlogic.gdx.graphics.glutils.ShapeRenderer() {
-    fun DrawDebugLine(start: Vector2, end: Vector2, lineWidth: Int = 2, color: Color = Color.RED, projectionMatrix: Matrix4) {
+    fun drawDebugLine(start: Vector2, end: Vector2, lineWidth: Int = 2, color: Color = Color.RED, projectionMatrix: Matrix4) {
         Gdx.gl.glLineWidth(lineWidth.toFloat())
         setProjectionMatrix(projectionMatrix)
         begin(ShapeType.Line)
@@ -17,7 +17,7 @@ object LineRenderer : com.badlogic.gdx.graphics.glutils.ShapeRenderer() {
         Gdx.gl.glLineWidth(1f)
     }
 //
-//    fun DrawDebugLine(start: Vector2, end: Vector2, projectionMatrix: Matrix4) {
+//    fun drawDebugLine(start: Vector2, end: Vector2, projectionMatrix: Matrix4) {
 //        Gdx.gl.glLineWidth(2f)
 //        setProjectionMatrix(projectionMatrix)
 //        begin(ShapeType.Line)

@@ -14,9 +14,9 @@ import de.bitb.spacerace.ui.GuiComponent
 
 open class BaseGuiStage(viewport: Viewport = ScreenViewport()) : BaseStage(viewport), GuiComponent {
     companion object {
-        val lineWidth = 64 / 10
+        val lineWidth = 30
 
-        val slotHeight = Gdx.graphics.height / 20f
+        val slotHeight = Gdx.graphics.height / 15f
         val slotWidth = Gdx.graphics.width / 6f
         val singlePadding = slotWidth * 0.2f
         val guiHeight = slotHeight * 2

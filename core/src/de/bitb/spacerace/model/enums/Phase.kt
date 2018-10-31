@@ -3,15 +3,15 @@ package de.bitb.spacerace.model.enums
 import com.badlogic.gdx.graphics.Color
 
 enum class Phase(val color: Color) {
-    MAIN1(Color.MAROON), MOVE(Color.DARK_GRAY), MAIN2(Color.FIREBRICK), NEXT_TURN(Color.PINK);
+    MAIN1(Color.MAROON), MOVE(Color.DARK_GRAY), MAIN2(Color.FIREBRICK), START_ROUND(Color.PINK);
 
     companion object {
         fun next(phase: Phase): Phase {
             return when (phase) {
                 Phase.MAIN1 -> MOVE
                 Phase.MOVE -> MAIN2
-                Phase.MAIN2 -> NEXT_TURN
-                Phase.NEXT_TURN -> MAIN1
+                Phase.MAIN2 -> START_ROUND
+                Phase.START_ROUND -> MAIN1
             }
         }
 
@@ -22,6 +22,10 @@ enum class Phase(val color: Color) {
     }
 
     fun isNextTurn():Boolean{
-        return this == NEXT_TURN
+        return this == START_ROUND
+    }
+
+    fun isMoving(): Boolean {
+        return this == MOVE
     }
 }

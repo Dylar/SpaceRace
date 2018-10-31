@@ -32,4 +32,8 @@ class ItemMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Item>(space,
         populateItems(space.currentShip.items)
     }
 
+    override fun populateItem(item: Item) {
+
+    }
+
 }

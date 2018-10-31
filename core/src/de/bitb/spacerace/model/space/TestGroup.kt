@@ -12,7 +12,7 @@ class TestGroup(space: BaseSpace, offsetX: Float = 0f, offsetY: Float = 0f) : Sp
     init {
         val spaceField1 = SpaceField(fields.size, FieldType.GIFT)
         addField(spaceField1)
-        val spaceField2 = Mine(fields.size, FieldType.MINE)
+        val spaceField2 = MineField(fields.size)
         addField(spaceField2, screenWidth - spaceField2.width)
         val spaceField3 = SpaceField(fields.size, FieldType.LOSE)
         addField(spaceField3, screenWidth / 2 - spaceField3.width / 2)

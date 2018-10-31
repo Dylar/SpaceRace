@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.space
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.base.BaseGuiStage
@@ -11,14 +12,31 @@ class SpaceConnection(val space: BaseSpace, val spaceField1: SpaceField, val spa
 
     override fun getColor(): Color {
         val shipField = space.currentShip.fieldPosition
-        return if(shipField == spaceField1 || shipField == spaceField2) Color.GREEN else Color.RED
+        return if (space.phase.isMoving() && isConnected(shipField)) {
+            if (space.stepsLeft() == 0 && !isConnected(space.previousStep)) {
+                Color.RED
+            } else {
+                Color.GREEN
+            }
+        } else {
+            Color.RED
+        }
     }
 
-    override fun draw(batch: Batch?, parentAlpha: Float) {
+
+    fun draw(batch: Batch?, parentAlpha: Float, matrix: Matrix4) {
         super.draw(batch, parentAlpha)
         val start = Vector2(spaceField1.getAbsolutX(), spaceField1.getAbsolutY())
         val end = Vector2(spaceField2.getAbsolutX(), spaceField2.getAbsolutY())
-        LineRenderer.DrawDebugLine(start, end, BaseGuiStage.lineWidth, color, stage.camera.combined)
+        LineRenderer.drawDebugLine(start, end, BaseGuiStage.lineWidth, color, matrix)
+    }
+
+    override fun draw(batch: Batch?, parentAlpha: Float) {
+        draw(batch, parentAlpha, stage.camera.combined)
+    }
+
+    fun isConnected(spaceField: SpaceField): Boolean {
+        return this.spaceField2 == spaceField || this.spaceField1 == spaceField
     }
 
     fun isConnection(spaceField1: SpaceField, spaceField2: SpaceField): Boolean {

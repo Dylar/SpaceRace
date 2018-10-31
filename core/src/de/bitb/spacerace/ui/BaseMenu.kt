@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Align
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.space.BaseSpace
 
 abstract class BaseMenu<I : MenuItem>(val space: BaseSpace, guiStage: BaseGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage {
@@ -20,7 +19,7 @@ abstract class BaseMenu<I : MenuItem>(val space: BaseSpace, guiStage: BaseGuiSta
 
     val screenWidth = Gdx.graphics.width.toFloat()
     val screenHeight = Gdx.graphics.height.toFloat()
-    val windowWidth = screenWidth * 0.7f
+    val windowWidth = screenWidth - (BaseGuiStage.slotWidth + BaseGuiStage.singlePadding) * 3
     val windowHeight = screenHeight * 0.5f
 
     init {
@@ -47,7 +46,7 @@ abstract class BaseMenu<I : MenuItem>(val space: BaseSpace, guiStage: BaseGuiSta
         row().colspan(size).expandX().fillX()
 
         val buttonTable = Table(skin)
-        buttonTable.pad(32f)
+        buttonTable.pad(BaseGuiStage.slotHeight)
         createButtons(buttonTable)
         add(buttonTable).colspan(size).fillX()
 
@@ -71,7 +70,7 @@ abstract class BaseMenu<I : MenuItem>(val space: BaseSpace, guiStage: BaseGuiSta
         itemTable.invalidate()
     }
 
-    private fun populateItem(item: I) {
+    open fun populateItem(item: I) {
 
     }
 

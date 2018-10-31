@@ -11,10 +11,10 @@ public class DesktopLauncher {
         //If I want to test windowed
         boolean fullscreen = false;
         if (!fullscreen) {
-            config.fullscreen = false;
-            config.width *= 0.6f;
-            config.height *= 0.6f;
+            config.width *= 0.9f;
+            config.height *= 0.9f;
         }
+        config.fullscreen = fullscreen;
         config.resizable = true;
         config.samples = 4;
         config.vSyncEnabled = true;

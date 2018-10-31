@@ -31,18 +31,20 @@ interface GuiComponent {
         return group
     }
 
-    fun createLabel(skin: Skin = TextureCollection.skin, name: String = "-", width: Float = BaseGuiStage.slotWidth, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED): Label {
-        val label = Label(name, skin, "default")
-        label.width = width
+    fun createLabel(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED): Label {
+        val label = Label(name, TextureCollection.skin, "default")
+        label.width = BaseGuiStage.slotWidth
+        label.height = BaseGuiStage.slotHeight
         label.setPosition(posX, posY)
         label.color = color
         label.style.fontColor = colorText
         return label
     }
 
-    fun createButton(skin: Skin = TextureCollection.skin, name: String = "-", width: Float = BaseGuiStage.slotWidth, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED, listener: InputListener): TextButton {
-        val button = TextButton(name, skin, "default")
-        button.width = width
+    fun createButton(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED, listener: InputListener): TextButton {
+        val button = TextButton(name, TextureCollection.skin, "default")
+        button.width = BaseGuiStage.slotWidth
+        button.height = BaseGuiStage.slotHeight
         button.setPosition(posX, posY)
         button.color = color
         button.style.fontColor = colorText
@@ -50,9 +52,10 @@ interface GuiComponent {
         return button
     }
 
-    fun createImageButton(imageIdle: Drawable, imageClick: Drawable = imageIdle, imageClicked: Drawable = imageIdle, width: Float = BaseGuiStage.slotWidth, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, listener: InputListener): ImageButton {
+    fun createImageButton(imageIdle: Drawable, imageClick: Drawable = imageIdle, imageClicked: Drawable = imageIdle, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, listener: InputListener): ImageButton {
         val button = ImageButton(imageIdle, imageClick, imageClicked)
-        button.width = width
+        button.width = BaseGuiStage.slotWidth
+        button.height = BaseGuiStage.slotHeight
         button.setPosition(posX, posY)
         button.color = color
         button.addListener(listener)

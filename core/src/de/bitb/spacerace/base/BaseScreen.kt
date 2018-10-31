@@ -12,7 +12,7 @@ import de.bitb.spacerace.Logger
 
 open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
 companion object {
-    const val MAX_ZOOM = 3
+    const val MAX_ZOOM = 5
     const val MIN_ZOOM = 1
 }
     var backgroundStage: BaseStage = BaseStage()

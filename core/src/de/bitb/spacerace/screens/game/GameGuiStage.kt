@@ -2,6 +2,7 @@ package de.bitb.spacerace.screens.game
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
@@ -12,16 +13,16 @@ import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.ui.ItemMenu
-import de.bitb.spacerace.ui.NextTurnMenu
+import de.bitb.spacerace.ui.EndRoundMenu
 
 class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage() {
 
     private var itemMenu: ItemMenu = ItemMenu(space, this)
-    private var nextTurnMenu: NextTurnMenu = NextTurnMenu(space, this)
+    private var endRoundMenu: EndRoundMenu = EndRoundMenu(space, this)
 
-    private lateinit var shipLabel: Label
-    private lateinit var creditsLabel: Label
-    private lateinit var itemsButton: TextButton
+    private val shipLabels: MutableList<Label> = ArrayList()
+    private val creditsLabels: MutableList<Label> = ArrayList()
+    private val itemsButtons: MutableList<TextButton> = ArrayList()
 
     private lateinit var diceLabel: Label
     private lateinit var phaseLabel: Label
@@ -54,16 +55,26 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage(
     }
 
     private fun createInfoGroup(): Group {
-        shipLabel = createLabel()
-        creditsLabel = createLabel()
+        val infos: MutableList<Actor> = ArrayList()
+        for (ship in space.ships) {
+            var widget: Actor = createButton(listener = object : InputListener() {
+                override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                    itemMenu.toggle()
+                    return true
+                }
+            })
+            itemsButtons.add(widget as TextButton)
+            infos.add(widget)
 
-        itemsButton = createButton(listener = object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                itemMenu.toggle()
-                return true
-            }
-        })
-        return createGroup(itemsButton, creditsLabel, shipLabel)
+            widget = createLabel()
+            creditsLabels.add(widget)
+            infos.add(widget)
+
+            widget = createLabel()
+            shipLabels.add(widget)
+            infos.add(widget)
+        }
+        return createGroup(*infos.map { it }.toTypedArray())
     }
 
     private fun createZoomGroup(): Group {
@@ -109,7 +120,7 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage(
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 space.nextPhase()
                 if (space.isNextTurn()) {
-                    nextTurnMenu.toggle()
+                    endRoundMenu.toggle()
                 }
                 return true
             }
@@ -125,12 +136,12 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage(
         diceLabel.setText(diceResult)
         phaseLabel.setText(space.phase.name)
 
-        val ship = space.currentShip
-        shipLabel.setText(ship.gameColor.name)
-        creditsLabel.setText(ship.credits.toString())
-        itemsButton.setText(ship.items.size.toString())
-        itemsButton.setText(ship.items.size.toString())
-
+        val ships = space.ships
+        for (ship in ships.withIndex()) {
+            shipLabels[ship.index].setText(ship.value.gameColor.name)
+            creditsLabels[ship.index].setText(ship.value.credits.toString())
+            itemsButtons[ship.index].setText(ship.value.items.size.toString())
+        }
     }
 
 

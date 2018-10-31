@@ -2,7 +2,6 @@ package de.bitb.spacerace.screens
 
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.model.Ship
 
 
 class StartScreen(game: BaseGame) : BaseScreen(game) {

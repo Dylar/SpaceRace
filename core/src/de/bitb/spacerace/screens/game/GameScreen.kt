@@ -48,14 +48,21 @@ class GameScreen(game: BaseGame) : BaseScreen(game) {
 //                }
 //            }
 //        }
+
+        val batch = gameStage.batch
+        batch.begin()
+        for (connection in space.connections) {
+           connection.draw(batch, 1f, gameStage.camera.combined)
+        }
+        batch.end()
         super.renderGame(delta)
     }
-
-    fun drawConnection(spaceField1: SpaceField, spaceField2: SpaceField, color: Color) {
-        val start = Vector2(spaceField1.getAbsolutX(), spaceField1.getAbsolutY())
-        val end = Vector2(spaceField2.getAbsolutX(), spaceField2.getAbsolutY())
-        LineRenderer.DrawDebugLine(start, end, 10, color, gameStage.camera.combined)
-    }
+//
+//    fun drawConnection(spaceField1: SpaceField, spaceField2: SpaceField, color: Color) {
+//        val start = Vector2(spaceField1.getAbsolutX(), spaceField1.getAbsolutY())
+//        val end = Vector2(spaceField2.getAbsolutX(), spaceField2.getAbsolutY())
+//        LineRenderer.drawDebugLine(start, end, 10, color, gameStage.camera.combined)
+//    }
 
     override fun getCameraTarget(): BaseObject? {
         return space.currentShip
