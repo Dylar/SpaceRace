@@ -6,13 +6,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.model.player.Ship
 import de.bitb.spacerace.model.space.BaseSpace
+import de.bitb.spacerace.screens.game.GameGuiStage
 
 class EndRoundMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Ship>(space, guiStage) {
     override fun getTitle(): String {
         return "Last turn"
     }
 
-    override fun createButtons(buttonTable: Table) {
+    override fun populateButtons(buttonTable: Table) {
         val buttonA = createButton(name = "Go on", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 toggle()
@@ -25,7 +26,7 @@ class EndRoundMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Ship>(sp
     }
 
     override fun populateItem(item: Ship) {
-
+        (stage as GameGuiStage).openRoundDetails(item)
     }
 
     override fun onVisible() {

@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.player
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
@@ -22,6 +23,10 @@ class Ship(val gameColor: GameColors = GameColors.NONE, img: Texture = TextureCo
 
     override fun getImage(): Texture {
         return img
+    }
+
+    override fun getTintColor(): Color {
+        return gameColor.color
     }
 
     init {

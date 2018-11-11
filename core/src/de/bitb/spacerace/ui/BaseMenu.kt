@@ -13,45 +13,56 @@ import de.bitb.spacerace.model.space.BaseSpace
 
 abstract class BaseMenu<I : MenuItem>(val space: BaseSpace, guiStage: BaseGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage {
 
-    protected var itemTable: Table
-
-    val tableContainer = Container<Table>()
+    protected var contentTable: Table
+    protected var titleLabel: Label
+    val size = 3
 
     val screenWidth = Gdx.graphics.width.toFloat()
     val screenHeight = Gdx.graphics.height.toFloat()
-    val windowWidth = screenWidth - (BaseGuiStage.slotWidth + BaseGuiStage.singlePadding) * 3
+    val windowWidth: Float = (screenWidth - (BaseGuiStage.slotWidth + BaseGuiStage.singlePadding) * 2.8).toFloat()
     val windowHeight = screenHeight * 0.5f
 
     init {
         isVisible = false
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
-        val items = space.currentShip.items
-        val size = items.size + 1
-
+        val tableContainer = Container<Table>()
         tableContainer.setSize(windowWidth, windowHeight)
         tableContainer.setPosition((screenWidth - windowWidth) / 2.0f, (screenHeight - windowHeight) / 2.0f)
         tableContainer.fillX()
 
-        val topLabel = Label(getTitle(), skin)
-        topLabel.setAlignment(Align.center)
-        row().colspan(size).expandX().fillX()
-        add(topLabel).fillX()
-
-        row().colspan(1).expandX().fillX()
-
-        itemTable = Table(skin)
-//        populateItems(items)
-        add(itemTable)
-        row().colspan(size).expandX().fillX()
-
-        val buttonTable = Table(skin)
-        buttonTable.pad(BaseGuiStage.slotHeight)
-        createButtons(buttonTable)
-        add(buttonTable).colspan(size).fillX()
+        titleLabel = createTitle()
+        contentTable = createContent()
+        createButtons()
 
         tableContainer.actor = this
         guiStage.addActor(tableContainer)
+    }
+
+    private fun createContent(): Table {
+        val contentTable = Table(skin)
+        add(contentTable)
+        row().colspan(size).expandX().fillX()
+        return contentTable
+    }
+
+    private fun createButtons() {
+        val buttonTable = Table(skin)
+        buttonTable.pad(BaseGuiStage.slotHeight)
+        populateButtons(buttonTable)
+        add(buttonTable).colspan(size).fillX()
+    }
+
+    abstract fun populateButtons(buttonTable: Table)
+
+    private fun createTitle(): Label {
+        val titleLabel = createLabel(getTitle())
+        titleLabel.setAlignment(Align.center)
+        row().colspan(size).expandX().fillX()
+        add(titleLabel).fillX()
+
+        row().colspan(1).expandX().fillX()
+        return titleLabel
     }
 
     abstract fun getTitle(): String
@@ -59,34 +70,39 @@ abstract class BaseMenu<I : MenuItem>(val space: BaseSpace, guiStage: BaseGuiSta
     fun populateItems(items: MutableList<I>) {
         for (item in items.withIndex()) {
             val image1 = TextureRegionDrawable(TextureRegion(item.value.getImage()))
+            image1.tint(item.value.getTintColor())
             val btn = createImageButton(image1, image1, image1, listener = object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     populateItem(item.value)
                     return true
                 }
             })
-            itemTable.add(btn)
+            contentTable.add(btn)
         }
-        itemTable.invalidate()
+        contentTable.invalidate()
     }
 
     open fun populateItem(item: I) {
 
     }
 
-    abstract fun createButtons(buttonTable: Table)
 
     fun toggle() {
         isVisible = when {
             isVisible -> {
-                itemTable.clearChildren()
+                clearView()
                 false
             }
             else -> {
+                titleLabel.setText(getTitle())
                 onVisible()
                 true
             }
         }
+    }
+
+    private fun clearView() {
+        contentTable.clearChildren()
     }
 
     abstract fun onVisible()

@@ -11,14 +11,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.model.player.Ship
 import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.ui.ItemMenu
 import de.bitb.spacerace.ui.EndRoundMenu
+import de.bitb.spacerace.ui.RoundDetails
 
 class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage() {
 
-    private var itemMenu: ItemMenu = ItemMenu(space, this)
-    private var endRoundMenu: EndRoundMenu = EndRoundMenu(space, this)
+    private var itemMenu = ItemMenu(space, this)
+    private var endRoundMenu = EndRoundMenu(space, this)
+    private var roundDetails = RoundDetails(space, this)
 
     private val shipLabels: MutableList<Label> = ArrayList()
     private val creditsLabels: MutableList<Label> = ArrayList()
@@ -144,6 +147,9 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage(
         }
     }
 
+    fun openRoundDetails(ship: Ship) {
+        roundDetails.toggle(ship)
+    }
 
     //TEST
     private class ItemsDialog : Dialog("Items", TextureCollection.skin, "default") {

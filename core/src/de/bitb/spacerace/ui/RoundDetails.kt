@@ -5,14 +5,15 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.player.Ship
 import de.bitb.spacerace.model.space.BaseSpace
 
 
-class ItemMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Item>(space, guiStage) {
+class RoundDetails(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Ship>(space, guiStage) {
+    var ship: Ship = Ship()
 
     override fun getTitle(): String{
-        return "Items"
+        return ship.gameColor.name
     }
 
     override fun populateButtons(buttonTable: Table) {
@@ -28,12 +29,13 @@ class ItemMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Item>(space,
         buttonTable.add(buttonB).width(windowWidth / 4.0f)
     }
 
-    override fun onVisible() {
-        populateItems(space.currentShip.items)
+    fun toggle(ship: Ship){
+        this.ship = ship
+        toggle()
     }
 
-    override fun populateItem(item: Item) {
-
+    override fun onVisible() {
+        populateItems(space.ships)
     }
 
 }
