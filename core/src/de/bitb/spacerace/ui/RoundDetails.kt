@@ -13,7 +13,7 @@ class RoundDetails(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Ship>(sp
     var ship: Ship = Ship()
 
     override fun getTitle(): String{
-        return ship.gameColor.name
+        return "ROUND";//ship.gameColor.name
     }
 
     override fun populateButtons(buttonTable: Table) {

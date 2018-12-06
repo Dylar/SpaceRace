@@ -38,6 +38,7 @@ interface GuiComponent {
         label.setPosition(posX, posY)
         label.color = color
         label.style.fontColor = colorText
+        label.setFontScale(BaseGuiStage.fontSize)
         return label
     }
 
@@ -49,6 +50,7 @@ interface GuiComponent {
         button.color = color
         button.style.fontColor = colorText
         button.addListener(listener)
+        button.label.setFontScale(BaseGuiStage.fontSize)
         return button
     }
 

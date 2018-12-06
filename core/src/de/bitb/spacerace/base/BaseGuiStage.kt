@@ -22,6 +22,7 @@ open class BaseGuiStage(viewport: Viewport = ScreenViewport()) : BaseStage(viewp
         val guiHeight = slotHeight * 2
         val guiWidth = slotWidth * 2 + singlePadding * 2
         val guiPosX = Gdx.graphics.width - guiWidth
+        val fontSize: Float = 2.8f
     }
 //
 //    fun createGroup(vararg actors: Actor): Group {
