@@ -1,15 +1,10 @@
 package de.bitb.spacerace.screens.game
 
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.math.Vector2
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.model.space.BaseSpace
-import de.bitb.spacerace.model.space.SpaceField
 import de.bitb.spacerace.model.space.TestSpace
 
 
@@ -38,13 +33,13 @@ class GameScreen(game: BaseGame) : BaseScreen(game) {
 //            }
 //        }
 //
-//        val ship = space.currentShip
+//        val player = space.currentPlayer
 //        if (!space.phase.isMain()) {
 //            if (space.stepsLeft() == 0 && space.steps.size > 1) {
-//                drawConnection(ship.fieldPosition, space.previousStep, Color.GREEN)
+//                drawConnection(player.fieldPosition, space.previousStep, Color.GREEN)
 //            } else {
-//                for (spaceField2 in ship.fieldPosition.connections) {
-//                    drawConnection(ship.fieldPosition, spaceField2, Color.GREEN)
+//                for (spaceField2 in player.fieldPosition.connections) {
+//                    drawConnection(player.fieldPosition, spaceField2, Color.GREEN)
 //                }
 //            }
 //        }
@@ -65,6 +60,6 @@ class GameScreen(game: BaseGame) : BaseScreen(game) {
 //    }
 
     override fun getCameraTarget(): BaseObject? {
-        return space.currentShip
+        return space.currentPlayer
     }
 }

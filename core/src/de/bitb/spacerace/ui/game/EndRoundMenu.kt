@@ -1,14 +1,15 @@
-package de.bitb.spacerace.ui
+package de.bitb.spacerace.ui.game
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.model.player.Ship
+import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.screens.game.GameGuiStage
+import de.bitb.spacerace.ui.base.BaseMenu
 
-class EndRoundMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Ship>(space, guiStage) {
+class EndRoundMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Player>(space, guiStage) {
     override fun getTitle(): String {
         return "Last turn"
     }
@@ -25,11 +26,11 @@ class EndRoundMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Ship>(sp
         buttonTable.add(buttonA).width(windowWidth / 4.0f)
     }
 
-    override fun populateItem(item: Ship) {
+    override fun populateItem(item: Player) {
         (stage as GameGuiStage).openRoundDetails(item)
     }
 
     override fun onVisible() {
-        populateItems(space.ships)
+        populateItems(space.players)
     }
 }

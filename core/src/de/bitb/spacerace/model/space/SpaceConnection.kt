@@ -11,7 +11,7 @@ import de.bitb.spacerace.core.LineRenderer
 class SpaceConnection(val space: BaseSpace, val spaceField1: SpaceField, val spaceField2: SpaceField) : Actor() {
 
     override fun getColor(): Color {
-        val shipField = space.currentShip.fieldPosition
+        val shipField = space.currentPlayer.fieldPosition
         return if (space.phase.isMoving() && isConnected(shipField)) {
             if (space.stepsLeft() == 0 && !isConnected(space.previousStep)) {
                 Color.RED

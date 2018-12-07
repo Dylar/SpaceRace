@@ -1,7 +1,7 @@
 package de.bitb.spacerace.model.space
 
 import com.badlogic.gdx.Gdx
-import de.bitb.spacerace.base.GameColors
+import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.model.enums.ConnectionPoint
 
 class TestSpace : BaseSpace() {
@@ -17,9 +17,9 @@ class TestSpace : BaseSpace() {
         group1.connect(ConnectionPoint.UP, group4)
 
         val spaceField1 = group1.fields[0]!!
-        addShip(spaceField1, GameColors.GREEN)
-        addShip(spaceField1, GameColors.RED)
-        addShip(spaceField1, GameColors.YELLOW)
+        addShip(spaceField1, PlayerColor.GREEN)
+        addShip(spaceField1, PlayerColor.RED)
+        addShip(spaceField1, PlayerColor.YELLOW)
 
     }
 

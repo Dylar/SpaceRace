@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui
+package de.bitb.spacerace.ui.player
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.space.BaseSpace
+import de.bitb.spacerace.ui.base.BaseMenu
 
 
 class ItemMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Item>(space, guiStage) {
@@ -29,7 +30,7 @@ class ItemMenu(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Item>(space,
     }
 
     override fun onVisible() {
-        populateItems(space.currentShip.items)
+        populateItems(space.currentPlayer.items)
     }
 
     override fun populateItem(item: Item) {

@@ -8,13 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.Align
-import de.bitb.spacerace.GAME_SPEED
+import de.bitb.spacerace.config.GAME_SPEED
+import de.bitb.spacerace.config.MOVING_SPEED
 import kotlin.collections.ArrayList
 
 open class BaseObject(val img: Texture) : Image(img) {
 
     private val actionQueue: MutableList<Action> = ArrayList()
-    open var movingSpeed: Float = de.bitb.spacerace.MOVING_SPEED
+    open var movingSpeed: Float = MOVING_SPEED
 
     init {
         setBounds(x, y, width, height)
@@ -77,7 +78,7 @@ open class BaseObject(val img: Texture) : Image(img) {
     }
 
     private fun getDurationToTarget(targetX: Float, targetY: Float, targetWidth: Float, targetHeight: Float): Float {
-        return ((getDistanceToTarget(targetX, targetY, targetWidth, targetHeight) / movingSpeed) / GAME_SPEED)
+        return ((getDistanceToTarget(targetX, targetY, targetWidth, targetHeight) / movingSpeed) / GAME_SPEED.speed)
     }
 
 }

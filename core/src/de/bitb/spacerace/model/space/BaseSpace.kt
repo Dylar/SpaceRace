@@ -3,8 +3,8 @@ package de.bitb.spacerace.model.space
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.base.GameColors
-import de.bitb.spacerace.model.player.Ship
+import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.enums.Phase.*
@@ -15,10 +15,10 @@ abstract class BaseSpace {
     val history: History = History()
 
     var phase: Phase = MAIN1
-    private var firstShip: Ship = Ship(GameColors.NONE)
-    var currentShip: Ship = firstShip
-        get() = ships[ships.size - 1]
-    var ships: MutableList<Ship> = ArrayList()
+    private var firstPlayer: Player = Player(PlayerColor.NONE)
+    var currentPlayer: Player = firstPlayer
+        get() = players[players.size - 1]
+    var players: MutableList<Player> = ArrayList()
 
     val fieldGroups: MutableList<SpaceGroup> = ArrayList()
     val fields: MutableList<SpaceField> = ArrayList()
@@ -33,18 +33,18 @@ abstract class BaseSpace {
 
     init {
         createSpace()
-        history.nextRound(currentShip)
+        history.nextRound(currentPlayer)
     }
 
     abstract fun createSpace()
 
-    fun addShip(spaceField1: SpaceField, color: GameColors) {
-        val ship = Ship(color)
+    fun addShip(spaceField1: SpaceField, color: PlayerColor) {
+        val ship = Player(color)
         ship.fieldPosition = spaceField1
         ship.setPosition(spaceField1.x + spaceField1.width / 2 - ship.width / 2, spaceField1.y + spaceField1.height / 2 - ship.height / 2)
         ship.color = color.color
-        ships.add(ship)
-        firstShip = ship
+        players.add(ship)
+        firstPlayer = ship
     }
 
     fun addField(spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y) {
@@ -92,7 +92,7 @@ abstract class BaseSpace {
     }
 
     fun moveTo(spaceField: SpaceField) {
-        val ship = currentShip
+        val ship = currentPlayer
         if (hasConnectionTo(ship.fieldPosition, spaceField) && phase == MOVE) {
             val sameField = steps.size > 1 && previousStep == spaceField
             if (steps.size <= diceResult || sameField) {
@@ -104,7 +104,7 @@ abstract class BaseSpace {
 
                 ship.fieldPosition = spaceField
                 ship.moveTo(spaceField)
-                Logger.println("Ship Field: ${ship.fieldPosition.id}, ${ship.fieldPosition.fieldType.name}")
+                Logger.println("Player Field: ${ship.fieldPosition.id}, ${ship.fieldPosition.fieldType.name}")
 
             }
         }
@@ -117,7 +117,7 @@ abstract class BaseSpace {
     fun dice(maxResult: Int = 6, anyway: Boolean = false) {
         if (anyway || diceResult - steps.size <= 0 && !diced && phase == MAIN1) {
             diced = if (anyway) diced else true
-            steps.add(currentShip.fieldPosition)
+            steps.add(currentPlayer.fieldPosition)
             diceResult += (Math.random() * maxResult).toInt() + 1
             Logger.println("DiceResult: $diceResult")
         }
@@ -136,7 +136,7 @@ abstract class BaseSpace {
         }
         if (allowed) {
             phase = Phase.next(phase)
-            if (phase == START_ROUND && firstShip != currentShip) {
+            if (phase == START_ROUND && firstPlayer != currentPlayer) {
                 phase = MAIN1
             }
 
@@ -157,11 +157,11 @@ abstract class BaseSpace {
             history.addRoundActivity(HarvestOres(harvest))
         }
 
-        history.nextRound(currentShip)
+        history.nextRound(currentPlayer)
     }
 
     private fun startMain1() {
-        history.nextPlayer(currentShip)
+        history.nextPlayer(currentPlayer)
     }
 
     private fun startMove() {
@@ -169,7 +169,7 @@ abstract class BaseSpace {
     }
 
     private fun startMain2() {
-        val ship = currentShip
+        val ship = currentPlayer
         when (ship.fieldPosition.fieldType) {
             FieldType.WIN ->{
                 val lose = ship.addRandomWin()
@@ -194,9 +194,9 @@ abstract class BaseSpace {
         }
     }
 
-    private fun activateMine(ship: Ship) {
-        val mineField: MineField = ship.fieldPosition as MineField
-        mineField.setOwner(ship)
+    private fun activateMine(player: Player) {
+        val mineField: MineField = player.fieldPosition as MineField
+        mineField.setOwner(player)
     }
 
     private fun openShop() {
@@ -213,15 +213,15 @@ abstract class BaseSpace {
 
     private fun endMain2(): Boolean {
         if (stepsLeft() == 0) {
-            val oldShip = ships[0]
+            val oldShip = players[0]
 
             var indexOld = oldShip.zIndex + 1
-            for (ship in ships) {
+            for (ship in players) {
                 ship.zIndex = indexOld--
             }
 
-            ships.add(oldShip)
-            ships.removeAt(0)
+            players.add(oldShip)
+            players.removeAt(0)
 
 
             history.setSteps(steps)

@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import de.bitb.spacerace.DEBUG
+import de.bitb.spacerace.config.DEBUG
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType

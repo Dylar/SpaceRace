@@ -4,15 +4,15 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
-import de.bitb.spacerace.base.GameColors
+import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.player.history.History
 import de.bitb.spacerace.model.space.SpaceField
-import de.bitb.spacerace.ui.MenuItem
+import de.bitb.spacerace.ui.base.MenuItem
 
-class Ship(val gameColor: GameColors = GameColors.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img), MenuItem {
+class Player(val gameColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img), MenuItem {
 
     lateinit var history: History
     lateinit var fieldPosition: SpaceField

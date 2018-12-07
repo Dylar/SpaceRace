@@ -4,6 +4,6 @@ import de.bitb.spacerace.model.items.Item
 
 class AddItem(val item: Item) : Activity() {
     override fun doIt() {
-        turn.ship.items.add(item)
+        turn.player.items.add(item)
     }
 }

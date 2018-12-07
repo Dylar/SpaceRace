@@ -16,7 +16,7 @@ class GameStage(val space: BaseSpace, screen: GameScreen) : BaseStage() {
         for (spaceGroup in space.fieldGroups) {
             addActor(spaceGroup)
         }
-        for (ship in space.ships) {
+        for (ship in space.players) {
             addActor(ship)
         }
     }

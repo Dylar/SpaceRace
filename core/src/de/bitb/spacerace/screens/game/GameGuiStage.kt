@@ -2,20 +2,23 @@ package de.bitb.spacerace.screens.game
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.*
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.player.Ship
+import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.BaseSpace
-import de.bitb.spacerace.ui.ItemMenu
-import de.bitb.spacerace.ui.EndRoundMenu
-import de.bitb.spacerace.ui.RoundDetails
+import de.bitb.spacerace.ui.game.EndRoundMenu
+import de.bitb.spacerace.ui.game.RoundDetails
+import de.bitb.spacerace.ui.player.ItemMenu
+import de.bitb.spacerace.ui.player.PlayerStats
 
 class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage() {
 
@@ -23,21 +26,18 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage(
     private var endRoundMenu = EndRoundMenu(space, this)
     private var roundDetails = RoundDetails(space, this)
 
-    private val shipLabels: MutableList<Label> = ArrayList()
-    private val creditsLabels: MutableList<Label> = ArrayList()
-    private val itemsButtons: MutableList<TextButton> = ArrayList()
+    private lateinit var itemsButton: TextButton
 
-    private lateinit var diceLabel: Label
-    private lateinit var phaseLabel: Label
+    private var playerStats: PlayerStats = PlayerStats(space)
 
     init {
 
-        val background = Image(TextureCollection.guiBackground)
-        background.width = guiWidth
-        background.height = guiHeight
-        background.setPosition(guiPosX, 0f)
-        addActor(background)
-
+//        val background = Image(TextureCollection.guiBackground)
+//        background.width = guiWidth
+//        background.height = guiHeight
+//        background.setPosition(guiPosX, 0f)
+//        addActor(background)
+//
         val phaseGroup = createPhaseGroup()
         phaseGroup.x = Gdx.graphics.width - slotWidth - singlePadding
         addActor(phaseGroup)
@@ -45,39 +45,27 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage(
         val diceGroup = createDiceGroup()
         diceGroup.x = phaseGroup.x - slotWidth - singlePadding
         addActor(diceGroup)
+//
+//        val zoomGroup = createZoomGroup()
+//        zoomGroup.x = phaseGroup.x
+//        zoomGroup.y = phaseGroup.height
+//        addActor(zoomGroup)
+//
+//        val infoGroup = createInfoGroup()
+//        infoGroup.y = Gdx.graphics.height - infoGroup.height
+//        addActor(infoGroup)
 
-        val zoomGroup = createZoomGroup()
-        zoomGroup.x = phaseGroup.x
-        zoomGroup.y = phaseGroup.height
-        addActor(zoomGroup)
-
-        val infoGroup = createInfoGroup()
-        infoGroup.y = Gdx.graphics.height - infoGroup.height
-        addActor(infoGroup)
-
+        addActor(playerStats)
     }
 
     private fun createInfoGroup(): Group {
-        val infos: MutableList<Actor> = ArrayList()
-        for (ship in space.ships) {
-            var widget: Actor = createButton(listener = object : InputListener() {
-                override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    itemMenu.toggle()
-                    return true
-                }
-            })
-            itemsButtons.add(widget as TextButton)
-            infos.add(widget)
-
-            widget = createLabel()
-            creditsLabels.add(widget)
-            infos.add(widget)
-
-            widget = createLabel()
-            shipLabels.add(widget)
-            infos.add(widget)
-        }
-        return createGroup(*infos.map { it }.toTypedArray())
+        itemsButton = createButton(name = "Items", listener = object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                itemMenu.toggle()
+                return true
+            }
+        })
+        return createGroup(itemsButton)
     }
 
     private fun createZoomGroup(): Group {
@@ -114,8 +102,7 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage(
                 return true
             }
         })
-        diceLabel = createLabel()
-        return createGroup(diceLabel, diceBtn)
+        return createGroup(diceBtn)
     }
 
     private fun createPhaseGroup(): Group {
@@ -125,29 +112,15 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage(
                 if (space.isNextTurn()) {
                     endRoundMenu.toggle()
                 }
+//                playerStats.update()
                 return true
             }
         })
 
-        phaseLabel = createLabel()
-        return createGroup(phaseLabel, phaseBtn)
+        return createGroup(phaseBtn)
     }
 
-    override fun act(delta: Float) {
-        super.act(delta)
-        val diceResult = if (space.diced) "${(space.diceResult - space.stepsLeft())}/${(space.diceResult)}" else "0/0"
-        diceLabel.setText(diceResult)
-        phaseLabel.setText(space.phase.name)
-
-        val ships = space.ships
-        for (ship in ships.withIndex()) {
-            shipLabels[ship.index].setText(ship.value.gameColor.name)
-            creditsLabels[ship.index].setText(ship.value.credits.toString())
-            itemsButtons[ship.index].setText(ship.value.items.size.toString())
-        }
-    }
-
-    fun openRoundDetails(ship: Ship) {
+    fun openRoundDetails(ship: Player) {
         roundDetails.toggle(ship)
     }
 
@@ -162,7 +135,7 @@ class GameGuiStage(val space: BaseSpace, val screen: GameScreen) : BaseGuiStage(
         Logger.println("OPEN ITEMS")
         val dialog = ItemsDialog()
         dialog.text("Are you sure you want to yada yada?")
-        for (item in space.currentShip.items) {
+        for (item in space.currentPlayer.items) {
             item.toString()
             val image2 = TextureRegionDrawable(TextureRegion(TextureCollection.blackhole))
             val image1 = TextureRegionDrawable(TextureRegion(TextureCollection.blueField))

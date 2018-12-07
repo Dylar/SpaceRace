@@ -1,15 +1,15 @@
 package de.bitb.spacerace.model.space
 
 import com.badlogic.gdx.graphics.Texture
-import de.bitb.spacerace.model.player.Ship
+import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.enums.FieldType
 
 class MineField(id: Int = -1, fieldType: FieldType = FieldType.MINE, img: Texture = fieldType.texture) : SpaceField(id, fieldType, img) {
 
-    private var owner: Ship? = null
+    private var owner: Player? = null
 
-    fun setOwner(ship: Ship) {
-        owner = ship
+    fun setOwner(player: Player) {
+        owner = player
     }
 
     fun harvestOres(): Int {

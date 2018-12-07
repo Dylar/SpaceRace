@@ -1,19 +1,20 @@
-package de.bitb.spacerace.ui
+package de.bitb.spacerace.ui.game
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.model.player.Ship
+import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.BaseSpace
+import de.bitb.spacerace.ui.base.BaseMenu
 
 
-class RoundDetails(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Ship>(space, guiStage) {
-    var ship: Ship = Ship()
+class RoundDetails(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Player>(space, guiStage) {
+    var player: Player = Player()
 
     override fun getTitle(): String{
-        return "ROUND";//ship.gameColor.name
+        return "ROUND";//player.gameColor.name
     }
 
     override fun populateButtons(buttonTable: Table) {
@@ -29,13 +30,13 @@ class RoundDetails(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Ship>(sp
         buttonTable.add(buttonB).width(windowWidth / 4.0f)
     }
 
-    fun toggle(ship: Ship){
-        this.ship = ship
+    fun toggle(player: Player){
+        this.player = player
         toggle()
     }
 
     override fun onVisible() {
-        populateItems(space.ships)
+        populateItems(space.players)
     }
 
 }
