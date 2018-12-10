@@ -11,6 +11,8 @@ import de.bitb.spacerace.core.TextureCollection
 
 interface GuiComponent {
 
+    //COMPONENTS
+
     fun createGroup(vararg actors: Actor): Group {
         val group = Group()
 
@@ -31,26 +33,24 @@ interface GuiComponent {
         return group
     }
 
-    fun createLabel(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED): Label {
+    fun createLabel(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.BLACK): Label {
         val label = Label(name, TextureCollection.skin, "default")
         label.width = BaseGuiStage.slotWidth
         label.height = BaseGuiStage.slotHeight
         label.setPosition(posX, posY)
         label.color = color
-        label.style.fontColor = colorText
-        label.setFontScale(BaseGuiStage.fontSize)
+        setFont(label, fontColor = colorText)
         return label
     }
 
-    fun createButton(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED, listener: InputListener): TextButton {
+    fun createButton(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.BLACK, listener: InputListener): TextButton {
         val button = TextButton(name, TextureCollection.skin, "default")
         button.width = BaseGuiStage.slotWidth
         button.height = BaseGuiStage.slotHeight
         button.setPosition(posX, posY)
         button.color = color
-        button.style.fontColor = colorText
         button.addListener(listener)
-        button.label.setFontScale(BaseGuiStage.fontSize)
+        setFont(button.label, fontColor = colorText)
         return button
     }
 
@@ -62,5 +62,61 @@ interface GuiComponent {
         button.color = color
         button.addListener(listener)
         return button
+    }
+
+    //ATTRIBUTES
+
+    fun setFont(label: Label, fontSize: Float = BaseGuiStage.fontSize, fontColor: Color = Color.BLACK) {
+        label.setFontScale(fontSize)
+
+        val labelStyle = Label.LabelStyle(label.style)
+        labelStyle.fontColor = fontColor
+        labelStyle.font = label.style.font
+        labelStyle.background = label.style.background
+
+        label.style = labelStyle
+    }
+
+    fun setFont(textButton: TextButton, fontSize: Float = BaseGuiStage.fontSize, fontColor: Color = Color.WHITE) {
+        textButton.label.setFontScale(fontSize)
+
+        val labelStyle = TextButton.TextButtonStyle(textButton.style)
+        labelStyle.fontColor = fontColor
+        labelStyle.font = textButton.style.font
+
+        textButton.style = labelStyle
+    }
+
+
+    //LAYOUT
+
+    fun <T : Actor> addPadding(cell: Cell<T>, padding: Float = BaseGuiStage.singlePadding / 2) {
+        cell.pad(padding)
+    }
+
+    fun <T : Actor> addPaddingTopBottom(cell: Cell<T>, padding: Float = BaseGuiStage.singlePadding / 2) {
+        addPaddingTop(cell, padding)
+        addPaddingBottom(cell, padding)
+    }
+
+    fun <T : Actor> addPaddingLeftRight(cell: Cell<T>, padding: Float = BaseGuiStage.singlePadding / 2) {
+        addPaddingLeft(cell, padding)
+        addPaddingRight(cell, padding)
+    }
+
+    fun <T : Actor> addPaddingTop(cell: Cell<T>, padding: Float = BaseGuiStage.singlePadding / 2) {
+        cell.padTop(padding)
+    }
+
+    fun <T : Actor> addPaddingBottom(cell: Cell<T>, padding: Float = BaseGuiStage.singlePadding / 2) {
+        cell.padBottom(padding)
+    }
+
+    fun <T : Actor> addPaddingLeft(cell: Cell<T>, padding: Float = BaseGuiStage.singlePadding / 2) {
+        cell.padLeft(padding)
+    }
+
+    fun <T : Actor> addPaddingRight(cell: Cell<T>, padding: Float = BaseGuiStage.singlePadding / 2) {
+        cell.padRight(padding)
     }
 }

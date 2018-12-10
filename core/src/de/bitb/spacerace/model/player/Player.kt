@@ -12,7 +12,7 @@ import de.bitb.spacerace.model.player.history.History
 import de.bitb.spacerace.model.space.SpaceField
 import de.bitb.spacerace.ui.base.MenuItem
 
-class Player(val gameColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img), MenuItem {
+class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img), MenuItem {
 
     lateinit var history: History
     lateinit var fieldPosition: SpaceField
@@ -26,7 +26,7 @@ class Player(val gameColor: PlayerColor = PlayerColor.NONE, img: Texture = Textu
     }
 
     override fun getTintColor(): Color {
-        return gameColor.color
+        return playerColor.color
     }
 
     init {

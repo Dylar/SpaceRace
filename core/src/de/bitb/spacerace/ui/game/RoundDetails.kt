@@ -14,7 +14,7 @@ class RoundDetails(space: BaseSpace, guiStage: BaseGuiStage) : BaseMenu<Player>(
     var player: Player = Player()
 
     override fun getTitle(): String{
-        return "ROUND";//player.gameColor.name
+        return "ROUND";//player.playerColor.name
     }
 
     override fun populateButtons(buttonTable: Table) {

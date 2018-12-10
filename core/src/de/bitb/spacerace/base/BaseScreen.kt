@@ -145,7 +145,7 @@ companion object {
         return false
     }
 
-    fun lockCamera(lock: Boolean = cameraStatus == CAMERA_FREE) {
+    fun centerCamera(lock: Boolean = cameraStatus == CAMERA_FREE) {
         cameraStatus = if (lock) CAMERA_LOCKED else CAMERA_FREE
     }
 

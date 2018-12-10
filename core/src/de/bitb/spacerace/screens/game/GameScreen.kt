@@ -47,7 +47,7 @@ class GameScreen(game: BaseGame) : BaseScreen(game) {
         val batch = gameStage.batch
         batch.begin()
         for (connection in space.connections) {
-           connection.draw(batch, 1f, gameStage.camera.combined)
+            connection.draw(batch, 1f, gameStage.camera.combined)
         }
         batch.end()
         super.renderGame(delta)
@@ -61,5 +61,15 @@ class GameScreen(game: BaseGame) : BaseScreen(game) {
 
     override fun getCameraTarget(): BaseObject? {
         return space.currentPlayer
+    }
+
+    fun onZoomPlusClicked() {
+        currentZoom--
+        zoom()
+    }
+
+    fun onZoomMinusClicked() {
+        currentZoom++
+        zoom()
     }
 }
