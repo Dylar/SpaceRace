@@ -2,9 +2,13 @@ package de.bitb.spacerace.model.player
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.config.DEBUG
+import de.bitb.spacerace.config.DEBUG_ITEMS
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
@@ -30,12 +34,11 @@ class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Tex
     }
 
     init {
+        touchable = Touchable.disabled
         setBounds(x, y, width * 1.8f, height * 1.8f)
-//        setOrigin(width / 2, height / 2)
-//        addRandomGift()
-//        addRandomGift()
-//        addRandomGift()
-//        addRandomGift()
+        for (i in 0..DEBUG_ITEMS) {
+            addRandomGift()
+        }
     }
 
     fun addRandomWin(): Int {

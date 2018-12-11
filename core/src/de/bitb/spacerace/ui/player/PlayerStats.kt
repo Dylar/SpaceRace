@@ -1,12 +1,13 @@
 package de.bitb.spacerace.ui.player
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.config.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_CREDITS
 import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_PHASE
@@ -41,8 +42,8 @@ class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : Gu
         update()
         pack()
 
-        x = (Gdx.graphics.width - width)
-        y = (Gdx.graphics.height - height)
+        x = (SCREEN_WIDTH - width)
+        y = (SCREEN_HEIGHT - height)
     }
 
     override fun add(text: CharSequence): Cell<Label> {

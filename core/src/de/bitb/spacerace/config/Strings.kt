@@ -6,6 +6,12 @@ object Strings {
 
     object GameGuiStrings {
 
+        var GAME_CANCEL: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Cancel"
+                GERMAN -> "Abbrechen"
+            }
+
         var GAME_BUTTON_PHASE: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "PHASE"

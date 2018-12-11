@@ -1,13 +1,19 @@
 package de.bitb.spacerace.ui.base
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.*
+import com.badlogic.gdx.scenes.scene2d.ui.Container
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Align
 import de.bitb.spacerace.base.BaseGuiStage
+import de.bitb.spacerace.config.Dimensions.GameDimensions.singlePadding
+import de.bitb.spacerace.config.Dimensions.GameDimensions.slotHeight
+import de.bitb.spacerace.config.Dimensions.GameDimensions.slotWidth
+import de.bitb.spacerace.config.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.space.BaseSpace
 
@@ -17,9 +23,9 @@ abstract class BaseMenu<I : MenuItem>(val space: BaseSpace, guiStage: BaseGuiSta
     protected var titleLabel: Label
     val size = 3
 
-    val screenWidth = Gdx.graphics.width.toFloat()
-    val screenHeight = Gdx.graphics.height.toFloat()
-    val windowWidth: Float = (screenWidth - (BaseGuiStage.slotWidth + BaseGuiStage.singlePadding) * 2.8).toFloat()
+    val screenWidth = SCREEN_WIDTH.toFloat()
+    val screenHeight = SCREEN_HEIGHT.toFloat()
+    val windowWidth: Float = (screenWidth - (slotWidth + singlePadding) * 2.8).toFloat()
     val windowHeight = screenHeight * 0.5f
 
     init {
@@ -48,7 +54,7 @@ abstract class BaseMenu<I : MenuItem>(val space: BaseSpace, guiStage: BaseGuiSta
 
     private fun createButtons() {
         val buttonTable = Table(skin)
-        buttonTable.pad(BaseGuiStage.slotHeight)
+        buttonTable.pad(slotHeight)
         populateButtons(buttonTable)
         add(buttonTable).colspan(size).fillX()
     }

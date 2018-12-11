@@ -1,8 +1,5 @@
 package de.bitb.spacerace.ui.control
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color.BLUE
-import com.badlogic.gdx.graphics.Color.WHITE
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -11,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.base.BaseGuiStage
+import de.bitb.spacerace.config.Dimensions.GameDimensions.guiHeight
+import de.bitb.spacerace.config.Dimensions.GameDimensions.singlePadding
+import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_CONTINUE
 import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_STORAGE
@@ -20,6 +19,7 @@ import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.player.ItemMenu
+import de.bitb.spacerace.ui.player.ItemMenuOld
 
 class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage {
 
@@ -48,11 +48,13 @@ class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(Text
 
         val storageBtn = createButton(name = GAME_BUTTON_STORAGE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                Logger.println("TOUCH ME SENSAI")
-//                itemMenu.remove()
-//                itemMenu = ItemMenu(space, guiStage)
-//                guiStage.addActor(itemMenu)
-//                itemMenu.toggle()
+                if (itemMenu.isOpen) {
+                    itemMenu.isOpen = false
+                } else {
+                    itemMenu = ItemMenu(space, guiStage)
+                    itemMenu.isOpen = true
+                    guiStage.addActor(itemMenu)
+                }
                 return true
             }
         })
@@ -65,12 +67,12 @@ class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(Text
 
         pack()
 
-        x = (Gdx.graphics.width - width)
+        x = (SCREEN_WIDTH - width)
     }
 
     private fun <T : Actor> addCell(actor: T): Cell<T> {
         val cell = super.add(actor)
-        addPaddingTopBottom(cell, BaseGuiStage.singlePadding / 4)
+        addPaddingTopBottom(cell, singlePadding / 4)
         addPaddingLeftRight(cell)
         cell.fill()
         return cell

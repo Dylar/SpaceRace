@@ -2,9 +2,7 @@ package de.bitb.spacerace.screens.game
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGuiStage
@@ -15,7 +13,6 @@ import de.bitb.spacerace.ui.control.GameControl
 import de.bitb.spacerace.ui.control.ViewControl
 import de.bitb.spacerace.ui.game.EndRoundMenu
 import de.bitb.spacerace.ui.game.RoundDetails
-import de.bitb.spacerace.ui.player.ItemMenu
 import de.bitb.spacerace.ui.player.PlayerStats
 
 class GameGuiStage(val space: BaseSpace, screen: GameScreen) : BaseGuiStage() {

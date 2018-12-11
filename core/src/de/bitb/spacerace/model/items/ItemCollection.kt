@@ -11,7 +11,7 @@ object ItemCollection {
         allItems.add(item)
         item = Item(TextureCollection.redField)
         allItems.add(item)
-        item = Item(TextureCollection.fallingStar)
+        item = Item(TextureCollection.ship1)
         allItems.add(item)
     }
 

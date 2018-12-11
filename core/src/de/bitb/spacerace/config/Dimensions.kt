@@ -1,8 +1,14 @@
 package de.bitb.spacerace.config
 
+import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.config.enums.Language.*
 
 object Dimensions {
+
+    var SCREEN_WIDTH = 0
+        get() = Gdx.graphics.width
+    var SCREEN_HEIGHT = 0
+        get() = Gdx.graphics.height
 
     object GameGuiDimensions {
 
@@ -34,5 +40,22 @@ object Dimensions {
             }
 
 
+
+    }
+
+    object GameDimensions{
+        const val GAME_CONNECTIONS_WIDTH = 30
+
+
+
+//      TODO  DO ME
+
+        val slotHeight = SCREEN_HEIGHT / 15f
+        val slotWidth = SCREEN_WIDTH / 6f
+        val singlePadding = slotWidth * 0.2f
+        val guiHeight = slotHeight * 2
+        val guiWidth = slotWidth * 2 + singlePadding * 2
+        val guiPosX = SCREEN_WIDTH - guiWidth
+        val fontSize: Float = 2.5f
     }
 }

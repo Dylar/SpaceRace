@@ -3,19 +3,12 @@ package de.bitb.spacerace.base
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import de.bitb.spacerace.config.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.ui.base.GuiComponent
 
 open class BaseGuiStage(viewport: Viewport = ScreenViewport()) : BaseStage(viewport), GuiComponent {
     companion object {
-        val lineWidth = 30
-
-        val slotHeight = Gdx.graphics.height / 15f
-        val slotWidth = Gdx.graphics.width / 6f
-        val singlePadding = slotWidth * 0.2f
-        val guiHeight = slotHeight * 2
-        val guiWidth = slotWidth * 2 + singlePadding * 2
-        val guiPosX = Gdx.graphics.width - guiWidth
-        val fontSize: Float = 2.5f
     }
 //
 //    fun createGroup(vararg actors: Actor): Group {
