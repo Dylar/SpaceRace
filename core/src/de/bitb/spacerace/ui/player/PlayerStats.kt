@@ -6,11 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.config.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_CREDITS
-import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_DICE
-import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_PHASE
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDITS
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.ui.base.GuiComponent

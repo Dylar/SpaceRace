@@ -1,10 +1,7 @@
 package de.bitb.spacerace.base
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
-import de.bitb.spacerace.config.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.ui.base.GuiComponent
 
 open class BaseGuiStage(viewport: Viewport = ScreenViewport()) : BaseStage(viewport), GuiComponent {

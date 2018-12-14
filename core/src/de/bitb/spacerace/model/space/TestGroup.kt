@@ -1,8 +1,7 @@
 package de.bitb.spacerace.model.space
 
-import com.badlogic.gdx.Gdx
-import de.bitb.spacerace.config.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 

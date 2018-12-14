@@ -1,14 +1,9 @@
 package de.bitb.spacerace.model.background
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.math.RandomXS128
-import com.badlogic.gdx.utils.Align
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
-import de.bitb.spacerace.config.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
 
 class FallingStar(var startX: Float = 0f,

@@ -7,9 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.config.Dimensions.GameDimensions.singlePadding
-import de.bitb.spacerace.config.Strings.GameGuiStrings.GAME_BUTTON_CENTER
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePadding
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CENTER
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.screens.game.GameScreen

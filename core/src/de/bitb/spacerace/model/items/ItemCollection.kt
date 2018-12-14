@@ -1,22 +1,24 @@
 package de.bitb.spacerace.model.items
 
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.model.items.upgrade.IonEngine
+import de.bitb.spacerace.model.items.usable.ExtraFuel
+import de.bitb.spacerace.model.items.usable.SpezialFuel
 
 object ItemCollection {
 
-    val allItems: MutableList<Item> = ArrayList()
+    private const val ITEM1 = 0
+    private const val ITEM2 = ITEM1 + 1
+    private const val ITEM3 = ITEM2 + 1
+    private const val ITEM_COUNT = ITEM3 + 1
 
-    init {
-        var item = Item(TextureCollection.blackhole)
-        allItems.add(item)
-        item = Item(TextureCollection.redField)
-        allItems.add(item)
-        item = Item(TextureCollection.ship1)
-        allItems.add(item)
+    fun getRandomItem(index: Int = (Math.random() * ITEM_COUNT).toInt()): Item {
+        return when (index) {
+            ITEM1 -> ExtraFuel()
+            ITEM2 -> SpezialFuel()
+            ITEM3 -> IonEngine()
+            else -> getRandomItem()
+        }
     }
 
-    fun getRandomItem(): Item {
-        return allItems[(Math.random() * allItems.size).toInt()]
-    }
 
 }

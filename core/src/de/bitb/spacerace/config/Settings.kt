@@ -10,4 +10,6 @@ var LANGUAGE: Language = Language.ENGLISH
 
 
 const val DEBUG = false
-const val DEBUG_ITEMS = 0
+const val DEBUG_ITEMS = 10
+
+const val DEBUG_LAYOUT = false

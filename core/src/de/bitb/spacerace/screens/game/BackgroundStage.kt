@@ -1,11 +1,10 @@
 package de.bitb.spacerace.screens.game
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.config.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.model.background.FallingStar

@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
-import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.config.Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH
 import de.bitb.spacerace.core.LineRenderer
 
 class SpaceConnection(val space: BaseSpace, val spaceField1: SpaceField, val spaceField2: SpaceField) : Actor() {

@@ -1,38 +1,30 @@
 package de.bitb.spacerace.ui.player
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.Container
-import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.Logger
-import de.bitb.spacerace.config.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.config.Strings
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_ITEM_WIDTH_MIN
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.config.strings.Strings
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.space.BaseSpace
-import de.bitb.spacerace.ui.base.GuiComponent
+import de.bitb.spacerace.screens.game.GameGuiStage
+import de.bitb.spacerace.ui.base.BaseMenu
 
-class ItemMenu(val space: BaseSpace, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent {
+class ItemMenu(val space: BaseSpace, val guiStage: GameGuiStage) : BaseMenu() {
 
-    companion object {
-        private const val BASE_WIDTH = 4
-    }
-
-    var isOpen: Boolean = false
+    private var itemDetails = ItemDetails(ItemCollection.getRandomItem())
 
     init {
-        background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
-
         val player = space.currentPlayer
         val items = player.items
         var size = player.items.size
-        size = if (size < BASE_WIDTH) BASE_WIDTH else size
+        size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
         addTitle(size)
-        addItems(size, items)
+        addItems(items)
         addButtons(size)
 
         pack()
@@ -46,42 +38,32 @@ class ItemMenu(val space: BaseSpace, guiComponent: GuiComponent = object : GuiCo
     }
 
     private fun addTitle(size: Int) {
-        val cell = add("Items")
+        val cell = add(GAME_MENUITEM_TITLE)
         setFont(cell.actor)
         cell.colspan(size)
     }
 
-    private fun addItems(size: Int, items: ArrayList<Item>) {
-        Logger.println("START ITEM---------------")
+    private fun addItems(items: ArrayList<Item>) {
         row()
-
-//        val container = Table(TextureCollection.skin)
-//        val cell = add(container)
-//        cell.colspan(items.size)
-
-        var i = 0
         for (item in items) {
-            i++
-            Logger.println("ADD ITEM $i")
             item.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    isOpen = false
+                    itemDetails = ItemDetails(item)
+                    itemDetails.openMenu()
+                    guiStage.addActor(itemDetails)
+                    closeMenu()
                     return true
                 }
             })
-            val v = add(item)
-//            val v = container.add(item)
-//            v.colspan(1)
+            add(item)
         }
-
-        Logger.println("END ITEM---------------")
     }
 
     private fun addButtons(size: Int) {
         row()
-        val cancelBtn = createButton(name = Strings.GameGuiStrings.GAME_CANCEL, listener = object : InputListener() {
+        val cancelBtn = createButton(name = Strings.GameGuiStrings.GAME_BUTTON_CANCEL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                isOpen = false
+                closeMenu()
                 return true
             }
         })
@@ -89,13 +71,5 @@ class ItemMenu(val space: BaseSpace, guiComponent: GuiComponent = object : GuiCo
         cellBtn.colspan(size)
         setFont(cellBtn.actor)
     }
-
-    override fun act(delta: Float) {
-        super.act(delta)
-        if (!isOpen) {
-            remove()
-        }
-    }
-
 
 }

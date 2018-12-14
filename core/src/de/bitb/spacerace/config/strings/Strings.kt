@@ -1,15 +1,22 @@
-package de.bitb.spacerace.config
+package de.bitb.spacerace.config.strings
 
+import de.bitb.spacerace.config.LANGUAGE
 import de.bitb.spacerace.config.enums.Language.*
 
 object Strings {
 
     object GameGuiStrings {
 
-        var GAME_CANCEL: String = ""
+        var GAME_BUTTON_CANCEL: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "Cancel"
                 GERMAN -> "Abbrechen"
+            }
+
+        var GAME_BUTTON_USE: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Use"
+                GERMAN -> "Benutzen"
             }
 
         var GAME_BUTTON_PHASE: String = ""
@@ -48,6 +55,23 @@ object Strings {
                 GERMAN -> "Lager"
             }
 
+        var GAME_MENUITEM_TITLE: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Items"
+                GERMAN -> "Items"
+            }
+
+        var GAME_MENU_END_ROUND_TITLE: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Round end"
+                GERMAN -> "Runden Ende"
+            }
+
+        var GAME_MENU_END_ROUND_DETAILS_TITLE: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Player: "
+                GERMAN -> "Spieler: "
+            }
 
     }
 }

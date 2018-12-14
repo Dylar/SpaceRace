@@ -6,13 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
-import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.config.Dimensions
-import de.bitb.spacerace.config.Dimensions.GameDimensions.singlePadding
-import de.bitb.spacerace.config.Dimensions.GameDimensions.slotHeight
-import de.bitb.spacerace.config.Dimensions.GameDimensions.slotWidth
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePadding
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.slotHeight
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.slotWidth
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_MEDIUM
 import de.bitb.spacerace.core.TextureCollection
-import java.awt.Dimension
 
 interface GuiComponent {
 
@@ -71,7 +69,7 @@ interface GuiComponent {
 
     //ATTRIBUTES
 
-    fun setFont(label: Label, fontSize: Float = Dimensions.GameDimensions.fontSize, fontColor: Color = Color.BLACK) {
+    fun setFont(label: Label, fontSize: Float = GAME_SIZE_FONT_MEDIUM, fontColor: Color = Color.BLACK) {
         label.setFontScale(fontSize)
 
         val labelStyle = Label.LabelStyle(label.style)
@@ -82,7 +80,7 @@ interface GuiComponent {
         label.style = labelStyle
     }
 
-    fun setFont(textButton: TextButton, fontSize: Float = Dimensions.GameDimensions.fontSize, fontColor: Color = Color.WHITE) {
+    fun setFont(textButton: TextButton, fontSize: Float = GAME_SIZE_FONT_MEDIUM, fontColor: Color = Color.WHITE) {
         textButton.label.setFontScale(fontSize)
 
         val labelStyle = TextButton.TextButtonStyle(textButton.style)
