@@ -16,7 +16,6 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.GuiComponent
-import de.bitb.spacerace.ui.game.RoundEndDetails
 import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.ItemMenu
 

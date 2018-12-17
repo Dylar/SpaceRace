@@ -11,9 +11,10 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class ItemDetails(val item: Item) : BaseMenu() {
+class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : BaseMenu(guiStage, itemMenu) {
 
     init {
         addImage()
@@ -61,7 +62,7 @@ class ItemDetails(val item: Item) : BaseMenu() {
 
         val cancelBtn = createButton(name = GAME_BUTTON_CANCEL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                closeMenu()
+                onBack()
                 return true
             }
         })

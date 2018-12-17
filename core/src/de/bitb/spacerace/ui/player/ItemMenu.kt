@@ -13,9 +13,7 @@ import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class ItemMenu(val space: BaseSpace, val guiStage: GameGuiStage) : BaseMenu() {
-
-    private var itemDetails = ItemDetails(ItemCollection.getRandomItem())
+class ItemMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
         val player = space.currentPlayer
@@ -48,10 +46,10 @@ class ItemMenu(val space: BaseSpace, val guiStage: GameGuiStage) : BaseMenu() {
         for (item in items) {
             item.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    itemDetails = ItemDetails(item)
+                    val itemDetails = ItemDetails(guiStage, this@ItemMenu, item)
                     itemDetails.openMenu()
-                    guiStage.addActor(itemDetails)
-                    closeMenu()
+//                    guiStage.addActor(itemDetails)
+//                    closeMenu()
                     return true
                 }
             })

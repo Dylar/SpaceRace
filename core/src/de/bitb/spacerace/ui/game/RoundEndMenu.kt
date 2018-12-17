@@ -13,7 +13,7 @@ import de.bitb.spacerace.model.space.BaseSpace
 import de.bitb.spacerace.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class RoundEndMenu(val space: BaseSpace, val guiStage: GameGuiStage) : BaseMenu() {
+class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
         val players = space.players

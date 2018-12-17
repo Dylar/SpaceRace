@@ -7,20 +7,19 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MEN
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_DETAILS_TITLE
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Player) : BaseMenu() {
+class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Player) : BaseMenu(guiStage, endMenu) {
 
     init {
         addTitle(player)
         addImage(player)
         addText()
-        addButtons(guiStage, endMenu)
+        addButtons()
         pack()
         setPosition()
         endMenu.closeMenu()
@@ -50,14 +49,15 @@ class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Pla
         y = (Dimensions.SCREEN_HEIGHT - (Dimensions.SCREEN_HEIGHT / 2) - height / 2)
     }
 
-    private fun addButtons(guiStage: GameGuiStage, endMenu: RoundEndMenu) {
+    private fun addButtons() {
         row()
 
         val cancelBtn = createButton(name = GAME_BUTTON_CANCEL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                endMenu.openMenu()
-                guiStage.addActor(endMenu)
-                closeMenu()
+                onBack()
+//                endMenu.openMenu()
+//                guiStage.addActor(endMenu)
+//                closeMenu()
                 return true
             }
         })
