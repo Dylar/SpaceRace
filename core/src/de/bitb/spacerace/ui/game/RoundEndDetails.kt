@@ -55,9 +55,6 @@ class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Pla
         val cancelBtn = createButton(name = GAME_BUTTON_CANCEL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 onBack()
-//                endMenu.openMenu()
-//                guiStage.addActor(endMenu)
-//                closeMenu()
                 return true
             }
         })
