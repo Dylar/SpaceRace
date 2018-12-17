@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.player
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Touchable
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.PlayerColor
@@ -28,6 +29,12 @@ class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Tex
         for (i in 0..DEBUG_ITEMS) {
             addRandomGift()
         }
+    }
+
+    override fun getDisplayImage(): Image {
+        val image = super.getDisplayImage()
+        image.color = playerColor.color
+        return image
     }
 
     fun addRandomWin(): Int {

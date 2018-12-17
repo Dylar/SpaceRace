@@ -30,6 +30,10 @@ open class BaseObject(val img: Texture) : Image(img) {
         return y
     }
 
+    open fun getDisplayImage(): Image {
+        return object : Image(img) {}
+    }
+
     //Stats
 
     //State

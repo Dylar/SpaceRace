@@ -2,7 +2,6 @@ package de.bitb.spacerace.ui.game
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_END_ROUND_WIDTH_MIN
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
@@ -43,7 +42,8 @@ class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiS
     private fun addPlayer(players: MutableList<Player>) {
         row()
         for (player in players) {
-            player.addListener(object : InputListener() {
+            val displayImage = player.getDisplayImage()
+            displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     val playerDetails = RoundEndDetails(guiStage, this@RoundEndMenu, player)
                     playerDetails.openMenu()
@@ -51,7 +51,7 @@ class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiS
                     return true
                 }
             })
-            add(player)
+            add(displayImage)
         }
     }
 
@@ -73,7 +73,7 @@ class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiS
     override fun openMenu() {
         super.openMenu()
         for (player in space.players) {
-            player.touchable = Touchable.enabled
+//            player.touchable = Touchable.enabled
         }
     }
 
@@ -81,7 +81,7 @@ class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiS
     override fun closeMenu() {
         super.closeMenu()
         for (player in space.players) {
-            player.touchable = Touchable.disabled
+//            player.touchable = Touchable.disabled
         }
     }
 

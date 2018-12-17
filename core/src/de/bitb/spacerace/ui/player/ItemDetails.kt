@@ -2,6 +2,7 @@ package de.bitb.spacerace.ui.player
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING_SPACE
@@ -25,7 +26,7 @@ class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : 
     }
 
     private fun addImage() {
-        val cell = add(item)
+        val cell = add(item.getDisplayImage())
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }
