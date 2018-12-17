@@ -1,18 +1,15 @@
 package de.bitb.spacerace.model.background
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.math.RandomXS128
-import com.badlogic.gdx.utils.Align
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
 
 class FallingStar(var startX: Float = 0f,
                   var startY: Float = 0f,
-                  var endX: Float = Gdx.graphics.width.toFloat(),
-                  var endY: Float = Gdx.graphics.height.toFloat())
+                  var endX: Float = SCREEN_WIDTH.toFloat(),
+                  var endY: Float = SCREEN_HEIGHT.toFloat())
     : BaseObject(TextureCollection.fallingStar) {
 
     init {
@@ -43,8 +40,8 @@ class FallingStar(var startX: Float = 0f,
 
     private fun calculateValues() {
         movingSpeed = (Math.random() * 35f + 25).toFloat()
-        startY = (Math.random() * Gdx.graphics.height).toFloat()
-        endY = (Math.random() * Gdx.graphics.height).toFloat()
+        startY = (Math.random() * SCREEN_HEIGHT).toFloat()
+        endY = (Math.random() * SCREEN_HEIGHT).toFloat()
 
         val degrees = Math.atan2(
                 (endY - startY).toDouble(),

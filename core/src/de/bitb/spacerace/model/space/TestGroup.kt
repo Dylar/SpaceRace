@@ -1,13 +1,14 @@
 package de.bitb.spacerace.model.space
 
-import com.badlogic.gdx.Gdx
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 
 class TestGroup(space: BaseSpace, offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(space, offsetX, offsetY) {
 
-    val screenWidth = Gdx.graphics.width
-    val screenHeight = Gdx.graphics.height
+    val screenWidth = SCREEN_WIDTH
+    val screenHeight = SCREEN_HEIGHT
 
     init {
         val spaceField1 = SpaceField(fields.size, FieldType.GIFT)

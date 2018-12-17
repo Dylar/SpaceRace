@@ -1,28 +1,11 @@
 package de.bitb.spacerace.base
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.Group
-import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.*
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
-import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.ui.GuiComponent
+import de.bitb.spacerace.ui.base.GuiComponent
 
 open class BaseGuiStage(viewport: Viewport = ScreenViewport()) : BaseStage(viewport), GuiComponent {
     companion object {
-        val lineWidth = 30
-
-        val slotHeight = Gdx.graphics.height / 15f
-        val slotWidth = Gdx.graphics.width / 6f
-        val singlePadding = slotWidth * 0.2f
-        val guiHeight = slotHeight * 2
-        val guiWidth = slotWidth * 2 + singlePadding * 2
-        val guiPosX = Gdx.graphics.width - guiWidth
-        val fontSize: Float = 2.8f
     }
 //
 //    fun createGroup(vararg actors: Actor): Group {

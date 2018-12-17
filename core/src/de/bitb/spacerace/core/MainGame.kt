@@ -1,5 +1,8 @@
 package de.bitb.spacerace.core
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.screens.game.GameScreen
 
@@ -14,6 +17,9 @@ class MainGame : BaseGame() {
 
     override fun render() {
         super.render()
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit()
+        }
     }
 
 }

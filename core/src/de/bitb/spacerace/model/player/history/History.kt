@@ -1,20 +1,20 @@
 package de.bitb.spacerace.model.player.history
 
-import de.bitb.spacerace.model.player.Ship
+import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.SpaceField
 
 class History {
 
     val rounds: MutableList<Round> = ArrayList()
-    var currentRound: Round = Round(Ship())
+    var currentRound: Round = Round(Player())
         get() = rounds[rounds.size - 1]
 
-    fun nextRound(ship: Ship) {
-        rounds.add(Round(ship))
+    fun nextRound(player: Player) {
+        rounds.add(Round(player))
     }
 
-    fun nextPlayer(ship: Ship) {
-        currentRound.nextPlayer(ship)
+    fun nextPlayer(player: Player) {
+        currentRound.nextPlayer(player)
     }
 
     fun addActivity(activity: Activity) {

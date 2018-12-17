@@ -1,18 +1,18 @@
 package de.bitb.spacerace.model.player
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
-import de.bitb.spacerace.base.GameColors
+import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.config.DEBUG_ITEMS
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.player.history.History
 import de.bitb.spacerace.model.space.SpaceField
-import de.bitb.spacerace.ui.MenuItem
 
-class Ship(val gameColor: GameColors = GameColors.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img), MenuItem {
+class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img) {
 
     lateinit var history: History
     lateinit var fieldPosition: SpaceField
@@ -21,21 +21,13 @@ class Ship(val gameColor: GameColors = GameColors.NONE, img: Texture = TextureCo
     var credits = 0
     var items = ArrayList<Item>()
 
-    override fun getImage(): Texture {
-        return img
-    }
-
-    override fun getTintColor(): Color {
-        return gameColor.color
-    }
-
     init {
+        touchable = Touchable.disabled
         setBounds(x, y, width * 1.8f, height * 1.8f)
-//        setOrigin(width / 2, height / 2)
-//        addRandomGift()
-//        addRandomGift()
-//        addRandomGift()
-//        addRandomGift()
+
+        for (i in 0..DEBUG_ITEMS) {
+            addRandomGift()
+        }
     }
 
     fun addRandomWin(): Int {
