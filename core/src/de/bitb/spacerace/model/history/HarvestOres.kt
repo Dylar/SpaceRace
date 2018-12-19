@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.player.history
+package de.bitb.spacerace.model.history
 
 class HarvestOres(val credits: Int) : Activity() {
     override fun doIt() {

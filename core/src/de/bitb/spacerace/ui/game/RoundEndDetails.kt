@@ -10,7 +10,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_DETAILS_TITLE
 import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.screens.game.GameGuiStage
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
 class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Player) : BaseMenu(guiStage, endMenu) {

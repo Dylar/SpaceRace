@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePadding
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CENTER
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.space.BaseSpace
-import de.bitb.spacerace.screens.game.GameScreen
+import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.base.GuiComponent
 
 class ViewControl(val space: BaseSpace, val screen: GameScreen, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent {

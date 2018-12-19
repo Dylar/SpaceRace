@@ -10,8 +10,8 @@ import de.bitb.spacerace.config.DEBUG_ITEMS
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
-import de.bitb.spacerace.model.player.history.History
-import de.bitb.spacerace.model.space.SpaceField
+import de.bitb.spacerace.controller.History
+import de.bitb.spacerace.model.space.fields.SpaceField
 
 class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img) {
 
@@ -26,7 +26,7 @@ class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Tex
         touchable = Touchable.disabled
         setBounds(x, y, width * 1.8f, height * 1.8f)
 
-        for (i in 0..DEBUG_ITEMS) {
+        for (i in 1..DEBUG_ITEMS) {
             addRandomGift()
         }
     }

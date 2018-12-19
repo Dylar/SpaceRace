@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.space
+package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
@@ -7,10 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import de.bitb.spacerace.config.DEBUG
+import de.bitb.spacerace.config.DEBUG_FIELDS_NR
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.space.groups.TestGroup
 
 open class SpaceField(var id: Int = -1, var fieldType: FieldType = FieldType.UNKNOWN, img: Texture = fieldType.texture) : BaseObject(img) {
     lateinit var group: TestGroup
@@ -36,7 +37,7 @@ open class SpaceField(var id: Int = -1, var fieldType: FieldType = FieldType.UNK
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
-        if (DEBUG) {
+        if (DEBUG_FIELDS_NR) {
             val label = TextButton(id.toString(), TextureCollection.skin, "default")
             label.label.width = width
             label.setPosition(x + width / 2, y + height / 2)

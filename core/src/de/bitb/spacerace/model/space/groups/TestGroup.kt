@@ -1,9 +1,13 @@
-package de.bitb.spacerace.model.space
+package de.bitb.spacerace.model.space.groups
 
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.fields.MineField
+import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.groups.SpaceGroup
 
 class TestGroup(space: BaseSpace, offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(space, offsetX, offsetY) {
 
@@ -31,17 +35,17 @@ class TestGroup(space: BaseSpace, offsetX: Float = 0f, offsetY: Float = 0f) : Sp
         val spaceField9 = SpaceField(fields.size, FieldType.WIN)
         addField(spaceField9, screenWidth.toFloat(), posY = -(screenHeight / 2 - spaceField9.height / 2))
 
-        space.addConnection(spaceField1, spaceField3)
-        space.addConnection(spaceField2, spaceField3)
-        space.addConnection(spaceField5, spaceField6)
-        space.addConnection(spaceField5, spaceField4)
-        space.addConnection(spaceField8, spaceField4)
-        space.addConnection(spaceField2, spaceField4)
-        space.addConnection(spaceField3, spaceField7)
-        space.addConnection(spaceField8, spaceField7)
-        space.addConnection(spaceField1, spaceField6)
-        space.addConnection(spaceField7, spaceField6)
-        space.addConnection(spaceField2, spaceField9)
+        space.fieldController.addConnection(spaceField1, spaceField3)
+        space.fieldController.addConnection(spaceField2, spaceField3)
+        space.fieldController.addConnection(spaceField5, spaceField6)
+        space.fieldController.addConnection(spaceField5, spaceField4)
+        space.fieldController.addConnection(spaceField8, spaceField4)
+        space.fieldController.addConnection(spaceField2, spaceField4)
+        space.fieldController.addConnection(spaceField3, spaceField7)
+        space.fieldController.addConnection(spaceField8, spaceField7)
+        space.fieldController.addConnection(spaceField1, spaceField6)
+        space.fieldController.addConnection(spaceField7, spaceField6)
+        space.fieldController.addConnection(spaceField2, spaceField9)
 
         addConnectionPoint(ConnectionPoint.UP, spaceField5)
         addConnectionPoint(ConnectionPoint.DOWN, spaceField3)

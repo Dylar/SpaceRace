@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.player.history
+package de.bitb.spacerace.model.history
 
 import de.bitb.spacerace.model.player.Player
 

@@ -13,8 +13,8 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CONTI
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORAGE
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.space.BaseSpace
-import de.bitb.spacerace.screens.game.GameGuiStage
+import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.ItemMenu
@@ -28,15 +28,15 @@ class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(Text
 
         val diceBtn = createButton(name = GAME_BUTTON_DICE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                space.dice()
+                space.playerController.dice()
                 return true
             }
         })
 
         val continueBtn = createButton(name = GAME_BUTTON_CONTINUE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                space.nextPhase()
-                if (space.isNextTurn()) {
+                space.phaseController.nextPhase()
+                if (space.phaseController.phase.isNextTurn()) {
                     val endMenu = RoundEndMenu(space, guiStage)
                     endMenu.openMenu()
                     guiStage.addActor(endMenu)

@@ -1,6 +1,5 @@
-package de.bitb.spacerace.screens
+package de.bitb.spacerace.ui.screens
 
-import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 

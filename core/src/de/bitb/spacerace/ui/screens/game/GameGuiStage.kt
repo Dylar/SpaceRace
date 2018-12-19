@@ -1,8 +1,7 @@
-package de.bitb.spacerace.screens.game
+package de.bitb.spacerace.ui.screens.game
 
 import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.space.BaseSpace
+import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.ui.control.GameControl
 import de.bitb.spacerace.ui.control.ViewControl
 import de.bitb.spacerace.ui.player.PlayerStats

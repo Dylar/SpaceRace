@@ -8,14 +8,14 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_TITLE
 import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.space.BaseSpace
-import de.bitb.spacerace.screens.game.GameGuiStage
+import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
 class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
-        val players = space.players
+        val players = space.playerController.players
         var size = players.size
         size = if (size < GAME_MENU_END_ROUND_WIDTH_MIN) GAME_MENU_END_ROUND_WIDTH_MIN else size
 
@@ -60,7 +60,7 @@ class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiS
         val continueBtn = createButton(name = Strings.GameGuiStrings.GAME_BUTTON_CONTINUE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 closeMenu()
-                space.nextPhase()
+                space.phaseController.nextPhase()
                 return true
             }
         })
@@ -68,22 +68,5 @@ class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiS
         cellBtn.colspan(size)
         setFont(cellBtn.actor)
     }
-
-    //TODO only because player = image ...
-    override fun openMenu() {
-        super.openMenu()
-        for (player in space.players) {
-//            player.touchable = Touchable.enabled
-        }
-    }
-
-    //TODO only because player = image ...
-    override fun closeMenu() {
-        super.closeMenu()
-        for (player in space.players) {
-//            player.touchable = Touchable.disabled
-        }
-    }
-
 
 }

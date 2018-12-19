@@ -2,7 +2,6 @@ package de.bitb.spacerace.ui.player
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING_SPACE
@@ -12,7 +11,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
 import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.screens.game.GameGuiStage
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
 class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : BaseMenu(guiStage, itemMenu) {

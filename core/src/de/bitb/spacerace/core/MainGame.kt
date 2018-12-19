@@ -2,9 +2,8 @@ package de.bitb.spacerace.core
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGame
-import de.bitb.spacerace.screens.game.GameScreen
+import de.bitb.spacerace.ui.screens.game.GameScreen
 
 class MainGame : BaseGame() {
 

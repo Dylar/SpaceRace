@@ -12,7 +12,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDI
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.space.BaseSpace
+import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.ui.base.GuiComponent
 
 class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent {
@@ -59,9 +59,9 @@ class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : Gu
     }
 
     fun update() {
-        phaseLabel.setText(space.phase.name)
+        phaseLabel.setText(space.phaseController.phase.text)
 
-        val player = space.currentPlayer
+        val player = space.playerController.currentPlayer
         val playerColor = player.playerColor
 
         creditsLabel.setText(player.credits.toString())
@@ -73,8 +73,7 @@ class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : Gu
 
     override fun act(delta: Float) {
         super.act(delta)
-
-        val diceResult = if (space.diced) "${(space.diceResult - space.stepsLeft())}/${(space.diceResult)}" else "0/0"
+        val diceResult = if (space.playerController.diced) "${(space.playerController.diceResult - space.playerController.stepsLeft())}/${(space.playerController.diceResult)}" else "0/0"
         diceLabel.setText(diceResult)
     }
 

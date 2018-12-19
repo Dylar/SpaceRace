@@ -1,6 +1,6 @@
-package de.bitb.spacerace.model.player.history
+package de.bitb.spacerace.model.history
 
-import de.bitb.spacerace.model.space.MineField
+import de.bitb.spacerace.model.space.fields.MineField
 
 class OccupyMine(val mine: MineField) : Activity() {
     override fun doIt() {

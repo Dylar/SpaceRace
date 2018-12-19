@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.space
+package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -7,13 +7,14 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH
 import de.bitb.spacerace.core.LineRenderer
+import de.bitb.spacerace.model.space.control.BaseSpace
 
 class SpaceConnection(val space: BaseSpace, val spaceField1: SpaceField, val spaceField2: SpaceField) : Actor() {
 
     override fun getColor(): Color {
-        val shipField = space.currentPlayer.fieldPosition
-        return if (space.phase.isMoving() && isConnected(shipField)) {
-            if (space.stepsLeft() == 0 && !isConnected(space.previousStep)) {
+        val shipField = space.playerController.currentPlayer.fieldPosition
+        return if (space.phaseController.phase.isMoving() && isConnected(shipField)) {
+            if (space.playerController.stepsLeft() == 0 && !isConnected(space.playerController.previousStep)) {
                 Color.RED
             } else {
                 Color.GREEN

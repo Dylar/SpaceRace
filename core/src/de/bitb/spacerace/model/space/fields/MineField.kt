@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.space
+package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.model.player.Player
