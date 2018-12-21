@@ -1,5 +1,6 @@
 buildscript {
     ext.kotlinVersion = '1.2.71'
+    ext.roboVMVersion = '2.3.5'
 
     repositories {
         mavenLocal()
@@ -11,7 +12,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.0'
-        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
+        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$roboVMVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
     }
@@ -24,8 +25,7 @@ allprojects {
     version = '0.1.0-ALPHA'
     ext {
         appName = "SpaceRace"
-        gdxVersion = '1.9.8'
-        roboVMVersion = '2.3.3'
+        gdxVersion = '1.9.9'
         box2DLightsVersion = '1.4'
         aiVersion = '1.8.0'
         gsonVersion = '2.8.5'
