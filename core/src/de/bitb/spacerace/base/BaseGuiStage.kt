@@ -2,9 +2,11 @@ package de.bitb.spacerace.base
 
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.ui.base.GuiComponent
 
-open class BaseGuiStage(viewport: Viewport = ScreenViewport()) : BaseStage(viewport), GuiComponent {
+open class BaseGuiStage(val inputHandler: InputHandler,
+                        viewport: Viewport = ScreenViewport()) : BaseStage(viewport), GuiComponent {
     companion object {
     }
 //
@@ -41,7 +43,7 @@ open class BaseGuiStage(viewport: Viewport = ScreenViewport()) : BaseStage(viewp
 //        return label
 //    }
 //
-//    protected fun createButton(skin: Skin = TextureCollection.skin, name: String = "-", width: Float = slotWidth, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED, listener: InputListener): TextButton {
+//    protected fun createButton(skin: Skin = TextureCollection.skin, name: String = "-", width: Float = slotWidth, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.RED, listener: InputObserver): TextButton {
 //        val button = TextButton(name, skin, "default")
 //        button.width = width
 //        button.setPosition(posX, posY)
@@ -51,7 +53,7 @@ open class BaseGuiStage(viewport: Viewport = ScreenViewport()) : BaseStage(viewp
 //        return button
 //    }
 //
-//    protected fun createImageButton(imageIdle: Drawable, imageClick: Drawable = imageIdle, imageClicked: Drawable = imageIdle, width: Float = slotWidth, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, listener: InputListener): ImageButton {
+//    protected fun createImageButton(imageIdle: Drawable, imageClick: Drawable = imageIdle, imageClicked: Drawable = imageIdle, width: Float = slotWidth, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, listener: InputObserver): ImageButton {
 //        val button = ImageButton(imageIdle, imageClick, imageClicked)
 //        button.width = width
 //        button.setPosition(posX, posY)

@@ -3,7 +3,9 @@ package de.bitb.spacerace.model.space.control
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.events.commands.MoveCommand
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.history.HarvestOres
 import de.bitb.spacerace.model.space.fields.MineField
@@ -11,7 +13,7 @@ import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 
-class FieldController(val space: BaseSpace) {
+class FieldController(val space: BaseSpace, val inputHandler: InputHandler) {
 
     val fieldGroups: MutableList<SpaceGroup> = ArrayList()
     val fields: MutableList<SpaceField> = ArrayList()
@@ -19,19 +21,20 @@ class FieldController(val space: BaseSpace) {
     val connections: MutableList<SpaceConnection> = ArrayList()
 
     fun addShip(spaceField1: SpaceField, color: PlayerColor) {
-        val ship = Player(color)
-        ship.fieldPosition = spaceField1
-        ship.setPosition(spaceField1.x + spaceField1.width / 2 - ship.width / 2, spaceField1.y + spaceField1.height / 2 - ship.height / 2)
-        ship.color = color.color
-        space.playerController.players.add(ship)
-        space.playerController.firstPlayer = ship
+        val player = Player(color)
+        player.playerData.fieldPosition = spaceField1
+        player.setPosition(spaceField1.x + spaceField1.width / 2 - player.width / 2, spaceField1.y + spaceField1.height / 2 - player.height / 2)
+        player.color = color.color
+        space.playerController.players.add(player)
+        space.playerController.firstPlayer = player
     }
 
     fun addField(spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y) {
         spaceField.setPosition(posX, posY)
         spaceField.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                space.playerController.moveTo(spaceField)
+                inputHandler.handleCommand(MoveCommand(spaceField))
+//                space.playerController.moveTo(spaceField)
                 return true
             }
         })
@@ -75,7 +78,7 @@ class FieldController(val space: BaseSpace) {
         val list: MutableList<SpaceField> = fieldsMap[FieldType.MINE]!!
         for (spaceField in list) {
             val harvest = (spaceField as MineField).harvestOres()
-            space.history.addRoundActivity(HarvestOres(harvest))
+//            space.history.addRoundActivity(HarvestOres(harvest))
         }
 
     }

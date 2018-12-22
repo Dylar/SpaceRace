@@ -15,9 +15,9 @@ import de.bitb.spacerace.ui.base.BaseMenu
 class ItemMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
-        val player = space.playerController.currentPlayer
+        val player = space.playerController.currentPlayer.playerData
         val items = player.items
-        var size = player.items.size
+        var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
         addTitle(size)

@@ -15,12 +15,9 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 
 class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img) {
 
-    lateinit var history: History
-    lateinit var fieldPosition: SpaceField
     lateinit var fieldGroup: SpaceField
 
-    var credits = 0
-    var items = ArrayList<Item>()
+    var playerData = PlayerData()
 
     init {
         touchable = Touchable.disabled
@@ -39,14 +36,14 @@ class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Tex
 
     fun addRandomWin(): Int {
         val win = (Math.random() * 1000).toInt() + 1
-        credits += win
+        playerData.credits += win
         Logger.println("Won: $win")
         return win
     }
 
     fun substractRandomWin(): Int {
         val lose = (Math.random() * 500).toInt() + 1
-        credits -= lose
+        playerData.credits -= lose
         Logger.println("Lost: $lose")
         return lose
     }
@@ -54,7 +51,7 @@ class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Tex
     fun addRandomGift(): Item {
         Logger.println("U got a gift")
         val item = ItemCollection.getRandomItem()
-        items.add(item)
+        playerData.items.add(item)
         return item
     }
 

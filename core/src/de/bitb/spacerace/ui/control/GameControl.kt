@@ -12,14 +12,22 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CONTINUE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORAGE
+import de.bitb.spacerace.controller.InputHandler
+import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.model.events.BaseEvent
+import de.bitb.spacerace.model.events.commands.EndRoundCommand
+import de.bitb.spacerace.model.events.commands.DiceCommand
+import de.bitb.spacerace.model.events.commands.NextPhaseCommand
 import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.ItemMenu
 
-class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage {
+class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+
+    private val inputHandler: InputHandler = guiStage.inputHandler
 
     private var itemMenu = ItemMenu(space, guiStage)
 
@@ -28,20 +36,16 @@ class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(Text
 
         val diceBtn = createButton(name = GAME_BUTTON_DICE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                space.playerController.dice()
+                inputHandler.handleCommand(DiceCommand())
+//                space.playerController.dice()
                 return true
             }
         })
 
         val continueBtn = createButton(name = GAME_BUTTON_CONTINUE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                space.phaseController.nextPhase()
-                if (space.phaseController.phase.isNextTurn()) {
-                    val endMenu = RoundEndMenu(space, guiStage)
-                    endMenu.openMenu()
-                    guiStage.addActor(endMenu)
-                }
-                guiStage.playerStats.update()
+                inputHandler.handleCommand(NextPhaseCommand())
+//                guiStage.playerStats.update()
                 return true
             }
         })
@@ -80,6 +84,20 @@ class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(Text
         addPaddingLeftRight(cell)
         cell.fill()
         return cell
+    }
+
+    override fun <T : BaseEvent> update(event: T) {
+        if (event is EndRoundCommand) {
+            val endMenu = RoundEndMenu(space, guiStage)
+            endMenu.openMenu()
+            guiStage.addActor(endMenu)
+        }else if(event is NextPhaseCommand){
+//            if (space.phaseController.phase.isEndTurn()) {
+//                val endMenu = RoundEndMenu(space, guiStage)
+//                endMenu.openMenu()
+//                guiStage.addActor(endMenu)
+//            }
+        }
     }
 
 }

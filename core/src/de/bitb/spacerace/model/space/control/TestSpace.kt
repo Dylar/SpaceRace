@@ -3,11 +3,11 @@ package de.bitb.spacerace.model.space.control
 import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.model.enums.ConnectionPoint
-import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.model.space.groups.TestGroup
 
-class TestSpace : BaseSpace() {
+class TestSpace(inputHandler: InputHandler) : BaseSpace(inputHandler) {
     override fun createSpace() {
 
         val group1 = TestGroup(this)

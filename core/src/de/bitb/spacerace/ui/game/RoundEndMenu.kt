@@ -60,7 +60,7 @@ class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiS
         val continueBtn = createButton(name = Strings.GameGuiStrings.GAME_BUTTON_CONTINUE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 closeMenu()
-                space.phaseController.nextPhase()
+//                space.phaseController.nextPhase() TODO wie das einbauen
                 return true
             }
         })

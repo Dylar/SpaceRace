@@ -6,16 +6,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDITS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
+import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.events.BaseEvent
+import de.bitb.spacerace.model.events.commands.EndRoundCommand
+import de.bitb.spacerace.model.events.commands.DiceCommand
+import de.bitb.spacerace.model.events.commands.MoveCommand
+import de.bitb.spacerace.model.events.commands.NextPhaseCommand
+import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.ui.base.GuiComponent
 
-class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent {
+class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent, InputObserver {
+
     private var creditsLabel: Label
 
     private var diceLabel: Label
@@ -58,23 +68,41 @@ class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : Gu
         return cell
     }
 
-    fun update() {
-        phaseLabel.setText(space.phaseController.phase.text)
+    override fun <T : BaseEvent> update(event: T) {
+        if (event is MoveCommand || event is DiceCommand) {
+            updateDice()
+        } else if (event is EndRoundCommand || event is NextPhaseCommand) {
+            updateRound()
+            updatePhase()
+            updateDice()
+        }
+    }
 
-        val player = space.playerController.currentPlayer
-        val playerColor = player.playerColor
+    private fun updateCredits(playerData: PlayerData = space.playerController.currentPlayer.playerData) {
+        creditsLabel.setText(playerData.credits.toString())
+    }
 
-        creditsLabel.setText(player.credits.toString())
-
+    private fun updateRound(playerColor: PlayerColor = space.playerController.currentPlayer.playerColor) {
         setFont(phaseLabel, fontColor = playerColor.color)
         setFont(diceLabel, fontColor = playerColor.color)
         setFont(creditsLabel, fontColor = playerColor.color)
     }
 
-    override fun act(delta: Float) {
-        super.act(delta)
-        val diceResult = if (space.playerController.diced) "${(space.playerController.diceResult - space.playerController.stepsLeft())}/${(space.playerController.diceResult)}" else "0/0"
+    private fun updateDice(playerData: PlayerData = space.playerController.currentPlayer.playerData) {
+        val diceResult = if (playerData.diced) "${(playerData.diceResult - space.playerController.stepsLeft())}/${(playerData.diceResult)}" else "0/0"
         diceLabel.setText(diceResult)
+    }
+
+    private fun updatePhase(phase: Phase = space.playerController.currentPlayer.playerData.phase) {
+        phaseLabel.setText(phase.text)
+    }
+
+    fun update() {
+        val playerData = space.playerController.currentPlayer.playerData
+        updateCredits(playerData)
+        updateRound(playerData.playerColor)
+        updateDice(playerData)
+        updatePhase()
     }
 
 }

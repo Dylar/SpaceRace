@@ -23,6 +23,12 @@ object GameStrings {
             Language.GERMAN -> "Main 2"
         }
 
+    var PHASE_END_TURN: String = ""
+        get() = when (LANGUAGE) {
+            Language.ENGLISH -> "End turn"
+            Language.GERMAN -> "Zug Ende"
+        }
+
     var PHASE_END_ROUND: String = ""
         get() = when (LANGUAGE) {
             Language.ENGLISH -> "End round"

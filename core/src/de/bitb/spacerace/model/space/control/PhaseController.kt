@@ -1,48 +1,41 @@
 package de.bitb.spacerace.model.space.control
 
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.events.commands.EndRoundCommand
+import de.bitb.spacerace.model.events.commands.EndTurnCommand
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.history.AddItem
 import de.bitb.spacerace.model.history.ChangeCredits
 import de.bitb.spacerace.model.history.OccupyMine
+import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.MineField
 
-class PhaseController(val space: BaseSpace) {
-
-    var phase: Phase = Phase.MAIN1
+class PhaseController(val space: BaseSpace, val inputHandler: InputHandler) {
 
     fun nextPhase() {
-        val allowed = when (phase) {
-            Phase.MAIN1 -> endMain1()
-            Phase.MOVE -> endMove()
-            Phase.MAIN2 -> endMain2()
-            Phase.END_ROUND -> true
-        }
-        if (allowed) {
-            phase = Phase.next(phase)
-            if (phase == Phase.END_ROUND && space.playerController.isRoundEnd()) {
-                phase = Phase.MAIN1
-            }
 
-            when (phase) {
-                Phase.MAIN1 -> startMain1()
-                Phase.MOVE -> startMove()
-                Phase.MAIN2 -> startMain2()
-                Phase.END_ROUND -> startEndRound()
-            }
+        val playerData = space.playerController.currentPlayer.playerData
+        playerData.phase = Phase.next(playerData.phase)
+
+        when (playerData.phase) {
+            Phase.MAIN1 -> startMain1()
+            Phase.MOVE -> startMove()
+            Phase.MAIN2 -> startMain2()
+            Phase.END_TURN -> startEndTurn()
         }
-        Logger.println("Phase: ${phase.name}")
+
+        Logger.println("Phase: ${playerData.phase.name}")
     }
 
-    private fun startEndRound() {
-        space.fieldController.harvestOres()
-        space.history.nextRound(space.playerController.currentPlayer)
+    private fun startEndTurn() {
+        inputHandler.handleCommand(EndTurnCommand())
     }
 
     private fun startMain1() {
-        space.history.nextPlayer(space.playerController.currentPlayer)
+//        space.history.nextPlayer(space.playerController.currentPlayer)
     }
 
     private fun startMove() {
@@ -50,23 +43,24 @@ class PhaseController(val space: BaseSpace) {
     }
 
     private fun startMain2() {
-        val ship = space.playerController.currentPlayer
-        when (ship.fieldPosition.fieldType) {
+        //TODO ObtainField
+        val player = space.playerController.currentPlayer
+        when (player.playerData.fieldPosition.fieldType) {
             FieldType.WIN -> {
-                val lose = ship.addRandomWin()
-                space.history.addActivity(ChangeCredits(lose))
+                val lose = player.addRandomWin()
+//                space.history.addActivity(ChangeCredits(lose))
             }
             FieldType.LOSE -> {
-                val lose = ship.substractRandomWin()
-                space.history.addActivity(ChangeCredits(lose))
+                val lose = player.substractRandomWin()
+//                space.history.addActivity(ChangeCredits(lose))
             }
             FieldType.GIFT -> {
-                val item = ship.addRandomGift()
-                space.history.addActivity(AddItem(item))
+                val item = player.addRandomGift()
+//                space.history.addActivity(AddItem(item))
             }
             FieldType.MINE -> {
-                activateMine(ship)
-                space.history.addActivity(OccupyMine(ship.fieldPosition as MineField))
+                activateMine(player)
+//                space.history.addActivity(OccupyMine(player.playerData.fieldPosition as MineField))
             }
             FieldType.SHOP -> openShop()
             FieldType.RANDOM -> Logger.println("RANDOM ACTION")
@@ -76,7 +70,7 @@ class PhaseController(val space: BaseSpace) {
     }
 
     private fun activateMine(player: Player) {
-        val mineField: MineField = player.fieldPosition as MineField
+        val mineField: MineField = player.playerData.fieldPosition as MineField
         mineField.setOwner(player)
     }
 
@@ -84,35 +78,26 @@ class PhaseController(val space: BaseSpace) {
         Logger.println("Open shop")
     }
 
-    private fun endMain1(): Boolean {
-        return space.playerController.diced
+    private fun canEndMain1(playerData: PlayerData = space.playerController.currentPlayer.playerData): Boolean {
+        return playerData.phase.isMain1() && playerData.diced
     }
 
-    private fun endMove(): Boolean {
-        return space.playerController.stepsLeft() == 0
+    private fun canEndMove(playerData: PlayerData = space.playerController.currentPlayer.playerData): Boolean {
+        return playerData.phase.isMoving() && space.playerController.stepsLeft() == 0
     }
 
-    private fun endMain2(): Boolean {
-        if (space.playerController.stepsLeft() == 0) {
-            val oldShip = space.playerController.players[0]
+    private fun canEndMain2(playerData: PlayerData = space.playerController.currentPlayer.playerData): Boolean {
+        return playerData.phase.isMain2()
+    }
 
-            var indexOld = oldShip.zIndex + 1
-            for (ship in space.playerController.players) {
-                ship.zIndex = indexOld--
-            }
-
-            space.playerController.players.add(oldShip)
-            space.playerController.players.removeAt(0)
-
-
-            space.history.setSteps(space.playerController.steps)
-            space.playerController.steps = ArrayList()
-
-            space.playerController.diceResult = 0
-            space.playerController.diced = false
-            return true
+    fun canContinue(playerData: PlayerData = space.playerController.currentPlayer.playerData): Boolean {
+        return when (playerData.phase) {
+            Phase.MAIN1 -> canEndMain1()
+            Phase.MOVE -> canEndMove()
+            Phase.MAIN2 -> canEndMain2()
+            Phase.END_TURN -> playerData.phase.isEndTurn()
+            Phase.END_ROUND -> playerData.phase.isEndRound()
         }
-        return false
     }
 
 }
