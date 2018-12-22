@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.ui.base.GuiComponent
 
-open class BaseGuiStage(val inputHandler: InputHandler,
+abstract class BaseGuiStage(val inputHandler: InputHandler,
                         viewport: Viewport = ScreenViewport()) : BaseStage(viewport), GuiComponent {
     companion object {
     }

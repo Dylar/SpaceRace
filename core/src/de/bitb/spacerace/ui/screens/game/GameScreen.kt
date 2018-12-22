@@ -5,14 +5,12 @@ import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.model.space.control.BaseSpace
-import de.bitb.spacerace.model.space.control.TestSpace
 
 
-class GameScreen(game: BaseGame, val inputHandler: InputHandler) : BaseScreen(game) {
+class GameScreen(game: BaseGame, val inputHandler: InputHandler = InputHandler()) : BaseScreen(game) {
 
     override fun createGuiStage(): BaseStage {
-        return GameGuiStage(inputHandler.space, this, inputHandler)
+        return GameGuiStage(this, inputHandler)
     }
 
     override fun createGameStage(): BaseStage {

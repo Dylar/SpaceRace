@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.events.commands
+package de.bitb.spacerace.events.commands
 
 import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.model.space.fields.SpaceField

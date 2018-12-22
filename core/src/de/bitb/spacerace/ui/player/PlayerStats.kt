@@ -15,11 +15,10 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.events.BaseEvent
-import de.bitb.spacerace.model.events.commands.EndRoundCommand
-import de.bitb.spacerace.model.events.commands.DiceCommand
-import de.bitb.spacerace.model.events.commands.MoveCommand
-import de.bitb.spacerace.model.events.commands.NextPhaseCommand
+import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.DiceCommand
+import de.bitb.spacerace.events.commands.MoveCommand
+import de.bitb.spacerace.events.commands.phases.*
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.ui.base.GuiComponent
@@ -49,7 +48,6 @@ class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : Gu
         creditsLabel = add("-").actor
         setFont(creditsLabel)
 
-        update()
         pack()
 
         x = (SCREEN_WIDTH - width)
@@ -71,10 +69,12 @@ class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : Gu
     override fun <T : BaseEvent> update(event: T) {
         if (event is MoveCommand || event is DiceCommand) {
             updateDice()
-        } else if (event is EndRoundCommand || event is NextPhaseCommand) {
+        } else if (event is PhaseCommand) {
             updateRound()
             updatePhase()
-            updateDice()
+            if (event is EndTurnCommand) {
+                updateDice()
+            }
         }
     }
 
@@ -82,7 +82,7 @@ class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : Gu
         creditsLabel.setText(playerData.credits.toString())
     }
 
-    private fun updateRound(playerColor: PlayerColor = space.playerController.currentPlayer.playerColor) {
+    private fun updateRound(playerColor: PlayerColor = space.playerController.currentPlayer.playerData.playerColor) {
         setFont(phaseLabel, fontColor = playerColor.color)
         setFont(diceLabel, fontColor = playerColor.color)
         setFont(creditsLabel, fontColor = playerColor.color)
@@ -103,6 +103,7 @@ class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : Gu
         updateRound(playerData.playerColor)
         updateDice(playerData)
         updatePhase()
+        pack()
     }
 
 }

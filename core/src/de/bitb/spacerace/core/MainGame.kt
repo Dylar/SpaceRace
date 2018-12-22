@@ -11,7 +11,7 @@ class MainGame : BaseGame() {
     override fun initScreen() {
         System.out.println("initScreen")
 //        setScreen(StartScreen(this))
-        setScreen(GameScreen(this, InputHandler()))
+        setScreen(GameScreen(this))
 //        setScreen(GameOverScreen(this))
     }
 

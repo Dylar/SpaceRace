@@ -1,12 +1,16 @@
 package de.bitb.spacerace.controller
 
-import de.bitb.spacerace.model.events.commands.BaseCommand
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.model.space.control.TestSpace
 
 class InputHandler() {
 
-     var space: BaseSpace = TestSpace(this)
+    var space: BaseSpace = TestSpace(this)
+
+    init {
+        space.createSpace()
+    }
 
     private val inputObserver: MutableList<InputObserver> = ArrayList()
 

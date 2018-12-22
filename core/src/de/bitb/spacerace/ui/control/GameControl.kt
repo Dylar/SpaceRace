@@ -15,10 +15,10 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORA
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.events.BaseEvent
-import de.bitb.spacerace.model.events.commands.EndRoundCommand
-import de.bitb.spacerace.model.events.commands.DiceCommand
-import de.bitb.spacerace.model.events.commands.NextPhaseCommand
+import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.phases.EndRoundCommand
+import de.bitb.spacerace.events.commands.DiceCommand
+import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.GuiComponent
@@ -37,15 +37,13 @@ class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(Text
         val diceBtn = createButton(name = GAME_BUTTON_DICE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 inputHandler.handleCommand(DiceCommand())
-//                space.playerController.dice()
                 return true
             }
         })
 
         val continueBtn = createButton(name = GAME_BUTTON_CONTINUE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(NextPhaseCommand())
-//                guiStage.playerStats.update()
+                inputHandler.handleCommand(NextPhaseCommand(inputHandler, space.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })
@@ -91,7 +89,7 @@ class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(Text
             val endMenu = RoundEndMenu(space, guiStage)
             endMenu.openMenu()
             guiStage.addActor(endMenu)
-        }else if(event is NextPhaseCommand){
+        } else if (event is NextPhaseCommand) {
 //            if (space.phaseController.phase.isEndTurn()) {
 //                val endMenu = RoundEndMenu(space, guiStage)
 //                endMenu.openMenu()

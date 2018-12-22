@@ -9,7 +9,6 @@ import de.bitb.spacerace.model.space.groups.TestGroup
 
 class TestSpace(inputHandler: InputHandler) : BaseSpace(inputHandler) {
     override fun createSpace() {
-
         val group1 = TestGroup(this)
         val group2 = TestGroup(this, SCREEN_WIDTH.toFloat() * 1.2f, (SCREEN_HEIGHT / 2).toFloat())
         val group3 = TestGroup(this, -SCREEN_WIDTH.toFloat() * 1.2f, -(SCREEN_HEIGHT / 2).toFloat())
@@ -20,10 +19,8 @@ class TestSpace(inputHandler: InputHandler) : BaseSpace(inputHandler) {
         group1.connect(ConnectionPoint.UP, group4)
 
         val spaceField1 = group1.fields[0]!!
-        fieldController.addShip(spaceField1, PlayerColor.GREEN)
-        fieldController.addShip(spaceField1, PlayerColor.RED)
-        fieldController.addShip(spaceField1, PlayerColor.YELLOW)
-
+        fieldController.addShip(spaceField1, PlayerColor.PINK)
+        fieldController.addShip(spaceField1, PlayerColor.BLUE)
     }
 
 }

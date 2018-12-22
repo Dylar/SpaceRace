@@ -13,11 +13,15 @@ import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.controller.History
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img) {
+class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img) {
+
+    companion object {
+        val NONE = Player()
+    }
 
     lateinit var fieldGroup: SpaceField
 
-    var playerData = PlayerData()
+    var playerData = PlayerData(playerColor)
 
     init {
         touchable = Touchable.disabled
@@ -30,7 +34,7 @@ class Player(val playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Tex
 
     override fun getDisplayImage(): Image {
         val image = super.getDisplayImage()
-        image.color = playerColor.color
+        image.color = playerData.playerColor.color
         return image
     }
 
