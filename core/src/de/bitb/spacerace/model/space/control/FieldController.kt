@@ -12,12 +12,12 @@ import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 
-class FieldController(val inputHandler: InputHandler) {
+class FieldController() {
 
     val fieldGroups: MutableList<SpaceGroup> = ArrayList()
     val fields: MutableList<SpaceField> = ArrayList()
     val fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
-    val connections: MutableList<SpaceConnection> = ArrayList()
+    lateinit var connections: ConnectionList
 
     fun addShip(player: Player, spaceField1: SpaceField) {
         player.playerData.fieldPosition = spaceField1
@@ -25,7 +25,7 @@ class FieldController(val inputHandler: InputHandler) {
         player.color = player.playerData.playerColor.color
     }
 
-    fun addField(spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y) {
+    fun addField(inputHandler: InputHandler, spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y) {
         spaceField.setPosition(posX, posY)
         spaceField.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
@@ -46,17 +46,17 @@ class FieldController(val inputHandler: InputHandler) {
         list.add(spaceField)
     }
 
-    fun addFields(vararg spaceGroups: SpaceGroup) {
+    fun addFields(inputHandler: InputHandler, vararg spaceGroups: SpaceGroup) {
         for (spaceGroup in spaceGroups) {
             fieldGroups.add(spaceGroup)
             for (field in spaceGroup.fields.entries.withIndex()) {
-                addField(field.value.value)
+                addField(inputHandler,field.value.value)
             }
         }
     }
 
-    fun addConnection(space:GameController, spaceField1: SpaceField, spaceField2: SpaceField) { //TODO space weg
-        val connection: SpaceConnection = SpaceConnection(space, spaceField1, spaceField2)
+    fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) { //TODO gameController weg
+        val connection: SpaceConnection = SpaceConnection(spaceField1, spaceField2)
         connections.add(connection)
     }
 
@@ -73,7 +73,7 @@ class FieldController(val inputHandler: InputHandler) {
         val list: MutableList<SpaceField> = fieldsMap[FieldType.MINE]!!
         for (spaceField in list) {
             val harvest = (spaceField as MineField).harvestOres()
-//            space.history.addRoundActivity(HarvestOres(harvest))
+//            gameController.history.addRoundActivity(HarvestOres(harvest))
         }
 
     }

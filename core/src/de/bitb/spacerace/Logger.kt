@@ -62,6 +62,16 @@ object Logger {
         }
     }
 
+    private var time: Long = 0
+    fun startTimer() {
+        time = System.currentTimeMillis()
+    }
+
+    fun printTimer(msg: String) {
+        val inMillis = (System.currentTimeMillis() - time).toDouble()
+        println("$msg (TIME: $inMillis)")
+    }
+
 //    fun wtf(message: String) {
 //        if (isAllowedToLog) {
 //            Log.wtf(callingClass, message)

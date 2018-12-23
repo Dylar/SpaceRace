@@ -90,8 +90,8 @@ class GameControl(val space: GameController, val guiStage: GameGuiStage) : Table
             endMenu.openMenu()
             guiStage.addActor(endMenu)
         } else if (event is NextPhaseCommand) {
-//            if (space.phaseController.phase.isEndTurn()) {
-//                val endMenu = RoundEndMenu(space, guiStage)
+//            if (gameController.phaseController.phase.isEndTurn()) {
+//                val endMenu = RoundEndMenu(gameController, guiStage)
 //                endMenu.openMenu()
 //                guiStage.addActor(endMenu)
 //            }

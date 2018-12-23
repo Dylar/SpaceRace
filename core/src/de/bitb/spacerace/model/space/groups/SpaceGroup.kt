@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.space.groups
 
 import com.badlogic.gdx.scenes.scene2d.Group
 import de.bitb.spacerace.model.enums.ConnectionPoint
+import de.bitb.spacerace.model.space.control.FieldController
 import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.model.space.fields.SpaceField
 
@@ -33,7 +34,7 @@ open class SpaceGroup(val space: GameController, val offsetX: Float = 0f, val of
         for (index in thisConnection.withIndex()) {
             val thisField = thisConnection[index.index]
             val thatField = thatConnection[index.index]
-            space.fieldController.addConnection(space, thisField, thatField)
+            space.fieldController.addConnection(thisField, thatField)
         }
     }
 

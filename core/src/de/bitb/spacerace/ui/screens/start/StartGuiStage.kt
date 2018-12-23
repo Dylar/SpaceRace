@@ -11,7 +11,7 @@ import de.bitb.spacerace.ui.screens.start.control.StartButtonControl
 
 class StartGuiStage(val screen: StartScreen, inputHandler: InputHandler) : BaseGuiStage(inputHandler), InputObserver {
 
-    val space: GameController = inputHandler.space
+    val space: GameController = inputHandler.gameController
     private var gameControlStart = StartButtonControl(space, this)
 
     init {

@@ -11,7 +11,7 @@ class StartMain1Command(inputHandler: InputHandler) : PhaseCommand(inputHandler,
     }
 
     override fun execute(space: GameController, inputHandler: InputHandler) {
-//        space.phaseController.startMain1()
+//        gameController.phaseController.startMain1()
     }
 
 

@@ -9,7 +9,7 @@ import de.bitb.spacerace.ui.player.PlayerStats
 
 class GameGuiStage(screen: GameScreen, inputHandler: InputHandler) : BaseGuiStage(inputHandler) {
 
-    val space: GameController = inputHandler.space
+    val space: GameController = inputHandler.gameController
     internal var playerStats: PlayerStats = PlayerStats(space)
     private var viewControl: ViewControl = ViewControl(space, screen)
     private var gameControl: GameControl = GameControl(space, this)

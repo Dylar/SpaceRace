@@ -17,10 +17,4 @@ class StartScreen(game: BaseGame, inputHandler: InputHandler = InputHandler()) :
         return BackgroundStage(this)
     }
 
-    override fun render(delta: Float) {
-        super.render(delta)
-        gameStage.act(delta)
-        gameStage.draw()
-    }
-
 }

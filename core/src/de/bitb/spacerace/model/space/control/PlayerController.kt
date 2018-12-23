@@ -80,7 +80,7 @@ class PlayerController() {
 
     fun nextRound() {
         Logger.println("nextRound1")
-//        space.fieldController.harvestOres() // TODO send command
+//        gameController.fieldController.harvestOres() // TODO send command
 
         for (player in players) {
             val playerData = player.playerData

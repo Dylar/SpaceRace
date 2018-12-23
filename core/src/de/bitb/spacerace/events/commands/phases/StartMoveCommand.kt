@@ -11,7 +11,7 @@ class StartMoveCommand(inputHandler: InputHandler) : PhaseCommand(inputHandler, 
     }
 
     override fun execute(space: GameController, inputHandler: InputHandler) {
-//        space.phaseController.startMove()
+//        gameController.phaseController.startMove()
     }
 
 }

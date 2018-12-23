@@ -7,14 +7,14 @@ import de.bitb.spacerace.model.space.control.TestSpace
 
 class InputHandler() {
 
-    var space: GameController = TestSpace(this)
+    var gameController: GameController = TestSpace()
 
     private val inputObserver: MutableList<InputObserver> = ArrayList()
 
     fun <T : BaseEvent> handleCommand(event: T) {
         if (event is BaseCommand) {
-            if (event.canExecute(space)) {
-                event.execute(space, this)
+            if (event.canExecute(gameController)) {
+                event.execute(gameController, this)
                 notifyObserver(event)
             }
         } else {
