@@ -11,7 +11,7 @@ class GameStage(val space: InputHandler, screen: GameScreen) : BaseStage() {
     }
 
     private fun createSpace() {
-
+//TODO change line drawing in actor
 //        addActor(space.gameController.fieldController.connections)
 //        for (connection in gameController.fieldController.connections) {
 //            addActor(connection)

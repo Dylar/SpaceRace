@@ -25,9 +25,7 @@ class GameScreen(game: BaseGame, inputHandler: InputHandler) : BaseScreen(game, 
 
     override fun renderGame(delta: Float) {
         LineRenderer.startLine(Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH, gameStage.camera.combined)
-        for (connection in inputHandler.gameController.fieldController.connections) {
-            connection.draw(inputHandler.gameController.playerController.currentPlayer.playerData)
-        }
+        inputHandler.gameController.fieldController.connections.draw(inputHandler.gameController) //TODO do it with actor
         LineRenderer.endLine()
 
         super.renderGame(delta)
