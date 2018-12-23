@@ -16,5 +16,23 @@ enum class PlayerColor(val color: Color) {
     SLATE(Color.SLATE),
     NAVY(Color.NAVY),
 
-    NONE(Color.BLACK)
+    NONE(Color.BLACK);
+
+    fun next(): PlayerColor{
+        return when (this) {
+            RED -> GREEN
+            GREEN -> YELLOW
+            YELLOW -> BLUE
+            BLUE -> PINK
+            PINK -> TEAL
+            TEAL -> CORAL
+            CORAL -> SCARLET
+            SCARLET -> CHARTREUSE
+            CHARTREUSE -> BLACK
+            BLACK -> SLATE
+            SLATE -> NAVY
+            NAVY -> RED
+            NONE -> NONE
+        }
+    }
 }

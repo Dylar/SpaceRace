@@ -22,12 +22,11 @@ class TestSpace(inputHandler: InputHandler) : GameController(inputHandler) {
 
         val spaceField1 = group1.fields[0]!!
 
-
         var player = Player(PlayerColor.TEAL)
-        for (i in 0..PLAYER_AMOUNT) {
+        for (i in 1..PLAYER_AMOUNT) {
             playerController.players.add(player)
             fieldController.addShip(player, spaceField1)
-            player = Player(PlayerColor.TEAL)
+            player = Player(player.playerData.playerColor.next())
         }
 
     }
