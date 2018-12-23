@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.control
+package de.bitb.spacerace.ui.screens.game.control
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePadding
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CENTER
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.base.GuiComponent
 
-class ViewControl(val space: BaseSpace, val screen: GameScreen, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent {
+class ViewControl(val space: GameController, val screen: GameScreen, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent {
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))

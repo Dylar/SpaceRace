@@ -8,11 +8,11 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
 import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class ItemMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiStage) {
+class ItemMenu(val space: GameController, guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
         val player = space.playerController.currentPlayer.playerData

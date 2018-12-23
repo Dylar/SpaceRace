@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.control
+package de.bitb.spacerace.ui.screens.game.control
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -19,13 +19,13 @@ import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.phases.EndRoundCommand
 import de.bitb.spacerace.events.commands.DiceCommand
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.ItemMenu
 
-class GameControl(val space: BaseSpace, val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class GameControl(val space: GameController, val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
     private val inputHandler: InputHandler = guiStage.inputHandler
 

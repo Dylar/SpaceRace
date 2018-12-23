@@ -6,11 +6,10 @@ import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.model.background.FallingStar
 
 
-class BackgroundStage(val space: BaseSpace, val screen: GameScreen) : BaseStage() {
+class BackgroundStage(val screen: BaseScreen) : BaseStage() {
 
     private var texture: Texture = TextureCollection.gameBackground
 

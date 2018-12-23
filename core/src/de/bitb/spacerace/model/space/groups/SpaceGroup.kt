@@ -2,10 +2,10 @@ package de.bitb.spacerace.model.space.groups
 
 import com.badlogic.gdx.scenes.scene2d.Group
 import de.bitb.spacerace.model.enums.ConnectionPoint
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-open class SpaceGroup(val space: BaseSpace, val offsetX: Float = 0f, val offsetY: Float = 0f) : Group() {
+open class SpaceGroup(val space: GameController, val offsetX: Float = 0f, val offsetY: Float = 0f) : Group() {
 
     private val connectionPoint: MutableMap<ConnectionPoint, MutableList<SpaceField>> = HashMap()
     val fields: MutableMap<Int, SpaceField> = HashMap()
@@ -33,7 +33,7 @@ open class SpaceGroup(val space: BaseSpace, val offsetX: Float = 0f, val offsetY
         for (index in thisConnection.withIndex()) {
             val thisField = thisConnection[index.index]
             val thatField = thatConnection[index.index]
-            space.fieldController.addConnection(thisField, thatField)
+            space.fieldController.addConnection(space, thisField, thatField)
         }
     }
 

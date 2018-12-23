@@ -20,10 +20,10 @@ import de.bitb.spacerace.events.commands.DiceCommand
 import de.bitb.spacerace.events.commands.MoveCommand
 import de.bitb.spacerace.events.commands.phases.*
 import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.ui.base.GuiComponent
 
-class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent, InputObserver {
+class PlayerStats(val space: GameController, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent, InputObserver {
 
     private var creditsLabel: Label
 
@@ -89,7 +89,7 @@ class PlayerStats(val space: BaseSpace, guiComponent: GuiComponent = object : Gu
     }
 
     private fun updateDice(playerData: PlayerData = space.playerController.currentPlayer.playerData) {
-        val diceResult = if (playerData.diced) "${(playerData.diceResult - space.playerController.stepsLeft())}/${(playerData.diceResult)}" else "0/0"
+        val diceResult = if (playerData.diced) "${(playerData.diceResult - playerData.stepsLeft())}/${(playerData.diceResult)}" else "0/0"
         diceLabel.setText(diceResult)
     }
 

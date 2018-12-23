@@ -1,17 +1,17 @@
 package de.bitb.spacerace.events.commands.obtain
 
 import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.space.control.BaseSpace
-import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.control.GameController
 
 class ObtainMineCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
-    override fun canExecute(space: BaseSpace): Boolean {
+    override fun canExecute(space: GameController): Boolean {
         return true
     }
 
-    override fun execute(space: BaseSpace) {
+    override fun execute(space: GameController, inputHandler: InputHandler) {
         space.fieldController.activateMine(space.playerController.getPlayer(playerColor))
     }
 

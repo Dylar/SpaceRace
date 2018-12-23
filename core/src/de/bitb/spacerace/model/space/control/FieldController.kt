@@ -7,25 +7,22 @@ import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.events.commands.MoveCommand
 import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.history.HarvestOres
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 
-class FieldController(val space: BaseSpace, val inputHandler: InputHandler) {
+class FieldController(val inputHandler: InputHandler) {
 
     val fieldGroups: MutableList<SpaceGroup> = ArrayList()
     val fields: MutableList<SpaceField> = ArrayList()
     val fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
     val connections: MutableList<SpaceConnection> = ArrayList()
 
-    fun addShip(spaceField1: SpaceField, color: PlayerColor) {
-        val player = Player(color)
+    fun addShip(player: Player, spaceField1: SpaceField) {
         player.playerData.fieldPosition = spaceField1
         player.setPosition(spaceField1.x + spaceField1.width / 2 - player.width / 2, spaceField1.y + spaceField1.height / 2 - player.height / 2)
-        player.color = color.color
-        space.playerController.players.add(player)
+        player.color = player.playerData.playerColor.color
     }
 
     fun addField(spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y) {
@@ -58,7 +55,7 @@ class FieldController(val space: BaseSpace, val inputHandler: InputHandler) {
         }
     }
 
-    fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
+    fun addConnection(space:GameController, spaceField1: SpaceField, spaceField2: SpaceField) { //TODO space weg
         val connection: SpaceConnection = SpaceConnection(space, spaceField1, spaceField2)
         connections.add(connection)
     }

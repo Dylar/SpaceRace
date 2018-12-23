@@ -21,9 +21,17 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     var diceResult: Int = 0
 
     var steps: MutableList<SpaceField> = ArrayList()
-    var previousStep: SpaceField = SpaceField()
-        get() = steps[steps.size - 2]
+    var previousStep: SpaceField = SpaceField.NONE
+        get() = if (steps.size < 2) SpaceField.NONE else steps[steps.size - 2]
 
     lateinit var fieldPosition: SpaceField
+
+    fun stepsLeft(): Int {
+        return diceResult - (steps.size - 1)
+    }
+
+    internal fun canMove(): Boolean {
+        return phase.isMoving() && stepsLeft() > 0
+    }
 
 }

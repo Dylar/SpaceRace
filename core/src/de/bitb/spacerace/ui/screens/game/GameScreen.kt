@@ -6,8 +6,7 @@ import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.controller.InputHandler
 
-
-class GameScreen(game: BaseGame, val inputHandler: InputHandler = InputHandler()) : BaseScreen(game) {
+class GameScreen(game: BaseGame, inputHandler: InputHandler) : BaseScreen(game, inputHandler) {
 
     override fun createGuiStage(): BaseStage {
         return GameGuiStage(this, inputHandler)
@@ -18,7 +17,7 @@ class GameScreen(game: BaseGame, val inputHandler: InputHandler = InputHandler()
     }
 
     override fun createBackgroundStage(): BaseStage {
-        return BackgroundStage(inputHandler.space, this)
+        return BackgroundStage(this)
     }
 
     override fun renderGame(delta: Float) {
@@ -26,7 +25,7 @@ class GameScreen(game: BaseGame, val inputHandler: InputHandler = InputHandler()
         batch.begin()
         for (connection in inputHandler.space.fieldController.connections) {
             connection.draw(batch, 1f, gameStage.camera.combined)
-        }
+        }//TODO mach das ins game
         batch.end()
         super.renderGame(delta)
     }

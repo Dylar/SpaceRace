@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DEBUG_FIELDS_NR
 import de.bitb.spacerace.base.BaseObject
@@ -14,6 +15,11 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.groups.TestGroup
 
 open class SpaceField(var id: Int = -1, var fieldType: FieldType = FieldType.UNKNOWN, img: Texture = fieldType.texture) : BaseObject(img) {
+
+    companion object {
+        val NONE: SpaceField = SpaceField()
+    }
+
     lateinit var group: TestGroup
 
     override fun getAbsolutX(): Float {

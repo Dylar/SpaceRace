@@ -4,15 +4,14 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.control.GameController
 
 class NextPhaseCommand(inputHandler: InputHandler, playerColor: PlayerColor) : PhaseCommand(inputHandler, playerColor) {
-    override fun canExecute(space: BaseSpace): Boolean {
-        return space.phaseController.canContinue()
+    override fun canExecute(space: GameController): Boolean {
+        return space.phaseController.canContinue(space.playerController.currentPlayer.playerData)
     }
 
-    override fun execute(space: BaseSpace) {
+    override fun execute(space: GameController, inputHandler: InputHandler) {
         val playerData = space.playerController.currentPlayer.playerData
         playerData.phase = Phase.next(playerData.phase)
 

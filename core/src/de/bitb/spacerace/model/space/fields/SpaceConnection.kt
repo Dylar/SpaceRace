@@ -7,23 +7,23 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH
 import de.bitb.spacerace.core.LineRenderer
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.model.space.control.GameController
 
-class SpaceConnection(val space: BaseSpace, val spaceField1: SpaceField, val spaceField2: SpaceField) : Actor() {
+class SpaceConnection(val space: GameController, val spaceField1: SpaceField, val spaceField2: SpaceField) : Actor() {
 
     override fun getColor(): Color {
-        val playerData = space.playerController.currentPlayer.playerData
-        return if (playerData.phase.isMoving() && isConnected(playerData.fieldPosition)) {
-            if (space.playerController.stepsLeft() == 0 && !isConnected(playerData.previousStep)) {
-                Color.RED
-            } else {
-                Color.GREEN
+        val playerData: PlayerData = space.playerController.currentPlayer.playerData
+        val isConnected = isConnected(playerData.fieldPosition)
+        if (isConnected) {
+            val canMove = playerData.canMove()
+            if (canMove || isConnected(playerData.previousStep)) {
+                return Color.GREEN
             }
-        } else {
-            Color.RED
         }
-    }
 
+        return Color.RED
+    }
 
     fun draw(batch: Batch?, parentAlpha: Float, matrix: Matrix4) {
         super.draw(batch, parentAlpha)

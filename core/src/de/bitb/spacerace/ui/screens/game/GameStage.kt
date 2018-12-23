@@ -1,12 +1,12 @@
 package de.bitb.spacerace.ui.screens.game
 
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.control.GameController
 
-class GameStage(val space: BaseSpace, screen: GameScreen) : BaseStage() {
+class GameStage(val space: GameController, screen: GameScreen) : BaseStage() {
 
     init {
+        space.createSpace()
         createSpace()
     }
 

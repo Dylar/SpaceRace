@@ -8,15 +8,15 @@ import de.bitb.spacerace.events.commands.obtain.ObtainLoseCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainMineCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainWinCommand
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.control.GameController
 
 class StartMain2Command(inputHandler: InputHandler, playerColor: PlayerColor) : PhaseCommand(inputHandler, playerColor) {
 
-    override fun canExecute(space: BaseSpace): Boolean {
-        return space.phaseController.canContinue()
+    override fun canExecute(space: GameController): Boolean {
+        return space.phaseController.canContinue(space.playerController.currentPlayer.playerData)
     }
 
-    override fun execute(space: BaseSpace) {
+    override fun execute(space: GameController, inputHandler: InputHandler) {
         val player = space.playerController.getPlayer(playerColor)
         when (player.playerData.fieldPosition.fieldType) {
             FieldType.WIN -> inputHandler.handleCommand(ObtainWinCommand(playerColor))
