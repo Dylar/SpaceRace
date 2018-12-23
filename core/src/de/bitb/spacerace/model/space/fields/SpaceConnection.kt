@@ -12,9 +12,9 @@ import de.bitb.spacerace.model.space.control.BaseSpace
 class SpaceConnection(val space: BaseSpace, val spaceField1: SpaceField, val spaceField2: SpaceField) : Actor() {
 
     override fun getColor(): Color {
-        val shipField = space.playerController.currentPlayer.fieldPosition
-        return if (space.phaseController.phase.isMoving() && isConnected(shipField)) {
-            if (space.playerController.stepsLeft() == 0 && !isConnected(space.playerController.previousStep)) {
+        val playerData = space.playerController.currentPlayer.playerData
+        return if (playerData.phase.isMoving() && isConnected(playerData.fieldPosition)) {
+            if (space.playerController.stepsLeft() == 0 && !isConnected(playerData.previousStep)) {
                 Color.RED
             } else {
                 Color.GREEN

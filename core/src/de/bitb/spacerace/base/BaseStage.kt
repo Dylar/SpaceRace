@@ -5,7 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 
-open class BaseStage(viewport: Viewport = ScreenViewport()) : Stage(viewport) {
+abstract class BaseStage(viewport: Viewport = ScreenViewport()) : Stage(viewport) {
+
+    companion object {
+        val NONE = object : BaseStage(){}
+    }
 
     var posX: Float = 0f
     var posY: Float = 0f

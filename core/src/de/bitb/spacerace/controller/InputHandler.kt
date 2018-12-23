@@ -1,10 +1,31 @@
 package de.bitb.spacerace.controller
 
-import de.bitb.spacerace.model.events.BaseCommand
+import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.space.control.TestSpace
 
-class InputHandler {
+class InputHandler() {
+
+    var space: BaseSpace = TestSpace(this)
+
+    init {
+        space.createSpace()
+    }
+
+    private val inputObserver: MutableList<InputObserver> = ArrayList()
 
     fun <T : BaseCommand> handleCommand(command: T) {
-        command.execute()
+        if (command.canExecute(space)) {
+            command.execute(space)
+            for (inputObserver in inputObserver) {
+                inputObserver.update(command)
+            }
+        }
     }
+
+    fun addListener(observer: InputObserver) {
+        inputObserver.add(observer)
+    }
+
+
 }

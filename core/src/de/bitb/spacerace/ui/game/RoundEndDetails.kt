@@ -26,7 +26,7 @@ class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Pla
     }
 
     private fun addTitle(player: Player) {
-        val cell = add(GAME_MENU_END_ROUND_DETAILS_TITLE + player.playerColor.name)
+        val cell = add(GAME_MENU_END_ROUND_DETAILS_TITLE + player.playerData.playerColor.name)
         setFont(cell.actor)
     }
 

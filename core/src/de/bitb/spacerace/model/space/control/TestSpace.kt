@@ -3,13 +3,12 @@ package de.bitb.spacerace.model.space.control
 import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.model.enums.ConnectionPoint
-import de.bitb.spacerace.model.space.control.BaseSpace
 import de.bitb.spacerace.model.space.groups.TestGroup
 
-class TestSpace : BaseSpace() {
+class TestSpace(inputHandler: InputHandler) : BaseSpace(inputHandler) {
     override fun createSpace() {
-
         val group1 = TestGroup(this)
         val group2 = TestGroup(this, SCREEN_WIDTH.toFloat() * 1.2f, (SCREEN_HEIGHT / 2).toFloat())
         val group3 = TestGroup(this, -SCREEN_WIDTH.toFloat() * 1.2f, -(SCREEN_HEIGHT / 2).toFloat())
@@ -20,10 +19,8 @@ class TestSpace : BaseSpace() {
         group1.connect(ConnectionPoint.UP, group4)
 
         val spaceField1 = group1.fields[0]!!
-        fieldController.addShip(spaceField1, PlayerColor.GREEN)
-        fieldController.addShip(spaceField1, PlayerColor.RED)
-        fieldController.addShip(spaceField1, PlayerColor.YELLOW)
-
+        fieldController.addShip(spaceField1, PlayerColor.TEAL)
+        fieldController.addShip(spaceField1, PlayerColor.CORAL)
     }
 
 }

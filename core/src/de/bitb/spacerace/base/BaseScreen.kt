@@ -11,13 +11,14 @@ import de.bitb.spacerace.Logger
 
 
 open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
-companion object {
-    const val MAX_ZOOM = 5
-    const val MIN_ZOOM = 1
-}
-    var backgroundStage: BaseStage = BaseStage()
-    var gameStage: BaseStage = BaseStage()
-    var guiStage: BaseStage = BaseStage()
+    companion object {
+        const val MAX_ZOOM = 5
+        const val MIN_ZOOM = 1
+    }
+
+    var backgroundStage: BaseStage = BaseStage.NONE
+    var gameStage: BaseStage = BaseStage.NONE
+    var guiStage: BaseStage = BaseStage.NONE
     var cameraStatus = CAMERA_FREE
 
     var currentZoom: Float = 2f
@@ -39,15 +40,15 @@ companion object {
     }
 
     open fun createBackgroundStage(): BaseStage {
-        return BaseStage()
+        return BaseStage.NONE
     }
 
     open fun createGuiStage(): BaseStage {
-        return BaseStage()
+        return BaseStage.NONE
     }
 
     open fun createGameStage(): BaseStage {
-        return BaseStage()
+        return BaseStage.NONE
     }
 
     override fun render(delta: Float) {

@@ -4,30 +4,27 @@ import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.model.space.control.BaseSpace
-import de.bitb.spacerace.model.space.control.TestSpace
+import de.bitb.spacerace.controller.InputHandler
 
 
-class GameScreen(game: BaseGame) : BaseScreen(game) {
-
-    private var space: BaseSpace = TestSpace()
+class GameScreen(game: BaseGame, val inputHandler: InputHandler = InputHandler()) : BaseScreen(game) {
 
     override fun createGuiStage(): BaseStage {
-        return GameGuiStage(space, this)
+        return GameGuiStage(this, inputHandler)
     }
 
     override fun createGameStage(): BaseStage {
-        return GameStage(space, this)
+        return GameStage(inputHandler.space, this)
     }
 
     override fun createBackgroundStage(): BaseStage {
-        return BackgroundStage(space, this)
+        return BackgroundStage(inputHandler.space, this)
     }
 
     override fun renderGame(delta: Float) {
         val batch = gameStage.batch
         batch.begin()
-        for (connection in space.fieldController.connections) {
+        for (connection in inputHandler.space.fieldController.connections) {
             connection.draw(batch, 1f, gameStage.camera.combined)
         }
         batch.end()
@@ -35,7 +32,7 @@ class GameScreen(game: BaseGame) : BaseScreen(game) {
     }
 
     override fun getCameraTarget(): BaseObject? {
-        return space.playerController.currentPlayer
+        return inputHandler.space.playerController.currentPlayer
     }
 
     fun onZoomPlusClicked() {
