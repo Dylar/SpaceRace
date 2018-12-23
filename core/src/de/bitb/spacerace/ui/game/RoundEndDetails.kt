@@ -10,7 +10,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_DETAILS_TITLE
 import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.screens.game.GameGuiStage
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
 class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Player) : BaseMenu(guiStage, endMenu) {
@@ -26,13 +26,13 @@ class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Pla
     }
 
     private fun addTitle(player: Player) {
-        val cell = add(GAME_MENU_END_ROUND_DETAILS_TITLE + player.playerColor.name)
+        val cell = add(GAME_MENU_END_ROUND_DETAILS_TITLE + player.playerData.playerColor.name)
         setFont(cell.actor)
     }
 
     private fun addImage(player: Player) {
         row()
-        val cell = add(player)
+        val cell = add(player.getDisplayImage())
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }

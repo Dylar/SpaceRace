@@ -11,7 +11,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
 import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.screens.game.GameGuiStage
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
 class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : BaseMenu(guiStage, itemMenu) {
@@ -25,7 +25,7 @@ class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : 
     }
 
     private fun addImage() {
-        val cell = add(item)
+        val cell = add(item.getDisplayImage())
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }

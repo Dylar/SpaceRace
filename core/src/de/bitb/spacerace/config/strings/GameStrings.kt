@@ -5,7 +5,37 @@ import de.bitb.spacerace.config.enums.Language
 
 object GameStrings {
 
-    object ItemStrings{
+    var PHASE_MAIN1: String = ""
+        get() = when (LANGUAGE) {
+            Language.ENGLISH -> "Main 1"
+            Language.GERMAN -> "Main 1"
+        }
+
+    var PHASE_MOVE: String = ""
+        get() = when (LANGUAGE) {
+            Language.ENGLISH -> "Move"
+            Language.GERMAN -> "Bewegen"
+        }
+
+    var PHASE_MAIN2: String = ""
+        get() = when (LANGUAGE) {
+            Language.ENGLISH -> "Main 2"
+            Language.GERMAN -> "Main 2"
+        }
+
+    var PHASE_END_TURN: String = ""
+        get() = when (LANGUAGE) {
+            Language.ENGLISH -> "End turn"
+            Language.GERMAN -> "Zug Ende"
+        }
+
+    var PHASE_END_ROUND: String = ""
+        get() = when (LANGUAGE) {
+            Language.ENGLISH -> "End round"
+            Language.GERMAN -> "Runden Ende"
+        }
+
+    object ItemStrings {
 
         var ITEM_EXTRA_FUEL_TEXT: String = ""
             get() = when (LANGUAGE) {
