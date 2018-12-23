@@ -2,11 +2,14 @@ package de.bitb.spacerace.model.background
 
 import com.badlogic.gdx.graphics.Color
 import de.bitb.spacerace.base.BaseObject
+import de.bitb.spacerace.base.BaseScreen
+import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
 
-class FallingStar(var startX: Float = 0f,
+class FallingStar(var gameScreen: BaseScreen,
+                  var startX: Float = 0f,
                   var startY: Float = 0f,
                   var endX: Float = SCREEN_WIDTH.toFloat(),
                   var endY: Float = SCREEN_HEIGHT.toFloat())
@@ -14,18 +17,24 @@ class FallingStar(var startX: Float = 0f,
 
     init {
         randomColor()
-        scaleBy(-0.5f)
     }
 
     override fun act(delta: Float) {
         super.act(delta)
+        val mod = 1.2f
+        val zoom = (MAX_ZOOM * mod - gameScreen.currentZoom * mod + 1)
+        scaleX = zoom
+        scaleY = zoom
+
         if (isIdling()) {
             randomColor()
-            calculateValues()
+            calculateValues(zoom)
             setPosition(startX, startY)
 //            Logger.println("ROTATION: $rotation")
             moveTo(endX, endY)
         }
+
+
     }
 
     private fun randomColor() {
@@ -38,8 +47,8 @@ class FallingStar(var startX: Float = 0f,
         }
     }
 
-    private fun calculateValues() {
-        movingSpeed = (Math.random() * 35f + 25).toFloat()
+    private fun calculateValues(zoom: Float) {
+        movingSpeed = (Math.random() * 35f + 25).toFloat() * zoom
         startY = (Math.random() * SCREEN_HEIGHT).toFloat()
         endY = (Math.random() * SCREEN_HEIGHT).toFloat()
 

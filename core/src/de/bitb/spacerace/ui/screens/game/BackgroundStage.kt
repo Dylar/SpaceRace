@@ -20,7 +20,7 @@ class BackgroundStage(val screen: BaseScreen) : BaseStage() {
 
     private fun startBombarding() {
         for (index in 0..5) {
-            val star = FallingStar(startY = (SCREEN_HEIGHT / 2).toFloat(), endY = (SCREEN_HEIGHT / 2).toFloat())
+            val star = FallingStar(screen, startY = (SCREEN_HEIGHT / 2).toFloat(), endY = (SCREEN_HEIGHT / 2).toFloat())
             addActor(star)
         }
     }
