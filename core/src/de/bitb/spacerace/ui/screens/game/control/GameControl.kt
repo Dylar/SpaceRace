@@ -36,7 +36,7 @@ class GameControl(val space: GameController, val guiStage: GameGuiStage) : Table
 
         val diceBtn = createButton(name = GAME_BUTTON_DICE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(DiceCommand())
+                inputHandler.handleCommand(DiceCommand(space.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })

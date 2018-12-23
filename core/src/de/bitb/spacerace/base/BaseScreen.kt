@@ -8,14 +8,12 @@ import com.badlogic.gdx.input.GestureDetector
 import de.bitb.spacerace.CameraActions.*
 import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.config.MAX_ZOOM
+import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.controller.InputHandler
 
 
 open class BaseScreen(val game: BaseGame, val inputHandler: InputHandler = InputHandler()) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
-    companion object {
-        const val MAX_ZOOM = 5
-        const val MIN_ZOOM = 1
-    }
 
     var backgroundStage: BaseStage = BaseStage.NONE
     var gameStage: BaseStage = BaseStage.NONE

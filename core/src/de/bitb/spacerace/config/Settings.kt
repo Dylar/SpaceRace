@@ -16,6 +16,14 @@ var PLAYER_AMOUNT_MIN = 2
 var PLAYER_AMOUNT_MAX = PlayerColor.values().size - 1
 var PLAYER_AMOUNT = PLAYER_AMOUNT_MIN
 
+
+//GAME UI
+
+const val MAX_ZOOM = 5
+const val MIN_ZOOM = 1
+
+
+//DEBUG
 const val DEBUG_ITEMS = 0
 
 const val DEBUG_FIELDS_NR = false
