@@ -4,15 +4,15 @@ import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.config.PLAYER_AMOUNT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.controller.InputHandler
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.groups.TestGroup
 
-class TestSpace() : GameController() {
-    override fun createSpace(inputHandler: InputHandler) {
-        fieldController.connections = ConnectionList(inputHandler.gameController)
+class TestSpace(game: MainGame) : GameController(game) {
+    override fun createSpace() {
 
+        fieldController.connections = ConnectionList(this)
         val group1 = TestGroup(this)
         val group2 = TestGroup(this, SCREEN_WIDTH.toFloat() * 1.2f, (SCREEN_HEIGHT / 2).toFloat())
         val group3 = TestGroup(this, -SCREEN_WIDTH.toFloat() * 1.2f, -(SCREEN_HEIGHT / 2).toFloat())

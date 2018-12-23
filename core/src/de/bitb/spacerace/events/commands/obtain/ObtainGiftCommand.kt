@@ -2,17 +2,18 @@ package de.bitb.spacerace.events.commands.obtain
 
 import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.controller.InputHandler
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.space.control.GameController
 
 class ObtainGiftCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
-    override fun canExecute(space: GameController): Boolean {
+    override fun canExecute(game: MainGame): Boolean {
         return true
     }
 
-    override fun execute(space: GameController, inputHandler: InputHandler) {
-        val lose = space.playerController.getPlayer(playerColor).addRandomGift()
+    override fun execute(game: MainGame) {
+        val lose = game.gameController.playerController.getPlayer(playerColor).addRandomGift()
     }
 
 }

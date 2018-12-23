@@ -16,18 +16,17 @@ import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_PLA
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_START
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.InputObserver
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.start.ChangeLanguageCommand
 import de.bitb.spacerace.events.commands.start.ChangePlayerAmountCommand
-import de.bitb.spacerace.events.commands.start.StartGameCommand
+import de.bitb.spacerace.events.commands.start.StartGameEvent
 import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
-class StartButtonControl(val space: GameController, val guiStage: StartGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
-
-    private val inputHandler: InputHandler = guiStage.inputHandler
+class StartButtonControl(val space: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
     private var languageBtn: TextButton
     private var playerBtn: TextButton
@@ -38,7 +37,7 @@ class StartButtonControl(val space: GameController, val guiStage: StartGuiStage)
 
         startBtn = createButton(name = START_BUTTON_START, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(StartGameCommand())
+                inputHandler.handleCommand(StartGameEvent())
                 return true
             }
         })
@@ -81,7 +80,7 @@ class StartButtonControl(val space: GameController, val guiStage: StartGuiStage)
         return cell
     }
 
-    override fun <T : BaseEvent> update(event: T) {
+    override fun <T : BaseEvent> update(game: MainGame, event: T) {
         if (event is ChangeLanguageCommand) {
             updateButtonText()
         } else if (event is ChangePlayerAmountCommand) {

@@ -1,16 +1,16 @@
 package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.base.PlayerColor
-import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.model.space.control.GameController
+import de.bitb.spacerace.core.MainGame
 
-class StartMain1Command(inputHandler: InputHandler) : PhaseCommand(inputHandler, PlayerColor.NONE) {
+class StartMain1Command() : PhaseCommand(PlayerColor.NONE) {
 
-    override fun canExecute(space: GameController): Boolean {
-        return space.phaseController.canContinue(space.playerController.currentPlayer.playerData)
+    override fun canExecute(game: MainGame): Boolean {
+        val gameController = game.gameController
+        return gameController.phaseController.canContinue(gameController.playerController.currentPlayer.playerData)
     }
 
-    override fun execute(space: GameController, inputHandler: InputHandler) {
+    override fun execute(game: MainGame) {
 //        gameController.phaseController.startMain1()
     }
 

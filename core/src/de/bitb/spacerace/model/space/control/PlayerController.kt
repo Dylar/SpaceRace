@@ -11,9 +11,10 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 
 class PlayerController() {
 
+    var players: MutableList<Player> = ArrayList()
+
     var currentPlayer: Player = Player.NONE
         get() = if (players.isEmpty()) Player.NONE else players[players.size - 1]
-    var players: MutableList<Player> = ArrayList()
 
     fun moveTo(player: Player = currentPlayer, spaceField: SpaceField) {
         val playerData = player.playerData

@@ -21,14 +21,14 @@ class FallingStar(var gameScreen: BaseScreen,
 
     override fun act(delta: Float) {
         super.act(delta)
-        val mod = 1.2f
+        val mod = 0.65f
         val zoom = (MAX_ZOOM * mod - gameScreen.currentZoom * mod + 1)
         scaleX = zoom
         scaleY = zoom
 
         if (isIdling()) {
             randomColor()
-            calculateValues(zoom)
+            calculateValues()
             setPosition(startX, startY)
 //            Logger.println("ROTATION: $rotation")
             moveTo(endX, endY)
@@ -47,8 +47,8 @@ class FallingStar(var gameScreen: BaseScreen,
         }
     }
 
-    private fun calculateValues(zoom: Float) {
-        movingSpeed = (Math.random() * 35f + 25).toFloat() * zoom
+    private fun calculateValues() {
+        movingSpeed = (Math.random() * 35f + 25).toFloat()
         startY = (Math.random() * SCREEN_HEIGHT).toFloat()
         endY = (Math.random() * SCREEN_HEIGHT).toFloat()
 

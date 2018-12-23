@@ -1,25 +1,26 @@
 package de.bitb.spacerace.ui.screens.game
 
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.controller.InputHandler
+import de.bitb.spacerace.model.space.control.GameController
 
-class GameStage(val space: InputHandler, screen: GameScreen) : BaseStage() {
+class GameStage(screen: GameScreen) : BaseStage() {
 
     init {
-        space.gameController.createSpace(space)
-        createSpace()
+        val controller = screen.game.gameController
+        controller.createSpace()
+        createSpace(controller)
     }
 
-    private fun createSpace() {
+    private fun createSpace(gameController: GameController) {
 //TODO change line drawing in actor
-//        addActor(space.gameController.fieldController.connections)
+//        addActor(gameController.gameController.fieldController.connections)
 //        for (connection in gameController.fieldController.connections) {
 //            addActor(connection)
 //        }
-        for (spaceGroup in space.gameController.fieldController.fieldGroups) {
+        for (spaceGroup in gameController.fieldController.fieldGroups) {
             addActor(spaceGroup)
         }
-        for (ship in space.gameController.playerController.players) {
+        for (ship in gameController.playerController.players) {
             addActor(ship)
         }
     }
