@@ -8,5 +8,10 @@ enum class PlayerColor(val color: Color) {
     YELLOW(Color.YELLOW),
     BLUE(Color.BLUE),
     PINK(Color.PINK),
+    TEAL(Color.TEAL),
+    CORAL(Color.CORAL),
+    SCARLET(Color.SCARLET),
+    CHARTREUSE(Color.CHARTREUSE),
+    BLACK(Color.BLACK),
     NONE(Color.BLACK)
 }

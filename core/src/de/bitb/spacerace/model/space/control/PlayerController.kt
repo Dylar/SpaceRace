@@ -72,6 +72,7 @@ class PlayerController(val space: BaseSpace, val inputHandler: InputHandler) {
     }
 
     fun nextTurn() {
+        Logger.println("nextTurn1")
         val oldPlayer = players[0]
         var indexOld = oldPlayer.zIndex + 1 //TODO do it in gui
         for (ship in players) {
@@ -80,12 +81,14 @@ class PlayerController(val space: BaseSpace, val inputHandler: InputHandler) {
         players.add(oldPlayer)
         players.removeAt(0)
 
+        Logger.println("nextTurn2: ${currentPlayer.playerData.phase}")
         if (space.playerController.isRoundEnd()) {
             inputHandler.handleCommand(EndRoundCommand(inputHandler))
         }
     }
 
     fun nextRound() {
+        Logger.println("nextRound1")
         space.fieldController.harvestOres()
 
         for (player in players) {
@@ -94,14 +97,16 @@ class PlayerController(val space: BaseSpace, val inputHandler: InputHandler) {
             playerData.steps = ArrayList()
             playerData.diceResult = 0
             playerData.diced = false
-            playerData.phase = Phase.next(playerData.phase)
+            playerData.phase = Phase.MAIN1
+            Logger.println("nextRound Phase: ${playerData.phase}")
         }
 
+        Logger.println("nextRound2")
     }
 
     fun getPlayer(playerColor: PlayerColor): Player {
         for (player in players) {
-            if(playerColor == player.playerData.playerColor){
+            if (playerColor == player.playerData.playerColor) {
                 return player
             }
         }

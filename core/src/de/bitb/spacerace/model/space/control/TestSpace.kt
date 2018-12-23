@@ -19,8 +19,8 @@ class TestSpace(inputHandler: InputHandler) : BaseSpace(inputHandler) {
         group1.connect(ConnectionPoint.UP, group4)
 
         val spaceField1 = group1.fields[0]!!
-        fieldController.addShip(spaceField1, PlayerColor.PINK)
-        fieldController.addShip(spaceField1, PlayerColor.BLUE)
+        fieldController.addShip(spaceField1, PlayerColor.TEAL)
+        fieldController.addShip(spaceField1, PlayerColor.CORAL)
     }
 
 }
