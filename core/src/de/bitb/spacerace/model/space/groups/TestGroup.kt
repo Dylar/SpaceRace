@@ -14,8 +14,11 @@ class TestGroup(space: GameController, offsetX: Float = 0f, offsetY: Float = 0f)
     val screenHeight = SCREEN_HEIGHT
 
     init {
-        val spaceField1 = SpaceField(FieldType.GIFT)
-        addField(spaceField1)
+
+        val leftDownCorner = SpaceField(FieldType.GIFT)
+        addField(leftDownCorner)
+        
+
         val spaceField2 = MineField()
         addField(spaceField2, screenWidth - spaceField2.width)
         val spaceField3 = SpaceField(FieldType.LOSE)
@@ -34,7 +37,7 @@ class TestGroup(space: GameController, offsetX: Float = 0f, offsetY: Float = 0f)
         val spaceField9 = SpaceField(FieldType.WIN)
         addField(spaceField9, screenWidth.toFloat(), posY = -(screenHeight / 2 - spaceField9.height / 2))
 
-        space.fieldController.addConnection(spaceField1, spaceField3)
+        space.fieldController.addConnection(leftDownCorner, spaceField3)
         space.fieldController.addConnection(spaceField2, spaceField3)
         space.fieldController.addConnection(spaceField5, spaceField6)
         space.fieldController.addConnection(spaceField5, spaceField4)
@@ -42,7 +45,7 @@ class TestGroup(space: GameController, offsetX: Float = 0f, offsetY: Float = 0f)
         space.fieldController.addConnection(spaceField2, spaceField4)
         space.fieldController.addConnection(spaceField3, spaceField7)
         space.fieldController.addConnection(spaceField8, spaceField7)
-        space.fieldController.addConnection(spaceField1, spaceField6)
+        space.fieldController.addConnection(leftDownCorner, spaceField6)
         space.fieldController.addConnection(spaceField7, spaceField6)
         space.fieldController.addConnection(spaceField2, spaceField9)
 
@@ -51,7 +54,7 @@ class TestGroup(space: GameController, offsetX: Float = 0f, offsetY: Float = 0f)
         addConnectionPoint(ConnectionPoint.LEFT, spaceField7)
         addConnectionPoint(ConnectionPoint.RIGHT, spaceField8)
         addConnectionPoint(ConnectionPoint.UP, spaceField6)
-        addConnectionPoint(ConnectionPoint.DOWN, spaceField1)
+        addConnectionPoint(ConnectionPoint.DOWN, leftDownCorner)
 
         setPosition(offsetX, offsetY)
     }

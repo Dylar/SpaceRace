@@ -8,7 +8,7 @@ import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(gameController, offsetX, offsetY) {
+class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f, starMode: Boolean = false) : SpaceGroup(gameController, offsetX, offsetY) {
 
     val screenWidth = SCREEN_WIDTH
     val screenHeight = SCREEN_HEIGHT
@@ -18,7 +18,6 @@ class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: F
         val mediumMod = 0.7f
         val smallMod = 0.3f
 
-        val starMode = false
 
         //CENTER
         val centerField = SpaceField(FieldType.GIFT)

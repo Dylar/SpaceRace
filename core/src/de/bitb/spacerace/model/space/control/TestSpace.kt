@@ -14,18 +14,28 @@ class TestSpace(game: MainGame) : GameController(game) {
     override fun createSpace(game: MainGame) {
         super.createSpace(game)
 
-        val group1 = TestGroup(this)
-        val group2 = TestGroup(this, SCREEN_WIDTH.toFloat() * 1.2f, (SCREEN_HEIGHT / 2).toFloat())
-        val group3 = TestGroup(this, -SCREEN_WIDTH.toFloat() * 1.2f, -(SCREEN_HEIGHT / 2).toFloat())
-        val group4 = TestGroup(this, offsetY = SCREEN_HEIGHT * 1.2f)
-        val group5 = CrossGroup(this, offsetY = -SCREEN_HEIGHT * 1.4f)
-        fieldController.addFields(inputHandler, group1, group2, group3, group4, group5)
-        group1.connect(ConnectionPoint.RIGHT, group2)
-        group1.connect(ConnectionPoint.LEFT, group3)
-        group1.connect(ConnectionPoint.UP, group4)
-//        group3.connect(ConnectionPoint.RIGHT, group5)
+//        val group1 = TestGroup(this)
+//        val group2 = TestGroup(this, SCREEN_WIDTH.toFloat() * 1.2f, (SCREEN_HEIGHT / 2).toFloat())
+//        val group3 = TestGroup(this, -SCREEN_WIDTH.toFloat() * 1.2f, -(SCREEN_HEIGHT / 2).toFloat())
+//        val group4 = TestGroup(this, offsetY = SCREEN_HEIGHT * 1.2f)
 
-        val spaceField1 = group1.fields[0]!!
+        val offsetY = SCREEN_HEIGHT * 1.6f
+        val offsetX = SCREEN_WIDTH.toFloat()
+
+        val centerGroup = CrossGroup(this)
+        val upGroup = TestGroup(this, offsetY = offsetY)
+        val rightGroup = TestGroup(this, offsetX)
+        val downGroup = TestGroup(this, offsetY = -offsetY)
+        val leftGroup = TestGroup(this, -offsetX)
+
+
+        fieldController.addFields(inputHandler, centerGroup, upGroup, rightGroup, downGroup, leftGroup)
+        centerGroup.connect(ConnectionPoint.UP, upGroup)
+        centerGroup.connect(ConnectionPoint.RIGHT, rightGroup)
+        centerGroup.connect(ConnectionPoint.DOWN, downGroup)
+        centerGroup.connect(ConnectionPoint.LEFT, leftGroup)
+
+        val spaceField1 = centerGroup.fields[0]!!
 
         var player = Player(PlayerColor.TEAL)
         for (i in 1..PLAYER_AMOUNT) {
