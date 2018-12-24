@@ -9,6 +9,9 @@ abstract class GameController(game: MainGame) {
     val phaseController = PhaseController()
     val playerController = PlayerController()
 
-    abstract fun createSpace()
+
+    open fun createSpace(game: MainGame) {
+        fieldController.connections = ConnectionList(game.gameController)
+    }
 }
 

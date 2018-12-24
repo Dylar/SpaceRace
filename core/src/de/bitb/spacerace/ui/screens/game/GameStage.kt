@@ -7,7 +7,7 @@ class GameStage(screen: GameScreen) : BaseStage() {
 
     init {
         val controller = screen.game.gameController
-        controller.createSpace()
+        controller.createSpace(screen.game)
         createSpace(controller)
     }
 

@@ -11,9 +11,9 @@ import de.bitb.spacerace.model.space.groups.CrossGroup
 import de.bitb.spacerace.model.space.groups.TestGroup
 
 class TestSpace(game: MainGame) : GameController(game) {
-    override fun createSpace() {
+    override fun createSpace(game: MainGame) {
+        super.createSpace(game)
 
-        fieldController.connections =
         val group1 = TestGroup(this)
         val group2 = TestGroup(this, SCREEN_WIDTH.toFloat() * 1.2f, (SCREEN_HEIGHT / 2).toFloat())
         val group3 = TestGroup(this, -SCREEN_WIDTH.toFloat() * 1.2f, -(SCREEN_HEIGHT / 2).toFloat())

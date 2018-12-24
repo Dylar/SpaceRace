@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.controller.InputHandler
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.events.commands.MoveCommand
 import de.bitb.spacerace.model.player.Player
@@ -17,7 +18,7 @@ class FieldController() {
     val fieldGroups: MutableList<SpaceGroup> = ArrayList()
     val fields: MutableList<SpaceField> = ArrayList()
     val fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
-    lateinit var connections: ConnectionList = ConnectionList(this)
+   lateinit var connections: ConnectionList
 
     fun addShip(player: Player, spaceField1: SpaceField) {
         player.playerData.fieldPosition = spaceField1
