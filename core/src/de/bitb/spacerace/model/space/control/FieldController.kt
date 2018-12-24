@@ -17,7 +17,7 @@ class FieldController() {
     val fieldGroups: MutableList<SpaceGroup> = ArrayList()
     val fields: MutableList<SpaceField> = ArrayList()
     val fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
-    lateinit var connections: ConnectionList
+    lateinit var connections: ConnectionList = ConnectionList(this)
 
     fun addShip(player: Player, spaceField1: SpaceField) {
         player.playerData.fieldPosition = spaceField1
@@ -50,12 +50,12 @@ class FieldController() {
         for (spaceGroup in spaceGroups) {
             fieldGroups.add(spaceGroup)
             for (field in spaceGroup.fields.entries.withIndex()) {
-                addField(inputHandler,field.value.value)
+                addField(inputHandler, field.value.value)
             }
         }
     }
 
-    fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) { //TODO gameController weg
+    fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
         val connection: SpaceConnection = SpaceConnection(spaceField1, spaceField2)
         connections.add(connection)
     }

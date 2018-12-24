@@ -11,12 +11,14 @@ import de.bitb.spacerace.model.space.fields.SpaceConnection
 class ConnectionList(val gameController: GameController) : MutableList<SpaceConnection> by ArrayList(), Actor() {
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
-        val matrix = Matrix4(stage.camera.combined)
+        batch!!.end()
+        val matrix = Matrix4(batch.projectionMatrix)
         LineRenderer.startLine(Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH, matrix)
         for (i in 0 until size) {
             get(i).draw(gameController.playerController.currentPlayer.playerData)
         }
         LineRenderer.endLine()
+        batch.begin()
     }
 
     fun draw(playerData: PlayerData) {

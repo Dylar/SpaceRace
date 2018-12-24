@@ -13,7 +13,7 @@ class GameStage(screen: GameScreen) : BaseStage() {
 
     private fun createSpace(gameController: GameController) {
 //TODO change line drawing in actor
-//        addActor(gameController.gameController.fieldController.connections)
+        addActor(gameController.fieldController.connections)
 //        for (connection in gameController.fieldController.connections) {
 //            addActor(connection)
 //        }

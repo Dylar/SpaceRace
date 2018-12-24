@@ -28,11 +28,11 @@ class GameScreen(game: MainGame) : BaseScreen(game) {
     }
 
     override fun renderGame(delta: Float) {
-        LineRenderer.startLine(Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH, gameStage.camera.combined)
-        val gameController = game.gameController
-        val playerData = gameController.playerController.currentPlayer.playerData
-        gameController.fieldController.connections.draw(playerData) //TODO do it with actor
-        LineRenderer.endLine()
+//        LineRenderer.startLine(Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH, gameStage.camera.combined)
+//        val gameController = game.gameController
+//        val playerData = gameController.playerController.currentPlayer.playerData
+//        gameController.fieldController.connections.draw(playerData) //TODO do it with actor
+//        LineRenderer.endLine()
 
         super.renderGame(delta)
     }

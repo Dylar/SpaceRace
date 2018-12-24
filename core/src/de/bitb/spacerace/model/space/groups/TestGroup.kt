@@ -56,15 +56,4 @@ class TestGroup(space: GameController, offsetX: Float = 0f, offsetY: Float = 0f)
         setPosition(offsetX, offsetY)
     }
 
-    private fun addField(spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y, connection: ConnectionPoint = ConnectionPoint.NONE) {
-        spaceField.id = fields.size
-        spaceField.group = this
-        spaceField.setPosition(posX, posY)
-        fields[spaceField.id] = spaceField
-        if (connection != ConnectionPoint.NONE) {
-            getConnection(connection).add(spaceField)
-        }
-        addActor(spaceField)
-    }
-
 }

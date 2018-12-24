@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.space.groups
 
 import com.badlogic.gdx.scenes.scene2d.Group
 import de.bitb.spacerace.model.enums.ConnectionPoint
+import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.control.FieldController
 import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -13,6 +14,26 @@ open class SpaceGroup(val space: GameController, val offsetX: Float = 0f, val of
 
     fun getField(id: Int): SpaceField {
         return fields[id]!!
+    }
+
+    fun addField(addField: SpaceField, anchorField: SpaceField, horizontalMod: Float = 1f, verticalMod: Float = 1f, connection: ConnectionPoint = ConnectionPoint.NONE) {
+        val posX = anchorField.x + addField.x * horizontalMod
+        val posY = anchorField.y + addField.y * verticalMod
+        addField(addField, posX, posY, connection)
+    }
+
+    fun addField(addField: SpaceField, posX: Float = addField.x, posY: Float = addField.y, connection: ConnectionPoint = ConnectionPoint.NONE) {
+//        val posX = anchorField.x + addField.x * horizontalMod
+//        val posY = anchorField.y + addField.y * verticalMod
+
+        addField.id = fields.size
+        addField.group = this
+        addField.setPosition(posX, posY)
+        fields[addField.id] = addField
+        if (connection != ConnectionPoint.NONE) {
+            getConnection(connection).add(addField)
+        }
+        addActor(addField)
     }
 
     fun getConnection(connection: ConnectionPoint): MutableList<SpaceField> {
