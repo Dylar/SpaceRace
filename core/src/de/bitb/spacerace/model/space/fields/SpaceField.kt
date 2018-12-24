@@ -15,7 +15,8 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.groups.TestGroup
 
-open class SpaceField(var id: Int = -1, var fieldType: FieldType = FieldType.UNKNOWN, img: Texture = fieldType.texture) : BaseObject(img) {
+open class SpaceField(var fieldType: FieldType = FieldType.UNKNOWN) : BaseObject(fieldType.texture) {
+    var id: Int = -1
 
     companion object {
         val NONE: SpaceField = SpaceField()

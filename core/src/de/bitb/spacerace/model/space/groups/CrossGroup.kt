@@ -14,73 +14,68 @@ class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: F
     val screenHeight = SCREEN_HEIGHT
 
     init {
-        val normalMod = 1.4f
-        val smallMod = 0.9f
+        val largeMod = 1.2f
+        val mediumMod = 0.7f
+        val smallMod = 0.3f
+
+        val starMode = false
 
         //CENTER
-        val giftField1 = SpaceField(fields.size, FieldType.GIFT)
-        addField(giftField1, giftField1, screenWidth / 2 - giftField1.width / 2, screenHeight / 2 - giftField1.height / 2)
+        val centerField = SpaceField(FieldType.GIFT)
+        addField(centerField, screenWidth / 2 - centerField.width / 2, screenHeight / 2 - centerField.height / 2)
 
         //LEFT
-        val mineField = MineField(fields.size)
-        addField(mineField, giftField1, -normalMod)
+        val left1Field = MineField()
+        addField(left1Field, centerField, -largeMod)
 
-        val winField = SpaceField(fields.size, FieldType.WIN)
-        addField(winField, mineField, -normalMod)
+        val left2Field = SpaceField(FieldType.WIN)
+        addField(left2Field, left1Field, -largeMod, connection = ConnectionPoint.LEFT)
 
-        gameController.fieldController.addConnection(giftField1, mineField)
-        gameController.fieldController.addConnection(mineField, winField)
-        addConnectionPoint(ConnectionPoint.LEFT, winField)
+        gameController.fieldController.addConnection(centerField, left1Field)
+        gameController.fieldController.addConnection(left1Field, left2Field)
 
         //RIGHT
-        val ambushField = SpaceField(fields.size, FieldType.AMBUSH)
-        addField(ambushField, giftField1, normalMod)
-        val shopField = SpaceField(fields.size, FieldType.SHOP)
-        addField(shopField, ambushField, normalMod)
+        val right1Field = SpaceField(FieldType.AMBUSH)
+        addField(right1Field, centerField, largeMod)
+        val right2Field = SpaceField(FieldType.SHOP)
+        addField(right2Field, right1Field, largeMod, connection = ConnectionPoint.RIGHT)
 
-        gameController.fieldController.addConnection(giftField1, ambushField)
-        gameController.fieldController.addConnection(ambushField, shopField)
-        addConnectionPoint(ConnectionPoint.RIGHT, shopField)
+        gameController.fieldController.addConnection(centerField, right1Field)
+        gameController.fieldController.addConnection(right1Field, right2Field)
 
         //DOWN
-        var lose1Field = SpaceField(fields.size, FieldType.LOSE)
-        addField(lose1Field, giftField1, smallMod, -normalMod)
-        var lose2Field = SpaceField(fields.size, FieldType.LOSE)
-        addField(lose2Field, lose1Field, smallMod, -normalMod)
+        val rightDown1Field = SpaceField(FieldType.LOSE)
+        addField(rightDown1Field, centerField, mediumMod, -largeMod)
+        val rightDown2Field = SpaceField(FieldType.WIN)
+        addField(rightDown2Field, rightDown1Field, if (starMode) mediumMod else 0f, -largeMod, ConnectionPoint.DOWN)
 
-        gameController.fieldController.addConnection(giftField1, lose1Field)
-        gameController.fieldController.addConnection(lose1Field, lose2Field)
-        addConnectionPoint(ConnectionPoint.DOWN, lose2Field)
+        gameController.fieldController.addConnection(centerField, rightDown1Field)
+        gameController.fieldController.addConnection(rightDown1Field, rightDown2Field)
 
-        var win1Field = SpaceField(fields.size, FieldType.WIN)
-        addField(win1Field, giftField1, smallMod, normalMod)
-        var win2Field = SpaceField(fields.size, FieldType.WIN)
-        addField(win2Field, win1Field, smallMod, normalMod)
+        val leftDown1Field = SpaceField(FieldType.LOSE)
+        addField(leftDown1Field, centerField, -mediumMod, -largeMod)
+        val leftDown2Field = SpaceField(FieldType.WIN)
+        addField(leftDown2Field, leftDown1Field, if (starMode) -mediumMod else 0f, -largeMod, ConnectionPoint.DOWN)
 
-        gameController.fieldController.addConnection(giftField1, win1Field)
-        gameController.fieldController.addConnection(win1Field, win2Field)
-        addConnectionPoint(ConnectionPoint.DOWN, win2Field)
-
-        setPosition(offsetX, offsetY)
+        gameController.fieldController.addConnection(centerField, leftDown1Field)
+        gameController.fieldController.addConnection(leftDown1Field, leftDown2Field)
 
         //UP
-        lose1Field = SpaceField(fields.size, FieldType.WIN)
-        addField(lose1Field, giftField1, -smallMod, normalMod)
-        lose2Field = SpaceField(fields.size, FieldType.WIN)
-        addField(lose2Field, lose1Field, -smallMod, normalMod)
+        val rightUp1Field = SpaceField(FieldType.LOSE)
+        addField(rightUp1Field, centerField, mediumMod, largeMod)
+        val rightUp2Field = SpaceField(FieldType.WIN)
+        addField(rightUp2Field, rightUp1Field, if (starMode) mediumMod else 0f, largeMod, ConnectionPoint.UP)
 
-        gameController.fieldController.addConnection(giftField1, lose1Field)
-        gameController.fieldController.addConnection(lose1Field, lose2Field)
-        addConnectionPoint(ConnectionPoint.UP, lose2Field)
+        gameController.fieldController.addConnection(centerField, rightUp1Field)
+        gameController.fieldController.addConnection(rightUp1Field, rightUp2Field)
 
-        win1Field = SpaceField(fields.size, FieldType.LOSE)
-        addField(win1Field, giftField1, smallMod, normalMod)
-        win2Field = SpaceField(fields.size, FieldType.LOSE)
-        addField(win2Field, win1Field, smallMod, normalMod)
+        val leftUp1Field = SpaceField(FieldType.LOSE)
+        addField(leftUp1Field, centerField, -mediumMod, largeMod)
+        val leftUp2Field = SpaceField(FieldType.WIN)
+        addField(leftUp2Field, leftUp1Field, if (starMode) -mediumMod else 0f, largeMod, ConnectionPoint.UP)
 
-        gameController.fieldController.addConnection(giftField1, win1Field)
-        gameController.fieldController.addConnection(win1Field, win2Field)
-        addConnectionPoint(ConnectionPoint.UP, win2Field)
+        gameController.fieldController.addConnection(centerField, leftUp1Field)
+        gameController.fieldController.addConnection(leftUp1Field, leftUp2Field)
 
         setPosition(offsetX, offsetY)
     }

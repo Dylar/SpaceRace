@@ -18,12 +18,12 @@ class TestSpace(game: MainGame) : GameController(game) {
         val group2 = TestGroup(this, SCREEN_WIDTH.toFloat() * 1.2f, (SCREEN_HEIGHT / 2).toFloat())
         val group3 = TestGroup(this, -SCREEN_WIDTH.toFloat() * 1.2f, -(SCREEN_HEIGHT / 2).toFloat())
         val group4 = TestGroup(this, offsetY = SCREEN_HEIGHT * 1.2f)
-        val group5 = CrossGroup(this, offsetY = -SCREEN_HEIGHT * 1.8f)
+        val group5 = CrossGroup(this, offsetY = -SCREEN_HEIGHT * 1.4f)
         fieldController.addFields(inputHandler, group1, group2, group3, group4, group5)
         group1.connect(ConnectionPoint.RIGHT, group2)
         group1.connect(ConnectionPoint.LEFT, group3)
         group1.connect(ConnectionPoint.UP, group4)
-        group3.connect(ConnectionPoint.RIGHT, group5)
+//        group3.connect(ConnectionPoint.RIGHT, group5)
 
         val spaceField1 = group1.fields[0]!!
 

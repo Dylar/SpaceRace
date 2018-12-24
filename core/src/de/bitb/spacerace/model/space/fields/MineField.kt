@@ -1,10 +1,9 @@
 package de.bitb.spacerace.model.space.fields
 
-import com.badlogic.gdx.graphics.Texture
-import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.player.Player
 
-class MineField(id: Int = -1, fieldType: FieldType = FieldType.MINE, img: Texture = fieldType.texture) : SpaceField(id, fieldType, img) {
+class MineField(fieldType: FieldType = FieldType.MINE) : SpaceField(fieldType) {
 
     private var owner: Player? = null
 

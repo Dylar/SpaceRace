@@ -16,27 +16,24 @@ open class SpaceGroup(val space: GameController, val offsetX: Float = 0f, val of
         return fields[id]!!
     }
 
-    fun addField(addField: SpaceField, anchorField: SpaceField, horizontalMod: Float = 1f, verticalMod: Float = 1f, connection: ConnectionPoint = ConnectionPoint.NONE) {
-        val posX = anchorField.x + addField.x * horizontalMod
-        val posY = anchorField.y + addField.y * verticalMod
+    fun addField(addField: SpaceField, anchorField: SpaceField, horizontalMod: Float = 0f, verticalMod: Float = 0f, connection: ConnectionPoint = ConnectionPoint.NONE) {
+        val posX = anchorField.x + addField.width * horizontalMod
+        val posY = anchorField.y + addField.height * verticalMod
         addField(addField, posX, posY, connection)
     }
 
     fun addField(addField: SpaceField, posX: Float = addField.x, posY: Float = addField.y, connection: ConnectionPoint = ConnectionPoint.NONE) {
-//        val posX = anchorField.x + addField.x * horizontalMod
-//        val posY = anchorField.y + addField.y * verticalMod
-
         addField.id = fields.size
         addField.group = this
         addField.setPosition(posX, posY)
         fields[addField.id] = addField
         if (connection != ConnectionPoint.NONE) {
-            getConnection(connection).add(addField)
+            addConnectionPoint(connection, addField)
         }
         addActor(addField)
     }
 
-    fun getConnection(connection: ConnectionPoint): MutableList<SpaceField> {
+    private fun getConnection(connection: ConnectionPoint): MutableList<SpaceField> {
         var list = connectionPoint[connection]
         if (list == null) {
             list = ArrayList()
