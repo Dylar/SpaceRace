@@ -19,8 +19,16 @@ var PLAYER_AMOUNT = PLAYER_AMOUNT_MIN
 
 //GAME UI
 
+const val BACKGROUND_STARS_SCALE = 0.55f
+
 const val MAX_ZOOM = 5
 const val MIN_ZOOM = 1
+
+const val FIELD_PADDING_XXLARGE = 2.4f
+const val FIELD_PADDING_XLARGE = 1.8f
+const val FIELD_PADDING_LARGE = 1.2f
+const val FIELD_PADDING_MEDIUM = 0.6f
+const val FIELD_PADDING_SMALL = 0.3f
 
 
 //DEBUG
