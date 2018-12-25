@@ -17,6 +17,7 @@ class TestGroup(space: GameController, offsetX: Float = 0f, offsetY: Float = 0f)
 
         val leftDownCorner = SpaceField(FieldType.GIFT)
         addField(leftDownCorner)
+        
 
         val spaceField2 = MineField()
         addField(spaceField2, screenWidth - spaceField2.width)
@@ -48,13 +49,14 @@ class TestGroup(space: GameController, offsetX: Float = 0f, offsetY: Float = 0f)
         space.fieldController.addConnection(spaceField7, spaceField6)
         space.fieldController.addConnection(spaceField2, spaceField9)
 
-        addConnectionPoint(ConnectionPoint.TOP, spaceField5)
-        addConnectionPoint(ConnectionPoint.BOTTOM, spaceField3)
+        addConnectionPoint(ConnectionPoint.UP, spaceField5)
+        addConnectionPoint(ConnectionPoint.DOWN, spaceField3)
         addConnectionPoint(ConnectionPoint.LEFT, spaceField7)
         addConnectionPoint(ConnectionPoint.RIGHT, spaceField8)
-        addConnectionPoint(ConnectionPoint.TOP, spaceField6)
-        addConnectionPoint(ConnectionPoint.BOTTOM, leftDownCorner)
+        addConnectionPoint(ConnectionPoint.UP, spaceField6)
+        addConnectionPoint(ConnectionPoint.DOWN, leftDownCorner)
 
+        setPosition(offsetX, offsetY)
     }
 
 }

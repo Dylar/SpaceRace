@@ -3,7 +3,6 @@ package de.bitb.spacerace.model.background
 import com.badlogic.gdx.graphics.Color
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.config.BACKGROUND_STARS_SCALE
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
@@ -22,7 +21,8 @@ class FallingStar(var gameScreen: BaseScreen,
 
     override fun act(delta: Float) {
         super.act(delta)
-        val zoom = (MAX_ZOOM - gameScreen.currentZoom + 1) * BACKGROUND_STARS_SCALE
+        val mod = 0.65f
+        val zoom = (MAX_ZOOM * mod - gameScreen.currentZoom * mod + 1)
         scaleX = zoom
         scaleY = zoom
 

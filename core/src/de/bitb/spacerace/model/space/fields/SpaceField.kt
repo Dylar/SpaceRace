@@ -43,13 +43,6 @@ open class SpaceField(var fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
         addAction(repeat)
     }
 
-    override fun act(delta: Float) {
-        super.act(delta)
-        if (fieldType.color != null) {
-            color = fieldType.color
-        }
-    }
-
     override fun draw(batch: Batch?, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
         if (DEBUG_FIELDS_NR) {
