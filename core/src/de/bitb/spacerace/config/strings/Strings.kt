@@ -1,7 +1,6 @@
 package de.bitb.spacerace.config.strings
 
 import de.bitb.spacerace.config.LANGUAGE
-import de.bitb.spacerace.config.PLAYER_AMOUNT
 import de.bitb.spacerace.config.enums.Language.*
 
 object Strings {
@@ -13,11 +12,7 @@ object Strings {
                 ENGLISH -> "Start"
                 GERMAN -> "Start"
             }
-        var START_BUTTON_PLAYER: String = ""
-            get() = when (LANGUAGE) {
-                ENGLISH -> PLAYER_AMOUNT.toString()
-                GERMAN -> PLAYER_AMOUNT.toString()
-            }
+
         var START_BUTTON_LANGUAGE: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "English"

@@ -16,6 +16,7 @@ object Dimensions {
         const val GAME_SIZE_FONT_BIG = 2.5f
         const val GAME_SIZE_FONT_MEDIUM = 2f
         const val GAME_SIZE_FONT_SMALL = 1.5f
+        const val GAME_SIZE_FONT_TINY = 1f
 
         const val GAME_BUTTON_WIDTH_DEFAULT = 300f
         const val GAME_BUTTON_HEIGHT_DEFAULT = 100f

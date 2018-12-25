@@ -21,7 +21,7 @@ import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.DiceCommand
 import de.bitb.spacerace.events.commands.MoveCommand
 import de.bitb.spacerace.events.commands.phases.*
-import de.bitb.spacerace.events.commands.start.StartGameEvent
+import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.base.GuiComponent
 
@@ -78,7 +78,7 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
             if (event is EndTurnCommand) {
                 updateDice(playerData)
             }
-        } else if (event is StartGameEvent) {
+        } else if (event is StartGameCommand) {
             update(playerData)
         }
     }

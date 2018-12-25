@@ -12,7 +12,6 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePaddi
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LANGUAGE
-import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_PLAYER
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_START
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.InputObserver
@@ -20,16 +19,14 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.start.ChangeLanguageCommand
-import de.bitb.spacerace.events.commands.start.ChangePlayerAmountCommand
-import de.bitb.spacerace.events.commands.start.StartGameEvent
+import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.model.space.control.GameController
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
-class StartButtonControl(val space: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class StartButtonControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
     private var languageBtn: TextButton
-    private var playerBtn: TextButton
     private var startBtn: TextButton
 
     init {
@@ -37,14 +34,7 @@ class StartButtonControl(val space: GameController, val guiStage: StartGuiStage,
 
         startBtn = createButton(name = START_BUTTON_START, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(StartGameEvent())
-                return true
-            }
-        })
-
-        playerBtn = createButton(name = START_BUTTON_PLAYER, listener = object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(ChangePlayerAmountCommand())
+                inputHandler.handleCommand(StartGameCommand())
                 return true
             }
         })
@@ -57,8 +47,6 @@ class StartButtonControl(val space: GameController, val guiStage: StartGuiStage,
         })
 
         setFont(addCell(startBtn).actor)
-        row()
-        setFont(addCell(playerBtn).actor)
         row()
         setFont(addCell(languageBtn).actor)
 
@@ -83,23 +71,16 @@ class StartButtonControl(val space: GameController, val guiStage: StartGuiStage,
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
         if (event is ChangeLanguageCommand) {
             updateButtonText()
-        } else if (event is ChangePlayerAmountCommand) {
-            updatePlayerButtonText()
         }
     }
 
     private fun updateButtonText() {
         updateStartButtonText()
-        updatePlayerButtonText()
         updateLanguageButtonText()
     }
 
     private fun updateStartButtonText() {
         startBtn.label.setText(START_BUTTON_START)
-    }
-
-    private fun updatePlayerButtonText() {
-        playerBtn.label.setText(START_BUTTON_PLAYER)
     }
 
     private fun updateLanguageButtonText() {

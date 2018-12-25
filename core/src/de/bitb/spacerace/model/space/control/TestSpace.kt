@@ -1,7 +1,5 @@
 package de.bitb.spacerace.model.space.control
 
-import de.bitb.spacerace.base.PlayerColor
-import de.bitb.spacerace.config.PLAYER_AMOUNT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.MainGame
@@ -32,12 +30,18 @@ class TestSpace(game: MainGame) : GameController(game) {
 
         val spaceField1 = centerGroup.fields[0]!!
 
-        var player = Player(PlayerColor.RED)
-        for (i in 1..PLAYER_AMOUNT) {
+        for (playerColor in gamePlayer) {
+            val player = Player(playerColor)
             playerController.players.add(player)
             fieldController.addShip(player, spaceField1)
-            player = Player(player.playerData.playerColor.next())
         }
+
+//        var player = Player(PlayerColor.RED)
+//        for (i in 1..PLAYER_AMOUNT) {
+//            playerController.players.add(player)
+//            fieldController.addShip(player, spaceField1)
+//            player = Player(player.playerData.playerColor.next())
+//        }
 
     }
 

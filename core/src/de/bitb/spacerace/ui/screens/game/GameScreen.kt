@@ -3,10 +3,8 @@ package de.bitb.spacerace.ui.screens.game
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.commands.start.StartGameEvent
+import de.bitb.spacerace.events.commands.start.StartGameCommand
 
 class GameScreen(game: MainGame) : BaseScreen(game) {
 
@@ -24,7 +22,7 @@ class GameScreen(game: MainGame) : BaseScreen(game) {
 
     override fun show() {
         super.show()
-        game.gameController.inputHandler.handleCommand(StartGameEvent())
+        game.gameController.inputHandler.handleCommand(StartGameCommand())
     }
 
     override fun renderGame(delta: Float) {

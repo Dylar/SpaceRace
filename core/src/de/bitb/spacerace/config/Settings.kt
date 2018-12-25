@@ -12,9 +12,6 @@ var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 
 var LANGUAGE = Language.ENGLISH
-var PLAYER_AMOUNT_MIN = 2
-var PLAYER_AMOUNT_MAX = PlayerColor.values().size - 1
-var PLAYER_AMOUNT = PLAYER_AMOUNT_MIN
 
 
 //GAME UI
