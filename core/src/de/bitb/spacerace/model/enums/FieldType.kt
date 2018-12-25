@@ -12,7 +12,7 @@ enum class FieldType(val color: Color? = null, val texture: Texture = TextureCol
     GIFT(YELLOW),
     AMBUSH(BROWN),
     MINE(BLUE),
-    RANDOM(BROWN, TextureCollection.blackhole),
+    RANDOM(GREEN, TextureCollection.blackhole),
     UNKNOWN(texture = TextureCollection.blackhole);
 
 }

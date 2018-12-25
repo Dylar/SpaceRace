@@ -9,7 +9,6 @@ import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.groups.CircleGroup
 import de.bitb.spacerace.model.space.groups.CrossGroup
-import de.bitb.spacerace.model.space.groups.TestGroup
 
 class TestSpace(game: MainGame) : GameController(game) {
     override fun createSpace(game: MainGame) {
