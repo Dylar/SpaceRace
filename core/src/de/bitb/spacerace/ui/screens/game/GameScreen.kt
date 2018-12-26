@@ -4,7 +4,6 @@ import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.commands.start.StartGameCommand
 
 class GameScreen(game: MainGame) : BaseScreen(game) {
 
@@ -18,21 +17,6 @@ class GameScreen(game: MainGame) : BaseScreen(game) {
 
     override fun createBackgroundStage(): BaseStage {
         return BackgroundStage(this)
-    }
-
-    override fun show() {
-        super.show()
-        game.gameController.inputHandler.handleCommand(StartGameCommand())
-    }
-
-    override fun renderGame(delta: Float) {
-//        LineRenderer.startLine(Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH, gameStage.camera.combined)
-//        val gameController = game.gameController
-//        val playerData = gameController.playerController.currentPlayer.playerData
-//        gameController.fieldController.connections.draw(playerData) //TODO do it with actor
-//        LineRenderer.endLine()
-
-        super.renderGame(delta)
     }
 
     override fun getCameraTarget(): BaseObject? {

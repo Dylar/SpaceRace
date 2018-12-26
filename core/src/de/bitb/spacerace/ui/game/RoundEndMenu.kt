@@ -2,7 +2,6 @@ package de.bitb.spacerace.ui.game
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_END_ROUND_WIDTH_MIN
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
@@ -10,9 +9,8 @@ import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_TITLE
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.space.control.GameController
-import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
 class RoundEndMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 

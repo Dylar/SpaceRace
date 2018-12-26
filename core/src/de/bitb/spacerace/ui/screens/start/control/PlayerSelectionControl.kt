@@ -45,7 +45,7 @@ class PlayerSelectionControl(val gameController: GameController, val guiStage: S
     }
 
     private fun addCheckbox(color: PlayerColor): CheckBox {
-        val checkBox = createCheckbox(name = color.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+        val checkBox = createCheckbox(name = color.name, fontSize = GAME_SIZE_FONT_SMALL, fontColor = color.color, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 inputHandler.handleCommand(SelectPlayerCommand(color))
                 return true

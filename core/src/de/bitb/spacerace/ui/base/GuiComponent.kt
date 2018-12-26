@@ -37,35 +37,35 @@ interface GuiComponent {
         return group
     }
 
-    fun createLabel(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.BLACK): Label {
+    fun createLabel(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, fontColor: Color = Color.BLACK): Label {
         val label = Label(name, TextureCollection.skin, "default")
         label.width = GAME_LABEL_WIDTH
         label.height = GAME_LABEL_HEIGHT
         label.setPosition(posX, posY)
         label.color = color
-        setFont(label, fontColor = colorText)
+        setFont(label, fontColor = fontColor)
         return label
     }
 
-    fun createCheckbox(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.BLACK, fontSize: Float = GAME_SIZE_FONT_MEDIUM, listener: InputListener): CheckBox {
+    fun createCheckbox(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, fontColor: Color = Color.BLACK, fontSize: Float = GAME_SIZE_FONT_MEDIUM, listener: InputListener): CheckBox {
         val checkBox = CheckBox(name, TextureCollection.skin, "default")
         checkBox.width = GAME_LABEL_WIDTH
         checkBox.height = GAME_LABEL_HEIGHT
         checkBox.setPosition(posX, posY)
         checkBox.color = color
         checkBox.addListener(listener)
-        setFont(checkBox, fontSize, colorText)
+        setFont(checkBox, fontSize, fontColor)
         return checkBox
     }
 
-    fun createButton(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.BLACK, fontSize: Float = GAME_SIZE_FONT_SMALL, listener: InputListener): TextButton {
+    fun createButton(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, fontColor: Color = Color.BLACK, fontSize: Float = GAME_SIZE_FONT_SMALL, listener: InputListener): TextButton {
         val textButton = TextButton(name, TextureCollection.skin, "default")
         textButton.width = GAME_LABEL_WIDTH
         textButton.height = GAME_LABEL_HEIGHT
         textButton.setPosition(posX, posY)
         textButton.color = color
         textButton.addListener(listener)
-        setFont(textButton.label, fontSize, colorText)
+        setFont(textButton.label, fontSize, fontColor)
         return textButton
     }
 

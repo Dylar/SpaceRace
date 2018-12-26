@@ -2,11 +2,9 @@ package de.bitb.spacerace.model.space.control
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.events.commands.MoveCommand
+import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceConnection

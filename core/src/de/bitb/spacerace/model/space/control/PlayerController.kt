@@ -2,9 +2,7 @@ package de.bitb.spacerace.model.space.control
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.PlayerColor
-import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.events.commands.phases.EndRoundCommand
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.SpaceField

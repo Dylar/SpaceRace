@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.base.BaseGuiStage
+ import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
@@ -16,12 +16,13 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.DiceCommand
 import de.bitb.spacerace.events.commands.MoveCommand
-import de.bitb.spacerace.events.commands.phases.*
+import de.bitb.spacerace.events.commands.phases.EndTurnCommand
+import de.bitb.spacerace.events.commands.phases.PhaseCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
+import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.base.GuiComponent
 

@@ -16,7 +16,7 @@ abstract class BaseGame : Game() {
     abstract fun initScreen()
 
     fun changeScreen(screen: BaseScreen) {
-        val bla = getScreen()
+        val bla = getScreen()//TODO was soll das
         val inputHandler = (getScreen() as BaseScreen).game
         setScreen(screen)
     }
