@@ -33,7 +33,8 @@ class PlayerSelectionControl(val space: GameController, val guiStage: StartGuiSt
             if (value != PlayerColor.NONE) {
                 val checkBox = addCheckbox(value)
                 if (value == PlayerColor.RED || value == PlayerColor.TEAL) {
-//                    inputHandler.handleCommand(SelectPlayerCommand(value))
+                    checkBox.isChecked = true
+                    inputHandler.handleCommand(SelectPlayerCommand(value))
                 }
             }
         }
