@@ -1,7 +1,7 @@
 package de.bitb.spacerace.model.space.groups
 
-import de.bitb.spacerace.config.*
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_LARGE
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_XXLARGE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType

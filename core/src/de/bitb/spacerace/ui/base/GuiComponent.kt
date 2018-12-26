@@ -1,18 +1,14 @@
 package de.bitb.spacerace.ui.base
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Group
-import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePadding
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.slotHeight
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.slotWidth
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_BIG
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_WIDTH
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_MEDIUM
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.core.TextureCollection
@@ -24,8 +20,8 @@ interface GuiComponent {
     fun createGroup(vararg actors: Actor): Group {
         val group = Group()
 
-        group.width = slotWidth + singlePadding * 2
-        group.height = slotHeight * actors.size
+        group.width = GAME_LABEL_WIDTH + GAME_LABEL_PADDING * 2
+        group.height = GAME_LABEL_HEIGHT * actors.size
 
         val background = Image(TextureCollection.guiBackground)
         background.width = group.width
@@ -33,9 +29,9 @@ interface GuiComponent {
         group.addActor(background)
         var posY = 0f
         for (actor in actors) {
-            actor.setPosition(singlePadding, posY)
+            actor.setPosition(GAME_LABEL_PADDING, posY)
             group.addActor(actor)
-            posY += slotHeight
+            posY += GAME_LABEL_HEIGHT
         }
 
         return group
@@ -43,8 +39,8 @@ interface GuiComponent {
 
     fun createLabel(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.BLACK): Label {
         val label = Label(name, TextureCollection.skin, "default")
-        label.width = slotWidth
-        label.height = slotHeight
+        label.width = GAME_LABEL_WIDTH
+        label.height = GAME_LABEL_HEIGHT
         label.setPosition(posX, posY)
         label.color = color
         setFont(label, fontColor = colorText)
@@ -53,29 +49,19 @@ interface GuiComponent {
 
     fun createCheckbox(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.BLACK, fontSize: Float = GAME_SIZE_FONT_MEDIUM, listener: InputListener): CheckBox {
         val checkBox = CheckBox(name, TextureCollection.skin, "default")
-        checkBox.width = slotWidth
-        checkBox.height = slotHeight
+        checkBox.width = GAME_LABEL_WIDTH
+        checkBox.height = GAME_LABEL_HEIGHT
         checkBox.setPosition(posX, posY)
         checkBox.color = color
-        checkBox.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                Gdx.graphics.isContinuousRendering = checkBox.isChecked()
-                listener.touchDown(event, x, y, pointer, button)
-                return true
-            }
-
-            fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
-                Gdx.graphics.isContinuousRendering = checkBox.isChecked()
-            }
-        })
+        checkBox.addListener(listener)
         setFont(checkBox, fontSize, colorText)
         return checkBox
     }
 
     fun createButton(name: String = "-", posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, colorText: Color = Color.BLACK, fontSize: Float = GAME_SIZE_FONT_SMALL, listener: InputListener): TextButton {
         val textButton = TextButton(name, TextureCollection.skin, "default")
-        textButton.width = slotWidth
-        textButton.height = slotHeight
+        textButton.width = GAME_LABEL_WIDTH
+        textButton.height = GAME_LABEL_HEIGHT
         textButton.setPosition(posX, posY)
         textButton.color = color
         textButton.addListener(listener)
@@ -85,8 +71,8 @@ interface GuiComponent {
 
     fun createImageButton(imageIdle: Drawable, imageClick: Drawable = imageIdle, imageClicked: Drawable = imageIdle, posX: Float = 0f, posY: Float = 0f, color: Color = Color.ROYAL, listener: InputListener): ImageButton {
         val button = ImageButton(imageIdle, imageClick, imageClicked)
-        button.width = slotWidth
-        button.height = slotHeight
+        button.width = GAME_LABEL_WIDTH
+        button.height = GAME_LABEL_HEIGHT
         button.setPosition(posX, posY)
         button.color = color
         button.addListener(listener)
@@ -118,11 +104,20 @@ interface GuiComponent {
 
     fun setFont(checkBox: CheckBox, fontSize: Float = GAME_SIZE_FONT_MEDIUM, fontColor: Color = Color.WHITE) {
 
-        val labelStyle = CheckBox.CheckBoxStyle(checkBox.style)
-        labelStyle.fontColor = fontColor
-        labelStyle.font = checkBox.style.font
+        val checkboxStyle = CheckBox.CheckBoxStyle(checkBox.style)
+        checkboxStyle.fontColor = fontColor
+        checkboxStyle.font = checkBox.style.font
 
-        checkBox.style = labelStyle
+        checkboxStyle.checkboxOff.minHeight = checkBox.height - GAME_LABEL_PADDING / 2
+        checkboxStyle.checkboxOff.minWidth = checkBox.height - GAME_LABEL_PADDING / 2
+        checkboxStyle.checkboxOn.minHeight = checkBox.height - GAME_LABEL_PADDING / 2
+        checkboxStyle.checkboxOn.minWidth = checkBox.height - GAME_LABEL_PADDING / 2
+//        checkboxStyle.checkboxOff.minHeight = checkBox.height * GAME_SIZE_FONT_TINY
+//        checkboxStyle.checkboxOff.minWidth = checkBox.height * GAME_SIZE_FONT_TINY
+//        checkboxStyle.checkboxOn.minHeight = checkBox.height * GAME_SIZE_FONT_TINY
+//        checkboxStyle.checkboxOn.minWidth = checkBox.height * GAME_SIZE_FONT_TINY
+
+        checkBox.style = checkboxStyle
         checkBox.label.setFontScale(fontSize)
 
     }
@@ -130,33 +125,33 @@ interface GuiComponent {
 
     //LAYOUT
 
-    fun <T : Actor> addPadding(cell: Cell<T>, padding: Float = singlePadding / 2) {
+    fun <T : Actor> addPadding(cell: Cell<T>, padding: Float = GAME_LABEL_PADDING / 2) {
         cell.pad(padding)
     }
 
-    fun <T : Actor> addPaddingTopBottom(cell: Cell<T>, padding: Float = singlePadding / 2) {
+    fun <T : Actor> addPaddingTopBottom(cell: Cell<T>, padding: Float = GAME_LABEL_PADDING / 2) {
         addPaddingTop(cell, padding)
         addPaddingBottom(cell, padding)
     }
 
-    fun <T : Actor> addPaddingLeftRight(cell: Cell<T>, padding: Float = singlePadding / 2) {
+    fun <T : Actor> addPaddingLeftRight(cell: Cell<T>, padding: Float = GAME_LABEL_PADDING / 2) {
         addPaddingLeft(cell, padding)
         addPaddingRight(cell, padding)
     }
 
-    fun <T : Actor> addPaddingTop(cell: Cell<T>, padding: Float = singlePadding / 2) {
+    fun <T : Actor> addPaddingTop(cell: Cell<T>, padding: Float = GAME_LABEL_PADDING / 2) {
         cell.padTop(padding)
     }
 
-    fun <T : Actor> addPaddingBottom(cell: Cell<T>, padding: Float = singlePadding / 2) {
+    fun <T : Actor> addPaddingBottom(cell: Cell<T>, padding: Float = GAME_LABEL_PADDING / 2) {
         cell.padBottom(padding)
     }
 
-    fun <T : Actor> addPaddingLeft(cell: Cell<T>, padding: Float = singlePadding / 2) {
+    fun <T : Actor> addPaddingLeft(cell: Cell<T>, padding: Float = GAME_LABEL_PADDING / 2) {
         cell.padLeft(padding)
     }
 
-    fun <T : Actor> addPaddingRight(cell: Cell<T>, padding: Float = singlePadding / 2) {
+    fun <T : Actor> addPaddingRight(cell: Cell<T>, padding: Float = GAME_LABEL_PADDING / 2) {
         cell.padRight(padding)
     }
 }

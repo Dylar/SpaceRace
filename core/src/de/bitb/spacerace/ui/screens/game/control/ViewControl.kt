@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.base.PlayerColor
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePadding
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CENTER
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
@@ -58,7 +58,7 @@ class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompon
     }
 
     private fun <T : Actor> addCell(cell: Cell<T>): Cell<T> {
-        addPaddingTopBottom(cell, singlePadding / 4)
+        addPaddingTopBottom(cell, GAME_LABEL_PADDING / 4)
         addPaddingLeftRight(cell)
         cell.fill()
         return cell

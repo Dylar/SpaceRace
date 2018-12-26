@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePadding
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LANGUAGE
@@ -62,7 +62,7 @@ class StartButtonControl(val gameController: GameController, val guiStage: Start
 
     private fun <T : Actor> addCell(actor: T): Cell<T> {
         val cell = super.add(actor)
-        addPaddingTopBottom(cell, singlePadding / 4)
+        addPaddingTopBottom(cell, GAME_LABEL_PADDING / 4)
         addPaddingLeftRight(cell)
         cell.fill()
         return cell

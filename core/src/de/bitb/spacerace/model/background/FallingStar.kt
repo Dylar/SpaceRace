@@ -3,8 +3,8 @@ package de.bitb.spacerace.model.background
 import com.badlogic.gdx.graphics.Color
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.config.BACKGROUND_STARS_SCALE
 import de.bitb.spacerace.config.MAX_ZOOM
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_STARS_SCALE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection

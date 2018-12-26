@@ -5,14 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.base.PlayerColor
-import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePadding
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_BIG
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_TINY
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.controller.InputHandler
@@ -33,7 +31,10 @@ class PlayerSelectionControl(val space: GameController, val guiStage: StartGuiSt
 
         for (value in PlayerColor.values()) {
             if (value != PlayerColor.NONE) {
-                addCheckbox(value)
+                val checkBox = addCheckbox(value)
+                if (value == PlayerColor.RED || value == PlayerColor.TEAL) {
+//                    inputHandler.handleCommand(SelectPlayerCommand(value))
+                }
             }
         }
 
@@ -42,18 +43,20 @@ class PlayerSelectionControl(val space: GameController, val guiStage: StartGuiSt
         setPosition()
     }
 
-    private fun addCheckbox(color: PlayerColor) {
-        val checkBox = createCheckbox(name = color.name, fontSize = GAME_SIZE_FONT_TINY, listener = object : InputListener() {
+    private fun addCheckbox(color: PlayerColor): CheckBox {
+        val checkBox = createCheckbox(name = color.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 inputHandler.handleCommand(SelectPlayerCommand(color))
                 return true
             }
         })
 
-        addCell(checkBox).actor
-        val box = checkBox.cells.get(0).size(width, height)
+        addCell(checkBox)
+        val box = checkBox.cells.get(0)
         addPaddingRight(box)
+
         row()
+        return checkBox
     }
 
     private fun setPosition() {
@@ -63,7 +66,7 @@ class PlayerSelectionControl(val space: GameController, val guiStage: StartGuiSt
 
     private fun <T : Actor> addCell(actor: T): Cell<T> {
         val cell = super.add(actor)
-        addPaddingTopBottom(cell, singlePadding / 4)
+        addPaddingTopBottom(cell, GAME_LABEL_PADDING / 5)
         addPaddingLeftRight(cell)
         cell.fill()
         return cell
