@@ -1,7 +1,6 @@
 package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
@@ -11,10 +10,16 @@ import de.bitb.spacerace.config.DEBUG_FIELDS_NR
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.groups.TestGroup
+import de.bitb.spacerace.model.space.groups.SpaceGroup
 
-open class SpaceField(var id: Int = -1, var fieldType: FieldType = FieldType.UNKNOWN, img: Texture = fieldType.texture) : BaseObject(img) {
-    lateinit var group: TestGroup
+open class SpaceField(var fieldType: FieldType = FieldType.UNKNOWN) : BaseObject(fieldType.texture) {
+    var id: Int = -1
+
+    companion object {
+        val NONE: SpaceField = SpaceField()
+    }
+
+    lateinit var group: SpaceGroup
 
     override fun getAbsolutX(): Float {
         val offset: Float = if (::group.isInitialized) group.offsetX else 0f
@@ -33,6 +38,13 @@ open class SpaceField(var id: Int = -1, var fieldType: FieldType = FieldType.UNK
         repeat.action = Actions.rotateBy((Math.random() * 1).toFloat())
         repeat.count = FOREVER
         addAction(repeat)
+    }
+
+    override fun act(delta: Float) {
+        super.act(delta)
+        if (fieldType.color != null) {
+            color = fieldType.color
+        }
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {

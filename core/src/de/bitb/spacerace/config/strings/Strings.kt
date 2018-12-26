@@ -5,6 +5,21 @@ import de.bitb.spacerace.config.enums.Language.*
 
 object Strings {
 
+    object StartGuiStrings {
+
+        var START_BUTTON_START: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Start"
+                GERMAN -> "Start"
+            }
+
+        var START_BUTTON_LANGUAGE: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "English"
+                GERMAN -> "Deutsch"
+            }
+    }
+
     object GameGuiStrings {
 
         var GAME_BUTTON_CANCEL: String = ""

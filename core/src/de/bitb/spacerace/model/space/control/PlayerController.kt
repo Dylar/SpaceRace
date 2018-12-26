@@ -5,17 +5,16 @@ import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.events.commands.phases.EndRoundCommand
-import de.bitb.spacerace.events.commands.phases.EndTurnCommand
-import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class PlayerController(val space: BaseSpace, val inputHandler: InputHandler) {
+class PlayerController() {
+
+    var players: MutableList<Player> = ArrayList()
 
     var currentPlayer: Player = Player.NONE
         get() = if (players.isEmpty()) Player.NONE else players[players.size - 1]
-    var players: MutableList<Player> = ArrayList()
 
     fun moveTo(player: Player = currentPlayer, spaceField: SpaceField) {
         val playerData = player.playerData
@@ -29,7 +28,7 @@ class PlayerController(val space: BaseSpace, val inputHandler: InputHandler) {
     }
 
     private fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
-        val sameField = space.playerController.previousFieldSelected(playerData, spaceField)
+        val sameField = previousFieldSelected(playerData, spaceField)
         if (sameField) {
             playerData.steps.removeAt(playerData.steps.size - 1)
         } else {
@@ -67,10 +66,6 @@ class PlayerController(val space: BaseSpace, val inputHandler: InputHandler) {
         return true
     }
 
-    fun stepsLeft(playerData: PlayerData = currentPlayer.playerData): Int {
-        return playerData.diceResult - (playerData.steps.size - 1)
-    }
-
     fun nextTurn() {
         Logger.println("nextTurn1")
         val oldPlayer = players[0]
@@ -82,14 +77,11 @@ class PlayerController(val space: BaseSpace, val inputHandler: InputHandler) {
         players.removeAt(0)
 
         Logger.println("nextTurn2: ${currentPlayer.playerData.phase}")
-        if (space.playerController.isRoundEnd()) {
-            inputHandler.handleCommand(EndRoundCommand(inputHandler))
-        }
     }
 
     fun nextRound() {
         Logger.println("nextRound1")
-        space.fieldController.harvestOres()
+//        gameController.fieldController.harvestOres() // TODO send command
 
         for (player in players) {
             val playerData = player.playerData

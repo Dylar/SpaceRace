@@ -51,5 +51,9 @@ enum class Phase(val text: String, val color: Color) {
         return this == END_ROUND
     }
 
+    fun isStepsLeft() : Boolean{
+        return true
+    }
+
 
 }

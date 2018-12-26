@@ -1,39 +1,32 @@
 package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH
 import de.bitb.spacerace.core.LineRenderer
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.model.player.PlayerData
 
-class SpaceConnection(val space: BaseSpace, val spaceField1: SpaceField, val spaceField2: SpaceField) : Actor() {
 
-    override fun getColor(): Color {
-        val playerData = space.playerController.currentPlayer.playerData
-        return if (playerData.phase.isMoving() && isConnected(playerData.fieldPosition)) {
-            if (space.playerController.stepsLeft() == 0 && !isConnected(playerData.previousStep)) {
-                Color.RED
-            } else {
-                Color.GREEN
+class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) {
+
+    fun getColor(playerData: PlayerData): Color {
+        val isConnected = isConnected(playerData.fieldPosition)
+        if (isConnected) {
+            val canMove = playerData.canMove()
+            if (canMove || isConnected(playerData.previousStep)) {
+                return Color.GREEN
             }
-        } else {
-            Color.RED
         }
+
+        return Color.RED
     }
 
-
-    fun draw(batch: Batch?, parentAlpha: Float, matrix: Matrix4) {
-        super.draw(batch, parentAlpha)
+    fun draw(playerData: PlayerData) {
         val start = Vector2(spaceField1.getAbsolutX(), spaceField1.getAbsolutY())
         val end = Vector2(spaceField2.getAbsolutX(), spaceField2.getAbsolutY())
-        LineRenderer.drawDebugLine(start, end, GAME_CONNECTIONS_WIDTH, color, matrix)
-    }
-
-    override fun draw(batch: Batch?, parentAlpha: Float) {
-        draw(batch, parentAlpha, stage.camera.combined)
+        LineRenderer.drawDebugLine(start, end, getColor(playerData))
     }
 
     fun isConnected(spaceField: SpaceField): Boolean {

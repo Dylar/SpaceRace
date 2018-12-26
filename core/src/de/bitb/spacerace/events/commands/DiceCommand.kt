@@ -1,15 +1,16 @@
 package de.bitb.spacerace.events.commands
 
-import de.bitb.spacerace.model.space.control.BaseSpace
+import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.core.MainGame
 
-class DiceCommand() : BaseCommand() {
+class DiceCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
-    override fun canExecute(space: BaseSpace): Boolean {
-        return !space.playerController.canDice(playerColor)
+    override fun canExecute(game: MainGame): Boolean {
+        return game.gameController.playerController.canDice(playerColor)
     }
 
-    override fun execute(space: BaseSpace) {
-        space.playerController.dice()
+    override fun execute(game: MainGame) {
+        game.gameController.playerController.dice()
     }
 
 }

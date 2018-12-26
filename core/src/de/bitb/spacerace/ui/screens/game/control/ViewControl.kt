@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.control
+package de.bitb.spacerace.ui.screens.game.control
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -7,18 +7,22 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.singlePadding
+import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CENTER
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.space.control.BaseSpace
-import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.base.GuiComponent
+import de.bitb.spacerace.ui.screens.game.GameScreen
 
-class ViewControl(val space: BaseSpace, val screen: GameScreen, guiComponent: GuiComponent = object : GuiComponent {}) : Table(TextureCollection.skin), GuiComponent by guiComponent {
+class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiComponent by object : GuiComponent {} {
+
+    private val thisPlayer: PlayerColor
+        get() = game.gameController.playerController.currentPlayer.playerData.playerColor
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
-
+        val screen = (game.screen as GameScreen)
         val plusBtn = createButton(name = "+", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 screen.onZoomPlusClicked()
@@ -54,7 +58,7 @@ class ViewControl(val space: BaseSpace, val screen: GameScreen, guiComponent: Gu
     }
 
     private fun <T : Actor> addCell(cell: Cell<T>): Cell<T> {
-        addPaddingTopBottom(cell, singlePadding / 4)
+        addPaddingTopBottom(cell, GAME_LABEL_PADDING / 4)
         addPaddingLeftRight(cell)
         cell.fill()
         return cell
