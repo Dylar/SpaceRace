@@ -24,7 +24,7 @@ import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
 
-class PlayerSelectionControl(val space: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class PlayerSelectionControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
@@ -74,29 +74,7 @@ class PlayerSelectionControl(val space: GameController, val guiStage: StartGuiSt
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
-//        if (event is ChangeLanguageCommand) {
-//            updateButtonText()
-//        } else if (event is ChangePlayerAmountCommand) {
-//            updatePlayerButtonText()
-//        }
+
     }
-//
-//    private fun updateButtonText() {
-//        updateStartButtonText()
-//        updatePlayerButtonText()
-//        updateLanguageButtonText()
-//    }
-//
-//    private fun updateStartButtonText() {
-//        startBtn.label.setText(START_BUTTON_START)
-//    }
-//
-//    private fun updatePlayerButtonText() {
-//        playerBtn.label.setText(START_BUTTON_PLAYER)
-//    }
-//
-//    private fun updateLanguageButtonText() {
-//        languageBtn.label.setText(START_BUTTON_LANGUAGE)
-//    }
 
 }
