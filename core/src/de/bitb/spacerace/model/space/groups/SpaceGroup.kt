@@ -2,7 +2,7 @@ package de.bitb.spacerace.model.space.groups
 
 import com.badlogic.gdx.scenes.scene2d.Group
 import de.bitb.spacerace.model.enums.ConnectionPoint
-import de.bitb.spacerace.model.space.control.GameController
+import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0f, val offsetY: Float = 0f) : Group() {

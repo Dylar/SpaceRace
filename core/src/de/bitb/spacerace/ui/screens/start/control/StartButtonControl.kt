@@ -20,7 +20,7 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.start.ChangeLanguageCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
-import de.bitb.spacerace.model.space.control.GameController
+import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 

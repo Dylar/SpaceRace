@@ -1,4 +1,4 @@
-package de.bitb.spacerace.base
+package de.bitb.spacerace.model.player
 
 import com.badlogic.gdx.graphics.Color
 
@@ -26,7 +26,6 @@ enum class PlayerColor(val color: Color) {
             NAVY -> RED
 
             NONE -> NONE
-
         }
     }
 }

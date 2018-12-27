@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.space.control
+package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.model.enums.Phase

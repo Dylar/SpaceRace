@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
@@ -18,24 +18,29 @@ import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
-import de.bitb.spacerace.events.commands.start.SelectPlayerCommand
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.events.commands.start.SelectMapCommand
+import de.bitb.spacerace.model.space.maps.MapType
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
 
-class PlayerSelectionControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class MapSelectionControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
-        for (value in PlayerColor.values()) {
-            if (value != PlayerColor.NONE) {
-                val checkBox = addCheckbox(value)
-                if (value == PlayerColor.RED || value == PlayerColor.GREEN) {
-                    checkBox.isChecked = true
-                    inputHandler.handleCommand(SelectPlayerCommand(value))
-                }
+        val buttonGroup: ButtonGroup<CheckBox> = ButtonGroup()
+        buttonGroup.setMaxCheckCount(1)
+        buttonGroup.setMinCheckCount(1)
+        buttonGroup.setUncheckLast(true)
+
+        for (value in MapType.values()) {
+            val checkBox = addCheckbox(value)
+            buttonGroup.add(checkBox)
+            if (value == MapType.RANDOM) {
+                checkBox.isChecked = true
+                inputHandler.handleCommand(SelectMapCommand(value))
             }
         }
 
@@ -44,10 +49,10 @@ class PlayerSelectionControl(val gameController: GameController, val guiStage: S
         setPosition()
     }
 
-    private fun addCheckbox(color: PlayerColor): CheckBox {
-        val checkBox = createCheckbox(name = color.name, fontSize = GAME_SIZE_FONT_SMALL, fontColor = color.color, listener = object : InputListener() {
+    private fun addCheckbox(mapType: MapType): CheckBox {
+        val checkBox = createCheckbox(name = mapType.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(SelectPlayerCommand(color))
+                inputHandler.handleCommand(SelectMapCommand(mapType))
                 return true
             }
         })
@@ -61,7 +66,7 @@ class PlayerSelectionControl(val gameController: GameController, val guiStage: S
     }
 
     private fun setPosition() {
-        x = SCREEN_WIDTH / 4 - width + width / 4
+        x = SCREEN_WIDTH - width - width / 4
         y = SCREEN_HEIGHT / 2f - height / 2
     }
 

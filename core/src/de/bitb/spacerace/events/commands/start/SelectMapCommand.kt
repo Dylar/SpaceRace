@@ -1,19 +1,17 @@
 package de.bitb.spacerace.events.commands.start
 
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.model.space.maps.MapType
 
-class SelectPlayerCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
+class SelectMapCommand(val mapType: MapType) : BaseCommand() {
 
     override fun canExecute(game: MainGame): Boolean {
         return true
     }
 
     override fun execute(game: MainGame) {
-        if (!game.gameController.gamePlayer.remove(playerColor)) {
-            game.gameController.gamePlayer.add(playerColor)
-        }
+        game.gameController.mapType = mapType
     }
 
 }

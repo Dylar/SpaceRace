@@ -1,22 +1,23 @@
-package de.bitb.spacerace.model.space.control
+package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.events.commands.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
+import de.bitb.spacerace.model.space.maps.SpaceMap
 
-class FieldController() {
+class FieldController(playerController: PlayerController) {
 
     val fieldGroups: MutableList<SpaceGroup> = ArrayList()
     val fields: MutableList<SpaceField> = ArrayList()
     val fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
-   lateinit var connections: ConnectionList
+    val connections: ConnectionList = ConnectionList(playerController)
 
     fun addShip(player: Player, spaceField1: SpaceField) {
         player.playerData.fieldPosition = spaceField1
@@ -43,6 +44,10 @@ class FieldController() {
             fieldsMap[spaceField.fieldType] = list
         }
         list.add(spaceField)
+    }
+
+    fun initMap(inputHandler: InputHandler, map: SpaceMap) {
+        addFields(inputHandler, *map.groups.toTypedArray())
     }
 
     fun addFields(inputHandler: InputHandler, vararg spaceGroups: SpaceGroup) {
@@ -81,4 +86,5 @@ class FieldController() {
         val mineField: MineField = player.playerData.fieldPosition as MineField
         mineField.setOwner(player)
     }
+
 }

@@ -3,7 +3,7 @@ package de.bitb.spacerace.ui.base
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING
 import de.bitb.spacerace.core.TextureCollection

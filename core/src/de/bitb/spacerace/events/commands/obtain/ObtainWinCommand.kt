@@ -1,6 +1,6 @@
 package de.bitb.spacerace.events.commands.obtain
 
-import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 
@@ -11,7 +11,7 @@ class ObtainWinCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
     }
 
     override fun execute(game: MainGame) {
-        val lose = game.gameController.playerController.getPlayer(playerColor).addRandomWin()
+        val win = game.gameController.playerController.getPlayer(playerColor).addRandomWin()
     }
 
 }

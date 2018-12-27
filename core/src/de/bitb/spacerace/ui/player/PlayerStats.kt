@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
- import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.base.BaseGuiStage
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDITS
@@ -19,6 +19,8 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.DiceCommand
 import de.bitb.spacerace.events.commands.MoveCommand
+import de.bitb.spacerace.events.commands.obtain.ObtainLoseCommand
+import de.bitb.spacerace.events.commands.obtain.ObtainWinCommand
 import de.bitb.spacerace.events.commands.phases.EndTurnCommand
 import de.bitb.spacerace.events.commands.phases.PhaseCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
@@ -71,16 +73,19 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
         val playerData = game.gameController.playerController.currentPlayer.playerData
-        if (event is MoveCommand || event is DiceCommand) {
-            updateDice(playerData)
-        } else if (event is PhaseCommand) {
-            updateRound(playerData.playerColor)
-            updatePhase(playerData.phase)
-            if (event is EndTurnCommand) {
-                updateDice(playerData)
+        when (event) {
+            is MoveCommand, is DiceCommand -> updateDice(playerData)
+            is PhaseCommand -> {
+                updateRound(playerData.playerColor)
+                updatePhase(playerData.phase)
+                if (event is EndTurnCommand) {
+                    updateDice(playerData)
+                }
             }
-        } else if (event is StartGameCommand) {
-            update(playerData)
+            is StartGameCommand -> update(playerData)
+            is ObtainWinCommand, is ObtainLoseCommand -> {
+                updateCredits(playerData)
+            }
         }
     }
 

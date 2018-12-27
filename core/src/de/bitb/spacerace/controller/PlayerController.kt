@@ -1,7 +1,7 @@
-package de.bitb.spacerace.model.space.control
+package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerData
@@ -83,7 +83,7 @@ class PlayerController() {
 
         for (player in players) {
             val playerData = player.playerData
-//            val saveData = playerData.copy() //TODO save me
+//            val saveData = playerData.copy() //TODO save me for history
             playerData.steps = ArrayList()
             playerData.diceResult = 0
             playerData.diced = false

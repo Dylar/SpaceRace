@@ -1,6 +1,5 @@
 package de.bitb.spacerace.config
 
-import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.config.enums.GameSpeed
 import de.bitb.spacerace.config.enums.GameType
 import de.bitb.spacerace.config.enums.Language
@@ -21,5 +20,5 @@ const val MIN_ZOOM = 1
 //DEBUG
 const val DEBUG_ITEMS = 0
 
-const val DEBUG_FIELDS_NR = false
+const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false

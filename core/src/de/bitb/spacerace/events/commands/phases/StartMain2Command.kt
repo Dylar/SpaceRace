@@ -1,7 +1,7 @@
 package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.obtain.ObtainGiftCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainLoseCommand

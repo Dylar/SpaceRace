@@ -1,6 +1,6 @@
 package de.bitb.spacerace.events.commands
 
-import de.bitb.spacerace.base.PlayerColor
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 
 class DiceCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {

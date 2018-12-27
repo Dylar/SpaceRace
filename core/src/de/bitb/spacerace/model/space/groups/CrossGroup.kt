@@ -6,7 +6,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.control.GameController
+import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 
@@ -15,35 +15,35 @@ class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: F
     init {
 
         //CENTER
-        val centerField = SpaceField(FieldType.GIFT)
+        val centerField = SpaceField.createField(FieldType.GIFT)
         addField(centerField, SCREEN_WIDTH / 2 - centerField.width / 2, SCREEN_HEIGHT / 2 - centerField.height / 2)
 
         //LEFT
-        val left1Field = MineField()
+        val left1Field = SpaceField.createField(FieldType.MINE)
         addField(left1Field, centerField, -FIELD_PADDING_LARGE)
-        val left2Field = SpaceField(FieldType.WIN)
+        val left2Field = SpaceField.createField(FieldType.WIN)
         addField(left2Field, left1Field, -FIELD_PADDING_LARGE, connection = ConnectionPoint.LEFT)
 
         connect(centerField, left1Field)
         connect(left1Field, left2Field)
 
         //RIGHT
-        val right1Field = SpaceField(FieldType.AMBUSH)
+        val right1Field = SpaceField.createField(FieldType.AMBUSH)
         addField(right1Field, centerField, FIELD_PADDING_LARGE)
-        val right2Field = SpaceField(FieldType.SHOP)
+        val right2Field = SpaceField.createField(FieldType.SHOP)
         addField(right2Field, right1Field, FIELD_PADDING_LARGE, connection = ConnectionPoint.RIGHT)
 
         connect(centerField, right1Field)
         connect(right1Field, right2Field)
 
         //BOTTOM
-        val leftDown1Field = SpaceField(FieldType.LOSE)
+        val leftDown1Field = SpaceField.createField(FieldType.LOSE)
         addField(leftDown1Field, centerField, -FIELD_PADDING_MEDIUM, -FIELD_PADDING_LARGE)
-        val leftDown2Field = SpaceField(FieldType.WIN)
+        val leftDown2Field = SpaceField.createField(FieldType.WIN)
         addField(leftDown2Field, leftDown1Field, if (starMode) -FIELD_PADDING_MEDIUM else 0f, -FIELD_PADDING_LARGE, ConnectionPoint.BOTTOM)
-        val rightDown1Field = SpaceField(FieldType.LOSE)
+        val rightDown1Field = SpaceField.createField(FieldType.LOSE)
         addField(rightDown1Field, centerField, FIELD_PADDING_MEDIUM, -FIELD_PADDING_LARGE)
-        val rightDown2Field = SpaceField(FieldType.WIN)
+        val rightDown2Field = SpaceField.createField(FieldType.WIN)
         addField(rightDown2Field, rightDown1Field, if (starMode) FIELD_PADDING_MEDIUM else 0f, -FIELD_PADDING_LARGE, ConnectionPoint.BOTTOM)
 
         connect(centerField, rightDown1Field)
@@ -52,13 +52,13 @@ class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: F
         connect(leftDown1Field, leftDown2Field)
 
         //TOP
-        val leftUp1Field = SpaceField(FieldType.LOSE)
+        val leftUp1Field = SpaceField.createField(FieldType.LOSE)
         addField(leftUp1Field, centerField, -FIELD_PADDING_MEDIUM, FIELD_PADDING_LARGE)
-        val leftUp2Field = SpaceField(FieldType.WIN)
+        val leftUp2Field = SpaceField.createField(FieldType.WIN)
         addField(leftUp2Field, leftUp1Field, if (starMode) -FIELD_PADDING_MEDIUM else 0f, FIELD_PADDING_LARGE, ConnectionPoint.TOP)
-        val rightUp1Field = SpaceField(FieldType.LOSE)
+        val rightUp1Field = SpaceField.createField(FieldType.LOSE)
         addField(rightUp1Field, centerField, FIELD_PADDING_MEDIUM, FIELD_PADDING_LARGE)
-        val rightUp2Field = SpaceField(FieldType.WIN)
+        val rightUp2Field = SpaceField.createField(FieldType.WIN)
         addField(rightUp2Field, rightUp1Field, if (starMode) FIELD_PADDING_MEDIUM else 0f, FIELD_PADDING_LARGE, ConnectionPoint.TOP)
 
         connect(centerField, leftUp1Field)

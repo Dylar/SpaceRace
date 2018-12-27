@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.space.control
+package de.bitb.spacerace.controller
 
 class ControlToken(val token: String = "NONE") {
     companion object {

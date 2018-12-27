@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
 abstract class BaseGame : Game() {
-    lateinit var batch: SpriteBatch
+//    lateinit var batch: SpriteBatch
 
     override fun create() {
-        batch = SpriteBatch()
+//        batch = SpriteBatch()
         initScreen()
     }
 
@@ -27,7 +27,7 @@ abstract class BaseGame : Game() {
     }
 
     override fun dispose() {
-        batch.dispose()
+//        batch.dispose()
     }
 
 }

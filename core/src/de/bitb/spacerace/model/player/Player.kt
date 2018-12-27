@@ -5,21 +5,16 @@ import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
-import de.bitb.spacerace.base.PlayerColor
 import de.bitb.spacerace.config.DEBUG_ITEMS
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
-import de.bitb.spacerace.controller.History
-import de.bitb.spacerace.model.space.fields.SpaceField
 
 class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img) {
 
     companion object {
         val NONE = Player()
     }
-
-    lateinit var fieldGroup: SpaceField
 
     var playerData = PlayerData(playerColor)
 
