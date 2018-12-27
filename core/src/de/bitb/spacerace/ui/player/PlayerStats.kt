@@ -23,6 +23,8 @@ import de.bitb.spacerace.events.commands.obtain.ObtainLoseCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainWinCommand
 import de.bitb.spacerace.events.commands.phases.EndTurnCommand
 import de.bitb.spacerace.events.commands.phases.PhaseCommand
+import de.bitb.spacerace.events.commands.phases.StartMain1Command
+import de.bitb.spacerace.events.commands.phases.StartMain2Command
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerData
@@ -73,20 +75,23 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
         val playerData = game.gameController.playerController.currentPlayer.playerData
-        when (event) {
-            is MoveCommand, is DiceCommand -> updateDice(playerData)
-            is PhaseCommand -> {
-                updateRound(playerData.playerColor)
-                updatePhase(playerData.phase)
-                if (event is EndTurnCommand) {
-                    updateDice(playerData)
-                }
-            }
-            is StartGameCommand -> update(playerData)
-            is ObtainWinCommand, is ObtainLoseCommand -> {
-                updateCredits(playerData)
-            }
-        }
+//        when (event) {
+//            is MoveCommand, is DiceCommand -> updateDice(playerData)
+//            is PhaseCommand -> {
+//                updateRound(playerData.playerColor)
+//                updatePhase(playerData.phase)
+//                if (event is EndTurnCommand) {
+//                    updateDice(playerData)
+//                    updateCredits(playerData)
+//                }
+//            }
+//            is StartGameCommand -> update(playerData)
+//            is StartMain1Command -> {
+//                updateCredits(playerData)
+//                updateDice(playerData)
+//            }
+//        }
+        update(playerData) //TODO update not all
     }
 
     private fun updateCredits(playerData: PlayerData) {

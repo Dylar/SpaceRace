@@ -82,9 +82,9 @@ class FieldController(playerController: PlayerController) {
 
     }
 
-    fun activateMine(player: Player) {
+    fun occupyMine(player: Player) {
         val mineField: MineField = player.playerData.fieldPosition as MineField
-        mineField.setOwner(player)
+        mineField.owner = player
     }
 
 }

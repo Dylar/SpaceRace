@@ -73,14 +73,9 @@ class PlayerController() {
         }
         players.add(oldPlayer)
         players.removeAt(0)
-
-        Logger.println("nextTurn2: ${currentPlayer.playerData.phase}")
     }
 
     fun nextRound() {
-        Logger.println("nextRound1")
-//        gameController.fieldController.harvestOres() // TODO send command
-
         for (player in players) {
             val playerData = player.playerData
 //            val saveData = playerData.copy() //TODO save me for history
@@ -90,8 +85,6 @@ class PlayerController() {
             playerData.phase = Phase.MAIN1
             Logger.println("nextRound Phase: ${playerData.phase}")
         }
-
-        Logger.println("nextRound2")
     }
 
     fun getPlayer(playerColor: PlayerColor): Player {

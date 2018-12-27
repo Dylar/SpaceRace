@@ -10,6 +10,7 @@ class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
     }
 
     override fun execute(game: MainGame) {
+        game.gameController.fieldController.harvestOres()
         game.gameController.playerController.nextRound()
     }
 
