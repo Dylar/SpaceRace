@@ -8,12 +8,16 @@ import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.player.PlayerColor
 
 class SpecialFuel(playerColor: PlayerColor) : Item(playerColor, TextureCollection.ship1, ITEM_SPECIAL_FUEL_TEXT), DiceModification {
-    override fun getModification(): Float {
-        return 0.3f
+
+    override fun canUse(game: MainGame): Boolean {
+        return getPlayerData(game).phase.isMain1()
     }
 
     override fun use(game: MainGame) {
-        game.gameController.playerController.playerMap[owner]!!.playerData.diceModItems.add(this)
+        getPlayerData(game).diceModItems.add(this)
     }
 
+    override fun getModification(): Float {
+        return 0.3f
+    }
 }

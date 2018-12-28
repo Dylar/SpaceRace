@@ -77,25 +77,7 @@ class PlayerController() {
         players.removeAt(0)
 
         for (player in players) {
-            val usedItems = player.playerData.getUsedItems()
-            for (item in usedItems) {
-                if (!item.permanent) {
-                    player.playerData.items.remove(item)
-                }
-            }
-            player.playerData.items.removeAll(usedItems)
-        }
-    }
-
-    fun nextRound() {
-        for (player in players) {
-            val playerData = player.playerData
-//            val saveData = playerData.copy() //TODO save me for history
-            playerData.steps = ArrayList()
-            playerData.diceResult = 0
-            playerData.diced = false
-            playerData.phase = Phase.MAIN1
-            Logger.println("nextRound Phase: ${playerData.phase}")
+           player.playerData.removeUsedItems()
         }
     }
 

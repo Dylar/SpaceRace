@@ -18,7 +18,7 @@ import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
-import de.bitb.spacerace.events.commands.start.ChangeLanguageCommand
+import de.bitb.spacerace.events.commands.start.ChangeLanguageScreenCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.ui.base.GuiComponent
@@ -41,7 +41,7 @@ class StartButtonControl(val gameController: GameController, val guiStage: Start
 
         languageBtn = createButton(name = START_BUTTON_LANGUAGE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(ChangeLanguageCommand())
+                inputHandler.handleCommand(ChangeLanguageScreenCommand())
                 return true
             }
         })
@@ -69,7 +69,7 @@ class StartButtonControl(val gameController: GameController, val guiStage: Start
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
-        if (event is ChangeLanguageCommand) {
+        if (event is ChangeLanguageScreenCommand) {
             updateButtonText()
         }
     }

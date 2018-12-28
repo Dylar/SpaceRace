@@ -7,15 +7,22 @@ import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.player.PlayerColor
 
-class IonEngine(owner: PlayerColor) : Item(owner,TextureCollection.blackhole, ITEM_ION_ENGINE_TEXT), DiceModification {
+class IonEngine(owner: PlayerColor) : UpgradeItem(owner, TextureCollection.blackhole, ITEM_ION_ENGINE_TEXT), DiceModification {
+
+    override fun canUse(game: MainGame): Boolean {
+        return game.gameController.playerController.getPlayer(owner).playerData.phase.isMain()
+    }
+
+    override fun use(game: MainGame) {
+        getPlayerData(game).diceModItems.add(this)
+    }
+
+    override fun stopUsing(game: MainGame) {
+        getPlayerData(game).diceModItems.remove(this)
+    }
+
     override fun getModification(): Float {
         return 0.1f
     }
 
-    init {
-        permanent = true
-    }
-    override fun use(game: MainGame) {
-        game.gameController.playerController.playerMap[owner]!!.playerData.diceModItems.add(this)
-    }
 }

@@ -1,7 +1,7 @@
 package de.bitb.spacerace.events.commands.phases
 
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.player.PlayerColor
 
 class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
 
@@ -11,7 +11,13 @@ class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
 
     override fun execute(game: MainGame) {
         game.gameController.fieldController.harvestOres()
-        game.gameController.playerController.nextRound()
+        val players = game.gameController.playerController.players
+
+        for (player in players) {
+            val playerData = player.playerData
+//            val saveData = playerData.copy() //TODO save me for history
+            playerData.nextRound()
+        }
     }
 
 }

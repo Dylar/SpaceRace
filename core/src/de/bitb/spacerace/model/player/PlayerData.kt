@@ -4,6 +4,7 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.items.itemtype.DiceModification
+import de.bitb.spacerace.model.items.upgrade.UpgradeItem
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
@@ -54,6 +55,22 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
             result.add(diceAddItem as Item)
         }
         return result
+    }
+
+    fun nextRound() {
+        steps = ArrayList()
+        diceResult = 0
+        diced = false
+        phase = Phase.MAIN1
+    }
+
+    fun removeUsedItems() {
+        val usedItems = ArrayList<Item>()
+        for (item in items) {
+            if (item !is UpgradeItem && item.used)
+                usedItems.add(item)
+        }
+        items.removeAll(usedItems)
     }
 
 }

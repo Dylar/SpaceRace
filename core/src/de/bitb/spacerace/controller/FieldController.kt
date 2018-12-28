@@ -2,9 +2,10 @@ package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import de.bitb.spacerace.events.commands.MoveCommand
+import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.Player
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -87,7 +88,7 @@ class FieldController(playerController: PlayerController) {
         mineField.owner = player
     }
 
-    fun getRandomTunnel(): SpaceField {
+    fun getRandomTunnel(playerColor: PlayerColor): SpaceField {
         val tunnel = fieldsMap[FieldType.TUNNEL]!!
         return tunnel[(Math.random() * tunnel.size).toInt()]
     }

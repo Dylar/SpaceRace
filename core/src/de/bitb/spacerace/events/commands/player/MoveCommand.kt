@@ -1,6 +1,7 @@
-package de.bitb.spacerace.events.commands
+package de.bitb.spacerace.events.commands.player
 
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 class MoveCommand(val spaceField: SpaceField) : BaseCommand() {
