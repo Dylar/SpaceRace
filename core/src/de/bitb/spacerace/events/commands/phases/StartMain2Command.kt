@@ -10,7 +10,7 @@ class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
     override fun canExecute(game: MainGame): Boolean {
         val gameController = game.gameController
-        return gameController.phaseController.canContinue(gameController.playerController.currentPlayer.playerData)
+        return canContinue(gameController.playerController.currentPlayer.playerData)
     }
 
     override fun execute(game: MainGame) {

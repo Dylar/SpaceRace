@@ -6,9 +6,10 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.enums.Phase
 
 class NextPhaseCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
+
     override fun canExecute(game: MainGame): Boolean {
         val gameController = game.gameController
-        return gameController.phaseController.canContinue(gameController.playerController.currentPlayer.playerData)
+        return canContinue(gameController.playerController.currentPlayer.playerData)
     }
 
     override fun execute(game: MainGame) {

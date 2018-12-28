@@ -13,7 +13,6 @@ class GameController(game: MainGame) {
     val inputHandler = InputHandler(game)
     val playerController = PlayerController()
     val fieldController = FieldController(playerController)
-    val phaseController = PhaseController()
 
     fun initGame(map: SpaceMap) {
         fieldController.initMap(inputHandler, map)
