@@ -2,6 +2,7 @@ package de.bitb.spacerace.base
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.input.GestureDetector
@@ -32,7 +33,41 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         guiStage = createGuiStage()
         gameStage = createGameStage()
         backgroundStage = createBackgroundStage()
-        Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this))
+        Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this), object : InputProcessor {
+            override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+                return true
+            }
+
+            override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
+                return true
+            }
+
+            override fun keyTyped(character: Char): Boolean {
+                return true
+            }
+
+            override fun scrolled(amount: Int): Boolean {
+                return true
+            }
+
+            override fun keyUp(keycode: Int): Boolean {
+                return true
+            }
+
+            override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
+                return true
+            }
+
+            override fun keyDown(keycode: Int): Boolean {
+                Logger.println("KEY DOWN: $keycode")
+                return true
+            }
+
+            override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+                return true
+            }
+
+        })
 
         val gameCam = gameStage.camera as OrthographicCamera
         gameCam.zoom = currentZoom
@@ -52,7 +87,7 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
     }
 
     override fun render(delta: Float) {
-        game.clearScreen(red = 200f)
+        game.clearScreen(blue = 200f)
 
         renderBackground(delta)
         renderGame(delta)
@@ -108,7 +143,6 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
     }
 
     override fun hide() {
-
     }
 
     override fun dispose() {
