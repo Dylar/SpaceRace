@@ -17,15 +17,6 @@ import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
-import de.bitb.spacerace.events.commands.DiceCommand
-import de.bitb.spacerace.events.commands.MoveCommand
-import de.bitb.spacerace.events.commands.obtain.ObtainLoseCommand
-import de.bitb.spacerace.events.commands.obtain.ObtainWinCommand
-import de.bitb.spacerace.events.commands.phases.EndTurnCommand
-import de.bitb.spacerace.events.commands.phases.PhaseCommand
-import de.bitb.spacerace.events.commands.phases.StartMain1Command
-import de.bitb.spacerace.events.commands.phases.StartMain2Command
-import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.base.GuiComponent
@@ -105,7 +96,8 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
     }
 
     private fun updateDice(playerData: PlayerData) {
-        val diceResult = if (playerData.diced) "${(playerData.diceResult - playerData.stepsLeft())}/${(playerData.diceResult)}" else "0/0"
+        val maxSteps = playerData.getMaxSteps()
+        val diceResult = "${(maxSteps - playerData.stepsLeft())}/$maxSteps"
         diceLabel.setText(diceResult)
     }
 

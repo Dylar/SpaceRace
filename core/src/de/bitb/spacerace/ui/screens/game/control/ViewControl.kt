@@ -28,25 +28,11 @@ class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompon
                 screen.onZoomPlusClicked()
                 return true
             }
-
-            override fun keyTyped(event: InputEvent?, character: Char): Boolean {
-                return if (Gdx.input.isKeyJustPressed(Input.Keys.PLUS)) {
-                    screen.onZoomPlusClicked()
-                    true
-                } else false
-            }
         })
         val minusBtn = createButton(name = "-", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 screen.onZoomMinusClicked()
                 return true
-            }
-
-            override fun keyTyped(event: InputEvent?, character: Char): Boolean {
-                return if (Gdx.input.isKeyJustPressed(Input.Keys.MINUS)) {
-                    screen.onZoomMinusClicked()
-                    true
-                } else false
             }
         })
 
@@ -54,13 +40,6 @@ class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompon
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 screen.centerCamera()
                 return true
-            }
-
-            override fun keyTyped(event: InputEvent?, character: Char): Boolean {
-                return if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                    screen.centerCamera()
-                    true
-                } else false
             }
         })
 

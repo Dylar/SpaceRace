@@ -8,11 +8,6 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
-    var x = 0f
-        get() = fieldPosition.getAbsolutX()
-    var y = 0f
-        get() = fieldPosition.getAbsolutY()
-
     var credits = 0
     var items = ArrayList<Item>()
 
@@ -30,7 +25,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     var previousStep: SpaceField = SpaceField.NONE
         get() = if (steps.size < 2) SpaceField.NONE else steps[steps.size - 2]
 
-    fun getMaxMoving(): Int {
+    fun getMaxSteps(): Int {
         var add = 0
         var mod = 1f
         for (diceModItem in diceModItems) {
@@ -43,10 +38,10 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     }
 
     fun stepsLeft(): Int {
-        return getMaxMoving() - (steps.size - 1)
+        return getMaxSteps() - (if (steps.isEmpty()) 0 else steps.size - 1)
     }
 
-    internal fun canMove(): Boolean {
+    fun canMove(): Boolean {
         return phase.isMoving() && stepsLeft() > 0
     }
 
