@@ -3,6 +3,7 @@ package de.bitb.spacerace.controller
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -10,6 +11,7 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 class PlayerController() {
 
     var players: MutableList<Player> = ArrayList()
+    var playerMap: MutableMap<PlayerColor, Player> = HashMap()
 
     var currentPlayer: Player = Player.NONE
         get() = if (players.isEmpty()) Player.NONE else players[players.size - 1]
@@ -73,6 +75,16 @@ class PlayerController() {
         }
         players.add(oldPlayer)
         players.removeAt(0)
+
+        for (player in players) {
+            val usedItems = player.playerData.getUsedItems()
+            for (item in usedItems) {
+                if (!item.permanent) {
+                    player.playerData.items.remove(item)
+                }
+            }
+            player.playerData.items.removeAll(usedItems)
+        }
     }
 
     fun nextRound() {

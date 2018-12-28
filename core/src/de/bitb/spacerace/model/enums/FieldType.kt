@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.core.TextureCollection
 
 enum class FieldType(val color: Color? = null, val texture: Texture = TextureCollection.grayField) {
-    WIN(GREEN),
     LOSE(RED),
-    SHOP(GRAY),
-    GIFT(YELLOW),
+    WIN(GREEN),
     AMBUSH(BROWN),
     MINE(BLUE),
+    GIFT(YELLOW),
+    SHOP(GRAY),
+    GOAL(PINK),
     RANDOM(GREEN, TextureCollection.blackhole),
     UNKNOWN(texture = TextureCollection.blackhole);
 

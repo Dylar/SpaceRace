@@ -10,12 +10,12 @@ class MoveCommand(val spaceField: SpaceField) : BaseCommand() {
         val playerData = gameController.playerController.currentPlayer.playerData
 
         val sameField = playerData.steps.size > 1 && playerData.previousStep == spaceField
-        return gameController.fieldController.hasConnectionTo(playerData.fieldPosition, spaceField) && playerData.phase.isMoving() && (sameField || playerData.steps.size <= playerData.diceResult)
+        return gameController.fieldController.hasConnectionTo(playerData.fieldPosition, spaceField) && (sameField && playerData.phase.isMoving() || playerData.canMove())
     }
 
     override fun execute(game: MainGame) {
-        val gameController = game.gameController
-        gameController.playerController.moveTo(gameController.playerController.currentPlayer, spaceField)
+        val playerController = game.gameController.playerController
+        playerController.moveTo(playerController.currentPlayer, spaceField)
     }
 
 }

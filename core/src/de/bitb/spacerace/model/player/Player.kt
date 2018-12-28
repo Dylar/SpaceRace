@@ -49,7 +49,7 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Texture
 
     fun addRandomGift(): Item {
         Logger.println("U got a gift")
-        val item = ItemCollection.getRandomItem()
+        val item = ItemCollection.getRandomItem(playerData.playerColor)
         playerData.items.add(item)
         return item
     }

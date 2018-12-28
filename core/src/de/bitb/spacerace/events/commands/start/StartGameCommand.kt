@@ -2,8 +2,6 @@ package de.bitb.spacerace.events.commands.start
 
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.space.maps.MapType
-import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.ui.screens.game.GameScreen
 
 class StartGameCommand() : BaseCommand() {
@@ -14,7 +12,7 @@ class StartGameCommand() : BaseCommand() {
     override fun execute(game: MainGame) {
         val gameController = game.gameController
         gameController.inputHandler.removeListener()
-        gameController.initGame(SpaceMap.createMap(gameController, game.gameController.mapType))
+        gameController.initGame(game.gameController.spaceMap.createMap(game.gameController))
         game.changeScreen(GameScreen(game))
     }
 }

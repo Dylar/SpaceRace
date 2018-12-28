@@ -10,7 +10,7 @@ class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen) {
 
     private var playerStats: PlayerStats = PlayerStats(this)
     private var viewControl: ViewControl = ViewControl(game)
-    private var gameControl: GameControl = GameControl(this)
+    private var gameControl: GameControl = GameControl(game,this)
 
     init {
         addActor(playerStats)

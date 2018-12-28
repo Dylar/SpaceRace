@@ -20,7 +20,7 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.events.commands.start.SelectMapCommand
-import de.bitb.spacerace.model.space.maps.MapType
+import de.bitb.spacerace.model.space.maps.SpaceMaps
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
@@ -35,10 +35,10 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
         buttonGroup.setMinCheckCount(1)
         buttonGroup.setUncheckLast(true)
 
-        for (value in MapType.values()) {
+        for (value in SpaceMaps.values()) {
             val checkBox = addCheckbox(value)
             buttonGroup.add(checkBox)
-            if (value == MapType.RANDOM) {
+            if (value == SpaceMaps.TEST_MAP) {
                 checkBox.isChecked = true
                 inputHandler.handleCommand(SelectMapCommand(value))
             }
@@ -49,10 +49,10 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
         setPosition()
     }
 
-    private fun addCheckbox(mapType: MapType): CheckBox {
-        val checkBox = createCheckbox(name = mapType.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+    private fun addCheckbox(spaceMaps: SpaceMaps): CheckBox {
+        val checkBox = createCheckbox(name = spaceMaps.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(SelectMapCommand(mapType))
+                inputHandler.handleCommand(SelectMapCommand(spaceMaps))
                 return true
             }
         })

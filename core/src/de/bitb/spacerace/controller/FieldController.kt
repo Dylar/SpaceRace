@@ -19,6 +19,11 @@ class FieldController(playerController: PlayerController) {
     val fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
     val connections: ConnectionList = ConnectionList(playerController)
 
+    init {
+        FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
+
+    }
+
     fun addShip(player: Player, spaceField1: SpaceField) {
         player.playerData.fieldPosition = spaceField1
         player.setPosition(spaceField1.x + spaceField1.width / 2 - player.width / 2, spaceField1.y + spaceField1.height / 2 - player.height / 2)
@@ -38,12 +43,7 @@ class FieldController(playerController: PlayerController) {
     }
 
     private fun addFieldMap(spaceField: SpaceField) {
-        var list = fieldsMap[spaceField.fieldType]
-        if (list == null) {
-            list = ArrayList()
-            fieldsMap[spaceField.fieldType] = list
-        }
-        list.add(spaceField)
+        fieldsMap[spaceField.fieldType]!!.add(spaceField)
     }
 
     fun initMap(inputHandler: InputHandler, map: SpaceMap) {

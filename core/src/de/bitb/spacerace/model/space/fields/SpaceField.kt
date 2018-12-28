@@ -26,7 +26,8 @@ open class SpaceField(var fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
                 FieldType.AMBUSH -> SpaceField(FieldType.AMBUSH)
                 FieldType.MINE -> MineField()
                 FieldType.RANDOM -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
-                FieldType.UNKNOWN -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
+                FieldType.UNKNOWN -> SpaceField(FieldType.UNKNOWN)
+                FieldType.GOAL -> SpaceField(FieldType.GOAL)
             }
         }
     }

@@ -9,36 +9,36 @@ import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class RandomGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(gameController, offsetX, offsetY) {
+open class TestGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f, fieldType: FieldType) : SpaceGroup(gameController, offsetX, offsetY) {
 
     init {
 
         //BOTTOM
-        val centerBottomField = SpaceField.createField(FieldType.RANDOM)
+        val centerBottomField = SpaceField.createField(fieldType)
         addField(centerBottomField, SCREEN_WIDTH / 2 - centerBottomField.width / 2)
-        val leftBottomCorner = SpaceField.createField(FieldType.RANDOM)
+        val leftBottomCorner = SpaceField.createField(fieldType)
         addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
-        val rightBottomCorner = SpaceField.createField(FieldType.RANDOM)
+        val rightBottomCorner = SpaceField.createField(fieldType)
         addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
         connect(leftBottomCorner, centerBottomField)
         connect(rightBottomCorner, centerBottomField)
 
         //TOP
-        val centerTopField = SpaceField.createField(FieldType.RANDOM)
+        val centerTopField = SpaceField.createField(fieldType)
         addField(centerTopField, centerBottomField, verticalMod = FIELD_PADDING_XXLARGE)
-        val leftTopCorner = SpaceField.createField(FieldType.RANDOM)
+        val leftTopCorner = SpaceField.createField(fieldType)
         addField(leftTopCorner, centerTopField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
-        val rightTopCorner = SpaceField.createField(FieldType.RANDOM)
+        val rightTopCorner = SpaceField.createField(fieldType)
         addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
 
         connect(leftTopCorner, centerTopField)
         connect(rightTopCorner, centerTopField)
 
         //CENTER
-        val leftCenterField = SpaceField.createField(FieldType.RANDOM)
+        val leftCenterField = SpaceField.createField(fieldType)
         addField(leftCenterField, centerBottomField, -FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.LEFT)
-        val rightCenterField = SpaceField.createField(FieldType.RANDOM)
+        val rightCenterField = SpaceField.createField(fieldType)
         addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
 
         connect(leftCenterField, rightCenterField)

@@ -10,16 +10,17 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : BaseMenu(guiStage, itemMenu) {
+class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : BaseMenu(guiStage, itemMenu) {
 
     init {
         addImage()
         addText()
-        addButtons(4)
+        addButtons(game, 4)
         pack()
         setPosition()
     }
@@ -42,7 +43,7 @@ class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : 
         y = (Dimensions.SCREEN_HEIGHT - (Dimensions.SCREEN_HEIGHT / 2) - height / 2)
     }
 
-    private fun addButtons(size: Int) {
+    private fun addButtons(game: MainGame, size: Int) {
         row()
 
         val container = Table(skin)
@@ -51,6 +52,7 @@ class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : 
 
         val useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                item.use(game)
                 closeMenu()
                 return true
             }

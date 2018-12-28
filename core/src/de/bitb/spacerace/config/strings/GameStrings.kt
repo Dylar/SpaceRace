@@ -43,9 +43,9 @@ object GameStrings {
                 Language.GERMAN -> "Etwas extra Treibstoff.\nBenutz es um weitere Strecken zu reisen."
             }
 
-        var ITEM_SPEZIAL_FUEL_TEXT: String = ""
+        var ITEM_SPECIAL_FUEL_TEXT: String = ""
             get() = when (LANGUAGE) {
-                Language.ENGLISH -> "Spezial fuel to boost your travel distance."
+                Language.ENGLISH -> "Special fuel to boost your travel distance."
                 Language.GERMAN -> "Spezial Treibstoff um weiter reisen zu können."
             }
 
