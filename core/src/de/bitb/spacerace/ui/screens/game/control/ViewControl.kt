@@ -1,5 +1,7 @@
 package de.bitb.spacerace.ui.screens.game.control
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -16,14 +18,22 @@ import de.bitb.spacerace.ui.screens.game.GameScreen
 
 class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiComponent by object : GuiComponent {} {
 
+    val screen = (game.screen as GameScreen)
+
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
-        val screen = (game.screen as GameScreen)
 
         val plusBtn = createButton(name = "+", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 screen.onZoomPlusClicked()
                 return true
+            }
+
+            override fun keyTyped(event: InputEvent?, character: Char): Boolean {
+                return if (Gdx.input.isKeyJustPressed(Input.Keys.PLUS)) {
+                    screen.onZoomPlusClicked()
+                    true
+                } else false
             }
         })
         val minusBtn = createButton(name = "-", listener = object : InputListener() {
@@ -31,12 +41,26 @@ class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompon
                 screen.onZoomMinusClicked()
                 return true
             }
+
+            override fun keyTyped(event: InputEvent?, character: Char): Boolean {
+                return if (Gdx.input.isKeyJustPressed(Input.Keys.MINUS)) {
+                    screen.onZoomMinusClicked()
+                    true
+                } else false
+            }
         })
 
         val centerBtn = createButton(name = GAME_BUTTON_CENTER, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 screen.centerCamera()
                 return true
+            }
+
+            override fun keyTyped(event: InputEvent?, character: Char): Boolean {
+                return if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                    screen.centerCamera()
+                    true
+                } else false
             }
         })
 
@@ -59,6 +83,15 @@ class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompon
         addPaddingLeftRight(cell)
         cell.fill()
         return cell
+    }
+
+    override fun act(delta: Float) {
+        when {
+            Gdx.input.isKeyJustPressed(Input.Keys.SPACE) -> screen.centerCamera()
+            Gdx.input.isKeyJustPressed(Input.Keys.SLASH) -> screen.onZoomMinusClicked()
+            Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET) -> screen.onZoomPlusClicked()
+        }
+        super.act(delta)
     }
 
 }

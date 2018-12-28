@@ -1,9 +1,6 @@
 package de.bitb.spacerace.base
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.InputMultiplexer
-import com.badlogic.gdx.InputProcessor
-import com.badlogic.gdx.Screen
+import com.badlogic.gdx.*
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.input.GestureDetector
 import de.bitb.spacerace.CameraActions.CAMERA_FREE
@@ -59,7 +56,8 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
             }
 
             override fun keyDown(keycode: Int): Boolean {
-                Logger.println("KEY DOWN: $keycode")
+                Logger.println("KEY DOWN: ${Input.Keys.toString(keycode)}")
+                Logger.println("KEY CODE: $keycode")
                 return true
             }
 

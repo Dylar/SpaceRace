@@ -28,20 +28,32 @@ class MainGame : BaseGame() {
         } else if (isBackTipped()) {
             val previousScreen = (screen as BaseScreen).previousScreen
             gameController.inputHandler.removeListener()
-            if (previousScreen != null) {
-                changeScreen(previousScreen)
-            } else {
+            if (previousScreen == null) {
                 Gdx.app.exit()
+            } else {
+                changeScreen(previousScreen)
             }
         }
     }
 
+    private fun checkCombi(vararg keys: Int): Boolean {
+        var oneJustPressed = false
+        var allPressed = true
+        keys.forEach { key ->
+            run {
+                oneJustPressed = oneJustPressed || Gdx.input.isKeyJustPressed(key)
+                allPressed = allPressed && Gdx.input.isKeyPressed(key)
+            }
+        }
+        return oneJustPressed && allPressed
+    }
+
     private fun isCloseGameTipped(): Boolean {
-        return Gdx.input.isKeyPressed(Input.Keys.SYM) && Gdx.input.isKeyPressed(Input.Keys.W)
+        return checkCombi(Input.Keys.SYM, Input.Keys.W)
     }
 
     private fun isBackTipped(): Boolean {
-        return Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT) && Gdx.input.isKeyPressed(Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)
+        return checkCombi(Input.Keys.ALT_LEFT, Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)
     }
 
 }
