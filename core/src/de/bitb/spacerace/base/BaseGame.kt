@@ -2,6 +2,7 @@ package de.bitb.spacerace.base
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
@@ -9,6 +10,7 @@ abstract class BaseGame : Game() {
 //    lateinit var batch: SpriteBatch
 
     override fun create() {
+        Gdx.input.isCatchBackKey = true
 //        batch = SpriteBatch()
         initScreen()
     }
@@ -16,8 +18,9 @@ abstract class BaseGame : Game() {
     abstract fun initScreen()
 
     fun changeScreen(screen: BaseScreen) {
-        val bla = getScreen()//TODO was soll das
-        val inputHandler = (getScreen() as BaseScreen).game
+//        val bla = getScreen()//TODO was soll das
+//        val inputHandler = (getScreen() as BaseScreen).game
+//        (getScreen() as BaseScreen).dispose()
         setScreen(screen)
     }
 

@@ -4,11 +4,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup
-import com.badlogic.gdx.scenes.scene2d.ui.Cell
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
-import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.config.DEBUG_TEST_FIELD
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
@@ -19,8 +17,10 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.events.commands.start.ChangeTestFieldCommand
 import de.bitb.spacerace.events.commands.start.SelectMapCommand
-import de.bitb.spacerace.model.space.maps.MapType
+import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.space.maps.SpaceMaps
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
@@ -35,24 +35,40 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
         buttonGroup.setMinCheckCount(1)
         buttonGroup.setUncheckLast(true)
 
-        for (value in MapType.values()) {
+        for (value in SpaceMaps.values()) {
             val checkBox = addCheckbox(value)
             buttonGroup.add(checkBox)
-            if (value == MapType.RANDOM) {
+            if (value == SpaceMaps.TEST_MAP) {
                 checkBox.isChecked = true
                 inputHandler.handleCommand(SelectMapCommand(value))
             }
         }
+
+        addTestField()
 
         pack()
 
         setPosition()
     }
 
-    private fun addCheckbox(mapType: MapType): CheckBox {
-        val checkBox = createCheckbox(name = mapType.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+    private lateinit var testFieldBtn: TextButton
+
+    private fun addTestField() {
+        testFieldBtn = createButton(name = FieldType.RANDOM.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(SelectMapCommand(mapType))
+                inputHandler.handleCommand(ChangeTestFieldCommand())
+                return true
+            }
+        })
+
+        addCell(testFieldBtn)
+        row()
+    }
+
+    private fun addCheckbox(spaceMaps: SpaceMaps): CheckBox {
+        val checkBox = createCheckbox(name = spaceMaps.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                inputHandler.handleCommand(SelectMapCommand(spaceMaps))
                 return true
             }
         })
@@ -79,7 +95,7 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
-
+        testFieldBtn.label.setText(DEBUG_TEST_FIELD.name)
     }
 
 }

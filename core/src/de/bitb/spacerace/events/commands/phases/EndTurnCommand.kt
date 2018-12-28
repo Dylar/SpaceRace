@@ -18,5 +18,4 @@ class EndTurnCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
         }
     }
 
-
 }

@@ -2,26 +2,45 @@ package de.bitb.spacerace.ui.player
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.ui.Cell
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING_SPACE
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_MEDIUM
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
+import de.bitb.spacerace.controller.InputObserver
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.player.UseItemCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : BaseMenu(guiStage, itemMenu) {
+class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : BaseMenu(guiStage, itemMenu), InputObserver {
+
+    private lateinit var useBtn: TextButton
+    private lateinit var usedTitle: Cell<Label>
 
     init {
+        addTitle()
         addImage()
         addText()
-        addButtons(4)
+        addButtons(game)
         pack()
         setPosition()
+    }
+
+    private fun addTitle() {
+        usedTitle = add(if (item.used) "USED" else "USABLE")
+        addPaddingTopBottom(usedTitle, GAME_MENU_PADDING_SPACE)
+        setFont(usedTitle.actor, GAME_SIZE_FONT_MEDIUM)
+        row()
     }
 
     private fun addImage() {
@@ -42,19 +61,20 @@ class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : 
         y = (Dimensions.SCREEN_HEIGHT - (Dimensions.SCREEN_HEIGHT / 2) - height / 2)
     }
 
-    private fun addButtons(size: Int) {
+    private fun addButtons(game: MainGame) {
         row()
 
         val container = Table(skin)
         val cell = add(container)
         cell.expandX()
 
-        val useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
+        useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                closeMenu()
+                game.gameController.inputHandler.handleCommand(UseItemCommand(item))
                 return true
             }
         })
+
         var cellBtn = container.add(useBtn)
         cellBtn.fillX()
         addPaddingLeftRight(cellBtn)
@@ -70,5 +90,11 @@ class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : 
         cellBtn.fillX()
         addPaddingLeftRight(cellBtn)
         setFont(cellBtn.actor)
+    }
+
+    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+        if (event is UseItemCommand) {
+            usedTitle.actor.setText(if (item.used) "USED" else "USABLE")
+        }
     }
 }

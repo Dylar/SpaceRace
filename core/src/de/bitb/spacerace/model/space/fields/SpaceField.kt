@@ -19,14 +19,11 @@ open class SpaceField(var fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
 
         fun createField(fieldType: FieldType): SpaceField {
             return when (fieldType) {
-                FieldType.WIN -> SpaceField(FieldType.WIN)
-                FieldType.LOSE -> SpaceField(FieldType.LOSE)
-                FieldType.SHOP -> SpaceField(FieldType.SHOP)
-                FieldType.GIFT -> SpaceField(FieldType.GIFT)
-                FieldType.AMBUSH -> SpaceField(FieldType.AMBUSH)
                 FieldType.MINE -> MineField()
                 FieldType.RANDOM -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
-                FieldType.UNKNOWN -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
+                else -> {
+                    SpaceField(fieldType)
+                }
             }
         }
     }
@@ -47,6 +44,7 @@ open class SpaceField(var fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
     init {
         setBounds(x, y, width * 3.5f, height * 3.5f)
         setOrigin(width / 2, height / 2)
+
         val repeat = RepeatAction()
         repeat.action = Actions.rotateBy((Math.random() * 1).toFloat())
         repeat.count = FOREVER

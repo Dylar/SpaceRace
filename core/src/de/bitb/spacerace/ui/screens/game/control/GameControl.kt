@@ -16,7 +16,7 @@ import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
-import de.bitb.spacerace.events.commands.DiceCommand
+import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.phases.EndRoundCommand
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.ui.base.GuiComponent
@@ -24,9 +24,9 @@ import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.ItemMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
-class GameControl(val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
-    private var itemMenu = ItemMenu(guiStage)
+    private var itemMenu = ItemMenu(game, guiStage)
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
@@ -52,7 +52,7 @@ class GameControl(val guiStage: GameGuiStage) : Table(TextureCollection.skin), G
                 if (itemMenu.isOpen) {
                     itemMenu.closeMenu()
                 } else {
-                    itemMenu = ItemMenu(guiStage)
+                    itemMenu = ItemMenu(game, guiStage)
                     itemMenu.openMenu()
                     guiStage.addActor(itemMenu)
                 }

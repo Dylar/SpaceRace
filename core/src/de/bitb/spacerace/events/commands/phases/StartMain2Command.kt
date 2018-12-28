@@ -3,10 +3,7 @@ package de.bitb.spacerace.events.commands.phases
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.commands.obtain.ObtainGiftCommand
-import de.bitb.spacerace.events.commands.obtain.ObtainLoseCommand
-import de.bitb.spacerace.events.commands.obtain.ObtainMineCommand
-import de.bitb.spacerace.events.commands.obtain.ObtainWinCommand
+import de.bitb.spacerace.events.commands.obtain.*
 import de.bitb.spacerace.model.enums.FieldType
 
 class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
@@ -20,15 +17,17 @@ class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
         val gameController = game.gameController
         val inputHandler = gameController.inputHandler
         val player = gameController.playerController.getPlayer(playerColor)
+        Logger.println("OBTAIN: ${player.playerData.fieldPosition.fieldType}")
         when (player.playerData.fieldPosition.fieldType) {
             FieldType.WIN -> inputHandler.handleCommand(ObtainWinCommand(playerColor))
             FieldType.LOSE -> inputHandler.handleCommand(ObtainLoseCommand(playerColor))
             FieldType.GIFT -> inputHandler.handleCommand(ObtainGiftCommand(playerColor))
             FieldType.MINE -> inputHandler.handleCommand(ObtainMineCommand(playerColor))
-            FieldType.SHOP -> gameController.phaseController.openShop()
-            FieldType.RANDOM -> Logger.println("RANDOM ACTION")
-            FieldType.UNKNOWN -> Logger.println("UNKNOWN ACTION")
-            FieldType.AMBUSH -> Logger.println("AMBUSH ACTION")
+            FieldType.TUNNEL -> inputHandler.handleCommand(ObtainTunnelCommand(playerColor))
+            else -> {
+                Logger.println("IMPL ME")
+            }
+
         }
     }
 

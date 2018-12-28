@@ -7,11 +7,12 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class ItemMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
+class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
         val player = guiStage.gameController.playerController.currentPlayer.playerData
@@ -20,7 +21,7 @@ class ItemMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
         addTitle(size)
-        addItems(items)
+        addItems(game, items)
         addButtons(size)
 
         pack()
@@ -39,13 +40,13 @@ class ItemMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
         cell.colspan(size)
     }
 
-    private fun addItems(items: ArrayList<Item>) {
+    private fun addItems(game: MainGame, items: ArrayList<Item>) {
         row()
         for (item in items) {
             val displayImage = item.getDisplayImage()
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    val itemDetails = ItemDetails(guiStage, this@ItemMenu, item)
+                    val itemDetails = ItemDetails(game, guiStage, this@ItemMenu, item)
                     itemDetails.openMenu()
                     return true
                 }
