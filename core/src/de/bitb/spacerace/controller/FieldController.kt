@@ -77,7 +77,7 @@ class FieldController(playerController: PlayerController) {
         val list: MutableList<SpaceField> = fieldsMap[FieldType.MINE]!!
         for (spaceField in list) {
             val harvest = (spaceField as MineField).harvestOres()
-//            gameController.history.addRoundActivity(HarvestOres(harvest))
+//            gameController.history.addRoundActivity(HarvestOres(harvest))//TODO mach das in den command
         }
 
     }
@@ -85,6 +85,11 @@ class FieldController(playerController: PlayerController) {
     fun occupyMine(player: Player) {
         val mineField: MineField = player.playerData.fieldPosition as MineField
         mineField.owner = player
+    }
+
+    fun getRandomTunnel(): SpaceField {
+        val tunnel = fieldsMap[FieldType.TUNNEL]!!
+        return tunnel[(Math.random() * tunnel.size).toInt()]
     }
 
 }

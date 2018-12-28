@@ -15,7 +15,7 @@ class MoveCommand(val spaceField: SpaceField) : BaseCommand() {
 
     override fun execute(game: MainGame) {
         val playerController = game.gameController.playerController
-        playerController.moveTo(playerController.currentPlayer, spaceField)
+        playerController.moveTo(spaceField, playerController.currentPlayer)
     }
 
 }

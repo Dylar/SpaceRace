@@ -50,13 +50,21 @@ open class BaseObject(val img: Texture) : Image(img) {
         val moveTo = MoveToAction()
         moveTo.setPosition(targetX - width / 2, targetY - height / 2)
         moveTo.duration = getDurationToTarget(targetX, targetY, targetWidth, targetHeight)
+        addAction(moveTo)
+    }
 
-//        Logger.println("Duration: ${move.duration}, Distance: ${getDistanceToTarget(targetX, targetY, targetWidth, targetHeight)}")
+    override fun addAction(action: Action?) {
         if (isIdling()) {
-            addAction(Actions.sequence(moveTo, getCheckAction()))
+            super.addAction(Actions.sequence(action, getCheckAction()))
         } else {
-            actionQueue.add(moveTo)
+            actionQueue.add(action!!)
         }
+    }
+
+    fun addAction(runnable: Runnable) {
+        val action = RunnableAction()
+        action.runnable = runnable
+        addAction(action)
     }
 
     private fun getCheckAction(): Action {
@@ -70,7 +78,7 @@ open class BaseObject(val img: Texture) : Image(img) {
                 }
                 seq.addAction(getCheckAction())
                 actionQueue.clear()
-                addAction(seq)
+                super.addAction(seq)
             }
         }
         return check

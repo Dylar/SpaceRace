@@ -16,7 +16,7 @@ class PlayerController() {
     var currentPlayer: Player = Player.NONE
         get() = if (players.isEmpty()) Player.NONE else players[players.size - 1]
 
-    fun moveTo(player: Player = currentPlayer, spaceField: SpaceField) {
+    fun moveTo(spaceField: SpaceField, player: Player = currentPlayer) {
         val playerData = player.playerData
 
         setSteps(playerData, spaceField)

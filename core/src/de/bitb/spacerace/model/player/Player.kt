@@ -9,6 +9,7 @@ import de.bitb.spacerace.config.DEBUG_ITEMS
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
+import de.bitb.spacerace.model.space.fields.SpaceField
 
 class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img) {
 
@@ -48,10 +49,17 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Texture
     }
 
     fun addRandomGift(): Item {
-        Logger.println("U got a gift")
         val item = ItemCollection.getRandomItem(playerData.playerColor)
+        Logger.println("U got a gift: ${item.text}")
         playerData.items.add(item)
         return item
     }
 
+    fun setFieldPosition(fieldPosition: SpaceField) {
+        addAction(Runnable {
+            playerData.fieldPosition = fieldPosition
+            setPosition(fieldPosition.getAbsolutX() - width / 2, fieldPosition.getAbsolutY() - height / 2)
+        })
+
+    }
 }

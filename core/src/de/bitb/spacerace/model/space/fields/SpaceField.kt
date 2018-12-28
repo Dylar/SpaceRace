@@ -19,15 +19,11 @@ open class SpaceField(var fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
 
         fun createField(fieldType: FieldType): SpaceField {
             return when (fieldType) {
-                FieldType.WIN -> SpaceField(FieldType.WIN)
-                FieldType.LOSE -> SpaceField(FieldType.LOSE)
-                FieldType.SHOP -> SpaceField(FieldType.SHOP)
-                FieldType.GIFT -> SpaceField(FieldType.GIFT)
-                FieldType.AMBUSH -> SpaceField(FieldType.AMBUSH)
                 FieldType.MINE -> MineField()
                 FieldType.RANDOM -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
-                FieldType.UNKNOWN -> SpaceField(FieldType.UNKNOWN)
-                FieldType.GOAL -> SpaceField(FieldType.GOAL)
+                else -> {
+                    SpaceField(fieldType)
+                }
             }
         }
     }

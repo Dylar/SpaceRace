@@ -25,6 +25,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     var phase: Phase = Phase.MAIN1
 
     var fieldPosition: SpaceField = SpaceField.NONE
+
     var steps: MutableList<SpaceField> = ArrayList()
     var previousStep: SpaceField = SpaceField.NONE
         get() = if (steps.size < 2) SpaceField.NONE else steps[steps.size - 2]
