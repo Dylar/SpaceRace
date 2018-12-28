@@ -1,5 +1,6 @@
 package de.bitb.spacerace.events.commands.start
 
+import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.ui.screens.game.GameScreen
@@ -13,6 +14,6 @@ class StartGameCommand() : BaseCommand() {
         val gameController = game.gameController
         gameController.inputHandler.removeListener()
         gameController.initGame(game.gameController.spaceMap.createMap(game.gameController))
-        game.changeScreen(GameScreen(game))
+        game.changeScreen(GameScreen(game, game.screen as BaseScreen))
     }
 }

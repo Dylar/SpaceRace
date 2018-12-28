@@ -5,7 +5,7 @@ import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.core.MainGame
 
-class GameScreen(game: MainGame) : BaseScreen(game) {
+class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, previousScreen) {
 
     override fun createGuiStage(): BaseStage {
         return GameGuiStage(game, this)

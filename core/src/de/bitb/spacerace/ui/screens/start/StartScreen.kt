@@ -6,7 +6,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.ui.screens.game.BackgroundStage
 
 
-class StartScreen(game: MainGame) : BaseScreen(game) {
+class StartScreen(game: MainGame) : BaseScreen(game, null) {
 
     override fun createGuiStage(): BaseStage {
         return StartGuiStage(this)

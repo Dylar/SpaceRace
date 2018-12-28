@@ -14,7 +14,7 @@ import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
 
 
-open class BaseScreen(val game: MainGame) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
+open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
 
     var backgroundStage: BaseStage = BaseStage.NONE
     var gameStage: BaseStage = BaseStage.NONE
@@ -52,7 +52,7 @@ open class BaseScreen(val game: MainGame) : Screen, GestureDetector.GestureListe
     }
 
     override fun render(delta: Float) {
-        game.clearScreen(blue = 200f)
+        game.clearScreen(red = 200f)
 
         renderBackground(delta)
         renderGame(delta)
@@ -108,6 +108,7 @@ open class BaseScreen(val game: MainGame) : Screen, GestureDetector.GestureListe
     }
 
     override fun hide() {
+
     }
 
     override fun dispose() {

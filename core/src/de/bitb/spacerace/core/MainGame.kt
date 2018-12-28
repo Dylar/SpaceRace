@@ -3,6 +3,7 @@ package de.bitb.spacerace.core
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
+import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.ui.screens.start.StartScreen
@@ -19,10 +20,16 @@ class MainGame : BaseGame() {
     }
 
     override fun render() {
-        super.render()
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             Gdx.app.exit()
+        } else if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
+            gameController.inputHandler.removeListener()
+            val previousScreen = (screen as BaseScreen).previousScreen
+            if (previousScreen != null) {
+                changeScreen(previousScreen)
+            }
         }
+        super.render()
     }
 
 }
