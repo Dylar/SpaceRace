@@ -16,17 +16,20 @@ import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
 import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.phases.EndRoundCommand
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu
-import de.bitb.spacerace.ui.player.ItemMenu
+import de.bitb.spacerace.ui.player.items.ItemMenu
+import de.bitb.spacerace.ui.player.shop.ShopMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
 class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
     private var itemMenu = ItemMenu(game, guiStage)
+    private var shopMenu = ShopMenu(game, guiStage)
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
@@ -49,13 +52,7 @@ class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCol
 
         val storageBtn = createButton(name = GAME_BUTTON_STORAGE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                if (itemMenu.isOpen) {
-                    itemMenu.closeMenu()
-                } else {
-                    itemMenu = ItemMenu(game, guiStage)
-                    itemMenu.openMenu()
-                    guiStage.addActor(itemMenu)
-                }
+                openItemMenu(game)
                 return true
             }
         })
@@ -83,17 +80,37 @@ class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCol
         return cell
     }
 
+    private fun openItemMenu(game: MainGame) {
+        if (itemMenu.isOpen) {
+            itemMenu.closeMenu()
+        } else {
+            itemMenu = ItemMenu(game, guiStage)
+            itemMenu.openMenu()
+            guiStage.addActor(itemMenu)
+        }
+    }
+
+    private fun openShop(game: MainGame) {
+        if (shopMenu.isOpen) {
+            shopMenu.closeMenu()
+        } else {
+            shopMenu = ShopMenu(game, guiStage)
+            shopMenu.openMenu()
+            guiStage.addActor(shopMenu)
+        }
+    }
+
+    private fun openEndRoundMenu() {
+        val endMenu = RoundEndMenu(guiStage)
+        endMenu.openMenu()
+        guiStage.addActor(endMenu)
+    }
+
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
         if (event is EndRoundCommand) {
-            val endMenu = RoundEndMenu(guiStage)
-            endMenu.openMenu()
-            guiStage.addActor(endMenu)
-        } else if (event is NextPhaseCommand) {
-//            if (gameController.phaseController.phase.isEndTurn()) {
-//                val endMenu = RoundEndMenu(gameController, guiStage)
-//                endMenu.openMenu()
-//                guiStage.addActor(endMenu)
-//            }
+            openEndRoundMenu()
+        } else if (event is ObtainShopCommand) {
+            openShop(game)
         }
     }
 

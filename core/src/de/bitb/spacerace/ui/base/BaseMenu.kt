@@ -12,7 +12,7 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
-abstract class BaseMenu(val guiStage: GameGuiStage, val previousMenu: BaseMenu? = null) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+abstract class BaseMenu(val guiStage: GameGuiStage, private val previousMenu: BaseMenu? = null) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
     var isOpen: Boolean = false
 
@@ -40,8 +40,8 @@ abstract class BaseMenu(val guiStage: GameGuiStage, val previousMenu: BaseMenu? 
     }
 
     open fun closeMenu() {
-        isOpen = false
         guiStage.screen.game.gameController.inputHandler.removeListener(this)
+        isOpen = false
     }
 
     open fun onBack() {

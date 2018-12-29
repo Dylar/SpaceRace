@@ -24,6 +24,7 @@ class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
             FieldType.GIFT -> inputHandler.handleCommand(ObtainGiftCommand(playerColor))
             FieldType.MINE -> inputHandler.handleCommand(ObtainMineCommand(playerColor))
             FieldType.TUNNEL -> inputHandler.handleCommand(ObtainTunnelCommand(playerColor))
+            FieldType.SHOP -> inputHandler.handleCommand(ObtainShopCommand(playerColor))
             else -> {
                 Logger.println("IMPL ME")
             }

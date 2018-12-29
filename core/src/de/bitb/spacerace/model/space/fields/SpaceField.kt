@@ -12,7 +12,7 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 
-open class SpaceField(var fieldType: FieldType = FieldType.UNKNOWN) : BaseObject(fieldType.texture) {
+open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject(fieldType.texture) {
 
     companion object {
         val NONE: SpaceField = SpaceField()

@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.player
+package de.bitb.spacerace.ui.player.shop
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
@@ -7,16 +7,17 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_SHOP_TITLE
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
+class ShopMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
-        val player = guiStage.gameController.playerController.currentPlayer.playerData
-        val items = player.items
+        val items = ItemCollection.getAllItems()
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
@@ -35,19 +36,20 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
     }
 
     private fun addTitle(size: Int) {
-        val cell = add(GAME_MENUITEM_TITLE)
+
+        val cell = add(GAME_SHOP_TITLE)
         setFont(cell.actor)
         cell.colspan(size)
     }
 
-    private fun addItems(game: MainGame, items: ArrayList<Item>) {
+    private fun addItems(game: MainGame, items: List<Item>) {
         row()
         for (item in items) {
             val displayImage = item.getDisplayImage()
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    val itemDetails = ItemDetails(game, guiStage, this@ItemMenu, item)
-                    itemDetails.openMenu()
+//                    val itemDetails = ItemDetails(game, guiStage, this@ShopMenu, item)
+//                    itemDetails.openMenu()
                     return true
                 }
             })
