@@ -20,7 +20,7 @@ const val MIN_ZOOM = 1
 
 //DEBUG
 var DEBUG_TEST_FIELD = FieldType.SHOP
-const val DEBUG_ITEMS = 5
+const val DEBUG_ITEMS = 0
 
 const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false

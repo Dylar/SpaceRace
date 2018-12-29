@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.player.items
+package de.bitb.spacerace.ui.player.shop
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
@@ -12,26 +12,23 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZ
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_BUY
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
-import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
-import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
-import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_ITEM_DETAILS_TITLE_USABLE
-import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_ITEM_DETAILS_TITLE_USED
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.BaseEvent
-import de.bitb.spacerace.events.commands.player.UseItemCommand
+import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
-class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, val item: Item) : BaseMenu(guiStage, itemMenu), InputObserver {
+class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, val item: Item) : BaseMenu(guiStage, shopMenu), InputObserver {
 
-    private lateinit var useBtn: TextButton
-    private lateinit var usedTitle: Cell<Label>
+    private lateinit var buyBtn: TextButton
+    private lateinit var creditsTitle: Cell<Label>
 
     init {
-        addTitle()
+        addTitle(game)
         addImage()
         addText()
         addButtons(game)
@@ -39,11 +36,11 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
         setPosition()
     }
 
-    private fun addTitle() {
-        usedTitle = add("-")
-        setUsedTitle()
-        addPaddingTopBottom(usedTitle, GAME_MENU_PADDING_SPACE)
-        setFont(usedTitle.actor, GAME_SIZE_FONT_MEDIUM)
+    private fun addTitle(game: MainGame) {
+        creditsTitle = add("-")
+        setCreditsTitle(game.gameController.playerController.currentPlayer.playerData.getItems(item.itemType).size)
+        addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
+        setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()
     }
 
@@ -72,14 +69,14 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
         val cell = add(container)
         cell.expandX()
 
-        useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
+        buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                game.gameController.inputHandler.handleCommand(UseItemCommand(item))
+                game.gameController.inputHandler.handleCommand(BuyItemCommand(item, game.gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })
 
-        var cellBtn = container.add(useBtn)
+        var cellBtn = container.add(buyBtn)
         cellBtn.fillX()
         addPaddingLeftRight(cellBtn)
         setFont(cellBtn.actor)
@@ -96,13 +93,14 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
         setFont(cellBtn.actor)
     }
 
-    private fun setUsedTitle() {
-        usedTitle.actor.setText(if (item.used) GAME_MENU_ITEM_DETAILS_TITLE_USED else GAME_MENU_ITEM_DETAILS_TITLE_USABLE)
+    private fun setCreditsTitle(items: Int) {
+        creditsTitle.actor.setText("${item.price} ($items)")
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
-        if (event is UseItemCommand) {
-            setUsedTitle()
+        when (event) {
+            is BuyItemCommand -> setCreditsTitle(event.getPlayerData(game).getItems(item.itemType).size)
         }
     }
+
 }

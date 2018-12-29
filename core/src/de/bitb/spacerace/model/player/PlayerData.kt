@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.player
 
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.items.upgrade.UpgradeItem
@@ -9,7 +10,7 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
-    var credits = 0
+    var credits = 100000
     var items = ArrayList<Item>()
 
     var diceModItems = ArrayList<DiceModification>()
@@ -71,6 +72,16 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
                 usedItems.add(item)
         }
         items.removeAll(usedItems)
+    }
+
+    fun getItems(itemType: ItemCollection): List<Item> {
+        val list = ArrayList<Item>()
+        for (item in items) {
+            if (item.itemType == itemType) {
+                list.add(item)
+            }
+        }
+        return list
     }
 
 }

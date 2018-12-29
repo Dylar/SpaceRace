@@ -48,8 +48,8 @@ class ShopMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
             val displayImage = item.getDisplayImage()
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-//                    val itemDetails = ItemDetails(game, guiStage, this@ShopMenu, item)
-//                    itemDetails.openMenu()
+                    val shopDetails = ShopDetails(game, guiStage, this@ShopMenu, item)
+                    shopDetails.openMenu()
                     return true
                 }
             })

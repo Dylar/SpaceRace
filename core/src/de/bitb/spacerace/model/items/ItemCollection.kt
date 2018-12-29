@@ -4,6 +4,7 @@ import de.bitb.spacerace.model.items.upgrade.IonEngine
 import de.bitb.spacerace.model.items.usable.ExtraFuel
 import de.bitb.spacerace.model.items.usable.SpecialFuel
 import de.bitb.spacerace.model.player.PlayerColor
+import javax.naming.OperationNotSupportedException
 
 enum class ItemCollection {
 
@@ -12,13 +13,17 @@ enum class ItemCollection {
     SPECIAL_FUEL,
 
     //UGRADES
-    ION_ENGINE;
+    ION_ENGINE,
+
+    NONE;
 
     companion object {
         fun getAllItems(): MutableList<Item> {
             val result = ArrayList<Item>()
             for (value in values()) {
-                result.add(value.create())
+                if (value != NONE) {
+                    result.add(value.create())
+                }
             }
             return result
         }
@@ -30,9 +35,10 @@ enum class ItemCollection {
 
     fun create(playerColor: PlayerColor = PlayerColor.NONE): Item {
         return when (this) {
-            EXTRA_FUEL -> ExtraFuel(playerColor)
-            SPECIAL_FUEL -> SpecialFuel(playerColor)
-            ION_ENGINE -> IonEngine(playerColor)
+            EXTRA_FUEL -> ExtraFuel(playerColor, 2000)
+            SPECIAL_FUEL -> SpecialFuel(playerColor, 1000)
+            ION_ENGINE -> IonEngine(playerColor, 5000)
+            NONE -> throw OperationNotSupportedException()
         }
     }
 

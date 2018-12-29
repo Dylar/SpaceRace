@@ -28,6 +28,12 @@ object Strings {
                 GERMAN -> "Abbrechen"
             }
 
+        var GAME_BUTTON_BUY: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Buy"
+                GERMAN -> "Kaufen"
+            }
+
         var GAME_BUTTON_USE: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "Use"
