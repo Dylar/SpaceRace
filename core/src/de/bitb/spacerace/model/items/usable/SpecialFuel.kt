@@ -4,10 +4,11 @@ import de.bitb.spacerace.config.strings.GameStrings.ItemStrings.ITEM_SPECIAL_FUE
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.player.PlayerColor
 
-class SpecialFuel(playerColor: PlayerColor) : Item(playerColor, TextureCollection.ship1, ITEM_SPECIAL_FUEL_TEXT), DiceModification {
+class SpecialFuel(playerColor: PlayerColor, price: Int) : Item(TextureCollection.ship1, playerColor, ItemCollection.SPECIAL_FUEL, ITEM_SPECIAL_FUEL_TEXT, price), DiceModification {
 
     override fun canUse(game: MainGame): Boolean {
         return getPlayerData(game).phase.isMain1()

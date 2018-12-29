@@ -1,33 +1,37 @@
 package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.Gdx
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.ui.base.BaseMenu
+import java.util.concurrent.Executors
 
 class InputHandler(private val game: MainGame) {
+    private val executor = Executors.newFixedThreadPool(5)!!
 
     private val inputObserver: MutableList<InputObserver> = ArrayList()
 
     fun <T : BaseEvent> handleCommand(event: T) {
-        //TODO threading
-        Gdx.app.postRunnable {
-            when {
-                event is BaseCommand && event.canExecute(game) -> {
-                    event.execute(game)
-                    notifyObserver(event)
+        val handleCommand = Runnable {
+            run {
+                when {
+                    event is BaseCommand && event.canExecute(game) -> {
+                        event.execute(game)
+                        notifyObserver(event)
+                    }
+                    else -> notifyObserver(event)
                 }
-                else -> notifyObserver(event)
             }
         }
+        executor.execute(handleCommand)
     }
 
     private fun notifyObserver(event: BaseEvent) {
-        val observerList = ArrayList<InputObserver>(inputObserver)
-        for (obs in observerList) {
-            obs.update(game, event)
+        Gdx.app.postRunnable {
+            val observerList = ArrayList<InputObserver>(inputObserver)
+            for (obs in observerList) {
+                obs.update(game, event)
+            }
         }
     }
 

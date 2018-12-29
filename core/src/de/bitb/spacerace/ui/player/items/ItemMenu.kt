@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.player
+package de.bitb.spacerace.ui.player.items
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
@@ -30,8 +30,8 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
     }
 
     private fun setPosition() {
-        x = (SCREEN_WIDTH - (SCREEN_WIDTH / 2) - width / 2)
-        y = (SCREEN_HEIGHT - (SCREEN_HEIGHT / 2) - height / 2)
+        x = SCREEN_WIDTH / 2 - width / 2
+        y = SCREEN_HEIGHT / 2 - height / 2
     }
 
     private fun addTitle(size: Int) {

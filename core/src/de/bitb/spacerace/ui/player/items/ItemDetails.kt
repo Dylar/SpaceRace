@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.player
+package de.bitb.spacerace.ui.player.items
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
@@ -14,6 +14,9 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_ITEM_DETAILS_TITLE_USABLE
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_ITEM_DETAILS_TITLE_USED
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.BaseEvent
@@ -37,7 +40,8 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
     }
 
     private fun addTitle() {
-        usedTitle = add(if (item.used) "USED" else "USABLE")
+        usedTitle = add("-")
+        setUsedTitle()
         addPaddingTopBottom(usedTitle, GAME_MENU_PADDING_SPACE)
         setFont(usedTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()
@@ -92,9 +96,13 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
         setFont(cellBtn.actor)
     }
 
+    private fun setUsedTitle() {
+        usedTitle.actor.setText(if (item.used) GAME_MENU_ITEM_DETAILS_TITLE_USED else GAME_MENU_ITEM_DETAILS_TITLE_USABLE)
+    }
+
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
         if (event is UseItemCommand) {
-            usedTitle.actor.setText(if (item.used) "USED" else "USABLE")
+            setUsedTitle()
         }
     }
 }

@@ -4,22 +4,42 @@ import de.bitb.spacerace.model.items.upgrade.IonEngine
 import de.bitb.spacerace.model.items.usable.ExtraFuel
 import de.bitb.spacerace.model.items.usable.SpecialFuel
 import de.bitb.spacerace.model.player.PlayerColor
+import javax.naming.OperationNotSupportedException
 
-object ItemCollection {
+enum class ItemCollection {
 
-    private const val ITEM1 = 0
-    private const val ITEM2 = ITEM1 + 1
-    private const val ITEM3 = ITEM2 + 1
-    private const val ITEM_COUNT = ITEM3 + 1
+    //USABLE
+    EXTRA_FUEL,
+    SPECIAL_FUEL,
 
-    fun getRandomItem(playerColor: PlayerColor, index: Int = (Math.random() * ITEM_COUNT).toInt()): Item {
-        return when (index) {
-            ITEM1 -> ExtraFuel(playerColor)
-            ITEM2 -> SpecialFuel(playerColor)
-            ITEM3 -> IonEngine(playerColor)
-            else -> getRandomItem(playerColor)
+    //UGRADES
+    ION_ENGINE,
+
+    NONE;
+
+    companion object {
+        fun getAllItems(): MutableList<Item> {
+            val result = ArrayList<Item>()
+            for (value in values()) {
+                if (value != NONE) {
+                    result.add(value.create())
+                }
+            }
+            return result
+        }
+
+        fun getRandomItem(playerColor: PlayerColor, index: Int = (Math.random() * values().size).toInt()): Item {
+            return values()[index].create(playerColor)
         }
     }
 
+    fun create(playerColor: PlayerColor = PlayerColor.NONE): Item {
+        return when (this) {
+            EXTRA_FUEL -> ExtraFuel(playerColor, 2000)
+            SPECIAL_FUEL -> SpecialFuel(playerColor, 1000)
+            ION_ENGINE -> IonEngine(playerColor, 5000)
+            NONE -> throw OperationNotSupportedException()
+        }
+    }
 
 }

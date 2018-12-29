@@ -4,17 +4,18 @@ import de.bitb.spacerace.config.strings.GameStrings.ItemStrings.ITEM_EXTRA_FUEL_
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.player.PlayerColor
 
-class ExtraFuel(playerColor: PlayerColor) : Item(playerColor, TextureCollection.ship2, ITEM_EXTRA_FUEL_TEXT), DiceAddition {
+class ExtraFuel(playerColor: PlayerColor, price: Int) : Item(TextureCollection.ship2, playerColor, ItemCollection.EXTRA_FUEL, ITEM_EXTRA_FUEL_TEXT, price), DiceAddition {
 
     override fun canUse(game: MainGame): Boolean {
-        return game.gameController.playerController.getPlayer(owner).playerData.phase.isMain1()
+        return getPlayerData(game).phase.isMain1()
     }
 
     override fun use(game: MainGame) {
-        game.gameController.playerController.playerMap[owner]!!.playerData.diceAddItems.add(this)
+        getPlayerData(game).diceAddItems.add(this)
     }
 
     override fun getAddition(): Int {

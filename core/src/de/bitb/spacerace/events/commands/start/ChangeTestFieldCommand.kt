@@ -4,7 +4,6 @@ import de.bitb.spacerace.config.DEBUG_TEST_FIELD
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.maps.SpaceMaps
 
 class ChangeTestFieldCommand() : BaseCommand() {
 

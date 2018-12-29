@@ -28,6 +28,12 @@ object Strings {
                 GERMAN -> "Abbrechen"
             }
 
+        var GAME_BUTTON_BUY: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Buy"
+                GERMAN -> "Kaufen"
+            }
+
         var GAME_BUTTON_USE: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "Use"
@@ -76,6 +82,18 @@ object Strings {
                 GERMAN -> "Items"
             }
 
+        var GAME_MENU_ITEM_DETAILS_TITLE_USED: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH ->  "Used"
+                GERMAN -> "Benutzt"
+            }
+
+        var GAME_MENU_ITEM_DETAILS_TITLE_USABLE: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH ->  "Usable"
+                GERMAN -> "Benutzbar"
+            }
+
         var GAME_MENU_END_ROUND_TITLE: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "Round end"
@@ -86,6 +104,12 @@ object Strings {
             get() = when (LANGUAGE) {
                 ENGLISH -> "Player: "
                 GERMAN -> "Spieler: "
+            }
+
+        var GAME_SHOP_TITLE: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Shop"
+                GERMAN -> "Laden"
             }
 
     }

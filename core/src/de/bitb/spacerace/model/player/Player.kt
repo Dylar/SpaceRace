@@ -37,20 +37,20 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Texture
     fun addRandomWin(): Int {
         val win = (Math.random() * 1000).toInt() + 1
         playerData.credits += win
-        Logger.println("Won: $win")
+//        Logger.println("Won: $win")
         return win
     }
 
     fun substractRandomWin(): Int {
         val lose = (Math.random() * 500).toInt() + 1
         playerData.credits -= lose
-        Logger.println("Lost: $lose")
+//        Logger.println("Lost: $lose")
         return lose
     }
 
     fun addRandomGift(): Item {
         val item = ItemCollection.getRandomItem(playerData.playerColor)
-        Logger.println("U got a gift: ${item.text}")
+//        Logger.println("U got a gift: ${item.text}")
         playerData.items.add(item)
         return item
     }

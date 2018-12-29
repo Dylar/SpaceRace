@@ -6,7 +6,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 
-abstract class Item(val owner: PlayerColor, val img: Texture, val text: String) {
+abstract class Item(val img: Texture, var owner: PlayerColor, val itemType: ItemCollection, val text: String, val price: Int) {
     var used = false
 
     fun getDisplayImage(): Image {
