@@ -34,6 +34,12 @@ object Strings {
                 GERMAN -> "Kaufen"
             }
 
+        var GAME_BUTTON_SELL: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Sell"
+                GERMAN -> "Verkaufen"
+            }
+
         var GAME_BUTTON_USE: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "Use"
