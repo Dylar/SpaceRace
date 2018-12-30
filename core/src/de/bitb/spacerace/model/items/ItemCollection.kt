@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.items
 
+import de.bitb.spacerace.model.items.disposable.SlowMine
 import de.bitb.spacerace.model.items.upgrade.IonEngine
 import de.bitb.spacerace.model.items.usable.ExtraFuel
 import de.bitb.spacerace.model.items.usable.SpecialFuel
@@ -7,6 +8,9 @@ import de.bitb.spacerace.model.player.PlayerColor
 import javax.naming.OperationNotSupportedException
 
 enum class ItemCollection {
+
+    //DISPOSABLE
+    SLOW_MINE,
 
     //USABLE
     EXTRA_FUEL,
@@ -38,6 +42,7 @@ enum class ItemCollection {
             EXTRA_FUEL -> ExtraFuel(playerColor, 2000)
             SPECIAL_FUEL -> SpecialFuel(playerColor, 1000)
             ION_ENGINE -> IonEngine(playerColor, 5000)
+            SLOW_MINE -> SlowMine(playerColor, 3000)
             NONE -> throw OperationNotSupportedException()
         }
     }
