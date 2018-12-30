@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.config.DEBUG_TEST_FIELD
+import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
@@ -38,7 +39,7 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
         for (value in MapCollection.values()) {
             val checkBox = addCheckbox(value)
             buttonGroup.add(checkBox)
-            if (value == MapCollection.TEST_MAP) {
+            if (value == SELECTED_MAP) {
                 checkBox.isChecked = true
                 inputHandler.handleCommand(SelectMapCommand(value))
             }

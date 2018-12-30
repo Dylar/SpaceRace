@@ -8,7 +8,6 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.GAME_CONNEC
 import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.model.player.PlayerData
 
-
 class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) {
 
     fun getColor(playerData: PlayerData): Color {

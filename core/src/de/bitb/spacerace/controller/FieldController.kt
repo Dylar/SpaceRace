@@ -22,7 +22,6 @@ class FieldController(playerController: PlayerController) {
 
     init {
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
-
     }
 
     fun addShip(player: Player, spaceField1: SpaceField) {
