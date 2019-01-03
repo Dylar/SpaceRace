@@ -11,7 +11,7 @@ enum class FieldType(val color: Color? = null, val texture: Texture = TextureCol
     AMBUSH(BROWN),
     MINE(BLUE),
     GIFT(YELLOW),
-    SHOP(GRAY),
+    SHOP(texture = TextureCollection.fieldItemShop),
     GOAL(PINK),
     TUNNEL(PURPLE, TextureCollection.blackhole),
     RANDOM(GREEN, TextureCollection.blackhole),

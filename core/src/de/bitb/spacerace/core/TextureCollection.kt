@@ -27,7 +27,10 @@ object TextureCollection {
     val ship1: Texture
     val ship2: Texture
 
+    val fieldItemShop: Texture
+
     val slowMine: Texture
+
 
     init {
         val allTexture = Pixmap(Gdx.files.internal("objects.png"))
@@ -60,6 +63,7 @@ object TextureCollection {
         blackhole = Texture("objects/blackhole.png")
         fallingStar = Texture("objects/falling_star.png")
         slowMine = Texture("objects/item_mine.png")
+        fieldItemShop = Texture("objects/field_item_shop.png")
 
     }
 }
