@@ -10,7 +10,7 @@ class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
     }
 
     override fun execute(game: MainGame) {
-        game.gameController.fieldController.harvestOres()
+        game.gameController.fieldController.harvestOres(game)
         val players = game.gameController.playerController.players
 
         for (player in players) {

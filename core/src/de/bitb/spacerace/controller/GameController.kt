@@ -7,12 +7,17 @@ import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.SpaceMap
 
 class GameController(game: MainGame) {
+    val victories: MutableMap<PlayerColor, Int> = HashMap()
     val gamePlayer: MutableList<PlayerColor> = ArrayList()
     var spaceMap: MapCollection = MapCollection.RANDOM
 
     val inputHandler = InputHandler(game)
     val playerController = PlayerController()
     val fieldController = FieldController(playerController)
+
+    init {
+        PlayerColor.values().forEach { field -> victories[field] = 0 }
+    }
 
     fun initGame(map: SpaceMap) {
         fieldController.initMap(inputHandler, map)

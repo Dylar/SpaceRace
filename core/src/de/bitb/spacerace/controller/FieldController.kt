@@ -2,10 +2,12 @@ package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -73,18 +75,18 @@ class FieldController(playerController: PlayerController) {
         return false
     }
 
-    fun harvestOres() {
+    fun harvestOres(game: MainGame) {
         val list: MutableList<SpaceField> = fieldsMap[FieldType.MINE]!!
         for (spaceField in list) {
-            val harvest = (spaceField as MineField).harvestOres()
+            val harvest = (spaceField as MineField).harvestOres(game)
 //            gameController.history.addRoundActivity(HarvestOres(harvest))//TODO mach das in den command
         }
 
     }
 
-    fun occupyMine(player: Player) {
-        val mineField: MineField = player.playerData.fieldPosition as MineField
-        mineField.owner = player
+    fun occupyMine(playerData: PlayerData) {
+        val mineField: MineField = playerData.fieldPosition as MineField
+        mineField.owner = playerData.playerColor
     }
 
     fun getRandomTunnel(playerColor: PlayerColor): SpaceField {

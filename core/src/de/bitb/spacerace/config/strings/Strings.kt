@@ -118,5 +118,23 @@ object Strings {
                 GERMAN -> "Laden"
             }
 
+        var GAME_ROUND_DETAILS_VICTORIES: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Victories: "
+                GERMAN -> "Siege: "
+            }
+
+        var GAME_ROUND_DETAILS_CREDITS: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Credits: "
+                GERMAN -> "Kredits: "
+            }
+
+        var GAME_ROUND_DETAILS_MINES: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Mines: "
+                GERMAN -> "Minen: "
+            }
+
     }
 }
