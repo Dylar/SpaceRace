@@ -10,6 +10,7 @@ import de.bitb.spacerace.config.DEBUG_FIELDS
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 
 open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject(fieldType.texture) {
@@ -30,6 +31,8 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
 
     var id: Int = -1
     lateinit var group: SpaceGroup
+    val disposedItems: MutableList<Item> = ArrayList()
+    var update = false
 
     override fun getAbsolutX(): Float {
         val offset: Float = if (::group.isInitialized) group.offsetX else 0f
