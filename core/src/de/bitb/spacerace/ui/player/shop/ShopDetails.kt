@@ -14,10 +14,12 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_BUY
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_SELL
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.player.BuyItemCommand
+import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
@@ -25,6 +27,7 @@ import de.bitb.spacerace.ui.base.BaseMenu
 class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, val item: Item) : BaseMenu(guiStage, shopMenu), InputObserver {
 
     private lateinit var buyBtn: TextButton
+    private lateinit var sellBtn: TextButton
     private lateinit var creditsTitle: Cell<Label>
 
     init {
@@ -81,6 +84,18 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
         addPaddingLeftRight(cellBtn)
         setFont(cellBtn.actor)
 
+        sellBtn = createButton(name = GAME_BUTTON_SELL, listener = object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                game.gameController.inputHandler.handleCommand(SellItemCommand(item, game.gameController.playerController.currentPlayer.playerData.playerColor))
+                return true
+            }
+        })
+
+        cellBtn = container.add(sellBtn)
+        cellBtn.fillX()
+        addPaddingLeftRight(cellBtn)
+        setFont(cellBtn.actor)
+
         val cancelBtn = createButton(name = GAME_BUTTON_CANCEL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 onBack()
@@ -100,6 +115,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
         when (event) {
             is BuyItemCommand -> setCreditsTitle(event.getPlayerData(game).getItems(item.itemType).size)
+            is SellItemCommand -> setCreditsTitle(event.getPlayerData(game).getItems(item.itemType).size) //TODO why not with comma
         }
     }
 

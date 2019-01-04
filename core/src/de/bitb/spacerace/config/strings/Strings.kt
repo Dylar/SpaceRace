@@ -34,6 +34,12 @@ object Strings {
                 GERMAN -> "Kaufen"
             }
 
+        var GAME_BUTTON_SELL: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Sell"
+                GERMAN -> "Verkaufen"
+            }
+
         var GAME_BUTTON_USE: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "Use"
@@ -110,6 +116,24 @@ object Strings {
             get() = when (LANGUAGE) {
                 ENGLISH -> "Shop"
                 GERMAN -> "Laden"
+            }
+
+        var GAME_ROUND_DETAILS_VICTORIES: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Victories: "
+                GERMAN -> "Siege: "
+            }
+
+        var GAME_ROUND_DETAILS_CREDITS: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Credits: "
+                GERMAN -> "Kredits: "
+            }
+
+        var GAME_ROUND_DETAILS_MINES: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Mines: "
+                GERMAN -> "Minen: "
             }
 
     }

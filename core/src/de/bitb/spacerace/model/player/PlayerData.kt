@@ -10,7 +10,7 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
-    var credits = 100000
+    var credits = 0
     var items = ArrayList<Item>()
 
     var diceModItems = ArrayList<DiceModification>()

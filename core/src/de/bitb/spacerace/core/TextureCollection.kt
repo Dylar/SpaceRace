@@ -12,6 +12,7 @@ object TextureCollection {
     val skin = Skin(Gdx.files.internal("uiskin.json"))
 
     val guiBackground: Texture
+    val gameoverBackground: Texture
     val gameBackground: Texture
 
     val blackhole: Texture
@@ -27,10 +28,16 @@ object TextureCollection {
     val ship1: Texture
     val ship2: Texture
 
+    val fieldItemShop: Texture
+
+    val slowMine: Texture
+
+
     init {
         val allTexture = Pixmap(Gdx.files.internal("objects.png"))
 
         guiBackground = Texture("background/bg_silver.png")
+        gameoverBackground = Texture("background/bg_gameover.jpg")
         gameBackground = Texture("background/bg_star.png")
         gameBackground.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat)
 
@@ -57,6 +64,8 @@ object TextureCollection {
 
         blackhole = Texture("objects/blackhole.png")
         fallingStar = Texture("objects/falling_star.png")
+        slowMine = Texture("objects/item_mine.png")
+        fieldItemShop = Texture("objects/field_item_shop.png")
 
     }
 }

@@ -65,7 +65,6 @@ class PlayerSelectionControl(val gameController: GameController, val guiStage: S
     }
 
     private fun setPosition() {
-        x = SCREEN_WIDTH / 4 - width + width / 4
         y = SCREEN_HEIGHT / 2f - height / 2
     }
 

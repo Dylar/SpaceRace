@@ -4,20 +4,31 @@ import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.space.groups.BoxGroup
 import de.bitb.spacerace.model.space.groups.CircleGroup
-import de.bitb.spacerace.model.space.groups.CrossGroup
 
-class CrossRoad(gameController: GameController, fieldController: FieldController = gameController.fieldController) : SpaceMap() {
+class CircleRoadMap(gameController: GameController, fieldController: FieldController = gameController.fieldController) : SpaceMap() {
 
     init {
         val offsetY = Dimensions.SCREEN_HEIGHT * 1.6f
         val offsetX = Dimensions.SCREEN_WIDTH.toFloat()
 
-        val centerGroup = CrossGroup(gameController)
-        val upGroup = CircleGroup(gameController, offsetY = offsetY)
-        val rightGroup = CircleGroup(gameController, offsetX)
-        val downGroup = CircleGroup(gameController, offsetY = -offsetY)
-        val leftGroup = CircleGroup(gameController, -offsetX)
+        val fieldTypes = ArrayList<FieldType>()
+        fieldTypes.add(FieldType.TUNNEL)
+        fieldTypes.add(FieldType.LOSE)
+        fieldTypes.add(FieldType.SHOP)
+        fieldTypes.add(FieldType.GIFT)
+        fieldTypes.add(FieldType.WIN)
+        fieldTypes.add(FieldType.TUNNEL)
+        fieldTypes.add(FieldType.LOSE)
+        fieldTypes.add(FieldType.GOAL)
+
+        val centerGroup = CircleGroup(gameController, fieldTypes = fieldTypes)
+        val upGroup = BoxGroup(gameController, offsetY = offsetY)
+        val rightGroup = BoxGroup(gameController, offsetX)
+        val downGroup = BoxGroup(gameController, offsetY = -offsetY)
+        val leftGroup = BoxGroup(gameController, -offsetX)
 
         centerGroup.connect(fieldController, ConnectionPoint.TOP, upGroup)
         centerGroup.connect(fieldController, ConnectionPoint.RIGHT, rightGroup)

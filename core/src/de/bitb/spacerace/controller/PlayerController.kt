@@ -36,15 +36,8 @@ class PlayerController() {
         }
     }
 
-    fun previousFieldSelected(playerData: PlayerData = currentPlayer.playerData, spaceField: SpaceField): Boolean {
+    private fun previousFieldSelected(playerData: PlayerData = currentPlayer.playerData, spaceField: SpaceField): Boolean {
         return playerData.steps.size > 1 && playerData.previousStep == spaceField
-    }
-
-    fun canDice(playerColor: PlayerColor): Boolean {
-        val playerData = currentPlayer.playerData
-        return playerData.phase.isMain1() &&
-                playerData.playerColor == playerColor &&
-                !playerData.diced
     }
 
     fun dice(maxResult: Int = 6) {

@@ -5,7 +5,7 @@ import de.bitb.spacerace.config.LANGUAGE
 import de.bitb.spacerace.config.enums.Language
 import de.bitb.spacerace.core.MainGame
 
-class ChangeLanguageScreenCommand(playerColor: PlayerColor = PlayerColor.NONE) : StartScreenCommand(playerColor) {
+class ChangeLanguageCommand(playerColor: PlayerColor = PlayerColor.NONE) : StartScreenCommand(playerColor) {
     override fun canExecute(game: MainGame): Boolean {
         return true
     }

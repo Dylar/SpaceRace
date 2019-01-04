@@ -1,53 +1,61 @@
 package de.bitb.spacerace.model.space.groups
 
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_LARGE
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_XXLARGE
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.controller.GameController
-import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class CircleGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(gameController, offsetX, offsetY) {
+
+open class CircleGroup(gameController: GameController,
+                       offsetX: Float = 0f,
+                       offsetY: Float = 0f,
+                       fieldTypes: List<FieldType>) : SpaceGroup(gameController, offsetX, offsetY) {
 
     init {
+        val size = fieldTypes.size
+        val slice = 2 * Math.PI / size
+        val radius = SCREEN_HEIGHT * 0.5
 
-        //BOTTOM
-        val centerBottomField = SpaceField.createField(FieldType.LOSE)
-        addField(centerBottomField, SCREEN_WIDTH / 2 - centerBottomField.width / 2)
-        val leftBottomCorner = SpaceField.createField(FieldType.LOSE)
-        addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
-        val rightBottomCorner = SpaceField.createField(FieldType.WIN)
-        addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
-        connect(leftBottomCorner, centerBottomField)
-        connect(rightBottomCorner, centerBottomField)
+        val connectionFields = ArrayList<SpaceField>()
+        var firstField: SpaceField? = null
+        var anchorField: SpaceField? = null
+        var addField: SpaceField? = null
+        for (fieldType in fieldTypes.withIndex()) {
 
-        //TOP
-        val centerTopField = SpaceField.createField(FieldType.LOSE)
-        addField(centerTopField, centerBottomField, verticalMod = FIELD_PADDING_XXLARGE)
-        val leftTopCorner = SpaceField.createField(FieldType.SHOP)
-        addField(leftTopCorner, centerTopField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
-        val rightTopCorner = SpaceField.createField(FieldType.MINE)
-        addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
+            val angle = slice * fieldType.index
+            val newX: Double = (SCREEN_WIDTH / 2 + radius * Math.cos(angle))
+            val newY: Double = (SCREEN_HEIGHT / 2 + radius * Math.sin(angle))
 
-        connect(leftTopCorner, centerTopField)
-        connect(rightTopCorner, centerTopField)
+            addField = SpaceField.createField(fieldType.value)
+            addField(addField, newX.toFloat(), newY.toFloat())
+            if (anchorField != null) {
+                connect(anchorField, addField)
+            }
 
-        //CENTER
-        val leftCenterField = SpaceField.createField(FieldType.GIFT)
-        addField(leftCenterField, centerBottomField, -FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.LEFT)
-        val rightCenterField = SpaceField.createField(FieldType.LOSE)
-        addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
+            if (angle >= slice * size / 4 * connectionFields.size) {
+                connectionFields.add(addField)
+            }
 
-        connect(leftCenterField, rightCenterField)
+            anchorField = addField
 
-        connect(leftCenterField, centerBottomField)
-        connect(rightCenterField, rightTopCorner)
-        connect(leftTopCorner, leftBottomCorner)
-        connect(rightTopCorner, rightBottomCorner)
+            if (firstField == null) {
+                firstField = addField
+            }
+        }
+
+        connect(firstField!!, addField!!)
+
+        if (connectionFields.size > 0)
+            addConnectionPoint(ConnectionPoint.RIGHT, connectionFields[0])
+        if (connectionFields.size > 1)
+            addConnectionPoint(ConnectionPoint.TOP, connectionFields[1])
+        if (connectionFields.size > 2)
+            addConnectionPoint(ConnectionPoint.LEFT, connectionFields[2])
+        if (connectionFields.size > 3)
+            addConnectionPoint(ConnectionPoint.BOTTOM, connectionFields[3])
 
     }
-
 }

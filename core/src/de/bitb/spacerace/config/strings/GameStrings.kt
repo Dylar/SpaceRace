@@ -52,7 +52,13 @@ object GameStrings {
         var ITEM_ION_ENGINE_TEXT: String = ""
             get() = when (LANGUAGE) {
                 Language.ENGLISH -> "An ion engine,\nits better than the normal drive, i guess."
-                Language.GERMAN -> "Ein Ionenantrieb,\nist besser als ein normaler Antrieb, vermutlich.."
+                Language.GERMAN -> "Ein Ionenantrieb,\nist besser als ein normaler Antrieb, vermutlich."
+            }
+
+        var ITEM_SLOW_MINE_TEXT: String = ""
+            get() = when (LANGUAGE) {
+                Language.ENGLISH -> "An slow mine,\nits slowing your enemy"
+                Language.GERMAN -> "Eine Verlangsamungsmine,\nsie verlangsamt deine Gegner."
             }
     }
 
