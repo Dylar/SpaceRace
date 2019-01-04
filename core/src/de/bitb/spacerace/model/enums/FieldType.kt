@@ -9,10 +9,10 @@ enum class FieldType(val color: Color? = null, val texture: Texture = TextureCol
     LOSE(RED),
     WIN(GREEN),
     AMBUSH(BROWN),
-    MINE(BLUE),
+    MINE(SKY),
     GIFT(YELLOW),
     SHOP(texture = TextureCollection.fieldItemShop),
-    GOAL(PINK),
+    GOAL(Color.MAGENTA),
     TUNNEL(PURPLE, TextureCollection.blackhole),
     RANDOM(GREEN, TextureCollection.blackhole),
     UNKNOWN(texture = TextureCollection.blackhole);

@@ -23,6 +23,5 @@ class TestMap(gameController: GameController, fieldType: FieldType = FieldType.R
         groups.add(centerGroup)
         groups.add(crescentGroup)
 
-
     }
 }

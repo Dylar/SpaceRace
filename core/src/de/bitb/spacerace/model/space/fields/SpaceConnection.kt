@@ -14,7 +14,7 @@ class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) 
         val isConnected = isConnected(playerData.fieldPosition)
         if (isConnected) {
             val canMove = playerData.canMove()
-            if (canMove || isConnected(playerData.previousStep)) {
+            if (canMove || playerData.phase.isMoving() && isConnected(playerData.previousStep)) {
                 return Color.GREEN
             }
         }
