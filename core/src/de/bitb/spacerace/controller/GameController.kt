@@ -48,10 +48,10 @@ class GameController(game: MainGame) {
 
     fun getWinner(): PlayerColor {
         var winner: PlayerColor = PlayerColor.NONE
-        victories.forEach checkWinner@{ entrySet ->
+        victories.forEach { entrySet ->
             if (entrySet.value == WIN_AMOUNT) {
                 winner = entrySet.key
-                return@checkWinner
+                return@forEach
             }
         }
         return winner
