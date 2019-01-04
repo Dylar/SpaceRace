@@ -3,6 +3,7 @@ package de.bitb.spacerace.events.commands.obtain
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.events.commands.gameover.EndGameCommand
 
 class ObtainGoalCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
@@ -15,6 +16,11 @@ class ObtainGoalCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
         val value: Int = game.gameController.victories[playerColor]!!
         game.gameController.victories[playerColor] = value + 1
         game.gameController.setRandomGoal()
+
+        val winner = game.gameController.getWinner()
+        if (winner != PlayerColor.NONE) {
+            game.gameController.inputHandler.handleCommand(EndGameCommand(winner))
+        }
     }
 
 }

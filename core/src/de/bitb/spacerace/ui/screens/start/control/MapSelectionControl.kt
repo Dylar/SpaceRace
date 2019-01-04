@@ -83,7 +83,7 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
     }
 
     private fun setPosition() {
-        x = SCREEN_WIDTH - width - width / 4
+        x = SCREEN_WIDTH - width
         y = SCREEN_HEIGHT / 2f - height / 2
     }
 

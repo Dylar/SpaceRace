@@ -10,9 +10,7 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.background.FallingStar
 
 
-class BackgroundStage(val screen: BaseScreen) : BaseStage() {
-
-    private var texture: Texture = TextureCollection.gameBackground
+class BackgroundStage(val screen: BaseScreen, private var texture: Texture = TextureCollection.gameBackground) : BaseStage() {
 
     init {
         startBombarding()

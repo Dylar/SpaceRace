@@ -1,6 +1,7 @@
 package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.graphics.Color
+import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.Player
@@ -43,6 +44,17 @@ class GameController(game: MainGame) {
         }
         currentGoal = map.getRandomGoal()
         currentGoal.blinkingColor = Color(currentGoal.fieldType.color)
+    }
+
+    fun getWinner(): PlayerColor {
+        var winner: PlayerColor = PlayerColor.NONE
+        victories.forEach checkWinner@{ entrySet ->
+            if (entrySet.value == WIN_AMOUNT) {
+                winner = entrySet.key
+                return@checkWinner
+            }
+        }
+        return winner
     }
 
 }

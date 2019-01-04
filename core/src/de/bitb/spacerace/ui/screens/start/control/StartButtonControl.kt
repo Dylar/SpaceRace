@@ -5,9 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
@@ -18,16 +20,20 @@ import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.BaseEvent
-import de.bitb.spacerace.events.commands.start.ChangeLanguageScreenCommand
+import de.bitb.spacerace.events.commands.start.ChangeLanguageCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.events.commands.gameover.EndGameCommand
+import de.bitb.spacerace.events.commands.start.ChangeWinAmountCommand
 import de.bitb.spacerace.ui.base.GuiComponent
+import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
 class StartButtonControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
-    private var languageBtn: TextButton
     private var startBtn: TextButton
+    private var winLabel: Label
+    private var languageBtn: TextButton
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
@@ -39,16 +45,47 @@ class StartButtonControl(val gameController: GameController, val guiStage: Start
             }
         })
 
-        languageBtn = createButton(name = START_BUTTON_LANGUAGE, listener = object : InputListener() {
+        val lessWinBtn = createButton(name = "-", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(ChangeLanguageScreenCommand())
+                inputHandler.handleCommand(ChangeWinAmountCommand(-1))
                 return true
             }
         })
 
-        setFont(addCell(startBtn).actor)
+        winLabel = createLabel(WIN_AMOUNT.toString())
+
+        val moreWinBtn = createButton(name = "+", listener = object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                inputHandler.handleCommand(ChangeWinAmountCommand(1))
+                return true
+            }
+        })
+
+        languageBtn = createButton(name = START_BUTTON_LANGUAGE, listener = object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                inputHandler.handleCommand(ChangeLanguageCommand())
+                return true
+            }
+        })
+
+        var cell = addCell(startBtn)
+        cell.colspan(3)
+        setFont(cell.actor)
         row()
-        setFont(addCell(languageBtn).actor)
+
+        val cell1 = addCell(createLabel("Wins"))
+        cell1.colspan(3)
+        setFont(cell1.actor)
+        row()
+
+        setFont(addCell(lessWinBtn).actor)
+        setFont(addCell(winLabel).actor)
+        setFont(addCell(moreWinBtn).actor)
+        row()
+
+        cell = addCell(languageBtn)
+        cell.colspan(3)
+        setFont(cell.actor)
 
         pack()
 
@@ -69,14 +106,19 @@ class StartButtonControl(val gameController: GameController, val guiStage: Start
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
-        if (event is ChangeLanguageScreenCommand) {
+        if (event is ChangeLanguageCommand || event is ChangeWinAmountCommand) {
             updateButtonText()
         }
     }
 
     private fun updateButtonText() {
         updateStartButtonText()
+        updateWinLabelText()
         updateLanguageButtonText()
+    }
+
+    private fun updateWinLabelText() {
+        winLabel.setText(WIN_AMOUNT)
     }
 
     private fun updateStartButtonText() {
