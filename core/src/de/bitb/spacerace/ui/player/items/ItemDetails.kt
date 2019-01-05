@@ -22,6 +22,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.player.UseItemCommand
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
@@ -74,7 +75,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
 
         useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                game.gameController.inputHandler.handleCommand(UseItemCommand(item))
+                game.gameController.inputHandler.handleCommand(UseItemCommand(item, game.gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })
@@ -97,7 +98,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
     }
 
     private fun setUsedTitle() {
-        usedTitle.actor.setText(if (item.used) GAME_MENU_ITEM_DETAILS_TITLE_USED else GAME_MENU_ITEM_DETAILS_TITLE_USABLE)
+        usedTitle.actor.setText(if (item.state == ItemState.USED) GAME_MENU_ITEM_DETAILS_TITLE_USED else GAME_MENU_ITEM_DETAILS_TITLE_USABLE)
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {

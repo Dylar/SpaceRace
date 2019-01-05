@@ -3,7 +3,6 @@ package de.bitb.spacerace.model.player
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.Image
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.config.DEBUG_ITEMS
 import de.bitb.spacerace.core.TextureCollection
@@ -51,7 +50,7 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Texture
     fun addRandomGift(): Item {
         val item = ItemCollection.getRandomItem(playerData.playerColor)
 //        Logger.println("U got a gift: ${item.text}")
-        playerData.items.add(item)
+        playerData.playerItems.addItem(item)
         return item
     }
 

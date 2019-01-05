@@ -16,7 +16,7 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
         val player = guiStage.gameController.playerController.currentPlayer.playerData
-        val items = player.items
+        val items = player.playerItems.storageItems
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
@@ -40,7 +40,7 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
         cell.colspan(size)
     }
 
-    private fun addItems(game: MainGame, items: ArrayList<Item>) {
+    private fun addItems(game: MainGame, items: MutableList<Item>) {
         row()
         for (item in items) {
             val displayImage = item.getDisplayImage()

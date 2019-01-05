@@ -69,9 +69,7 @@ class PlayerController() {
         players.add(oldPlayer)
         players.removeAt(0)
 
-        for (player in players) {
-           player.playerData.removeUsedItems()
-        }
+        oldPlayer.playerData.playerItems.removeUsedItems()
     }
 
     fun getPlayer(playerColor: PlayerColor): Player {

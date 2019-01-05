@@ -5,16 +5,14 @@ import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.items.itemtype.DiceModification
-import de.bitb.spacerace.model.items.upgrade.UpgradeItem
+import de.bitb.spacerace.model.items.equip.EquipItem
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     var credits = 0
-    var items = ArrayList<Item>()
 
-    var diceModItems = ArrayList<DiceModification>()
-    var diceAddItems = ArrayList<DiceAddition>()
+    val playerItems = PlayerItems()
 
     var diced = false
     var diceResult: Int = 0
@@ -30,10 +28,10 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     fun getMaxSteps(): Int {
         var add = 0
         var mod = 1f
-        for (diceModItem in diceModItems) {
+        for (diceModItem in playerItems.diceModItems) {
             mod += diceModItem.getModification()
         }
-        for (diceAddItem in diceAddItems) {
+        for (diceAddItem in playerItems.diceAddItems) {
             add += diceAddItem.getAddition()
         }
         return (diceResult * mod + add).toInt()
@@ -47,41 +45,11 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
         return phase.isMoving() && stepsLeft() > 0
     }
 
-    fun getUsedItems(): List<Item> {
-        val result = ArrayList<Item>()
-        for (diceModItem in diceModItems) {
-            result.add(diceModItem as Item)
-        }
-        for (diceAddItem in diceAddItems) {
-            result.add(diceAddItem as Item)
-        }
-        return result
-    }
-
     fun nextRound() {
         steps = ArrayList()
         diceResult = 0
         diced = false
         phase = Phase.MAIN1
-    }
-
-    fun removeUsedItems() {
-        val usedItems = ArrayList<Item>()
-        for (item in items) {
-            if (item !is UpgradeItem && item.used)
-                usedItems.add(item)
-        }
-        items.removeAll(usedItems)
-    }
-
-    fun getItems(itemType: ItemCollection): List<Item> {
-        val list = ArrayList<Item>()
-        for (item in items) {
-            if (item.itemType == itemType) {
-                list.add(item)
-            }
-        }
-        return list
     }
 
 }

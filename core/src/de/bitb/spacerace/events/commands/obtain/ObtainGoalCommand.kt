@@ -4,7 +4,7 @@ import de.bitb.spacerace.config.WIN_CREDITS
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.events.commands.gameover.EndGameCommand
+import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 
 class ObtainGoalCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
@@ -20,7 +20,7 @@ class ObtainGoalCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
         val winner = game.gameController.getWinner()
         if (winner != PlayerColor.NONE) {
-            game.gameController.inputHandler.handleCommand(EndGameCommand(winner))
+            game.gameController.inputHandler.handleCommand(GameOverCommand(winner))
         }
     }
 

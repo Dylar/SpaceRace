@@ -28,7 +28,7 @@ class FieldController(playerController: PlayerController) {
 
     fun addShip(player: Player, spaceField1: SpaceField) {
         player.playerData.fieldPosition = spaceField1
-        player.setPosition(spaceField1.x + spaceField1.width / 2 - player.width / 2, spaceField1.y + spaceField1.height / 2 - player.height / 2)
+        player.setPosition(spaceField1.getAbsolutX() - player.width / 2, spaceField1.getAbsolutY() - player.height / 2)
         player.color = player.playerData.playerColor.color
     }
 

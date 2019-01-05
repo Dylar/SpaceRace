@@ -23,10 +23,8 @@ import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.start.ChangeLanguageCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.controller.GameController
-import de.bitb.spacerace.events.commands.gameover.EndGameCommand
 import de.bitb.spacerace.events.commands.start.ChangeWinAmountCommand
 import de.bitb.spacerace.ui.base.GuiComponent
-import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
 class StartButtonControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {

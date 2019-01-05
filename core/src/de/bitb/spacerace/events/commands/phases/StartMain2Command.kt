@@ -21,6 +21,7 @@ class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
         when (player.playerData.fieldPosition.fieldType) {
             FieldType.WIN -> inputHandler.handleCommand(ObtainWinCommand(playerColor))
             FieldType.LOSE -> inputHandler.handleCommand(ObtainLoseCommand(playerColor))
+            FieldType.AMBUSH -> inputHandler.handleCommand(ObtainAmbushCommand(playerColor))
             FieldType.GIFT -> inputHandler.handleCommand(ObtainGiftCommand(playerColor))
             FieldType.MINE -> inputHandler.handleCommand(ObtainMineCommand(playerColor))
             FieldType.TUNNEL -> inputHandler.handleCommand(ObtainTunnelCommand(playerColor))
