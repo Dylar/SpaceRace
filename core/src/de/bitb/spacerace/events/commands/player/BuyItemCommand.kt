@@ -8,12 +8,12 @@ import de.bitb.spacerace.model.player.PlayerColor
 class BuyItemCommand(val item: Item, buyer: PlayerColor) : BaseCommand(buyer) {
 
     override fun canExecute(game: MainGame): Boolean {
-        return getPlayerData(game).credits >= item.price
+        return getPlayerData(game, playerColor).credits >= item.price
     }
 
     override fun execute(game: MainGame) {
-        getPlayerData(game).playerItems.addItem(item.itemType.create(playerColor))
-        getPlayerData(game).credits -= item.price
+        getPlayerData(game, playerColor).playerItems.addItem(item.itemType.create(playerColor))
+        getPlayerData(game, playerColor).credits -= item.price
     }
 
 }

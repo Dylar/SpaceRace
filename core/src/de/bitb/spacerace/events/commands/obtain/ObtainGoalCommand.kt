@@ -9,11 +9,11 @@ import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 class ObtainGoalCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
     override fun canExecute(game: MainGame): Boolean {
-        return game.gameController.currentGoal == getPlayerData(game).fieldPosition
+        return game.gameController.currentGoal == getPlayerData(game, playerColor).fieldPosition
     }
 
     override fun execute(game: MainGame) {
-        getPlayerData(game).credits += WIN_CREDITS
+        getPlayerData(game, playerColor).credits += WIN_CREDITS
         val value: Int = game.gameController.victories[playerColor]!!
         game.gameController.victories[playerColor] = value + 1
         game.gameController.setRandomGoal()

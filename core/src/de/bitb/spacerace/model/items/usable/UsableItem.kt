@@ -21,11 +21,11 @@ abstract class UsableItem(img: Texture, owner: PlayerColor, itemType: ItemCollec
     override fun use(game: MainGame, player: PlayerColor): Boolean {
         return when (state) {
             ItemState.STORAGE -> {
-                getPlayerData(game).playerItems.useItem(this)
+                getPlayerData(game, player).playerItems.useItem(this)
                 true
             }
             ItemState.USED -> {
-                getPlayerData(game).playerItems.removeUsedItem(this)
+                getPlayerData(game, player).playerItems.removeUsedItem(this)
                 true
             }
             else -> true

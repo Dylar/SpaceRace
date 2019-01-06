@@ -48,7 +48,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
     }
 
     private fun addImage() {
-        val cell = add(item.getDisplayImage())
+        val cell = add(item.getDisplayImage(item.img))
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }
@@ -114,8 +114,8 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
         when (event) {
-            is BuyItemCommand -> setCreditsTitle(event.getPlayerData(game).playerItems.getItems(item.itemType).size)
-            is SellItemCommand -> setCreditsTitle(event.getPlayerData(game).playerItems.getItems(item.itemType).size) //TODO why not with comma
+            is BuyItemCommand -> setCreditsTitle(event.getPlayerData(game, item.owner).playerItems.getItems(item.itemType).size)
+            is SellItemCommand -> setCreditsTitle(event.getPlayerData(game, item.owner).playerItems.getItems(item.itemType).size) //TODO why not with comma
         }
     }
 

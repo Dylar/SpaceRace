@@ -8,7 +8,7 @@ import de.bitb.spacerace.model.player.PlayerData
 abstract class PhaseCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
     private fun canEndMain1(playerData: PlayerData): Boolean {
-        return playerData.phase.isMain1() && playerData.diced
+        return playerData.phase.isMain1() && playerData.areStepsLeft()
     }
 
     private fun canEndMove(playerData: PlayerData): Boolean {

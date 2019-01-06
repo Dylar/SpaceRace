@@ -11,7 +11,7 @@ class ObtainAmbushCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
     }
 
     override fun execute(game: MainGame) {
-        val lose = game.gameController.playerController.getPlayer(playerColor).substractRandomWin()
+        val lose = getPlayerData(game, playerColor).substractRandomWin()
     }
 
 }

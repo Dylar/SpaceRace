@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.player
 
+import de.bitb.spacerace.config.DEBUG_ITEMS
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.ItemState
@@ -19,6 +20,12 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     var diceModItems: MutableList<DiceModification> = ArrayList()
     var diceAddItems: MutableList<DiceAddition> = ArrayList()
+
+    init {
+        for (i in 1..DEBUG_ITEMS) {
+            addRandomGift()
+        }
+    }
 
     private fun addModification(item: Item) {
         when (item) {
@@ -118,6 +125,12 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     fun removeUsedItem(usableItem: UsableItem) {
         throw UnsupportedOperationException()
+    }
+
+    fun addRandomGift(): Item {
+        val item = ItemCollection.getRandomItem(playerColor)
+        addItem(item)
+        return item
     }
 
 }

@@ -20,12 +20,6 @@ class ConnectionList(val playerController: PlayerController) : MutableList<Space
         batch.begin()
     }
 
-    fun draw(playerData: PlayerData) {
-        for (i in 0 until size) {
-            get(i).draw(playerData)
-        }
-    }
-
     override fun clear() {
         super.clear()
     }

@@ -12,7 +12,7 @@ abstract class EquipItem(img: Texture, owner: PlayerColor, itemType: ItemCollect
 
     override fun canUse(game: MainGame, player: PlayerColor): Boolean {
         return when (state) {
-            ItemState.STORAGE, ItemState.EQUIPPED -> owner == player && getPlayerData(game).phase.isMain()
+            ItemState.STORAGE, ItemState.EQUIPPED -> owner == player && getPlayerData(game, player).phase.isMain()
             else -> {
                 return false
             }
@@ -22,11 +22,11 @@ abstract class EquipItem(img: Texture, owner: PlayerColor, itemType: ItemCollect
     override fun use(game: MainGame, player: PlayerColor): Boolean {
         return when (state) {
             ItemState.STORAGE -> {
-                getPlayerData(game).playerItems.equipItem(this) //TODO only 4 engine bla
+                getPlayerData(game, player).playerItems.equipItem(this)
                 return true
             }
             ItemState.EQUIPPED -> {
-                getPlayerData(game).playerItems.unequipItem(this)
+                getPlayerData(game, player).playerItems.unequipItem(this)
                 return true
             }
             else -> false

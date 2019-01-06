@@ -9,16 +9,12 @@ import de.bitb.spacerace.model.enums.FieldType
 class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
     override fun canExecute(game: MainGame): Boolean {
-        val gameController = game.gameController
-        return canContinue(gameController.playerController.currentPlayer.playerData)
+        return canContinue(getPlayerData(game, playerColor))
     }
 
     override fun execute(game: MainGame) {
-        val gameController = game.gameController
-        val inputHandler = gameController.inputHandler
-        val player = gameController.playerController.getPlayer(playerColor)
-        Logger.println("OBTAIN: ${player.playerData.fieldPosition.fieldType}")
-        when (player.playerData.fieldPosition.fieldType) {
+        val inputHandler = game.gameController.inputHandler
+        when (getPlayerData(game, playerColor).fieldPosition.fieldType) {
             FieldType.WIN -> inputHandler.handleCommand(ObtainWinCommand(playerColor))
             FieldType.LOSE -> inputHandler.handleCommand(ObtainLoseCommand(playerColor))
             FieldType.AMBUSH -> inputHandler.handleCommand(ObtainAmbushCommand(playerColor))

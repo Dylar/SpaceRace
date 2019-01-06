@@ -45,7 +45,7 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
     private fun addItems(game: MainGame, items: MutableList<Item>) {
         row()
         for (item in items) {
-            val displayImage = item.getDisplayImage()
+            val displayImage = item.getDisplayImage(item.img)
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     itemDetails = ItemDetails(game, guiStage, this@ItemMenu, item)

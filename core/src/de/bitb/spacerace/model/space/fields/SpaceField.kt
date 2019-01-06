@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DEBUG_FIELDS
 import de.bitb.spacerace.base.BaseObject
+import de.bitb.spacerace.base.DefaultFunction
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
@@ -71,10 +72,6 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
             fieldType.color != null -> fieldType.color
             else -> color
         }
-    }
-
-    private fun getColor(mod: Float) {
-
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
