@@ -34,7 +34,8 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
         for (diceAddItem in playerItems.diceAddItems) {
             add += diceAddItem.getAddition()
         }
-        return (diceResult * mod + add).toInt()
+        val result = (diceResult * mod + add).toInt()
+        return if (diceResult != 0 && result == 0) 1 else result
     }
 
     fun stepsLeft(): Int {
