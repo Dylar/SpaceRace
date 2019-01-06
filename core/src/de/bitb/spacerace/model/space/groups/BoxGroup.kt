@@ -18,7 +18,7 @@ class BoxGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Flo
         addField(centerBottomField, SCREEN_WIDTH / 2 - centerBottomField.width / 2)
         val leftBottomCorner = SpaceField.createField(FieldType.LOSE)
         addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
-        val rightBottomCorner = SpaceField.createField(FieldType.WIN)
+        val rightBottomCorner = SpaceField.createField(FieldType.GOAL)
         addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
         connect(leftBottomCorner, centerBottomField)

@@ -57,7 +57,7 @@ object GameStrings {
 
         var ITEM_SLOW_MINE_TEXT: String = ""
             get() = when (LANGUAGE) {
-                Language.ENGLISH -> "An slow mine,\nits slowing your enemy"
+                Language.ENGLISH -> "An slow minePlanet,\nits slowing your enemy"
                 Language.GERMAN -> "Eine Verlangsamungsmine,\nsie verlangsamt deine Gegner."
             }
     }

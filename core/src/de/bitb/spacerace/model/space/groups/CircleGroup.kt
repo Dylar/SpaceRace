@@ -16,7 +16,7 @@ open class CircleGroup(gameController: GameController,
     init {
         val size = fieldTypes.size
         val slice = 2 * Math.PI / size
-        val radius = SCREEN_HEIGHT * 0.5
+        val radius = SCREEN_HEIGHT * 0.6
 
 
         val connectionFields = ArrayList<SpaceField>()

@@ -22,7 +22,7 @@ const val MAX_ZOOM = 5
 const val MIN_ZOOM = 1
 
 //DEBUG
-var DEBUG_TEST_FIELD = FieldType.GIFT
+var DEBUG_TEST_FIELD = FieldType.MINE
 const val DEBUG_ITEMS = 10
 
 const val DEBUG_FIELDS = false

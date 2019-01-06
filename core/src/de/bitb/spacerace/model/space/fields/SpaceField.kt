@@ -1,8 +1,6 @@
 package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.Color.BLACK
-import com.badlogic.gdx.graphics.Color.YELLOW
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
@@ -63,18 +61,20 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
         color = when {
             blinkingColor != null -> {
                 blinkTime += delta
-                if (blinkTime > 0.5) {
+                var blinkColor = color
+                if (blinkTime > 0.6) {
                     blinkTime = 0f
-                    val mod = if (blinkingColor == fieldType.color) 0.6f else 0.0f
-                    blinkingColor!!.g = fieldType.color!!.g + mod
-                    blinkingColor!!.r = fieldType.color.r + mod
-                    blinkingColor!!.b = fieldType.color.b + mod
+                    blinkColor = if (color == blinkingColor) Color(1f, 1f, 1f, 1f) else blinkingColor!!
                 }
-                blinkingColor
+                blinkColor
             }
             fieldType.color != null -> fieldType.color
             else -> color
         }
+    }
+
+    private fun getColor(mod: Float) {
+
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
