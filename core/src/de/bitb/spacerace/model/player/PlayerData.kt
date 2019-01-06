@@ -6,10 +6,9 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
+    val playerItems = PlayerItems(playerColor)
+
     var credits = 0
-
-    val playerItems = PlayerItems()
-
     var diceResult: Int = 0
 
     var phase: Phase = Phase.MAIN1

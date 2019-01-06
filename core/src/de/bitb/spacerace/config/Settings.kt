@@ -8,11 +8,13 @@ import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.space.maps.MapCollection
 
 const val MOVING_SPEED: Float = 100f
+var DISPOSED_ITEM_SPEED = 8
+
 var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
 var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 val SELECTED_MAP = MapCollection.TEST_MAP
-var WIN_AMOUNT = 3
+var WIN_AMOUNT = 1
 var WIN_CREDITS = 10000
 
 var LANGUAGE = Language.ENGLISH

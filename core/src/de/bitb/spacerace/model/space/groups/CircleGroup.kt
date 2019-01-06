@@ -1,11 +1,13 @@
 package de.bitb.spacerace.model.space.groups
 
+import com.badlogic.gdx.math.Vector2
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.utils.CalculationUtils
 
 
 open class CircleGroup(gameController: GameController,
@@ -17,6 +19,7 @@ open class CircleGroup(gameController: GameController,
         val size = fieldTypes.size
         val slice = 2 * Math.PI / size
         val radius = SCREEN_HEIGHT * 0.6
+        val rotationPoint = Vector2((SCREEN_WIDTH / 2).toFloat(), (SCREEN_HEIGHT / 2).toFloat())
 
 
         val connectionFields = ArrayList<SpaceField>()
@@ -26,11 +29,10 @@ open class CircleGroup(gameController: GameController,
         for (fieldType in fieldTypes.withIndex()) {
 
             val angle = slice * fieldType.index
-            val newX: Double = (SCREEN_WIDTH / 2 + radius * Math.cos(angle))
-            val newY: Double = (SCREEN_HEIGHT / 2 + radius * Math.sin(angle))
+            val point = CalculationUtils.calculateRotationPoint(rotationPoint, radius, angle)
 
             addField = SpaceField.createField(fieldType.value)
-            addField(addField, newX.toFloat(), newY.toFloat())
+            addField(addField, point.x, point.y)
             if (anchorField != null) {
                 connect(anchorField, addField)
             }
@@ -58,4 +60,5 @@ open class CircleGroup(gameController: GameController,
             addConnectionPoint(ConnectionPoint.BOTTOM, connectionFields[3])
 
     }
+
 }

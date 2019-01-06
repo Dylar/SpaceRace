@@ -77,7 +77,7 @@ class StartButtonControl(val gameController: GameController, val guiStage: Start
         row()
 
         setFont(addCell(lessWinBtn).actor)
-        setFont(addCell(winLabel).actor)
+        setFont(add(winLabel).actor)
         setFont(addCell(moreWinBtn).actor)
         row()
 

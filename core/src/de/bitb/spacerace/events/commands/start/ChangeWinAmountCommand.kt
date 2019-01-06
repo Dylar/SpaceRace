@@ -13,7 +13,7 @@ class ChangeWinAmountCommand(val amount: Int, playerColor: PlayerColor = PlayerC
 
     override fun execute(game: MainGame) {
         WIN_AMOUNT += amount
-        WIN_AMOUNT = if (WIN_AMOUNT < 3) 3 else WIN_AMOUNT
+        WIN_AMOUNT = if (WIN_AMOUNT < 1) 1 else WIN_AMOUNT
     }
 
 }

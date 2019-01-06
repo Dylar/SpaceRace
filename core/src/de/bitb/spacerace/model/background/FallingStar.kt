@@ -8,6 +8,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.model.player.PlayerColor
 
 class FallingStar(var gameScreen: BaseScreen,
                   var startX: Float = 0f,
@@ -38,17 +39,12 @@ class FallingStar(var gameScreen: BaseScreen,
     }
 
     private fun randomColor() {
-        val random: Int = (Math.random() * 3).toInt()
-        color = when (random) {
-            0 -> Color.RED
-            1 -> Color.BLUE
-            2 -> Color.GREEN
-            else -> Color.YELLOW
-        }
+        val random: Int = (Math.random() * PlayerColor.values().size).toInt()
+        color = PlayerColor.values()[random].color
     }
 
     private fun calculateValues() {
-        movingSpeed = (Math.random() * 35f + 25).toFloat()
+        movingSpeed = (Math.random() * 15f + 25).toFloat()
         startY = (Math.random() * SCREEN_HEIGHT).toFloat()
         endY = (Math.random() * SCREEN_HEIGHT).toFloat()
 

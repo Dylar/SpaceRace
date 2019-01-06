@@ -24,10 +24,10 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     init {
         for (i in 1..DEBUG_ITEMS) {
-            if (DEBUG_ITEM != ItemCollection.NONE) {
-                addItem(DEBUG_ITEM.create(playerColor))
-            } else {
+            if (DEBUG_ITEM == ItemCollection.NONE) {
                 addRandomGift()
+            } else {
+                addItem(DEBUG_ITEM.create(playerColor))
             }
         }
     }
