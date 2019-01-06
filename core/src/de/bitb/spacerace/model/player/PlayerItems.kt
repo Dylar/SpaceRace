@@ -115,7 +115,6 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
         removeModification(item)
     }
 
-    //TODO remove modifiaction list
     fun useItem(item: Item) {
         item.state = ItemState.USED
         storageItems.remove(item)
