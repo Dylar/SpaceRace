@@ -41,14 +41,14 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
     private fun addTitle(game: MainGame) {
         creditsTitle = add("-")
-        setCreditsTitle(game.gameController.playerController.currentPlayer.playerData.getItems(item.itemType).size)
+        setCreditsTitle(game.gameController.playerController.currentPlayer.playerData.playerItems.getItems(item.itemType).size)
         addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()
     }
 
     private fun addImage() {
-        val cell = add(item.getDisplayImage())
+        val cell = add(item.getDisplayImage(item.img))
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }
@@ -114,8 +114,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
         when (event) {
-            is BuyItemCommand -> setCreditsTitle(event.getPlayerData(game).getItems(item.itemType).size)
-            is SellItemCommand -> setCreditsTitle(event.getPlayerData(game).getItems(item.itemType).size) //TODO why not with comma
+            is BuyItemCommand, is SellItemCommand -> setCreditsTitle(event.getPlayerData(game, item.owner).playerItems.getItems(item.itemType).size)
         }
     }
 

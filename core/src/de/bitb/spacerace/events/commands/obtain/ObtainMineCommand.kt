@@ -11,8 +11,7 @@ class ObtainMineCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
     }
 
     override fun execute(game: MainGame) {
-        val gameController = game.gameController
-        gameController.fieldController.occupyMine(gameController.playerController.getPlayer(playerColor).playerData)
+        game.gameController.fieldController.occupyMine(getPlayerData(game, playerColor))
     }
 
 }

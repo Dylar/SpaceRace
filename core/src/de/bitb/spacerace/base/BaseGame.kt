@@ -19,9 +19,6 @@ abstract class BaseGame : Game() {
 
     fun changeScreen(screen: BaseScreen) {
         Gdx.app.postRunnable {
-            //        val bla = getScreen()//TODO was soll das
-//        val inputHandler = (getScreen() as BaseScreen).game
-//        (getScreen() as BaseScreen).dispose()
             setScreen(screen)
         }
     }

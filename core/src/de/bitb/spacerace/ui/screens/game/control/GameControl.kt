@@ -20,6 +20,7 @@ import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
 import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.phases.EndRoundCommand
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
+import de.bitb.spacerace.events.commands.player.UseItemCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
@@ -111,6 +112,8 @@ class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCol
             openEndRoundMenu()
         } else if (event is ObtainShopCommand) {
             openShop(game)
+        } else if (event is UseItemCommand) {
+            itemMenu.update(game,event)
         }
     }
 

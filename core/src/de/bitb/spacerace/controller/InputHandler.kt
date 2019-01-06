@@ -19,7 +19,8 @@ class InputHandler(private val game: MainGame) {
                         event.execute(game)
                         notifyObserver(event)
                     }
-                    else -> notifyObserver(event)
+                    else ->
+                        notifyObserver(event)
                 }
             }
         }

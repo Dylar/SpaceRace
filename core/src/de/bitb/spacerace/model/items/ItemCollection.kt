@@ -1,7 +1,7 @@
 package de.bitb.spacerace.model.items
 
 import de.bitb.spacerace.model.items.disposable.SlowMine
-import de.bitb.spacerace.model.items.upgrade.IonEngine
+import de.bitb.spacerace.model.items.equip.IonEngine
 import de.bitb.spacerace.model.items.usable.ExtraFuel
 import de.bitb.spacerace.model.items.usable.SpecialFuel
 import de.bitb.spacerace.model.player.PlayerColor
@@ -9,15 +9,15 @@ import javax.naming.OperationNotSupportedException
 
 enum class ItemCollection {
 
-    //DISPOSABLE
-    SLOW_MINE,
-
     //USABLE
     EXTRA_FUEL,
     SPECIAL_FUEL,
 
-    //UGRADES
+    //EQUIP
     ION_ENGINE,
+
+    //DISPOSABLE
+    SLOW_MINE,
 
     NONE;
 
@@ -32,7 +32,7 @@ enum class ItemCollection {
             return result
         }
 
-        fun getRandomItem(playerColor: PlayerColor, index: Int = (Math.random() * values().size).toInt()): Item {
+        fun getRandomItem(playerColor: PlayerColor, index: Int = (Math.random() * (values().size - 1)).toInt()): Item {
             return values()[index].create(playerColor)
         }
     }

@@ -28,15 +28,15 @@ class FieldController(playerController: PlayerController) {
 
     fun addShip(player: Player, spaceField1: SpaceField) {
         player.playerData.fieldPosition = spaceField1
-        player.setPosition(spaceField1.x + spaceField1.width / 2 - player.width / 2, spaceField1.y + spaceField1.height / 2 - player.height / 2)
+        player.setPosition(spaceField1.getAbsolutX() - player.width / 2, spaceField1.getAbsolutY() - player.height / 2)
         player.color = player.playerData.playerColor.color
     }
 
-    fun addField(inputHandler: InputHandler, spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y) {
+    fun addField(gameController: GameController, spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y) {
         spaceField.setPosition(posX, posY)
         spaceField.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(MoveCommand(spaceField))
+                gameController.inputHandler.handleCommand(MoveCommand(spaceField, gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })
@@ -48,15 +48,15 @@ class FieldController(playerController: PlayerController) {
         fieldsMap[spaceField.fieldType]!!.add(spaceField)
     }
 
-    fun initMap(inputHandler: InputHandler, map: SpaceMap) {
-        addFields(inputHandler, *map.groups.toTypedArray())
+    fun initMap(gameController: GameController, map: SpaceMap) {
+        addFields(gameController, *map.groups.toTypedArray())
     }
 
-    fun addFields(inputHandler: InputHandler, vararg spaceGroups: SpaceGroup) {
+    fun addFields(gameController: GameController, vararg spaceGroups: SpaceGroup) {
         for (spaceGroup in spaceGroups) {
             fieldGroups.add(spaceGroup)
             for (field in spaceGroup.fields.entries.withIndex()) {
-                addField(inputHandler, field.value.value)
+                addField(gameController, field.value.value)
             }
         }
     }

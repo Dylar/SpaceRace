@@ -8,13 +8,14 @@ import de.bitb.spacerace.model.player.PlayerColor
 class SellItemCommand(val item: Item, seller: PlayerColor) : BaseCommand(seller) {
 
     override fun canExecute(game: MainGame): Boolean {
-        return getPlayerData(game).getItems(item.itemType).isNotEmpty()
+        return getPlayerData(game, playerColor).playerItems.getSaleableItems(item.itemType).isNotEmpty()
     }
 
     override fun execute(game: MainGame) {
-        val item = getPlayerData(game).getItems(item.itemType).get(0)
-        getPlayerData(game).items.remove(item)
-        getPlayerData(game).credits += (item.price * 0.7).toInt()
+        val playerData = getPlayerData(game, playerColor)
+        val item = playerData.playerItems.getItems(item.itemType)[0]
+        playerData.playerItems.sellItem(item)
+        playerData.credits += (item.price * 0.7).toInt()
     }
 
 }

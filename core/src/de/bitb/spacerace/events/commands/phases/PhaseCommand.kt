@@ -1,5 +1,6 @@
 package de.bitb.spacerace.events.commands.phases
 
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
@@ -8,7 +9,7 @@ import de.bitb.spacerace.model.player.PlayerData
 abstract class PhaseCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
     private fun canEndMain1(playerData: PlayerData): Boolean {
-        return playerData.phase.isMain1() && playerData.diced
+        return playerData.phase.isMain1() && playerData.areStepsLeft()
     }
 
     private fun canEndMove(playerData: PlayerData): Boolean {
@@ -28,4 +29,5 @@ abstract class PhaseCommand(playerColor: PlayerColor) : BaseCommand(playerColor)
             Phase.END_ROUND -> playerData.phase.isEndRound()
         }
     }
+
 }

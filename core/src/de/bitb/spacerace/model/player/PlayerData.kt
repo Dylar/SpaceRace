@@ -1,22 +1,15 @@
 package de.bitb.spacerace.model.player
 
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemCollection
-import de.bitb.spacerace.model.items.itemtype.DiceAddition
-import de.bitb.spacerace.model.items.itemtype.DiceModification
-import de.bitb.spacerace.model.items.upgrade.UpgradeItem
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     var credits = 0
-    var items = ArrayList<Item>()
 
-    var diceModItems = ArrayList<DiceModification>()
-    var diceAddItems = ArrayList<DiceAddition>()
+    val playerItems = PlayerItems()
 
-    var diced = false
     var diceResult: Int = 0
 
     var phase: Phase = Phase.MAIN1
@@ -27,61 +20,52 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     var previousStep: SpaceField = SpaceField.NONE
         get() = if (steps.size < 2) SpaceField.NONE else steps[steps.size - 2]
 
+    fun dice(maxResult: Int = 6) {
+        diceResult += (Math.random() * maxResult).toInt() + 1
+        Logger.println("DiceResult: $diceResult")
+    }
+
     fun getMaxSteps(): Int {
-        var add = 0
         var mod = 1f
-        for (diceModItem in diceModItems) {
+        for (diceModItem in playerItems.diceModItems) {
             mod += diceModItem.getModification()
         }
-        for (diceAddItem in diceAddItems) {
+        var add = 0
+        for (diceAddItem in playerItems.diceAddItems) {
             add += diceAddItem.getAddition()
         }
-        return (diceResult * mod + add).toInt()
+        val result = (diceResult * mod + add).toInt()
+        return if (diceResult != 0 && result == 0) 1 else result
     }
 
     fun stepsLeft(): Int {
         return getMaxSteps() - (if (steps.isEmpty()) 0 else steps.size - 1)
     }
 
-    fun canMove(): Boolean {
-        return phase.isMoving() && stepsLeft() > 0
+    fun areStepsLeft(): Boolean {
+        return stepsLeft() > 0
     }
 
-    fun getUsedItems(): List<Item> {
-        val result = ArrayList<Item>()
-        for (diceModItem in diceModItems) {
-            result.add(diceModItem as Item)
-        }
-        for (diceAddItem in diceAddItems) {
-            result.add(diceAddItem as Item)
-        }
-        return result
+    fun canMove(): Boolean {
+        return phase.isMoving() && areStepsLeft()
     }
 
     fun nextRound() {
         steps = ArrayList()
         diceResult = 0
-        diced = false
         phase = Phase.MAIN1
     }
 
-    fun removeUsedItems() {
-        val usedItems = ArrayList<Item>()
-        for (item in items) {
-            if (item !is UpgradeItem && item.used)
-                usedItems.add(item)
-        }
-        items.removeAll(usedItems)
+    fun addRandomWin(): Int {
+        val win = (Math.random() * 1000).toInt() + 1
+        credits += win
+        return win
     }
 
-    fun getItems(itemType: ItemCollection): List<Item> {
-        val list = ArrayList<Item>()
-        for (item in items) {
-            if (item.itemType == itemType) {
-                list.add(item)
-            }
-        }
-        return list
+    fun substractRandomWin(): Int {
+        val lose = (Math.random() * 500).toInt() + 1
+        credits -= lose
+        return lose
     }
 
 }

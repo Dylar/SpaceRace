@@ -11,7 +11,7 @@ class ObtainWinCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
     }
 
     override fun execute(game: MainGame) {
-        val win = game.gameController.playerController.getPlayer(playerColor).addRandomWin()
+        val win = getPlayerData(game, playerColor).addRandomWin()
     }
 
 }

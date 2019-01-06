@@ -16,15 +16,11 @@ class PlayerController() {
     var currentPlayer: Player = Player.NONE
         get() = if (players.isEmpty()) Player.NONE else players[players.size - 1]
 
-    fun moveTo(spaceField: SpaceField, player: Player = currentPlayer) {
-        val playerData = player.playerData
-
+    fun moveTo(spaceField: SpaceField, playerData: PlayerData) {
         setSteps(playerData, spaceField)
-
         playerData.fieldPosition = spaceField
-        player.moveTo(spaceField)
+        getPlayer(playerData.playerColor).moveTo(spaceField)
         Logger.println("Player Field: ${playerData.fieldPosition.id}, ${playerData.fieldPosition.fieldType.name}")
-
     }
 
     private fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
@@ -36,20 +32,9 @@ class PlayerController() {
         }
     }
 
-    private fun previousFieldSelected(playerData: PlayerData = currentPlayer.playerData, spaceField: SpaceField): Boolean {
+    private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
         return playerData.steps.size > 1 && playerData.previousStep == spaceField
     }
-
-    fun dice(maxResult: Int = 6) {
-        val playerData = currentPlayer.playerData
-        playerData.diced = true
-
-        playerData.steps.add(playerData.fieldPosition)
-        playerData.diceResult += (Math.random() * maxResult).toInt() + 1
-
-        Logger.println("DiceResult: ${playerData.diceResult}")
-    }
-
     fun isRoundEnd(): Boolean {
         for (player in players) {
             if (player.playerData.phase != Phase.END_TURN) {
@@ -69,9 +54,7 @@ class PlayerController() {
         players.add(oldPlayer)
         players.removeAt(0)
 
-        for (player in players) {
-           player.playerData.removeUsedItems()
-        }
+        oldPlayer.playerData.playerItems.removeUsedItems()
     }
 
     fun getPlayer(playerColor: PlayerColor): Player {

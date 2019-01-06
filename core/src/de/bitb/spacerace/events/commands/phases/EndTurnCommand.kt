@@ -6,14 +6,13 @@ import de.bitb.spacerace.core.MainGame
 class EndTurnCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
     override fun canExecute(game: MainGame): Boolean {
-        val gameController = game.gameController
-        return gameController.playerController.currentPlayer.playerData.phase.isEndTurn()
+        return true
     }
 
     override fun execute(game: MainGame) {
-        val gameController = game.gameController
-        gameController.playerController.nextTurn()
-        if (gameController.playerController.isRoundEnd()) {
+        val playerController = game.gameController.playerController
+        playerController.nextTurn()
+        if (playerController.isRoundEnd()) {
             game.gameController.inputHandler.handleCommand(EndRoundCommand())
         }
     }

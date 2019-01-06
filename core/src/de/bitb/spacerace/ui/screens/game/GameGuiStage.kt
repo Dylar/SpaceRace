@@ -21,6 +21,7 @@ class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen), I
 
         inputHandler.addListener(gameControl)
         inputHandler.addListener(playerStats)
+        inputHandler.addListener(viewControl)
         inputHandler.addListener(this)
     }
 

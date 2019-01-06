@@ -3,11 +3,10 @@ package de.bitb.spacerace.events.commands.phases
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 
-class StartMain1Command() : PhaseCommand(PlayerColor.NONE) {
+class StartMain1Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
     override fun canExecute(game: MainGame): Boolean {
-        val gameController = game.gameController
-        return canContinue(gameController.playerController.currentPlayer.playerData)
+        return true
     }
 
     override fun execute(game: MainGame) {
