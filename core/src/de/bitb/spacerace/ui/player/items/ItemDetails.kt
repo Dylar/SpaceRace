@@ -23,6 +23,9 @@ import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.player.UseItemCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
+import de.bitb.spacerace.model.items.disposable.DisposableItem
+import de.bitb.spacerace.model.items.equip.EquipItem
+import de.bitb.spacerace.model.items.usable.UsableItem
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
@@ -38,6 +41,8 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
         addButtons(game)
         pack()
         setPosition()
+        setUsedTitle()
+        setUseButton()
     }
 
     private fun addTitle() {
@@ -98,12 +103,46 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
     }
 
     private fun setUsedTitle() {
-        usedTitle.actor.setText(if (item.state == ItemState.USED) GAME_MENU_ITEM_DETAILS_TITLE_USED else GAME_MENU_ITEM_DETAILS_TITLE_USABLE)
+        val text = when (item.state) {
+            ItemState.STORAGE -> when (item) {
+                is DisposableItem -> "DISPOSABLE"
+                is UsableItem -> "USABLE"
+                is EquipItem -> "EQUIPPABLE"
+                else -> ""
+            }
+            ItemState.USED -> "USED"
+            ItemState.EQUIPPED -> "EQUIPPED"
+            ItemState.DISPOSED -> "DISPOSED"
+            ItemState.ATTACHED -> "ATTACHED"
+            ItemState.NONE -> ""
+        }
+//        if (item.state == ItemState.USED) GAME_MENU_ITEM_DETAILS_TITLE_USED else GAME_MENU_ITEM_DETAILS_TITLE_USABLE
+        usedTitle.actor.setText(text)
+    }
+
+    private fun setUseButton() {
+        val text = when (item.state) {
+            ItemState.STORAGE -> when (item) {
+                is DisposableItem -> "DISPOSE"
+                is UsableItem -> "USE"
+                is EquipItem -> "EQUIP"
+                else -> ""
+            }
+            ItemState.USED -> "-"
+            ItemState.EQUIPPED -> "UNEQUIP"
+            ItemState.DISPOSED -> "-"
+            ItemState.ATTACHED -> "DETACH"
+            ItemState.NONE -> ""
+        }
+//        if (item.state == ItemState.USED) GAME_MENU_ITEM_DETAILS_TITLE_USED else GAME_MENU_ITEM_DETAILS_TITLE_USABLE
+        useBtn.setText(text)
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
         if (event is UseItemCommand) {
             setUsedTitle()
+            setUseButton()
         }
     }
+
 }

@@ -46,6 +46,12 @@ object Strings {
                 GERMAN -> "Benutzen"
             }
 
+        var GAME_BUTTON_MODS: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "MOD"
+                GERMAN -> "MOD"
+            }
+
         var GAME_BUTTON_PHASE: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "PHASE"
@@ -56,12 +62,6 @@ object Strings {
             get() = when (LANGUAGE) {
                 ENGLISH -> "CREDITS"
                 GERMAN -> "KREDITS"
-            }
-
-        var GAME_BUTTON_CENTER: String = ""
-            get() = when (LANGUAGE) {
-                ENGLISH -> "Center"
-                GERMAN -> "Zentrieren"
             }
 
         var GAME_BUTTON_DICE: String = ""

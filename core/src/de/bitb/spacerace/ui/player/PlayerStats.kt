@@ -12,6 +12,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDITS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_MODS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
@@ -26,24 +27,29 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
     private var creditsLabel: Label
 
     private var diceLabel: Label
+    private var diceModLabel: Label
     private var phaseLabel: Label
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
-        setFont(add(GAME_BUTTON_PHASE).actor)
+        setFont(add(GAME_BUTTON_MODS).actor)
         setFont(add(GAME_BUTTON_DICE).actor)
+        setFont(add(GAME_BUTTON_PHASE).actor)
         setFont(add(GAME_BUTTON_CREDITS).actor)
 
         row()
 
-        phaseLabel = add("-").actor
-        setFont(phaseLabel)
+        diceModLabel = add("0.0 / 0").actor
+        setFont(diceModLabel)
 
         diceLabel = add("-").actor
         setFont(diceLabel)
 
-        creditsLabel = add("-").actor
+        phaseLabel = add("-").actor
+        setFont(phaseLabel)
+
+        creditsLabel = add("000000000").actor
         setFont(creditsLabel)
 
         pack()
@@ -65,24 +71,7 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
-        val playerData = game.gameController.playerController.currentPlayer.playerData
-//        when (event) {
-//            is MoveCommand, is DiceCommand -> updateDice(playerData)
-//            is PhaseCommand -> {
-//                updateRound(playerData.playerColor)
-//                updatePhase(playerData.phase)
-//                if (event is EndTurnCommand) {
-//                    updateDice(playerData)
-//                    updateCredits(playerData)
-//                }
-//            }
-//            is StartGameCommand -> update(playerData)
-//            is StartMain1Command -> {
-//                updateCredits(playerData)
-//                updateDice(playerData)
-//            }
-//        }
-        update(playerData) //TODO update not all
+        update(game.gameController.playerController.currentPlayer.playerData) //TODO update not all
     }
 
     private fun updateCredits(playerData: PlayerData) {
@@ -90,8 +79,9 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
     }
 
     private fun updateRound(playerColor: PlayerColor) {
-        setFont(phaseLabel, fontColor = playerColor.color)
         setFont(diceLabel, fontColor = playerColor.color)
+        setFont(diceModLabel, fontColor = playerColor.color)
+        setFont(phaseLabel, fontColor = playerColor.color)
         setFont(creditsLabel, fontColor = playerColor.color)
     }
 
@@ -99,6 +89,22 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
         val maxSteps = playerData.getMaxSteps()
         val diceResult = "${(maxSteps - playerData.stepsLeft())}/$maxSteps"
         diceLabel.setText(diceResult)
+    }
+
+    private fun updateDiceMod(playerData: PlayerData) {
+        val items = playerData.playerItems
+
+        var mod = 0.0
+        items.diceModItems.forEach {
+            mod += it.getModification()
+        }
+
+        var add = 0
+        items.diceAddItems.forEach {
+            add += it.getAddition()
+        }
+
+        diceModLabel.setText("${"%.1f".format(mod)} / $add")
     }
 
     private fun updatePhase(phase: Phase) {
@@ -109,6 +115,7 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
         updateCredits(playerData)
         updateRound(playerData.playerColor)
         updateDice(playerData)
+        updateDiceMod(playerData)
         updatePhase(playerData.phase)
         pack()
     }

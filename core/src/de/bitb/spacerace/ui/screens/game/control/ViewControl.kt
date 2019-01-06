@@ -8,20 +8,26 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.CameraActions
+import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
-import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CENTER
+import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.game.GameScreen
 
-class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiComponent by object : GuiComponent {} {
+class ViewControl(val game: MainGame) : Table(TextureCollection.skin), InputObserver, GuiComponent by object : GuiComponent {} {
 
     val screen = (game.screen as GameScreen)
 
+    private var centerBtn: TextButton
+
     init {
-        background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
+        debug = DEBUG_LAYOUT
 
         val plusBtn = createButton(name = "+", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
@@ -36,13 +42,12 @@ class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompon
             }
         })
 
-        val centerBtn = createButton(name = GAME_BUTTON_CENTER, listener = object : InputListener() {
+        centerBtn = createButton(name = "(O)", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 screen.centerCamera()
                 return true
             }
         })
-
         setFont(add(plusBtn).actor)
         row()
         setFont(add(centerBtn).actor)
@@ -51,6 +56,7 @@ class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompon
 
         pack()
 
+        background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
     }
 
     override fun <T : Actor> add(actor: T): Cell<T> {
@@ -64,9 +70,20 @@ class ViewControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompon
         return cell
     }
 
+    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+        updateButtons()
+    }
+
+    private fun updateButtons() {
+        centerBtn.setText(if (screen.cameraStatus == CameraActions.CAMERA_FREE) "(O)" else "(X)")
+    }
+
     override fun act(delta: Float) {
         when {
-            Gdx.input.isKeyJustPressed(Input.Keys.SPACE) -> screen.centerCamera()
+            Gdx.input.isKeyJustPressed(Input.Keys.SPACE) -> {
+                screen.centerCamera()
+                updateButtons()
+            }
             Gdx.input.isKeyJustPressed(Input.Keys.SLASH) -> screen.onZoomMinusClicked()
             Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET) -> screen.onZoomPlusClicked()
         }

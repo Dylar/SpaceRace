@@ -20,20 +20,40 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
     var diceModItems: MutableList<DiceModification> = ArrayList()
     var diceAddItems: MutableList<DiceAddition> = ArrayList()
 
+    private fun addModification(item: Item) {
+        when (item) {
+            is DiceModification -> diceModItems.add(item)
+            is DiceAddition -> diceAddItems.add(item)
+        }
+    }
+
+    private fun removeModification(item: Item) {
+        when (item) {
+            is DiceModification -> diceModItems.remove(item)
+            is DiceAddition -> diceAddItems.remove(item)
+        }
+    }
+
     fun removeUsedItems() {
         usedItems.forEach { item ->
             run {
-                diceModItems.remove(item as? DiceModification)
-                diceAddItems.remove(item as? DiceAddition)
+                removeModification(item)
             }
         }
         usedItems.clear()
     }
 
+    fun getItems(): MutableList<Item> {
+        val list = ArrayList<Item>()
+        list.addAll(equippedItems)
+        list.addAll(storageItems)
+        return list
+    }
+
     fun getItems(itemType: ItemCollection): List<Item> {
         val list = ArrayList<Item>()
-        list.addAll(getItems(storageItems, itemType))
         list.addAll(getItems(equippedItems, itemType))
+        list.addAll(getItems(storageItems, itemType))
         return list
     }
 
@@ -71,18 +91,21 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
     fun attachItem(item: DisposableItem) {
         item.state = ItemState.ATTACHED
         attachedItems.add(item)
+        addModification(item)
     }
 
     fun equipItem(item: EquipItem) {
         item.state = ItemState.EQUIPPED
         storageItems.remove(item)
         equippedItems.add(item)
+        addModification(item)
     }
 
     fun unequipItem(item: EquipItem) {
         item.state = ItemState.STORAGE
         storageItems.add(item)
         equippedItems.remove(item)
+        removeModification(item)
     }
 
     //TODO remove modifiaction list
@@ -90,6 +113,7 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
         item.state = ItemState.USED
         storageItems.remove(item)
         usedItems.add(item)
+        addModification(item)
     }
 
     fun removeUsedItem(usableItem: UsableItem) {

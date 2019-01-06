@@ -112,10 +112,6 @@ interface GuiComponent {
         checkboxStyle.checkboxOff.minWidth = checkBox.height - GAME_LABEL_PADDING / 2
         checkboxStyle.checkboxOn.minHeight = checkBox.height - GAME_LABEL_PADDING / 2
         checkboxStyle.checkboxOn.minWidth = checkBox.height - GAME_LABEL_PADDING / 2
-//        checkboxStyle.checkboxOff.minHeight = checkBox.height * GAME_SIZE_FONT_TINY
-//        checkboxStyle.checkboxOff.minWidth = checkBox.height * GAME_SIZE_FONT_TINY
-//        checkboxStyle.checkboxOn.minHeight = checkBox.height * GAME_SIZE_FONT_TINY
-//        checkboxStyle.checkboxOn.minWidth = checkBox.height * GAME_SIZE_FONT_TINY
 
         checkBox.style = checkboxStyle
         checkBox.label.setFontScale(fontSize)
