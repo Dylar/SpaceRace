@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DEBUG_FIELDS
 import de.bitb.spacerace.base.BaseObject
@@ -12,6 +13,7 @@ import de.bitb.spacerace.base.DefaultFunction
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 
 open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject(fieldType.texture) {
@@ -32,8 +34,8 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
 
     var id: Int = -1
     lateinit var group: SpaceGroup
-    val disposedItems: MutableList<Item> = ArrayList()
-    var update = false
+    val disposedItems: MutableList<DisposableItem> = ArrayList()
+    private val disposedItemsToDraw: MutableList<Image> = ArrayList()
     var blinkingColor: Color? = null
 
     override fun getAbsolutX(): Float {
@@ -59,6 +61,7 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
     private var blinkTime = 0f
     override fun act(delta: Float) {
         super.act(delta)
+
         color = when {
             blinkingColor != null -> {
                 blinkTime += delta
@@ -85,6 +88,20 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
             label.style.fontColor = Color.RED
             label.draw(batch, parentAlpha)
         }
+    }
+
+    fun disposeItem(disposableItem: DisposableItem) {
+        disposedItems.add(disposableItem)
+        val image = disposableItem.getDisplayImage(disposableItem.img, getAbsolutX(), getAbsolutY())
+        image.debug = true
+        disposedItemsToDraw.add(image)
+        stage.addActor(image)
+    }
+
+    fun attachItem(disposableItem: DisposableItem) {
+        disposedItems.remove(disposableItem)
+        val image = disposedItemsToDraw.removeAt(0)
+        image.remove()
     }
 
 }

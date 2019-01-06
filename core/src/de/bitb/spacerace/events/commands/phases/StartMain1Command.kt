@@ -6,7 +6,7 @@ import de.bitb.spacerace.core.MainGame
 class StartMain1Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
     override fun canExecute(game: MainGame): Boolean {
-        return canContinue(getPlayerData(game, playerColor))
+        return true
     }
 
     override fun execute(game: MainGame) {

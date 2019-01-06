@@ -1,5 +1,6 @@
 package de.bitb.spacerace.events.commands.phases
 
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
@@ -28,4 +29,5 @@ abstract class PhaseCommand(playerColor: PlayerColor) : BaseCommand(playerColor)
             Phase.END_ROUND -> playerData.phase.isEndRound()
         }
     }
+
 }

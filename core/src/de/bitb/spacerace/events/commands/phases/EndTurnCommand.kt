@@ -6,7 +6,7 @@ import de.bitb.spacerace.core.MainGame
 class EndTurnCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
     override fun canExecute(game: MainGame): Boolean {
-        return getPlayerData(game, playerColor).phase.isEndTurn()
+        return true
     }
 
     override fun execute(game: MainGame) {

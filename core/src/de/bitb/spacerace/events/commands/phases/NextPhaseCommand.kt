@@ -17,7 +17,7 @@ class NextPhaseCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
         playerData.phase = Phase.next(playerData.phase)
 
         Logger.println("Phase: ${playerData.phase.name}")
-        when (playerData.phase) {
+         when (playerData.phase) {
             Phase.MAIN1 -> inputHandler.handleCommand(StartMain1Command(playerColor))
             Phase.MOVE -> inputHandler.handleCommand(StartMoveCommand(playerColor))
             Phase.MAIN2 -> inputHandler.handleCommand(StartMain2Command(playerColor))

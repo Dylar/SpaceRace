@@ -1,13 +1,7 @@
 package de.bitb.spacerace.model.player
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.config.DEBUG_ITEMS
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemCollection
-import de.bitb.spacerace.model.items.itemtype.DiceAddition
-import de.bitb.spacerace.model.items.itemtype.DiceModification
-import de.bitb.spacerace.model.items.equip.EquipItem
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {

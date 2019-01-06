@@ -35,7 +35,6 @@ class PlayerController() {
     private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
         return playerData.steps.size > 1 && playerData.previousStep == spaceField
     }
-
     fun isRoundEnd(): Boolean {
         for (player in players) {
             if (player.playerData.phase != Phase.END_TURN) {

@@ -27,7 +27,7 @@ class GameController(game: MainGame) {
     fun initGame(map: SpaceMap) {
         this.map = map
         setRandomGoal()
-        fieldController.initMap(inputHandler, map)
+        fieldController.initMap(this, map)
 
         val startField = map.startField
         for (playerColor in gamePlayer) {

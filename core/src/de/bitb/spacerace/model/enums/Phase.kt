@@ -24,7 +24,6 @@ enum class Phase(val text: String, val color: Color) {
                 Phase.END_ROUND -> MAIN1
             }
         }
-
     }
 
     fun isMain(): Boolean {

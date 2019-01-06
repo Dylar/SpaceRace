@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.player
 
+import de.bitb.spacerace.config.DEBUG_ITEM
 import de.bitb.spacerace.config.DEBUG_ITEMS
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
@@ -23,7 +24,11 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     init {
         for (i in 1..DEBUG_ITEMS) {
-            addRandomGift()
+            if (DEBUG_ITEM != ItemCollection.NONE) {
+                addItem(DEBUG_ITEM.create(playerColor))
+            } else {
+                addRandomGift()
+            }
         }
     }
 
