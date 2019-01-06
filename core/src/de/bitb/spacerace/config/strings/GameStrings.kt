@@ -49,6 +49,13 @@ object GameStrings {
                 Language.GERMAN -> "Spezial Treibstoff um weiter reisen zu können."
             }
 
+        var ITEM_SPEED_BOOST_TEXT: String = ""
+            get() = when (LANGUAGE) {
+                Language.ENGLISH -> "Speedboost, roll twice."
+                Language.GERMAN -> "Geschwindigkeit erhöhen, würfel 2x"
+            }
+
+
         var ITEM_ION_ENGINE_TEXT: String = ""
             get() = when (LANGUAGE) {
                 Language.ENGLISH -> "An ion engine,\nits better than the normal drive, i guess."

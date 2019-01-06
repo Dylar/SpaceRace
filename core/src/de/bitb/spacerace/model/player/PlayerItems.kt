@@ -9,18 +9,20 @@ import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.items.equip.EquipItem
 import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.items.itemtype.DiceModification
+import de.bitb.spacerace.model.items.itemtype.MultiDice
 import de.bitb.spacerace.model.items.usable.UsableItem
 import java.lang.UnsupportedOperationException
 
 data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     var storageItems: MutableList<Item> = ArrayList()
-    var usedItems: MutableList<Item> = ArrayList()
-    var equippedItems: MutableList<Item> = ArrayList()
-    val attachedItems: MutableList<Item> = ArrayList()
+    var usedItems: MutableList<UsableItem> = ArrayList()
+    var equippedItems: MutableList<EquipItem> = ArrayList()
+    val attachedItems: MutableList<DisposableItem> = ArrayList()
 
     var diceModItems: MutableList<DiceModification> = ArrayList()
     var diceAddItems: MutableList<DiceAddition> = ArrayList()
+    var multiDiceItem: MutableList<MultiDice> = ArrayList()
 
     init {
         for (i in 1..DEBUG_ITEMS) {
@@ -36,6 +38,7 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
         when (item) {
             is DiceModification -> diceModItems.add(item)
             is DiceAddition -> diceAddItems.add(item)
+            is MultiDice -> multiDiceItem.add(item)
         }
     }
 
@@ -43,14 +46,17 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
         when (item) {
             is DiceModification -> diceModItems.remove(item)
             is DiceAddition -> diceAddItems.remove(item)
+            is MultiDice -> multiDiceItem.remove(item)
         }
     }
 
     fun removeUsedItems() {
-        usedItems.forEach { item ->
-            run {
-                removeModification(item)
+        usedItems.forEach {
+            if (it.charges > 1) {
+                it.charges--
+                addItem(it)
             }
+            removeModification(it)
         }
         usedItems.clear()
     }
@@ -73,13 +79,11 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
         return getItems(storageItems, itemType)
     }
 
-    private fun getItems(items: MutableList<Item>, itemType: ItemCollection): MutableList<Item> {
+    private fun <T : Item> getItems(items: MutableList<T>, itemType: ItemCollection): MutableList<Item> {
         val list = ArrayList<Item>()
-        items.forEach { item ->
-            run {
-                if (item.itemType == itemType) {
-                    list.add(item)
-                }
+        items.forEach {
+            if (it.itemType == itemType) {
+                list.add(it)
             }
         }
         return list
@@ -120,7 +124,7 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
         removeModification(item)
     }
 
-    fun useItem(item: Item) {
+    fun useItem(item: UsableItem) {
         item.state = ItemState.USED
         storageItems.remove(item)
         usedItems.add(item)

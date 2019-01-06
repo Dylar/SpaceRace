@@ -9,7 +9,8 @@ abstract class Item(val img: Texture,
                     var owner: PlayerColor,
                     val itemType: ItemCollection,
                     val text: String,
-                    val price: Int) : DefaultFunction by object : DefaultFunction {} {
+                    val price: Int,
+                    var charges: Int = 1) : DefaultFunction by object : DefaultFunction {} {
     var state: ItemState = ItemState.NONE
 
     abstract fun canUse(game: MainGame, player: PlayerColor): Boolean
