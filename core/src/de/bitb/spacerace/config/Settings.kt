@@ -26,8 +26,8 @@ const val MIN_ZOOM = 1
 
 //DEBUG
 var DEBUG_TEST_FIELD = FieldType.MINE
-var DEBUG_ITEM = ItemCollection.SPEED_BOOST
-const val DEBUG_ITEMS = 1
+var DEBUG_ITEM = arrayListOf(ItemCollection.CLEAN_DROID, ItemCollection.SLOW_MINE)
+const val DEBUG_ITEMS = 5
 
 const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false

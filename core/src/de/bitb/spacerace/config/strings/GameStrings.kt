@@ -55,6 +55,11 @@ object GameStrings {
                 Language.GERMAN -> "Geschwindigkeit erhöhen, würfel 2x"
             }
 
+        var ITEM_CLEAN_DROID_TEXT: String = ""
+            get() = when (LANGUAGE) {
+                Language.ENGLISH -> "A droid to clean up your mess"
+                Language.GERMAN -> "Ein Druide der dein Mist aufräumt"
+            }
 
         var ITEM_ION_ENGINE_TEXT: String = ""
             get() = when (LANGUAGE) {
@@ -66,6 +71,12 @@ object GameStrings {
             get() = when (LANGUAGE) {
                 Language.ENGLISH -> "An slow minePlanet,\nits slowing your enemy"
                 Language.GERMAN -> "Eine Verlangsamungsmine,\nsie verlangsamt deine Gegner."
+            }
+
+        var ITEM_MOVING_MINE_TEXT: String = ""
+            get() = when (LANGUAGE) {
+                Language.ENGLISH -> "An slow minePlanet,\nits slowing your enemy and it moves!"
+                Language.GERMAN -> "Eine Verlangsamungsmine,\nsie verlangsamt deine Gegner und bewegt sich!"
             }
     }
 

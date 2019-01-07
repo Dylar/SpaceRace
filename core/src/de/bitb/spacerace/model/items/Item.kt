@@ -5,12 +5,14 @@ import de.bitb.spacerace.base.DefaultFunction
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
 
-abstract class Item(val img: Texture,
-                    var owner: PlayerColor,
-                    val itemType: ItemCollection,
-                    val text: String,
-                    val price: Int,
-                    var charges: Int = 1) : DefaultFunction by object : DefaultFunction {} {
+abstract class Item(var owner: PlayerColor,
+                    val price: Int) : DefaultFunction by object : DefaultFunction {} {
+
+    abstract val itemType: ItemCollection
+    abstract val img: Texture
+    abstract var text: String
+    open var charges: Int = 1
+
     var state: ItemState = ItemState.NONE
 
     abstract fun canUse(game: MainGame, player: PlayerColor): Boolean
