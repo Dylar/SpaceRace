@@ -9,7 +9,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     val playerItems = PlayerItems(playerColor)
 
     var credits = 0
-    var diceResult: Int = 0
+    var diceResults: MutableList<Int> = ArrayList()
 
     var phase: Phase = Phase.MAIN1
 
@@ -19,22 +19,37 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     var previousStep: SpaceField = SpaceField.NONE
         get() = if (steps.size < 2) SpaceField.NONE else steps[steps.size - 2]
 
+    fun canDice(): Boolean {
+        if (!phase.isMain1()) {
+            return false
+        }
+
+        var diceCharges = 1
+        for (diceModItem in playerItems.multiDiceItem) {
+            diceCharges += diceModItem.getAmount()
+        }
+        return diceResults.size < diceCharges
+    }
+
     fun dice(maxResult: Int = 6) {
-        diceResult += (Math.random() * maxResult).toInt() + 1
-        Logger.println("DiceResult: $diceResult")
+        diceResults.add((Math.random() * maxResult).toInt() + 1)
+        Logger.println("DiceResult: $diceResults")
     }
 
     fun getMaxSteps(): Int {
         var mod = 1f
-        for (diceModItem in playerItems.diceModItems) {
-            mod += diceModItem.getModification()
+        playerItems.diceModItems.forEach {
+            mod += it.getModification()
         }
         var add = 0
-        for (diceAddItem in playerItems.diceAddItems) {
-            add += diceAddItem.getAddition()
+        playerItems.diceAddItems.forEach {
+            add += it.getAddition()
         }
+        var diceResult = 0
+        diceResults.forEach { diceResult += it }
+
         val result = (diceResult * mod + add).toInt()
-        return if (diceResult != 0 && result == 0) 1 else result
+        return if (!diceResults.isEmpty() && result == 0) 1 else result
     }
 
     fun stepsLeft(): Int {
@@ -51,7 +66,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     fun nextRound() {
         steps = ArrayList()
-        diceResult = 0
+        diceResults.clear()
         phase = Phase.MAIN1
     }
 

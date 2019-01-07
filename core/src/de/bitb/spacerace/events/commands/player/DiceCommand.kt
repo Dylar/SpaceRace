@@ -7,9 +7,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 class DiceCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
     override fun canExecute(game: MainGame): Boolean {
-        val playerData = getPlayerData(game, playerColor)
-        return playerData.phase.isMain1() &&
-                playerData.diceResult == 0
+        return getPlayerData(game, playerColor).canDice()
     }
 
     override fun execute(game: MainGame) {

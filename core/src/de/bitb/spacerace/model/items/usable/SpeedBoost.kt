@@ -6,6 +6,9 @@ import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.itemtype.MultiDice
 import de.bitb.spacerace.model.player.PlayerColor
 
-class SpeedBoost(playerColor: PlayerColor, price: Int, charges: Int) : UsableItem(TextureCollection.fallingStar, playerColor, ItemCollection.SPEED_BOOST, ITEM_SPEED_BOOST_TEXT, price, charges), MultiDice {
+class SpeedBoost(playerColor: PlayerColor, price: Int, val value: Int) : UsableItem(TextureCollection.fallingStar, playerColor, ItemCollection.SPEED_BOOST, ITEM_SPEED_BOOST_TEXT, price), MultiDice {
+    override fun getAmount(): Int {
+        return value
+    }
 
 }
