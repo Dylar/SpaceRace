@@ -11,8 +11,7 @@ class GameOverCommand(val winner: PlayerColor = PlayerColor.NONE) : BaseCommand(
     }
 
     override fun execute(game: MainGame) {
-        val gameController = game.gameController
-        gameController.inputHandler.removeListener()
+        game.gameController.inputHandler.removeListener()
         game.changeScreen(GameOverScreen(game))
     }
 }

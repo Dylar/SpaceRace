@@ -12,7 +12,7 @@ import de.bitb.spacerace.config.GAME_SPEED
 import de.bitb.spacerace.config.MOVING_SPEED
 import kotlin.collections.ArrayList
 
-open class BaseObject(val img: Texture) : Image(img), DefaultFunction by object : DefaultFunction {} {
+open class BaseObject(val img: Texture) : Image(img), DefaultFunction by object : DefaultFunction {}, IDefaultImage by DefaultImage() {
 
     private val actionQueue: MutableList<Action> = ArrayList()
     open var movingSpeed: Float = MOVING_SPEED

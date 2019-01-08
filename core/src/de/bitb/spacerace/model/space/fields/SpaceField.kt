@@ -11,7 +11,6 @@ import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.disposable.DisposableItem
-import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 
 open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject(fieldType.texture) {
@@ -35,7 +34,6 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
     val connections: MutableList<SpaceConnection> = ArrayList()
 
     val disposedItems: MutableList<DisposableItem> = ArrayList()
-    var blinkingColor: Color? = null
 
     override fun getAbsolutX(): Float {
         val offset: Float = if (::group.isInitialized) group.offsetX else 0f
@@ -57,20 +55,11 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
         addAction(repeat)
     }
 
-    private var blinkTime = 0f
     override fun act(delta: Float) {
         super.act(delta)
-
+        val blinkColor: Color? = getBlinkingColor(delta, color)
         color = when {
-            blinkingColor != null -> {
-                blinkTime += delta
-                var blinkColor = color
-                if (blinkTime > 0.6) {
-                    blinkTime = 0f
-                    blinkColor = if (color == blinkingColor) Color(1f, 1f, 1f, 1f) else blinkingColor!!
-                }
-                blinkColor
-            }
+            blinkColor != null -> blinkColor
             fieldType.color != null -> fieldType.color
             else -> color
         }
@@ -82,7 +71,6 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
             val label = TextButton(id.toString() + " " + fieldType.name, TextureCollection.skin, "default")
             label.label.width = width
             label.setPosition(x + width / 2, y + height / 2)
-//            label.setPosition(getAbsolutX(), getAbsolutY())
             label.color = Color.ROYAL
             label.style.fontColor = Color.RED
             label.draw(batch, parentAlpha)

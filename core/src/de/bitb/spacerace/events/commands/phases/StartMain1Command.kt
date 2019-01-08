@@ -10,7 +10,6 @@ class StartMain1Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
     }
 
     override fun execute(game: MainGame) {
-//        gameController.phaseController.startMain1()
     }
 
 
