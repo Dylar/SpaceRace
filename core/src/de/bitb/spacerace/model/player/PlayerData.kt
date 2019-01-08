@@ -1,6 +1,7 @@
 package de.bitb.spacerace.model.player
 
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.config.DEBUG_PLAYER_STEPS
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.space.fields.SpaceField
 
@@ -31,7 +32,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
         return diceResults.size < diceCharges
     }
 
-    fun dice(maxResult: Int = 6) {
+    fun dice(maxResult: Int = DEBUG_PLAYER_STEPS) {
         diceResults.add((Math.random() * maxResult).toInt() + 1)
         Logger.println("DiceResult: $diceResults")
     }

@@ -1,12 +1,14 @@
 package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.core.LineRenderer
+import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.disposable.moving.MovingItem
 import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.utils.CalculationUtils
 
 class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) {
 
@@ -35,5 +37,9 @@ class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) 
     fun isConnection(spaceField1: SpaceField, spaceField2: SpaceField): Boolean {
         return this.spaceField1 == spaceField1 && this.spaceField2 == spaceField2
                 || this.spaceField1 == spaceField2 && this.spaceField2 == spaceField1
+    }
+
+    fun getOpposite(fieldPosition: SpaceField): SpaceField {
+        return if (fieldPosition == spaceField1) spaceField2 else spaceField1
     }
 }

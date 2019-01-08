@@ -2,23 +2,17 @@ package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DEBUG_FIELDS
 import de.bitb.spacerace.base.BaseObject
-import de.bitb.spacerace.base.DefaultFunction
-import de.bitb.spacerace.config.DISPOSED_ITEM_SPEED
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.disposable.DisposableItem
+import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
-import de.bitb.spacerace.utils.CalculationUtils
 
 open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject(fieldType.texture) {
 
@@ -38,8 +32,9 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
 
     var id: Int = -1
     lateinit var group: SpaceGroup
+    val connections: MutableList<SpaceConnection> = ArrayList()
+
     val disposedItems: MutableList<DisposableItem> = ArrayList()
-    private val disposedItemsToDraw: MutableList<Image> = ArrayList()
     var blinkingColor: Color? = null
 
     override fun getAbsolutX(): Float {
@@ -96,37 +91,20 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
 
     fun disposeItem(disposableItem: DisposableItem) {
         disposedItems.add(disposableItem)
-        val image = object : Image(disposableItem.img) {
-            var angle = 0f
-            var point = Vector2()
-
-            val slice: Float = (2 * Math.PI / DISPOSED_ITEM_SPEED).toFloat()
-
-            override fun act(delta: Float) {
-                super.act(delta)
-                angle += slice * delta
-                point = CalculationUtils.calculateRotationPoint(Vector2(getAbsolutX() - width / 2, getAbsolutY() - height / 2), (width * 2).toDouble(), angle.toDouble())
-            }
-
-            override fun draw(batch: Batch?, parentAlpha: Float) {
-                setPosition(point.x, point.y)
-                super.draw(batch, parentAlpha)
-            }
-        }
-        image.setOrigin(image.width / 2, image.height / 2)
-        image.setPosition(getAbsolutX() - image.width / 2, getAbsolutY() - image.height / 2)
-        image.color = disposableItem.owner.color
-
-        disposedItemsToDraw.add(image)
-
-        stage.addActor(image)
-
+        disposableItem.gameImage!!.fieldPosition = this
+        stage.addActor(disposableItem.gameImage)
     }
 
     fun attachItem(disposableItem: DisposableItem) {
         disposedItems.remove(disposableItem)
-        val image = disposedItemsToDraw.removeAt(0)
-        image.remove()
+        disposableItem.gameImage!!.remove()
+    }
+
+    fun hasConnectionTo(spaceField: SpaceField): Boolean {
+        connections.forEach {
+            if (it.isConnection(this, spaceField)) return true
+        }
+        return false
     }
 
 }

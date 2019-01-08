@@ -12,6 +12,9 @@ class EndTurnCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
     override fun execute(game: MainGame) {
         val playerController = game.gameController.playerController
         playerController.nextTurn()
+
+//        game.gameController.fieldController.moveMovables() //TODO nur zum test
+
         if (playerController.isRoundEnd()) {
             game.gameController.inputHandler.handleCommand(EndRoundCommand())
         }

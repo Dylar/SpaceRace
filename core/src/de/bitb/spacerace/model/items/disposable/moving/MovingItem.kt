@@ -5,5 +5,4 @@ import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class MovingItem(owner: PlayerColor, price: Int) : DisposableItem(owner, price) {
 
-        
 }

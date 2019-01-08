@@ -9,9 +9,9 @@ import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.player.PlayerColor
 
-class MovingMine(owner: PlayerColor, price: Int) : DisposableItem(owner, price), DiceAddition {
+class MovingMine(owner: PlayerColor, price: Int) : MovingItem(owner, price), DiceAddition {
 
-    override val itemType: ItemCollection = ItemCollection.SLOW_MINE
+    override val itemType: ItemCollection = ItemCollection.MOVING_MINE
     override val img: Texture = TextureCollection.slowMine
     override var text: String = ""
         get() = GameStrings.ItemStrings.ITEM_MOVING_MINE_TEXT

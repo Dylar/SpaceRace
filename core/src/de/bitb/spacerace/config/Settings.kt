@@ -8,7 +8,7 @@ import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.space.maps.MapCollection
 
 const val MOVING_SPEED: Float = 100f
-var DISPOSED_ITEM_SPEED = 8
+var ROTATION_MOVING_SPEED = 8
 
 var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
@@ -25,8 +25,9 @@ const val MAX_ZOOM = 5
 const val MIN_ZOOM = 1
 
 //DEBUG
+const val DEBUG_PLAYER_STEPS = 1
 var DEBUG_TEST_FIELD = FieldType.MINE
-var DEBUG_ITEM = arrayListOf(ItemCollection.CLEAN_DROID, ItemCollection.SLOW_MINE)
+var DEBUG_ITEM = arrayListOf(ItemCollection.MOVING_MINE)
 const val DEBUG_ITEMS = 5
 
 const val DEBUG_FIELDS = false

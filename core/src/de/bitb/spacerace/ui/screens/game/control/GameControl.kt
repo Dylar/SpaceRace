@@ -108,12 +108,10 @@ class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCol
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
-        if (event is EndRoundCommand) {
-            openEndRoundMenu()
-        } else if (event is ObtainShopCommand) {
-            openShop(game)
-        } else if (event is UseItemCommand) {
-            itemMenu.update(game,event)
+        when (event) {
+            is EndRoundCommand -> openEndRoundMenu()
+            is ObtainShopCommand -> openShop(game)
+            is UseItemCommand -> itemMenu.update(game,event)
         }
     }
 

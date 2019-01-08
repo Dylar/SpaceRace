@@ -1,6 +1,7 @@
 package de.bitb.spacerace.model.items
 
 import de.bitb.spacerace.model.items.disposable.SlowMine
+import de.bitb.spacerace.model.items.disposable.moving.MovingMine
 import de.bitb.spacerace.model.items.equip.IonEngine
 import de.bitb.spacerace.model.items.usable.ExtraFuel
 import de.bitb.spacerace.model.items.usable.clean.CleanDroid
@@ -46,11 +47,13 @@ enum class ItemCollection {
         return when (this) {
             EXTRA_FUEL -> ExtraFuel(playerColor, 2000)
             SPECIAL_FUEL -> SpecialFuel(playerColor, 1000)
-            ION_ENGINE -> IonEngine(playerColor, 5000)
-            SLOW_MINE -> SlowMine(playerColor, 3000)
-            MOVING_MINE -> SlowMine(playerColor, 3000)
             SPEED_BOOST -> SpeedBoost(playerColor, 3000, 1)
             CLEAN_DROID -> CleanDroid(playerColor, 2000)
+
+            ION_ENGINE -> IonEngine(playerColor, 5000)
+
+            SLOW_MINE -> SlowMine(playerColor, 3000)
+            MOVING_MINE -> MovingMine(playerColor, 4000)
 
             NONE -> throw OperationNotSupportedException()
         }
