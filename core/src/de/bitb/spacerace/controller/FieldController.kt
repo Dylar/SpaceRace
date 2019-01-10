@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.disposable.DisposableItem
+import de.bitb.spacerace.model.items.disposable.moving.MovingItem
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
@@ -62,17 +65,10 @@ class FieldController(playerController: PlayerController) {
     }
 
     fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
-        val connection: SpaceConnection = SpaceConnection(spaceField1, spaceField2)
+        val connection = SpaceConnection(spaceField1, spaceField2)
         connections.add(connection)
-    }
-
-    fun hasConnectionTo(spaceField1: SpaceField, spaceField2: SpaceField): Boolean {
-        for (connection in connections) {
-            if (connection.isConnection(spaceField1, spaceField2)) {
-                return true
-            }
-        }
-        return false
+        spaceField1.connections.add(connection)
+        spaceField2.connections.add(connection)
     }
 
     fun harvestOres(game: MainGame) {
@@ -92,6 +88,35 @@ class FieldController(playerController: PlayerController) {
     fun getRandomTunnel(playerColor: PlayerColor): SpaceField {
         val tunnel = fieldsMap[FieldType.TUNNEL]!!
         return tunnel[(Math.random() * tunnel.size).toInt()]
+    }
+
+    fun moveMovables() {
+        val moveItem = { item: MovingItem, toRemove: MutableList<Item> ->
+            val list = item.gameImage!!.fieldPosition!!.connections
+            val con = list[(Math.random() * list.size).toInt()]
+            val newField = con.getOpposite(item.gameImage!!.fieldPosition!!)
+            newField.disposedItems.add(item)
+            item.gameImage!!.moveTo(newField)
+            toRemove.add(item)
+        }
+
+
+        val fieldList: MutableList<SpaceField> = ArrayList()
+        fields.forEach {
+            if (!it.disposedItems.isEmpty()) {
+                fieldList.add(it)
+            }
+        }
+        fieldList.forEach { field: SpaceField ->
+            val toRemove: MutableList<Item> = ArrayList()
+            field.disposedItems.forEach { it ->
+                if (it is MovingItem && it.gameImage!!.actions.isEmpty) {
+                    moveItem(it, toRemove)
+                }
+            }
+            field.disposedItems.removeAll(toRemove)
+        }
+
     }
 
 }

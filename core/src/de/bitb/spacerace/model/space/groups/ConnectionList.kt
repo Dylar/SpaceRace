@@ -6,6 +6,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.model.items.disposable.moving.MovingItem
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 
 class ConnectionList(val playerController: PlayerController) : MutableList<SpaceConnection> by ArrayList(), Actor() {
@@ -23,4 +24,5 @@ class ConnectionList(val playerController: PlayerController) : MutableList<Space
     override fun clear() {
         super.clear()
     }
+
 }

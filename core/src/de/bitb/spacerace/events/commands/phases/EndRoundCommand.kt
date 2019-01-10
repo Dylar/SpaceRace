@@ -13,6 +13,8 @@ class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
         game.gameController.fieldController.harvestOres(game)
         val players = game.gameController.playerController.players
 
+        game.gameController.fieldController.moveMovables()
+
         for (player in players) {
             val playerData = player.playerData
 //            val saveData = playerData.copy() //TODO save me for history

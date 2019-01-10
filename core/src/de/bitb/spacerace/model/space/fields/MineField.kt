@@ -10,7 +10,7 @@ class MineField(fieldType: FieldType = FieldType.MINE) : SpaceField(fieldType) {
     var owner: PlayerColor = PlayerColor.NONE
         set(ow) {
             if (ow != PlayerColor.NONE) {
-                blinkingColor = Color(ow.color)
+                setBlinkColor(Color(ow.color))
             }
             field = ow
         }
