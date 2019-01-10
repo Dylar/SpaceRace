@@ -39,9 +39,7 @@ class GameController(game: MainGame) {
     }
 
     fun setRandomGoal() {
-        if (currentGoal != SpaceField.NONE) {
-            currentGoal.setBlinkColor(null)
-        }
+        currentGoal.setBlinkColor(null)
         currentGoal = map.getRandomGoal()
         currentGoal.setBlinkColor(Color(currentGoal.fieldType.color))
     }

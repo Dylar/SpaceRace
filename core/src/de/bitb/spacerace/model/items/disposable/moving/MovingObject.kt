@@ -23,7 +23,7 @@ class MovingObject(img: Texture, val movingState: MovingState, imageColor: Color
     var angle = 0f
     var point = Vector2()
 
-    val slice: Float = (2 * Math.PI / ROTATION_MOVING_SPEED).toFloat()
+    private val slice: Float = (2 * Math.PI / ROTATION_MOVING_SPEED).toFloat()
 
     override fun act(delta: Float) {
         super.act(delta)

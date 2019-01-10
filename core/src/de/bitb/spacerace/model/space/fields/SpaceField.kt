@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.DEBUG_FIELDS
 import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.core.TextureCollection
@@ -57,7 +58,7 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN) : BaseObject
 
     override fun act(delta: Float) {
         super.act(delta)
-        val blinkColor: Color? = getBlinkingColor(delta, color)
+        val blinkColor: Color? = getBlinkColor(delta, color)
         color = when {
             blinkColor != null -> blinkColor
             fieldType.color != null -> fieldType.color

@@ -10,9 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.Align
 import de.bitb.spacerace.config.GAME_SPEED
 import de.bitb.spacerace.config.MOVING_SPEED
+import de.bitb.spacerace.model.objecthandling.DefaultFunction
+import de.bitb.spacerace.model.objecthandling.DefaultImage
+import de.bitb.spacerace.model.objecthandling.IDefaultImage
 import kotlin.collections.ArrayList
 
-open class BaseObject(val img: Texture) : Image(img), DefaultFunction by object : DefaultFunction {}, IDefaultImage by DefaultImage() {
+open class BaseObject(val img: Texture) :
+        Image(img),
+        DefaultFunction by object : DefaultFunction {},
+        IDefaultImage by DefaultImage() {
 
     private val actionQueue: MutableList<Action> = ArrayList()
     open var movingSpeed: Float = MOVING_SPEED
@@ -45,7 +51,7 @@ open class BaseObject(val img: Texture) : Image(img), DefaultFunction by object 
     fun moveTo(targetX: Float, targetY: Float, targetWidth: Float = 0f, targetHeight: Float = 0f) {
         val moveTo = MoveToAction()
         moveTo.setPosition(targetX - width / 2, targetY - height / 2)
-        moveTo.duration = getDurationToTarget(targetX, targetY, targetWidth, targetHeight)
+        moveTo.duration = getDurationToTarget(this,targetX, targetY, targetWidth, targetHeight)
         addAction(moveTo)
     }
 
@@ -79,14 +85,4 @@ open class BaseObject(val img: Texture) : Image(img), DefaultFunction by object 
         }
         return check
     }
-
-    private fun getDistanceToTarget(targetX: Float, targetY: Float, targetWidth: Float, targetHeight: Float): Float {
-        val vector = Vector2(targetX + targetWidth / 2, targetY + targetHeight / 2).sub(Vector2(x + width / 2, y + height / 2))
-        return Math.sqrt((vector.x * vector.x + vector.y * vector.y).toDouble()).toFloat()
-    }
-
-    private fun getDurationToTarget(targetX: Float, targetY: Float, targetWidth: Float, targetHeight: Float): Float {
-        return ((getDistanceToTarget(targetX, targetY, targetWidth, targetHeight) / movingSpeed) / GAME_SPEED.speed)
-    }
-
 }

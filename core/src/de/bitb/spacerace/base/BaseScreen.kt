@@ -13,6 +13,9 @@ import de.bitb.spacerace.core.MainGame
 
 
 open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
+    companion object {
+        var MAIN_DELTA = 0f
+    }
 
     var backgroundStage: BaseStage = BaseStage.NONE
     var gameStage: BaseStage = BaseStage.NONE
@@ -85,6 +88,8 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
     }
 
     override fun render(delta: Float) {
+        MAIN_DELTA += delta
+        Logger.println("DELTA: $MAIN_DELTA")
         game.clearScreen(blue = 200f)
 
         renderBackground(delta)
@@ -92,6 +97,11 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         renderGui(delta)
 
         renderCamera(delta)
+
+        if (MAIN_DELTA > 1f) {
+            Logger.println("DELTA reset")
+            MAIN_DELTA = 0f
+        }
     }
 
     open fun renderCamera(delta: Float) {

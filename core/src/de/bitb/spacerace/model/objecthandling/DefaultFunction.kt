@@ -1,4 +1,4 @@
-package de.bitb.spacerace.base
+package de.bitb.spacerace.model.objecthandling
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture

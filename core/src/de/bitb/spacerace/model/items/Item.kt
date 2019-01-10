@@ -1,7 +1,7 @@
 package de.bitb.spacerace.model.items
 
 import com.badlogic.gdx.graphics.Texture
-import de.bitb.spacerace.base.DefaultFunction
+import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
 

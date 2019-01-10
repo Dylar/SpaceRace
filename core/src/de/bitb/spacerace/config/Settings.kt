@@ -19,6 +19,9 @@ var WIN_CREDITS = 10000
 
 var LANGUAGE = Language.ENGLISH
 
+//GAME
+
+const val BLINKING_INTERVAL = 2f
 
 //GAME UI
 const val MAX_ZOOM = 5

@@ -100,7 +100,6 @@ class FieldController(playerController: PlayerController) {
             toRemove.add(item)
         }
 
-
         val fieldList: MutableList<SpaceField> = ArrayList()
         fields.forEach {
             if (!it.disposedItems.isEmpty()) {
