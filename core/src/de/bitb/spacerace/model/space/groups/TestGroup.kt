@@ -15,7 +15,7 @@ open class TestGroup(gameController: GameController, offsetX: Float = 0f, offset
 
         //BOTTOM
         val centerBottomField = SpaceField.createField(fieldType)
-        addField(centerBottomField, SCREEN_WIDTH / 2 - centerBottomField.width / 2)
+        addField(centerBottomField, SCREEN_WIDTH / 2 - centerBottomField.positionData.width / 2)
         val leftBottomCorner = SpaceField.createField(fieldType)
         addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
         val rightBottomCorner = SpaceField.createField(fieldType)

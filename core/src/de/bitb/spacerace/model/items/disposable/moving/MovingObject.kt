@@ -29,7 +29,7 @@ class MovingObject(img: Texture, val movingState: MovingState, imageColor: Color
         super.act(delta)
         if (MovingState.ROTATE_POINT == movingState) {
             if (actions.isEmpty) angle += slice * speed.toFloat() * delta else angle = 0f
-            point = CalculationUtils.calculateRotationPoint(Vector2(fieldPosition!!.getAbsolutX() - width / 2, fieldPosition!!.getAbsolutY() - height / 2), (width * 2).toDouble(), angle.toDouble())
+            point = CalculationUtils.calculateRotationPoint(Vector2(fieldPosition!!.positionData.posX - width / 2, fieldPosition!!.positionData.posY - height / 2), (width * 2).toDouble(), angle.toDouble())
         }
     }
 
@@ -43,7 +43,7 @@ class MovingObject(img: Texture, val movingState: MovingState, imageColor: Color
     fun moveTo(spaceField: SpaceField) {
         fieldPosition = spaceField
         val moveTo = MoveToAction()
-        val point = CalculationUtils.calculateRotationPoint(Vector2(spaceField.getAbsolutX() - width / 2, spaceField.getAbsolutY() - height / 2), (width * 2).toDouble())
+        val point = CalculationUtils.calculateRotationPoint(Vector2(spaceField.positionData.posX - width / 2, spaceField.positionData.posY - height / 2), (width * 2).toDouble())
 
         moveTo.setPosition(point.x, point.y)
         moveTo.duration = (5f * speed).toFloat()

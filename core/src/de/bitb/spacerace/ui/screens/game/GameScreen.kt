@@ -1,9 +1,9 @@
 package de.bitb.spacerace.ui.screens.game
 
-import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.objecthandling.GameImage
 
 class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, previousScreen) {
 
@@ -19,7 +19,7 @@ class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, 
         return BackgroundStage(this)
     }
 
-    override fun getCameraTarget(): BaseObject? {
+    override fun getCameraTarget(): GameImage? {
         return game.gameController.playerController.currentPlayer
     }
 

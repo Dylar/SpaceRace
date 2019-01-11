@@ -19,7 +19,7 @@ open class CircleGroup(gameController: GameController,
         val size = fieldTypes.size
         val slice = 2 * Math.PI / size
         val radius = SCREEN_HEIGHT * 0.6
-        val rotationPoint = Vector2((SCREEN_WIDTH / 2).toFloat(), (SCREEN_HEIGHT / 2).toFloat())
+        val rotationPoint = Vector2((SCREEN_WIDTH / 2).toFloat() + offsetX, (SCREEN_HEIGHT / 2).toFloat() + offsetY)
 
 
         val connectionFields = ArrayList<SpaceField>()
@@ -32,16 +32,18 @@ open class CircleGroup(gameController: GameController,
             val point = CalculationUtils.calculateRotationPoint(rotationPoint, radius, angle)
 
             addField = SpaceField.createField(fieldType.value)
-            addField(addField, point.x, point.y)
+
             if (anchorField != null) {
                 connect(anchorField, addField)
             }
+
+            addField(addField, point.x, point.y)
+            anchorField = addField
 
             if (angle >= slice * size / 4 * connectionFields.size) {
                 connectionFields.add(addField)
             }
 
-            anchorField = addField
 
             if (firstField == null) {
                 firstField = addField

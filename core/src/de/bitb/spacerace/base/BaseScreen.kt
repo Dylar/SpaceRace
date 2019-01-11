@@ -10,6 +10,7 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.objecthandling.GameImage
 
 
 open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
@@ -89,7 +90,6 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
 
     override fun render(delta: Float) {
         MAIN_DELTA += delta
-        Logger.println("DELTA: $MAIN_DELTA")
         game.clearScreen(blue = 200f)
 
         renderBackground(delta)
@@ -99,7 +99,6 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         renderCamera(delta)
 
         if (MAIN_DELTA > 1f) {
-            Logger.println("DELTA reset")
             MAIN_DELTA = 0f
         }
     }
@@ -108,8 +107,8 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         if (!cameraStatus.isFree()) {
             val cameraTarget = getCameraTarget()
             if (cameraTarget != null) {
-                val posX = cameraTarget.x + cameraTarget.width / 2
-                val posY = cameraTarget.y + cameraTarget.height / 2
+                val posX = cameraTarget.positionData.posX + cameraTarget.positionData.width / 2
+                val posY = cameraTarget.positionData.posY + cameraTarget.positionData.height / 2
                 gameStage.camera.position.set(posX, posY, 0f)
                 gameStage.camera.update()
 
@@ -119,7 +118,7 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         }
     }
 
-    open fun getCameraTarget(): BaseObject? {
+    open fun getCameraTarget(): GameImage? {
         return null
     }
 

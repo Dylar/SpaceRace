@@ -56,14 +56,14 @@ abstract class DisposableItem(owner: PlayerColor, price: Int) : Item(owner, pric
         return when (state) {
             ItemState.STORAGE -> {
                 initImage()
-                getPlayerData(game, player).fieldPosition.disposeItem(this)
+//                getPlayerData(game, player).fieldPosition.disposeItem(this)
                 getPlayerData(game, player).playerItems.disposeItem(this)
                 true
             }
             ItemState.DISPOSED -> {
                 attachedTo = player
                 getPlayerData(game, player).playerItems.attachItem(this)
-                getPlayerData(game, player).fieldPosition.attachItem(this)
+//                getPlayerData(game, player).fieldPosition.attachItem(this)
                 true
             }
             else -> true

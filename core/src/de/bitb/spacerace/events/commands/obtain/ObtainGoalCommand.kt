@@ -9,7 +9,7 @@ import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 class ObtainGoalCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
     override fun canExecute(game: MainGame): Boolean {
-        return game.gameController.currentGoal == getPlayerData(game, playerColor).fieldPosition
+        return game.gameController.currentGoal == getPlayerField(game, playerColor)
     }
 
     override fun execute(game: MainGame) {

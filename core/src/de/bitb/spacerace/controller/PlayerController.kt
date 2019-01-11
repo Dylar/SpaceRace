@@ -3,7 +3,6 @@ package de.bitb.spacerace.controller
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -16,11 +15,11 @@ class PlayerController() {
     var currentPlayer: Player = Player.NONE
         get() = if (players.isEmpty()) Player.NONE else players[players.size - 1]
 
-    fun moveTo(spaceField: SpaceField, playerData: PlayerData) {
-        setSteps(playerData, spaceField)
-        playerData.fieldPosition = spaceField
-        getPlayer(playerData.playerColor).moveTo(spaceField)
-        Logger.println("Player Field: ${playerData.fieldPosition.id}, ${playerData.fieldPosition.fieldType.name}")
+    fun moveTo(spaceField: SpaceField, player: Player) {
+        setSteps(player.playerData, spaceField)
+        player.positionData.setPosition(spaceField.positionData)
+        player.moveTo(spaceField)
+        Logger.println("Player Field: ${spaceField.id}, ${spaceField.fieldType.name}")
     }
 
     private fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
@@ -35,6 +34,7 @@ class PlayerController() {
     private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
         return playerData.steps.size > 1 && playerData.previousStep == spaceField
     }
+
     fun isRoundEnd(): Boolean {
         for (player in players) {
             if (player.playerData.phase != Phase.END_TURN) {
@@ -47,9 +47,9 @@ class PlayerController() {
     fun nextTurn() {
         Logger.println("nextTurn1")
         val oldPlayer = players[0]
-        var indexOld = oldPlayer.zIndex + 1 //TODO do it in gui
+        var indexOld = oldPlayer.image.zIndex + 1 //TODO do it in gui
         for (ship in players) {
-            ship.zIndex = indexOld--
+            ship.image.zIndex = indexOld--
         }
         players.add(oldPlayer)
         players.removeAt(0)

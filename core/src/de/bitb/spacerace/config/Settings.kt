@@ -29,9 +29,9 @@ const val MIN_ZOOM = 1
 
 //DEBUG
 const val DEBUG_PLAYER_STEPS = 1
-var DEBUG_TEST_FIELD = FieldType.MINE
+var DEBUG_TEST_FIELD = FieldType.GOAL
 var DEBUG_ITEM = arrayListOf(ItemCollection.MOVING_MINE)
 const val DEBUG_ITEMS = 5
 
-const val DEBUG_FIELDS = false
+const val DEBUG_FIELDS = true
 const val DEBUG_LAYOUT = false

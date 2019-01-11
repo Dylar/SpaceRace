@@ -15,7 +15,7 @@ class AsteroidGroup(gameController: GameController, offsetX: Float = 0f, offsetY
 
         //BOTTOM
         val centerBottomField = SpaceField.createField(FieldType.AMBUSH)
-        addField(centerBottomField, SCREEN_WIDTH / 2 - centerBottomField.width / 2)
+        addField(centerBottomField, SCREEN_WIDTH / 2 - centerBottomField.positionData.width / 2)
         val leftBottomCorner = SpaceField.createField(FieldType.AMBUSH)
         addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
         val rightBottomCorner = SpaceField.createField(FieldType.AMBUSH)

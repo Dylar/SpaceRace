@@ -8,6 +8,7 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
@@ -29,15 +30,18 @@ class FieldController(playerController: PlayerController) {
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
     }
 
-    fun addShip(player: Player, spaceField1: SpaceField) {
-        player.playerData.fieldPosition = spaceField1
-        player.setPosition(spaceField1.getAbsolutX() - player.width / 2, spaceField1.getAbsolutY() - player.height / 2)
-        player.color = player.playerData.playerColor.color
+    fun getField(positionData: PositionData): SpaceField {
+        fields.forEach { if (it.positionData.posX == positionData.posX && it.positionData.posY == positionData.posY) return it }
+        return SpaceField.NONE
     }
 
-    fun addField(gameController: GameController, spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y) {
-        spaceField.setPosition(posX, posY)
-        spaceField.addListener(object : InputListener() {
+    fun addShip(player: Player, spaceField1: SpaceField) {
+        player.setPosition(spaceField1.positionData.posX - player.positionData.width / 2, spaceField1.positionData.posY - player.positionData.height / 2)
+        player.image.color = player.playerData.playerColor.color
+    }
+
+    fun addField(gameController: GameController, spaceField: SpaceField) {
+        spaceField.image.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 gameController.inputHandler.handleCommand(MoveCommand(spaceField, gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
@@ -81,8 +85,9 @@ class FieldController(playerController: PlayerController) {
     }
 
     fun occupyMine(playerData: PlayerData) {
-        val mineField: MineField = playerData.fieldPosition as MineField
-        mineField.owner = playerData.playerColor
+//        mach das anders TODO
+//        val mineField: MineField = playerData.fieldPosition as MineField
+//        mineField.owner = playerData.playerColor
     }
 
     fun getRandomTunnel(playerColor: PlayerColor): SpaceField {

@@ -3,7 +3,9 @@ package de.bitb.spacerace.model.player
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.DEBUG_PLAYER_STEPS
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
+import javafx.geometry.Pos
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
@@ -13,8 +15,6 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     var diceResults: MutableList<Int> = ArrayList()
 
     var phase: Phase = Phase.MAIN1
-
-    var fieldPosition: SpaceField = SpaceField.NONE
 
     var steps: MutableList<SpaceField> = ArrayList()
     var previousStep: SpaceField = SpaceField.NONE
