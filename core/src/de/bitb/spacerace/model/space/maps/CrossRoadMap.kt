@@ -10,13 +10,13 @@ import de.bitb.spacerace.model.space.groups.CrossGroup
 class CrossRoadMap(gameController: GameController, fieldController: FieldController = gameController.fieldController) : SpaceMap() {
 
     init {
-        val offsetY = Dimensions.SCREEN_HEIGHT * 1.6f
+        val offsetY = Dimensions.SCREEN_HEIGHT * 1.2f
         val offsetX = Dimensions.SCREEN_WIDTH.toFloat()
 
         val centerGroup = CrossGroup(gameController)
         val upGroup = BoxGroup(gameController, offsetY = offsetY)
         val rightGroup = BoxGroup(gameController, offsetX)
-        val downGroup = BoxGroup(gameController, offsetY = -offsetY)
+        val downGroup = BoxGroup(gameController, offsetY = -offsetY / 1.2f)
         val leftGroup = BoxGroup(gameController, -offsetX)
 
         centerGroup.connect(fieldController, ConnectionPoint.TOP, upGroup)

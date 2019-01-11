@@ -6,10 +6,10 @@ import de.bitb.spacerace.config.enums.Language.*
 
 object Dimensions {
 
-    var SCREEN_WIDTH = 0
-        get() = Gdx.graphics.width
-    var SCREEN_HEIGHT = 0
-        get() = Gdx.graphics.height
+    var SCREEN_WIDTH = 0f
+        get() = Gdx.graphics.width.toFloat()
+    var SCREEN_HEIGHT = 0f
+        get() = Gdx.graphics.height.toFloat()
 
 
     object GameGuiDimensions {
@@ -68,6 +68,10 @@ object Dimensions {
         const val FIELD_PADDING_LARGE = 1.2f
         const val FIELD_PADDING_MEDIUM = 0.6f
         const val FIELD_PADDING_SMALL = 0.3f
+
+        const val DEFAULT_IMAGE_BORDER = 64
+        const val FIELD_BORDER = DEFAULT_IMAGE_BORDER * 3.5f
+        const val PLAYER_BORDER = DEFAULT_IMAGE_BORDER * 1.8f
 
 //      TODO  DO ME
     }

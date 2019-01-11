@@ -3,6 +3,7 @@ package de.bitb.spacerace.model.space.fields
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.objecthandling.GameImage
@@ -33,8 +34,8 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN, positionData
     val disposedItems: MutableList<DisposableItem> = ArrayList()
 
     init {
-        val width = image.width * 3.5f
-        val height = image.height * 3.5f
+        val width = FIELD_BORDER
+        val height = FIELD_BORDER
         image.setOrigin(width / 2, height / 2)
         setBounds(positionData.posX, positionData.posY, width, height)
 
