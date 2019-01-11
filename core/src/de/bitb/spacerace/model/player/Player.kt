@@ -17,12 +17,18 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Texture
 
     init {
         image.touchable = Touchable.disabled
-        setBounds(0f, 0f, image.width * 1.8f, image.height * 1.8f)
+
+        val width = image.width * 1.8f
+        val height = image.height * 1.8f
+        image.setOrigin(width / 2, height / 2)
+        setBounds(positionData.posX, positionData.posY, width, height)
+
+
     }
 
     fun setFieldPosition(fieldPosition: SpaceField) {
         addAction(Runnable {
-            setPosition(fieldPosition.positionData.posX - positionData.width / 2, fieldPosition.positionData.posY - positionData.height / 2)
+            setPosition(fieldPosition.positionData)
         })
 
     }

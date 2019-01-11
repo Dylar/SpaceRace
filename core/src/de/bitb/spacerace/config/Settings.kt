@@ -33,5 +33,5 @@ var DEBUG_TEST_FIELD = FieldType.GOAL
 var DEBUG_ITEM = arrayListOf(ItemCollection.MOVING_MINE)
 const val DEBUG_ITEMS = 5
 
-const val DEBUG_FIELDS = true
+const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false

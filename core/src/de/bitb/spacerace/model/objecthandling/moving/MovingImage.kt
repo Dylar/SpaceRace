@@ -9,13 +9,11 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 class MovingImage : IMovingImage {
 
     override fun moveTo(movingObject: GameImage, positionData: PositionData) {
-
         val moveTo = MoveToAction()
-        moveTo.setPosition(positionData.posX - movingObject.positionData.width / 2, positionData.posY - movingObject.positionData.height / 2)
+        moveTo.setPosition(positionData.posX + movingObject.positionData.width / 2, positionData.posY + movingObject.positionData.height / 2)
         moveTo.duration = getDurationToTarget(movingObject, positionData)
         movingObject.addAction(moveTo)
         movingObject.positionData.setPosition(positionData)
-//        movingObject.addUpdateAction(movingObject)
     }
 
     override fun getDistanceToTarget(movingObject: GameImage, positionData: PositionData): Float {

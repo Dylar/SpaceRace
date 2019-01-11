@@ -23,6 +23,8 @@ open class GameImage(var positionData: PositionData, var img: Texture, val speed
         IMovingImage by MovingImage(),
         IBlinkingImage by BlinkingImage() {
 
+    open var id: Int = 0
+
     val image: Image = object : Image(img) {
         override fun draw(batch: Batch?, parentAlpha: Float) {
             super.draw(batch, parentAlpha)
@@ -37,8 +39,6 @@ open class GameImage(var positionData: PositionData, var img: Texture, val speed
         }
     }
 
-    open var id: Int = 0
-
     fun setBounds(x: Float, y: Float, width: Float, height: Float) {
         image.setBounds(x, y, width, height)
         positionData.posX = image.x
@@ -51,6 +51,10 @@ open class GameImage(var positionData: PositionData, var img: Texture, val speed
         image.setPosition(x, y)
         positionData.posX = image.x
         positionData.posY = image.y
+    }
+
+    fun setPosition(positionData: PositionData) {
+        setPosition(positionData.posX, positionData.posY)
     }
 
     private val actionQueue: MutableList<Action> = ArrayList()

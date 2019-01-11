@@ -33,9 +33,10 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN, positionData
     val disposedItems: MutableList<DisposableItem> = ArrayList()
 
     init {
-        setBounds(positionData.posX, positionData.posY, image.width * 3.5f, image.height * 3.5f)
-        image.setOrigin(positionData.width / 2, positionData.height / 2)
-        setPosition(positionData.posX - positionData.width / 2, positionData.posY - positionData.height / 2)
+        val width = image.width * 3.5f
+        val height = image.height * 3.5f
+        image.setOrigin(width / 2, height / 2)
+        setBounds(positionData.posX, positionData.posY, width, height)
 
         val repeat = RepeatAction()
         repeat.action = Actions.rotateBy((Math.random() * 1).toFloat())!!

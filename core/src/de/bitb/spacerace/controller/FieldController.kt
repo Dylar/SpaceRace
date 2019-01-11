@@ -36,7 +36,11 @@ class FieldController(playerController: PlayerController) {
     }
 
     fun addShip(player: Player, spaceField1: SpaceField) {
-        player.setPosition(spaceField1.positionData.posX, spaceField1.positionData.posY)
+        val playerPosition = player.positionData
+        val fieldPosition = spaceField1.positionData
+        player.setPosition(fieldPosition.posX, fieldPosition.posY)
+        player.image.x += playerPosition.height / 2
+        player.image.y += playerPosition.width / 2
         player.image.color = player.playerData.playerColor.color
     }
 
