@@ -31,12 +31,12 @@ class FieldController(playerController: PlayerController) {
     }
 
     fun getField(positionData: PositionData): SpaceField {
-        fields.forEach { if (it.positionData.posX == positionData.posX && it.positionData.posY == positionData.posY) return it }
+        fields.forEach { if (it.positionData.isPosition(positionData)) return it }
         return SpaceField.NONE
     }
 
     fun addShip(player: Player, spaceField1: SpaceField) {
-        player.setPosition(spaceField1.positionData.posX - player.positionData.width / 2, spaceField1.positionData.posY - player.positionData.height / 2)
+        player.setPosition(spaceField1.positionData.posX, spaceField1.positionData.posY)
         player.image.color = player.playerData.playerColor.color
     }
 

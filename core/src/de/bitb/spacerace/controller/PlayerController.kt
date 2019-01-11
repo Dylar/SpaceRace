@@ -17,8 +17,8 @@ class PlayerController() {
 
     fun moveTo(spaceField: SpaceField, player: Player) {
         setSteps(player.playerData, spaceField)
-        player.positionData.setPosition(spaceField.positionData)
-        player.moveTo(spaceField)
+//        player.positionData.setPosition(spaceField.positionData)
+        player.moveTo(player, spaceField.positionData)
         Logger.println("Player Field: ${spaceField.id}, ${spaceField.fieldType.name}")
     }
 
@@ -27,12 +27,12 @@ class PlayerController() {
         if (sameField) {
             playerData.steps.removeAt(playerData.steps.size - 1)
         } else {
-            playerData.steps.add(spaceField)
+            playerData.steps.add(spaceField.positionData)
         }
     }
 
     private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
-        return playerData.steps.size > 1 && playerData.previousStep == spaceField
+        return playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.positionData)
     }
 
     fun isRoundEnd(): Boolean {

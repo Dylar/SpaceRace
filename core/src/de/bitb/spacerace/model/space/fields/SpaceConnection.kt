@@ -2,45 +2,40 @@ package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
-import com.badlogic.gdx.scenes.scene2d.ui.Image
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.LineRenderer
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.disposable.moving.MovingItem
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.utils.CalculationUtils
 
 class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) {
 
-    fun getColor(playerData: PlayerData): Color {
-//        val isConnected = isConnected(playerData.fieldPosition)
-//        if (isConnected) {
-//            val canMove = playerData.canMove()
-//            if (canMove || playerData.phase.isMoving() && isConnected(playerData.previousStep)) {
-//                return Color.GREEN
-//            }
-//        }
+    fun getColor(playerData: PlayerData, positionData: PositionData): Color {
+        val isConnected = isConnected(positionData)
+        if (isConnected) {
+            val canMove = playerData.canMove()
+            if (canMove || playerData.phase.isMoving() && isConnected(playerData.previousStep)) {
+                return Color.GREEN
+            }
+        }
 
         return Color.RED
     }
 
-    fun draw(playerData: PlayerData) {
+    fun draw(playerData: PlayerData, positionData: PositionData) {
         val start = Vector2(spaceField1.positionData.posX, spaceField1.positionData.posY)
         val end = Vector2(spaceField2.positionData.posX, spaceField2.positionData.posY)
-        LineRenderer.drawDebugLine(start, end, getColor(playerData))
+        LineRenderer.drawDebugLine(start, end, getColor(playerData, positionData))
     }
 
-    fun isConnected(spaceField: SpaceField): Boolean {
-        return this.spaceField2 == spaceField || this.spaceField1 == spaceField
+    fun isConnected(spaceField: PositionData): Boolean {
+        return this.spaceField1.positionData.isPosition(spaceField) || this.spaceField2.positionData.isPosition(spaceField)
     }
 
     fun isConnection(spaceField1: SpaceField, spaceField2: SpaceField): Boolean {
-        return this.spaceField1 == spaceField1 && this.spaceField2 == spaceField2
-                || this.spaceField1 == spaceField2 && this.spaceField2 == spaceField1
+        return this.spaceField1.positionData.isPosition(spaceField1.positionData) && this.spaceField2.positionData.isPosition(spaceField2.positionData)
+                || this.spaceField2.positionData.isPosition(spaceField1.positionData) && this.spaceField1.positionData.isPosition(spaceField2.positionData)
     }
 
     fun getOpposite(fieldPosition: SpaceField): SpaceField {
-        return if (fieldPosition == spaceField1) spaceField2 else spaceField1
+        return if (fieldPosition.positionData.isPosition(spaceField1.positionData)) spaceField2 else spaceField1
     }
 }

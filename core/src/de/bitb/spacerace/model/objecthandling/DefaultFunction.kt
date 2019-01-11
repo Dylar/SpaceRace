@@ -40,4 +40,8 @@ interface DefaultFunction {
         image.color = color
         return image
     }
+
+    fun addUpdateAction(movingObject: GameImage) {
+//        movingObject.addAction(Runnable { movingObject.update() })
+    }
 }

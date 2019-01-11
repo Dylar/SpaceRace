@@ -17,8 +17,8 @@ class TestMap(gameController: GameController, fieldType: FieldType = FieldType.R
         }
 
         val crescentGroup = CircleGroup(gameController, offsetX = -SCREEN_HEIGHT.toFloat(), fieldTypes = fieldTypes)
-        val centerGroup = TestGroup(gameController, SCREEN_WIDTH.toFloat(), fieldType = fieldType)
-        centerGroup.connect(gameController.fieldController, ConnectionPoint.TOP, crescentGroup)
+        val centerGroup = TestGroup(gameController, fieldType = fieldType)
+        centerGroup.connect(gameController.fieldController, ConnectionPoint.LEFT, crescentGroup)
 
         startField = centerGroup.getField(1)
         groups.add(centerGroup)

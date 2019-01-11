@@ -16,9 +16,9 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     var phase: Phase = Phase.MAIN1
 
-    var steps: MutableList<SpaceField> = ArrayList()
-    var previousStep: SpaceField = SpaceField.NONE
-        get() = if (steps.size < 2) SpaceField.NONE else steps[steps.size - 2]
+    var steps: MutableList<PositionData> = ArrayList()
+    var previousStep: PositionData = PositionData()
+        get() = if (steps.size < 2) PositionData() else steps[steps.size - 2]
 
     fun canDice(): Boolean {
         if (!phase.isMain1()) {
