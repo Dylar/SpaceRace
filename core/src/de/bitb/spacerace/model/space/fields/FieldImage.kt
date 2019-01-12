@@ -1,6 +1,5 @@
 package de.bitb.spacerace.model.space.fields
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
@@ -15,19 +14,16 @@ class FieldImage(img: Texture, var fieldType: FieldType) : GameImage(img), IBlin
         setOrigin(FIELD_BORDER / 2, FIELD_BORDER / 2)
 
         val repeat = RepeatAction()
-        repeat.action = Actions.rotateBy((Math.random() * 1).toFloat())!!
+        val direction = if ((Math.random() * 2).toInt() == 1) 1 else -1
+        repeat.action = Actions.rotateBy((Math.random() * direction).toFloat())!!
         repeat.count = RepeatAction.FOREVER
         addAction(repeat)
+        idlingCount = actions.size
     }
 
     override fun act(delta: Float) {
         super.act(delta)
-        val blinkColor: Color? = getBlinkColor(delta, color)
-        color = when {
-            blinkColor != null -> blinkColor
-            fieldType.color != null -> fieldType.color
-            else -> color
-        }
+        color = getBlinkColor(color, fieldType.color ?: color)
     }
 
 }

@@ -1,30 +1,14 @@
 package de.bitb.spacerace.model.objecthandling
 
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
-import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
-import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 
-abstract class GameObject(var positionData: PositionData) :
-        DefaultFunction by object : DefaultFunction {} {
+abstract class GameObject(var positionData: PositionData)
+    : DefaultFunction by object : DefaultFunction {} {
 
     open var id: Int = 0
     var movingState = MovingState.NONE
 
     abstract fun getGameImage(): GameImage
-
-//            = object : Image(texture) {
-//        override fun draw(batch: Batch?, parentAlpha: Float) {
-//            super.draw(batch, parentAlpha)
-//            if (DEBUG_FIELDS) {
-//                val label = TextButton("IAMGE: $id", TextureCollection.skin, "default")
-//                label.label.width = positionData.width
-//                label.setPosition(positionData.posX, positionData.posY)
-//                label.color = Color.ROYAL
-//                label.style.fontColor = Color.RED
-//                label.draw(batch, parentAlpha)
-//            }
-//        }
-//    }
 
     fun setBounds(x: Float, y: Float, width: Float, height: Float) {
         val image = getGameImage()
@@ -71,13 +55,6 @@ abstract class GameObject(var positionData: PositionData) :
 //        super.draw(batch, parentAlpha)
 //    }
 
-
-//    fun moveTo(target: PositionData) {
-//        moveTo(target.posX, target.posY, target.width, target.height)
-//    }
-//
-//    fun moveTo(targetX: Float, targetY: Float, targetWidth: Float = 0f, targetHeight: Float = 0f) {
-//    }
 
 //    fun moveTo(positionData: PositionData) {
 //        var point = when (movingState) {

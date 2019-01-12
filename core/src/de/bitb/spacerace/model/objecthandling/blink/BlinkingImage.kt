@@ -14,7 +14,7 @@ class BlinkingImage : IBlinkingImage {
         blinkingColor = blinkColor
     }
 
-    override fun getBlinkColor(delta: Float, currentColor: Color): Color? {
+    override fun getBlinkColor(currentColor: Color, default: Color): Color {
         return when {
             blinkingColor != null -> {
                 var blinkColor = currentColor
@@ -23,7 +23,7 @@ class BlinkingImage : IBlinkingImage {
                 }
                 blinkColor
             }
-            else -> null
+            else -> default
         }
     }
 

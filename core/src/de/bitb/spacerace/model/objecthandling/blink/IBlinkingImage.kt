@@ -5,5 +5,5 @@ import com.badlogic.gdx.graphics.Color
 interface IBlinkingImage {
 
     fun setBlinkColor(blinkColor: Color?)
-    fun getBlinkColor(delta: Float, currentColor: Color): Color?
+    fun getBlinkColor(currentColor: Color, default: Color = currentColor): Color
 }
