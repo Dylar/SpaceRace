@@ -27,6 +27,8 @@ const val BLINKING_INTERVAL = 2f
 const val MAX_ZOOM = 5
 const val MIN_ZOOM = 1
 
+const val FIELD_ROTATION = true
+
 //DEBUG
 const val DEBUG_PLAYER_STEPS = 1
 var DEBUG_TEST_FIELD = FieldType.GOAL

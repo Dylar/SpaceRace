@@ -3,6 +3,7 @@ package de.bitb.spacerace.model.player
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.dimensions.Dimensions
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.BlinkingImage
@@ -17,9 +18,7 @@ class PlayerImage(img: Texture, playerColor: PlayerColor)
     init {
         touchable = Touchable.disabled
 
-        val width = Dimensions.GameDimensions.PLAYER_BORDER
-        val height = Dimensions.GameDimensions.PLAYER_BORDER
-        setOrigin(width / 2, height / 2)
+        setOrigin(PLAYER_BORDER / 2, PLAYER_BORDER / 2)
     }
 
     fun setFieldPosition(player: Player, positionData: PositionData) {

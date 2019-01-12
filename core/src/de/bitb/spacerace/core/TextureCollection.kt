@@ -69,7 +69,7 @@ object TextureCollection {
         minePlanet = Texture(section)
 
         section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(planetTexture, imageSize * 0, imageSize * 0, imageSize * 2, imageSize * 0, imageSize, imageSize)
+        section.drawPixmap(planetTexture, imageSize * 0, imageSize * 0, imageSize * 2 - 2, imageSize * 0, imageSize, imageSize)
         goalPlanet = Texture(section)
 
         section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)

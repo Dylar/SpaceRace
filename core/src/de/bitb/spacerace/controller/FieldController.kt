@@ -101,12 +101,12 @@ class FieldController(playerController: PlayerController) {
 
     fun moveMovables() {
         val moveItem = { item: MovingItem, toRemove: MutableList<Item> ->
-            val list = item.gameImage!!.fieldPosition!!.connections
-            val con = list[(Math.random() * list.size).toInt()]
-            val newField = con.getOpposite(item.gameImage!!.fieldPosition!!)
-            newField.disposedItems.add(item)
-            item.gameImage!!.moveTo(newField)
-            toRemove.add(item)
+//            val list = item.getGameImage().fieldPosition!!.connections
+//            val con = list[(Math.random() * list.size).toInt()]
+//            val newField = con.getOpposite(item.gameImage!!.fieldPosition!!)
+//            newField.disposedItems.add(item)
+//            item.gameImage!!.moveTo(newField)TODO
+//            toRemove.add(item)
         }
 
         val fieldList: MutableList<SpaceField> = ArrayList()
@@ -118,7 +118,7 @@ class FieldController(playerController: PlayerController) {
         fieldList.forEach { field: SpaceField ->
             val toRemove: MutableList<Item> = ArrayList()
             field.disposedItems.forEach { it ->
-                if (it is MovingItem && it.gameImage!!.actions.size == 0) {//TODO mach das als idle
+                if (it is MovingItem && it.getGameImage().isIdling()) {
                     moveItem(it, toRemove)
                 }
             }

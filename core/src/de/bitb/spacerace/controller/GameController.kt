@@ -40,14 +40,9 @@ class GameController(game: MainGame) {
     }
 
     fun setRandomGoal() {
-
-        Logger.println("REMOVE COLOR :${currentGoal}")
-        Logger.println("-------------------------REMOVE COLOR--------------------------")
         currentGoal.fieldImage.setBlinkColor(null)
         currentGoal = map.getRandomGoal()
         currentGoal.fieldImage.setBlinkColor(Color(currentGoal.fieldType.color))
-        Logger.println("ADD COLOR :${currentGoal}")
-        Logger.println("-------------------------ADD COLOR--------------------------")
     }
 
     fun getWinner(): PlayerColor {

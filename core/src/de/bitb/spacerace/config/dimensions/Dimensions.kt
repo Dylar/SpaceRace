@@ -70,6 +70,7 @@ object Dimensions {
         const val FIELD_PADDING_SMALL = 0.3f
 
         const val DEFAULT_IMAGE_BORDER = 64
+        const val ITEM_BORDER = DEFAULT_IMAGE_BORDER * 0.9f
         const val FIELD_BORDER = DEFAULT_IMAGE_BORDER * 3.5f
         const val PLAYER_BORDER = DEFAULT_IMAGE_BORDER * 1.8f
 

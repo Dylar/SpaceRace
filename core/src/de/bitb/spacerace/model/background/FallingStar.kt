@@ -44,7 +44,7 @@ class FallingStar(var gameScreen: BaseScreen,
 //    }
 //
 //    private fun calculateValues() {
-//        positionData.movingSpeed = (Math.random() * 15f + 25).toFloat()
+//        rotationPoint.movingSpeed = (Math.random() * 15f + 25).toFloat()
 //        startY = (Math.random() * SCREEN_HEIGHT).toFloat()
 //        endY = (Math.random() * SCREEN_HEIGHT).toFloat()
 //
