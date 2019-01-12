@@ -3,6 +3,7 @@ package de.bitb.spacerace.ui.screens.game
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 
 class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, previousScreen) {
@@ -19,8 +20,8 @@ class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, 
         return BackgroundStage(this)
     }
 
-    override fun getCameraTarget(): GameObject? {
-        return game.gameController.playerController.currentPlayer
+    override fun getCameraTarget(): GameImage? {
+        return game.gameController.playerController.currentPlayer.getGameImage()
     }
 
     fun onZoomPlusClicked() {

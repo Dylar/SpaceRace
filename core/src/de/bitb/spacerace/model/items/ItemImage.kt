@@ -44,7 +44,7 @@ class ItemImage(img: Texture,
 
         val point = getRotationPosition(movingObject.getGameImage(), targetPosition)
 
-        val action = getRunnable(Runnable {
+        val action = getRunnableAction(Runnable {
             rotationPoint = targetPosition
             setRotationPosition(movingObject.getGameImage(), point)
             movingState = MovingState.ROTATE_POINT

@@ -25,47 +25,7 @@ abstract class GameObject(var positionData: PositionData = PositionData())
 
     fun setPosition(positionData: PositionData) {
         setPosition(positionData.posX, positionData.posY)
+//        setPosition(this.positionData.getCenterPosX(positionData), this.positionData.getCenterPosY(positionData))
     }
 
-    init {
-//        setBounds(x, y, width, height)
-//        setOrigin(rotationPoint.width / 2, rotationPoint.height / 2)
-    }
-
-//    var angle = 0f
-//    var point = Vector2()
-//
-//    private val slice: Float = (2 * Math.PI / ROTATION_MOVING_SPEED).toFloat()
-
-//    fun act(delta: Float) {
-//        image.act(delta)
-//        if (MovingState.ROTATE_POINT == movingState) {
-//            if (isIdling()) angle += slice * speed.toFloat() * delta else angle = 0f
-//            point = CalculationUtils.calculateRotationPoint(Vector2(rotationPoint.posX - rotationPoint.width / 2, rotationPoint.posY - rotationPoint.height / 2), (rotationPoint.width * 2).toDouble(), angle.toDouble())
-//        }
-//    }
-
-//    fun setRotationPosition(batch: Batch?, parentAlpha: Float) {
-//        if (MovingState.ROTATE_POINT == movingState && isIdling()) {
-//            setRotationPosition(point.x, point.y)
-//        }
-//        super.setRotationPosition(batch, parentAlpha)
-//    }
-
-
-//    fun moveTo(rotationPoint: PositionData) {
-//        var point = when (movingState) {
-//            MovingState.NONE -> Vector2(rotationPoint.posX - width / 2, rotationPoint.posY - height / 2)
-//            MovingState.ROTATE_POINT -> CalculationUtils.calculateRotationPoint(Vector2(rotationPoint.posX - width / 2, rotationPoint.posY - height / 2), (width * 2).toDouble())
-//            MovingState.MOVING -> TODO()
-//        }
-//
-//        this.rotationPoint = rotationPoint
-//        val moveTo = MoveToAction()
-//
-//        moveTo.setRotationPosition(point.x, point.y)
-//        moveTo.duration = (5f * speed).toFloat()
-//        moveTo.duration = getDurationToTarget(rotationPoint, targetX, targetY, targetWidth, targetHeight)
-//        addAction(moveTo)
-//    }
 }

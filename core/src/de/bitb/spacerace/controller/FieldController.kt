@@ -2,6 +2,7 @@ package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
@@ -93,9 +94,16 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
 
     }
 
-    fun getRandomTunnel(playerColor: PlayerColor): SpaceField {
-        val tunnel = fieldsMap[FieldType.TUNNEL]!!
-        return tunnel[(Math.random() * tunnel.size).toInt()]
+    fun getRandomTunnel(game: MainGame, playerColor: PlayerColor): SpaceField {
+        val playerPosition = getPlayerPosition(game, playerColor)
+        val tunnelList = fieldsMap[FieldType.TUNNEL]!!
+        var tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
+
+        while (tunnel.positionData.isPosition(playerPosition)) {
+            tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
+        }
+
+        return tunnel
     }
 
     fun moveMovables(game: MainGame) {

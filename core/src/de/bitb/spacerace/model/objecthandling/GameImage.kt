@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DEBUG_FIELDS
@@ -36,17 +37,18 @@ abstract class GameImage(val texture: Texture) : Image(texture) {
         addAction(action!!)
     }
 
-    fun getRunnable(runnable: Runnable): RunnableAction {
+    fun getRunnableAction(runnable: Runnable): RunnableAction {
         val action = RunnableAction()
         action.runnable = runnable
         return action
     }
 
+    fun getSequenceAction(vararg actions: Action): SequenceAction {
+        return Actions.sequence(*actions)
+    }// mach das in default oder so TODO
+
     fun addAction(vararg actions: Action) {
-        val action = Actions.sequence()
-        for (seqAction in actions) {
-            action.addAction(seqAction)
-        }
+        val action = if (actions.size == 1) actions[0] else getSequenceAction(*actions)
 
         if (isIdling()) {
             super.addAction(Actions.sequence(action, getCheckAction()))

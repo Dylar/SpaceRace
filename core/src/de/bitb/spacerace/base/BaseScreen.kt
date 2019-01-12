@@ -10,6 +10,7 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 
 
@@ -107,8 +108,8 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         if (!cameraStatus.isFree()) {
             val cameraTarget = getCameraTarget()
             if (cameraTarget != null) {
-                val posX = cameraTarget.positionData.posX + cameraTarget.positionData.width / 2
-                val posY = cameraTarget.positionData.posY + cameraTarget.positionData.height / 2
+                val posX = cameraTarget.x + cameraTarget.width / 2
+                val posY = cameraTarget.y + cameraTarget.height / 2
                 gameStage.camera.position.set(posX, posY, 0f)
                 gameStage.camera.update()
 
@@ -118,7 +119,7 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         }
     }
 
-    open fun getCameraTarget(): GameObject? {
+    open fun getCameraTarget(): GameImage? {
         return null
     }
 
