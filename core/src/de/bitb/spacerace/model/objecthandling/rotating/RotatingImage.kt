@@ -10,14 +10,8 @@ import de.bitb.spacerace.utils.CalculationUtils
 
 class RotatingImage(var speed: Double = Math.random()) : IRotatingImage, IMovingImage by MovingImage() {
 
-//    init {
-//        setOrigin(width / 2, height / 2)
-//        color = imageColor
-//    }
-
-    var angle = 0.0
-
     private val slice: Float = (2 * Math.PI / ROTATION_MOVING_SPEED).toFloat()
+    private var angle = 0.0
 
     override fun setRotationPosition(gameImage: GameImage, rotationPoint: PositionData, delta: Float) {
         angle += slice * speed * delta
@@ -45,13 +39,4 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage, IMoving
         val posY = rotationPoint.posY + rotationPoint.height / 2 - gameImage.height / 2
         return getRotationPosition(posX, posY, rotationPoint, angle)
     }
-
-//    fun moveTo(gameObject: GameObject, rotationPoint: PositionData) {
-//        val moveTo = MoveToAction()
-//        val point = CalculationUtils.calculateRotationPoint(Vector2(spaceField.rotationPoint.posX - width / 2, spaceField.rotationPoint.posY - height / 2), (width * 2).toDouble())
-//
-//        moveTo.setRotationPosition(point.x, point.y)
-//        moveTo.duration = (5f * speed).toFloat()
-//        addAction(moveTo)
-//    }
 }

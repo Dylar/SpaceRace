@@ -24,6 +24,7 @@ abstract class Item(var owner: PlayerColor,
     fun getItemImage(): ItemImage {
         return if (::itemImage.isInitialized) itemImage else {
             itemImage = ItemImage(img)
+            itemImage.itemColor = owner.color
             itemImage
         }
     }

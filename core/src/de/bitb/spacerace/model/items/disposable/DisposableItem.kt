@@ -2,12 +2,8 @@ package de.bitb.spacerace.model.items.disposable
 
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
-import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class DisposableItem(owner: PlayerColor, price: Int) : Item(owner, price) {
