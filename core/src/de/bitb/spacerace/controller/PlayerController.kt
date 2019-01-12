@@ -17,7 +17,7 @@ class PlayerController() {
 
     fun moveTo(spaceField: SpaceField, player: Player) {
         setSteps(player.playerData, spaceField)
-//        player.rotationPoint.setPosition(spaceField.rotationPoint)
+//        player.rotationPoint.setRotationPosition(spaceField.rotationPoint)
         player.playerImage.moveTo(player, spaceField.positionData)
         Logger.println("Player Field: ${spaceField.id}, ${spaceField.fieldType.name}")
     }

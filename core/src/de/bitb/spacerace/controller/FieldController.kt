@@ -6,12 +6,12 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
+import de.bitb.spacerace.model.items.disposable.moving.MovingState
+import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -19,7 +19,7 @@ import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.maps.SpaceMap
 
-class FieldController(playerController: PlayerController) {
+class FieldController(playerController: PlayerController) : DefaultFunction {
 
     val fieldGroups: MutableList<SpaceGroup> = ArrayList()
     val fields: MutableList<SpaceField> = ArrayList()
@@ -32,6 +32,11 @@ class FieldController(playerController: PlayerController) {
 
     fun getField(positionData: PositionData): SpaceField {
         fields.forEach { if (it.positionData.isPosition(positionData)) return it }
+        return SpaceField.NONE
+    }
+
+    fun getField(item: Item): SpaceField {
+        fields.forEach { if (it.disposedItems.contains(item)) return it }
         return SpaceField.NONE
     }
 
@@ -88,25 +93,22 @@ class FieldController(playerController: PlayerController) {
 
     }
 
-    fun occupyMine(playerData: PlayerData) {
-//        mach das anders TODO
-//        val mineField: MineField = playerData.fieldPosition as MineField
-//        mineField.owner = playerData.playerColor
-    }
-
     fun getRandomTunnel(playerColor: PlayerColor): SpaceField {
         val tunnel = fieldsMap[FieldType.TUNNEL]!!
         return tunnel[(Math.random() * tunnel.size).toInt()]
     }
 
-    fun moveMovables() {
+    fun moveMovables(game: MainGame) {
         val moveItem = { item: MovingItem, toRemove: MutableList<Item> ->
-//            val list = item.getGameImage().fieldPosition!!.connections
-//            val con = list[(Math.random() * list.size).toInt()]
-//            val newField = con.getOpposite(item.gameImage!!.fieldPosition!!)
-//            newField.disposedItems.add(item)
-//            item.gameImage!!.moveTo(newField)TODO
-//            toRemove.add(item)
+            val field = getItemField(game, item)
+            val list = field.connections
+            val con = list[(Math.random() * list.size).toInt()]
+            val newField = con.getOpposite(field)
+            newField.disposedItems.add(item)
+
+            val itemImage = item.getItemImage()
+            itemImage.moveTo(item, newField.positionData)
+            toRemove.add(item)
         }
 
         val fieldList: MutableList<SpaceField> = ArrayList()

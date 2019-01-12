@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
@@ -25,7 +26,11 @@ interface DefaultFunction {
     }
 
     fun getPlayerField(game: MainGame, playerColor: PlayerColor): SpaceField {
-        return game.gameController.fieldController.getField(getPlayer(game, playerColor).positionData)
+        return game.gameController.fieldController.getField(getPlayerPosition(game, playerColor))
+    }
+
+    fun getItemField(game: MainGame, item: Item): SpaceField {
+        return game.gameController.fieldController.getField(item)
     }
 
     fun getDisplayImage(img: Texture, posX: Float = 0f, posY: Float = 0f, color: Color = Color(1f, 1f, 1f, 1f), actor: Actor = Actor()): Image {

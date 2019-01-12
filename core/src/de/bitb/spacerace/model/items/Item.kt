@@ -1,16 +1,10 @@
 package de.bitb.spacerace.model.items
 
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.scenes.scene2d.ui.Image
-import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
-import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerImage
 
 abstract class Item(var owner: PlayerColor,
                     val price: Int) : GameObject() {

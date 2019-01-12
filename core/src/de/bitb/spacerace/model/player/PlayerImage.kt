@@ -22,9 +22,9 @@ class PlayerImage(img: Texture, playerColor: PlayerColor)
     }
 
     fun setFieldPosition(player: Player, positionData: PositionData) {
-        addAction(Runnable {
+        addAction(getRunnable(Runnable {//TODO test mich
             player.setPosition(positionData)
-        })
+        }))
     }
 
 }

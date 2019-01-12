@@ -31,7 +31,7 @@ class FallingStar(var gameScreen: BaseScreen,
 //        if (actions.isEmpty) {
 //            randomColor()
 //            calculateValues()
-//            setPosition(startX, startY)
+//            setRotationPosition(startX, startY)
 //            moveTo(this, endX, endY)
 //        }
 //

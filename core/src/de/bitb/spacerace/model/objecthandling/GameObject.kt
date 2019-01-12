@@ -45,11 +45,11 @@ abstract class GameObject(var positionData: PositionData = PositionData())
 //        }
 //    }
 
-//    fun setPosition(batch: Batch?, parentAlpha: Float) {
+//    fun setRotationPosition(batch: Batch?, parentAlpha: Float) {
 //        if (MovingState.ROTATE_POINT == movingState && isIdling()) {
-//            setPosition(point.x, point.y)
+//            setRotationPosition(point.x, point.y)
 //        }
-//        super.setPosition(batch, parentAlpha)
+//        super.setRotationPosition(batch, parentAlpha)
 //    }
 
 
@@ -63,7 +63,7 @@ abstract class GameObject(var positionData: PositionData = PositionData())
 //        this.rotationPoint = rotationPoint
 //        val moveTo = MoveToAction()
 //
-//        moveTo.setPosition(point.x, point.y)
+//        moveTo.setRotationPosition(point.x, point.y)
 //        moveTo.duration = (5f * speed).toFloat()
 //        moveTo.duration = getDurationToTarget(rotationPoint, targetX, targetY, targetWidth, targetHeight)
 //        addAction(moveTo)

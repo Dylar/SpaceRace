@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DEBUG_FIELDS
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.enums.FieldType
 
 abstract class GameImage(val texture: Texture) : Image(texture) {
 
@@ -34,17 +33,26 @@ abstract class GameImage(val texture: Texture) : Image(texture) {
     }
 
     override fun addAction(action: Action?) {
+        addAction(action!!)
+    }
+
+    fun getRunnable(runnable: Runnable): RunnableAction {
+        val action = RunnableAction()
+        action.runnable = runnable
+        return action
+    }
+
+    fun addAction(vararg actions: Action) {
+        val action = Actions.sequence()
+        for (seqAction in actions) {
+            action.addAction(seqAction)
+        }
+
         if (isIdling()) {
             super.addAction(Actions.sequence(action, getCheckAction()))
         } else {
             actionQueue.add(action!!)
         }
-    }
-
-    fun addAction(runnable: Runnable) {
-        val action = RunnableAction()
-        action.runnable = runnable
-        addAction(action)
     }
 
     private fun getCheckAction(): Action {
