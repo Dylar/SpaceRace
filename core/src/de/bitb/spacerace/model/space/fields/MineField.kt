@@ -6,7 +6,7 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 
-class MineField(positionData: PositionData) : SpaceField(FieldType.MINE, positionData) {
+class MineField : SpaceField(FieldType.MINE) {
 
     var owner: PlayerColor = PlayerColor.NONE
         set(ow) {

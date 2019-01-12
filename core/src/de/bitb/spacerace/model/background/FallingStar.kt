@@ -1,22 +1,22 @@
 package de.bitb.spacerace.model.background
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.config.MAX_ZOOM
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_STARS_SCALE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
 
 class FallingStar(var gameScreen: BaseScreen,
                   var startX: Float = 0f,
                   var startY: Float = 0f,
                   var endX: Float = SCREEN_WIDTH.toFloat(),
                   var endY: Float = SCREEN_HEIGHT.toFloat())
-    : GameImage(PositionData(startX, startY, endX, endY), TextureCollection.fallingStar){
+    : GameObject(PositionData(startX, startY, endX, endY)){
+    override fun getGameImage(): GameImage {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     init {
 //        randomColor()

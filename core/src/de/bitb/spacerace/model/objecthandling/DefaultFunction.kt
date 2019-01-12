@@ -41,7 +41,4 @@ interface DefaultFunction {
         return image
     }
 
-    fun addUpdateAction(movingObject: GameImage) {
-//        movingObject.addAction(Runnable { movingObject.update() })
-    }
 }

@@ -39,13 +39,13 @@ class FieldController(playerController: PlayerController) {
         val playerPosition = player.positionData
         val fieldPosition = spaceField1.positionData
         player.setPosition(fieldPosition.posX, fieldPosition.posY)
-        player.image.x += playerPosition.height / 2
-        player.image.y += playerPosition.width / 2
-        player.image.color = player.playerData.playerColor.color
+        player.getGameImage().x += playerPosition.height / 2
+        player.getGameImage().y += playerPosition.width / 2
+        player.getGameImage().color = player.playerData.playerColor.color
     }
 
     fun addField(gameController: GameController, spaceField: SpaceField) {
-        spaceField.image.addListener(object : InputListener() {
+        spaceField.getGameImage().addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 gameController.inputHandler.handleCommand(MoveCommand(spaceField, gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
@@ -118,7 +118,7 @@ class FieldController(playerController: PlayerController) {
         fieldList.forEach { field: SpaceField ->
             val toRemove: MutableList<Item> = ArrayList()
             field.disposedItems.forEach { it ->
-                if (it is MovingItem && it.gameImage!!.actions.isEmpty) {
+                if (it is MovingItem && it.gameImage!!.actions.size == 0) {//TODO mach das als idle
                     moveItem(it, toRemove)
                 }
             }

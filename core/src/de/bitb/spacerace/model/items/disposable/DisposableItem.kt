@@ -16,7 +16,7 @@ abstract class DisposableItem(owner: PlayerColor, price: Int) : Item(owner, pric
     private fun initImage() {
         gameImage = MovingObject(img, MovingState.ROTATE_POINT, owner.color)
 
-//                object : Image(img) {
+//                object : Image(texture) {
 //            init {
 //                setOrigin(width / 2, height / 2)
 //                color = owner.color

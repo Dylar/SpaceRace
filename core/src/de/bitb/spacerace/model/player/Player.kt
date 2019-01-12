@@ -1,14 +1,15 @@
 package de.bitb.spacerace.model.player
 
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : GameImage(PositionData(), img) {
+class Player(playerColor: PlayerColor = PlayerColor.NONE, var playerImage: PlayerImage = PlayerImage(TextureCollection.ship1, playerColor))
+    : GameObject(PositionData()), IMovingImage by playerImage {
 
     companion object {
         val NONE = Player()
@@ -16,21 +17,16 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = Texture
 
     var playerData = PlayerData(playerColor)
 
+    override fun getGameImage(): GameImage {
+        return playerImage
+    }
+
+    fun setFieldPosition(spaceField: SpaceField) {
+        playerImage.setFieldPosition(this, spaceField.positionData)
+    }
+
     init {
-        image.touchable = Touchable.disabled
-
-        val width = PLAYER_BORDER
-        val height = PLAYER_BORDER
-        image.setOrigin(width / 2, height / 2)
-        setBounds(positionData.posX, positionData.posY, width, height)
-
-
+        setBounds(positionData.posX, positionData.posY, PLAYER_BORDER, PLAYER_BORDER)
     }
 
-    fun setFieldPosition(fieldPosition: SpaceField) {
-        addAction(Runnable {
-            setPosition(fieldPosition.positionData)
-        })
-
-    }
 }

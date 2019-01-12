@@ -1,6 +1,7 @@
 package de.bitb.spacerace.model.objecthandling.blink
 
 import com.badlogic.gdx.graphics.Color
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseScreen.Companion.MAIN_DELTA
 
 class BlinkingImage : IBlinkingImage {
@@ -18,7 +19,7 @@ class BlinkingImage : IBlinkingImage {
             blinkingColor != null -> {
                 var blinkColor = currentColor
                 if (heartBeat()) {
-                    blinkColor = if (currentColor == blinkingColor) Color.WHITE else blinkingColor!!
+                    blinkColor = if (currentColor == blinkingColor) Color(1f, 1f, 1f, 1f) else blinkingColor!!
                 }
                 blinkColor
             }
