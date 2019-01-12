@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.background
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Touchable
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.dimensions.Dimensions
@@ -30,7 +31,6 @@ class StarImage(img: Texture,
     init {
         touchable = Touchable.disabled
 
-        setOrigin(PLAYER_BORDER / 2, PLAYER_BORDER / 2)
         randomColor()
     }
 
@@ -44,7 +44,7 @@ class StarImage(img: Texture,
             randomColor()
             calculateValues()
             setPosition(startX, startY)
-            moveTo(star, PositionData(endX, endY))
+            moveToPoint(star, PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
         }
     }
 

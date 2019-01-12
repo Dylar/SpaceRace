@@ -28,6 +28,7 @@ const val MAX_ZOOM = 5
 const val MIN_ZOOM = 1
 
 const val FIELD_ROTATION = true
+const val STAR_COUNT = 5000
 
 //DEBUG
 const val DEBUG_PLAYER_STEPS = 1
