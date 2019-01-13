@@ -17,6 +17,10 @@ interface DefaultFunction {
         return game.gameController.playerController.getPlayer(playerColor)
     }
 
+    fun getCurrentPlayer(game: MainGame): Player {
+        return game.gameController.playerController.currentPlayer
+    }
+
     fun getPlayerData(game: MainGame, playerColor: PlayerColor): PlayerData {
         return getPlayer(game, playerColor).playerData
     }

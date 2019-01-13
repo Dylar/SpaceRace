@@ -12,6 +12,7 @@ import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.items.itemtype.MultiDice
 import de.bitb.spacerace.model.items.usable.UsableItem
 import java.lang.UnsupportedOperationException
+import kotlin.math.sign
 
 data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
 
@@ -28,8 +29,14 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
             if (DEBUG_ITEM.isEmpty()) {
                 addRandomGift()
             } else {
-                val index = (Math.random() * DEBUG_ITEM.size).toInt()
-                addItem(DEBUG_ITEM[index].create(playerColor))
+                if (DEBUG_ITEM[0] == ItemCollection.NONE) {
+                    ItemCollection.values().forEach {
+                        if (it != ItemCollection.NONE) addItem(it.create(playerColor))
+                    }
+                } else {
+                    val index = (Math.random() * DEBUG_ITEM.size).toInt()
+                    addItem(DEBUG_ITEM[index].create(playerColor))
+                }
             }
         }
     }
@@ -62,11 +69,16 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
         usedItems.clear()
     }
 
-    fun getItems(): MutableList<Item> {
+    fun getItemsTypeMap(): MutableMap<ItemCollection, MutableList<Item>> {
+        val map = HashMap<ItemCollection, MutableList<Item>>()
+        ItemCollection.values().forEach { map[it] = ArrayList() }
         val list = ArrayList<Item>()
         list.addAll(items[ItemState.EQUIPPED]!!)
         list.addAll(items[ItemState.STORAGE]!!)
-        return list
+        list.forEach {
+            map[it.itemType]!!.add(it)
+        }
+        return map
     }
 
     fun getItems(itemType: ItemCollection): List<Item> {
