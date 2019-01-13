@@ -1,11 +1,11 @@
 package de.bitb.spacerace.model.objecthandling.rotating
 
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import de.bitb.spacerace.config.ROTATION_MOVING_SPEED
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.utils.CalculationUtils
 
@@ -24,12 +24,15 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
         this.rotationPoint = rotationPoint.copy()
     }
 
-    override fun getRotationAction(gameImage: GameImage, targetPosition: PositionData): RunnableAction {
-        val point = getRotationPosition(gameImage, targetPosition, angle)
+    override fun getRotationPosition(gameImage: GameImage, targetPosition: PositionData): PositionData {
+        val point = getRotationPoint(gameImage, targetPosition, angle)
+        return targetPosition.copy(posX = point.x - targetPosition.width / 2, posY = point.y - targetPosition.height / 2)
+    }
 
+    override fun getRotationAction(gameImage: GameImage, targetPosition: PositionData): RunnableAction {
         return gameImage.getRunnableAction(Runnable {
+            //            setRotationPosition(gameImage, point)
             rotationPoint = targetPosition
-            setRotationPosition(gameImage, point)
             gameImage.movingState = MovingState.ROTATE_POINT
         })
     }
@@ -42,21 +45,21 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
         )
     }
 
-    override fun getRotationPosition(gameImage: GameImage, rotationPoint: PositionData, angle: Double): Vector2 {
+    override fun getRotationPoint(gameImage: GameImage, rotationPoint: PositionData, angle: Double): Vector2 {
         val posX = rotationPoint.posX + rotationPoint.width / 2 - gameImage.width / 2
         val posY = rotationPoint.posY + rotationPoint.height / 2 - gameImage.height / 2
         return getRotationPoint(posX, posY, angle)
     }
 
-//    override fun getRotationPosition(gameImage: GameImage): Vector2 {
-//        return getRotationPosition(gameImage, rotationPoint, angle)
+//    override fun getRotationPoint(gameImage: GameImage): Vector2 {
+//        return getRotationPoint(gameImage, rotationPoint, angle)
 //    }
 
     override fun actRotation(gameImage: GameImage, delta: Float) {
         when (gameImage.movingState) {
             MovingState.ROTATE_POINT -> {
                 angle += slice * speed * delta
-                setRotationPosition(gameImage, getRotationPosition(gameImage, rotationPoint, angle))
+                setRotationPosition(gameImage, getRotationPoint(gameImage, rotationPoint, angle))
             }
             MovingState.MOVING -> {
             }

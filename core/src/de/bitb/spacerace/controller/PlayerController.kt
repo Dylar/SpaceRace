@@ -15,7 +15,7 @@ class PlayerController() {
     var currentPlayer: Player = Player.NONE
         get() = if (players.isEmpty()) Player.NONE else players[players.size - 1]
 
-    fun moveTo(spaceField: SpaceField, player: Player) {
+    fun moveTo(spaceField: SpaceField, player: Player) {//TODO mach das inplayer
         setSteps(player.playerData, spaceField)
 //        player.rotationPoint.actRotation(spaceField.rotationPoint)
         player.playerImage.moveTo(player, spaceField.positionData)

@@ -10,7 +10,10 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 
 class MovingImage : IMovingImage {
 
-    override fun moveToPoint(movingObject: GameObject, positionData: PositionData) {
+    override fun moveToPoint(movingObject: GameObject, positionData: PositionData, vararg doAfter: Action) {
+        val gameImage = movingObject.getGameImage()
+        gameImage.movingState = MovingState.MOVING
+
         val moveTo = MoveToAction()
         moveTo.setPosition(positionData.posX, positionData.posY)
         moveTo.duration = getDurationToTarget(movingObject, positionData)
@@ -30,19 +33,6 @@ class MovingImage : IMovingImage {
 
         gameImage.addAction(moveTo, *doAfter)
         movingObject.positionData.setPosition(targetPosition)
-    }
-
-    fun moveTo(movingObject: GameObject, point: Double) {
-
-//        val point = getRotationPoint(movingObject.getGameImage(), targetPosition)
-//
-//        val action = getRunnableAction(Runnable {
-//            rotationPoint = targetPosition
-//            setRotationPosition(movingObject.getGameImage(), point)
-//            movingState = MovingState.ROTATE_POINT
-//        })
-//        val newPosition = targetPosition.copy(posX = point.x - targetPosition.width / 2, posY = point.y - targetPosition.height / 2)
-//        moveTo(movingObject, newPosition, action)
     }
 
     override fun getDistanceToTarget(movingObject: GameObject, targetPosition: PositionData): Float {
