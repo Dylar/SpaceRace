@@ -49,7 +49,6 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
 
         pack()
 
-        setPosition()
     }
 
     private lateinit var testFieldBtn: TextButton
@@ -82,11 +81,6 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
         return checkBox
     }
 
-    private fun setPosition() {
-        x = SCREEN_WIDTH - width
-        y = SCREEN_HEIGHT / 2f - height / 2
-    }
-
     private fun <T : Actor> addCell(actor: T): Cell<T> {
         val cell = super.add(actor)
         addPaddingTopBottom(cell, GAME_LABEL_PADDING / 5)
@@ -96,7 +90,7 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
-        testFieldBtn.label.setText(DEBUG_TEST_FIELD.name)
+        testFieldBtn.label.setText(DEBUG_TEST_FIELD[0].name)
     }
 
 }

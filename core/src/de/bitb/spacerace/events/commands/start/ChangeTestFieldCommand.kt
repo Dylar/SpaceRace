@@ -12,7 +12,7 @@ class ChangeTestFieldCommand() : BaseCommand() {
     }
 
     override fun execute(game: MainGame) {
-        DEBUG_TEST_FIELD = FieldType.values()[(DEBUG_TEST_FIELD.ordinal + 1) % FieldType.values().size]
+        DEBUG_TEST_FIELD = arrayListOf(FieldType.values()[(DEBUG_TEST_FIELD[0].ordinal + 1) % FieldType.values().size])
     }
 
 }

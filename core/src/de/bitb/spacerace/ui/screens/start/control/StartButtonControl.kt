@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.config.WIN_AMOUNT
+import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
@@ -27,14 +28,13 @@ import de.bitb.spacerace.events.commands.start.ChangeWinAmountCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
-class StartButtonControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
     private var startBtn: TextButton
     private var winLabel: Label
     private var languageBtn: TextButton
 
     init {
-        background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
         startBtn = createButton(name = START_BUTTON_START, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
@@ -86,14 +86,8 @@ class StartButtonControl(val gameController: GameController, val guiStage: Start
         setFont(cell.actor)
 
         pack()
-
-        setPosition()
     }
 
-    private fun setPosition() {
-        x = SCREEN_WIDTH / 2 - width / 2
-        y = SCREEN_HEIGHT / 1.5f - height / 2
-    }
 
     private fun <T : Actor> addCell(actor: T): Cell<T> {
         val cell = super.add(actor)
@@ -116,7 +110,7 @@ class StartButtonControl(val gameController: GameController, val guiStage: Start
     }
 
     private fun updateWinLabelText() {
-        winLabel.setText(WIN_AMOUNT)
+        winLabel.setText(WIN_AMOUNT.toString())
     }
 
     private fun updateStartButtonText() {
