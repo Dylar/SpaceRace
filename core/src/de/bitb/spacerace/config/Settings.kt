@@ -33,7 +33,7 @@ const val STAR_COUNT = 10
 //DEBUG
 const val DEBUG_PLAYER_STEPS = 1
 var DEBUG_TEST_FIELD = FieldType.GOAL
-var DEBUG_ITEM = arrayListOf(ItemCollection.MOVING_MINE)
+var DEBUG_ITEM = arrayListOf(ItemCollection.NONE)
 const val DEBUG_ITEMS = 5
 
 const val DEBUG_FIELDS = false

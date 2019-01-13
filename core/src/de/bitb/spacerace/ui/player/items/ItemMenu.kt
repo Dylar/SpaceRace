@@ -10,6 +10,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TIT
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
@@ -18,7 +19,7 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
     private lateinit var itemDetails: ItemDetails
 
     init {
-        val items = guiStage.gameController.playerController.currentPlayer.playerData.playerItems.getItems()
+        val items = guiStage.gameController.playerController.currentPlayer.playerData.playerItems.getItemsTypeMap()
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
@@ -42,18 +43,20 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
         cell.colspan(size)
     }
 
-    private fun addItems(game: MainGame, items: MutableList<Item>) {
+    private fun addItems(game: MainGame, items: MutableMap<ItemCollection, MutableList<Item>>) {
         row()
-        for (item in items) {
-            val displayImage = item.getDisplayImage(item.img)
-            displayImage.addListener(object : InputListener() {
-                override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    itemDetails = ItemDetails(game, guiStage, this@ItemMenu, item)
-                    itemDetails.openMenu()
-                    return true
-                }
-            })
-            add(displayImage)
+        for (typeList in items) {
+            if (typeList.value.isNotEmpty()) {
+                val displayImage = typeList.value[0].getDisplayImage(typeList.value[0].img)
+                displayImage.addListener(object : InputListener() {
+                    override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                        itemDetails = ItemDetails(game, guiStage, this@ItemMenu, typeList.value)
+                        itemDetails.openMenu()
+                        return true
+                    }
+                })
+                add(displayImage)
+            }
         }
     }
 

@@ -11,12 +11,12 @@ class CrossRoadMap(gameController: GameController, fieldController: FieldControl
 
     init {
         val offsetY = Dimensions.SCREEN_HEIGHT * 1.2f
-        val offsetX = Dimensions.SCREEN_WIDTH.toFloat()
+        val offsetX = Dimensions.SCREEN_WIDTH
 
         val centerGroup = CrossGroup(gameController)
-        val upGroup = BoxGroup(gameController, offsetY = offsetY)
+        val upGroup = BoxGroup(gameController, offsetY = offsetY * 1.1f)
         val rightGroup = BoxGroup(gameController, offsetX)
-        val downGroup = BoxGroup(gameController, offsetY = -offsetY / 1.2f)
+        val downGroup = BoxGroup(gameController, offsetY = -offsetY * 1.1f)
         val leftGroup = BoxGroup(gameController, -offsetX)
 
         centerGroup.connect(fieldController, ConnectionPoint.TOP, upGroup)
