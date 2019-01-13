@@ -17,7 +17,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_SELL
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.model.items.Item
@@ -74,7 +74,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
         buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                game.gameController.inputHandler.handleCommand(BuyItemCommand(item, game.gameController.playerController.currentPlayer.playerData.playerColor))
+                game.gameController.inputHandler.handleCommand(BuyItemCommand(item, getCurrentPlayer(game).playerData.playerColor))
                 return true
             }
         })
@@ -112,9 +112,9 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
         creditsTitle.actor.setText("${item.price} ($items)")
     }
 
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
         when (event) {
-            is BuyItemCommand, is SellItemCommand -> setCreditsTitle(event.getPlayerData(game, item.owner).playerItems.getItems(item.itemType).size)
+            is BuyItemCommand, is SellItemCommand -> setCreditsTitle(getPlayerItems(game, event.playerColor).getItems(item.itemType).size)
         }
     }
 

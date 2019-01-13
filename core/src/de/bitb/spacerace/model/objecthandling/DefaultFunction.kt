@@ -9,6 +9,7 @@ import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 interface DefaultFunction {
@@ -21,13 +22,18 @@ interface DefaultFunction {
         return game.gameController.playerController.currentPlayer
     }
 
+    fun getPlayerPosition(game: MainGame, playerColor: PlayerColor): PositionData {
+        return getPlayer(game, playerColor).positionData
+    }
+
     fun getPlayerData(game: MainGame, playerColor: PlayerColor): PlayerData {
         return getPlayer(game, playerColor).playerData
     }
 
-    fun getPlayerPosition(game: MainGame, playerColor: PlayerColor): PositionData {
-        return getPlayer(game, playerColor).positionData
+    fun getPlayerItems(game: MainGame, playerColor: PlayerColor): PlayerItems {
+        return getPlayerData(game, playerColor).playerItems
     }
+
 
     fun getPlayerField(game: MainGame, playerColor: PlayerColor): SpaceField {
         return game.gameController.fieldController.getField(getPlayerPosition(game, playerColor))

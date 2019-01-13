@@ -12,19 +12,18 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.start.SelectPlayerCommand
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
 
-class PlayerSelectionControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class PlayerSelectionControl(guiStage: StartGuiStage)  : BaseGuiControl(guiStage) {
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
@@ -69,10 +68,6 @@ class PlayerSelectionControl(val gameController: GameController, val guiStage: S
         addPaddingLeftRight(cell)
         cell.fill()
         return cell
-    }
-
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
-
     }
 
 }

@@ -1,45 +1,28 @@
 package de.bitb.spacerace.ui.screens.start.control
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
-import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.config.DEBUG_TEST_FIELD
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.controller.InputObserver
-import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.events.BaseEvent
-import de.bitb.spacerace.events.commands.start.SelectPlayerCommand
-import de.bitb.spacerace.controller.GameController
-import de.bitb.spacerace.ui.base.GuiComponent
+import de.bitb.spacerace.events.commands.start.SelectTestFieldCommand
+import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
 
-class TestFieldSelectionControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class TestFieldSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
     init {
-        background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
-        for (value in PlayerColor.values()) {
-            if (value != PlayerColor.NONE) {
+        for (value in FieldType.values()) {
+            if (value != FieldType.UNKNOWN) {
                 val checkBox = addCheckbox(value)
-                val playerSelected = gameController.gamePlayer.contains(value)
+                val playerSelected = DEBUG_TEST_FIELD.contains(value)
                 checkBox.isChecked = playerSelected
-                if (value == PlayerColor.RED || value == PlayerColor.GREEN) {
-                    if (gameController.gamePlayer.size < 2 && !playerSelected) {
-                        checkBox.isChecked = true
-                        inputHandler.handleCommand(SelectPlayerCommand(value))
-                    }
-                }
             }
         }
 
@@ -47,10 +30,10 @@ class TestFieldSelectionControl(val gameController: GameController, val guiStage
 
     }
 
-    private fun addCheckbox(color: PlayerColor): CheckBox {
-        val checkBox = createCheckbox(name = color.name, fontSize = GAME_SIZE_FONT_SMALL, fontColor = color.color, listener = object : InputListener() {
+    private fun addCheckbox(fieldType: FieldType): CheckBox {
+        val checkBox = createCheckbox(name = fieldType.name, fontSize = GAME_SIZE_FONT_SMALL, fontColor = Color.BLACK, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(SelectPlayerCommand(color))
+                inputHandler.handleCommand(SelectTestFieldCommand(fieldType))
                 return true
             }
         })
@@ -69,10 +52,6 @@ class TestFieldSelectionControl(val gameController: GameController, val guiStage
         addPaddingLeftRight(cell)
         cell.fill()
         return cell
-    }
-
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
-
     }
 
 }

@@ -20,7 +20,7 @@ open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0
         addField(addField, posX, posY, connection)
     }
 
-    fun addField(addField: SpaceField, posX: Float = addField.positionData.posX, posY: Float = addField.positionData.posY, connection: ConnectionPoint = ConnectionPoint.NONE) {
+    open fun addField(addField: SpaceField, posX: Float = addField.positionData.posX, posY: Float = addField.positionData.posY, connection: ConnectionPoint = ConnectionPoint.NONE) {
         addField.id = fields.size
         addField.group = this
         addField.setPosition(posX + offsetX, posY + offsetY)

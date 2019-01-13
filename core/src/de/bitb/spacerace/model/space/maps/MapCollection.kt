@@ -14,7 +14,7 @@ enum class MapCollection {
         val map = when (mapCollection) {
             MapCollection.CIRCLEROAD -> CircleRoadMap(gameController)
             MapCollection.CROSSROAD -> CrossRoadMap(gameController)
-            MapCollection.TEST_MAP -> TestMap(gameController, DEBUG_TEST_FIELD[0])
+            MapCollection.TEST_MAP -> TestMap(gameController, *DEBUG_TEST_FIELD.toTypedArray())
             MapCollection.RANDOM -> TestMap(gameController)
         }
         map.addAllGoals()

@@ -1,17 +1,16 @@
 package de.bitb.spacerace.model.player
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.config.DEBUG_PLAYER_STEPS
+import de.bitb.spacerace.config.DICE_MAX
+import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.space.fields.SpaceField
-import javafx.geometry.Pos
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     val playerItems = PlayerItems(playerColor)
 
-    var credits = 0
+    var credits = START_CREDITS
     var diceResults: MutableList<Int> = ArrayList()
 
     var phase: Phase = Phase.MAIN1
@@ -32,7 +31,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
         return diceResults.size < diceCharges
     }
 
-    fun dice(maxResult: Int = DEBUG_PLAYER_STEPS) {
+    fun dice(maxResult: Int = DICE_MAX) {
         diceResults.add((Math.random() * maxResult).toInt() + 1)
         Logger.println("DiceResult: $diceResults")
     }

@@ -6,15 +6,17 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MEN
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
-import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_SHOP_TITLE
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
 
 class ShopMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
+
+    private lateinit var shopDetails: ShopDetails
 
     init {
         val items = ItemCollection.getAllItems()
@@ -48,7 +50,7 @@ class ShopMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
             val displayImage = item.getDisplayImage(item.img)
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    val shopDetails = ShopDetails(game, guiStage, this@ShopMenu, item)
+                    shopDetails = ShopDetails(game, guiStage, this@ShopMenu, item)
                     shopDetails.openMenu()
                     return true
                 }
@@ -68,6 +70,12 @@ class ShopMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
         val cellBtn = add(cancelBtn)
         cellBtn.colspan(size)
         setFont(cellBtn.actor)
+    }
+
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+        if (::shopDetails.isInitialized) {
+            shopDetails.update(game, event)
+        }
     }
 
 }
