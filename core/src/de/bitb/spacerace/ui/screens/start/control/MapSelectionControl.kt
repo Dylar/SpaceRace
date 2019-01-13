@@ -16,8 +16,8 @@ import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.start.ChangeTestFieldCommand
 import de.bitb.spacerace.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.model.enums.FieldType
@@ -95,7 +95,7 @@ class MapSelectionControl(val gameController: GameController, val guiStage: Star
         return cell
     }
 
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
         testFieldBtn.label.setText(DEBUG_TEST_FIELD.name)
     }
 

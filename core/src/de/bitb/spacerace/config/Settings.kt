@@ -16,6 +16,7 @@ var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 val SELECTED_MAP = MapCollection.TEST_MAP
 var WIN_AMOUNT = 1
 var WIN_CREDITS = 10000
+var START_CREDITS = 10000
 
 var LANGUAGE = Language.ENGLISH
 

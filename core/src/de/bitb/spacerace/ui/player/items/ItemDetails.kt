@@ -16,7 +16,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.player.UseItemCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
@@ -158,7 +158,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
         }
     }
 
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
         if (event is UseItemCommand) {
             setUsedTitle()
             setUseButton()

@@ -8,7 +8,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -73,7 +73,7 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
         setFont(cellBtn.actor)
     }
 
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
         if (::itemDetails.isInitialized) {
             itemDetails.update(game, event)
         }

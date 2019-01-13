@@ -15,11 +15,13 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORA
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
 import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.phases.EndRoundCommand
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
+import de.bitb.spacerace.events.commands.player.BuyItemCommand
+import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.events.commands.player.UseItemCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu
@@ -107,11 +109,12 @@ class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCol
         guiStage.addActor(endMenu)
     }
 
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
         when (event) {
             is EndRoundCommand -> openEndRoundMenu()
             is ObtainShopCommand -> openShop(game)
-            is UseItemCommand -> itemMenu.update(game,event)
+            is UseItemCommand -> itemMenu.update(game, event)
+            is BuyItemCommand, is SellItemCommand -> shopMenu.update(game, event)
         }
     }
 
