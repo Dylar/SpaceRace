@@ -19,10 +19,10 @@ import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.events.BaseEvent
 import de.bitb.spacerace.events.commands.start.ChangeLanguageCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.start.ChangeWinAmountCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
@@ -103,7 +103,7 @@ class StartButtonControl(val gameController: GameController, val guiStage: Start
         return cell
     }
 
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
         if (event is ChangeLanguageCommand || event is ChangeWinAmountCommand) {
             updateButtonText()
         }

@@ -17,7 +17,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.base.GuiComponent
@@ -70,7 +70,7 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
         return cell
     }
 
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
         update(game.gameController.playerController.currentPlayer.playerData) //TODO update not all
     }
 

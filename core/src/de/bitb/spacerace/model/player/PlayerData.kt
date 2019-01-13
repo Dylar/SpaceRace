@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.player
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.DEBUG_PLAYER_STEPS
+import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -11,7 +12,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     val playerItems = PlayerItems(playerColor)
 
-    var credits = 0
+    var credits = START_CREDITS
     var diceResults: MutableList<Int> = ArrayList()
 
     var phase: Phase = Phase.MAIN1

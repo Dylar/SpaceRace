@@ -3,7 +3,7 @@ package de.bitb.spacerace.ui.screens.game
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.BaseEvent
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.ui.player.PlayerStats
 import de.bitb.spacerace.ui.screens.game.control.GameControl
 import de.bitb.spacerace.ui.screens.game.control.ViewControl
@@ -25,7 +25,7 @@ class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen), I
         inputHandler.addListener(this)
     }
 
-    override fun <T : BaseEvent> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
 
     }
 
