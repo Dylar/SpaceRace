@@ -62,7 +62,7 @@ object Dimensions {
     object GameDimensions {
         const val GAME_CONNECTIONS_WIDTH = 30
         const val BACKGROUND_STARS_SCALE = 0.15f
-
+        const val FIELD_PADDING_TOO_LARGE = 10f
         const val FIELD_PADDING_XXLARGE = 2.4f
         const val FIELD_PADDING_XLARGE = 1.8f
         const val FIELD_PADDING_LARGE = 1.2f

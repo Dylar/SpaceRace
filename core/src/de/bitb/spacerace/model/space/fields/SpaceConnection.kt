@@ -21,8 +21,10 @@ class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) 
     }
 
     fun draw(playerData: PlayerData, positionData: PositionData) {
-        val start = Vector2(spaceField1.positionData.posX + spaceField1.positionData.width / 2, spaceField1.positionData.posY + spaceField1.positionData.height / 2)
-        val end = Vector2(spaceField2.positionData.posX + spaceField2.positionData.width / 2, spaceField2.positionData.posY + spaceField2.positionData.height / 2)
+//        val start = Vector2(spaceField1.positionData.posX + spaceField1.positionData.width / 2, spaceField1.positionData.posY + spaceField1.positionData.height / 2)
+//        val end = Vector2(spaceField2.positionData.posX + spaceField2.positionData.width / 2, spaceField2.positionData.posY + spaceField2.positionData.height / 2)
+        val start = Vector2(spaceField1.fieldImage.x + spaceField1.fieldImage.width / 2, spaceField1.fieldImage.y+ spaceField1.fieldImage.height / 2)
+        val end = Vector2(spaceField2.fieldImage.x  + spaceField2.fieldImage.width / 2, spaceField2.fieldImage.y + spaceField2.fieldImage.height / 2)
         LineRenderer.drawDebugLine(start, end, getColor(playerData, positionData))
     }
 

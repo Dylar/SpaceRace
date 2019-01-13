@@ -13,12 +13,11 @@ import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 import de.bitb.spacerace.model.player.PlayerColor
 
-class ItemImage(img: Texture,
-                var rotationPoint: PositionData = PositionData())
+class ItemImage(img: Texture)
     : GameImage(img),
         IRotatingImage by RotatingImage(),
         IMovingImage by MovingImage() {
-    var movingState: MovingState = MovingState.NONE
+
     var itemColor: Color = PlayerColor.NONE.color
 
     init {
@@ -28,29 +27,7 @@ class ItemImage(img: Texture,
     override fun act(delta: Float) {
         super.act(delta)
         color = itemColor
-        when (movingState) {
-            MovingState.ROTATE_POINT -> {
-                setRotationPosition(this, rotationPoint, delta)
-            }
-            MovingState.MOVING -> {
-            }
-            MovingState.NONE -> {
-            }
-        }
-    }
-
-    fun moveTo(movingObject: GameObject, targetPosition: PositionData) {
-        movingState = MovingState.MOVING
-
-        val point = getRotationPosition(movingObject.getGameImage(), targetPosition)
-
-        val action = getRunnableAction(Runnable {
-            rotationPoint = targetPosition
-            setRotationPosition(movingObject.getGameImage(), point)
-            movingState = MovingState.ROTATE_POINT
-        })
-        val newPosition = targetPosition.copy(posX = point.x - targetPosition.width / 2, posY = point.y - targetPosition.height / 2)
-        moveTo(movingObject, newPosition, action)
+        actRotation(this, delta)
     }
 
 }

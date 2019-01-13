@@ -11,11 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DEBUG_FIELDS
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.model.items.disposable.moving.MovingState
 
 abstract class GameImage(val texture: Texture) : Image(texture) {
 
     var idlingCount = 0
     private val actionQueue: MutableList<Action> = ArrayList()
+
+    var movingState: MovingState = MovingState.NONE
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
@@ -53,7 +56,7 @@ abstract class GameImage(val texture: Texture) : Image(texture) {
         if (isIdling()) {
             super.addAction(Actions.sequence(action, getCheckAction()))
         } else {
-            actionQueue.add(action!!)
+            actionQueue.add(action)
         }
     }
 

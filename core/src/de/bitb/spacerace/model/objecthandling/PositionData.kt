@@ -25,4 +25,10 @@ data class PositionData(var posX: Float = 0f,
     fun getCenterPosY(positionData: PositionData): Float {
         return posY + height / 2 - positionData.height / 2
     }
+
+    fun withCenter(): PositionData {
+        val posX = posX + width / 2
+        val posY = posY + height / 2
+        return copy(posX = posX, posY = posY)
+    }
 }

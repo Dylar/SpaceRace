@@ -1,11 +1,13 @@
 package de.bitb.spacerace.model.space.groups
 
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_LARGE
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_TOO_LARGE
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_XXLARGE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 open class TestGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f, vararg fieldType: FieldType) : SpaceGroup(gameController, offsetX, offsetY) {
@@ -42,6 +44,23 @@ open class TestGroup(gameController: GameController, offsetX: Float = 0f, offset
         addField(leftCenterField, centerBottomField, -FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.LEFT)
         val rightCenterField = SpaceField.createField(fieldType[index])
         addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
+
+        //LONG WAY
+        val longWayField = SpaceField.createField(fieldType[index])
+        addField(longWayField, centerBottomField, verticalMod = -FIELD_PADDING_TOO_LARGE, connection = ConnectionPoint.TOP)
+//        addConnectionPoint(ConnectionPoint.BOTTOM, longWayField)
+//        addConnectionPoint(ConnectionPoint.LEFT, longWayField)
+//        addConnectionPoint(ConnectionPoint.RIGHT, longWayField)
+
+        val moonField = SpaceField.createField(fieldType[index])
+        addField(moonField, longWayField, FIELD_PADDING_LARGE)
+
+        moonField.fieldImage.setRotationPoint(longWayField.positionData)
+        moonField.fieldImage.setRotationRadius((moonField.positionData.height * FIELD_PADDING_XXLARGE).toDouble())
+        moonField.fieldImage.movingState = MovingState.ROTATE_POINT
+
+        connect(longWayField, leftBottomCorner)
+        connect(longWayField, moonField)
 
         connect(leftCenterField, rightCenterField)
 

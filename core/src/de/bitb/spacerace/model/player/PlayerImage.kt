@@ -8,7 +8,7 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 
-class PlayerImage(img: Texture, playerColor: PlayerColor)
+class PlayerImage(img: Texture)
     : GameImage(img), IMovingImage by MovingImage() {
 
     init {

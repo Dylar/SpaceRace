@@ -6,11 +6,19 @@ import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import de.bitb.spacerace.config.FIELD_ROTATION
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.BlinkingImage
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
+import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
+import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 
-class FieldImage(img: Texture, var fieldType: FieldType) : GameImage(img), IBlinkingImage by BlinkingImage() {
+class FieldImage(img: Texture, var fieldType: FieldType)
+    : GameImage(img),
+        IBlinkingImage by BlinkingImage(),
+        IRotatingImage by RotatingImage() {
+
     init {
         setOrigin(FIELD_BORDER / 2, FIELD_BORDER / 2)
 
@@ -27,6 +35,7 @@ class FieldImage(img: Texture, var fieldType: FieldType) : GameImage(img), IBlin
     override fun act(delta: Float) {
         super.act(delta)
         color = getBlinkColor(color, fieldType.color ?: color)
+        actRotation(this, delta)
     }
 
 }

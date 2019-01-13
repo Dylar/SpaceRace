@@ -2,9 +2,9 @@ package de.bitb.spacerace.model.objecthandling.moving
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Action
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import de.bitb.spacerace.config.GAME_SPEED
+import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 
@@ -19,14 +19,30 @@ class MovingImage : IMovingImage {
     }
 
     override fun moveTo(movingObject: GameObject, targetPosition: PositionData, vararg doAfter: Action) {
+        val gameImage = movingObject.getGameImage()
+        gameImage.movingState = MovingState.MOVING
+
         val moveTo = MoveToAction()
         val posX = targetPosition.getCenterPosX(movingObject.positionData)
         val posY = targetPosition.getCenterPosY(movingObject.positionData)
         moveTo.setPosition(posX, posY)
         moveTo.duration = getDurationToTarget(movingObject, targetPosition)
 
-        movingObject.getGameImage().addAction(moveTo, *doAfter)
+        gameImage.addAction(moveTo, *doAfter)
         movingObject.positionData.setPosition(targetPosition)
+    }
+
+    fun moveTo(movingObject: GameObject, point: Double) {
+
+//        val point = getRotationPoint(movingObject.getGameImage(), targetPosition)
+//
+//        val action = getRunnableAction(Runnable {
+//            rotationPoint = targetPosition
+//            setRotationPosition(movingObject.getGameImage(), point)
+//            movingState = MovingState.ROTATE_POINT
+//        })
+//        val newPosition = targetPosition.copy(posX = point.x - targetPosition.width / 2, posY = point.y - targetPosition.height / 2)
+//        moveTo(movingObject, newPosition, action)
     }
 
     override fun getDistanceToTarget(movingObject: GameObject, targetPosition: PositionData): Float {

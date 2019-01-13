@@ -8,7 +8,7 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class Player(playerColor: PlayerColor = PlayerColor.NONE, var playerImage: PlayerImage = PlayerImage(TextureCollection.ship1, playerColor))
+class Player(playerColor: PlayerColor = PlayerColor.NONE, var playerImage: PlayerImage = PlayerImage(TextureCollection.ship1))
     : GameObject(PositionData()), IMovingImage by playerImage {
 
     companion object {
