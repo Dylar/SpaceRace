@@ -10,8 +10,7 @@ class StartMoveCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
     }
 
     override fun execute(game: MainGame) {
-        val playerData = getPlayerData(game, playerColor)
-        playerData.steps.add(playerData.fieldPosition)
+        getPlayerData(game, playerColor).steps.add(getPlayerField(game, playerColor).positionData)
     }
 
 }

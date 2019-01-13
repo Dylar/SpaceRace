@@ -11,7 +11,7 @@ import de.bitb.spacerace.model.space.groups.CircleGroup
 class CircleRoadMap(gameController: GameController, fieldController: FieldController = gameController.fieldController) : SpaceMap() {
 
     init {
-        val offsetY = Dimensions.SCREEN_HEIGHT * 1.6f
+        val offsetY = Dimensions.SCREEN_HEIGHT * 1.2f
         val offsetX = Dimensions.SCREEN_WIDTH.toFloat()
 
         val fieldTypes = ArrayList<FieldType>()
@@ -25,9 +25,9 @@ class CircleRoadMap(gameController: GameController, fieldController: FieldContro
         fieldTypes.add(FieldType.GOAL)
 
         val centerGroup = CircleGroup(gameController, fieldTypes = fieldTypes)
-        val upGroup = BoxGroup(gameController, offsetY = offsetY)
+        val upGroup = BoxGroup(gameController, offsetY = offsetY * 1.2f)
         val rightGroup = BoxGroup(gameController, offsetX)
-        val downGroup = BoxGroup(gameController, offsetY = -offsetY)
+        val downGroup = BoxGroup(gameController, offsetY = -offsetY / 1.2f)
         val leftGroup = BoxGroup(gameController, -offsetX)
 
         centerGroup.connect(fieldController, ConnectionPoint.TOP, upGroup)

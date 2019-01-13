@@ -16,7 +16,7 @@ class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: F
 
         //CENTER
         val centerField = SpaceField.createField(FieldType.GIFT)
-        addField(centerField, SCREEN_WIDTH / 2 - centerField.width / 2, SCREEN_HEIGHT / 2 - centerField.height / 2)
+        addField(centerField, SCREEN_WIDTH / 2 - centerField.positionData.width / 2, SCREEN_HEIGHT / 2 - centerField.positionData.height / 2)
 
         //LEFT
         val left1Field = SpaceField.createField(FieldType.MINE)

@@ -1,39 +1,34 @@
 package de.bitb.spacerace.model.space.groups
 
-import com.badlogic.gdx.scenes.scene2d.Group
 import de.bitb.spacerace.controller.FieldController
-import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0f, val offsetY: Float = 0f) : Group() {
+open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0f, val offsetY: Float = 0f) {
 
     private val connectionPoint: MutableMap<ConnectionPoint, MutableList<SpaceField>> = HashMap()
     val fields: MutableMap<Int, SpaceField> = HashMap()
-
-    init {
-        setPosition(offsetX, offsetY)
-    }
 
     fun getField(id: Int): SpaceField {
         return fields[id]!!
     }
 
     fun addField(addField: SpaceField, anchorField: SpaceField, horizontalMod: Float = 0f, verticalMod: Float = 0f, connection: ConnectionPoint = ConnectionPoint.NONE) {
-        val posX = anchorField.x + addField.width * horizontalMod
-        val posY = anchorField.y + addField.height * verticalMod
+        val posX = anchorField.positionData.posX - offsetX + addField.positionData.width * horizontalMod
+        val posY = anchorField.positionData.posY - offsetY + addField.positionData.height * verticalMod
         addField(addField, posX, posY, connection)
     }
 
-    fun addField(addField: SpaceField, posX: Float = addField.x, posY: Float = addField.y, connection: ConnectionPoint = ConnectionPoint.NONE) {
+    fun addField(addField: SpaceField, posX: Float = addField.positionData.posX, posY: Float = addField.positionData.posY, connection: ConnectionPoint = ConnectionPoint.NONE) {
         addField.id = fields.size
         addField.group = this
-        addField.setPosition(posX, posY)
+        addField.setPosition(posX + offsetX, posY + offsetY)
         fields[addField.id] = addField
         if (connection != ConnectionPoint.NONE) {
             addConnectionPoint(connection, addField)
         }
-        addActor(addField)
+//        addActor(addField.image)
     }
 
     fun connect(spaceField1: SpaceField, spaceField2: SpaceField) {

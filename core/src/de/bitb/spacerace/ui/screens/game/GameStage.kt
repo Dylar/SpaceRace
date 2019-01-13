@@ -15,20 +15,20 @@ class GameStage(val screen: GameScreen) : BaseStage() {
 
     private fun addEntitiesToMap(gameController: GameController) {
         addActor(gameController.fieldController.connections)
-        gameController.fieldController.fieldGroups.forEach { addActor(it) }
-        gameController.playerController.players.forEach { addActor(it) }
+        gameController.fieldController.fields.forEach { addActor(it.getGameImage()) }
+        gameController.playerController.players.forEach { addActor(it.getGameImage()) }
     }
 
     override fun addActor(actor: Actor?) {
         super.addActor(actor)
-        if (actor !is Player) {
-            rearrangePlayer(actor!!)
-        }
+//        if (actor !is Player) {
+//            rearrangePlayer(actor!!) //TODO
+//        }
     }
 
     private fun rearrangePlayer(actor: Actor) {
         val playerController = screen.game.gameController.playerController
-        if (playerController.players.isEmpty() || playerController.players[0].zIndex == -1) {
+        if (playerController.players.isEmpty() || playerController.players[0].getGameImage().zIndex == -1) {
             return
         }
 
@@ -37,8 +37,8 @@ class GameStage(val screen: GameScreen) : BaseStage() {
 
         val indices: MutableList<Int> = ArrayList()
         playerController.players.forEach { it ->
-            indices.add(it.zIndex)
-            Logger.println("PLAYER INDEX PRE ${it.playerData.playerColor.name}: ${it.zIndex}")
+            indices.add(it.getGameImage().zIndex)
+            Logger.println("PLAYER INDEX PRE ${it.playerData.playerColor.name}: ${it.getGameImage().zIndex}")
         }
         indices.reverse()
 
@@ -47,7 +47,7 @@ class GameStage(val screen: GameScreen) : BaseStage() {
         indices.add(actorIndex)
         for (value in indices.withIndex()) {
             val player = playerController.players[value.index]
-            player.zIndex = value.value
+            player.getGameImage().zIndex = value.value
             Logger.println("PLAYER INDEX POST ${player.playerData.playerColor.name}: ${actor.zIndex}")
         }
     }

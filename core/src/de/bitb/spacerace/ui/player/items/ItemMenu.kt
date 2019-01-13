@@ -71,6 +71,8 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
     }
 
     override fun <T : BaseEvent> update(game: MainGame, event: T) {
-        itemDetails.update(game, event)
+        if (::itemDetails.isInitialized) {
+            itemDetails.update(game, event)
+        }
     }
 }

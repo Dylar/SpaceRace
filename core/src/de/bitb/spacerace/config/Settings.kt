@@ -19,14 +19,20 @@ var WIN_CREDITS = 10000
 
 var LANGUAGE = Language.ENGLISH
 
+//GAME
+
+const val BLINKING_INTERVAL = 2f
 
 //GAME UI
 const val MAX_ZOOM = 5
 const val MIN_ZOOM = 1
 
+const val FIELD_ROTATION = true
+const val STAR_COUNT = 10
+
 //DEBUG
 const val DEBUG_PLAYER_STEPS = 1
-var DEBUG_TEST_FIELD = FieldType.MINE
+var DEBUG_TEST_FIELD = FieldType.GOAL
 var DEBUG_ITEM = arrayListOf(ItemCollection.MOVING_MINE)
 const val DEBUG_ITEMS = 5
 

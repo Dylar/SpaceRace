@@ -12,7 +12,8 @@ class ObtainTunnelCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 
     override fun execute(game: MainGame) {
         val gameController = game.gameController
-        gameController.playerController.getPlayer(playerColor).setFieldPosition(gameController.fieldController.getRandomTunnel(playerColor))
+        val tunnel = gameController.fieldController.getRandomTunnel(game, playerColor)
+        gameController.playerController.getPlayer(playerColor).setFieldPosition(tunnel)
     }
 
 }

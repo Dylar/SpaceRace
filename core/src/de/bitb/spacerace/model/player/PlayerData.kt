@@ -3,7 +3,9 @@ package de.bitb.spacerace.model.player
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.DEBUG_PLAYER_STEPS
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
+import javafx.geometry.Pos
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
@@ -14,11 +16,9 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     var phase: Phase = Phase.MAIN1
 
-    var fieldPosition: SpaceField = SpaceField.NONE
-
-    var steps: MutableList<SpaceField> = ArrayList()
-    var previousStep: SpaceField = SpaceField.NONE
-        get() = if (steps.size < 2) SpaceField.NONE else steps[steps.size - 2]
+    var steps: MutableList<PositionData> = ArrayList()
+    var previousStep: PositionData = PositionData()
+        get() = if (steps.size < 2) PositionData() else steps[steps.size - 2]
 
     fun canDice(): Boolean {
         if (!phase.isMain1()) {

@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.space.maps
 
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.enums.ConnectionPoint
@@ -15,13 +16,19 @@ class TestMap(gameController: GameController, fieldType: FieldType = FieldType.R
             fieldTypes.add(fieldType)
         }
 
-        val centerGroup = TestGroup(gameController, offsetY = SCREEN_WIDTH.toFloat(), fieldType = fieldType)
-        val crescentGroup = CircleGroup(gameController, fieldTypes = fieldTypes)
-        centerGroup.connect(gameController.fieldController, ConnectionPoint.BOTTOM, crescentGroup)
+        val crescentGroup = CircleGroup(gameController, offsetX = -SCREEN_HEIGHT, fieldTypes = fieldTypes)
+        val centerGroup = TestGroup(gameController, fieldType = fieldType)
+        val rightGroup = TestGroup(gameController, offsetX = SCREEN_WIDTH, fieldType = FieldType.RANDOM)
+        val topGroup = TestGroup(gameController, offsetY = SCREEN_HEIGHT, fieldType = FieldType.RANDOM)
+        centerGroup.connect(gameController.fieldController, ConnectionPoint.LEFT, crescentGroup)
+        centerGroup.connect(gameController.fieldController, ConnectionPoint.RIGHT, rightGroup)
+        centerGroup.connect(gameController.fieldController, ConnectionPoint.TOP, topGroup)
 
         startField = centerGroup.getField(1)
         groups.add(centerGroup)
         groups.add(crescentGroup)
+        groups.add(rightGroup)
+        groups.add(topGroup)
 
     }
 }

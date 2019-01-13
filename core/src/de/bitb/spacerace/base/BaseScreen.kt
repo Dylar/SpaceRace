@@ -10,9 +10,14 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.GameObject
 
 
 open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
+    companion object {
+        var MAIN_DELTA = 0f
+    }
 
     var backgroundStage: BaseStage = BaseStage.NONE
     var gameStage: BaseStage = BaseStage.NONE
@@ -85,6 +90,7 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
     }
 
     override fun render(delta: Float) {
+        MAIN_DELTA += delta
         game.clearScreen(blue = 200f)
 
         renderBackground(delta)
@@ -92,6 +98,10 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         renderGui(delta)
 
         renderCamera(delta)
+
+        if (MAIN_DELTA > 1f) {
+            MAIN_DELTA = 0f
+        }
     }
 
     open fun renderCamera(delta: Float) {
@@ -109,7 +119,7 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         }
     }
 
-    open fun getCameraTarget(): BaseObject? {
+    open fun getCameraTarget(): GameImage? {
         return null
     }
 

@@ -1,6 +1,7 @@
 package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.graphics.Color
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
@@ -39,11 +40,9 @@ class GameController(game: MainGame) {
     }
 
     fun setRandomGoal() {
-        if (currentGoal != SpaceField.NONE) {
-            currentGoal.setBlinkColor(null)
-        }
+        currentGoal.fieldImage.setBlinkColor(null)
         currentGoal = map.getRandomGoal()
-        currentGoal.setBlinkColor(Color(currentGoal.fieldType.color))
+        currentGoal.fieldImage.setBlinkColor(Color(currentGoal.fieldType.color))
     }
 
     fun getWinner(): PlayerColor {
