@@ -1,7 +1,6 @@
 package de.bitb.spacerace.model.objecthandling.rotating
 
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import de.bitb.spacerace.config.ROTATION_MOVING_SPEED
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
@@ -15,10 +14,23 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
     private var angle = 0.0
     private var radius: Double = 0.0
     private var rotationPoint: PositionData = PositionData()
+    var followImage: GameImage? = null
+
+    override fun setRotationFollow(gameImage: GameImage?) {
+        followImage = gameImage
+    }
 
     override fun setRotationRadius(radius: Double) {
         this.radius = radius
     }
+
+//    override fun getRotationRadius(): Double {
+//        return radius
+//    }
+//
+//    override fun getRotationAngle(): Double {
+//        return angle
+//    }
 
     override fun setRotationPoint(rotationPoint: PositionData) {
         this.rotationPoint = rotationPoint.copy()
@@ -31,8 +43,13 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
 
     override fun getRotationAction(gameImage: GameImage, targetPosition: PositionData): RunnableAction {
         return gameImage.getRunnableAction(Runnable {
-            //            setRotationPosition(gameImage, point)
             rotationPoint = targetPosition
+            gameImage.movingState = MovingState.ROTATE_POINT
+        })
+    }
+
+    override fun getRotationAction(gameImage: GameImage): RunnableAction {
+        return gameImage.getRunnableAction(Runnable {
             gameImage.movingState = MovingState.ROTATE_POINT
         })
     }
@@ -58,8 +75,12 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
     override fun actRotation(gameImage: GameImage, delta: Float) {
         when (gameImage.movingState) {
             MovingState.ROTATE_POINT -> {
-                angle += slice * speed * delta
-                setRotationPosition(gameImage, getRotationPoint(gameImage, rotationPoint, angle))
+                if (followImage == null) {
+                    angle += slice * speed * delta
+                    setRotationPosition(gameImage, getRotationPoint(gameImage, rotationPoint, angle))
+                } else {
+                    setRotationPosition(gameImage, Vector2(followImage!!.x + gameImage.width / 2, followImage!!.y + gameImage.height / 2))
+                }
             }
             MovingState.MOVING -> {
             }

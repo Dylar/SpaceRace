@@ -7,9 +7,13 @@ import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
+import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
+import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 
 class PlayerImage(img: Texture)
-    : GameImage(img), IMovingImage by MovingImage() {
+    : GameImage(img),
+        IMovingImage by MovingImage(),
+        IRotatingImage by RotatingImage() {
 
     init {
         touchable = Touchable.disabled
@@ -21,6 +25,11 @@ class PlayerImage(img: Texture)
         addAction(getRunnableAction(Runnable {
             player.setPosition(positionData)
         }))
+    }
+
+    override fun act(delta: Float) {
+        super.act(delta)
+        actRotation(this, delta)
     }
 
 }

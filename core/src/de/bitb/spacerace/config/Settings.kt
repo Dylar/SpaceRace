@@ -30,7 +30,7 @@ const val MAX_ZOOM = 5
 const val MIN_ZOOM = 1
 
 const val FIELD_ROTATION = true
-const val STAR_COUNT = 10
+const val STAR_COUNT = 0
 
 //DEBUG
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL)

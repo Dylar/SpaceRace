@@ -14,6 +14,8 @@ interface IRotatingImage {
     fun getRotationPoint(gameImage: GameImage, rotationPoint: PositionData, angle: Double): Vector2
     fun getRotationPosition(gameImage: GameImage, targetPosition: PositionData): PositionData
     fun getRotationAction(gameImage: GameImage, targetPosition: PositionData): RunnableAction
+    fun getRotationAction(gameImage: GameImage): RunnableAction
 
     fun actRotation(gameImage: GameImage, delta: Float)
+    fun setRotationFollow(gameImage: GameImage?)
 }

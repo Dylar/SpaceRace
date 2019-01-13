@@ -16,7 +16,9 @@ import de.bitb.spacerace.model.items.disposable.moving.MovingState
 abstract class GameImage(val texture: Texture) : Image(texture) {
 
     var idlingCount = 0
+
     private val actionQueue: MutableList<Action> = ArrayList()
+        @Synchronized get
 
     var movingState: MovingState = MovingState.NONE
 
@@ -40,6 +42,10 @@ abstract class GameImage(val texture: Texture) : Image(texture) {
         addAction(action!!)
     }
 
+    fun addAction(vararg actions: Action) {
+        actionQueue.add(getSequenceAction(*actions))
+    }
+    
     fun getRunnableAction(runnable: Runnable): RunnableAction {
         val action = RunnableAction()
         action.runnable = runnable
@@ -50,30 +56,14 @@ abstract class GameImage(val texture: Texture) : Image(texture) {
         return Actions.sequence(*actions)
     }// mach das in default oder so TODO
 
-    fun addAction(vararg actions: Action) {
-        val action = if (actions.size == 1) actions[0] else getSequenceAction(*actions)
 
-        if (isIdling()) {
-            super.addAction(Actions.sequence(action, getCheckAction()))
-        } else {
-            actionQueue.add(action)
-        }
-    }
+    override fun act(delta: Float) {
+        super.act(delta)
 
-    private fun getCheckAction(): Action {
-        val check = RunnableAction()
-        check.runnable = Runnable {
-            @Synchronized
-            if (!actionQueue.isEmpty()) {
-                val seq = Actions.sequence()
-                for (action in actionQueue) {
-                    seq.addAction(action)
-                }
-                seq.addAction(getCheckAction())
-                actionQueue.clear()
-                addAction(seq)
-            }
+        if (isIdling() && actionQueue.isNotEmpty()) {
+            val seq = Actions.sequence(*actionQueue.toTypedArray())
+            actionQueue.clear()
+            super.addAction(seq)
         }
-        return check
     }
 }

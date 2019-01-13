@@ -18,7 +18,7 @@ class MovingImage : IMovingImage {
         moveTo.setPosition(positionData.posX, positionData.posY)
         moveTo.duration = getDurationToTarget(movingObject, positionData)
 
-        movingObject.getGameImage().addAction(moveTo)
+        gameImage.addAction(moveTo, *doAfter)
     }
 
     override fun moveTo(movingObject: GameObject, targetPosition: PositionData, vararg doAfter: Action) {
@@ -31,7 +31,7 @@ class MovingImage : IMovingImage {
         moveTo.setPosition(posX, posY)
         moveTo.duration = getDurationToTarget(movingObject, targetPosition)
 
-        gameImage.addAction(moveTo, *doAfter)
+        gameImage.addAction(*arrayOf(moveTo, *doAfter))
         movingObject.positionData.setPosition(targetPosition)
     }
 
