@@ -3,6 +3,7 @@ package de.bitb.spacerace.model.objecthandling
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
@@ -34,7 +35,6 @@ interface DefaultFunction {
         return getPlayerData(game, playerColor).playerItems
     }
 
-
     fun getPlayerField(game: MainGame, playerColor: PlayerColor): SpaceField {
         return game.gameController.fieldController.getField(getPlayerPosition(game, playerColor))
     }
@@ -54,6 +54,12 @@ interface DefaultFunction {
         image.setPosition(posX - image.width / 2, posY - image.height / 2)
         image.color = color
         return image
+    }
+
+    fun getRunnableAction(runnable: Runnable): RunnableAction {
+        val action = RunnableAction()
+        action.runnable = runnable
+        return action
     }
 
 }

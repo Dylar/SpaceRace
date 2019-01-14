@@ -2,10 +2,14 @@ package de.bitb.spacerace.model.objecthandling.rotating
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.ROTATION_MOVING_SPEED
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.player.Player
+import de.bitb.spacerace.model.player.PlayerImage
+import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.utils.CalculationUtils
 
 class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
@@ -48,8 +52,10 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
         })
     }
 
-    override fun getRotationAction(gameImage: GameImage): RunnableAction {
+    override fun getRotationAction(gameImage: GameImage, followImage: GameImage): RunnableAction {
         return gameImage.getRunnableAction(Runnable {
+            gameImage.movingState = MovingState.MOVING
+            this.followImage = followImage
             gameImage.movingState = MovingState.ROTATE_POINT
         })
     }
@@ -68,10 +74,6 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
         return getRotationPoint(posX, posY, angle)
     }
 
-//    override fun getRotationPoint(gameImage: GameImage): Vector2 {
-//        return getRotationPoint(gameImage, rotationPoint, angle)
-//    }
-
     override fun actRotation(gameImage: GameImage, delta: Float) {
         when (gameImage.movingState) {
             MovingState.ROTATE_POINT -> {
@@ -85,6 +87,9 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
             MovingState.MOVING -> {
             }
             MovingState.NONE -> {
+                if (followImage != null) {
+                    setRotationFollow(null)
+                }
             }
         }
     }

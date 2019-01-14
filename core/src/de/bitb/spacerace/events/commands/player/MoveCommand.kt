@@ -26,21 +26,14 @@ class MoveCommand(val spaceField: SpaceField, playerColor: PlayerColor) : BaseCo
         val fieldImage = spaceField.fieldImage
         if (fieldImage.movingState == MovingState.ROTATE_POINT) {
             player.positionData.setPosition(spaceField.positionData)
-            playerImage.moveToPoint(player,
-                    fieldImage.getRotationPosition(playerImage, spaceField.positionData),
-                    fieldImage.getRunnableAction(Runnable {
-                        playerImage.setRotationFollow(fieldImage)
-                    }),
-                    fieldImage.getRotationAction(playerImage)
-            )
-        } else {
-            playerImage.moveTo(player, spaceField.positionData, playerImage.getRunnableAction(Runnable {
-                playerImage.setRotationFollow(null)
-                playerImage.movingState = MovingState.NONE//TODO queue not working?
+            val point = fieldImage.getRotationPosition(playerImage, spaceField.positionData)
+            playerImage.moveToPoint(player, point, playerImage.getRotationAction(playerImage, fieldImage))
+        } else { //TODO mach das komplett in move or image or sowas
+            playerImage.moveTo(player, spaceField.positionData, getRunnableAction(Runnable {
+                playerImage.movingState = MovingState.NONE
             }))
         }
         Logger.println("Player Field: ${spaceField.id}, ${spaceField.fieldType.name}")
-
     }
 
 

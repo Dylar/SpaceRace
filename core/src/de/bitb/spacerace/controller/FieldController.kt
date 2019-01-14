@@ -2,13 +2,11 @@ package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
-import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.Player

@@ -5,15 +5,13 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DEBUG_FIELDS
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 
-abstract class GameImage(val texture: Texture) : Image(texture) {
+abstract class GameImage(val texture: Texture) : Image(texture), DefaultFunction by object : DefaultFunction {} {
 
     var idlingCount = 0
 
@@ -43,23 +41,11 @@ abstract class GameImage(val texture: Texture) : Image(texture) {
     }
 
     fun addAction(vararg actions: Action) {
-        actionQueue.add(getSequenceAction(*actions))
+        actionQueue.add(Actions.sequence(*actions))
     }
-    
-    fun getRunnableAction(runnable: Runnable): RunnableAction {
-        val action = RunnableAction()
-        action.runnable = runnable
-        return action
-    }
-
-    fun getSequenceAction(vararg actions: Action): SequenceAction {
-        return Actions.sequence(*actions)
-    }// mach das in default oder so TODO
-
 
     override fun act(delta: Float) {
         super.act(delta)
-
         if (isIdling() && actionQueue.isNotEmpty()) {
             val seq = Actions.sequence(*actionQueue.toTypedArray())
             actionQueue.clear()
