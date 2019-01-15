@@ -12,7 +12,11 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 
 abstract class GameImage(val texture: Texture) : Image(texture), DefaultFunction by object : DefaultFunction {} {
+    companion object {
+        val NONE: GameImage = object : GameImage(TextureCollection.fallingStar) {}
+    }
 
+    var followImage: GameImage = NONE
     var idlingCount = 0
 
     private val actionQueue: MutableList<Action> = ArrayList()
@@ -51,5 +55,13 @@ abstract class GameImage(val texture: Texture) : Image(texture), DefaultFunction
             actionQueue.clear()
             super.addAction(seq)
         }
+    }
+
+    fun getCenterX(): Float {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun getCenterY(): Float {
+        return
     }
 }

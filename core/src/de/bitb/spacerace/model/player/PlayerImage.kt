@@ -3,6 +3,7 @@ package de.bitb.spacerace.model.player
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
+import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
@@ -30,6 +31,10 @@ class PlayerImage(img: Texture)
     override fun act(delta: Float) {
         super.act(delta)
         actRotation(this, delta)
+//        if (movingState == MovingState.MOVING) {
+//            x = followImage.x
+//            y = followImage.y
+//        }
     }
 
 }

@@ -113,7 +113,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
             newField.disposedItems.add(item)
 
             val itemImage = item.getItemImage()
-            itemImage.moveTo(item, itemImage.getRotationPosition(itemImage, newField.positionData), itemImage.getRotationAction(itemImage, newField.positionData))
+            itemImage.moveTo(item, itemImage.getRotationPosition(itemImage, newField.getGameImage()), itemImage.getRotationAction(itemImage, newField.getGameImage()))
             toRemove.add(item)
         }
 

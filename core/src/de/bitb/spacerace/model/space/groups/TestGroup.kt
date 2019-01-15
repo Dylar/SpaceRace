@@ -53,14 +53,14 @@ open class TestGroup(gameController: GameController, offsetX: Float = 0f, offset
 //        addConnectionPoint(ConnectionPoint.RIGHT, longWayField)
 
         val moonField = SpaceField.createField(fieldType[index])
-        addField(moonField, longWayField, FIELD_PADDING_LARGE)
+        addField(moonField, leftBottomCorner, FIELD_PADDING_LARGE)
 
-        moonField.fieldImage.setRotationPoint(longWayField.positionData)
+        moonField.getGameImage().followImage = leftBottomCorner.getGameImage()
         moonField.fieldImage.setRotationRadius((moonField.positionData.height * FIELD_PADDING_XXLARGE).toDouble())
         moonField.fieldImage.movingState = MovingState.ROTATE_POINT
 
         connect(longWayField, leftBottomCorner)
-        connect(longWayField, moonField)
+        connect(leftBottomCorner, moonField)
 
         connect(leftCenterField, rightCenterField)
 

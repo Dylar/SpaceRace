@@ -6,9 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import de.bitb.spacerace.config.FIELD_ROTATION
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.BlinkingImage
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage

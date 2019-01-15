@@ -4,6 +4,8 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
+import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -26,8 +28,8 @@ class MoveCommand(val spaceField: SpaceField, playerColor: PlayerColor) : BaseCo
         val fieldImage = spaceField.fieldImage
         if (fieldImage.movingState == MovingState.ROTATE_POINT) {
             player.positionData.setPosition(spaceField.positionData)
-            val point = fieldImage.getRotationPosition(playerImage, spaceField.positionData)
-            playerImage.moveToPoint(player, point, playerImage.getRotationAction(playerImage, fieldImage))
+            val point = fieldImage.getRotationPoint(playerImage, spaceField.getGameImage(), fieldImage.getRotationAngle())
+            playerImage.moveToPoint(player, PositionData(point.x, point.y, fieldImage.width, fieldImage.height), playerImage.getNONEAction(playerImage, fieldImage))
         } else { //TODO mach das komplett in move or image or sowas
             playerImage.moveTo(player, spaceField.positionData, getRunnableAction(Runnable {
                 playerImage.movingState = MovingState.NONE
@@ -44,7 +46,7 @@ class MoveCommand(val spaceField: SpaceField, playerColor: PlayerColor) : BaseCo
         } else {
             playerData.steps.add(spaceField.positionData)
         }
-    }
+    }//TODO mach das in playerdata oder so
 
     private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
         return playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.positionData)
