@@ -18,14 +18,6 @@ data class PositionData(var posX: Float = 0f,
         return positionData.posX == posX && positionData.posY == posY
     }
 
-    fun getCenterPosX(): Float {
-        return posX + width / 2
-    }
-
-    fun getCenterPosY(): Float {
-        return posY + height / 2 //TODO why a quarter?
-    }
-
     fun centerPosition(width: Float, height: Float = width) {
         posX += width / 2
         posY += height / 2

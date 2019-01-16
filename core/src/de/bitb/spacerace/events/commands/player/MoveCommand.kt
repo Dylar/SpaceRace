@@ -6,6 +6,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORD
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
+import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
@@ -28,21 +29,29 @@ class MoveCommand(val spaceField: SpaceField, playerColor: PlayerColor) : BaseCo
         val playerImage = player.playerImage
         val fieldImage = spaceField.fieldImage
 
-        var target: PositionData = fieldImage.imagePosition.copy()
-        val action = if (fieldImage.movingState == MovingState.ROTATE_POINT) {
-            val point = fieldImage.getRotationPoint(playerImage, spaceField.getGameImage(), fieldImage.getRotationAngle())
-            target = PositionData(point.x / 2, point.y / 2, fieldImage.width, fieldImage.height)
-            target.centerPosition(PLAYER_BORDER)
-            playerImage.getNONEAction(playerImage, fieldImage)
-        } else { //TODO mach das komplett in move or image or sowas
-            val playerPosition = playerImage.imagePosition.copy()
-            target.centerPosition(playerPosition.width, playerPosition.height)
-            getRunnableAction(Runnable {
-                playerImage.movingState = MovingState.NONE
-            })
-        }
+//        if (fieldImage.movingState == MovingState.ROTATE_POINT) {
 
-        playerImage.moveTo(player, target, spaceField.gamePosition, action)
+//            var target: PositionData = fieldImage.imagePosition.copy()
+//            val point = fieldImage.getRotationPoint(playerImage, spaceField.getGameImage(), fieldImage.getRotationAngle())
+//            target = PositionData(point.x / 2, point.y / 2, fieldImage.width, fieldImage.height)
+//            target.centerPosition(PLAYER_BORDER)
+
+            playerImage.moveToPoint(player, fieldImage, spaceField.gamePosition, playerImage.getNONEAction(playerImage, fieldImage))
+
+//        } else {
+//            //TODO mach das komplett in move or image or sowas
+//            var target: PositionData = fieldImage.imagePosition.copy()
+//            val playerPosition = playerImage.imagePosition.copy()
+//            target.centerPosition(playerPosition.width, playerPosition.height)
+//            val action = playerImage.getNONEAction(playerImage, GameImage.NONE)
+//
+//            getRunnableAction(Runnable {
+//                playerImage.movingState = MovingState.NONE
+//                playerImage.followImage = GameImage.NONE
+//            })
+//            playerImage.moveTo(player, target, spaceField.gamePosition, action)
+//        }
+
         Logger.println("Player Field: ${spaceField.id}, ${spaceField.fieldType.name}")
     }
 

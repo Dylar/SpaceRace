@@ -3,6 +3,7 @@ package de.bitb.spacerace.model.objecthandling
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -82,4 +83,7 @@ abstract class GameImage(val texture: Texture) : Image(texture), DefaultFunction
         }
     }
 
+    open fun getBoundingRectangle(): Rectangle {
+        return Rectangle(getCenterX(), getCenterY(), 100f, 100f)
+    }
 }
