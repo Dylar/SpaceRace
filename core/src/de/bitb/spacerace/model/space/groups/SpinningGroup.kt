@@ -15,7 +15,7 @@ open class SpinningGroup(gameController: GameController, offsetX: Float = 0f, of
 
     init {
         val distance = FIELD_PADDING_XXLARGE
-        val radius = (FIELD_BORDER * distance).toDouble()
+        val radius = (FIELD_BORDER/2 * distance).toDouble()
         //CENTER
 
         fieldTypeSize = fieldType.size

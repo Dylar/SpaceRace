@@ -40,10 +40,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
     }
 
     fun addShip(player: Player, spaceField1: SpaceField) {
-        val fieldPosition = spaceField1.gamePosition
-        val playerPosition = player.getGameImage().imagePosition
-        player.setPosition(fieldPosition.posX, fieldPosition.posY)
-        player.centerImage()
+        player.setPosition(spaceField1.gamePosition)
         player.getGameImage().color = player.playerData.playerColor.color
     }
 
@@ -112,7 +109,8 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
             newField.disposedItems.add(item)
 
             val itemImage = item.getItemImage()
-            itemImage.moveTo(item, itemImage.getRotationPosition(itemImage, newField.getGameImage()), newField.gamePosition, doAfter = itemImage.getRotationAction(itemImage, newField.getGameImage()))
+            val point = itemImage.getRotationPosition(itemImage, newField.getGameImage())
+            itemImage.moveTo(item, point, newField.gamePosition, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
             toRemove.add(item)
         }
 

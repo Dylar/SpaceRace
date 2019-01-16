@@ -64,7 +64,9 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
 
     override fun getRotationPosition(gameImage: GameImage, targetPosition: GameImage): PositionData {
         val point = getRotationPoint(gameImage, targetPosition, angle)
-        return PositionData(posX = point.x - targetPosition.width / 2, posY = point.y - targetPosition.height / 2)
+//        val position = PositionData(posX = point.x - targetPosition.width / 2, posY = point.y - targetPosition.height / 2)
+        val position = PositionData(posX = point.x, posY = point.y) //TODO so?
+        return position
     }
 
     override fun getRotationPoint(gameImage: GameImage, followImage: GameImage, angle: Double): Vector3 {
