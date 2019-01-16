@@ -23,11 +23,11 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE)
     }
 
     fun setFieldPosition(spaceField: SpaceField) {
-        playerImage.setFieldPosition(this, spaceField.positionData)
+        playerImage.setFieldPosition(this, spaceField.gamePosition)
     }
 
     init {
-        setBounds(positionData.posX, positionData.posY, PLAYER_BORDER, PLAYER_BORDER)
+        setBounds(gamePosition.posX, gamePosition.posY, PLAYER_BORDER, PLAYER_BORDER)
     }
 
 }

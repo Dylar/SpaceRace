@@ -30,7 +30,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
     }
 
     fun getField(positionData: PositionData): SpaceField {
-        fields.forEach { if (it.positionData.isPosition(positionData)) return it }
+        fields.forEach { if (it.gamePosition.isPosition(positionData)) return it }
         return SpaceField.NONE
     }
 
@@ -40,11 +40,10 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
     }
 
     fun addShip(player: Player, spaceField1: SpaceField) {
-        val playerPosition = player.positionData
-        val fieldPosition = spaceField1.positionData
+        val fieldPosition = spaceField1.gamePosition
+        val playerPosition = player.getGameImage().imagePosition
         player.setPosition(fieldPosition.posX, fieldPosition.posY)
-        player.getGameImage().x += playerPosition.height / 2
-        player.getGameImage().y += playerPosition.width / 2
+        player.centerImage()
         player.getGameImage().color = player.playerData.playerColor.color
     }
 
@@ -97,7 +96,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
         val tunnelList = fieldsMap[FieldType.TUNNEL]!!
         var tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
 
-        while (tunnel.positionData.isPosition(playerPosition)) {
+        while (tunnel.gamePosition.isPosition(playerPosition)) {
             tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
         }
 
@@ -113,7 +112,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
             newField.disposedItems.add(item)
 
             val itemImage = item.getItemImage()
-            itemImage.moveTo(item, itemImage.getRotationPosition(itemImage, newField.getGameImage()), itemImage.getRotationAction(itemImage, newField.getGameImage()))
+            itemImage.moveTo(item, itemImage.getRotationPosition(itemImage, newField.getGameImage()), newField.gamePosition, doAfter = itemImage.getRotationAction(itemImage, newField.getGameImage()))
             toRemove.add(item)
         }
 

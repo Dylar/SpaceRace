@@ -18,17 +18,17 @@ data class PositionData(var posX: Float = 0f,
         return positionData.posX == posX && positionData.posY == posY
     }
 
-    fun getCenterPosX(positionData: PositionData): Float {
-        return posX + width / 2 - positionData.width / 2
+    fun getCenterPosX(): Float {
+        return posX + width / 2
     }
 
-    fun getCenterPosY(positionData: PositionData): Float {
-        return posY + height / 2 - positionData.height / 2
+    fun getCenterPosY(): Float {
+        return posY + height / 2 //TODO why a quarter?
     }
 
-    fun withCenter(): PositionData {
-        val posX = posX + width / 2
-        val posY = posY + height / 2
-        return copy(posX = posX, posY = posY)
+    fun centerPosition(width: Float, height: Float) {
+        posX += width / 2
+        posY += height / 2
     }
+
 }

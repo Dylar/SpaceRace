@@ -2,6 +2,7 @@ package de.bitb.spacerace.config.dimensions
 
 import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.config.LANGUAGE
+import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.config.enums.Language.*
 
 object Dimensions {
@@ -10,6 +11,11 @@ object Dimensions {
         get() = Gdx.graphics.width.toFloat()
     var SCREEN_HEIGHT = 0f
         get() = Gdx.graphics.height.toFloat()
+
+    var SCREEN_WIDTH_HALF = 0f
+        get() = SCREEN_WIDTH / 2
+    var SCREEN_HEIGHT_HALF = 0f
+        get() = SCREEN_HEIGHT / 2
 
 
     object GameGuiDimensions {

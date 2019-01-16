@@ -9,7 +9,9 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 
-open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN, var fieldImage: FieldImage = FieldImage(fieldType.texture, fieldType), positionData: PositionData = PositionData()) :
+open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN,
+                      var fieldImage: FieldImage = FieldImage(fieldType.texture, fieldType),
+                      positionData: PositionData = PositionData()) :
         GameObject(positionData), IBlinkingImage by fieldImage {
 
     override fun getGameImage(): GameImage {

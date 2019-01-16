@@ -56,7 +56,7 @@ open class TestGroup(gameController: GameController, offsetX: Float = 0f, offset
         addField(moonField, leftBottomCorner, FIELD_PADDING_LARGE)
 
         moonField.getGameImage().followImage = leftBottomCorner.getGameImage()
-        moonField.fieldImage.setRotationRadius((moonField.positionData.height * FIELD_PADDING_XXLARGE).toDouble())
+        moonField.fieldImage.setRotationRadius((moonField.gamePosition.height * FIELD_PADDING_XXLARGE).toDouble())
         moonField.fieldImage.movingState = MovingState.ROTATE_POINT
 
         connect(longWayField, leftBottomCorner)

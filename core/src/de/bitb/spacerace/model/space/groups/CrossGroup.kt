@@ -3,11 +3,12 @@ package de.bitb.spacerace.model.space.groups
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_LARGE
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_MEDIUM
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH_HALF
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.controller.GameController
-import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f, starMode: Boolean = false) : SpaceGroup(gameController, offsetX, offsetY) {
@@ -16,7 +17,7 @@ class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: F
 
         //CENTER
         val centerField = SpaceField.createField(FieldType.GIFT)
-        addField(centerField, SCREEN_WIDTH / 2 - centerField.positionData.width / 2, SCREEN_HEIGHT / 2 - centerField.positionData.height / 2)
+        addField(centerField, SCREEN_WIDTH_HALF, SCREEN_HEIGHT_HALF)
 
         //LEFT
         val left1Field = SpaceField.createField(FieldType.MINE)

@@ -10,37 +10,44 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 
 class MovingImage : IMovingImage {
 
-    override fun moveToPoint(movingObject: GameObject, positionData: PositionData, vararg doAfter: Action) {
+//    override fun moveToPoint(movingObject: GameObject, gamePosition: PositionData, vararg doAfter: Action) {
+//        val gameImage = movingObject.getGameImage()
+//        gameImage.movingState = MovingState.MOVING
+//
+//        val moveTo = MoveToAction()
+//        moveTo.setPosition(gamePosition.getCenterPosX(), gamePosition.getCenterPosY())
+//        moveTo.duration = getDurationToTarget(movingObject, gamePosition)
+//
+//        gameImage.addAction(moveTo, *doAfter)
+//    }
+
+    override fun moveTo(movingObject: GameObject, imagePosition: PositionData, gamePosition: PositionData, vararg doAfter: Action) {
         val gameImage = movingObject.getGameImage()
         gameImage.movingState = MovingState.MOVING
 
         val moveTo = MoveToAction()
-        moveTo.setPosition(positionData.posX, positionData.posY)
-        moveTo.duration = getDurationToTarget(movingObject, positionData)
+        val posX = imagePosition.posX
+        val posY = imagePosition.posY
+        moveTo.setPosition(posX, posY)
+        moveTo.duration = getDurationToTarget(movingObject, imagePosition)
 
         gameImage.addAction(moveTo, *doAfter)
-    }
-
-    override fun moveTo(movingObject: GameObject, targetPosition: PositionData, vararg doAfter: Action) {
-        val gameImage = movingObject.getGameImage()
-        gameImage.movingState = MovingState.MOVING
-
-        val moveTo = MoveToAction()
-        val posX = targetPosition.getCenterPosX(movingObject.positionData)
-        val posY = targetPosition.getCenterPosY(movingObject.positionData)
-        moveTo.setPosition(posX, posY)
-        moveTo.duration = getDurationToTarget(movingObject, targetPosition)
-
-        gameImage.addAction(*arrayOf(moveTo, *doAfter))
-        movingObject.positionData.setPosition(targetPosition)
+        movingObject.gamePosition.setPosition(gamePosition)
     }
 
     override fun getDistanceToTarget(movingObject: GameObject, targetPosition: PositionData): Float {
-        val vector = Vector2(targetPosition.posX + targetPosition.width / 2, targetPosition.posY + targetPosition.height / 2).sub(Vector2(movingObject.positionData.posX + movingObject.positionData.width / 2, movingObject.positionData.posY + movingObject.positionData.height / 2))
-        return Math.sqrt((vector.x * vector.x + vector.y * vector.y).toDouble()).toFloat()
+        val pos1 = Vector2(targetPosition.posX, targetPosition.posY)
+        val pos2 = Vector2(movingObject.getGameImage().getCenterX(), movingObject.getGameImage().getCenterY())
+        val target = pos1.sub(pos2)
+        return Math.sqrt((target.x * target.x + target.y * target.y).toDouble()).toFloat()
+//        return distance(pos1, pos2).toFloat()
+    }
+
+    fun distance(object1: Vector2, object2: Vector2): Double {
+        return Math.sqrt(Math.pow((object2.x - object1.x).toDouble(), 2.0) + Math.pow((object2.y - object1.y).toDouble(), 2.0)) / 2
     }
 
     override fun getDurationToTarget(movingObject: GameObject, targetPosition: PositionData): Float {
-        return ((getDistanceToTarget(movingObject, targetPosition) / movingObject.positionData.movingSpeed) / GAME_SPEED.speed)
+        return ((getDistanceToTarget(movingObject, targetPosition) / movingObject.gamePosition.movingSpeed) / GAME_SPEED.speed)
     }
 }

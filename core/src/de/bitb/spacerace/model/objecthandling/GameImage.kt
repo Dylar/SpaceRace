@@ -23,6 +23,31 @@ abstract class GameImage(val texture: Texture) : Image(texture), DefaultFunction
         @Synchronized get
 
     var movingState: MovingState = MovingState.NONE
+    val imagePosition: PositionData = PositionData()
+        get() {
+            field.posY = y
+            field.posX = x
+            field.width = width
+            field.height = height
+            return field
+        }
+
+
+    fun getCenterX(): Float {
+        return x + width / 2
+    }
+
+    fun getCenterY(): Float {
+        return y + width / 2
+    }
+
+    fun setCenterX(posX: Float) {
+        x = posX - width / 2
+    }
+
+    fun setCenterY(posY: Float) {
+        x = posY - height / 2
+    }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
@@ -57,11 +82,4 @@ abstract class GameImage(val texture: Texture) : Image(texture), DefaultFunction
         }
     }
 
-    fun getCenterX(): Float {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun getCenterY(): Float {
-        return
-    }
 }

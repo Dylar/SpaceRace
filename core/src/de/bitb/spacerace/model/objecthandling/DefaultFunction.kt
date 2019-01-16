@@ -24,7 +24,7 @@ interface DefaultFunction {
     }
 
     fun getPlayerPosition(game: MainGame, playerColor: PlayerColor): PositionData {
-        return getPlayer(game, playerColor).positionData
+        return getPlayer(game, playerColor).gamePosition
     }
 
     fun getPlayerData(game: MainGame, playerColor: PlayerColor): PlayerData {
