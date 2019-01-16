@@ -23,8 +23,6 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
     private var angle = 0.0
     private var radius: Double = 0.0
 
-//    var centerPoint: PositionData = PositionData()
-
     override fun getRotationAngle(): Double {
         return angle
     }
@@ -79,8 +77,7 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
         when (gameImage.movingState) {
             MovingState.ROTATE_POINT -> {
                 if (gameImage.followImage == NONE) {
-//                    setRotationPosition(gameImage, getRotationPoint(gameImage, gameImage.followImage, angle))
-//                    setRotationPosition(gameImage, Vector2(centerPoint.posX, centerPoint.posX))
+                    gameImage.movingState = MovingState.NONE
                 } else {
                     angle += slice * speed * delta
                     setRotationPosition(gameImage, getRotationPoint(gameImage, gameImage.followImage, angle))
@@ -92,12 +89,6 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
                 }
             }
             MovingState.NONE -> {
-
-//                var currentImage = gameImage
-//                while(currentImage.followImage != NONE){
-//                    currentImage = currentImage.followImage
-//                    val point1 = currentImage.getRotationPoint(currentImage, gameImage.followImage)
-
                 if (gameImage.followImage != NONE) {
                     gameImage.setCenterX(gameImage.followImage.getCenterX())
                     gameImage.setCenterY(gameImage.followImage.getCenterY())
@@ -105,14 +96,6 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
                     gameImage.x = gameImage.followImage.getCenterX() - gameImage.width / 2
                     gameImage.y = gameImage.followImage.getCenterY() - gameImage.height / 2
                 }
-
-//                }
-//                val isChain =
-//                if (isChain) {
-//
-//                        val point2 =  getRotationPoint(gameImage, gameImage, angle)
-//                        setRotationPosition(gameImage, point)
-//                }
             }
         }
     }
@@ -125,7 +108,6 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
         gameImage.getGameImage().followImage = followImage
         setRotationRadius(radius)
         gameImage.getGameImage().movingState = MovingState.ROTATE_POINT
-
     }
 
 }

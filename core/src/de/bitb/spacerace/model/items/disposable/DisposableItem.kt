@@ -3,7 +3,6 @@ package de.bitb.spacerace.model.items.disposable
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
-import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class DisposableItem(owner: PlayerColor, price: Int) : Item(owner, price) {
@@ -24,10 +23,8 @@ abstract class DisposableItem(owner: PlayerColor, price: Int) : Item(owner, pric
             ItemState.STORAGE -> {
                 val field = game.gameController.fieldController.getField(getPlayerPosition(game, player))
                 val image = getItemImage()
-                image.followImage = field.getGameImage()
-                image.setRotationRadius(image.followImage.width * 0.7)
-                image.movingState = MovingState.ROTATE_POINT
 
+                image.setRotationPoint(this, field.getGameImage(), image.followImage.width * 2.0)
                 field.disposeItem(this)
                 getPlayerData(game, player).playerItems.disposeItem(this)
                 true
