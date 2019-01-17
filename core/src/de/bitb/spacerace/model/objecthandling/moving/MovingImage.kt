@@ -60,7 +60,7 @@ class MovingImage : IMovingImage {
             MovingState.ROTATE_POINT -> {
             }
             MovingState.MOVING -> {
-                if (movingImage.followImage != GameImage.NONE) {
+                if (targetPosition != GameImage.NONE) {
                     remainingFlightTime -= deltaTime
 
                     if (remainingFlightTime <= 0) {

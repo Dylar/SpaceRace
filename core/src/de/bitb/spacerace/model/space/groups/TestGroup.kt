@@ -8,6 +8,7 @@ import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
+import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 open class TestGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f, vararg fieldType: FieldType) : SpaceGroup(gameController, offsetX, offsetY) {
@@ -53,9 +54,7 @@ open class TestGroup(gameController: GameController, offsetX: Float = 0f, offset
         val moonField = SpaceField.createField(fieldType[index])
         addField(moonField, leftBottomCorner, FIELD_PADDING_LARGE)
 
-        moonField.getGameImage().followImage = leftBottomCorner.getGameImage()
-        moonField.fieldImage.setRotationRadius((moonField.getGameImage().height * FIELD_PADDING_XXLARGE).toDouble())
-        moonField.fieldImage.movingState = MovingState.ROTATE_POINT
+        moonField.fieldImage.setRotating(moonField, leftBottomCorner.getGameImage(), (moonField.getGameImage().height * FIELD_PADDING_XXLARGE).toDouble())
 
         connect(longWayField, leftBottomCorner)
         connect(leftBottomCorner, moonField)
