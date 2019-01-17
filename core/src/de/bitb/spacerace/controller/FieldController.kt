@@ -17,6 +17,7 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.maps.SpaceMap
+import de.bitb.spacerace.model.space.maps.TestMap
 
 class FieldController(playerController: PlayerController) : DefaultFunction {
 
@@ -110,7 +111,9 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
 
             val itemImage = item.getItemImage()
             val point = itemImage.getRotationPosition(itemImage, newField.getGameImage())
-            itemImage.moveTo(item, point, newField.gamePosition, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
+
+            item.gamePosition.setPosition(newField.gamePosition)
+            itemImage.moveTo(item, point, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
             toRemove.add(item)
         }
 

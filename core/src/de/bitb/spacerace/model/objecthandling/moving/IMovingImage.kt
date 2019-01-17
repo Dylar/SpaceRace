@@ -7,11 +7,8 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 
 interface IMovingImage {
 
-    fun moveTo(movingObject: GameObject, imagePosition: PositionData, gamePosition: PositionData = imagePosition, vararg doAfter: Action)
-    fun getDistanceToTarget(movingObject: GameObject, targetPosition: PositionData): Float
-    fun getDurationToTarget(movingObject: GameObject, targetPosition: PositionData): Float
+    fun moveTo(movingObject: GameObject, imagePosition: PositionData, vararg doAfter: Action)
+    fun moveToPoint(movingObject: GameObject, targetImage: GameImage, vararg doAfter: Action)
 
     fun actMoving(movingImage: GameImage, targetPosition: GameImage, deltaTime: Float)
-//    fun moveToPoint(movingObject: GameObject, imagePosition: PositionData, gamePosition: PositionData, vararg doAfter: Action)
-    fun moveToPoint(movingObject: GameObject, targetImage: GameImage, gamePosition: PositionData, vararg doAfter: Action)
 }

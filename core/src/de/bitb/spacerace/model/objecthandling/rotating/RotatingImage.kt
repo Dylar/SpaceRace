@@ -1,24 +1,17 @@
 package de.bitb.spacerace.model.objecthandling.rotating
 
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
-import com.badlogic.gdx.scenes.scene2d.ui.Image
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.ROTATION_MOVING_SPEED
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.config.dimensions.Dimensions.NINETY_DEGREE
+import de.bitb.spacerace.config.dimensions.Dimensions.ONE_EIGHTY_DEGREE
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameImage.Companion.NONE
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.player.PlayerImage
-import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.utils.CalculationUtils
-import sun.audio.AudioPlayer.player
 
 
 class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
@@ -62,37 +55,25 @@ class RotatingImage(var speed: Double = Math.random()) : IRotatingImage {
         return getRotationPoint(posX, posY, angle)
     }
 
-    override fun actRotation(gameImage: GameImage, delta: Float) {
-        when (gameImage.movingState) {
+    override fun actRotation(rotatingImage: GameImage, rotationPosition: GameImage, delta: Float) {
+        when (rotatingImage.movingState) {
             MovingState.ROTATE_POINT -> {
-                if (gameImage.followImage == NONE) {
-                    gameImage.movingState = MovingState.NONE
+                if (rotationPosition == NONE) {
+                    rotatingImage.movingState = MovingState.NONE
                 } else {
                     angle += slice * speed * delta
-                    setRotationPosition(gameImage, getRotationPoint(gameImage, gameImage.followImage, angle))
+                    setRotationPosition(rotatingImage, getRotationPoint(rotatingImage, rotationPosition, angle))
                 }
             }
             MovingState.MOVING -> {
-//                val angle = Math.toDegrees(Math.atan2((gameImage.followImage.y - gameImage.y).toDouble(), (gameImage.followImage.x - gameImage.x).toDouble())).toFloat()
-//                gameImage.rotation = angle
+                val degrees = Math.atan2(
+                        (rotationPosition.getCenterY() - rotatingImage.getCenterY()).toDouble(),
+                        (rotationPosition.getCenterX() - rotatingImage.getCenterX()).toDouble()
+                ) * ONE_EIGHTY_DEGREE / Math.PI
 
-//                val rot = MathUtils.radiansToDegrees * MathUtils.atan2(gameImage.followImage.y - gameImage.y, gameImage.followImage.x - gameImage.x);
-//                gameImage.rotateBy(rot);
-//ROTATION TODO
-               val degrees = (Math.atan2((gameImage.followImage.x - gameImage.x).toDouble(), (-(gameImage.followImage.y - gameImage.y)).toDouble()) * 180.0 / Math.PI + 90.0f).toFloat()
-                gameImage.rotation = (degrees);
-//                if (gameImage.followImage != NONE) {
-//                    gameImage.followImage = NONE
-//                }
+                rotatingImage.rotation = (degrees + -NINETY_DEGREE).toFloat()
             }
             MovingState.NONE -> {
-                if (gameImage.followImage != NONE) {
-                    gameImage.setCenterX(gameImage.followImage.getCenterX())
-                    gameImage.setCenterY(gameImage.followImage.getCenterY())
-
-                    gameImage.x = gameImage.followImage.getCenterX() - gameImage.width / 2
-                    gameImage.y = gameImage.followImage.getCenterY() - gameImage.height / 2
-                }
             }
         }
     }

@@ -34,7 +34,7 @@ class FieldImage(img: Texture, var fieldType: FieldType)
     override fun act(delta: Float) {
         super.act(delta)
         color = getBlinkColor(color, fieldType.color ?: color)
-        actRotation(this, delta)
+        actRotation(this, followImage, delta)
     }
 
     override fun getBoundingRectangle(): Rectangle {

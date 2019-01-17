@@ -24,49 +24,16 @@ class MoveCommand(val spaceField: SpaceField, playerColor: PlayerColor) : BaseCo
     override fun execute(game: MainGame) {
         val player = getPlayer(game, playerColor)
 
-        setSteps(player.playerData, spaceField)
 
         val playerImage = player.playerImage
         val fieldImage = spaceField.fieldImage
 
-//        if (fieldImage.movingState == MovingState.ROTATE_POINT) {
+        playerImage.moveToPoint(player, fieldImage, playerImage.getNONEAction(playerImage, fieldImage))
 
-//            var target: PositionData = fieldImage.imagePosition.copy()
-//            val point = fieldImage.getRotationPoint(playerImage, spaceField.getGameImage(), fieldImage.getRotationAngle())
-//            target = PositionData(point.x / 2, point.y / 2, fieldImage.width, fieldImage.height)
-//            target.centerPosition(PLAYER_BORDER)
-
-            playerImage.moveToPoint(player, fieldImage, spaceField.gamePosition, playerImage.getNONEAction(playerImage, fieldImage))
-
-//        } else {
-//            //TODO mach das komplett in move or image or sowas
-//            var target: PositionData = fieldImage.imagePosition.copy()
-//            val playerPosition = playerImage.imagePosition.copy()
-//            target.centerPosition(playerPosition.width, playerPosition.height)
-//            val action = playerImage.getNONEAction(playerImage, GameImage.NONE)
-//
-//            getRunnableAction(Runnable {
-//                playerImage.movingState = MovingState.NONE
-//                playerImage.followImage = GameImage.NONE
-//            })
-//            playerImage.moveTo(player, target, spaceField.gamePosition, action)
-//        }
+        player.playerData.setSteps(player.playerData, spaceField)
+        player.gamePosition.setPosition(spaceField.gamePosition)
 
         Logger.println("Player Field: ${spaceField.id}, ${spaceField.fieldType.name}")
-    }
-
-
-    private fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
-        val sameField = previousFieldSelected(playerData, spaceField)
-        if (sameField) {
-            playerData.steps.removeAt(playerData.steps.size - 1)
-        } else {
-            playerData.steps.add(spaceField.gamePosition)
-        }
-    }//TODO mach das in playerdata oder so
-
-    private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
-        return playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
     }
 
 

@@ -14,7 +14,6 @@ open class TestGroup(gameController: GameController, offsetX: Float = 0f, offset
     var fieldTypeSize = fieldType.size
     var index = 0
 
-
     init {
         //BOTTOM
         fieldTypeSize = fieldType.size
@@ -51,7 +50,6 @@ open class TestGroup(gameController: GameController, offsetX: Float = 0f, offset
 //        addConnectionPoint(ConnectionPoint.BOTTOM, longWayField)
 //        addConnectionPoint(ConnectionPoint.LEFT, longWayField)
 //        addConnectionPoint(ConnectionPoint.RIGHT, longWayField)
-
         val moonField = SpaceField.createField(fieldType[index])
         addField(moonField, leftBottomCorner, FIELD_PADDING_LARGE)
 

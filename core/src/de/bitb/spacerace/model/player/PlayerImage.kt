@@ -31,7 +31,7 @@ class PlayerImage(img: Texture)
 
     override fun act(delta: Float) {
         super.act(delta)
-        actRotation(this, delta)
+        actRotation(this, followImage, delta)
         actMoving(this, followImage, delta)
     }
 

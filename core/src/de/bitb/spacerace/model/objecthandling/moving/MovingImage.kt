@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import de.bitb.spacerace.config.GAME_SPEED
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
@@ -16,12 +17,12 @@ import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 class MovingImage : IMovingImage {
 
     private var arrived: Boolean = true
-    private var remainingFlightTime = 40.0
-    private val speedPerSecond = PLAYER_BORDER * 2
+    private var remainingFlightTime = 3.0
+    private val speedPerSecond = FIELD_BORDER * 2
 
     private lateinit var doAfter: Array<out Action>
 
-    override fun moveTo(movingObject: GameObject, imagePosition: PositionData, gamePosition: PositionData, vararg doAfter: Action) {
+    override fun moveTo(movingObject: GameObject, imagePosition: PositionData, vararg doAfter: Action) {
         val gameImage = movingObject.getGameImage()
         gameImage.movingState = MovingState.MOVING
 
@@ -32,10 +33,9 @@ class MovingImage : IMovingImage {
         moveTo.duration = getDurationToTarget(movingObject, imagePosition)
 
         gameImage.addAction(moveTo, *doAfter)
-        movingObject.gamePosition.setPosition(gamePosition)
     }
 
-    override fun moveToPoint(movingObject: GameObject, targetImage: GameImage, gamePosition: PositionData, vararg doAfter: Action) {
+    override fun moveToPoint(movingObject: GameObject, targetImage: GameImage, vararg doAfter: Action) {
         val action = movingObject.getGameImage().getRunnableAction(Runnable {
             this.doAfter = doAfter
             val movingImage = movingObject.getGameImage()
@@ -46,19 +46,17 @@ class MovingImage : IMovingImage {
         })
 
         movingObject.getGameImage().addAction(action)
-        movingObject.gamePosition.setPosition(gamePosition)
-
 
     }
 
-    override fun getDistanceToTarget(movingObject: GameObject, targetPosition: PositionData): Float {
+    private fun getDistanceToTarget(movingObject: GameObject, targetPosition: PositionData): Float {
         val pos1 = Vector2(targetPosition.posX, targetPosition.posY)
         val pos2 = Vector2(movingObject.getGameImage().getCenterX(), movingObject.getGameImage().getCenterY())
         val target = pos1.sub(pos2)
         return Math.sqrt((target.x * target.x + target.y * target.y).toDouble()).toFloat()
     }
 
-    override fun getDurationToTarget(movingObject: GameObject, targetPosition: PositionData): Float {
+    private fun getDurationToTarget(movingObject: GameObject, targetPosition: PositionData): Float {
         return ((getDistanceToTarget(movingObject, targetPosition) / movingObject.gamePosition.movingSpeed) / GAME_SPEED.speed)
     }
 
@@ -68,7 +66,7 @@ class MovingImage : IMovingImage {
                 if (movingImage.followImage != GameImage.NONE) {
                     remainingFlightTime -= deltaTime
                     if (remainingFlightTime <= 0) {
-                        remainingFlightTime = 4.0
+                        remainingFlightTime = 2.0
                     }
 
                     //get distance to target x & y
@@ -86,7 +84,6 @@ class MovingImage : IMovingImage {
                         movingImage.x += (velocityX * speedPerSecond * deltaTime).toFloat()
                         movingImage.y += (velocityY * speedPerSecond * deltaTime).toFloat()
 
-                        movingImage.rotation = Math.atan2(((movingImage.y - targetPosition.y).toDouble()), ((movingImage.x - targetPosition.x).toDouble())).toFloat()
                         val ninjaRectangle: Rectangle = movingImage.getBoundingRectangle()
                         val shurikenRectangle: Rectangle = targetPosition.getBoundingRectangle()
                         if (ninjaRectangle.overlaps(shurikenRectangle)) {
@@ -99,7 +96,16 @@ class MovingImage : IMovingImage {
                     }
                 }
             }
-            MovingState.ROTATE_POINT, MovingState.NONE -> {
+            MovingState.ROTATE_POINT -> {
+            }
+            MovingState.NONE -> {
+                if (targetPosition != GameImage.NONE) {
+                    movingImage.setCenterX(targetPosition.getCenterX())
+                    movingImage.setCenterY(targetPosition.getCenterY())
+
+                    movingImage.x = movingImage.followImage.getCenterX() - movingImage.width / 2
+                    movingImage.y = movingImage.followImage.getCenterY() - movingImage.height / 2
+                }
             }
         }
 

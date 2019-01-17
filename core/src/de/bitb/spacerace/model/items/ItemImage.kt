@@ -24,7 +24,7 @@ class ItemImage(img: Texture)
     override fun act(delta: Float) {
         super.act(delta)
         color = itemColor
-        actRotation(this, delta)
+        actRotation(this, followImage, delta)
     }
 
 }

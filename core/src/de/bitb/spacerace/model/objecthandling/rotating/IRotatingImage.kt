@@ -18,7 +18,8 @@ interface IRotatingImage {
     fun getRotationPoint(gameImage: GameImage, followImage: GameImage, angle: Double): Vector3
 
     fun getRotationAction(gameImage: GameImage, followImage: GameImage): RunnableAction
-    fun actRotation(gameImage: GameImage, delta: Float)
+
+    fun actRotation(rotatingImage: GameImage, rotationPosition: GameImage, delta: Float)
 
     fun getNONEAction(gameImage: GameImage, followImage: GameImage): RunnableAction {
         return gameImage.getRunnableAction(Runnable {
@@ -26,4 +27,5 @@ interface IRotatingImage {
             gameImage.movingState = MovingState.NONE
         })
     }
+
 }

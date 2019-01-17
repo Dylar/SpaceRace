@@ -7,6 +7,7 @@ import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.space.fields.SpaceField
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
@@ -38,6 +39,19 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
         Logger.println("DiceResult: $diceResults")
     }
 
+    fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
+        val sameField = previousFieldSelected(playerData, spaceField)
+        if (sameField) {
+            playerData.steps.removeAt(playerData.steps.size - 1)
+        } else {
+            playerData.steps.add(spaceField.gamePosition)
+        }
+    }//TODO mach das in playerdata oder so
+
+    private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
+        return playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
+    }
+
     fun getMaxSteps(): Int {
         var mod = 1f
         playerItems.diceModItems.forEach {
@@ -61,6 +75,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     fun areStepsLeft(): Boolean {
         return stepsLeft() > 0
     }
+
 
     fun canMove(): Boolean {
         return phase.isMoving() && areStepsLeft()
