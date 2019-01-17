@@ -3,8 +3,9 @@ package de.bitb.spacerace.model.player
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Touchable
+import de.bitb.spacerace.config.MOVING_SPS
+import de.bitb.spacerace.config.ROTATION_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
-import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
@@ -16,6 +17,8 @@ class PlayerImage(img: Texture)
     : GameImage(img),
         IMovingImage by MovingImage(),
         IRotatingImage by RotatingImage() {
+
+    override var movingSpeed: Float = (MOVING_SPS)
 
     init {
         touchable = Touchable.disabled

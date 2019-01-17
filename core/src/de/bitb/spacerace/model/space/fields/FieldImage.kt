@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import de.bitb.spacerace.config.FIELD_ROTATION
+import de.bitb.spacerace.config.ROTATION_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.GameImage
@@ -17,6 +18,7 @@ class FieldImage(img: Texture, var fieldType: FieldType)
     : GameImage(img),
         IBlinkingImage by BlinkingImage(),
         IRotatingImage by RotatingImage() {
+    override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
 
     init {
         setOrigin(FIELD_BORDER / 2, FIELD_BORDER / 2)

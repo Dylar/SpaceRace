@@ -96,7 +96,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
 
         while (tunnel.gamePosition.isPosition(playerPosition)) {
             tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
-        }
+        }//TODO klappt das?
 
         return tunnel
     }
@@ -113,7 +113,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
             val point = itemImage.getRotationPosition(itemImage, newField.getGameImage())
 
             item.gamePosition.setPosition(newField.gamePosition)
-            itemImage.moveTo(item, point, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
+            itemImage.moveTo(item.getGameImage(), point, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
             toRemove.add(item)
         }
 

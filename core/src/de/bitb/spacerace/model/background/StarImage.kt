@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.MAX_ZOOM
+import de.bitb.spacerace.config.ROTATION_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_STARS_SCALE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
@@ -22,6 +23,8 @@ class StarImage(img: Texture,
                 var endY: Float = SCREEN_HEIGHT)
     : GameImage(img), IMovingImage by MovingImage() {
 
+    override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
+
     init {
         touchable = Touchable.disabled
 
@@ -38,7 +41,7 @@ class StarImage(img: Texture,
             randomColor()
             calculateValues()
             setPosition(startX, startY)
-            moveTo(star, PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
+            moveTo(star.getGameImage(), PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
         }
     }
 
@@ -48,7 +51,7 @@ class StarImage(img: Texture,
     }
 
     private fun calculateValues() {
-        star.gamePosition.movingSpeed = (Math.random() * 15f + 25).toFloat()
+        star.getGameImage().movingSpeed = (Math.random() * 15f + 25).toFloat()
         startY = (Math.random() * SCREEN_HEIGHT).toFloat()
         endY = (Math.random() * SCREEN_HEIGHT).toFloat()
 

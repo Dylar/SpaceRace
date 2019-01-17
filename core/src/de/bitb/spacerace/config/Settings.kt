@@ -1,5 +1,7 @@
 package de.bitb.spacerace.config
 
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
 import de.bitb.spacerace.config.enums.GameSpeed
 import de.bitb.spacerace.config.enums.GameType
 import de.bitb.spacerace.config.enums.Language
@@ -7,15 +9,17 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.space.maps.MapCollection
 
-const val MOVING_SPEED: Float = 100f
-var ROTATION_MOVING_SPEED = 8
+
+const val MOVE_TIME: Double = 3.0
+const val MOVING_SPS: Float =FIELD_BORDER*2
+const val ROTATION_SPS =  PLAYER_BORDER / 2
 
 var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
 var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 val SELECTED_MAP = MapCollection.TEST_MAP
 var WIN_AMOUNT = 1
-var DICE_MAX= 1
+var DICE_MAX = 1
 const val GOAL_CREDITS = 10000
 const val START_CREDITS = 10000
 const val CREDITS_WIN_AMOUNT = 1000
