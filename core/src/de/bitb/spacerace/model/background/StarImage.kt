@@ -2,22 +2,16 @@ package de.bitb.spacerace.model.background
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Touchable
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_STARS_SCALE
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.objecthandling.blink.BlinkingImage
-import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
-import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.SpaceField
 
 class StarImage(img: Texture,
                 var gameScreen: BaseScreen,
@@ -44,7 +38,7 @@ class StarImage(img: Texture,
             randomColor()
             calculateValues()
             setPosition(startX, startY)
-            moveToPoint(star, PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
+            moveTo(star, PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
         }
     }
 
@@ -54,7 +48,7 @@ class StarImage(img: Texture,
     }
 
     private fun calculateValues() {
-        star.positionData.movingSpeed = (Math.random() * 15f + 25).toFloat()
+        star.gamePosition.movingSpeed = (Math.random() * 15f + 25).toFloat()
         startY = (Math.random() * SCREEN_HEIGHT).toFloat()
         endY = (Math.random() * SCREEN_HEIGHT).toFloat()
 

@@ -13,7 +13,7 @@ class ConnectionList(val playerController: PlayerController) : MutableList<Space
         batch!!.end()
         LineRenderer.startLine(Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH, batch.projectionMatrix)
         for (i in 0 until size) {
-            get(i).draw(playerController.currentPlayer.playerData, playerController.currentPlayer.positionData)
+            get(i).draw(playerController.currentPlayer.playerData, playerController.currentPlayer.gamePosition)
         }
         LineRenderer.endLine()
         batch.begin()

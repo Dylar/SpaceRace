@@ -108,8 +108,8 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         if (!cameraStatus.isFree()) {
             val cameraTarget = getCameraTarget()
             if (cameraTarget != null) {
-                val posX = cameraTarget.x + cameraTarget.width / 2
-                val posY = cameraTarget.y + cameraTarget.height / 2
+                val posX = cameraTarget.getCenterX()
+                val posY = cameraTarget.getCenterY()
                 gameStage.camera.position.set(posX, posY, 0f)
                 gameStage.camera.update()
 

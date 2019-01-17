@@ -15,8 +15,11 @@ var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 val SELECTED_MAP = MapCollection.TEST_MAP
 var WIN_AMOUNT = 1
-var WIN_CREDITS = 10000
-var START_CREDITS = 10000
+var DICE_MAX= 1
+const val GOAL_CREDITS = 10000
+const val START_CREDITS = 10000
+const val CREDITS_WIN_AMOUNT = 1000
+const val CREDITS_LOSE_AMOUNT = 500
 
 var LANGUAGE = Language.ENGLISH
 
@@ -29,11 +32,10 @@ const val MAX_ZOOM = 5
 const val MIN_ZOOM = 1
 
 const val FIELD_ROTATION = true
-const val STAR_COUNT = 10
+const val STAR_COUNT = 0
 
 //DEBUG
-const val DEBUG_PLAYER_STEPS = 1
-var DEBUG_TEST_FIELD = FieldType.GOAL
+var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL)
 var DEBUG_ITEM = arrayListOf(ItemCollection.NONE)
 const val DEBUG_ITEMS = 5
 

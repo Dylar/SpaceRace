@@ -23,7 +23,7 @@ import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
 
-class PlayerSelectionControl(val gameController: GameController, val guiStage: StartGuiStage, val inputHandler: InputHandler = guiStage.inputHandler) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class PlayerSelectionControl(guiStage: StartGuiStage)  : BaseGuiControl(guiStage) {
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
@@ -44,7 +44,6 @@ class PlayerSelectionControl(val gameController: GameController, val guiStage: S
 
         pack()
 
-        setPosition()
     }
 
     private fun addCheckbox(color: PlayerColor): CheckBox {
@@ -63,20 +62,12 @@ class PlayerSelectionControl(val gameController: GameController, val guiStage: S
         return checkBox
     }
 
-    private fun setPosition() {
-        y = SCREEN_HEIGHT / 2f - height / 2
-    }
-
     private fun <T : Actor> addCell(actor: T): Cell<T> {
         val cell = super.add(actor)
         addPaddingTopBottom(cell, GAME_LABEL_PADDING / 5)
         addPaddingLeftRight(cell)
         cell.fill()
         return cell
-    }
-
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
-
     }
 
 }

@@ -2,13 +2,11 @@ package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
-import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.Player
@@ -19,6 +17,7 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.maps.SpaceMap
+import de.bitb.spacerace.model.space.maps.TestMap
 
 class FieldController(playerController: PlayerController) : DefaultFunction {
 
@@ -32,7 +31,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
     }
 
     fun getField(positionData: PositionData): SpaceField {
-        fields.forEach { if (it.positionData.isPosition(positionData)) return it }
+        fields.forEach { if (it.gamePosition.isPosition(positionData)) return it }
         return SpaceField.NONE
     }
 
@@ -42,11 +41,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
     }
 
     fun addShip(player: Player, spaceField1: SpaceField) {
-        val playerPosition = player.positionData
-        val fieldPosition = spaceField1.positionData
-        player.setPosition(fieldPosition.posX, fieldPosition.posY)
-        player.getGameImage().x += playerPosition.height / 2
-        player.getGameImage().y += playerPosition.width / 2
+        player.setPosition(spaceField1.gamePosition)
         player.getGameImage().color = player.playerData.playerColor.color
     }
 
@@ -99,7 +94,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
         val tunnelList = fieldsMap[FieldType.TUNNEL]!!
         var tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
 
-        while (tunnel.positionData.isPosition(playerPosition)) {
+        while (tunnel.gamePosition.isPosition(playerPosition)) {
             tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
         }
 
@@ -115,7 +110,10 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
             newField.disposedItems.add(item)
 
             val itemImage = item.getItemImage()
-            itemImage.moveTo(item, newField.positionData)
+            val point = itemImage.getRotationPosition(itemImage, newField.getGameImage())
+
+            item.gamePosition.setPosition(newField.gamePosition)
+            itemImage.moveTo(item, point, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
             toRemove.add(item)
         }
 

@@ -15,12 +15,12 @@ open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0
     }
 
     fun addField(addField: SpaceField, anchorField: SpaceField, horizontalMod: Float = 0f, verticalMod: Float = 0f, connection: ConnectionPoint = ConnectionPoint.NONE) {
-        val posX = anchorField.positionData.posX - offsetX + addField.positionData.width * horizontalMod
-        val posY = anchorField.positionData.posY - offsetY + addField.positionData.height * verticalMod
+        val posX = anchorField.getGameImage().x - offsetX + addField.getGameImage().width * horizontalMod
+        val posY = anchorField.getGameImage().y - offsetY + addField.getGameImage().height * verticalMod
         addField(addField, posX, posY, connection)
     }
 
-    fun addField(addField: SpaceField, posX: Float = addField.positionData.posX, posY: Float = addField.positionData.posY, connection: ConnectionPoint = ConnectionPoint.NONE) {
+    open fun addField(addField: SpaceField, posX: Float = addField.getGameImage().x, posY: Float = addField.getGameImage().y, connection: ConnectionPoint = ConnectionPoint.NONE) {
         addField.id = fields.size
         addField.group = this
         addField.setPosition(posX + offsetX, posY + offsetY)
@@ -28,7 +28,6 @@ open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0
         if (connection != ConnectionPoint.NONE) {
             addConnectionPoint(connection, addField)
         }
-//        addActor(addField.image)
     }
 
     fun connect(spaceField1: SpaceField, spaceField2: SpaceField) {

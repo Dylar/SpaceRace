@@ -18,11 +18,9 @@ data class PositionData(var posX: Float = 0f,
         return positionData.posX == posX && positionData.posY == posY
     }
 
-    fun getCenterPosX(positionData: PositionData): Float {
-        return posX + width / 2 - positionData.width / 2
+    fun centerPosition(width: Float, height: Float = width) {
+        posX += width / 2
+        posY += height / 2
     }
 
-    fun getCenterPosY(positionData: PositionData): Float {
-        return posY + height / 2 - positionData.height / 2
-    }
 }

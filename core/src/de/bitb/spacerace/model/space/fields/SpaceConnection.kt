@@ -21,21 +21,21 @@ class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) 
     }
 
     fun draw(playerData: PlayerData, positionData: PositionData) {
-        val start = Vector2(spaceField1.positionData.posX + spaceField1.positionData.width / 2, spaceField1.positionData.posY + spaceField1.positionData.height / 2)
-        val end = Vector2(spaceField2.positionData.posX + spaceField2.positionData.width / 2, spaceField2.positionData.posY + spaceField2.positionData.height / 2)
+        val start = Vector2(spaceField1.fieldImage.getCenterX(), spaceField1.fieldImage.getCenterY())
+        val end = Vector2(spaceField2.fieldImage.getCenterX(), spaceField2.fieldImage.getCenterY())
         LineRenderer.drawDebugLine(start, end, getColor(playerData, positionData))
     }
 
     fun isConnected(spaceField: PositionData): Boolean {
-        return this.spaceField1.positionData.isPosition(spaceField) || this.spaceField2.positionData.isPosition(spaceField)
+        return this.spaceField1.gamePosition.isPosition(spaceField) || this.spaceField2.gamePosition.isPosition(spaceField)
     }
 
     fun isConnection(spaceField1: SpaceField, spaceField2: SpaceField): Boolean {
-        return this.spaceField1.positionData.isPosition(spaceField1.positionData) && this.spaceField2.positionData.isPosition(spaceField2.positionData)
-                || this.spaceField2.positionData.isPosition(spaceField1.positionData) && this.spaceField1.positionData.isPosition(spaceField2.positionData)
+        return this.spaceField1.gamePosition.isPosition(spaceField1.gamePosition) && this.spaceField2.gamePosition.isPosition(spaceField2.gamePosition)
+                || this.spaceField2.gamePosition.isPosition(spaceField1.gamePosition) && this.spaceField1.gamePosition.isPosition(spaceField2.gamePosition)
     }
 
     fun getOpposite(fieldPosition: SpaceField): SpaceField {
-        return if (fieldPosition.positionData.isPosition(spaceField1.positionData)) spaceField2 else spaceField1
+        return if (fieldPosition.gamePosition.isPosition(spaceField1.gamePosition)) spaceField2 else spaceField1
     }
 }

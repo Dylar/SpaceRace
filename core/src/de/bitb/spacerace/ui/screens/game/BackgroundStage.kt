@@ -18,7 +18,7 @@ class BackgroundStage(val screen: BaseScreen, private var texture: Texture = Tex
     }
 
     private fun startBombarding() {
-        for (index in 0..STAR_COUNT) {
+        for (index in 1..STAR_COUNT) {
             val star = FallingStar(screen, startY = SCREEN_HEIGHT / 2, endY = SCREEN_HEIGHT / 2)
             addActor(star.getGameImage())
         }

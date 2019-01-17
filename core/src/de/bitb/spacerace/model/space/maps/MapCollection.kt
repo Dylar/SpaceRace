@@ -7,6 +7,7 @@ enum class MapCollection {
 
     CROSSROAD(),
     CIRCLEROAD(),
+    SOLARROAD(),
     TEST_MAP(),
     RANDOM();
 
@@ -14,7 +15,8 @@ enum class MapCollection {
         val map = when (mapCollection) {
             MapCollection.CIRCLEROAD -> CircleRoadMap(gameController)
             MapCollection.CROSSROAD -> CrossRoadMap(gameController)
-            MapCollection.TEST_MAP -> TestMap(gameController, DEBUG_TEST_FIELD)
+            MapCollection.SOLARROAD -> SolarsystemMap(gameController, *DEBUG_TEST_FIELD.toTypedArray())
+            MapCollection.TEST_MAP -> TestMap(gameController, *DEBUG_TEST_FIELD.toTypedArray())
             MapCollection.RANDOM -> TestMap(gameController)
         }
         map.addAllGoals()

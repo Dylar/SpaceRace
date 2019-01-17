@@ -1,12 +1,13 @@
 package de.bitb.spacerace.model.player
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.config.DEBUG_PLAYER_STEPS
+import de.bitb.spacerace.config.CREDITS_LOSE_AMOUNT
+import de.bitb.spacerace.config.CREDITS_WIN_AMOUNT
+import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
-import javafx.geometry.Pos
 
 data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
 
@@ -33,9 +34,22 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
         return diceResults.size < diceCharges
     }
 
-    fun dice(maxResult: Int = DEBUG_PLAYER_STEPS) {
+    fun dice(maxResult: Int = DICE_MAX) {
         diceResults.add((Math.random() * maxResult).toInt() + 1)
         Logger.println("DiceResult: $diceResults")
+    }
+
+    fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
+        val sameField = previousFieldSelected(playerData, spaceField)
+        if (sameField) {
+            playerData.steps.removeAt(playerData.steps.size - 1)
+        } else {
+            playerData.steps.add(spaceField.gamePosition)
+        }
+    }//TODO mach das in playerdata oder so
+
+    private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
+        return playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
     }
 
     fun getMaxSteps(): Int {
@@ -62,6 +76,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
         return stepsLeft() > 0
     }
 
+
     fun canMove(): Boolean {
         return phase.isMoving() && areStepsLeft()
     }
@@ -73,13 +88,13 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
     }
 
     fun addRandomWin(): Int {
-        val win = (Math.random() * 1000).toInt() + 1
+        val win = (Math.random() * CREDITS_WIN_AMOUNT).toInt() + 1
         credits += win
         return win
     }
 
     fun substractRandomWin(): Int {
-        val lose = (Math.random() * 500).toInt() + 1
+        val lose = (Math.random() * CREDITS_LOSE_AMOUNT).toInt() + 1
         credits -= lose
         return lose
     }

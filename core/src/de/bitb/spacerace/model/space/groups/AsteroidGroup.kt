@@ -6,7 +6,6 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.controller.GameController
-import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 class AsteroidGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(gameController, offsetX, offsetY) {
@@ -15,7 +14,7 @@ class AsteroidGroup(gameController: GameController, offsetX: Float = 0f, offsetY
 
         //BOTTOM
         val centerBottomField = SpaceField.createField(FieldType.AMBUSH)
-        addField(centerBottomField, SCREEN_WIDTH / 2 - centerBottomField.positionData.width / 2)
+        addField(centerBottomField, SCREEN_WIDTH / 2)
         val leftBottomCorner = SpaceField.createField(FieldType.AMBUSH)
         addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
         val rightBottomCorner = SpaceField.createField(FieldType.AMBUSH)

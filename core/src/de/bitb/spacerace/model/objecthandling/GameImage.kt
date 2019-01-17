@@ -3,19 +3,52 @@ package de.bitb.spacerace.model.objecthandling
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DEBUG_FIELDS
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.model.items.disposable.moving.MovingState
 
-abstract class GameImage(val texture: Texture) : Image(texture) {
+abstract class GameImage(val texture: Texture) : Image(texture), DefaultFunction by object : DefaultFunction {} {
+    companion object {
+        val NONE: GameImage = object : GameImage(TextureCollection.fallingStar) {}
+    }
 
+    var followImage: GameImage = NONE
     var idlingCount = 0
+
     private val actionQueue: MutableList<Action> = ArrayList()
+        @Synchronized get
+
+    var movingState: MovingState = MovingState.NONE
+    val imagePosition: PositionData = PositionData()
+        get() {
+            field.posY = y
+            field.posX = x
+            field.width = width
+            field.height = height
+            return field
+        }
+
+
+    fun getCenterX(): Float {
+        return x + width / 2
+    }
+
+    fun getCenterY(): Float {
+        return y + width / 2
+    }
+
+    fun setCenterX(posX: Float) {
+        x = posX - width / 2
+    }
+
+    fun setCenterY(posY: Float) {
+        x = posY - height / 2
+    }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
@@ -37,40 +70,20 @@ abstract class GameImage(val texture: Texture) : Image(texture) {
         addAction(action!!)
     }
 
-    fun getRunnableAction(runnable: Runnable): RunnableAction {
-        val action = RunnableAction()
-        action.runnable = runnable
-        return action
-    }
-
-    fun getSequenceAction(vararg actions: Action): SequenceAction {
-        return Actions.sequence(*actions)
-    }// mach das in default oder so TODO
-
     fun addAction(vararg actions: Action) {
-        val action = if (actions.size == 1) actions[0] else getSequenceAction(*actions)
+        actionQueue.add(Actions.sequence(*actions))
+    }
 
-        if (isIdling()) {
-            super.addAction(Actions.sequence(action, getCheckAction()))
-        } else {
-            actionQueue.add(action!!)
+    override fun act(delta: Float) {
+        super.act(delta)
+        if (isIdling() && actionQueue.isNotEmpty()) {
+            val seq = Actions.sequence(*actionQueue.toTypedArray())
+            actionQueue.clear()
+            super.addAction(seq)
         }
     }
 
-    private fun getCheckAction(): Action {
-        val check = RunnableAction()
-        check.runnable = Runnable {
-            @Synchronized
-            if (!actionQueue.isEmpty()) {
-                val seq = Actions.sequence()
-                for (action in actionQueue) {
-                    seq.addAction(action)
-                }
-                seq.addAction(getCheckAction())
-                actionQueue.clear()
-                addAction(seq)
-            }
-        }
-        return check
+    open fun getBoundingRectangle(): Rectangle {
+        return Rectangle(getCenterX(), getCenterY(), 100f, 100f)
     }
 }
