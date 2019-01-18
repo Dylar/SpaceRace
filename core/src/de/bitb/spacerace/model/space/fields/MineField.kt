@@ -1,19 +1,23 @@
 package de.bitb.spacerace.model.space.fields
 
-import com.badlogic.gdx.graphics.Texture
-import de.bitb.spacerace.model.player.Player
+import com.badlogic.gdx.graphics.Color
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.player.PlayerColor
 
-class MineField(id: Int = -1, fieldType: FieldType = FieldType.MINE, img: Texture = fieldType.texture) : SpaceField(id, fieldType, img) {
+class MineField : SpaceField(FieldType.MINE) {
 
-    private var owner: Player? = null
+    var owner: PlayerColor = PlayerColor.NONE
+        set(ow) {
+            if (ow != PlayerColor.NONE) {
+                setBlinkColor(Color(ow.color))
+            }
+            field = ow
+        }
 
-    fun setOwner(player: Player) {
-        owner = player
-    }
-
-    fun harvestOres(): Int {
-        return if (owner == null) 0 else owner!!.addRandomWin()
+    fun harvestOres(game: MainGame): Int {
+        return if (owner == NONE) 0 else getPlayerData(game, owner).addRandomWin()
     }
 
 }

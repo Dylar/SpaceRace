@@ -1,16 +1,24 @@
 package de.bitb.spacerace.ui.screens
 
-import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
+import de.bitb.spacerace.base.BaseStage
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.core.TextureCollection
 
-class GameOverScreen(game: BaseGame) : BaseScreen(game) {
+class GameOverScreen(game: MainGame) : BaseScreen(game, null) {
 
-    override fun render(delta: Float) {
-        game.clearScreen(255f,255f)
-
-//        if(Gdx.input.justTouched()){
-//            game.screen = GameScreen(game)
-//            dispose()
-//        }
+    override fun createBackgroundStage(): BaseStage {
+        return object : BaseStage() {
+            override fun draw() {
+                batch.begin()
+                batch.draw(TextureCollection.gameOverBackground, 0f, 0f, SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
+                batch.end()
+                super.draw()
+            }
+        }
     }
+
+
 }

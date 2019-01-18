@@ -1,62 +1,32 @@
 package de.bitb.spacerace.model.player
 
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.scenes.scene2d.Touchable
-import com.badlogic.gdx.scenes.scene2d.ui.Image
-import de.bitb.spacerace.Logger
-import de.bitb.spacerace.base.BaseObject
-import de.bitb.spacerace.base.PlayerColor
-import de.bitb.spacerace.config.DEBUG_ITEMS
-import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemCollection
-import de.bitb.spacerace.controller.History
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
+import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.GameObject
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class Player(playerColor: PlayerColor = PlayerColor.NONE, img: Texture = TextureCollection.ship1) : BaseObject(img) {
+class Player(playerColor: PlayerColor = PlayerColor.NONE)
+    : GameObject(PositionData()) {
 
     companion object {
         val NONE = Player()
     }
 
-    lateinit var fieldGroup: SpaceField
+    var playerImage: PlayerImage = PlayerImage()
 
     var playerData = PlayerData(playerColor)
 
+    override fun getGameImage(): GameImage {
+        return playerImage
+    }
+
+    fun setFieldPosition(spaceField: SpaceField) {
+        playerImage.setFieldPosition(this, spaceField.gamePosition)
+    }
+
     init {
-        touchable = Touchable.disabled
-        setBounds(x, y, width * 1.8f, height * 1.8f)
-
-        for (i in 1..DEBUG_ITEMS) {
-            addRandomGift()
-        }
-    }
-
-    override fun getDisplayImage(): Image {
-        val image = super.getDisplayImage()
-        image.color = playerData.playerColor.color
-        return image
-    }
-
-    fun addRandomWin(): Int {
-        val win = (Math.random() * 1000).toInt() + 1
-        playerData.credits += win
-        Logger.println("Won: $win")
-        return win
-    }
-
-    fun substractRandomWin(): Int {
-        val lose = (Math.random() * 500).toInt() + 1
-        playerData.credits -= lose
-        Logger.println("Lost: $lose")
-        return lose
-    }
-
-    fun addRandomGift(): Item {
-        Logger.println("U got a gift")
-        val item = ItemCollection.getRandomItem()
-        playerData.items.add(item)
-        return item
+        setBounds(gamePosition.posX, gamePosition.posY, PLAYER_BORDER, PLAYER_BORDER)
     }
 
 }

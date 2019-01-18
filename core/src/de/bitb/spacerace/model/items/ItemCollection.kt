@@ -1,24 +1,62 @@
 package de.bitb.spacerace.model.items
 
-import de.bitb.spacerace.model.items.upgrade.IonEngine
+import de.bitb.spacerace.model.items.disposable.SlowMine
+import de.bitb.spacerace.model.items.disposable.moving.MovingMine
+import de.bitb.spacerace.model.items.equip.IonEngine
 import de.bitb.spacerace.model.items.usable.ExtraFuel
-import de.bitb.spacerace.model.items.usable.SpezialFuel
+import de.bitb.spacerace.model.items.usable.clean.CleanDroid
+import de.bitb.spacerace.model.items.usable.SpecialFuel
+import de.bitb.spacerace.model.items.usable.SpeedBoost
+import de.bitb.spacerace.model.player.PlayerColor
+import javax.naming.OperationNotSupportedException
 
-object ItemCollection {
+enum class ItemCollection {
 
-    private const val ITEM1 = 0
-    private const val ITEM2 = ITEM1 + 1
-    private const val ITEM3 = ITEM2 + 1
-    private const val ITEM_COUNT = ITEM3 + 1
+    //USABLE
+    EXTRA_FUEL,
+    SPECIAL_FUEL,
+    SPEED_BOOST,
+    CLEAN_DROID,
 
-    fun getRandomItem(index: Int = (Math.random() * ITEM_COUNT).toInt()): Item {
-        return when (index) {
-            ITEM1 -> ExtraFuel()
-            ITEM2 -> SpezialFuel()
-            ITEM3 -> IonEngine()
-            else -> getRandomItem()
+    //EQUIP
+    ION_ENGINE,
+
+    //DISPOSABLE
+    SLOW_MINE,
+    MOVING_MINE,
+
+    NONE;
+
+    companion object {
+        fun getAllItems(): MutableList<Item> {
+            val result = ArrayList<Item>()
+            for (value in values()) {
+                if (value != NONE) {
+                    result.add(value.create())
+                }
+            }
+            return result
+        }
+
+        fun getRandomItem(playerColor: PlayerColor, index: Int = (Math.random() * (values().size - 1)).toInt()): Item {
+            return values()[index].create(playerColor)
         }
     }
 
+    fun create(playerColor: PlayerColor = PlayerColor.NONE): Item {
+        return when (this) {
+            EXTRA_FUEL -> ExtraFuel(playerColor, 2000)
+            SPECIAL_FUEL -> SpecialFuel(playerColor, 1000)
+            SPEED_BOOST -> SpeedBoost(playerColor, 3000, 1)
+            CLEAN_DROID -> CleanDroid(playerColor, 2000)
+
+            ION_ENGINE -> IonEngine(playerColor, 5000)
+
+            SLOW_MINE -> SlowMine(playerColor, 3000)
+            MOVING_MINE -> MovingMine(playerColor, 4000)
+
+            NONE -> throw OperationNotSupportedException()
+        }
+    }
 
 }

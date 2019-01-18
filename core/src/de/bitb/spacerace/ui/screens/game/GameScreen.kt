@@ -1,38 +1,27 @@
 package de.bitb.spacerace.ui.screens.game
 
-import de.bitb.spacerace.base.BaseGame
-import de.bitb.spacerace.base.BaseObject
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.controller.InputHandler
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.GameObject
 
-
-class GameScreen(game: BaseGame, val inputHandler: InputHandler = InputHandler()) : BaseScreen(game) {
+class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, previousScreen) {
 
     override fun createGuiStage(): BaseStage {
-        return GameGuiStage(this, inputHandler)
+        return GameGuiStage(game, this)
     }
 
     override fun createGameStage(): BaseStage {
-        return GameStage(inputHandler.space, this)
+        return GameStage(this)
     }
 
     override fun createBackgroundStage(): BaseStage {
-        return BackgroundStage(inputHandler.space, this)
+        return BackgroundStage(this)
     }
 
-    override fun renderGame(delta: Float) {
-        val batch = gameStage.batch
-        batch.begin()
-        for (connection in inputHandler.space.fieldController.connections) {
-            connection.draw(batch, 1f, gameStage.camera.combined)
-        }
-        batch.end()
-        super.renderGame(delta)
-    }
-
-    override fun getCameraTarget(): BaseObject? {
-        return inputHandler.space.playerController.currentPlayer
+    override fun getCameraTarget(): GameImage? {
+        return game.gameController.playerController.currentPlayer.getGameImage()
     }
 
     fun onZoomPlusClicked() {

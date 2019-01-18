@@ -3,12 +3,16 @@ package de.bitb.spacerace.ui.base
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING
+import de.bitb.spacerace.controller.InputObserver
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
-abstract class BaseMenu(val guiStage: GameGuiStage, val previousMenu: BaseMenu? = null) : Table(TextureCollection.skin), GuiComponent by guiStage{
+abstract class BaseMenu(val guiStage: GameGuiStage, private val previousMenu: BaseMenu? = null) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver, DefaultFunction by object : DefaultFunction {} {
 
     var isOpen: Boolean = false
 
@@ -26,17 +30,23 @@ abstract class BaseMenu(val guiStage: GameGuiStage, val previousMenu: BaseMenu? 
     }
 
     open fun openMenu() {
+        guiStage.screen.game.gameController.inputHandler.addListener(this)
         isOpen = true
         previousMenu?.closeMenu()
         guiStage.addActor(this)
     }
 
     open fun closeMenu() {
+        guiStage.screen.game.gameController.inputHandler.removeListener(this)
         isOpen = false
     }
 
-    open fun onBack(){
+    open fun onBack() {
         closeMenu()
         previousMenu?.openMenu()
+    }
+
+    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+
     }
 }

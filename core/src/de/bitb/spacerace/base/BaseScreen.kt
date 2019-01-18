@@ -1,19 +1,22 @@
 package de.bitb.spacerace.base
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.InputMultiplexer
-import com.badlogic.gdx.Screen
+import com.badlogic.gdx.*
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.input.GestureDetector
-import de.bitb.spacerace.CameraActions.*
+import de.bitb.spacerace.CameraActions.CAMERA_FREE
+import de.bitb.spacerace.CameraActions.CAMERA_LOCKED
 import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.config.MAX_ZOOM
+import de.bitb.spacerace.config.MIN_ZOOM
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.GameObject
 
 
-open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
+open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
     companion object {
-        const val MAX_ZOOM = 5
-        const val MIN_ZOOM = 1
+        var MAIN_DELTA = 0f
     }
 
     var backgroundStage: BaseStage = BaseStage.NONE
@@ -32,7 +35,42 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
         guiStage = createGuiStage()
         gameStage = createGameStage()
         backgroundStage = createBackgroundStage()
-        Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this))
+        Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this), object : InputProcessor {
+            override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+                return true
+            }
+
+            override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
+                return true
+            }
+
+            override fun keyTyped(character: Char): Boolean {
+                return true
+            }
+
+            override fun scrolled(amount: Int): Boolean {
+                return true
+            }
+
+            override fun keyUp(keycode: Int): Boolean {
+                return true
+            }
+
+            override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
+                return true
+            }
+
+            override fun keyDown(keycode: Int): Boolean {
+                Logger.println("KEY DOWN: ${Input.Keys.toString(keycode)}")
+                Logger.println("KEY CODE: $keycode")
+                return true
+            }
+
+            override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+                return true
+            }
+
+        })
 
         val gameCam = gameStage.camera as OrthographicCamera
         gameCam.zoom = currentZoom
@@ -52,6 +90,7 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
     }
 
     override fun render(delta: Float) {
+        MAIN_DELTA += delta
         game.clearScreen(blue = 200f)
 
         renderBackground(delta)
@@ -59,14 +98,18 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
         renderGui(delta)
 
         renderCamera(delta)
+
+        if (MAIN_DELTA > 1f) {
+            MAIN_DELTA = 0f
+        }
     }
 
     open fun renderCamera(delta: Float) {
         if (!cameraStatus.isFree()) {
             val cameraTarget = getCameraTarget()
             if (cameraTarget != null) {
-                val posX = cameraTarget.x + cameraTarget.width / 2
-                val posY = cameraTarget.y + cameraTarget.height / 2
+                val posX = cameraTarget.getCenterX()
+                val posY = cameraTarget.getCenterY()
                 gameStage.camera.position.set(posX, posY, 0f)
                 gameStage.camera.update()
 
@@ -76,7 +119,7 @@ open class BaseScreen(val game: BaseGame) : Screen, GestureDetector.GestureListe
         }
     }
 
-    open fun getCameraTarget(): BaseObject? {
+    open fun getCameraTarget(): GameImage? {
         return null
     }
 

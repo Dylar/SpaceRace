@@ -1,71 +1,77 @@
 package de.bitb.spacerace.model.space.groups
 
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_LARGE
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_TOO_LARGE
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_XXLARGE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.control.BaseSpace
-import de.bitb.spacerace.model.space.fields.MineField
+import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.model.items.disposable.moving.MovingState
+import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.model.space.groups.SpaceGroup
 
-class TestGroup(space: BaseSpace, offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(space, offsetX, offsetY) {
-
-    val screenWidth = SCREEN_WIDTH
-    val screenHeight = SCREEN_HEIGHT
+open class TestGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f, vararg fieldType: FieldType) : SpaceGroup(gameController, offsetX, offsetY) {
+    var fieldTypeSize = fieldType.size
+    var index = 0
 
     init {
-        val spaceField1 = SpaceField(fields.size, FieldType.GIFT)
-        addField(spaceField1)
-        val spaceField2 = MineField(fields.size)
-        addField(spaceField2, screenWidth - spaceField2.width)
-        val spaceField3 = SpaceField(fields.size, FieldType.LOSE)
-        addField(spaceField3, screenWidth / 2 - spaceField3.width / 2)
-        val spaceField4 = SpaceField(fields.size, FieldType.AMBUSH)
-        addField(spaceField4, screenWidth - spaceField4.width, screenHeight - spaceField4.height)
-        val spaceField5 = SpaceField(fields.size, FieldType.UNKNOWN)
-        addField(spaceField5, screenWidth / 2 - spaceField5.width / 2, screenHeight - spaceField5.height)
-        val spaceField6 = SpaceField(fields.size, FieldType.LOSE)
-        addField(spaceField6, posY = screenHeight - spaceField6.height)
-        val spaceField7 = SpaceField(fields.size, FieldType.SHOP)
-        addField(spaceField7, ((screenWidth / 3 - spaceField7.width * 2 / 3)), (screenHeight / 2 - spaceField7.height / 2))
-        val spaceField8 = SpaceField(fields.size, FieldType.RANDOM)
-        addField(spaceField8, ((screenWidth * 2 / 3 + spaceField8.width / 3)), (screenHeight / 2 - spaceField8.height / 2))
+        //BOTTOM
+        fieldTypeSize = fieldType.size
+        val centerBottomField = SpaceField.createField(fieldType[index])
+        addField(centerBottomField, SCREEN_WIDTH / 2)
+        val leftBottomCorner = SpaceField.createField(fieldType[index])
+        addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
+        val rightBottomCorner = SpaceField.createField(fieldType[index])
+        addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
-        val spaceField9 = SpaceField(fields.size, FieldType.WIN)
-        addField(spaceField9, screenWidth.toFloat(), posY = -(screenHeight / 2 - spaceField9.height / 2))
+        connect(leftBottomCorner, centerBottomField)
+        connect(rightBottomCorner, centerBottomField)
 
-        space.fieldController.addConnection(spaceField1, spaceField3)
-        space.fieldController.addConnection(spaceField2, spaceField3)
-        space.fieldController.addConnection(spaceField5, spaceField6)
-        space.fieldController.addConnection(spaceField5, spaceField4)
-        space.fieldController.addConnection(spaceField8, spaceField4)
-        space.fieldController.addConnection(spaceField2, spaceField4)
-        space.fieldController.addConnection(spaceField3, spaceField7)
-        space.fieldController.addConnection(spaceField8, spaceField7)
-        space.fieldController.addConnection(spaceField1, spaceField6)
-        space.fieldController.addConnection(spaceField7, spaceField6)
-        space.fieldController.addConnection(spaceField2, spaceField9)
+        //TOP
+        val centerTopField = SpaceField.createField(fieldType[index])
+        addField(centerTopField, centerBottomField, verticalMod = FIELD_PADDING_XXLARGE)
+        val leftTopCorner = SpaceField.createField(fieldType[index])
+        addField(leftTopCorner, centerTopField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
+        val rightTopCorner = SpaceField.createField(fieldType[index])
+        addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
 
-        addConnectionPoint(ConnectionPoint.UP, spaceField5)
-        addConnectionPoint(ConnectionPoint.DOWN, spaceField3)
-        addConnectionPoint(ConnectionPoint.LEFT, spaceField7)
-        addConnectionPoint(ConnectionPoint.RIGHT, spaceField8)
-        addConnectionPoint(ConnectionPoint.UP, spaceField6)
-        addConnectionPoint(ConnectionPoint.DOWN, spaceField1)
+        connect(leftTopCorner, centerTopField)
+        connect(rightTopCorner, centerTopField)
 
-        setPosition(offsetX, offsetY)
+        //CENTER
+        val leftCenterField = SpaceField.createField(fieldType[index])
+        addField(leftCenterField, centerBottomField, -FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.LEFT)
+        val rightCenterField = SpaceField.createField(fieldType[index])
+        addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
+
+        //LONG WAY
+        val longWayField = SpaceField.createField(fieldType[index])
+        addField(longWayField, centerBottomField, verticalMod = -FIELD_PADDING_TOO_LARGE, connection = ConnectionPoint.TOP)
+//        addConnectionPoint(ConnectionPoint.BOTTOM, longWayField)
+//        addConnectionPoint(ConnectionPoint.LEFT, longWayField)
+//        addConnectionPoint(ConnectionPoint.RIGHT, longWayField)
+        val moonField = SpaceField.createField(fieldType[index])
+        addField(moonField, leftBottomCorner, FIELD_PADDING_LARGE)
+
+        moonField.fieldImage.setRotating(moonField, leftBottomCorner.getGameImage(), (moonField.getGameImage().height * FIELD_PADDING_XXLARGE).toDouble())
+
+        connect(longWayField, leftBottomCorner)
+        connect(leftBottomCorner, moonField)
+
+        connect(leftCenterField, rightCenterField)
+
+        connect(leftCenterField, centerBottomField)
+        connect(rightCenterField, rightTopCorner)
+        connect(leftTopCorner, leftBottomCorner)
+        connect(rightTopCorner, rightBottomCorner)
+
     }
 
-    private fun addField(spaceField: SpaceField, posX: Float = spaceField.x, posY: Float = spaceField.y, connection: ConnectionPoint = ConnectionPoint.NONE) {
-        spaceField.id = fields.size
-        spaceField.group = this
-        spaceField.setPosition(posX, posY)
-        fields[spaceField.id] = spaceField
-        if (connection != ConnectionPoint.NONE) {
-            getConnection(connection).add(spaceField)
-        }
-        addActor(spaceField)
+    override fun addField(addField: SpaceField, posX: Float, posY: Float, connection: ConnectionPoint) {
+        super.addField(addField, posX, posY, connection)
+        index++
+        if (fieldTypeSize == index) index = 0
     }
 
 }

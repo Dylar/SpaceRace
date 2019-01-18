@@ -1,34 +1,41 @@
 package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.base.PlayerColor
-import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.events.commands.obtain.ObtainGiftCommand
-import de.bitb.spacerace.events.commands.obtain.ObtainLoseCommand
-import de.bitb.spacerace.events.commands.obtain.ObtainMineCommand
-import de.bitb.spacerace.events.commands.obtain.ObtainWinCommand
+import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.events.commands.obtain.*
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.control.BaseSpace
 
-class StartMain2Command(inputHandler: InputHandler, playerColor: PlayerColor) : PhaseCommand(inputHandler, playerColor) {
+class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
-    override fun canExecute(space: BaseSpace): Boolean {
-        return space.phaseController.canContinue()
+    override fun canExecute(game: MainGame): Boolean {
+        return true
     }
 
-    override fun execute(space: BaseSpace) {
-        val player = space.playerController.getPlayer(playerColor)
-        when (player.playerData.fieldPosition.fieldType) {
-            FieldType.WIN -> inputHandler.handleCommand(ObtainWinCommand(playerColor))
-            FieldType.LOSE -> inputHandler.handleCommand(ObtainLoseCommand(playerColor))
-            FieldType.GIFT -> inputHandler.handleCommand(ObtainGiftCommand(playerColor))
-            FieldType.MINE -> inputHandler.handleCommand(ObtainMineCommand(playerColor))
-            FieldType.SHOP -> space.phaseController.openShop()
-            FieldType.RANDOM -> Logger.println("RANDOM ACTION")
-            FieldType.UNKNOWN -> Logger.println("UNKNOWN ACTION")
-            FieldType.AMBUSH -> Logger.println("AMBUSH ACTION")
+    override fun execute(game: MainGame) {
+        val inputHandler = game.gameController.inputHandler
+        val field = getPlayerField(game, playerColor)
+        field.disposedItems.forEach { it.use(game, playerColor) }
+
+        val command: BaseCommand = when (field.fieldType) {
+            FieldType.WIN -> ObtainWinCommand(playerColor)
+            FieldType.LOSE -> ObtainLoseCommand(playerColor)
+            FieldType.AMBUSH -> ObtainAmbushCommand(playerColor)
+            FieldType.GIFT -> ObtainGiftCommand(playerColor)
+            FieldType.MINE -> ObtainMineCommand(playerColor)
+            FieldType.TUNNEL -> ObtainTunnelCommand(playerColor)
+            FieldType.SHOP -> ObtainShopCommand(playerColor)
+            FieldType.GOAL -> ObtainGoalCommand(playerColor)
+            else -> {
+                Logger.println("IMPL ME")
+                ObtainLoseCommand(playerColor)
+            }
         }
+
+//            FieldType.PLANET -> TODO()
+//            FieldType.RANDOM -> TODO()
+//            FieldType.UNKNOWN -> TODO()
+        inputHandler.handleCommand(command)
     }
-
-
 }

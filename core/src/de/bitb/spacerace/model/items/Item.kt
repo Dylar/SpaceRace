@@ -1,17 +1,35 @@
 package de.bitb.spacerace.model.items
 
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.scenes.scene2d.EventListener
-import com.badlogic.gdx.scenes.scene2d.ui.Image
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.GameObject
+import de.bitb.spacerace.model.player.PlayerColor
 
-abstract class Item(val img: Texture, val text: String) {
+abstract class Item(var owner: PlayerColor,
+                    val price: Int) : GameObject() {
 
-    fun getDisplayImage(): Image {
-        return object : Image(img) {}
+    abstract val itemType: ItemCollection
+    abstract val img: Texture
+    abstract var text: String
+    open var charges: Int = 1
+
+    var state: ItemState = ItemState.NONE
+    private lateinit var itemImage: ItemImage
+
+    override fun getGameImage(): GameImage {
+        return getItemImage()
     }
 
-    fun use(){
-        //TODO
+    fun getItemImage(): ItemImage {
+        return if (::itemImage.isInitialized) itemImage else {
+            itemImage = ItemImage(img)
+            itemImage.itemColor = owner.color
+            itemImage
+        }
     }
+
+    abstract fun canUse(game: MainGame, player: PlayerColor): Boolean
+    abstract fun use(game: MainGame, player: PlayerColor): Boolean
 
 }

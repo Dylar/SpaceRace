@@ -1,51 +1,61 @@
 package de.bitb.spacerace.model.space.fields
 
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction.FOREVER
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import de.bitb.spacerace.config.DEBUG_FIELDS_NR
-import de.bitb.spacerace.base.BaseObject
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.groups.TestGroup
+import de.bitb.spacerace.model.items.disposable.DisposableItem
+import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.GameObject
+import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
+import de.bitb.spacerace.model.space.groups.SpaceGroup
 
-open class SpaceField(var id: Int = -1, var fieldType: FieldType = FieldType.UNKNOWN, img: Texture = fieldType.texture) : BaseObject(img) {
-    lateinit var group: TestGroup
+open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN,
+                      var fieldImage: FieldImage = FieldImage(fieldType),
+                      positionData: PositionData = PositionData()) :
+        GameObject(positionData), IBlinkingImage by fieldImage {
 
-    override fun getAbsolutX(): Float {
-        val offset: Float = if (::group.isInitialized) group.offsetX else 0f
-        return super.getX() + offset + width / 2
+    override fun getGameImage(): GameImage {
+        return fieldImage
     }
 
-    override fun getAbsolutY(): Float {
-        val offset: Float = if (::group.isInitialized) group.offsetY else 0f
-        return super.getY() + offset + height / 2
+    companion object {
+        val NONE: SpaceField = SpaceField()
+
+        fun createField(fieldType: FieldType): SpaceField {
+            return when (fieldType) {
+                FieldType.MINE -> MineField()
+                FieldType.RANDOM -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
+                else -> {
+                    SpaceField(fieldType)
+                }
+            }
+        }
     }
+
+    var group: SpaceGroup? = null
+    val connections: MutableList<SpaceConnection> = ArrayList()
+
+    val disposedItems: MutableList<DisposableItem> = ArrayList()
 
     init {
-        setBounds(x, y, width * 3.5f, height * 3.5f)
-        setOrigin(width / 2, height / 2)
-        val repeat = RepeatAction()
-        repeat.action = Actions.rotateBy((Math.random() * 1).toFloat())
-        repeat.count = FOREVER
-        addAction(repeat)
+        setBounds(positionData.posX, positionData.posY, FIELD_BORDER, FIELD_BORDER)
     }
 
-    override fun draw(batch: Batch?, parentAlpha: Float) {
-        super.draw(batch, parentAlpha)
-        if (DEBUG_FIELDS_NR) {
-            val label = TextButton(id.toString(), TextureCollection.skin, "default")
-            label.label.width = width
-            label.setPosition(x + width / 2, y + height / 2)
-//            label.setPosition(getAbsolutX(), getAbsolutY())
-            label.color = Color.ROYAL
-            label.style.fontColor = Color.RED
-            label.draw(batch, parentAlpha)
+    fun disposeItem(disposableItem: DisposableItem) {
+        disposedItems.add(disposableItem)
+        getGameImage().stage.addActor(disposableItem.getGameImage())
+    }
+
+    fun attachItem(disposableItem: DisposableItem) {
+        disposedItems.remove(disposableItem)
+        disposableItem.getGameImage().remove()
+    }
+
+    fun hasConnectionTo(spaceField: SpaceField): Boolean {
+        connections.forEach {
+            if (it.isConnection(this, spaceField)) return true
         }
+        return false
     }
 
 }

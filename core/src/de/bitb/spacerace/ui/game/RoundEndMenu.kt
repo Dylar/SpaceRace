@@ -9,14 +9,13 @@ import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_TITLE
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.space.control.BaseSpace
-import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
-class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiStage) {
+class RoundEndMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
-        val players = space.playerController.players
+        val players = guiStage.gameController.playerController.players
         var size = players.size
         size = if (size < GAME_MENU_END_ROUND_WIDTH_MIN) GAME_MENU_END_ROUND_WIDTH_MIN else size
 
@@ -43,7 +42,7 @@ class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiS
     private fun addPlayer(players: MutableList<Player>) {
         row()
         for (player in players) {
-            val displayImage = player.getDisplayImage()
+            val displayImage = player.getDisplayImage(player, color = player.playerData.playerColor.color)
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     val playerDetails = RoundEndDetails(guiStage, this@RoundEndMenu, player)
@@ -59,9 +58,10 @@ class RoundEndMenu(val space: BaseSpace, guiStage: GameGuiStage) : BaseMenu(guiS
     private fun addButtons(size: Int) {
         row()
         val continueBtn = createButton(name = Strings.GameGuiStrings.GAME_BUTTON_CONTINUE, listener = object : InputListener() {
+
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 closeMenu()
-                guiStage.inputHandler.handleCommand(NextPhaseCommand(guiStage.inputHandler, space.playerController.currentPlayer.playerData.playerColor))
+                guiStage.inputHandler.handleCommand(NextPhaseCommand(guiStage.screen.game.gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })
