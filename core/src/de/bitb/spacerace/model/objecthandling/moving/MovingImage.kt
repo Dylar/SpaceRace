@@ -19,6 +19,8 @@ class MovingImage : IMovingImage {
 
     private lateinit var doAfter: Array<out Action>
 
+    private var lastRotation: Float = 0f
+
     override fun moveTo(movingImage: GameImage, imagePosition: PositionData, vararg doAfter: Action) {
         movingImage.movingState = MovingState.MOVING
 

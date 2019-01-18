@@ -26,6 +26,35 @@ object Logger {
             return Logger::class.java.simpleName
         }
 
+    //TODO mach das mal
+//
+//    private fun getCallingClass(): String {
+//        val stackTraceElements = Thread.currentThread().stackTrace
+//        for (searchLoggerClassIndex in stackTraceElements.indices) {
+//            if (isLoggerClass(stackTraceElements[searchLoggerClassIndex])) {
+//                try {
+//                    for (searchNextNotLoggerClassIndex in searchLoggerClassIndex until stackTraceElements.size) {
+//                        val callingClass = stackTraceElements[searchNextNotLoggerClassIndex]
+//                        if (!isLoggerClass(callingClass)) {
+//                            val split = callingClass.className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+//                            var className = split[split.size - 1]
+//
+//                            if (className.contains("$")) {
+//                                className = className.split("\\$".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+//                            }
+//
+//                            return "(" + className + ".java:" + callingClass.lineNumber + ")"
+//                        }
+//                    }
+//                } catch (e: Exception) {
+//                    return Logger::class.java.simpleName
+//                }
+//
+//            }
+//        }
+//        return Logger::class.java.simpleName
+//    }
+
 //    fun error(message: String) {
 //        if (isAllowedToLog) {
 //            Log.e(callingClass, message)

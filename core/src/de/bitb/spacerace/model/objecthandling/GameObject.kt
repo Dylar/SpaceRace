@@ -32,7 +32,6 @@ abstract class GameObject(var gamePosition: PositionData = PositionData())
     fun setPosition(positionData: PositionData) {
         setPosition(positionData.posX, positionData.posY)
         centerImage()
-//        setPosition(this.gamePosition.getCenterPosX(gamePosition), this.gamePosition.getCenterPosY(gamePosition))
     }
 
 }

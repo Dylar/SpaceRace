@@ -18,6 +18,7 @@ class RotatingImage : IRotatingImage {
     private val slice: Float = (2 * Math.PI / 360).toFloat()
     private var angle = 0.0
     private var radius: Double = 0.0
+    private var currentRotation: Float = 0f
 
     override fun setRotationRadius(radius: Double) {
         this.radius = radius
@@ -70,8 +71,13 @@ class RotatingImage : IRotatingImage {
                 ) * ONE_EIGHTY_DEGREE / Math.PI
 
                 rotatingImage.rotation = (degrees + -NINETY_DEGREE).toFloat()
+                currentRotation = rotatingImage.rotation - rotationPosition.rotation
             }
             MovingState.NONE -> {
+                if (rotationPosition != GameImage.NONE) {
+                    rotatingImage.rotation = rotationPosition.rotation + currentRotation
+                }
+
             }
         }
     }
