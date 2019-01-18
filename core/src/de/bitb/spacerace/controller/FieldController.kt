@@ -17,7 +17,6 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.maps.SpaceMap
-import de.bitb.spacerace.model.space.maps.TestMap
 
 class FieldController(playerController: PlayerController) : DefaultFunction {
 
@@ -40,9 +39,10 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
         return SpaceField.NONE
     }
 
-    fun addShip(player: Player, spaceField1: SpaceField) {
-        player.setPosition(spaceField1.gamePosition)
+    fun addShip(player: Player, spaceField: SpaceField) {
+        player.setPosition(spaceField.gamePosition)
         player.getGameImage().color = player.playerData.playerColor.color
+        player.getGameImage().followImage = spaceField.fieldImage
     }
 
     fun addField(gameController: GameController, spaceField: SpaceField) {
@@ -96,7 +96,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
 
         while (tunnel.gamePosition.isPosition(playerPosition)) {
             tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
-        }
+        }//TODO klappt das?
 
         return tunnel
     }
@@ -113,7 +113,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
             val point = itemImage.getRotationPosition(itemImage, newField.getGameImage())
 
             item.gamePosition.setPosition(newField.gamePosition)
-            itemImage.moveTo(item, point, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
+            itemImage.moveTo(item.getGameImage(), point, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
             toRemove.add(item)
         }
 

@@ -48,7 +48,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
     }
 
     private fun addImage() {
-        val cell = add(item.getDisplayImage(item.img))
+        val cell = add(item.getDisplayImage(item))
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }

@@ -52,7 +52,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
     }
 
     private fun addImage() {
-        val cell = add(items[0].getDisplayImage(items[0].img))
+        val cell = add(items[0].getDisplayImage(items[0]))
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }

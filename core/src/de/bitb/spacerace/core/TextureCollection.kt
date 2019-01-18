@@ -3,6 +3,7 @@ package de.bitb.spacerace.core
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 
 
@@ -25,8 +26,11 @@ object TextureCollection {
     val goalPlanet: Texture
     val unknownPlanet: Texture
 
-    val ship1: Texture
-    val ship2: Texture
+    val shipLanding1: Texture
+    val shipLanding2: Texture
+    val shipMoving1: Texture
+    val shipMoving2: Texture
+    val shipMoving3: Texture
 
     val fieldItemShop: Texture
 
@@ -48,11 +52,21 @@ object TextureCollection {
         //SET DEFAULT TEXTURE
         val defaultTexture = Pixmap(Gdx.files.internal("objects.png"))
         var section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 0, imageSize, imageSize)
-        ship1 = Texture(section)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 2, imageSize * 3, imageSize, imageSize)
+        shipLanding1 = Texture(section)
         section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize, imageSize, imageSize)
-        ship2 = Texture(section)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 3, imageSize, imageSize)
+        shipLanding2 = Texture(section)
+
+        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 2, imageSize, imageSize)
+        shipMoving1 = Texture(section)
+        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 1, imageSize, imageSize)
+        shipMoving2 = Texture(section)
+        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 0, imageSize, imageSize)
+        shipMoving3 = Texture(section)
 
         //SET PLANET TEXTURE
         val planetTexture = Pixmap(Gdx.files.internal("objects/planets.png"))

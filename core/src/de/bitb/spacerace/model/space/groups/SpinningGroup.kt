@@ -82,7 +82,7 @@ open class SpinningGroup(gameController: GameController, offsetX: Float = 0f, of
 
     private fun addMoon(moonField: SpaceField, centerPoint: SpaceField, radius: Double) {
         addField(moonField, centerPoint)
-        moonField.fieldImage.setRotationPoint(moonField, centerPoint.getGameImage(), radius)
+        moonField.fieldImage.setRotating(moonField, centerPoint.getGameImage(), radius)
     }
 
     override fun addField(addField: SpaceField, posX: Float, posY: Float, connection: ConnectionPoint) {

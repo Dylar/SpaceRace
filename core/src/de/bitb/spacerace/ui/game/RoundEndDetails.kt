@@ -38,7 +38,7 @@ class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Pla
 
     private fun addImage(player: Player) {
         row()
-        val cell = add(player.getDisplayImage(player.getGameImage().texture, color = player.playerData.playerColor.color))
+        val cell = add(player.getDisplayImage(player, color = player.playerData.playerColor.color))
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }

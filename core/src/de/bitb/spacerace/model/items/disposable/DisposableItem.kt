@@ -23,7 +23,7 @@ abstract class DisposableItem(owner: PlayerColor, price: Int) : Item(owner, pric
             ItemState.STORAGE -> {
                 val field = getPlayerField(game, player)
                 val fieldImage = field.getGameImage()
-                getItemImage().setRotationPoint(this, fieldImage, fieldImage.width * 0.7)
+                getItemImage().setRotating(this, fieldImage, fieldImage.width * 0.7)
                 field.disposeItem(this)
                 getPlayerItems(game, player).disposeItem(this)
                 true

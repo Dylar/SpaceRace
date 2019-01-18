@@ -7,8 +7,8 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 
 interface IMovingImage {
 
-    fun moveTo(movingObject: GameObject, imagePosition: PositionData, vararg doAfter: Action)
-    fun moveToPoint(movingObject: GameObject, targetImage: GameImage, vararg doAfter: Action)
+    fun moveTo(movingImage: GameImage, imagePosition: PositionData, vararg doAfter: Action)
+    fun moveToPoint(movingImage: GameImage, targetImage: GameImage, vararg doAfter: Action)
 
     fun actMoving(movingImage: GameImage, targetPosition: GameImage, deltaTime: Float)
 }
