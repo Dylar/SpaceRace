@@ -1,7 +1,6 @@
 package de.bitb.spacerace.model.player
 
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
-import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -14,7 +13,7 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE)
         val NONE = Player()
     }
 
-    var playerImage: PlayerImage = PlayerImage(TextureCollection.shipLanding1)
+    var playerImage: PlayerImage = PlayerImage()
 
     var playerData = PlayerData(playerColor)
 

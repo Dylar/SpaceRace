@@ -6,8 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
+import de.bitb.spacerace.model.objecthandling.GameImage
 
-class PlayerAnimation : BaseAnimation<PlayerImage>() {
+class PlayerAnimation : BaseAnimation() {
 
     private var movingTime = 0f
     private var landingTime = 0f
@@ -18,13 +19,13 @@ class PlayerAnimation : BaseAnimation<PlayerImage>() {
     var animationFrame3 = TextureRegion(TextureCollection.shipMoving3)
     var animationFrame4 = TextureRegion(TextureCollection.shipMoving2)
     var movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
-    var landingAnimation = Animation(0.5f, landingFrame1, landingFrame2)
+    var landingAnimation = Animation(0.3f, landingFrame1, landingFrame2)
 
     init {
         region = landingFrame1
     }
 
-    override fun actAnimation(gameImage: PlayerImage, delta: Float) {
+    override fun actAnimation(gameImage: GameImage, delta: Float) {
         val draw = when (gameImage.movingState) {
             MovingState.MOVING -> {
                 movingTime += delta

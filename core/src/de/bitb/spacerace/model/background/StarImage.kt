@@ -21,7 +21,7 @@ class StarImage(img: Texture,
                 var startY: Float = 0f,
                 var endX: Float = Dimensions.SCREEN_WIDTH,
                 var endY: Float = SCREEN_HEIGHT)
-    : GameImage(img), IMovingImage by MovingImage() {
+    : GameImage(), IMovingImage by MovingImage() {
 
     override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
 

@@ -47,7 +47,7 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
         row()
         for (typeList in items) {
             if (typeList.value.isNotEmpty()) {
-                val displayImage = typeList.value[0].getDisplayImage(typeList.value[0].img)
+                val displayImage = typeList.value[0].getDisplayImage(typeList.value[0])
                 displayImage.addListener(object : InputListener() {
                     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                         itemDetails = ItemDetails(game, guiStage, this@ItemMenu, typeList.value)

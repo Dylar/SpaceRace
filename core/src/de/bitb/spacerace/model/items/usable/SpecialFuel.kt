@@ -10,7 +10,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 class SpecialFuel(playerColor: PlayerColor, price: Int) : UsableItem( playerColor, price), DiceModification {
 
     override val itemType: ItemCollection = ItemCollection.SPECIAL_FUEL
-    override val img: Texture = TextureCollection.shipLanding1
+    override val img: Texture = TextureCollection.shipMoving2
     override var text: String = ""
         get() = ITEM_SPECIAL_FUEL_TEXT
 

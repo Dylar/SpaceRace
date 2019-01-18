@@ -14,8 +14,8 @@ import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 
-class FieldImage(img: Texture, var fieldType: FieldType)
-    : GameImage(img),
+class FieldImage(var fieldType: FieldType)
+    : GameImage(fieldType.getAnimation()),
         IBlinkingImage by BlinkingImage(),
         IRotatingImage by RotatingImage() {
     override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()

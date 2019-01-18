@@ -43,8 +43,8 @@ interface DefaultFunction {
         return game.gameController.fieldController.getField(item)
     }
 
-    fun getDisplayImage(img: Texture, posX: Float = 0f, posY: Float = 0f, color: Color = Color(1f, 1f, 1f, 1f), actor: Actor = Actor()): Image {
-        val image = object : Image(img) {
+    fun getDisplayImage(gameObject: GameObject, posX: Float = 0f, posY: Float = 0f, color: Color = Color(1f, 1f, 1f, 1f), actor: Actor = Actor()): Image {
+        val image = object : Image(gameObject.getGameImage().animation!!.region) {
             override fun act(delta: Float) {
                 super.act(delta)
                 actor.act(delta)
