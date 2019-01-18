@@ -5,25 +5,38 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
+import de.bitb.spacerace.model.objecthandling.BaseAnimation
 
-class PlayerAnimation : TextureRegionDrawable() {
+class PlayerAnimation : BaseAnimation<PlayerImage>() {
 
-    private var stateTime = 0f
-    var w1 = TextureRegion(TextureCollection.ship2)
-    var w2 = TextureRegion(TextureCollection.ship1)
-    var animation = Animation(0.1f, w1, w2)
+    private var movingTime = 0f
+    private var landingTime = 0f
+    var landingFrame1 = TextureRegion(TextureCollection.shipLanding1)
+    var landingFrame2 = TextureRegion(TextureCollection.shipLanding2)
+    var animationFrame1 = TextureRegion(TextureCollection.shipMoving1)
+    var animationFrame2 = TextureRegion(TextureCollection.shipMoving2)
+    var animationFrame3 = TextureRegion(TextureCollection.shipMoving3)
+    var animationFrame4 = TextureRegion(TextureCollection.shipMoving2)
+    var movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
+    var landingAnimation = Animation(0.5f, landingFrame1, landingFrame2)
 
     init {
-        region = w1
+        region = landingFrame1
     }
 
-    fun actAnimation(playerImage: PlayerImage, delta: Float) {
-        if (playerImage.movingState == MovingState.MOVING) {
-            stateTime += delta
-        }else{
-            stateTime = 0f
+    override fun actAnimation(gameImage: PlayerImage, delta: Float) {
+        val draw = when (gameImage.movingState) {
+            MovingState.MOVING -> {
+                movingTime += delta
+                landingTime = 0f
+                movingAnimation.getKeyFrame(movingTime, true)
+            }
+            else -> {
+                landingTime += delta
+                movingTime = 0f
+                landingAnimation.getKeyFrame(landingTime, false)
+            }
         }
-        val draw = animation.getKeyFrame(stateTime, true)
-        (playerImage.drawable as TextureRegionDrawable).region = draw
+        (gameImage.drawable as TextureRegionDrawable).region = draw
     }
 }

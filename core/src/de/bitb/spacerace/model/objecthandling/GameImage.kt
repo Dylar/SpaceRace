@@ -1,7 +1,6 @@
 package de.bitb.spacerace.model.objecthandling
 
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -53,27 +52,14 @@ abstract class GameImage(val texture: Texture) : Image(texture), DefaultFunction
         actionQueue.add(Actions.sequence(*actions))
     }
 
-//    private val drawable: AnimationDrawable = AnimationDrawable(this, Animation(1f, TextureCollection.ship1, TextureCollection.ship1))
-
     override fun act(delta: Float) {
         super.act(delta)
-//        if (this is PlayerImage) {
-//            drawable.act(delta)
-//        }
         if (isIdling() && actionQueue.isNotEmpty()) {
             val seq = Actions.sequence(*actionQueue.toTypedArray())
             actionQueue.clear()
             super.addAction(seq)
         }
     }
-
-//    override fun draw(batch: Batch?, parentAlpha: Float) {
-//        if (this is PlayerImage) {
-//            drawable.draw(batch as SpriteBatch, x, y, width, height)
-//        } else {
-//            super.draw(batch, parentAlpha)
-//        }
-//    }
 
     open fun getBoundingRectangle(): Rectangle {
         return Rectangle(getCenterX(), getCenterY(), 100f, 100f)

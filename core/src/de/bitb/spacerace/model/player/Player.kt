@@ -14,7 +14,7 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE)
         val NONE = Player()
     }
 
-    var playerImage: PlayerImage = PlayerImage(TextureCollection.ship1)
+    var playerImage: PlayerImage = PlayerImage(TextureCollection.shipLanding1)
 
     var playerData = PlayerData(playerColor)
 

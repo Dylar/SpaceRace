@@ -26,7 +26,7 @@ class PlayerImage(img: Texture)
     init {
         touchable = Touchable.disabled
 
-         playerAnimation = PlayerAnimation()
+        playerAnimation = PlayerAnimation()
         drawable = playerAnimation
         setOrigin(PLAYER_BORDER / 2, PLAYER_BORDER / 2)
     }
@@ -45,7 +45,7 @@ class PlayerImage(img: Texture)
     }
 
     private fun actAnimation(delta: Float) {
-            playerAnimation.actAnimation(this,delta)
+        playerAnimation.actAnimation(this, delta)
 //        else {
 //            stateTime = 0f
 //        }
