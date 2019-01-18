@@ -67,13 +67,13 @@ abstract class GameImage(val texture: Texture) : Image(texture), DefaultFunction
         }
     }
 
-    override fun draw(batch: Batch?, parentAlpha: Float) {
+//    override fun draw(batch: Batch?, parentAlpha: Float) {
 //        if (this is PlayerImage) {
 //            drawable.draw(batch as SpriteBatch, x, y, width, height)
 //        } else {
-            super.draw(batch, parentAlpha)
+//            super.draw(batch, parentAlpha)
 //        }
-    }
+//    }
 
     open fun getBoundingRectangle(): Rectangle {
         return Rectangle(getCenterX(), getCenterY(), 100f, 100f)

@@ -4,14 +4,15 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.MOVING_SPS
-import de.bitb.spacerace.config.ROTATION_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
+import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
+
 
 class PlayerImage(img: Texture)
     : GameImage(img),
@@ -20,9 +21,13 @@ class PlayerImage(img: Texture)
 
     override var movingSpeed: Float = (MOVING_SPS)
 
+    private var playerAnimation: PlayerAnimation
+
     init {
         touchable = Touchable.disabled
 
+         playerAnimation = PlayerAnimation()
+        drawable = playerAnimation
         setOrigin(PLAYER_BORDER / 2, PLAYER_BORDER / 2)
     }
 
@@ -34,8 +39,16 @@ class PlayerImage(img: Texture)
 
     override fun act(delta: Float) {
         super.act(delta)
+        actAnimation(delta)
         actRotation(this, followImage, delta)
         actMoving(this, followImage, delta)
+    }
+
+    private fun actAnimation(delta: Float) {
+            playerAnimation.actAnimation(this,delta)
+//        else {
+//            stateTime = 0f
+//        }
     }
 
     override fun getBoundingRectangle(): Rectangle {
