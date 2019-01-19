@@ -33,7 +33,7 @@ class PlayerSelectionControl(guiStage: StartGuiStage)  : BaseGuiControl(guiStage
                 val checkBox = addCheckbox(value)
                 val playerSelected = gameController.gamePlayer.contains(value)
                 checkBox.isChecked = playerSelected
-                if (value == PlayerColor.RED || value == PlayerColor.GREEN) {
+                if (value == PlayerColor.RED || value == PlayerColor.WHITE) {
                     if (gameController.gamePlayer.size < 2 && !playerSelected) {
                         checkBox.isChecked = true
                         inputHandler.handleCommand(SelectPlayerCommand(value))

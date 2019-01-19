@@ -10,11 +10,12 @@ import de.bitb.spacerace.model.items.equip.EquipItem
 import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.items.itemtype.MultiDice
+import de.bitb.spacerace.model.items.ships.ShipItem
 import de.bitb.spacerace.model.items.usable.UsableItem
 import java.lang.UnsupportedOperationException
-import kotlin.math.sign
 
 data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
+    private var currentShip: ShipItem? = null
 
     var items: MutableMap<ItemState, MutableList<Item>> = HashMap()
 
@@ -46,6 +47,7 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
             is DiceModification -> diceModItems.add(item)
             is DiceAddition -> diceAddItems.add(item)
             is MultiDice -> multiDiceItem.add(item)
+            is ShipItem -> currentShip = item
         }
     }
 
@@ -161,6 +163,12 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
         val item = ItemCollection.getRandomItem(playerColor)
         addItem(item)
         return item
+    }
+
+    fun changeShip(shipItem: ShipItem) {
+        currentShip?.state = ItemState.STORAGE
+        currentShip = shipItem
+        currentShip?.state = ItemState.EQUIPPED
     }
 
 }

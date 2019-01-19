@@ -14,7 +14,6 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE)
     }
 
     var playerImage: PlayerImage = PlayerImage()
-
     var playerData = PlayerData(playerColor)
 
     override fun getGameImage(): GameImage {
