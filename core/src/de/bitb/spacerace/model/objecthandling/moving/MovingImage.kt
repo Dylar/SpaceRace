@@ -6,20 +6,15 @@ import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import de.bitb.spacerace.config.GAME_SPEED
 import de.bitb.spacerace.config.MOVE_TIME
-import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 
 class MovingImage : IMovingImage {
 
-    private var arrived: Boolean = true
-    private var remainingFlightTime = MOVE_TIME
+    private var flightTime = 1f
 
     private lateinit var doAfter: Array<out Action>
-
-    private var lastRotation: Float = 0f
 
     override fun moveTo(movingImage: GameImage, imagePosition: PositionData, vararg doAfter: Action) {
         movingImage.movingState = MovingState.MOVING
@@ -38,8 +33,8 @@ class MovingImage : IMovingImage {
             this.doAfter = doAfter
             movingImage.movingState = MovingState.MOVING
             movingImage.followImage = targetImage
-            arrived = false
-            remainingFlightTime = 4.0
+
+            flightTime = 1f
         })
 
         movingImage.addAction(action)
@@ -58,44 +53,14 @@ class MovingImage : IMovingImage {
     }
 
     override fun actMoving(movingImage: GameImage, targetPosition: GameImage, deltaTime: Float) {
-        when (movingImage.movingState) {
-            MovingState.ROTATE_POINT -> {
-            }
-            MovingState.MOVING -> {
-                if (targetPosition != GameImage.NONE) {
-                    remainingFlightTime -= deltaTime
-
-                    if (remainingFlightTime <= 0) {
-                        remainingFlightTime = MOVE_TIME
-                    }
-                    //get distance to target x & y
-                    var velocityX = (targetPosition.getCenterX() - movingImage.getCenterX()) / remainingFlightTime
-                    var velocityY = (targetPosition.getCenterY() - movingImage.getCenterY()) / remainingFlightTime
-                    val distance = Math.sqrt((velocityX * velocityX + velocityY * velocityY))
-
-                    //normalise
-                    if (distance != 0.0) {
-                        velocityX /= distance
-                        velocityY /= distance
-                    }
-
-                    if (!arrived) {
-                        movingImage.x += (velocityX * movingImage.movingSpeed * deltaTime).toFloat()
-                        movingImage.y += (velocityY * movingImage.movingSpeed * deltaTime).toFloat()
-
-                        val ninjaRectangle: Rectangle = movingImage.getBoundingRectangle()
-                        val shurikenRectangle: Rectangle = targetPosition.getBoundingRectangle()
-                        if (ninjaRectangle.overlaps(shurikenRectangle)) {
-                            arrived = true
-                            movingImage.movingState = MovingState.NONE
-                            movingImage.followImage = GameImage.NONE
-                            movingImage.addAction(*doAfter)
-                        }
-                    }
+        if (targetPosition != GameImage.NONE) {
+            when (movingImage.movingState) {
+                MovingState.ROTATE_POINT -> {
                 }
-            }
-            MovingState.NONE -> {
-                if (targetPosition != GameImage.NONE) {
+                MovingState.MOVING -> {
+                    movingAction(movingImage, targetPosition, deltaTime)
+                }
+                MovingState.NONE -> {
                     movingImage.setCenterX(targetPosition.getCenterX())
                     movingImage.setCenterY(targetPosition.getCenterY())
 
@@ -104,6 +69,58 @@ class MovingImage : IMovingImage {
                 }
             }
         }
-
     }
+
+    private fun movingAction(movingImage: GameImage, targetPosition: GameImage, deltaTime: Float) {
+        flightTime += deltaTime
+        //get distance to target x & y
+        var velocityX: Double = ((targetPosition.getCenterX() - movingImage.getCenterX()).toDouble())
+        var velocityY: Double = ((targetPosition.getCenterY() - movingImage.getCenterY()).toDouble())
+        val distance = Math.sqrt((velocityX * velocityX + velocityY * velocityY))
+
+        //normalise
+        if (distance != 0.0) {
+            velocityX /= distance
+            velocityY /= distance
+        }
+
+        movingImage.x += (velocityX * movingImage.movingSpeed * deltaTime * flightTime).toFloat()
+        movingImage.y += (velocityY * movingImage.movingSpeed * deltaTime * flightTime).toFloat()
+
+        val ninjaRectangle: Rectangle = movingImage.getBoundingRectangle()
+        val shurikenRectangle: Rectangle = targetPosition.getBoundingRectangle()
+        if (ninjaRectangle.overlaps(shurikenRectangle)) {
+            movingImage.movingState = MovingState.NONE
+            movingImage.followImage = GameImage.NONE
+            movingImage.addAction(*doAfter)
+        }
+    }
+
+
+//
+//                    remainingFlightTime += deltaTime
+//
+//        //get distance to target x & y
+//        var velocityX: Double = ((targetPosition.getCenterX() - movingImage.getCenterX()).toDouble())
+//        var velocityY: Double = ((targetPosition.getCenterY() - movingImage.getCenterY()).toDouble())
+//        val distance = Math.sqrt(((velocityX * velocityX + velocityY * velocityY))) * deltaTime
+//
+//        //normalise
+//        if (distance != 0.0) {
+//            velocityX /= distance
+//            velocityY /= distance
+//        }
+////        velocityX *= remainingFlightTime
+////        velocityY *= remainingFlightTime
+//        movingImage.x += ((velocityX * remainingFlightTime).toFloat())
+//        movingImage.y += ((velocityY * remainingFlightTime).toFloat())
+//
+//        val ninjaRectangle: Rectangle = targetPosition.getBoundingRectangle()
+//        val shurikenRectangle: Rectangle = movingImage.getBoundingRectangle()
+//        if (ninjaRectangle.overlaps(shurikenRectangle)) {
+//            movingImage.movingState = MovingState.NONE
+//            movingImage.followImage = GameImage.NONE
+//            movingImage.addAction(*doAfter)
+//        }
+//    }
 }

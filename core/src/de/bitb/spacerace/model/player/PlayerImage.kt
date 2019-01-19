@@ -18,7 +18,7 @@ class PlayerImage
         IMovingImage by MovingImage(),
         IRotatingImage by RotatingImage() {
 
-    override var movingSpeed: Float = (MOVING_SPS)
+    override var movingSpeed: Float = MOVING_SPS
 
     init {
         touchable = Touchable.disabled

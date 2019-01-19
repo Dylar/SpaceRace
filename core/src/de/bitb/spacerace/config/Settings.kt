@@ -10,9 +10,9 @@ import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.space.maps.MapCollection
 
 
-const val MOVE_TIME: Double = 3.0
-const val MOVING_SPS: Float = FIELD_BORDER * 2
-const val ROTATION_SPS = PLAYER_BORDER / 2
+const val MOVE_TIME: Double = 15.0
+const val MOVING_SPS: Float = FIELD_BORDER*2
+const val ROTATION_SPS = PLAYER_BORDER
 
 var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
