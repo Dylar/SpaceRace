@@ -1,11 +1,14 @@
 package de.bitb.spacerace.model.items.disposable
 
+import com.badlogic.gdx.graphics.Texture
+import de.bitb.spacerace.config.CAMERA_TARGET
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.player.PlayerColor
 
-abstract class DisposableItem(owner: PlayerColor, price: Int) : Item(owner, price) {
+abstract class DisposableItem(owner: PlayerColor, price: Int, img: Texture) : Item(owner, price, img) {
 
     val speed = Math.random()
     var attachedTo = PlayerColor.NONE
@@ -22,9 +25,11 @@ abstract class DisposableItem(owner: PlayerColor, price: Int) : Item(owner, pric
         return when (state) {
             ItemState.STORAGE -> {
                 val field = getPlayerField(game, player)
+                //TODO
                 val fieldImage = field.getGameImage()
-                getItemImage().setRotating(this, getPlayerImage(game, player), fieldImage.width * 0.7)
+                (this.getGameImage() as ItemImage).setRotating(this, getPlayerImage(game, player), fieldImage.width * 0.7)
                 field.disposeItem(this)
+                CAMERA_TARGET = this.getGameImage()
                 getPlayerItems(game, player).disposeItem(this)
                 true
             }

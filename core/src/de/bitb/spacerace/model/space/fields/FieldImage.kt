@@ -17,6 +17,7 @@ class FieldImage(var fieldType: FieldType)
     : GameImage(fieldType.getAnimation()),
         IBlinkingImage by BlinkingImage(),
         IRotatingImage by RotatingImage() {
+
     override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
 
     init {

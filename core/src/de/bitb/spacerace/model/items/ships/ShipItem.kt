@@ -1,12 +1,13 @@
 package de.bitb.spacerace.model.items.ships
 
+import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
-abstract class ShipItem(owner: PlayerColor, price: Int) : Item(owner, price) {
+abstract class ShipItem(owner: PlayerColor, price: Int, img: Texture) : Item(owner, price, img) {
 
     abstract fun getAnimation(): BaseAnimation
     abstract fun getSpeed(): Float

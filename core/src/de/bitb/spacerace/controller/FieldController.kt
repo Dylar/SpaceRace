@@ -6,6 +6,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -109,7 +110,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
             val newField = con.getOpposite(field)
             newField.disposedItems.add(item)
 
-            val itemImage = item.getItemImage()
+            val itemImage = item.getGameImage() as ItemImage
             val point = itemImage.getRotationPosition(itemImage, newField.getGameImage())
 
             item.gamePosition.setPosition(newField.gamePosition)

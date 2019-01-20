@@ -1,6 +1,5 @@
 package de.bitb.spacerace.model.items.ships
 
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import de.bitb.spacerace.config.MOVING_SPS
@@ -11,7 +10,7 @@ import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.player.PlayerAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
-class SpeederShip(owner: PlayerColor, price: Int) : ShipItem(owner, price) {
+class SpeederShip(owner: PlayerColor, price: Int) : ShipItem(owner, price, TextureCollection.speederShipLanding2) {
 
     private var animation: PlayerAnimation
 
@@ -36,7 +35,6 @@ class SpeederShip(owner: PlayerColor, price: Int) : ShipItem(owner, price) {
     }
 
     override val itemType: ItemCollection = ItemCollection.SHIP_RAIDER
-    override val img: Texture = TextureCollection.speederShipLanding2
     override var text: String = ""
         get() = GameStrings.ItemStrings.SHIP_SPEEDER_TEXT
 

@@ -53,7 +53,7 @@ class MovingImage : IMovingImage {
     }
 
     override fun actMovingTo(movingImage: GameImage, targetPosition: GameImage, deltaTime: Float) {
-        if (targetPosition != GameImage.NONE) {
+        if (targetPosition != GameImage.NONE) { //TOD mach das
             when (movingImage.movingState) {
                 MovingState.ROTATE_POINT -> {
                 }

@@ -3,13 +3,7 @@ package de.bitb.spacerace.ui.screens.game
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.controller.GameController
-import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.GameObject
-import de.bitb.spacerace.model.objecthandling.TextureAnimation
-import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerImage
 
 class GameStage(val screen: GameScreen) : BaseStage() {

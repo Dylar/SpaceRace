@@ -9,6 +9,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_STARS_SCALE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.TextureAnimation
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
@@ -35,15 +36,16 @@ class StarImage(img: Texture,
     override fun act(delta: Float) {
         super.act(delta)
         val zoom = (MAX_ZOOM - gameScreen.currentZoom + 1) * BACKGROUND_STARS_SCALE
-        scaleX = zoom
-        scaleY = zoom
+        scaleX = zoom.toFloat()
+        scaleY = zoom.toFloat()
 
         if (isIdling()) {
             randomColor()
             calculateValues()
             setPosition(startX, startY)
-//            moveTo(star.getGameImage(), PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
+            moveTo(star.getGameImage(), PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
         }
+        //TODO mach das mit bewegen
 //        actMovingTo(this, )
     }
 

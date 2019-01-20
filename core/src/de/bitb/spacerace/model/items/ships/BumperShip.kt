@@ -1,22 +1,19 @@
 package de.bitb.spacerace.model.items.ships
 
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.strings.GameStrings
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.ItemCollection
-import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.player.PlayerAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
-class BumperShip(owner: PlayerColor, price: Int) : ShipItem(owner, price), DiceModification {
+class BumperShip(owner: PlayerColor, price: Int) : ShipItem(owner, price, TextureCollection.bumperShipLanding2), DiceModification {
 
     override val itemType: ItemCollection = ItemCollection.SHIP_BUMPER
-    override val img: Texture = TextureCollection.bumperShipLanding2
     override var text: String = ""
         get() = GameStrings.ItemStrings.SHIP_BUMPER_TEXT
 
