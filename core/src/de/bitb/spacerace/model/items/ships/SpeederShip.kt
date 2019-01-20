@@ -15,14 +15,15 @@ class SpeederShip(owner: PlayerColor, price: Int) : ShipItem(owner, price, Textu
     private var animation: PlayerAnimation
 
     init {
-        val landingFrame1 = TextureRegion(TextureCollection.speederShipLanding1)
-        val landingFrame2 = TextureRegion(TextureCollection.speederShipLanding2)
+        val landingFrame1 = TextureRegion(TextureCollection.speederShipMoving1)
+        val landingFrame2 = TextureRegion(TextureCollection.speederShipLanding1)
+        val landingFrame3 = TextureRegion(TextureCollection.speederShipLanding2)
         val animationFrame1 = TextureRegion(TextureCollection.speederShipMoving1)
         val animationFrame2 = TextureRegion(TextureCollection.speederShipMoving2)
         val animationFrame3 = TextureRegion(TextureCollection.speederShipMoving3)
         val animationFrame4 = TextureRegion(TextureCollection.speederShipMoving2)
         val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
-        val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2)
+        val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2, landingFrame3)
         animation = PlayerAnimation(movingAnimation, landingAnimation)
     }
 

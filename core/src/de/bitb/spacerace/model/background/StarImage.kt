@@ -1,6 +1,7 @@
 package de.bitb.spacerace.model.background
 
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.MAX_ZOOM
@@ -8,6 +9,9 @@ import de.bitb.spacerace.config.ROTATION_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_STARS_SCALE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH_HALF
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.TextureAnimation
@@ -33,20 +37,31 @@ class StarImage(img: Texture,
         randomColor()
     }
 
+    val cam = gameScreen.gameStage.camera
+    val worldRectangle: Rectangle = Rectangle()
+
     override fun act(delta: Float) {
         super.act(delta)
         val zoom = (MAX_ZOOM - gameScreen.currentZoom + 1) * BACKGROUND_STARS_SCALE
         scaleX = zoom.toFloat()
         scaleY = zoom.toFloat()
 
-        if (isIdling()) {
+        worldRectangle.x = cam.position.x - SCREEN_WIDTH_HALF
+        worldRectangle.y = cam.position.y - SCREEN_HEIGHT_HALF
+        worldRectangle.width = SCREEN_WIDTH
+        worldRectangle.height = SCREEN_HEIGHT
+
+        if (movingState == NONE) {
             randomColor()
             calculateValues()
             setPosition(startX, startY)
-            moveTo(star.getGameImage(), PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
+//            moveToPoint(this, worldRectangle)
+            moveTo(star.getGameImage(), PositionData(endX + SCREEN_WIDTH * 0.1f, endY))
         }
+
         //TODO mach das mit bewegen
-//        actMovingTo(this, )
+//        actMovingTo(this, worldRectangle, delta)
+
     }
 
     private fun randomColor() {

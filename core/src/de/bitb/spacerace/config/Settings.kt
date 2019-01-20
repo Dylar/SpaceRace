@@ -14,7 +14,7 @@ import de.bitb.spacerace.model.space.maps.MapCollection
 
 const val MOVE_TIME: Double = 15.0
 const val MOVING_SPS: Float = FIELD_BORDER
-const val ROTATION_SPS = PLAYER_BORDER * 3
+const val ROTATION_SPS = PLAYER_BORDER
 
 var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
@@ -43,7 +43,7 @@ const val STAR_COUNT = 100
 //DEBUG
 var PRESELECTED_PLAYER = arrayListOf(PlayerColor.ORANGE, PlayerColor.TEAL)
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL)
-var DEBUG_ITEM = arrayListOf(ItemCollection.SLOW_MINE, ItemCollection.MOVING_MINE)
+var DEBUG_ITEM = arrayListOf(ItemCollection.NONE)
 const val DEBUG_ITEMS = 5
 
 const val DEBUG_FIELDS = false
