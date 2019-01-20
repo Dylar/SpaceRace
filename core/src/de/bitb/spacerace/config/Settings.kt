@@ -8,6 +8,7 @@ import de.bitb.spacerace.config.enums.Language
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.maps.MapCollection
 
 
@@ -40,6 +41,7 @@ const val FIELD_ROTATION = true
 const val STAR_COUNT = 100
 
 //DEBUG
+var PRESELECTED_PLAYER = arrayListOf(PlayerColor.ORANGE, PlayerColor.TEAL)
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL)
 var DEBUG_ITEM = arrayListOf(ItemCollection.SLOW_MINE, ItemCollection.MOVING_MINE)
 const val DEBUG_ITEMS = 5

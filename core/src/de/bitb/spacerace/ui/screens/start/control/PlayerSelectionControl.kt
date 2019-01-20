@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.config.PRESELECTED_PLAYER
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
@@ -33,7 +34,7 @@ class PlayerSelectionControl(guiStage: StartGuiStage)  : BaseGuiControl(guiStage
                 val checkBox = addCheckbox(value)
                 val playerSelected = gameController.gamePlayer.contains(value)
                 checkBox.isChecked = playerSelected
-                if (value == PlayerColor.RED || value == PlayerColor.WHITE) {
+                if (PRESELECTED_PLAYER.contains(value)) {
                     if (gameController.gamePlayer.size < 2 && !playerSelected) {
                         checkBox.isChecked = true
                         inputHandler.handleCommand(SelectPlayerCommand(value))

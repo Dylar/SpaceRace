@@ -20,7 +20,8 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
     var idlingCount = 0
 
     private val actionQueue: MutableList<Action> = ArrayList()
-        @Synchronized get
+    //TODO maybe    @Synchronized get
+
 
     init {
         drawable = animation

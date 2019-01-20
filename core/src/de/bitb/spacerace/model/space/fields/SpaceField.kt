@@ -48,7 +48,7 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN,
 
     fun attachItem(disposableItem: DisposableItem) {
         disposedItems.remove(disposableItem)
-        disposableItem.getGameImage().remove()
+//        disposableItem.getGameImage().remove() //TODO wo sonst? -> Cleanbot
     }
 
     fun hasConnectionTo(spaceField: SpaceField): Boolean {

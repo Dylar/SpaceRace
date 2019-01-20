@@ -15,7 +15,7 @@ import de.bitb.spacerace.model.items.ships.ShipItem
 import de.bitb.spacerace.model.items.usable.UsableItem
 import java.lang.UnsupportedOperationException
 
-data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
+data class PlayerItems(val playerColor: PlayerColor) {
     private var currentShip: ShipItem? = null
 
     var items: MutableMap<ItemState, MutableList<Item>> = HashMap()

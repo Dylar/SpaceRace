@@ -19,7 +19,7 @@ abstract class Item(var owner: PlayerColor,
 
     var state: ItemState = ItemState.NONE
 
-    private var itemImage = ItemImage(img, owner)
+    var itemImage = ItemImage(img, owner)
 
     override fun getGameImage(): GameImage {
         return itemImage
