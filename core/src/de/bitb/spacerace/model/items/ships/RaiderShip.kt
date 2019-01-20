@@ -7,23 +7,24 @@ import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.strings.GameStrings
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.ItemCollection
+import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.player.PlayerAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
-class SpeederShip(owner: PlayerColor, price: Int) : ShipItem(owner, price) {
+class RaiderShip(owner: PlayerColor, price: Int) : ShipItem(owner, price), DiceAddition {
 
     private var animation: PlayerAnimation
 
     init {
-        val landingFrame1 = TextureRegion(TextureCollection.speederShipLanding1)
-        val landingFrame2 = TextureRegion(TextureCollection.speederShipLanding2)
-        val animationFrame1 = TextureRegion(TextureCollection.speederShipMoving1)
-        val animationFrame2 = TextureRegion(TextureCollection.speederShipMoving2)
-        val animationFrame3 = TextureRegion(TextureCollection.speederShipMoving3)
-        val animationFrame4 = TextureRegion(TextureCollection.speederShipMoving2)
+        val landingFrame1 = TextureRegion(TextureCollection.raiderShipLanding1)
+        val landingFrame2 = TextureRegion(TextureCollection.raiderShipLanding2)
+        val animationFrame1 = TextureRegion(TextureCollection.raiderShipMoving1)
+        val animationFrame2 = TextureRegion(TextureCollection.raiderShipMoving1)
+        val animationFrame3 = TextureRegion(TextureCollection.raiderShipMoving1)
+        val animationFrame4 = TextureRegion(TextureCollection.raiderShipMoving2)
         val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
-        val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2)
+        val landingAnimation = Animation(0.5f, landingFrame1, landingFrame2)
         animation = PlayerAnimation(movingAnimation, landingAnimation)
     }
 
@@ -31,14 +32,17 @@ class SpeederShip(owner: PlayerColor, price: Int) : ShipItem(owner, price) {
         return animation
     }
 
-    override fun getSpeed(): Float {
-        return MOVING_SPS * 1.3f
+    override fun getAddition(): Int {
+        return 3
     }
 
-    override val itemType: ItemCollection = ItemCollection.SHIP_RAIDER
-    override val img: Texture = TextureCollection.speederShipLanding2
+    override fun getSpeed(): Float {
+        return MOVING_SPS * 2f
+    }
+
+    override val itemType: ItemCollection = ItemCollection.SHIP_SPEEDER
+    override val img: Texture = TextureCollection.raiderShipMoving1
     override var text: String = ""
         get() = GameStrings.ItemStrings.SHIP_SPEEDER_TEXT
-
 
 }

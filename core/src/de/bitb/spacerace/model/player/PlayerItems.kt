@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.player
 
 import de.bitb.spacerace.config.DEBUG_ITEM
 import de.bitb.spacerace.config.DEBUG_ITEMS
+import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.ItemState
@@ -47,7 +48,6 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
             is DiceModification -> diceModItems.add(item)
             is DiceAddition -> diceAddItems.add(item)
             is MultiDice -> multiDiceItem.add(item)
-            is ShipItem -> currentShip = item
         }
     }
 
@@ -167,8 +167,10 @@ data class PlayerItems(val playerColor: PlayerColor = PlayerColor.NONE) {
 
     fun changeShip(shipItem: ShipItem) {
         currentShip?.state = ItemState.STORAGE
+        currentShip?.let { removeModification(currentShip as Item) }
         currentShip = shipItem
         currentShip?.state = ItemState.EQUIPPED
+        currentShip?.let { addModification(currentShip as Item) }
     }
 
 }

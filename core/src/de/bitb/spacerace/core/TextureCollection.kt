@@ -3,7 +3,6 @@ package de.bitb.spacerace.core
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 
 
@@ -26,11 +25,17 @@ object TextureCollection {
     val goalPlanet: Texture
     val unknownPlanet: Texture
 
-    val shipLanding1: Texture
-    val shipLanding2: Texture
-    val shipMoving1: Texture
-    val shipMoving2: Texture
-    val shipMoving3: Texture
+    val speederShipLanding1: Texture
+    val speederShipLanding2: Texture
+    val speederShipMoving1: Texture
+    val speederShipMoving2: Texture
+    val speederShipMoving3: Texture
+
+    val raiderShipLanding1: Texture
+    val raiderShipLanding2: Texture
+    val raiderShipMoving1: Texture
+    val raiderShipMoving2: Texture
+    val raiderShipMoving3: Texture
 
     val fieldItemShop: Texture
 
@@ -53,20 +58,36 @@ object TextureCollection {
         val defaultTexture = Pixmap(Gdx.files.internal("objects.png"))
         var section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
         section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 2, imageSize * 3, imageSize, imageSize)
-        shipLanding1 = Texture(section)
+        speederShipLanding1 = Texture(section)
         section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
         section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 3, imageSize, imageSize)
-        shipLanding2 = Texture(section)
-
+        speederShipLanding2 = Texture(section)
+        //SPEEDER
         section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
         section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 2, imageSize, imageSize)
-        shipMoving1 = Texture(section)
+        speederShipMoving1 = Texture(section)
         section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
         section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 1, imageSize, imageSize)
-        shipMoving2 = Texture(section)
+        speederShipMoving2 = Texture(section)
         section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
         section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 0, imageSize, imageSize)
-        shipMoving3 = Texture(section)
+        speederShipMoving3 = Texture(section)
+        //RAIDER
+        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 1, imageSize * 3, imageSize, imageSize)
+        raiderShipLanding1 = Texture(section)
+        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 0, imageSize * 3, imageSize, imageSize)
+        raiderShipLanding2 = Texture(section)
+        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 0, imageSize * 1, imageSize, imageSize)
+        raiderShipMoving1 = Texture(section)
+        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 1, imageSize * 1, imageSize, imageSize)
+        raiderShipMoving2 = Texture(section)
+        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
+        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 2, imageSize * 1, imageSize, imageSize)
+        raiderShipMoving3 = Texture(section)
 
         //SET PLANET TEXTURE
         val planetTexture = Pixmap(Gdx.files.internal("objects/planets.png"))

@@ -4,11 +4,12 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
-import de.bitb.spacerace.model.player.PlayerAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class ShipItem(owner: PlayerColor, price: Int) : Item(owner, price) {
+
     abstract fun getAnimation(): BaseAnimation
+    abstract fun getSpeed(): Float
 
     override fun canUse(game: MainGame, player: PlayerColor): Boolean {
         return when (state) {
@@ -22,7 +23,9 @@ abstract class ShipItem(owner: PlayerColor, price: Int) : Item(owner, price) {
     override fun use(game: MainGame, player: PlayerColor): Boolean {
         return when (state) {
             ItemState.STORAGE -> {
-                getPlayer(game, player).playerImage.animation = getAnimation()
+                val image = getPlayerImage(game, player)
+                image.animation = getAnimation()
+                image.movingSpeed = getSpeed()
                 getPlayerItems(game, player).changeShip(this)
                 return true
             }
