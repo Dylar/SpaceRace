@@ -8,26 +8,27 @@ import de.bitb.spacerace.config.strings.GameStrings
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.itemtype.DiceAddition
+import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.player.PlayerAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
-class RaiderShip(owner: PlayerColor, price: Int) : ShipItem(owner, price), DiceAddition {
+class BumperShip(owner: PlayerColor, price: Int) : ShipItem(owner, price), DiceModification {
 
-    override val itemType: ItemCollection = ItemCollection.SHIP_RAIDER
-    override val img: Texture = TextureCollection.raiderShipLanding2
+    override val itemType: ItemCollection = ItemCollection.SHIP_BUMPER
+    override val img: Texture = TextureCollection.bumperShipLanding2
     override var text: String = ""
-        get() = GameStrings.ItemStrings.SHIP_RAIDER_TEXT
+        get() = GameStrings.ItemStrings.SHIP_BUMPER_TEXT
 
     private var animation: PlayerAnimation
 
     init {
-        val landingFrame1 = TextureRegion(TextureCollection.raiderShipLanding1)
-        val landingFrame2 = TextureRegion(TextureCollection.raiderShipLanding2)
-        val animationFrame1 = TextureRegion(TextureCollection.raiderShipMoving1)
-        val animationFrame2 = TextureRegion(TextureCollection.raiderShipMoving2)
-        val animationFrame3 = TextureRegion(TextureCollection.raiderShipMoving3)
-        val animationFrame4 = TextureRegion(TextureCollection.raiderShipMoving2)
+        val landingFrame1 = TextureRegion(TextureCollection.bumperShipLanding1)
+        val landingFrame2 = TextureRegion(TextureCollection.bumperShipLanding2)
+        val animationFrame1 = TextureRegion(TextureCollection.bumperShipMoving1)
+        val animationFrame2 = TextureRegion(TextureCollection.bumperShipMoving2)
+        val animationFrame3 = TextureRegion(TextureCollection.bumperShipMoving3)
+        val animationFrame4 = TextureRegion(TextureCollection.bumperShipMoving2)
         val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
         val landingAnimation = Animation(0.5f, landingFrame1, landingFrame2)
         animation = PlayerAnimation(movingAnimation, landingAnimation)
@@ -37,11 +38,12 @@ class RaiderShip(owner: PlayerColor, price: Int) : ShipItem(owner, price), DiceA
         return animation
     }
 
-    override fun getAddition(): Int {
-        return 3
+    override fun getSpeed(): Float {
+        return MOVING_SPS * 0.7f
     }
 
-    override fun getSpeed(): Float {
-        return MOVING_SPS * 3f
+    override fun getModification(): Float {
+        return -0.1f
     }
+
 }

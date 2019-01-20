@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.DEFAULT_BORDER
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.SMALL_BORDER
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.TINY_BORDER
 
 
 object TextureCollection {
-    private const val imageSize = 64
 
     val skin = Skin(Gdx.files.internal("uiskin.json"))
 
@@ -37,10 +39,31 @@ object TextureCollection {
     val raiderShipMoving2: Texture
     val raiderShipMoving3: Texture
 
+    var bumperShipLanding1: Texture
+    var bumperShipLanding2: Texture
+    var bumperShipMoving1: Texture
+    var bumperShipMoving2: Texture
+    var bumperShipMoving3: Texture
+
     val fieldItemShop: Texture
 
     val slowMine: Texture
 
+
+    var injectedDirt: Texture
+    var purpleCloud: Texture
+    var purpleShuriken: Texture
+    var bioCloud: Texture
+    var flowerCloud: Texture
+    var alienClaw: Texture
+    var tinyFlowerCloud: Texture
+    var tinyPurpleShuriken: Texture
+    var tinyFlameShuriken: Texture
+    var tinyShuriken: Texture
+    var tinyPoint: Texture
+    var tinyPinkShuriken: Texture
+    var tinySpore: Texture
+    var tinyLight: Texture
 
     init {
         guiBackground = Texture("background/bg_silver.png")
@@ -54,80 +77,57 @@ object TextureCollection {
         fieldItemShop = Texture("objects/field_item_shop.png")
         debrisField = Texture("objects/debrisship.png")
 
-        //SET DEFAULT TEXTURE
-        val defaultTexture = Pixmap(Gdx.files.internal("objects.png"))
-        var section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 2, imageSize * 3, imageSize, imageSize)
-        speederShipLanding1 = Texture(section)
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 3, imageSize, imageSize)
-        speederShipLanding2 = Texture(section)
+        //SET SHIP TEXTURE
+        val shipTextures = Pixmap(Gdx.files.internal("textureregion/ships.png"))
         //SPEEDER
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 2, imageSize, imageSize)
-        speederShipMoving1 = Texture(section)
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 1, imageSize, imageSize)
-        speederShipMoving2 = Texture(section)
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 3, imageSize * 0, imageSize, imageSize)
-        speederShipMoving3 = Texture(section)
+        speederShipLanding1 = createTexture(shipTextures, DEFAULT_BORDER * 2, DEFAULT_BORDER * 3)
+        speederShipLanding2 = createTexture(shipTextures, DEFAULT_BORDER * 3, DEFAULT_BORDER * 3)
+        speederShipMoving1 = createTexture(shipTextures, DEFAULT_BORDER * 3, DEFAULT_BORDER * 2)
+        speederShipMoving2 = createTexture(shipTextures, DEFAULT_BORDER * 3, DEFAULT_BORDER * 1)
+        speederShipMoving3 = createTexture(shipTextures, DEFAULT_BORDER * 3, DEFAULT_BORDER * 0)
         //RAIDER
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 1, imageSize * 3, imageSize, imageSize)
-        raiderShipLanding1 = Texture(section)
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 0, imageSize * 3, imageSize, imageSize)
-        raiderShipLanding2 = Texture(section)
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 0, imageSize * 1, imageSize, imageSize)
-        raiderShipMoving1 = Texture(section)
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 1, imageSize * 1, imageSize, imageSize)
-        raiderShipMoving2 = Texture(section)
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 2, imageSize * 1, imageSize, imageSize)
-        raiderShipMoving3 = Texture(section)
+        raiderShipLanding1 = createTexture(shipTextures, DEFAULT_BORDER * 1, DEFAULT_BORDER * 3)
+        raiderShipLanding2 = createTexture(shipTextures, DEFAULT_BORDER * 0, DEFAULT_BORDER * 3)
+        raiderShipMoving1 = createTexture(shipTextures, DEFAULT_BORDER * 1, DEFAULT_BORDER * 1)
+        raiderShipMoving2 = createTexture(shipTextures, DEFAULT_BORDER * 2, DEFAULT_BORDER * 2)
+        raiderShipMoving3 = createTexture(shipTextures, DEFAULT_BORDER * 0, DEFAULT_BORDER * 1)
+        //BUMPER
+        bumperShipLanding1 = createTexture(shipTextures, DEFAULT_BORDER * 1, DEFAULT_BORDER * 2)
+        bumperShipLanding2 = createTexture(shipTextures, DEFAULT_BORDER * 2, DEFAULT_BORDER * 1)
+        bumperShipMoving1 = createTexture(shipTextures, DEFAULT_BORDER * 2, DEFAULT_BORDER * 0)
+        bumperShipMoving2 = createTexture(shipTextures, DEFAULT_BORDER * 1, DEFAULT_BORDER * 0)
+        bumperShipMoving3 = createTexture(shipTextures, DEFAULT_BORDER * 0, DEFAULT_BORDER * 0)
 
         //SET PLANET TEXTURE
         val planetTexture = Pixmap(Gdx.files.internal("objects/planets.png"))
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(planetTexture, imageSize * 0, imageSize * 0, (imageSize - 1) * 3, imageSize * 2, imageSize, imageSize)
-        greenPlanet = Texture(section)
+        greenPlanet = createTexture(planetTexture, (DEFAULT_BORDER - 1) * 3, DEFAULT_BORDER * 2)
+        redPlanet = createTexture(planetTexture, (DEFAULT_BORDER - 1) * 3, DEFAULT_BORDER * 0)
+        minePlanet = createTexture(planetTexture, (DEFAULT_BORDER * 2.4).toInt(), DEFAULT_BORDER * 3)
+        goalPlanet = createTexture(planetTexture, DEFAULT_BORDER * 2 - 2, DEFAULT_BORDER * 0)
+        unknownPlanet = createTexture(planetTexture, DEFAULT_BORDER * 6, DEFAULT_BORDER * 3)
 
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(planetTexture, imageSize * 0, imageSize * 0, (imageSize - 1) * 3, imageSize * 0, imageSize, imageSize)
-        redPlanet = Texture(section)
+        //SET OBJECT TEXTURE
+        val objectTextures = Pixmap(Gdx.files.internal("textureregion/objects.png"))
+        injectedDirt = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 0)
+        purpleCloud = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 1)
+        purpleShuriken = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 1)
+        bioCloud = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 0)
+        flowerCloud = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 0)
+        alienClaw = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 1)
 
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(planetTexture, imageSize * 0, imageSize * 0, (imageSize * 2.4).toInt(), imageSize * 3, imageSize, imageSize)
-        minePlanet = Texture(section)
-
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(planetTexture, imageSize * 0, imageSize * 0, imageSize * 2 - 2, imageSize * 0, imageSize, imageSize)
-        goalPlanet = Texture(section)
-
-        section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-        section.drawPixmap(planetTexture, imageSize * 0, imageSize * 0, imageSize * 6, imageSize * 3, imageSize, imageSize)
-        unknownPlanet = Texture(section)
-
+        tinyFlowerCloud = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 0)
+        tinyPurpleShuriken = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 0)
+        tinyFlameShuriken = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 1)
+        tinyShuriken = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 1)
+        tinyPoint = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 2)
+        tinyPinkShuriken = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 2)
+        tinySpore = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 3)
+        tinyLight = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 3)
     }
 
-//    private fun createDefaultTexture(){
-//
-//        val defaultTexture = Pixmap(Gdx.files.internal("objects.png"))
-//        var section = Pixmap(imageSize, imageSize, Pixmap.Format.RGBA8888)
-//        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 2, imageSize * 0, imageSize, imageSize)
-//        blueField = Texture(section)
-//        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize, imageSize, imageSize, imageSize)
-//        redField = Texture(section)
-//        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 0, imageSize, imageSize, imageSize)
-//        greenField = Texture(section)
-//        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 2, imageSize, imageSize, imageSize)
-//        yellowField = Texture(section)
-//        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize, imageSize * 0, imageSize, imageSize)
-//        grayField = Texture(section)
-//        section.drawPixmap(defaultTexture, imageSize * 0, imageSize * 0, imageSize * 0, imageSize * 0, imageSize, imageSize)
-//        brownField = Texture(section)
-//    }
+    fun createTexture(defaultTexture: Pixmap, posX: Int, posY: Int): Texture {
+        val section = Pixmap(DEFAULT_BORDER, DEFAULT_BORDER, Pixmap.Format.RGBA8888)
+        section.drawPixmap(defaultTexture, 0, 0, posX, posY, DEFAULT_BORDER, DEFAULT_BORDER)
+        return Texture(section)
+    }
 }

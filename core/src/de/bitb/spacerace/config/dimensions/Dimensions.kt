@@ -2,7 +2,6 @@ package de.bitb.spacerace.config.dimensions
 
 import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.config.LANGUAGE
-import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.config.enums.Language.*
 
 object Dimensions {
@@ -80,10 +79,12 @@ object Dimensions {
         const val FIELD_PADDING_MEDIUM = 0.6f
         const val FIELD_PADDING_SMALL = 0.3f
 
-        const val DEFAULT_IMAGE_BORDER = 64
-        const val ITEM_BORDER = DEFAULT_IMAGE_BORDER * 0.9f
-        const val FIELD_BORDER = DEFAULT_IMAGE_BORDER * 3.5f
-        const val PLAYER_BORDER = DEFAULT_IMAGE_BORDER * 1.8f
+        const val TINY_BORDER = 16
+        const val SMALL_BORDER = TINY_BORDER * 2
+        const val DEFAULT_BORDER = SMALL_BORDER * 2
+        const val ITEM_BORDER = DEFAULT_BORDER * 0.9f
+        const val FIELD_BORDER = DEFAULT_BORDER * 3.5f
+        const val PLAYER_BORDER = DEFAULT_BORDER * 1.8f
 
     }
 }

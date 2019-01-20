@@ -66,5 +66,5 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
 
     open fun getBoundingRectangle(): Rectangle {
         return Rectangle(getCenterX(), getCenterY(), 100f, 100f)
-    }
+    }//TODO Object poooool!
 }
