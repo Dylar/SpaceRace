@@ -50,7 +50,7 @@ object TextureCollection {
     val slowMine: Texture
 
 
-    var injectedDirt: Texture
+    var infectedDirt: Texture
     var purpleCloud: Texture
     var purpleShuriken: Texture
     var bioCloud: Texture
@@ -108,7 +108,7 @@ object TextureCollection {
 
         //SET OBJECT TEXTURE
         val objectTextures = Pixmap(Gdx.files.internal("textureregion/objects.png"))
-        injectedDirt = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 0)
+        infectedDirt = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 0)
         purpleCloud = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 1)
         purpleShuriken = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 1)
         bioCloud = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 0)
