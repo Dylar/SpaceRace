@@ -21,8 +21,4 @@ class FallingStar(gameScreen: BaseScreen,
         return startImage
     }
 
-    init {
-//        randomColor()
-    }
-
 }

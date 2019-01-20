@@ -43,7 +43,7 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN,
 
     fun disposeItem(disposableItem: DisposableItem) {
         disposedItems.add(disposableItem)
-        getGameImage().stage.addActor(disposableItem.getGameImage())
+        getGameImage().stage.addActor(disposableItem.getItemImage())
     }
 
     fun attachItem(disposableItem: DisposableItem) {

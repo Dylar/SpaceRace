@@ -10,5 +10,6 @@ interface IMovingImage {
     fun moveTo(movingImage: GameImage, imagePosition: PositionData, vararg doAfter: Action)
     fun moveToPoint(movingImage: GameImage, targetImage: GameImage, vararg doAfter: Action)
 
-    fun actMoving(movingImage: GameImage, targetPosition: GameImage, deltaTime: Float)
+    fun actMovingTo(movingImage: GameImage, targetPosition: GameImage, deltaTime: Float)
+    fun actMovingTo(movingImage: GameImage, targetPosition: PositionData, deltaTime: Float)
 }

@@ -3,8 +3,14 @@ package de.bitb.spacerace.ui.screens.game
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseStage
+import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.GameObject
+import de.bitb.spacerace.model.objecthandling.TextureAnimation
 import de.bitb.spacerace.model.player.Player
+import de.bitb.spacerace.model.player.PlayerImage
 
 class GameStage(val screen: GameScreen) : BaseStage() {
 
@@ -17,13 +23,16 @@ class GameStage(val screen: GameScreen) : BaseStage() {
         addActor(gameController.fieldController.connections)
         gameController.fieldController.fields.forEach { addActor(it.getGameImage()) }
         gameController.playerController.players.forEach { addActor(it.getGameImage()) }
+//        addActor(object : GameImage(TextureAnimation(TextureCollection.)) {
+//            override var movingSpeed: Float = MOVING_SPS
+//        })
     }
 
     override fun addActor(actor: Actor?) {
         super.addActor(actor)
-//        if (actor !is Player) {
-//            rearrangePlayer(actor!!) //TODO
-//        }
+        if (actor !is PlayerImage) {
+            rearrangePlayer(actor!!) //TODO -- still?
+        }
     }
 
     private fun rearrangePlayer(actor: Actor) {

@@ -16,6 +16,7 @@ class ItemImage(img: Texture)
     : GameImage(TextureAnimation(img)),
         IRotatingImage by RotatingImage(),
         IMovingImage by MovingImage() {
+
     override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
 
     var itemColor: Color = PlayerColor.NONE.color
@@ -28,6 +29,7 @@ class ItemImage(img: Texture)
         super.act(delta)
         color = itemColor
         actRotation(this, followImage, delta)
+//        actMovingTo(this, followImage, delta)// TODO
     }
 
 }

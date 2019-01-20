@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color.*
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
+import de.bitb.spacerace.model.objecthandling.TextureAnimation
 import de.bitb.spacerace.model.space.fields.FieldAnimation
 
 enum class FieldType(val color: Color? = null, val texture: Texture = TextureCollection.unknownPlanet) {

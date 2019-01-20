@@ -9,7 +9,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_STARS_SCALE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.objecthandling.TextureAnimation
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.player.PlayerColor
@@ -21,7 +21,8 @@ class StarImage(img: Texture,
                 var startY: Float = 0f,
                 var endX: Float = Dimensions.SCREEN_WIDTH,
                 var endY: Float = SCREEN_HEIGHT)
-    : GameImage(), IMovingImage by MovingImage() {
+    : GameImage(TextureAnimation(img))
+        , IMovingImage by MovingImage() {
 
     override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
 
@@ -41,8 +42,9 @@ class StarImage(img: Texture,
             randomColor()
             calculateValues()
             setPosition(startX, startY)
-            moveTo(star.getGameImage(), PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
+//            moveTo(star.getGameImage(), PositionData(endX + Dimensions.SCREEN_WIDTH * 0.1f, endY))
         }
+//        actMovingTo(this, )
     }
 
     private fun randomColor() {

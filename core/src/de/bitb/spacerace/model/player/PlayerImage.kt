@@ -4,10 +4,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
-import de.bitb.spacerace.model.items.ships.BumperShip
 import de.bitb.spacerace.model.items.ships.RaiderShip
-import de.bitb.spacerace.model.items.ships.SpeederShip
-import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
@@ -37,7 +34,7 @@ class PlayerImage
     override fun act(delta: Float) {
         super.act(delta)
         actRotation(this, followImage, delta)
-        actMoving(this, followImage, delta)
+        actMovingTo(this, followImage, delta)
     }
 
 

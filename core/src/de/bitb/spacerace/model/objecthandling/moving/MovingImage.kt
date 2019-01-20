@@ -52,7 +52,7 @@ class MovingImage : IMovingImage {
         return ((getDistanceToTarget(movingImage, targetPosition) / movingImage.movingSpeed) / GAME_SPEED.speed)
     }
 
-    override fun actMoving(movingImage: GameImage, targetPosition: GameImage, deltaTime: Float) {
+    override fun actMovingTo(movingImage: GameImage, targetPosition: GameImage, deltaTime: Float) {
         if (targetPosition != GameImage.NONE) {
             when (movingImage.movingState) {
                 MovingState.ROTATE_POINT -> {
@@ -96,31 +96,8 @@ class MovingImage : IMovingImage {
         }
     }
 
+    override fun actMovingTo(movingImage: GameImage, targetPosition: PositionData, deltaTime: Float) {
 
-//
-//                    remainingFlightTime += deltaTime
-//
-//        //get distance to target x & y
-//        var velocityX: Double = ((targetPosition.getCenterX() - movingImage.getCenterX()).toDouble())
-//        var velocityY: Double = ((targetPosition.getCenterY() - movingImage.getCenterY()).toDouble())
-//        val distance = Math.sqrt(((velocityX * velocityX + velocityY * velocityY))) * deltaTime
-//
-//        //normalise
-//        if (distance != 0.0) {
-//            velocityX /= distance
-//            velocityY /= distance
-//        }
-////        velocityX *= remainingFlightTime
-////        velocityY *= remainingFlightTime
-//        movingImage.x += ((velocityX * remainingFlightTime).toFloat())
-//        movingImage.y += ((velocityY * remainingFlightTime).toFloat())
-//
-//        val ninjaRectangle: Rectangle = targetPosition.getBoundingRectangle()
-//        val shurikenRectangle: Rectangle = movingImage.getBoundingRectangle()
-//        if (ninjaRectangle.overlaps(shurikenRectangle)) {
-//            movingImage.movingState = MovingState.NONE
-//            movingImage.followImage = GameImage.NONE
-//            movingImage.addAction(*doAfter)
-//        }
-//    }
+
+    }
 }
