@@ -20,7 +20,8 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
     var idlingCount = 0
 
     private val actionQueue: MutableList<Action> = ArrayList()
-    //TODO maybe    @Synchronized get
+    //TODO maybe
+     @Synchronized get
 
 
     init {
@@ -52,7 +53,9 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
     }
 
     fun addAction(vararg actions: Action) {
-        actionQueue.add(Actions.sequence(*actions))
+        if (actions.isNotEmpty()) {
+            actionQueue.add(Actions.sequence(*actions))
+        }
     }
 
     override fun act(delta: Float) {

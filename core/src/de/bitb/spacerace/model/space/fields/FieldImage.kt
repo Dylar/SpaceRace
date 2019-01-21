@@ -41,6 +41,5 @@ class FieldImage(var fieldType: FieldType)
 
     override fun getBoundingRectangle(): Rectangle {
         return Rectangle(getCenterX(), getCenterY(), 10f, 10f)
-    }
-
+    }//TODO Object poooool!
 }

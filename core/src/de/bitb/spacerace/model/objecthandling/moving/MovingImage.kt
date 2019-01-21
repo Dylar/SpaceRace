@@ -89,7 +89,6 @@ class MovingImage : IMovingImage {
     }
 
     private fun movingAction(movingImage: GameImage, targetPosition: Rectangle, deltaTime: Float) {
-
         flightTime += deltaTime
         //get distance to target x & y
         var velocityX: Double = ((targetPosition.x - movingImage.getCenterX()).toDouble())
@@ -107,7 +106,7 @@ class MovingImage : IMovingImage {
 
         val ninjaRectangle: Rectangle = movingImage.getBoundingRectangle()
         val shurikenRectangle: Rectangle = targetPosition
-        if (this.targetPoint != null && !ninjaRectangle.overlaps(shurikenRectangle) || ninjaRectangle.overlaps(shurikenRectangle)) {
+        if (ninjaRectangle.overlaps(shurikenRectangle)) { //this.targetPoint != null && !ninjaRectangle.overlaps(shurikenRectangle) ||
             movingImage.movingState = MovingState.NONE
             movingImage.followImage = GameImage.NONE
             movingImage.addAction(*doAfter)

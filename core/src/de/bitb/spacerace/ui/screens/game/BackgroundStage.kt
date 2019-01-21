@@ -6,6 +6,7 @@ import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.STAR_COUNT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.background.FallingStar
@@ -19,8 +20,8 @@ class BackgroundStage(val screen: BaseScreen, private var texture: Texture = Tex
 
     private fun startBombarding() {
         for (index in 1..STAR_COUNT) {
-            val star = FallingStar(screen, startY = SCREEN_HEIGHT / 2, endY = SCREEN_HEIGHT / 2)
-            addActor(star.getGameImage())
+            val star = FallingStar(screen, startY = SCREEN_HEIGHT_HALF, endY = SCREEN_HEIGHT_HALF)
+            addActor(star.getGameImage()) //TODO warum startet kein bomberdierung?
         }
     }
 

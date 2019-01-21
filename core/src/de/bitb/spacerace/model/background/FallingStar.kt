@@ -24,7 +24,6 @@ class FallingStar(gameScreen: BaseScreen,
     }
 
     init {
-//        randomColor()
         setBounds(0f, 0f, ITEM_BORDER, ITEM_BORDER)
     }
 
