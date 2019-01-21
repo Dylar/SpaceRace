@@ -11,6 +11,8 @@ import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.ROTATION_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_STARS_SCALE
+import de.bitb.spacerace.config.dimensions.Dimensions.ONE_EIGHTY_DEGREE
+import de.bitb.spacerace.config.dimensions.Dimensions.ONE_TWENTY_DEGREE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
@@ -41,7 +43,6 @@ class StarImage(img: Texture,
         touchable = Touchable.disabled
         movingState = MovingState.NONE
         randomColor()
-        CAMERA_TARGET = this
     }
 
     val cam = gameScreen.gameStage.camera
@@ -93,8 +94,8 @@ class StarImage(img: Texture,
         val degrees = Math.atan2(
                 (endY - startY).toDouble(),
                 (endX - startX).toDouble()
-        ) * 180.0 / Math.PI
-        rotation = 120f + degrees.toFloat()
+        ) * ONE_EIGHTY_DEGREE / Math.PI
+        rotation = (ONE_TWENTY_DEGREE + degrees.toFloat()).toFloat()
 //TODO mach wegen kamera plus
         worldRectangle.x = endX
         worldRectangle.y = endY

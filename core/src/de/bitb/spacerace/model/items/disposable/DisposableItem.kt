@@ -1,7 +1,6 @@
 package de.bitb.spacerace.model.items.disposable
 
 import com.badlogic.gdx.graphics.Texture
-import de.bitb.spacerace.config.CAMERA_TARGET
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState

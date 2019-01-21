@@ -17,6 +17,7 @@ object Dimensions {
         get() = SCREEN_HEIGHT / 2
 
     const val ONE_EIGHTY_DEGREE = 180.0
+    const val ONE_TWENTY_DEGREE = 120.0
     const val NINETY_DEGREE = 90.0
 
 

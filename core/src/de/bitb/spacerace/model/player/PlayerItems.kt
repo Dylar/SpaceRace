@@ -130,6 +130,7 @@ data class PlayerItems(val playerColor: PlayerColor) {
             if (detachItems.contains(it.itemType)) {
                 it.state = ItemState.NONE
                 removeModification(it)
+                it.itemImage.remove()
             }
         }
     }
