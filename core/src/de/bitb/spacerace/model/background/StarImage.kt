@@ -11,6 +11,7 @@ import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.ROTATION_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.BACKGROUND_STARS_SCALE
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.ITEM_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.ONE_EIGHTY_DEGREE
 import de.bitb.spacerace.config.dimensions.Dimensions.ONE_TWENTY_DEGREE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
@@ -29,7 +30,6 @@ import java.lang.Exception
 
 class StarImage(img: Texture,
                 var gameScreen: BaseScreen,
-                var star: FallingStar,
                 var startX: Float = 0f,
                 var startY: Float = 0f,
                 var endX: Float = Dimensions.SCREEN_WIDTH,
@@ -40,6 +40,7 @@ class StarImage(img: Texture,
     override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
 
     init {
+        setBounds(0f, 0f, ITEM_BORDER, ITEM_BORDER)
         touchable = Touchable.disabled
         movingState = MovingState.NONE
         randomColor()
@@ -60,7 +61,7 @@ class StarImage(img: Texture,
                 calculateValues()
                 setPosition(startX, startY)
                 moveToPoint(this, worldRectangle,
-                        star.getRunnableAction(Runnable { movingState = MovingState.NONE }))
+                        getRunnableAction(Runnable { movingState = MovingState.NONE }))
             } else {
                 actMovingTo(this, worldRectangle, delta)
             }
@@ -68,17 +69,6 @@ class StarImage(img: Texture,
         } catch (e: Exception) {
 
         }
-    }
-
-    override fun draw(batch: Batch?, parentAlpha: Float) {
-        super.draw(batch, parentAlpha)
-        batch!!.end()
-        LineRenderer.startLine(Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH, batch.projectionMatrix)
-        val start = Vector2(worldRectangle.x, worldRectangle.y)
-        val end = Vector2(worldRectangle.x + worldRectangle.width, worldRectangle.y + worldRectangle.height)
-        LineRenderer.drawDebugLine(start, end)
-        LineRenderer.endLine()
-        batch.begin()
     }
 
     private fun randomColor() {

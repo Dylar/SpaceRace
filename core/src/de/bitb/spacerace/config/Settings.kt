@@ -38,7 +38,7 @@ const val MAX_ZOOM = 5.0
 const val MIN_ZOOM = 1.0
 
 const val FIELD_ROTATION = true
-const val STAR_COUNT = 2
+const val STAR_COUNT = 0
 
 //DEBUG
 var PRESELECTED_PLAYER = arrayListOf(PlayerColor.ORANGE, PlayerColor.TEAL)

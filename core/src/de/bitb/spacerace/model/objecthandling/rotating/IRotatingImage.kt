@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.objecthandling.rotating
 
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
@@ -12,7 +13,8 @@ interface IRotatingImage {
     fun getRotationPosition(gameImage: GameImage, targetPosition: GameImage): PositionData
 
     fun actRotation(rotatingImage: GameImage, rotationPosition: GameImage, delta: Float)
-    fun setRotating(gameImage: GameObject, followImage: GameImage, radius: Double)
+    fun actRotation(rotatingImage: GameImage, rotatePosition: Rectangle, delta: Float)
+    fun setRotating(gameImage: GameObject, rotateImage: GameImage, radius: Double)
 
     fun getRotationAction(gameImage: GameImage, followImage: GameImage): RunnableAction
     fun getNONEAction(gameImage: GameImage, followImage: GameImage): RunnableAction {

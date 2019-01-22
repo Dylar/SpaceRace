@@ -17,7 +17,7 @@ class FallingStar(gameScreen: BaseScreen,
                   endY: Float = SCREEN_HEIGHT)
     : GameObject(PositionData(startX, startY, endX, endY)) {
 
-    private val startImage: StarImage = StarImage(TextureCollection.fallingStar, gameScreen, this, startX, startY, endX, endY)
+    private val startImage: StarImage = StarImage(TextureCollection.fallingStar, gameScreen, startX, startY, endX, endY)
 
     override fun getGameImage(): GameImage {
         return startImage

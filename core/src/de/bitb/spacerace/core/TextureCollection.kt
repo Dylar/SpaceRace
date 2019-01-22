@@ -108,26 +108,35 @@ object TextureCollection {
 
         //SET OBJECT TEXTURE
         val objectTextures = Pixmap(Gdx.files.internal("textureregion/objects.png"))
-        infectedDirt = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 0)
-        purpleCloud = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 1)
-        purpleShuriken = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 1)
-        bioCloud = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 0)
-        flowerCloud = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 0)
-        alienClaw = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 1)
+        infectedDirt = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 0, SMALL_BORDER)
+        purpleCloud = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 1, SMALL_BORDER)
+        purpleShuriken = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 1, SMALL_BORDER)
+        bioCloud = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 0, SMALL_BORDER)
+        flowerCloud = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 0, SMALL_BORDER)
+        alienClaw = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 1, SMALL_BORDER)
 
-        tinyFlowerCloud = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 0)
-        tinyPurpleShuriken = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 0)
-        tinyFlameShuriken = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 1)
-        tinyShuriken = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 1)
-        tinyPoint = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 2)
-        tinyPinkShuriken = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 2)
-        tinySpore = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 3)
-        tinyLight = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 3)
+        tinyFlowerCloud = createTexture(objectTextures, TINY_BORDER * 6, TINY_BORDER * 0, TINY_BORDER)
+        tinyPurpleShuriken = createTexture(objectTextures, TINY_BORDER * 7, TINY_BORDER * 0, TINY_BORDER)
+        tinyFlameShuriken = createTexture(objectTextures, TINY_BORDER * 6, TINY_BORDER * 1, TINY_BORDER)
+        tinyShuriken = createTexture(objectTextures, TINY_BORDER * 7, TINY_BORDER * 1, TINY_BORDER)
+        tinyPoint = createTexture(objectTextures, TINY_BORDER * 6, TINY_BORDER * 2, TINY_BORDER)
+        tinyPinkShuriken = createTexture(objectTextures, TINY_BORDER * 7, TINY_BORDER * 2, TINY_BORDER)
+        tinySpore = createTexture(objectTextures, TINY_BORDER * 6, TINY_BORDER * 3, TINY_BORDER)
+        tinyLight = createTexture(objectTextures, TINY_BORDER * 7, TINY_BORDER * 3, TINY_BORDER)
+
+//        tinyFlowerCloud = createTexture(objectTextures, TINY_BORDER * 8, SMALL_BORDER * 0)
+//        tinyPurpleShuriken = createTexture(objectTextures, TINY_BORDER * 9, SMALL_BORDER * 0)
+//        tinyFlameShuriken = createTexture(objectTextures, TINY_BORDER * 8, SMALL_BORDER * 1)
+//        tinyShuriken = createTexture(objectTextures, TINY_BORDER * 9, SMALL_BORDER * 1)
+//        tinyPoint = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 2)
+//        tinyPinkShuriken = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 2)
+//        tinySpore = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 3)
+//        tinyLight = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 3)
     }
 
-    fun createTexture(defaultTexture: Pixmap, posX: Int, posY: Int): Texture {
+    fun createTexture(defaultTexture: Pixmap, posX: Int, posY: Int, border: Int = DEFAULT_BORDER): Texture {
         val section = Pixmap(DEFAULT_BORDER, DEFAULT_BORDER, Pixmap.Format.RGBA8888)
-        section.drawPixmap(defaultTexture, 0, 0, posX, posY, DEFAULT_BORDER, DEFAULT_BORDER)
+        section.drawPixmap(defaultTexture, 0, 0, posX, posY, border, border)
         return Texture(section)
     }
 }

@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.objecthandling.rotating
 
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
@@ -81,9 +82,12 @@ class RotatingImage : IRotatingImage {
             }
         }
     }
+    override fun actRotation(rotatingImage: GameImage, rotatePosition: Rectangle, delta: Float) {
+        //TODO  mach das allgemeiner
+    }
 
-    override fun setRotating(gameImage: GameObject, followImage: GameImage, radius: Double) {
-        gameImage.getGameImage().followImage = followImage
+    override fun setRotating(gameImage: GameObject, rotateImage: GameImage, radius: Double) {
+        gameImage.getGameImage().followImage = rotateImage
         setRotationRadius(radius)
         gameImage.getGameImage().movingState = MovingState.ROTATE_POINT
     }
