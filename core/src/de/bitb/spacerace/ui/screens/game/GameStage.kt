@@ -10,11 +10,10 @@ import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH_HALF
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.background.StarImage
+import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.TextureAnimation
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
@@ -69,20 +68,22 @@ class GameStage(val screen: GameScreen) : BaseStage() {
     }
 
     private fun addTestActor() {
-        addActor(createTestActor(TextureCollection.infectedDirt))
-        addActor(createTestActor(TextureCollection.purpleCloud))
-        addActor(createTestActor(TextureCollection.purpleShuriken))
-        addActor(createTestActor(TextureCollection.bioCloud))
-        addActor(createTestActor(TextureCollection.flowerCloud))
-        addActor(createTestActor(TextureCollection.alienClaw))
-        addActor(createTestActor(TextureCollection.tinyFlowerCloud))
-        addActor(createTestActor(TextureCollection.tinyPurpleShuriken))
-        addActor(createTestActor(TextureCollection.tinyFlameShuriken))
-        addActor(createTestActor(TextureCollection.tinyShuriken))
-        addActor(createTestActor(TextureCollection.tinyPoint))
-        addActor(createTestActor(TextureCollection.tinyPinkShuriken))
-        addActor(createTestActor(TextureCollection.tinySpore))
-        addActor(createTestActor(TextureCollection.tinyLight))
+        addActor(createTestActor(TextureAnimation(TextureCollection.infectedDirt)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.purpleCloud)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.purpleShuriken)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.bioCloud)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.flowerCloud)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.alienClaw)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.tinyFlowerCloud)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.tinyPurpleShuriken)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.tinyFlameShuriken)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.tinyShuriken)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.tinyPoint)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.tinyPinkShuriken)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.tinySpore)))
+        addActor(createTestActor(TextureAnimation(TextureCollection.tinyLight)))
+
+//        addActor(createTestActor(SimpleAnimation()))
     }
 
     private fun createTestMovingActor(texture: Texture): GameImage {
@@ -90,8 +91,12 @@ class GameStage(val screen: GameScreen) : BaseStage() {
         return StarImage(texture, screen)
     }
 
-    private fun createTestActor(texture: Texture, rotationPoint: Rectangle = Rectangle()): GameImage {
-        var img = object : GameImage(TextureAnimation(texture)), IRotatingImage by RotatingImage() {
+    private fun createTestAnimationActor() {
+
+    }
+
+    private fun createTestActor(animation: BaseAnimation, rotationPoint: Rectangle = Rectangle()): GameImage {
+        var img = object : GameImage(animation), IRotatingImage by RotatingImage() {
             override var movingSpeed: Float = MOVING_SPS
 
             init {
@@ -103,7 +108,7 @@ class GameStage(val screen: GameScreen) : BaseStage() {
                 actRotation(this, rotationPoint, delta)
             }
         }
-        img.setPosition(FIELD_BORDER / 2 * actors.size, SCREEN_HEIGHT_HALF)
+        img.setPosition(FIELD_BORDER / 2 * actors.size, -SCREEN_HEIGHT_HALF)
         CAMERA_TARGET = img
         return img
     }

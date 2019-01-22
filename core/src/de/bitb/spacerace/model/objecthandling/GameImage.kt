@@ -14,14 +14,23 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
         }
     }
 
+    var boundingRectangle: Rectangle = Rectangle(0f, 0f, 10f, 10f)
+        get() {
+            field.x = getCenterX()
+            field.y = getCenterY()
+            field.width = 10f
+            field.height = 10f
+            return field
+        }
+
     var movingState: MovingState = MovingState.NONE
     var followImage: GameImage = NONE
     abstract var movingSpeed: Float
     var idlingCount = 0
 
     private val actionQueue: MutableList<Action> = ArrayList()
-    //TODO maybe
-     @Synchronized get
+        //TODO maybe
+        @Synchronized get
 
 
     init {
@@ -67,8 +76,4 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
             super.addAction(seq)
         }
     }
-
-    open fun getBoundingRectangle(): Rectangle {
-        return Rectangle(getCenterX(), getCenterY(), 100f, 100f)
-    }//TODO Object poooool!
 }

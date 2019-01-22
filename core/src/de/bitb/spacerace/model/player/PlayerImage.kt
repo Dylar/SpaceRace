@@ -37,8 +37,4 @@ class PlayerImage
         actMovingTo(this, followImage, delta)
     }
 
-
-    override fun getBoundingRectangle(): Rectangle {
-        return Rectangle(getCenterX(), getCenterY(), 10f, 10f)
-    }
 }

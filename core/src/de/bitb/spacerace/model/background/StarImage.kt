@@ -43,11 +43,13 @@ class StarImage(img: Texture,
         setBounds(0f, 0f, ITEM_BORDER, ITEM_BORDER)
         touchable = Touchable.disabled
         movingState = MovingState.NONE
+        endX += 100f
+        endY += 100f
         randomColor()
     }
 
-    val cam = gameScreen.gameStage.camera
     val worldRectangle: Rectangle = Rectangle(endX, endY, 1f, 1f)
+
 
     override fun act(delta: Float) {
         super.act(delta)
@@ -55,19 +57,16 @@ class StarImage(img: Texture,
         scaleX = zoom.toFloat()
         scaleY = zoom.toFloat()
 
-        try {
-            if (movingState != MovingState.MOVING) {
-                randomColor()
-                calculateValues()
-                setPosition(startX, startY)
-                moveToPoint(this, worldRectangle,
-                        getRunnableAction(Runnable { movingState = MovingState.NONE }))
-            } else {
-                actMovingTo(this, worldRectangle, delta)
-            }
-
-        } catch (e: Exception) {
-
+        if (movingState != MovingState.MOVING) {
+            randomColor()
+            calculateValues()
+            setPosition(startX, startY)
+            moveToPoint(this, worldRectangle,
+                    getRunnableAction(Runnable { movingState = MovingState.NONE }))
+            worldRectangle.y = endY
+            worldRectangle.x = endX
+        } else {
+            actMovingTo(this, worldRectangle, delta)
         }
     }
 
@@ -87,8 +86,6 @@ class StarImage(img: Texture,
         ) * ONE_EIGHTY_DEGREE / Math.PI
         rotation = (ONE_TWENTY_DEGREE + degrees.toFloat()).toFloat()
 //TODO mach wegen kamera plus
-        worldRectangle.x = endX
-        worldRectangle.y = endY
     }
 
 }

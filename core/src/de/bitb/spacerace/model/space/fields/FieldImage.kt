@@ -1,6 +1,5 @@
 package de.bitb.spacerace.model.space.fields
 
-import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import de.bitb.spacerace.config.FIELD_ROTATION
@@ -39,7 +38,4 @@ class FieldImage(var fieldType: FieldType)
         actRotation(this, followImage, delta)
     }
 
-    override fun getBoundingRectangle(): Rectangle {
-        return Rectangle(getCenterX(), getCenterY(), 10f, 10f)
-    }//TODO Object poooool!
 }

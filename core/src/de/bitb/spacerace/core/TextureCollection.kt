@@ -3,10 +3,13 @@ package de.bitb.spacerace.core
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.DEFAULT_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.SMALL_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.TINY_BORDER
+import de.bitb.spacerace.model.effects.SimpleAnimation
+import de.bitb.spacerace.model.objecthandling.BaseAnimation
 
 
 object TextureCollection {
@@ -64,6 +67,25 @@ object TextureCollection {
     var tinyPinkShuriken: Texture
     var tinySpore: Texture
     var tinyLight: Texture
+
+    var explosionFrame1: Texture
+    var explosionFrame2: Texture
+    var explosionFrame3: Texture
+    var explosionFrame4: Texture
+    var explosionFrame5: Texture
+    var explosionFrame6: Texture
+    var explosionFrame7: Texture
+    var explosionFrame8: Texture
+    var explosionFrame9: Texture
+    var explosionFrame10: Texture
+    var explosionFrame11: Texture
+    var explosionFrame12: Texture
+    var explosionFrame13: Texture
+    var explosionFrame14: Texture
+    var explosionFrame15: Texture
+    var explosionFrame16: Texture
+
+    val explosionAnimation: BaseAnimation
 
     init {
         guiBackground = Texture("background/bg_silver.png")
@@ -124,17 +146,46 @@ object TextureCollection {
         tinySpore = createTexture(objectTextures, TINY_BORDER * 6, TINY_BORDER * 3, TINY_BORDER)
         tinyLight = createTexture(objectTextures, TINY_BORDER * 7, TINY_BORDER * 3, TINY_BORDER)
 
-//        tinyFlowerCloud = createTexture(objectTextures, TINY_BORDER * 8, SMALL_BORDER * 0)
-//        tinyPurpleShuriken = createTexture(objectTextures, TINY_BORDER * 9, SMALL_BORDER * 0)
-//        tinyFlameShuriken = createTexture(objectTextures, TINY_BORDER * 8, SMALL_BORDER * 1)
-//        tinyShuriken = createTexture(objectTextures, TINY_BORDER * 9, SMALL_BORDER * 1)
-//        tinyPoint = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 2)
-//        tinyPinkShuriken = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 2)
-//        tinySpore = createTexture(objectTextures, TINY_BORDER * 6, SMALL_BORDER * 3)
-//        tinyLight = createTexture(objectTextures, TINY_BORDER * 7, SMALL_BORDER * 3)
+
+        explosionFrame1 = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 2, SMALL_BORDER)
+        explosionFrame2 = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 2, SMALL_BORDER)
+        explosionFrame3 = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 2, SMALL_BORDER)
+        explosionFrame4 = createTexture(objectTextures, SMALL_BORDER * 3, SMALL_BORDER * 2, SMALL_BORDER)
+        explosionFrame5 = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 3, SMALL_BORDER)
+        explosionFrame6 = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 3, SMALL_BORDER)
+        explosionFrame7 = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 3, SMALL_BORDER)
+        explosionFrame8 = createTexture(objectTextures, SMALL_BORDER * 3, SMALL_BORDER * 3, SMALL_BORDER)
+
+        explosionFrame9 = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 4, SMALL_BORDER)
+        explosionFrame10 = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 4, SMALL_BORDER)
+        explosionFrame11 = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 4, SMALL_BORDER)
+        explosionFrame12 = createTexture(objectTextures, SMALL_BORDER * 3, SMALL_BORDER * 4, SMALL_BORDER)
+        explosionFrame13 = createTexture(objectTextures, SMALL_BORDER * 0, SMALL_BORDER * 5, SMALL_BORDER)
+        explosionFrame14 = createTexture(objectTextures, SMALL_BORDER * 1, SMALL_BORDER * 5, SMALL_BORDER)
+        explosionFrame15 = createTexture(objectTextures, SMALL_BORDER * 2, SMALL_BORDER * 5, SMALL_BORDER)
+        explosionFrame16 = createTexture(objectTextures, SMALL_BORDER * 3, SMALL_BORDER * 5, SMALL_BORDER)
+
+        explosionAnimation = SimpleAnimation(textures = *arrayOf(
+                TextureRegion(explosionFrame1),
+                TextureRegion(explosionFrame2),
+                TextureRegion(explosionFrame3),
+                TextureRegion(explosionFrame4),
+                TextureRegion(explosionFrame5),
+                TextureRegion(explosionFrame6),
+                TextureRegion(explosionFrame7),
+                TextureRegion(explosionFrame8),
+                TextureRegion(explosionFrame9),
+                TextureRegion(explosionFrame10),
+                TextureRegion(explosionFrame11),
+                TextureRegion(explosionFrame12),
+                TextureRegion(explosionFrame13),
+                TextureRegion(explosionFrame14),
+                TextureRegion(explosionFrame15),
+                TextureRegion(explosionFrame16)))
+//        explosionFrame1 = createTexture(objectTextures, SMALL_BORDER * 3, SMALL_BORDER * 5, SMALL_BORDER)
     }
 
-    fun createTexture(defaultTexture: Pixmap, posX: Int, posY: Int, border: Int = DEFAULT_BORDER): Texture {
+    private fun createTexture(defaultTexture: Pixmap, posX: Int, posY: Int, border: Int = DEFAULT_BORDER): Texture {
         val section = Pixmap(DEFAULT_BORDER, DEFAULT_BORDER, Pixmap.Format.RGBA8888)
         section.drawPixmap(defaultTexture, 0, 0, posX, posY, border, border)
         return Texture(section)
