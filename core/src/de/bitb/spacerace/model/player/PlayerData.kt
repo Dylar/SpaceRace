@@ -46,7 +46,7 @@ data class PlayerData(val playerColor: PlayerColor = PlayerColor.NONE) {
         } else {
             playerData.steps.add(spaceField.gamePosition)
         }
-    }//TODO mach das in playerdata oder so
+    }
 
     private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
         return playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)

@@ -22,14 +22,4 @@ object LineRenderer : com.badlogic.gdx.graphics.glutils.ShapeRenderer() {
         end()
         Gdx.gl.glLineWidth(1f)
     }
-//
-//    fun drawDebugLine(start: Vector2, end: Vector2, projectionMatrix: Matrix4) {
-//        Gdx.gl.glLineWidth(2f)
-//        setProjectionMatrix(projectionMatrix)
-//        begin(ShapeType.Line)
-//        color = Color.RED
-//        line(start, end)
-//        end()
-//        Gdx.gl.glLineWidth(120f)
-//    }
 }

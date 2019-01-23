@@ -1,26 +1,15 @@
 package de.bitb.spacerace.ui.screens.game.control
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.CameraActions
-import de.bitb.spacerace.config.CAMERA_TARGET
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.game.GameScreen
 
@@ -54,7 +43,8 @@ class DebugControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompo
 
     override fun act(delta: Float) {
         super.act(delta)
-        label.setText("${screen.gameStage.camera.position.x}, ${screen.gameStage.camera.position.y}")
+        val position = screen.gameStage.camera.position
+        label.setText("${"%.1f".format(position.x)}, ${"%.1f".format(position.y)}")
     }
 
 }

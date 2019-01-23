@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 
@@ -24,7 +25,10 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
         }
 
     var movingState: MovingState = MovingState.NONE
+
+    var targetPoint: Rectangle? = null
     var followImage: GameImage = NONE
+
     abstract var movingSpeed: Float
     var idlingCount = 0
 
@@ -35,6 +39,7 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
 
     init {
         drawable = animation
+        debug = DEBUG_LAYOUT
     }
 
     fun getCenterX(): Float {

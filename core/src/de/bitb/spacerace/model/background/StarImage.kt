@@ -50,7 +50,6 @@ class StarImage(img: Texture,
 
     val worldRectangle: Rectangle = Rectangle(endX, endY, 1f, 1f)
 
-
     override fun act(delta: Float) {
         super.act(delta)
         val zoom = (MAX_ZOOM - gameScreen.currentZoom + 1) * BACKGROUND_STARS_SCALE
@@ -66,7 +65,7 @@ class StarImage(img: Texture,
             worldRectangle.y = endY
             worldRectangle.x = endX
         } else {
-            actMovingTo(this, worldRectangle, delta)
+            actMovingTo(delta, this, worldRectangle)
         }
     }
 
