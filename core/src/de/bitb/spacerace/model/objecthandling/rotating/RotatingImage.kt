@@ -58,7 +58,9 @@ class RotatingImage : IRotatingImage {
     }
 
     override fun actRotation(rotatingImage: GameImage, rotationPosition: GameImage, delta: Float) {
-        actRotation(rotatingImage, rotationPosition.boundingRectangle, delta, rotationPosition.rotation)
+        if (rotationPosition != NONE) {
+            actRotation(rotatingImage, rotationPosition.boundingRectangle, delta, rotationPosition.rotation)
+        }
     }
 
     override fun actRotation(rotatingImage: GameImage, rotatePosition: Rectangle, delta: Float, rotation: Float) {
@@ -66,7 +68,7 @@ class RotatingImage : IRotatingImage {
         rotatePosition.getCenter(targetCenter)
         when (rotatingImage.movingState) {
             MovingState.ROTATE_POINT -> {
-//                if (rotationPosition == NONE) {TODO needed?
+//                if (rotationPosition == NONE) {//TODO needed?
 //                    rotatingImage.movingState = MovingState.NONE
 //                } else {
                 angle += slice * rotatingImage.movingSpeed * delta
@@ -75,16 +77,15 @@ class RotatingImage : IRotatingImage {
             }
             MovingState.MOVING -> {
                 val degrees = Math.atan2(
-
-                        (targetCenter.x - rotatingImage.getCenterY()).toDouble(),
-                        (targetCenter.y - rotatingImage.getCenterX()).toDouble()
+                        (targetCenter.y - rotatingImage.getCenterY()).toDouble(),
+                        (targetCenter.x - rotatingImage.getCenterX()).toDouble()
                 ) * ONE_EIGHTY_DEGREE / Math.PI
 
                 rotatingImage.rotation = (degrees + -NINETY_DEGREE).toFloat()
                 currentRotation = rotatingImage.rotation - rotation
             }
             MovingState.NONE -> {
-//                if (rotationPosition != GameImage.NONE) { TODO needed?
+//                if (rotationPosition != GameImage.NONE) {// TODO needed?
                 rotatingImage.rotation = rotation + currentRotation
 //                }
 

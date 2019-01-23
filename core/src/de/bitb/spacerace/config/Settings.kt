@@ -37,7 +37,7 @@ const val BLINKING_INTERVAL = 2f
 const val MAX_ZOOM = 5.0
 const val MIN_ZOOM = 1.0
 
-const val FIELD_ROTATION = true
+const val FIELD_ROTATION = false
 const val STAR_COUNT = 5
 
 //DEBUG
