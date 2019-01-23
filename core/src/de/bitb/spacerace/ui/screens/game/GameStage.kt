@@ -100,7 +100,7 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by object
             override var movingSpeed: Float = (MOVING_SPS * Math.random()).toFloat()
 
             init {
-                setBounds(0f, 0f, Dimensions.GameDimensions.FIELD_BORDER, Dimensions.GameDimensions.FIELD_BORDER)
+                setBounds(0f, 0f, FIELD_BORDER, FIELD_BORDER)
 
                 patrollingBetweenPoints(this, targetPosition1, targetPosition2)
 //                movingState = MovingState.ROTATE_POINT

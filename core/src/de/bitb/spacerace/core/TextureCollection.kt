@@ -186,7 +186,7 @@ object TextureCollection {
     }
 
     private fun createTexture(defaultTexture: Pixmap, posX: Int, posY: Int, border: Int = DEFAULT_BORDER): Texture {
-        val section = Pixmap(DEFAULT_BORDER, DEFAULT_BORDER, Pixmap.Format.RGBA8888)
+        val section = Pixmap(border, border, Pixmap.Format.RGBA8888)
         section.drawPixmap(defaultTexture, 0, 0, posX, posY, border, border)
         return Texture(section)
     }

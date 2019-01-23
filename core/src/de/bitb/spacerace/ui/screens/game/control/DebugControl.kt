@@ -45,6 +45,7 @@ class DebugControl(val game: MainGame) : Table(TextureCollection.skin), GuiCompo
         super.act(delta)
         val position = screen.gameStage.camera.position
         label.setText("${"%.1f".format(position.x)}, ${"%.1f".format(position.y)}")
+        pack()
     }
 
 }

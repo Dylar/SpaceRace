@@ -24,7 +24,7 @@ class BackgroundStage(val screen: BaseScreen, private var texture: Texture = Tex
         super.translateBy(distanceX, distanceY)
         backgroundObjects.forEach {
             it.x -= distanceX
-            it.y -= distanceY
+            it.y += distanceY
         }
     }
 

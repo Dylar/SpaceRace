@@ -56,7 +56,7 @@ class MovingImage : IMovingImage {
         val action = movingImage.getRunnableAction(Runnable {
             this.doAfter.addAll(doAfter)
             this.doAfter.add(getPatrollingAction(movingImage, targetPoint1, targetPoint2))
-            movingImage.movingState = MovingState.MOVING
+            movingImage.movingState = MovingState.PATROLLING
             movingImage.targetPoint = targetPoint2
             flightTime = 1f
         })
@@ -93,7 +93,7 @@ class MovingImage : IMovingImage {
         when (movingImage.movingState) {
             MovingState.ROTATE_POINT -> {
             }
-            MovingState.MOVING -> {
+            MovingState.MOVING, MovingState.PATROLLING -> {
                 movingAction(delta, movingImage, targetPosition1)
             }
             MovingState.NONE -> {
