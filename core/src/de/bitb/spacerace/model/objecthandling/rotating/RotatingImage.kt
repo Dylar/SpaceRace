@@ -75,7 +75,7 @@ class RotatingImage : IRotatingImage {
                 setRotationPosition(rotatingImage, getRotationPoint(rotatingImage, targetCenter, angle))
 //                }
             }
-            MovingState.MOVING -> {
+            MovingState.MOVING, MovingState.PATROLLING -> {
                 val degrees = Math.atan2(
                         (targetCenter.y - rotatingImage.getCenterY()).toDouble(),
                         (targetCenter.x - rotatingImage.getCenterX()).toDouble()

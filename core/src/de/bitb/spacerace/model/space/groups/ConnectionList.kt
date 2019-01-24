@@ -5,9 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.model.objecthandling.blink.BlinkingImage
+import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 
 class ConnectionList(val playerController: PlayerController) : MutableList<SpaceConnection> by ArrayList(), Actor() {
+
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         batch!!.end()

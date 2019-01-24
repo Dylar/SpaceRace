@@ -10,14 +10,17 @@ class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) 
 
     fun getColor(playerData: PlayerData, positionData: PositionData): Color {
         val isConnected = isConnected(positionData)
+        var color = Color.CLEAR
+        color.a = 0.6f
         if (isConnected) {
             val canMove = playerData.canMove()
             if (canMove || playerData.phase.isMoving() && isConnected(playerData.previousStep)) {
-                return Color.GREEN
+                color = Color.GREEN
+                color.a = 0.8f
             }
         }
 
-        return Color.RED
+        return color
     }
 
     fun draw(playerData: PlayerData, positionData: PositionData) {
