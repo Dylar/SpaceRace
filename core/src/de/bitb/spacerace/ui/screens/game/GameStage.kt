@@ -116,7 +116,7 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by object
         img.setPosition(FIELD_BORDER / 2 * actors.size, -SCREEN_HEIGHT_HALF)
         targetPosition1.x = FIELD_BORDER / 2 * actors.size
         targetPosition1.y = -SCREEN_HEIGHT_HALF
-        CAMERA_TARGET = img
+//        CAMERA_TARGET = img
         return img
     }
 

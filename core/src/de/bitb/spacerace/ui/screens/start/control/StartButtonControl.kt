@@ -76,11 +76,11 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
     }
 
     private fun addAmountPanel(lessBtn: TextButton, label: Label, moreBtn: TextButton) {
-        setFont(addCell(lessBtn, 2).actor)
+        setFont(addCell(lessBtn, 1).actor)
         val cell = add(label)
-        cell.colspan(maxSpan - 4)
+        cell.colspan(maxSpan-3)
         setFont(cell.actor)
-        setFont(addCell(moreBtn, 2).actor)
+        setFont(addCell(moreBtn, 1).actor)
         row()
     }
 
@@ -160,10 +160,12 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
     private fun updateWinLabelText() {
         winLabel.setText("Wins: $WIN_AMOUNT")
+        pack()
     }
 
     private fun updateDiceLabelText() {
         diceLabel.setText("Dice: $DICE_MAX")
+        pack()
     }
 
     private fun updateStartButtonText() {

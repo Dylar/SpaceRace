@@ -47,5 +47,5 @@ var DEBUG_ITEM = arrayListOf(ItemCollection.NONE)
 const val DEBUG_ITEMS = 5
 
 const val DEBUG_FIELDS = false
-const val DEBUG_LAYOUT = true
+const val DEBUG_LAYOUT = false
 var CAMERA_TARGET: GameImage? = null
