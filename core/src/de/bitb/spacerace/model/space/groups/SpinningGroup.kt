@@ -73,6 +73,7 @@ open class SpinningGroup(gameController: GameController, offsetX: Float = 0f, of
         var center = centerPoint
         for (i in 0..10) {
             val moon = SpaceField.createField(fieldType[index])
+            moon.gamePosition.posX = i.toFloat()
             addMoon(moon, center, radius)
             connect(center, moon)
             center = moon

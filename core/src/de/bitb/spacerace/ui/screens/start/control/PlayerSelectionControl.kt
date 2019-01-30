@@ -22,6 +22,7 @@ import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
+import org.greenrobot.eventbus.EventBus
 
 
 class PlayerSelectionControl(guiStage: StartGuiStage)  : BaseGuiControl(guiStage) {
@@ -37,7 +38,7 @@ class PlayerSelectionControl(guiStage: StartGuiStage)  : BaseGuiControl(guiStage
                 if (PRESELECTED_PLAYER.contains(value)) {
                     if (gameController.gamePlayer.size < 2 && !playerSelected) {
                         checkBox.isChecked = true
-                        inputHandler.handleCommand(SelectPlayerCommand(value))
+                        EventBus.getDefault().post(SelectPlayerCommand(value))
                     }
                 }
             }
@@ -50,7 +51,7 @@ class PlayerSelectionControl(guiStage: StartGuiStage)  : BaseGuiControl(guiStage
     private fun addCheckbox(color: PlayerColor): CheckBox {
         val checkBox = createCheckbox(name = color.name, fontSize = GAME_SIZE_FONT_SMALL, fontColor = color.color, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(SelectPlayerCommand(color))
+                EventBus.getDefault().post(SelectPlayerCommand(color))
                 return true
             }
         })

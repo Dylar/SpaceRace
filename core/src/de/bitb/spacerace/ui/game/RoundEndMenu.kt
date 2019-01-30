@@ -11,6 +11,7 @@ import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
+import org.greenrobot.eventbus.EventBus
 
 class RoundEndMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
@@ -61,7 +62,7 @@ class RoundEndMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 closeMenu()
-                guiStage.inputHandler.handleCommand(NextPhaseCommand(guiStage.screen.game.gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(NextPhaseCommand(guiStage.screen.game.gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })

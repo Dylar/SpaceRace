@@ -16,6 +16,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.start.*
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
+import org.greenrobot.eventbus.EventBus
 
 class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
@@ -45,7 +46,7 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
     private fun addStartButton() {
         startBtn = createButton(name = START_BUTTON_START, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(StartGameCommand())
+                EventBus.getDefault().post(StartGameCommand())
                 return true
             }
         })
@@ -57,7 +58,7 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
     private fun addWinButtons() {
         val lessWinBtn = createButton(name = "-", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(ChangeWinAmountCommand(-1))
+                EventBus.getDefault().post(ChangeWinAmountCommand(-1))
                 return true
             }
         })
@@ -66,7 +67,7 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
         val moreWinBtn = createButton(name = "+", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(ChangeWinAmountCommand(1))
+                EventBus.getDefault().post(ChangeWinAmountCommand(1))
                 return true
             }
         })
@@ -87,7 +88,7 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
     private fun addDiceButtons() {
         val lessDiceBtn = createButton(name = "-", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(ChangeDiceAmountCommand(-1))
+                EventBus.getDefault().post(ChangeDiceAmountCommand(-1))
                 return true
             }
         })
@@ -96,7 +97,7 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
         val moreDiceBtn = createButton(name = "+", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(ChangeDiceAmountCommand(1))
+                EventBus.getDefault().post(ChangeDiceAmountCommand(1))
                 return true
             }
         })
@@ -107,7 +108,7 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
     private fun addLanguageButtons() {
         languageBtn = createButton(name = START_BUTTON_LANGUAGE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(ChangeLanguageCommand())
+                EventBus.getDefault().post(ChangeLanguageCommand())
                 return true
             }
         })
@@ -120,7 +121,7 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
     private fun addDebugButton() {
         debugBtn = createButton(name = "DEBUG", fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(OpenDebugGuiCommand())
+                EventBus.getDefault().post(OpenDebugGuiCommand())
                 return true
             }
         })

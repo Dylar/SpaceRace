@@ -12,6 +12,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZ
 import de.bitb.spacerace.events.commands.start.SelectTestFieldCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
+import org.greenrobot.eventbus.EventBus
 
 
 class TestFieldSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
@@ -33,7 +34,7 @@ class TestFieldSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiSta
     private fun addCheckbox(fieldType: FieldType): CheckBox {
         val checkBox = createCheckbox(name = fieldType.name, fontSize = GAME_SIZE_FONT_SMALL, fontColor = Color.BLACK, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(SelectTestFieldCommand(fieldType))
+                EventBus.getDefault().post(SelectTestFieldCommand(fieldType))
                 return true
             }
         })

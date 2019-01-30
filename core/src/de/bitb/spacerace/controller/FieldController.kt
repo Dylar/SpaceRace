@@ -18,6 +18,7 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.maps.SpaceMap
+import org.greenrobot.eventbus.EventBus
 
 class FieldController(playerController: PlayerController) : DefaultFunction {
 
@@ -49,7 +50,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
     fun addField(gameController: GameController, spaceField: SpaceField) {
         spaceField.getGameImage().addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                gameController.inputHandler.handleCommand(MoveCommand(spaceField, gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(MoveCommand(spaceField, gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })

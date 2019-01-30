@@ -23,6 +23,7 @@ class GameController(game: MainGame) {
 
     init {
         PlayerColor.values().forEach { field -> victories[field] = 0 }
+
     }
 
     fun initGame(map: SpaceMap) {

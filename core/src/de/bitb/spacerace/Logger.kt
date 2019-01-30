@@ -14,7 +14,7 @@ object Logger {
                             val callingClass = stackTraceElements[searchNextNotLoggerClassIndex]
                             if (!isLoggerClass(callingClass)) {
                                 val split = callingClass.className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                                var className = split[split.size - 1]
+                                var className = split.last()
 
                                 if (className.contains("$")) {
                                     className = className.split("\\$".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
