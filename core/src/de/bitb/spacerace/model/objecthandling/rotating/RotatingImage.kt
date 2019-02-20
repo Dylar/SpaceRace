@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.objecthandling.rotating
 
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
@@ -40,13 +41,15 @@ class RotatingImage : IRotatingImage {
     }
 
     override fun getRotationPosition(gameImage: GameImage, targetPosition: GameImage): PositionData {
-        val point = getRotationPoint(gameImage, targetPosition, angle)
+        val targetCenter = Vector2()
+        targetPosition.boundingRectangle.getCenter(targetCenter)
+        val point = getRotationPoint(gameImage, targetCenter, angle)
         return PositionData(posX = point.x, posY = point.y)
     }
 
-    private fun getRotationPoint(gameImage: GameImage, followImage: GameImage, angle: Double): Vector3 {
-        val posX = followImage.getCenterX() - gameImage.width / 2
-        val posY = followImage.getCenterY() - gameImage.height / 2
+    private fun getRotationPoint(gameImage: GameImage, followImage: Vector2, angle: Double): Vector3 {
+        val posX = followImage.x - gameImage.width / 2
+        val posY = followImage.y - gameImage.height / 2
         return getRotationPoint(posX, posY, angle)
     }
 
@@ -55,35 +58,43 @@ class RotatingImage : IRotatingImage {
     }
 
     override fun actRotation(rotatingImage: GameImage, rotationPosition: GameImage, delta: Float) {
+        if (rotationPosition != NONE) {
+            actRotation(rotatingImage, rotationPosition.boundingRectangle, delta, rotationPosition.rotation)
+        }
+    }
+
+    override fun actRotation(rotatingImage: GameImage, rotatePosition: Rectangle, delta: Float, rotation: Float) {
+        val targetCenter = Vector2()
+        rotatePosition.getCenter(targetCenter)
         when (rotatingImage.movingState) {
             MovingState.ROTATE_POINT -> {
-                if (rotationPosition == NONE) {
-                    rotatingImage.movingState = MovingState.NONE
-                } else {
-                    angle += slice * rotatingImage.movingSpeed * delta
-                    setRotationPosition(rotatingImage, getRotationPoint(rotatingImage, rotationPosition, angle))
-                }
+//                if (rotationPosition == NONE) {//TODO needed?
+//                    rotatingImage.movingState = MovingState.NONE
+//                } else {
+                angle += slice * rotatingImage.movingSpeed * delta
+                setRotationPosition(rotatingImage, getRotationPoint(rotatingImage, targetCenter, angle))
+//                }
             }
-            MovingState.MOVING -> {
+            MovingState.MOVING, MovingState.PATROLLING -> {
                 val degrees = Math.atan2(
-                        (rotationPosition.getCenterY() - rotatingImage.getCenterY()).toDouble(),
-                        (rotationPosition.getCenterX() - rotatingImage.getCenterX()).toDouble()
+                        (targetCenter.y - rotatingImage.getCenterY()).toDouble(),
+                        (targetCenter.x - rotatingImage.getCenterX()).toDouble()
                 ) * ONE_EIGHTY_DEGREE / Math.PI
 
                 rotatingImage.rotation = (degrees + -NINETY_DEGREE).toFloat()
-                currentRotation = rotatingImage.rotation - rotationPosition.rotation
+                currentRotation = rotatingImage.rotation - rotation
             }
             MovingState.NONE -> {
-                if (rotationPosition != GameImage.NONE) {
-                    rotatingImage.rotation = rotationPosition.rotation + currentRotation
-                }
+//                if (rotationPosition != GameImage.NONE) {// TODO needed?
+                rotatingImage.rotation = rotation + currentRotation
+//                }
 
             }
         }
     }
 
-    override fun setRotating(gameImage: GameObject, followImage: GameImage, radius: Double) {
-        gameImage.getGameImage().followImage = followImage
+    override fun setRotating(gameImage: GameObject, rotateImage: GameImage, radius: Double) {
+        gameImage.getGameImage().followImage = rotateImage
         setRotationRadius(radius)
         gameImage.getGameImage().movingState = MovingState.ROTATE_POINT
     }

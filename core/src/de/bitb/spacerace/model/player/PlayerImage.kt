@@ -1,10 +1,9 @@
 package de.bitb.spacerace.model.player
 
-import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
-import de.bitb.spacerace.model.objecthandling.BaseAnimation
+import de.bitb.spacerace.model.items.ships.RaiderShip
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
@@ -14,11 +13,11 @@ import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 
 
 class PlayerImage
-    : GameImage(PlayerAnimation()),
+    : GameImage(RaiderShip(PlayerColor.TEAL, 0).getAnimation()),//TODO mach das anders
         IMovingImage by MovingImage(),
         IRotatingImage by RotatingImage() {
 
-    override var movingSpeed: Float = (MOVING_SPS)
+    override var movingSpeed: Float = MOVING_SPS
 
     init {
         touchable = Touchable.disabled
@@ -34,11 +33,7 @@ class PlayerImage
     override fun act(delta: Float) {
         super.act(delta)
         actRotation(this, followImage, delta)
-        actMoving(this, followImage, delta)
+        actMovingTo(delta, this, followImage)
     }
 
-
-    override fun getBoundingRectangle(): Rectangle {
-        return Rectangle(getCenterX(), getCenterY(), 10f, 10f)
-    }
 }

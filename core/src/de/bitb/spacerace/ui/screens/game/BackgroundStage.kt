@@ -9,19 +9,35 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.background.FallingStar
+import de.bitb.spacerace.model.objecthandling.GameImage
 
 
 class BackgroundStage(val screen: BaseScreen, private var texture: Texture = TextureCollection.gameBackground) : BaseStage() {
+
+    var backgroundObjects: MutableList<GameImage> = ArrayList()
 
     init {
         startBombarding()
     }
 
+    override fun translateBy(distanceX: Float, distanceY: Float) {
+        super.translateBy(distanceX, distanceY)
+        backgroundObjects.forEach {
+            it.x -= distanceX
+            it.y += distanceY
+        }
+    }
+
     private fun startBombarding() {
         for (index in 1..STAR_COUNT) {
-            val star = FallingStar(screen, startY = SCREEN_HEIGHT / 2, endY = SCREEN_HEIGHT / 2)
+            val star = FallingStar(screen)
             addActor(star.getGameImage())
         }
+    }
+
+    fun addActor(actor: GameImage) {
+        backgroundObjects.add(actor)
+        super.addActor(actor)
     }
 
     override fun draw() {

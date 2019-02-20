@@ -4,6 +4,7 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.enums.Phase
+import org.greenrobot.eventbus.EventBus
 import java.lang.UnsupportedOperationException
 
 class NextPhaseCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
@@ -19,10 +20,10 @@ class NextPhaseCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
         Logger.println("Phase: ${playerData.phase.name}")
          when (playerData.phase) {
-            Phase.MAIN1 -> inputHandler.handleCommand(StartMain1Command(playerColor))
-            Phase.MOVE -> inputHandler.handleCommand(StartMoveCommand(playerColor))
-            Phase.MAIN2 -> inputHandler.handleCommand(StartMain2Command(playerColor))
-            Phase.END_TURN -> inputHandler.handleCommand(EndTurnCommand(playerColor))
+            Phase.MAIN1 -> EventBus.getDefault().post(StartMain1Command(playerColor))
+            Phase.MOVE -> EventBus.getDefault().post(StartMoveCommand(playerColor))
+            Phase.MAIN2 -> EventBus.getDefault().post(StartMain2Command(playerColor))
+            Phase.END_TURN -> EventBus.getDefault().post(EndTurnCommand(playerColor))
             Phase.END_ROUND -> throw UnsupportedOperationException("END ROUND NEXT?")
         }
 

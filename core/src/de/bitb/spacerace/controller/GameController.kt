@@ -23,6 +23,7 @@ class GameController(game: MainGame) {
 
     init {
         PlayerColor.values().forEach { field -> victories[field] = 0 }
+
     }
 
     fun initGame(map: SpaceMap) {
@@ -31,10 +32,12 @@ class GameController(game: MainGame) {
         fieldController.initMap(this, map)
 
         val startField = map.startField
-        for (playerColor in gamePlayer) {
-            val player = Player(playerColor)
+        for (playerColor in gamePlayer.withIndex()) {
+            val player = Player(playerColor.value)
             playerController.players.add(player)
-            playerController.playerMap[playerColor] = player
+            playerController.playerMap[playerColor.value] = player
+
+            player.playerImage.movingSpeed * playerColor.index
             fieldController.addShip(player, startField)
         }
     }

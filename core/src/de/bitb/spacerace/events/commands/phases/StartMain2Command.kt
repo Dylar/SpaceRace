@@ -6,6 +6,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.obtain.*
 import de.bitb.spacerace.model.enums.FieldType
+import org.greenrobot.eventbus.EventBus
 
 class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
@@ -36,6 +37,6 @@ class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 //            FieldType.PLANET -> TODO()
 //            FieldType.RANDOM -> TODO()
 //            FieldType.UNKNOWN -> TODO()
-        inputHandler.handleCommand(command)
+        EventBus.getDefault().post(command)
     }
 }

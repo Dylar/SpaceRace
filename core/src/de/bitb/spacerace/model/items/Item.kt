@@ -1,32 +1,32 @@
 package de.bitb.spacerace.model.items
 
 import com.badlogic.gdx.graphics.Texture
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.ITEM_BORDER
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.space.fields.FieldImage
 
 abstract class Item(var owner: PlayerColor,
-                    val price: Int) : GameObject() {
+                    val price: Int,
+                    val img: Texture) : GameObject() {
 
     abstract val itemType: ItemCollection
-    abstract val img: Texture
     abstract var text: String
     open var charges: Int = 1
 
     var state: ItemState = ItemState.NONE
-    private lateinit var itemImage: ItemImage
+
+    var itemImage = ItemImage(img, owner)
 
     override fun getGameImage(): GameImage {
-        return getItemImage()
+        return itemImage
     }
 
-    fun getItemImage(): ItemImage {
-        return if (::itemImage.isInitialized) itemImage else {
-            itemImage = ItemImage(img)
-            itemImage.itemColor = owner.color
-            itemImage
-        }
+    init {
+        setBounds(0f, 0f, ITEM_BORDER, ITEM_BORDER)
     }
 
     abstract fun canUse(game: MainGame, player: PlayerColor): Boolean

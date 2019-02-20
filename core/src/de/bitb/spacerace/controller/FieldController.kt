@@ -6,6 +6,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -17,6 +18,7 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.maps.SpaceMap
+import org.greenrobot.eventbus.EventBus
 
 class FieldController(playerController: PlayerController) : DefaultFunction {
 
@@ -48,7 +50,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
     fun addField(gameController: GameController, spaceField: SpaceField) {
         spaceField.getGameImage().addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                gameController.inputHandler.handleCommand(MoveCommand(spaceField, gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(MoveCommand(spaceField, gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })
@@ -109,7 +111,7 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
             val newField = con.getOpposite(field)
             newField.disposedItems.add(item)
 
-            val itemImage = item.getItemImage()
+            val itemImage = item.getGameImage() as ItemImage
             val point = itemImage.getRotationPosition(itemImage, newField.getGameImage())
 
             item.gamePosition.setPosition(newField.gamePosition)

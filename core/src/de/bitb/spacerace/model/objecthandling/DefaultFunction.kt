@@ -7,10 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.model.player.PlayerItems
+import de.bitb.spacerace.model.player.*
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 interface DefaultFunction {
@@ -21,6 +18,10 @@ interface DefaultFunction {
 
     fun getCurrentPlayer(game: MainGame): Player {
         return game.gameController.playerController.currentPlayer
+    }
+
+    fun getPlayerImage(game: MainGame, playerColor: PlayerColor): PlayerImage {
+        return getPlayer(game, playerColor).playerImage
     }
 
     fun getPlayerPosition(game: MainGame, playerColor: PlayerColor): PositionData {
@@ -44,7 +45,7 @@ interface DefaultFunction {
     }
 
     fun getDisplayImage(gameObject: GameObject, posX: Float = 0f, posY: Float = 0f, color: Color = Color(1f, 1f, 1f, 1f), actor: Actor = Actor()): Image {
-        val image = object : Image(gameObject.getGameImage().animation!!.region) {
+        val image = object : Image(gameObject.getGameImage().animation.region) {
             override fun act(delta: Float) {
                 super.act(delta)
                 actor.act(delta)

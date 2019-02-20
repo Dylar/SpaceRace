@@ -25,6 +25,7 @@ import de.bitb.spacerace.model.items.equip.EquipItem
 import de.bitb.spacerace.model.items.usable.UsableItem
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
+import org.greenrobot.eventbus.EventBus
 
 class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, val items: MutableList<Item>) : BaseMenu(guiStage, itemMenu), InputObserver {
 
@@ -81,7 +82,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     val item = getByState(ItemState.EQUIPPED)
                     if (item.isNotEmpty()) {
-                        game.gameController.inputHandler.handleCommand(UseItemCommand(item[0], game.gameController.playerController.currentPlayer.playerData.playerColor))
+                        EventBus.getDefault().post(UseItemCommand(item[0], game.gameController.playerController.currentPlayer.playerData.playerColor))
                     }
                     return true
                 }
@@ -93,7 +94,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 val item = getByState(ItemState.STORAGE)
                 if (item.isNotEmpty()) {
-                    game.gameController.inputHandler.handleCommand(UseItemCommand(item[0], getCurrentPlayer(game).playerData.playerColor))
+                    EventBus.getDefault().post(UseItemCommand(item[0], getCurrentPlayer(game).playerData.playerColor))
                 }
                 return true
             }

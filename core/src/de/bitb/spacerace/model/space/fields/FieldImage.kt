@@ -1,7 +1,5 @@
 package de.bitb.spacerace.model.space.fields
 
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import de.bitb.spacerace.config.FIELD_ROTATION
@@ -18,6 +16,7 @@ class FieldImage(var fieldType: FieldType)
     : GameImage(fieldType.getAnimation()),
         IBlinkingImage by BlinkingImage(),
         IRotatingImage by RotatingImage() {
+
     override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
 
     init {
@@ -37,10 +36,6 @@ class FieldImage(var fieldType: FieldType)
         super.act(delta)
         color = getBlinkColor(color, fieldType.color ?: color)
         actRotation(this, followImage, delta)
-    }
-
-    override fun getBoundingRectangle(): Rectangle {
-        return Rectangle(getCenterX(), getCenterY(), 10f, 10f)
     }
 
 }

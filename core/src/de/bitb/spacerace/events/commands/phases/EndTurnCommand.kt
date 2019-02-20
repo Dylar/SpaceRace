@@ -2,6 +2,7 @@ package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
+import org.greenrobot.eventbus.EventBus
 
 class EndTurnCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
 
@@ -14,7 +15,7 @@ class EndTurnCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
         playerController.nextTurn()
 
         if (playerController.isRoundEnd()) {
-            game.gameController.inputHandler.handleCommand(EndRoundCommand())
+            EventBus.getDefault().post(EndRoundCommand())
         }
     }
 

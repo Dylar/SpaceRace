@@ -3,6 +3,9 @@ package de.bitb.spacerace.model.items
 import de.bitb.spacerace.model.items.disposable.SlowMine
 import de.bitb.spacerace.model.items.disposable.moving.MovingMine
 import de.bitb.spacerace.model.items.equip.IonEngine
+import de.bitb.spacerace.model.items.ships.BumperShip
+import de.bitb.spacerace.model.items.ships.RaiderShip
+import de.bitb.spacerace.model.items.ships.SpeederShip
 import de.bitb.spacerace.model.items.usable.ExtraFuel
 import de.bitb.spacerace.model.items.usable.clean.CleanDroid
 import de.bitb.spacerace.model.items.usable.SpecialFuel
@@ -18,12 +21,17 @@ enum class ItemCollection {
     SPEED_BOOST,
     CLEAN_DROID,
 
-    //EQUIP
-    ION_ENGINE,
-
     //DISPOSABLE
     SLOW_MINE,
     MOVING_MINE,
+
+    //EQUIP
+    ION_ENGINE,
+
+    //SHIP
+    SHIP_SPEEDER,
+    SHIP_RAIDER,
+    SHIP_BUMPER,
 
     NONE;
 
@@ -50,10 +58,14 @@ enum class ItemCollection {
             SPEED_BOOST -> SpeedBoost(playerColor, 3000, 1)
             CLEAN_DROID -> CleanDroid(playerColor, 2000)
 
-            ION_ENGINE -> IonEngine(playerColor, 5000)
-
             SLOW_MINE -> SlowMine(playerColor, 3000)
             MOVING_MINE -> MovingMine(playerColor, 4000)
+
+            ION_ENGINE -> IonEngine(playerColor, 5000)
+
+            SHIP_SPEEDER -> SpeederShip(playerColor, 15000)
+            SHIP_RAIDER -> RaiderShip(playerColor, 65000)
+            SHIP_BUMPER -> BumperShip(playerColor, 40000)
 
             NONE -> throw OperationNotSupportedException()
         }
