@@ -5,6 +5,7 @@ import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
+import java.util.*
 
 class Player(playerColor: PlayerColor = PlayerColor.NONE)
     : GameObject(PositionData()) {
@@ -14,7 +15,7 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE)
     }
 
     var playerImage: PlayerImage = PlayerImage()
-    var playerData = PlayerData(playerColor)
+    var playerData = PlayerData(UUID.randomUUID().toString(), playerColor)
 
     override fun getGameImage(): GameImage {
         return playerImage

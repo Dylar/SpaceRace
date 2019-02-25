@@ -1,5 +1,6 @@
 package de.bitb.spacerace.ui.player
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
@@ -17,12 +18,21 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.database.PlayerDAO
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.base.GuiComponent
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+
+    private val disposable = CompositeDisposable()
+
+    @Inject
+    lateinit var userDao: PlayerDAO
 
     private var creditsLabel: Label
 
@@ -118,6 +128,25 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
         updateDiceMod(playerData)
         updatePhase(playerData.phase)
         pack()
+    }
+
+    fun startObserving(){
+//        disposable.add(userDao.observeAllObserver()
+//                .subscribeOn(Schedulers.io()) TODO
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnDispose { Logger.error("ON DISPOSE: OBSERVER") }
+//                .doOnNext { Logger.error("ON NEXT: OBSERVER") }
+//                .doOnTerminate { Logger.error("ON TERMINATE: OBSERVER") }
+//                .doFinally { Logger.error("ON FINALLY: OBSERVER") }
+//                .doOnComplete { Logger.error("ON COMPLETE: OBSERVER") }
+//                .subscribe({ list ->
+//                    Logger.error("EACH UPDATE: OBSERVER")
+//                    Logger.error("USER COUNT: ${list.size}")
+////                    updateList(list.reversed())
+//                }, {
+//                    Logger.error("Unable to check DB")
+//                    it.printStackTrace()
+//                }))
     }
 
 }

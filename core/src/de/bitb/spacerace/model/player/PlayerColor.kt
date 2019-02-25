@@ -30,4 +30,11 @@ enum class PlayerColor(val color: Color) {
             NONE -> NONE
         }
     }
+
+    companion object {
+        fun get(index: Int): PlayerColor {
+            return values()[index]
+        }
+    }
+
 }

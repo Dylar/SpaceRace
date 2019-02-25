@@ -1,5 +1,7 @@
 package de.bitb.spacerace
 
+import com.badlogic.gdx.Gdx
+
 object Logger {
 
     private const val isAllowedToLog: Boolean = true
@@ -68,7 +70,8 @@ object Logger {
 
     fun println(message: String) {
         if (isAllowedToLog) {
-            System.out.println("$callingClass: $message")
+//            System.out.println("$callingClass: $message")
+            Gdx.app.log(callingClass,message)
         }
     }
 
