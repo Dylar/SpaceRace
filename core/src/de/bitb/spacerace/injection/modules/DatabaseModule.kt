@@ -2,19 +2,31 @@ package de.bitb.spacerace.injection.modules
 
 import dagger.Module
 import dagger.Provides
-import de.bornholdtlee.baseproject.injection.ApplicationScope
-//import androidx.room.Room
-import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.DAODispender
-import de.bitb.spacerace.database.PlayerDAO
+import javax.inject.Singleton
 
 @Module
-class DatabaseModule(val daoDispender: DAODispender) {
+class DatabaseModule() {
 
     @Provides
-    @ApplicationScope
-    fun playerDAO(): PlayerDAO {
-        return daoDispender.getPlayerDAO()
+    @Singleton
+    fun provideDatabase(application: DBSystelApplication): BoxStore {
+        val boxStore = MyObjectBox.builder().androidContext(application).build()
+        if (BuildConfig.DEBUG) {
+            AndroidObjectBrowser(boxStore).start(application)
+        }
+        return boxStore
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeviceBox(store: BoxStore): Box<Device> {
+        return store.boxFor(Device::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeviceDBHandler(application: DBSystelApplication): DeviceDBHandler {
+        return DeviceDBHandler(application)
     }
 
 }
