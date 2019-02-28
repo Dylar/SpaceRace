@@ -18,21 +18,18 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.database.PlayerDAO
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.base.GuiComponent
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
-    private val disposable = CompositeDisposable()
+//    private val disposable = CompositeDisposable()
 
-    @Inject
-    lateinit var userDao: PlayerDAO
+//    @Inject
+//    lateinit var userDao: PlayerDAO
 
     private var creditsLabel: Label
 

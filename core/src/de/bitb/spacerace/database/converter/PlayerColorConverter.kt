@@ -1,17 +1,16 @@
 package de.bitb.spacerace.database.converter
 
-import androidx.room.TypeConverter
 import de.bitb.spacerace.model.player.PlayerColor
+import io.objectbox.converter.PropertyConverter
 
-class PlayerColorConverter {
+class PlayerColorConverter : PropertyConverter<PlayerColor, Int> {
 
-    @TypeConverter
-    fun toPlayerColor(value: Int?): PlayerColor? {
-        return value?.let { PlayerColor.get(it) }
+    override fun convertToDatabaseValue(entityProperty: PlayerColor?): Int? {
+        return entityProperty?.color?.toIntBits()
     }
 
-    @TypeConverter
-    fun toInt(value: PlayerColor?): Int? {
-        return value?.color?.toIntBits()
+    override fun convertToEntityProperty(databaseValue: Int?): PlayerColor? {
+        return databaseValue?.let { PlayerColor.get(it) }
     }
+
 }

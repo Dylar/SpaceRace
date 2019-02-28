@@ -5,12 +5,9 @@ import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.controller.GameController
-import de.bitb.spacerace.database.DAODispender
-import de.bitb.spacerace.injection.components.AppComponent
-import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.ui.screens.start.StartScreen
 
-class MainGame(daoDispender: DAODispender) : BaseGame() {
+class MainGame : BaseGame() {
 
 //    open val appComponent: AppComponent = DaggerAppComponent.builder()
 //            .applicationModule(ApplicationModule(this))

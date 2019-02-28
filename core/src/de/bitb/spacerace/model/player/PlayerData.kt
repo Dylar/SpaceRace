@@ -1,32 +1,42 @@
 package de.bitb.spacerace.model.player
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.CREDITS_LOSE_AMOUNT
 import de.bitb.spacerace.config.CREDITS_WIN_AMOUNT
 import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.config.START_CREDITS
+import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
+import io.objectbox.annotation.Convert
+import io.objectbox.annotation.Entity
+import io.objectbox.annotation.Id
 
-@Entity(tableName = "player")
-data class PlayerData(@PrimaryKey var uuid: String,
-                      @ColumnInfo(name = "color") var playerColor: PlayerColor = PlayerColor.NONE,
-                      @ColumnInfo(name = "credits") var credits: Int = START_CREDITS) {
 
-    @Ignore
+@Entity
+data class PlayerData(
+        @Id var uuid: Long = 0,
+        @Convert(converter = PlayerColorConverter::class, dbType = String::class)
+        var playerColor: PlayerColor = PlayerColor.NONE,
+        var credits: Int = START_CREDITS) {
+
+
+
+    @Transient
     val playerItems: PlayerItems = PlayerItems(playerColor)
-    @Ignore
+
+    @Transient
+    //@Convert(converter = PlayerColorConverter::class, dbType = String::class)
     var phase: Phase = Phase.MAIN1
-    @Ignore
+
+    @Transient
     var diceResults: MutableList<Int> = ArrayList()
-    @Ignore
+
+    @Transient
     var steps: MutableList<PositionData> = ArrayList()
-    @Ignore
+
+    @Transient
     var previousStep: PositionData = PositionData()
         get() = if (steps.size < 2) PositionData() else steps[steps.size - 2]
 

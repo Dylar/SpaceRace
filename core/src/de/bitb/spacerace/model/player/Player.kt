@@ -15,7 +15,8 @@ class Player(playerColor: PlayerColor = PlayerColor.NONE)
     }
 
     var playerImage: PlayerImage = PlayerImage()
-    var playerData = PlayerData(UUID.randomUUID().toString(), playerColor)
+    var playerData = PlayerData(playerColor =  playerColor)
+//    UUID.randomUUID().toString().hashCode().toLong(),
 
     override fun getGameImage(): GameImage {
         return playerImage
