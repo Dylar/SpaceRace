@@ -11,12 +11,13 @@ buildscript {
         jcenter()
         google()
     }
+    
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'
         classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$roboVMVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.20"
-
+        classpath "io.objectbox:objectbox-gradle-plugin:$dbVersion"
     }
 }
 
@@ -103,7 +104,7 @@ project(":core") {
     apply plugin: "kotlin"
     apply plugin: 'kotlin-kapt'
     apply plugin: "net.ltgt.apt"
-//    apply plugin: 'io.objectbox'
+    apply plugin: 'io.objectbox'
 
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -118,10 +119,10 @@ project(":core") {
         implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
         implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
 
-//        implementation "io.objectbox:objectbox-java:$dbVersion"
-//        implementation "io.objectbox:objectbox-kotlin:$dbVersion"
-//        annotationProcessor "io.objectbox:objectbox-processor:$dbVersion"
-//        implementation "io.objectbox:objectbox-macos:$dbVersion"
+        implementation "io.objectbox:objectbox-java:$dbVersion"
+        implementation "io.objectbox:objectbox-kotlin:$dbVersion"
+        annotationProcessor "io.objectbox:objectbox-processor:$dbVersion"
+        implementation "io.objectbox:objectbox-macos:$dbVersion"
 //        debugImplementation "io.objectbox:objectbox-android-objectbrowser:$dbVersion"
 
         implementation 'org.greenrobot:eventbus:3.1.1'
