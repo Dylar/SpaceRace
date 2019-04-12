@@ -8,7 +8,7 @@ import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.FieldImage
-import io.objectbox.annotation.Entity
+//import io.objectbox.annotation.Entity
 
 abstract class Item(var owner: PlayerColor,
                     val price: Int,

@@ -3,8 +3,8 @@ package de.bitb.spacerace.injection.modules
 import dagger.Module
 import dagger.Provides
 import de.bitb.spacerace.model.player.PlayerData
-import io.objectbox.Box
-import io.objectbox.BoxStore
+//import io.objectbox.Box
+//import io.objectbox.BoxStore
 import javax.inject.Singleton
 
 @Module
@@ -19,12 +19,12 @@ class DatabaseModule() {
 ////        }
 //        return boxStore
 //    }
-
-    @Provides
-    @Singleton
-    fun providePlayerBox(store: BoxStore): Box<PlayerData> {
-        return store.boxFor(PlayerData::class.java)
-    }
+//
+//    @Provides
+//    @Singleton
+//    fun providePlayerBox(store: BoxStore): Box<PlayerData> {
+//        return store.boxFor(PlayerData::class.java)
+//    }
 
 //    @Provides
 //    @Singleton
