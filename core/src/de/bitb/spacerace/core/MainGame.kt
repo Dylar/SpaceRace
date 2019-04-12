@@ -21,7 +21,6 @@ class MainGame : BaseGame() {
     lateinit var gameController: GameController
 
     override fun initScreen() {
-        appComponent.inject(this)
         setScreen(StartScreen(this))
 //        setScreen(GameScreen(this))
 //        setScreen(GameOverScreen(this))
