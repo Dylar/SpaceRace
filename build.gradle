@@ -11,7 +11,7 @@ buildscript {
         jcenter()
         google()
     }
-    
+
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'
         classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$roboVMVersion"
@@ -122,6 +122,7 @@ project(":core") {
         implementation "io.objectbox:objectbox-java:$dbVersion"
         implementation "io.objectbox:objectbox-kotlin:$dbVersion"
         annotationProcessor "io.objectbox:objectbox-processor:$dbVersion"
+        kapt("io.objectbox:objectbox-processor:$dbVersion")
         implementation "io.objectbox:objectbox-macos:$dbVersion"
 //        debugImplementation "io.objectbox:objectbox-android-objectbrowser:$dbVersion"
 
