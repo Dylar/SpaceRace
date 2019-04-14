@@ -5,18 +5,16 @@ import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
-import java.util.*
 
-class Player(playerColor: PlayerColor = PlayerColor.NONE)
+class Player(playerData: PlayerData)
     : GameObject(PositionData()) {
 
     companion object {
-        val NONE = Player()
+        val NONE = Player(PlayerData())
     }
 
     var playerImage: PlayerImage = PlayerImage()
-    var playerData = PlayerData(playerColor =  playerColor)
-//    UUID.randomUUID().toString().hashCode().toLong(),
+    var playerData = playerData
 
     override fun getGameImage(): GameImage {
         return playerImage

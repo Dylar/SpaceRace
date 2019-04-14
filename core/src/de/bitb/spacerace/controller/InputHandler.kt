@@ -3,20 +3,33 @@ package de.bitb.spacerace.controller
 import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.PlayerDataSource
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.model.objecthandling.DefaultFunction
+import de.bitb.spacerace.usecase.ui.UpdateUiUsecase
+import io.reactivex.rxkotlin.subscribeBy
 import org.greenrobot.eventbus.EventBus
-import java.util.concurrent.Executors
-import org.greenrobot.eventbus.ThreadMode
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import java.util.concurrent.Executors
+import javax.inject.Inject
 
 
-class InputHandler(private val game: MainGame) {
+class InputHandler(private val game: MainGame) : DefaultFunction {
+    @Inject
+    protected lateinit var updateUiUsecase: UpdateUiUsecase
+
+    @Inject
+    protected lateinit var playerDataSource: PlayerDataSource
+
+
     private val executor = Executors.newFixedThreadPool(5)!!
 
     private val inputObserver: MutableList<InputObserver> = ArrayList()
 
     init {
         EventBus.getDefault().register(this)
+        MainGame.appComponent.inject(this)
     }
 
     private fun notifyObserver(event: BaseCommand) {
@@ -48,6 +61,12 @@ class InputHandler(private val game: MainGame) {
                 if (event.canExecute(game)) {
                     event.execute(game)
                 }
+
+                playerDataSource.insertAll(getCurrentPlayer(game).playerData).subscribeBy(
+                        onSuccess = {
+                            updateUiUsecase.pusblishUpdate(getCurrentPlayer(game).playerData.playerColor)
+                        })
+
                 notifyObserver(event)
             }
         }

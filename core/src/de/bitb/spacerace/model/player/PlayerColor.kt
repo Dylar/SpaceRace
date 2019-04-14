@@ -32,8 +32,8 @@ enum class PlayerColor(val color: Color) {
     }
 
     companion object {
-        fun get(index: Int): PlayerColor {
-            return values()[index]
+        fun get(color: String): PlayerColor {
+            return values().firstOrNull { it.toString() == color } ?: NONE
         }
     }
 

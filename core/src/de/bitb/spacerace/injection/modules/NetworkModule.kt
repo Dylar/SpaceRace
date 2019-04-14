@@ -11,7 +11,7 @@ class NetworkModule {
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideGsonBuilder(): GsonBuilder {
 //        val gsonBuilder = GsonBuilder()
 ////        gsonBuilder.registerTypeAdapter(CheckMail::class.java, CheckMailConverter())
@@ -19,7 +19,7 @@ class NetworkModule {
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideOkHttpClientBuilder(): OkHttpClient.Builder {
 //        val builder = OkHttpClient.Builder()
 //
@@ -37,7 +37,7 @@ class NetworkModule {
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideRetrofitBuilder(gsonBuilder: GsonBuilder): Retrofit.Builder {
 //        return Retrofit.Builder()
 //                .baseUrl(BASE_URL)
@@ -46,7 +46,7 @@ class NetworkModule {
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideRetrofitConstructions(retrofitBuilder: Retrofit.Builder, httpClientBuilder: OkHttpClient.Builder): RetrofitInterface {
 //
 //        if (BuildConfig.IS_DEV) {

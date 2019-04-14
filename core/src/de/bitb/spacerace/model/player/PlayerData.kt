@@ -13,20 +13,13 @@ import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 
-//import io.objectbox.annotation.Convert
-//import io.objectbox.annotation.Entity
-//import io.objectbox.annotation.Id
-
-
 @Entity
 data class PlayerData(
         @Id
         var uuid: Long = 0,
-        @Convert(converter = PlayerColorConverter::class, dbType = Int::class)
+        @Convert(converter = PlayerColorConverter::class, dbType = String::class)
         var playerColor: PlayerColor = PlayerColor.NONE,
         var credits: Int = START_CREDITS) {
-
-
 
     @Transient
     val playerItems: PlayerItems = PlayerItems(playerColor)

@@ -6,43 +6,43 @@ import dagger.Module
 class UtilsModule {
 
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideNetworkUtils(application: BaseApplication): NetworkUtils {
 //        return NetworkUtils(application)
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideSharedPreferencesUtils(application: BaseApplication): SharedPreferencesUtils {
 //        return SharedPreferencesUtils(application)
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideUiUtils(application: BaseApplication): UiUtils {
 //        return UiUtils(application)
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideAndroidUtils(application: BaseApplication): AndroidUtils {
 //        return AndroidUtils(application)
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideStringUtils(application: BaseApplication): StringUtils {
 //        return StringUtils(application)
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideDateUtils(application: BaseApplication): DateUtils {
 //        return DateUtils(application)
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun providePermissionUtils(application: BaseApplication): PermissionUtils {
 //        return PermissionUtils(application)
 //    }

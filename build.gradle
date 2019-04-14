@@ -125,6 +125,7 @@ project(":core") {
         kapt("io.objectbox:objectbox-processor:$dbVersion")
         implementation "io.objectbox:objectbox-macos:$dbVersion"
 //        debugImplementation "io.objectbox:objectbox-android-objectbrowser:$dbVersion"
+        implementation "io.objectbox:objectbox-rxjava:$dbVersion"
 
         implementation 'org.greenrobot:eventbus:3.1.1'
     }

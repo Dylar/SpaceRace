@@ -1,20 +1,14 @@
 package de.bitb.spacerace.ui.screens.game
 
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.config.CAMERA_TARGET
 import de.bitb.spacerace.config.MOVING_SPS
-import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.background.StarImage
-import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.objecthandling.GameImage

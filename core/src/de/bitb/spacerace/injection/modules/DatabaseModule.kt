@@ -2,6 +2,8 @@ package de.bitb.spacerace.injection.modules
 
 import dagger.Module
 import dagger.Provides
+import de.bitb.spacerace.database.PlayerDataSource
+import de.bitb.spacerace.database.PlayerRespository
 import de.bitb.spacerace.model.player.MyObjectBox
 import de.bitb.spacerace.model.player.PlayerData
 import io.objectbox.Box
@@ -18,7 +20,10 @@ class DatabaseModule() {
 //        if (BuildConfig.DEBUG) {
 //            AndroidObjectBrowser(boxStore).start(application)
 //        }
-        return boxStore
+        boxStore.close()
+        boxStore.deleteAllFiles()
+//        return boxStore
+        return MyObjectBox.builder().build()
     }
 
     @Provides
@@ -27,10 +32,10 @@ class DatabaseModule() {
         return store.boxFor(PlayerData::class.java)
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideDeviceDBHandler(application: DBSystelApplication): DeviceDBHandler {
-//        return DeviceDBHandler(application)
-//    }
+    @Provides
+    @Singleton
+    fun providePlayerDataSource(box: Box<PlayerData>): PlayerDataSource {
+        return PlayerRespository(box)
+    }
 
 }

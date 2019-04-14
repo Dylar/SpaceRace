@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDITS
@@ -20,16 +19,20 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.base.GuiComponent
+import de.bitb.spacerace.usecase.PlayerDataUsecase
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
 class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
-//    private val disposable = CompositeDisposable()
+    private val disposable = CompositeDisposable()
 
-//    @Inject
-//    lateinit var userDao: PlayerDAO
+    @Inject
+    lateinit var playerUsecase: PlayerDataUsecase
 
     private var creditsLabel: Label
 
@@ -38,6 +41,8 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
     private var phaseLabel: Label
 
     init {
+        MainGame.appComponent.inject(this)
+
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
         setFont(add(GAME_BUTTON_MODS).actor)
@@ -78,7 +83,8 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
     }
 
     override fun <T : BaseCommand> update(game: MainGame, event: T) {
-        update(game.gameController.playerController.currentPlayer.playerData) //TODO update not all
+
+//        update(game.gameController.playerController.currentPlayer.playerData) //TODO update not all
     }
 
     private fun updateCredits(playerData: PlayerData) {
@@ -127,7 +133,17 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
         pack()
     }
 
-    fun startObserving(){
+    fun changePlayerColor(playerColor: PlayerColor) {
+        disposable.dispose()
+        disposable += playerUsecase(
+                playerColor,
+                onNext = {
+                    Gdx.app.postRunnable {
+                        update(it)
+                    }
+                },
+                onError = {})
+
 //        disposable.add(userDao.observeAllObserver()
 //                .subscribeOn(Schedulers.io()) TODO
 //                .observeOn(AndroidSchedulers.mainThread())

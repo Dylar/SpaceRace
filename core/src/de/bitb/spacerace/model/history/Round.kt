@@ -1,13 +1,14 @@
 package de.bitb.spacerace.model.history
 
 import de.bitb.spacerace.model.player.Player
+import de.bitb.spacerace.model.player.PlayerData
 
 class Round(player:Player) {
 
     val roundActivities: MutableList<Activity> = ArrayList()
 
     val turns: MutableList<Turn> = ArrayList()
-    var currentTurn: Turn = Turn(Player())
+    var currentTurn: Turn = Turn(Player(PlayerData()))
         get() = turns[turns.size - 1]
 
     init {

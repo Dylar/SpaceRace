@@ -7,13 +7,13 @@ import dagger.Provides
 class BuilderModule {
 
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideToastBuilder(): ToastBuilder {
 //        return ToastBuilder()
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideDialogBuilder(): DialogBuilder {
 //        return DialogBuilder()
 //    }

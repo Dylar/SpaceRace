@@ -6,25 +6,25 @@ import dagger.Module
 class ControllerModule {
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideBaseController(baseApplication: BaseApplication): DefaultController {
 //        return DefaultController(baseApplication)
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideLessonController(baseApplication: BaseApplication): LessonController {
 //        return LessonController(baseApplication)
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun provideOrganizerController(baseApplication: BaseApplication): OrganizerController {
 //        return OrganizerController(baseApplication)
 //    }
 //
 //    @Provides
-//    @ApplicationScope
+//    @Singleton
 //    fun anyController(baseApplication: BaseApplication): TestController {
 //        return TestController(baseApplication)
 //    }
