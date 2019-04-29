@@ -7,7 +7,10 @@ import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
+import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
@@ -18,30 +21,36 @@ import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 import de.bitb.spacerace.model.player.PlayerImage
+import javax.inject.Inject
 
 class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by object : DefaultFunction {} {
 
+    @Inject
+    protected lateinit var fieldController: FieldController
+    @Inject
+    protected lateinit var playerController: PlayerController
+
     init {
+        MainGame.appComponent.inject(this)
         val controller = screen.game.gameController
         addTestActor()
         addEntitiesToMap(controller)
     }
 
     private fun addEntitiesToMap(gameController: GameController) {
-        addActor(gameController.fieldController.connections)
-        gameController.fieldController.fields.forEach { addActor(it.getGameImage()) }
-        gameController.playerController.players.forEach { addActor(it.getGameImage()) }
+        addActor(fieldController.connections)
+        fieldController.fields.forEach { addActor(it.getGameImage()) }
+        playerController.players.forEach { addActor(it.getGameImage()) }
     }
 
     override fun addActor(actor: Actor?) {
         super.addActor(actor)
         if (actor !is PlayerImage) {
-            rearrangePlayer(actor!!) //TODO <-- still?
+            rearrangePlayer(actor!!) //TODO <-- still? <-- YES!
         }
     }
 
     private fun rearrangePlayer(actor: Actor) {
-        val playerController = screen.game.gameController.playerController
         if (playerController.players.isEmpty() || playerController.players[0].getGameImage().zIndex == -1) {
             return
         }

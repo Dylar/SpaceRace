@@ -106,6 +106,10 @@ project(":core") {
     apply plugin: "net.ltgt.apt"
     apply plugin: 'io.objectbox'
 
+    kapt {
+        generateStubs = true
+    }
+
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"

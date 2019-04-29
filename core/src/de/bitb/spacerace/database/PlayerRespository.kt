@@ -22,14 +22,7 @@ class PlayerRespository(
     }
 
     private fun getAllBy(vararg playerData: PlayerData): Single<List<PlayerData>>? {
-        return RxQuery
-                .single(playerBox.query()
-                        .filter { dbData ->
-                            playerData.any {
-                                it.playerColor == dbData.playerColor
-                            }
-                        }
-                        .build())
+        return getByColor(*playerData.map { it.playerColor }.toTypedArray())
     }
 
     override fun delete(vararg userData: PlayerData): Completable {
@@ -40,18 +33,18 @@ class PlayerRespository(
         return RxQuery.single(playerBox.query().build())
     }
 
-    override fun getAllByIds(vararg userIds: Long): Single<List<PlayerData>> {
+    override fun getById(vararg userIds: Long): Single<List<PlayerData>> {
         val query = playerBox.query()
                 .filter { userIds.toList().contains(it.uuid) }
                 .build()
         return RxQuery.single(query)
     }
 
-    override fun getByColor(color: PlayerColor): Single<PlayerData> {
+    override fun getByColor(vararg color: PlayerColor): Single<List<PlayerData>> {
         val query = playerBox.query()
-                .equal(PlayerData_.playerColor, color.toString())
+                .filter { color.toList().contains(it.playerColor) }
                 .build()
-        return Single.just(query.findFirst())
+        return RxQuery.single(query)
     }
 
     override fun observeAllObserver(): Observable<List<PlayerData>> {

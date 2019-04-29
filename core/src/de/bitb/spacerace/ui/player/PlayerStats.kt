@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
@@ -23,13 +24,12 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.usecase.PlayerDataUsecase
+import io.objectbox.Box
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
 class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
-
-    private val disposable = CompositeDisposable()
 
     @Inject
     lateinit var playerUsecase: PlayerDataUsecase
@@ -133,16 +133,8 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
         pack()
     }
 
-    fun changePlayerColor(playerColor: PlayerColor) {
-        disposable.dispose()
-        disposable += playerUsecase(
-                playerColor,
-                onNext = {
-                    Gdx.app.postRunnable {
-                        update(it)
-                    }
-                },
-                onError = {})
+    fun changePlayerColor(playerData: PlayerData) {
+        update(playerData)
 
 //        disposable.add(userDao.observeAllObserver()
 //                .subscribeOn(Schedulers.io()) TODO

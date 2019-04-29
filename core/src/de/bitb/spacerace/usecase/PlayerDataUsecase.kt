@@ -13,5 +13,6 @@ class PlayerDataUsecase @Inject constructor(
     override fun buildUseCaseObservable(params: PlayerColor): Observable<PlayerData> {
         return playerDataSource.observeByColor(params)
                 .map { it.first() }
+//                .onErrorReturn { PlayerData() }
     }
 }

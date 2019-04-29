@@ -12,7 +12,9 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CONTINUE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORAGE
+import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.InputObserver
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -29,19 +31,25 @@ import de.bitb.spacerace.ui.player.items.ItemMenu
 import de.bitb.spacerace.ui.player.shop.ShopMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
 class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+
 
     private var itemMenu = ItemMenu(game, guiStage)
     private var shopMenu = ShopMenu(game, guiStage)
 
+    @Inject
+    protected lateinit var playerController: PlayerController
+
     init {
+        MainGame.appComponent.inject(this)
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
         val diceBtn = createButton(name = GAME_BUTTON_DICE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 val gameController = guiStage.gameController
-                EventBus.getDefault().post(DiceCommand(gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(DiceCommand(playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })
@@ -49,7 +57,7 @@ class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCol
         val continueBtn = createButton(name = GAME_BUTTON_CONTINUE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 val gameController = guiStage.gameController
-                EventBus.getDefault().post(NextPhaseCommand(gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(NextPhaseCommand(playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })

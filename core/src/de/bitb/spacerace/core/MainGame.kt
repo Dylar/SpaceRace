@@ -10,6 +10,7 @@ import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
 import de.bitb.spacerace.ui.screens.start.StartScreen
+import javax.inject.Inject
 
 class MainGame : BaseGame() {
 

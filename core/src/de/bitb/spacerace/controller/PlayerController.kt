@@ -1,13 +1,11 @@
 package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.player.PlayerColor
 
-class PlayerController() {
+class PlayerController {
 
     var players: MutableList<Player> = ArrayList()
     var playerMap: MutableMap<PlayerColor, Player> = HashMap()

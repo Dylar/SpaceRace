@@ -19,7 +19,8 @@ data class PlayerData(
         var uuid: Long = 0,
         @Convert(converter = PlayerColorConverter::class, dbType = String::class)
         var playerColor: PlayerColor = PlayerColor.NONE,
-        var credits: Int = START_CREDITS) {
+        var credits: Int = START_CREDITS,
+        var controlToken: String = "") {
 
     @Transient
     val playerItems: PlayerItems = PlayerItems(playerColor)

@@ -21,9 +21,9 @@ interface PlayerDataSource {
     fun getAll(): Single<List<PlayerData>>
 
     //    @Query("SELECT * FROM player WHERE uuid IN (:userIds)")
-    fun getAllByIds(vararg userIds: Long): Single<List<PlayerData>>
+    fun getById(vararg userIds: Long): Single<List<PlayerData>>
 
-    fun getByColor(color: PlayerColor): Single<PlayerData>
+    fun getByColor(vararg color: PlayerColor): Single<List<PlayerData>>
 
     //    @Query("SELECT * FROM player")
     fun observeAllObserver(): Observable<List<PlayerData>>

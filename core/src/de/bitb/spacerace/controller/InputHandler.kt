@@ -6,7 +6,8 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.PlayerDataSource
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
-import de.bitb.spacerace.usecase.ui.UpdateUiUsecase
+import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.usecase.ui.PlayerChangedUsecase
 import io.reactivex.rxkotlin.subscribeBy
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -16,12 +17,12 @@ import javax.inject.Inject
 
 
 class InputHandler(private val game: MainGame) : DefaultFunction {
+
     @Inject
-    protected lateinit var updateUiUsecase: UpdateUiUsecase
+    protected lateinit var playerChangedUsecase: PlayerChangedUsecase
 
     @Inject
     protected lateinit var playerDataSource: PlayerDataSource
-
 
     private val executor = Executors.newFixedThreadPool(5)!!
 
@@ -62,11 +63,13 @@ class InputHandler(private val game: MainGame) : DefaultFunction {
                     event.execute(game)
                 }
 
-                playerDataSource.insertAll(getCurrentPlayer(game).playerData).subscribeBy(
-                        onSuccess = {
-                            updateUiUsecase.pusblishUpdate(getCurrentPlayer(game).playerData.playerColor)
-                        })
-
+                playerDataSource
+                        .insertAll(getCurrentPlayer(game).playerData)
+                        .map { it.first() }
+                        .subscribeBy(
+                                onSuccess = {
+                                    Logger.println("CurrentPlayer updated: $it")
+                                })
                 notifyObserver(event)
             }
         }

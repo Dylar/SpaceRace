@@ -1,5 +1,6 @@
 package de.bitb.spacerace.usecase
 
+import com.badlogic.gdx.Gdx
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
@@ -15,7 +16,7 @@ import io.reactivex.schedulers.Schedulers
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
 abstract class UseCase<Type, in Params>(
-        private val workerScheduler: Scheduler = Schedulers.io(),
+        private val workerScheduler: Scheduler = Schedulers.trampoline(),
         private val observerScheduler: Scheduler = Schedulers.trampoline()
 ) where Type : Any {
 
@@ -70,16 +71,16 @@ abstract class UseCase<Type, in Params>(
             }
 
             override fun onNext(t: Type) {
-                onNext(t)
+                Gdx.app.postRunnable { onNext(t) }
             }
 
             override fun onError(e: Throwable) {
-                onError(e)
+                Gdx.app.postRunnable { onError(e) }
             }
         }
 
         return buildUseCaseObservable(params)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.trampoline())
                 .observeOn(Schedulers.trampoline()) //TODO GdxSchedulers.mainThread
                 .doOnDispose { defaultObserver.onComplete() }
                 .subscribeWith(defaultObserver)

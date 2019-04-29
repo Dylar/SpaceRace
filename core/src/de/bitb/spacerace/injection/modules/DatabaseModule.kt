@@ -23,6 +23,7 @@ class DatabaseModule() {
         boxStore.close()
         boxStore.deleteAllFiles()
 //        return boxStore
+//        return BoxStore.getDefault();
         return MyObjectBox.builder().build()
     }
 

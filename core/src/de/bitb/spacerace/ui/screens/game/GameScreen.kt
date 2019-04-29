@@ -3,11 +3,23 @@ package de.bitb.spacerace.ui.screens.game
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.CAMERA_TARGET
+import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
+import javax.inject.Inject
 
 class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, previousScreen) {
+
+    init {
+        MainGame.appComponent.inject(this)
+    }
+
+    @Inject
+    protected lateinit var fieldController: FieldController
+    @Inject
+    protected lateinit var playerController: PlayerController
 
     override fun createGuiStage(): BaseStage {
         return GameGuiStage(game, this)
@@ -22,7 +34,7 @@ class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, 
     }
 
     override fun getCameraTarget(): GameImage? {
-        return CAMERA_TARGET ?: game.gameController.playerController.currentPlayer.getGameImage()
+        return CAMERA_TARGET ?: playerController.currentPlayer.getGameImage()
     }
 
     fun onZoomPlusClicked() {
