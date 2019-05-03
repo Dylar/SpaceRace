@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit
 
 //TODO
 object GdxSchedulers {
+    //    val mainThread: Scheduler = Schedulers.trampoline()
     val mainThread: Scheduler = object : Scheduler() {
         override fun createWorker(): Worker {
             return object : Worker() {

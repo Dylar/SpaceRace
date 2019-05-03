@@ -61,8 +61,7 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
             }
 
             override fun keyDown(keycode: Int): Boolean {
-                Logger.println("KEY DOWN: ${Input.Keys.toString(keycode)}")
-                Logger.println("KEY CODE: $keycode")
+                Logger.println("KEY DOWN: ${Input.Keys.toString(keycode)}, KEY CODE: $keycode")
                 return true
             }
 
@@ -175,8 +174,6 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         val gameCam = gameStage.camera as OrthographicCamera
         gameCam.zoom = zoom * currentZoom
         gameCam.update()
-
-        Logger.println("Zoom: $currentZoom")
     }
 
     override fun zoom(initialDistance: Float, distance: Float): Boolean {

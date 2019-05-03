@@ -3,16 +3,18 @@ package de.bitb.spacerace.model.space.groups
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
-import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.core.LineRenderer
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.objecthandling.blink.BlinkingImage
-import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 
-class ConnectionList(val playerController: PlayerController) : MutableList<SpaceConnection> by ArrayList(), Actor() {
+class ConnectionList(
+        val playerController: PlayerController,
+        val mutableList: MutableList<SpaceConnection> = ArrayList())
+    : MutableList<SpaceConnection> by mutableList,
+        Actor() {
 
     val connectedColor = Color(Color.GREEN)
     val disconnectedColor = Color(Color.RED)
@@ -23,6 +25,7 @@ class ConnectionList(val playerController: PlayerController) : MutableList<Space
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
+        Logger.println("DRAW CONNECTION: ${hashCode()}, SIZE $size")
         batch!!.end()
         LineRenderer.startLine(batch.projectionMatrix)
         for (i in 0 until size) {
@@ -48,7 +51,6 @@ class ConnectionList(val playerController: PlayerController) : MutableList<Space
     }
 
     override fun clear() {
-        super.clear()
+        mutableList.clear()
     }
-
 }

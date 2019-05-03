@@ -2,13 +2,15 @@ package de.bitb.spacerace.model.space.maps
 
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.controller.FieldController
-import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.groups.BoxGroup
 import de.bitb.spacerace.model.space.groups.CircleGroup
 
-class CircleRoadMap(gameController: GameController, fieldController: FieldController = gameController.fieldController) : SpaceMap() {
+class CircleRoadMap(gameController: GameController,
+                    fieldController: FieldController = gameController.fieldController)
+    : SpaceMap() {
 
     init {
         val offsetY = Dimensions.SCREEN_HEIGHT * 1.2f

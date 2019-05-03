@@ -27,7 +27,7 @@ class PlayerController {
         val oldPlayer = players[0]
         var indexOld = oldPlayer.getGameImage().zIndex + 1 //TODO do it in gui
         for (ship in players) {
-            ship.getGameImage().zIndex = indexOld--
+            ship.getGameImage().zIndex = indexOld++
         }
         players.add(oldPlayer)
         players.removeAt(0)
@@ -42,5 +42,10 @@ class PlayerController {
             }
         }
         return Player.NONE
+    }
+
+    fun clearPlayer() {
+        players.clear()
+        playerMap.clear()
     }
 }

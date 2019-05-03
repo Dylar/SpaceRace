@@ -32,13 +32,12 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by object
 
     init {
         MainGame.appComponent.inject(this)
-        val controller = screen.game.gameController
         addTestActor()
-        addEntitiesToMap(controller)
     }
 
-    private fun addEntitiesToMap(gameController: GameController) {
+    fun addEntitiesToMap() {
         addActor(fieldController.connections)
+        fieldController.connections.zIndex = 0
         fieldController.fields.forEach { addActor(it.getGameImage()) }
         playerController.players.forEach { addActor(it.getGameImage()) }
     }
@@ -56,12 +55,12 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by object
         }
 
         val actorIndex = actor.zIndex
-        Logger.println("ACTOR INDEX: $actorIndex")
+//        Logger.println("ACTOR INDEX: $actorIndex")
 
         val indices: MutableList<Int> = ArrayList()
         playerController.players.forEach {
             indices.add(it.getGameImage().zIndex)
-            Logger.println("PLAYER INDEX PRE ${it.playerData.playerColor.name}: ${it.getGameImage().zIndex}")
+//            Logger.println("PLAYER INDEX PRE ${it.playerData.playerColor.name}: ${it.getGameImage().zIndex}")
         }
         indices.reverse()
 
@@ -70,8 +69,7 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by object
         indices.add(actorIndex)
         for (value in indices.withIndex()) {
             val player = playerController.players[value.index]
-            player.getGameImage().zIndex = value.value
-            Logger.println("PLAYER INDEX POST ${player.playerData.playerColor.name}: ${actor.zIndex}")
+            player.getGameImage().zIndex = value.value + 1
         }
     }
 

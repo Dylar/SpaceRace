@@ -5,6 +5,8 @@ import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.phases.EndRoundCommand
+import de.bitb.spacerace.events.commands.phases.EndTurnCommand
+import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.ui.player.PlayerStats
 import de.bitb.spacerace.ui.player.shop.ShopDetails
@@ -45,5 +47,7 @@ interface AppComponent {
 
     //COMMAND
     fun inject(endRoundCommand: EndRoundCommand)
+    fun inject(endTurnCommand: EndTurnCommand)
+    fun inject(startGameCommand: StartGameCommand)
 
 }

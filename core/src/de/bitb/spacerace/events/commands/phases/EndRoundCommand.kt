@@ -7,9 +7,6 @@ import javax.inject.Inject
 
 class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
 
-    @Inject
-    protected lateinit var playerChangedUsecase: PlayerChangedUsecase
-
     init {
         MainGame.appComponent.inject(this)
     }
@@ -25,11 +22,10 @@ class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
         game.gameController.fieldController.moveMovables(game)
 
         players.map { it.playerData }.forEach {
-            //val saveData = playerData.copy() //TODO save me for history
+            //val saveData = playerData.copy() //TODO save insertNewPlayer for history
             it.nextRound()
         }
 
-        playerChangedUsecase.pusblishUpdate(getCurrentPlayer(game).playerData.playerColor)
     }
 
 }

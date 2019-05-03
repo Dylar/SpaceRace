@@ -13,11 +13,11 @@ enum class MapCollection {
 
     fun createMap(gameController: GameController, mapCollection: MapCollection = this): SpaceMap {
         val map = when (mapCollection) {
-            MapCollection.CIRCLEROAD -> CircleRoadMap(gameController)
-            MapCollection.CROSSROAD -> CrossRoadMap(gameController)
-            MapCollection.SOLARROAD -> SolarsystemMap(gameController, *DEBUG_TEST_FIELD.toTypedArray())
-            MapCollection.TEST_MAP -> TestMap(gameController, *DEBUG_TEST_FIELD.toTypedArray())
-            MapCollection.RANDOM -> TestMap(gameController)
+            CIRCLEROAD -> CircleRoadMap(gameController)
+            CROSSROAD -> CrossRoadMap(gameController)
+            SOLARROAD -> SolarsystemMap(gameController, *DEBUG_TEST_FIELD.toTypedArray())
+            TEST_MAP -> TestMap(gameController, *DEBUG_TEST_FIELD.toTypedArray())
+            RANDOM -> TestMap(gameController)
         }
         map.addAllGoals()
         return map

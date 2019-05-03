@@ -17,19 +17,32 @@ import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
+import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import org.greenrobot.eventbus.EventBus
 
-class FieldController(playerController: PlayerController) : DefaultFunction {
+class FieldController(var playerController: PlayerController) : DefaultFunction {
 
-    val fieldGroups: MutableList<SpaceGroup> = ArrayList()
-    val fields: MutableList<SpaceField> = ArrayList()
-    val fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
-    val connections: ConnectionList = ConnectionList(playerController)
+    lateinit var map: SpaceMap
+    var spaceMap: MapCollection = MapCollection.RANDOM
+
+    var fieldGroups: MutableList<SpaceGroup> = mutableListOf()
+    var fields: MutableList<SpaceField> = mutableListOf()
+    var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
+    var connections: ConnectionList = ConnectionList(playerController)
 
     init {
+        clearField()
+    }
+
+    private fun clearField() {
+//        fields.forEach { it.fieldImage.remove() }
+        fieldGroups.clear()
+        fields.clear()
+        connections.clear()
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
     }
+
 
     fun getField(positionData: PositionData): SpaceField {
         fields.forEach { if (it.gamePosition.isPosition(positionData)) return it }
@@ -62,8 +75,14 @@ class FieldController(playerController: PlayerController) : DefaultFunction {
         fieldsMap[spaceField.fieldType]!!.add(spaceField)
     }
 
-    fun initMap(gameController: GameController, map: SpaceMap) {
-        addFields(gameController, *map.groups.toTypedArray())
+    fun initMap(gameController: GameController): SpaceMap {
+        clearField()
+        return spaceMap
+                .createMap(gameController)
+                .also {
+                    map = it
+                    addFields(gameController, *it.groups.toTypedArray())
+                }
     }
 
     fun addFields(gameController: GameController, vararg spaceGroups: SpaceGroup) {

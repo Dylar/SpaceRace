@@ -5,7 +5,6 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.CircleGroup
 import de.bitb.spacerace.model.space.groups.TestGroup
 
@@ -13,9 +12,7 @@ class TestMap(gameController: GameController, vararg fieldType: FieldType) : Spa
 
     init {
         val fieldTypes = ArrayList<FieldType>()
-        for (type in FieldType.values()) {
-            fieldTypes.add(type)
-        }
+        FieldType.values().forEach { fieldTypes.add(it) }
 
         val crescentGroup = CircleGroup(gameController, offsetX = -SCREEN_HEIGHT, fieldTypes = fieldTypes)
         val centerGroup = TestGroup(gameController, fieldType = *fieldType)

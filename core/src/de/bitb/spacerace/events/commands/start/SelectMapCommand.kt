@@ -11,7 +11,7 @@ class SelectMapCommand(val mapCollection: MapCollection) : BaseCommand() {
     }
 
     override fun execute(game: MainGame) {
-        game.gameController.spaceMap = mapCollection
+        game.gameController.fieldController.spaceMap = mapCollection
     }
 
 }
