@@ -1,5 +1,6 @@
 package de.bitb.spacerace.controller
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.core.MainGame
@@ -25,6 +26,8 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
 
     lateinit var map: SpaceMap
     var spaceMap: MapCollection = MapCollection.RANDOM
+
+    var currentGoal: SpaceField = SpaceField.NONE
 
     var fieldGroups: MutableList<SpaceGroup> = mutableListOf()
     var fields: MutableList<SpaceField> = mutableListOf()
@@ -81,6 +84,7 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
                 .createMap(gameController)
                 .also {
                     map = it
+                    setRandomGoal()
                     addFields(gameController, *it.groups.toTypedArray())
                 }
     }
@@ -154,6 +158,12 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
             field.disposedItems.removeAll(toRemove)
         }
 
+    }
+
+    fun setRandomGoal() {
+        currentGoal.fieldImage.setBlinkColor(null)
+        currentGoal = map.getRandomGoal()
+        currentGoal.fieldImage.setBlinkColor(Color(currentGoal.fieldType.color))
     }
 
 }

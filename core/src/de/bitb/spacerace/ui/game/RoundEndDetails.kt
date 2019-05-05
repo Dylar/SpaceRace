@@ -14,10 +14,9 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAIL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_VICTORIES
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
-import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
 class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Player) : BaseMenu(guiStage, endMenu) {
 
@@ -44,7 +43,7 @@ class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Pla
     }
 
     private fun addText(player: Player) {
-        addText(GAME_ROUND_DETAILS_VICTORIES + guiStage.gameController.victories[player.playerData.playerColor]!!)
+        addText(GAME_ROUND_DETAILS_VICTORIES + guiStage.gameController.playerController.victories[player.playerData.playerColor]!!)
         addText(GAME_ROUND_DETAILS_CREDITS + player.playerData.credits)
 
         var mineAmount = 0
