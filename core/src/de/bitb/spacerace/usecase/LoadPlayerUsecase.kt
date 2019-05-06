@@ -1,5 +1,6 @@
 package de.bitb.spacerace.usecase
 
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.database.PlayerColorDispender
 import de.bitb.spacerace.database.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
@@ -15,10 +16,17 @@ class LoadPlayerUsecase @Inject constructor(
 
     override fun buildUseCaseObservable(params: List<PlayerColor>): Observable<List<PlayerData>> {
         return playerDataSource
+//                .insertAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
                 .getByColor(*params.toTypedArray())
-                .map { insertNewPlayer(it, params) }
+                .map {
+                    Logger.println("insertNewPlayer: $it")
+                    insertNewPlayer(it, params)
+                }
                 .flatMap { it }
-                .map { pushCurrentPlayer(it) }
+                .map {
+                    Logger.println("pushCurrentPlayer: $it")
+                    pushCurrentPlayer(it)
+                }
                 .toObservable()
     }
 

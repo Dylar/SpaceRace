@@ -1,21 +1,29 @@
 package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.obtain.*
 import de.bitb.spacerace.model.enums.FieldType
 import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
 class StartMain2Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
+
+    @Inject
+    lateinit var inputHandler: InputHandler
+
+    init {
+        MainGame.appComponent.inject(this)
+    }
 
     override fun canExecute(game: MainGame): Boolean {
         return true
     }
 
     override fun execute(game: MainGame) {
-        val inputHandler = game.gameController.inputHandler
         val field = getPlayerField(game, playerColor)
         field.disposedItems.forEach { it.use(game, playerColor) }
 

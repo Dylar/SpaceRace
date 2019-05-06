@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
@@ -18,6 +19,9 @@ class MainGame : BaseGame() {
         lateinit var appComponent: AppComponent
     }
 
+    @Inject
+    lateinit var inputHandler: InputHandler
+
     lateinit var gameController: GameController
 
     override fun initScreen() {
@@ -25,6 +29,7 @@ class MainGame : BaseGame() {
                 .applicationModule(ApplicationModule(this))
                 .databaseModule(DatabaseModule())
                 .build()
+        appComponent.inject(this)
         setScreen(StartScreen(this))
 //        setScreen(GameScreen(this))
 //        setScreen(GameOverScreen(this))
@@ -40,7 +45,7 @@ class MainGame : BaseGame() {
             Gdx.app.exit()
         } else if (isBackTipped()) {
             val previousScreen = (screen as BaseScreen).previousScreen
-            gameController.inputHandler.removeListener()
+            inputHandler.removeListener()
             if (previousScreen == null) {
                 Gdx.app.exit()
             } else {

@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3580311040723788758",
-      "lastPropertyId": "4:3312701823000328276",
+      "lastPropertyId": "8:2390078597524281923",
       "name": "PlayerData",
       "properties": [
         {
@@ -23,6 +23,22 @@
         {
           "id": "4:3312701823000328276",
           "name": "controlToken"
+        },
+        {
+          "id": "5:9202005958666119171",
+          "name": "diceResults"
+        },
+        {
+          "id": "6:5328812361171395530",
+          "name": "phase"
+        },
+        {
+          "id": "7:2762963473384793847",
+          "name": "victories"
+        },
+        {
+          "id": "8:2390078597524281923",
+          "name": "steps"
         }
       ],
       "relations": []

@@ -3,7 +3,6 @@ package de.bitb.spacerace.model.space.groups
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -25,7 +24,6 @@ class ConnectionList(
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
-        Logger.println("DRAW CONNECTION: ${hashCode()}, SIZE $size")
         batch!!.end()
         LineRenderer.startLine(batch.projectionMatrix)
         for (i in 0 until size) {

@@ -2,7 +2,6 @@ package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.player.Player
@@ -14,9 +13,6 @@ import javax.inject.Inject
 
 class GameController() : DefaultFunction by object : DefaultFunction {} {
     val gamePlayer: MutableList<PlayerColor> = mutableListOf()
-
-    @Inject
-    lateinit var inputHandler: InputHandler
 
     @Inject
     lateinit var playerController: PlayerController

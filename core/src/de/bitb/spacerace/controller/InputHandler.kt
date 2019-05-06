@@ -1,11 +1,10 @@
 package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.Gdx
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
-import de.bitb.spacerace.usecase.ui.CommandReceivedUsecase
+import de.bitb.spacerace.usecase.ui.CommandUsecase
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -15,7 +14,7 @@ import javax.inject.Inject
 class InputHandler(private val game: MainGame) : DefaultFunction {
 
     @Inject
-    protected lateinit var commandReceivedUsecase: CommandReceivedUsecase
+    protected lateinit var commandUsecase: CommandUsecase
 
     private val inputObserver: MutableList<InputObserver> = ArrayList()
 
@@ -23,7 +22,7 @@ class InputHandler(private val game: MainGame) : DefaultFunction {
         EventBus.getDefault().register(this)
         MainGame.appComponent.inject(this)
 
-        commandReceivedUsecase(
+        commandUsecase(
                 game,
                 onNext = {
                     notifyObserver(it)
@@ -48,7 +47,7 @@ class InputHandler(private val game: MainGame) : DefaultFunction {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun receiveCommand(event: BaseCommand) {
-        commandReceivedUsecase.publishUpdate(event)
+        commandUsecase.publishUpdate(event)
     }
 
     private fun notifyObserver(event: BaseCommand) {

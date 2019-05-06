@@ -29,23 +29,4 @@ class ControllerModule {
         return InputHandler(game)
     }
 
-//
-//    @Provides
-//    @Singleton
-//    fun provideLessonController(baseApplication: BaseApplication): LessonController {
-//        return LessonController(baseApplication)
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun provideOrganizerController(baseApplication: BaseApplication): OrganizerController {
-//        return OrganizerController(baseApplication)
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun anyController(baseApplication: BaseApplication): TestController {
-//        return TestController(baseApplication)
-//    }
-
 }

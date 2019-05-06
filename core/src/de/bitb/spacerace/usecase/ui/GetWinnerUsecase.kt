@@ -9,7 +9,7 @@ import digital.edeka.core.usecase.UseCaseWithoutParams
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class PlayerChangedUsecase @Inject constructor(
+class GetWinnerUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource,
         private val playerColorDispender: PlayerColorDispender
 ) : UseCaseWithoutParams<PlayerData>(),
@@ -19,8 +19,8 @@ class PlayerChangedUsecase @Inject constructor(
         return publisher
                 .flatMap { color ->
                     playerDataSource
-                            .getByColor(color)
-                            .map { it.first() }.toObservable()
+                            .observeByColor(color)
+                            .map { it.first() }
                 }
     }
 

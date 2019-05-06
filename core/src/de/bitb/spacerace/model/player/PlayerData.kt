@@ -5,7 +5,10 @@ import de.bitb.spacerace.config.CREDITS_LOSE_AMOUNT
 import de.bitb.spacerace.config.CREDITS_WIN_AMOUNT
 import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.config.START_CREDITS
+import de.bitb.spacerace.database.converter.IntListConverter
+import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
+import de.bitb.spacerace.database.converter.PositionDataConverter
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -19,21 +22,18 @@ data class PlayerData(
         var uuid: Long = 0,
         @Convert(converter = PlayerColorConverter::class, dbType = String::class)
         var playerColor: PlayerColor = PlayerColor.NONE,
+        @Convert(converter = IntListConverter::class, dbType = String::class)
+        var diceResults: MutableList<Int> = ArrayList(),
+        @Convert(converter = PhaseConverter::class, dbType = String::class)
+        var phase: Phase = Phase.MAIN1,
+        @Convert(converter = PositionDataConverter::class, dbType = String::class)
+        var steps: MutableList<PositionData> = ArrayList(),
         var credits: Int = START_CREDITS,
+        var victories: Int = 0,
         var controlToken: String = "") {
 
     @Transient
     val playerItems: PlayerItems = PlayerItems(playerColor)
-
-    @Transient
-    //@Convert(converter = PlayerColorConverter::class, dbType = String::class)
-    var phase: Phase = Phase.MAIN1
-
-    @Transient
-    var diceResults: MutableList<Int> = ArrayList()
-
-    @Transient
-    var steps: MutableList<PositionData> = ArrayList()
 
     @Transient
     var previousStep: PositionData = PositionData()
