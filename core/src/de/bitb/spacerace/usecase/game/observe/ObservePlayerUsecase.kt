@@ -1,4 +1,4 @@
-package de.bitb.spacerace.usecase.game
+package de.bitb.spacerace.usecase.game.observe
 
 import de.bitb.spacerace.database.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor

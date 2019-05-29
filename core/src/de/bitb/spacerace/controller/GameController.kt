@@ -12,6 +12,7 @@ import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.usecase.game.AnnounceWinnerUsecase
+import de.bitb.spacerace.usecase.game.observe.ObservePlayerUsecase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
@@ -31,6 +32,9 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
     @Inject
     lateinit var announceWinnerUsecase: AnnounceWinnerUsecase
 
+    @Inject
+    lateinit var observePlayerUsecase: ObservePlayerUsecase
+
     init {
         MainGame.appComponent.inject(this)
     }
@@ -40,14 +44,12 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
 
         playerController.clearPlayer()
         val startField = map.startField
-
-        for (playerData in playerDatas.withIndex()) {
-            Logger.println("NEXT: loadPlayerUsecase: ${playerData.value}")
-            addPlayer(playerData, startField)
+        playerDatas.withIndex().forEach{
+            Logger.println("NEXT: loadPlayerUsecase: ${it.value}")
+            addPlayer(it, startField)
         }
         val gameStage = (game.screen as BaseScreen).gameStage as GameStage
         gameStage.addEntitiesToMap()
-
 
         compositeDisposable += announceWinnerUsecase.observeStream(WIN_AMOUNT,
                 onNext = {
@@ -68,8 +70,13 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
 
         playerController.players.add(player)
 
-        player.playerImage.movingSpeed * playerData.index
+//        player.playerImage.movingSpeed * playerData.index
         fieldController.addShip(player, startField)
+
+        observePlayerUsecase.observeStream(player.playerData.playerColor,
+                onNext = {
+                    player.playerData = it.first() //TODO necessary?
+                })
     }
 
 }

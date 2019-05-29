@@ -9,7 +9,7 @@ import de.bitb.spacerace.ui.player.PlayerStats
 import de.bitb.spacerace.ui.screens.game.control.DebugControl
 import de.bitb.spacerace.ui.screens.game.control.GameControl
 import de.bitb.spacerace.ui.screens.game.control.ViewControl
-import de.bitb.spacerace.usecase.game.ObserveCurrentPlayerUseCase
+import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 

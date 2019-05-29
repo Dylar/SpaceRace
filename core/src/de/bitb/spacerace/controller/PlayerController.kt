@@ -1,7 +1,6 @@
 package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor

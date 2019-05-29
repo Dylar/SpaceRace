@@ -1,29 +1,41 @@
 package de.bitb.spacerace.events.commands.phases
 
+import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
+import javax.inject.Inject
 
 class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
+
+    @Inject
+    protected lateinit var updatePlayerUsecase: UpdatePlayerUsecase
+
+    @Inject
+    protected lateinit var fieldController: FieldController
+
+    @Inject
+    protected lateinit var playerController: PlayerController
 
     init {
         MainGame.appComponent.inject(this)
     }
 
     override fun canExecute(game: MainGame): Boolean {
-        return game.gameController.playerController.isRoundEnd()
+        return playerController.isRoundEnd()
     }
 
     override fun execute(game: MainGame) {
-        game.gameController.fieldController.harvestOres(game)
-        val players = game.gameController.playerController.players
+        fieldController.harvestOres(game)
 
-        game.gameController.fieldController.moveMovables(game)
+        fieldController.moveMovables(game)
 
-        players.map { it.playerData }.forEach {
-            //val saveData = playerData.copy() //TODO save insertNewPlayer for history
-            it.nextRound()
-        }
-
+        playerController
+                .players
+                .map { it.playerData }
+                .apply { forEach { it.nextRound() } }
+                .also { updatePlayerUsecase.execute(it) }
     }
 
 }
