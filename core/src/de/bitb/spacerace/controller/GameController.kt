@@ -2,23 +2,34 @@ package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseScreen
+import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.ui.screens.game.GameStage
+import de.bitb.spacerace.usecase.game.AnnounceWinnerUsecase
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
+import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class GameController() : DefaultFunction by object : DefaultFunction {} {
     val gamePlayer: MutableList<PlayerColor> = mutableListOf()
+
+    val compositeDisposable = CompositeDisposable()
 
     @Inject
     lateinit var playerController: PlayerController
 
     @Inject
     lateinit var fieldController: FieldController
+
+    @Inject
+    lateinit var announceWinnerUsecase: AnnounceWinnerUsecase
 
     init {
         MainGame.appComponent.inject(this)
@@ -29,12 +40,26 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
 
         playerController.clearPlayer()
         val startField = map.startField
+
         for (playerData in playerDatas.withIndex()) {
             Logger.println("NEXT: loadPlayerUsecase: ${playerData.value}")
             addPlayer(playerData, startField)
         }
         val gameStage = (game.screen as BaseScreen).gameStage as GameStage
         gameStage.addEntitiesToMap()
+
+
+        compositeDisposable += announceWinnerUsecase.observeStream(WIN_AMOUNT,
+                onNext = {
+                    it.firstOrNull()
+                            ?.let { winner ->
+                                Logger.println("AND THE WINNER IIIIISSS: $winner")
+                                EventBus.getDefault().post(GameOverCommand(winner.playerColor))
+                            }
+                },
+                onError = {
+                    Logger.println("ERROR WINNER! HAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHA")
+                })
     }
 
 

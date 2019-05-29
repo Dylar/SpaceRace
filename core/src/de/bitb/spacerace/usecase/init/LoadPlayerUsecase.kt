@@ -1,10 +1,11 @@
-package de.bitb.spacerace.usecase
+package de.bitb.spacerace.usecase.init
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.database.PlayerColorDispender
 import de.bitb.spacerace.database.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.usecase.UseCase
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject

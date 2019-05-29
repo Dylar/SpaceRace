@@ -3,14 +3,14 @@
  *  All rights reserved.
  */
 
-package digital.edeka.core.usecase
+package de.bitb.spacerace.usecase
 
-import de.bitb.spacerace.usecase.GdxSchedulers
-import de.bitb.spacerace.usecase.UseCase
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -21,42 +21,75 @@ import io.reactivex.schedulers.Schedulers
  * By convention each UseCase implementation will return the result using a {@link DisposableObserver}
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-abstract class UseCaseWithoutParams<Type>(
-    workerScheduler: Scheduler = Schedulers.io(),
-    observerScheduler: Scheduler = Schedulers.trampoline()
-) : UseCase<Type, UseCase.None>(workerScheduler, observerScheduler)
-        where Type : Any {
-
-    override fun buildUseCaseObservable(params: None): Observable<Type> {
-        return buildUseCaseObservable()
-    }
+abstract class UseCaseWithoutParams<ReturnType>(
+        workerScheduler: Scheduler = Schedulers.io(),
+        observerScheduler: Scheduler = GdxSchedulers.mainThread
+) : UseCase<ReturnType, None>(workerScheduler, observerScheduler)
+        where ReturnType : Any {
 
     /**
-     * Builds an [Observable] which will be used when executing the current [UseCaseWithoutParams].
+     * Builds an [Observable] which will be used when executing the current [UseCase].
      */
-    abstract fun buildUseCaseObservable(): Observable<Type>
+    abstract fun buildUseCaseObservable(): Observable<ReturnType>
 
-    @JvmOverloads
-    fun observe(observer: DisposableObserver<Type> = defaultObserver): Disposable {
-        return super.observe(None, observer)
-    }
+    override fun buildUseCaseObservable(params: None): Observable<ReturnType> = buildUseCaseObservable(None)
 
     /**
-     * Invoke use case by declaring functions for onNext() or onError()
+     * Builds an [Observable] build from [buildUseCaseObservable] as [Single]
      */
-    @JvmOverloads
-    operator fun invoke(
-        onNext: (Type) -> Unit = onNextStub,
-        onError: (Throwable) -> Unit = onErrorStub
-    ): Disposable {
-        return super.invoke(None, onNext, onError)
-    }
+    fun buildUseCaseSingle(): Single<ReturnType> = Single
+            .fromObservable<ReturnType>(buildUseCaseObservable())
 
     /**
-     * Invoke use case by subscribing to it
+     * Builds an [Observable] build from [buildUseCaseObservable] as [Completable]
      */
-    operator fun invoke(): Observable<Type> {
-        return super.invoke(None)
-    }
+    fun buildUseCaseCompletable(): Completable = Completable
+            .fromObservable<ReturnType>(buildUseCaseObservable())
 
+    /**
+     * Subscribe to an [Observable] build from [buildUseCaseObservable]
+     */
+    fun observeStream(
+            onNext: (ReturnType) -> Unit = {},
+            onError: (Throwable) -> Unit = {}
+    ): Disposable = buildUseCaseObservable()
+            .subscribeOn(workerScheduler)
+            .observeOn(observerScheduler)
+            .subscribeBy(
+                    onNext = onNext,
+                    onError = onError
+            )
+
+    /**
+     * Subscribe to an [Single] (converted from [buildUseCaseObservable])
+     */
+    fun getResult(
+            onSuccess: (ReturnType) -> Unit = {},
+            onError: (Throwable) -> Unit = {}
+    ): Disposable = buildUseCaseSingle()
+            .subscribeOn(workerScheduler)
+            .observeOn(observerScheduler)
+            .subscribeBy(
+                    onSuccess = onSuccess,
+                    onError = onError
+            )
+
+    /**
+     * Subscribe to an [Completable] (converted from [buildUseCaseObservable])
+     */
+    fun execute(
+            onComplete: () -> Unit = {},
+            onError: (Throwable) -> Unit = {}
+    ): Disposable = buildUseCaseCompletable()
+            .subscribeOn(workerScheduler)
+            .observeOn(observerScheduler)
+            .subscribeBy(
+                    onComplete = onComplete,
+                    onError = onError
+            )
 }
+
+/**
+ * Use class [None] for fire and forget [UseCase]
+ */
+object None

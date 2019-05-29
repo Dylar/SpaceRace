@@ -8,6 +8,8 @@ import de.bitb.spacerace.model.player.MyObjectBox
 import de.bitb.spacerace.model.player.PlayerData
 import io.objectbox.Box
 import io.objectbox.BoxStore
+import io.objectbox.BoxStoreBuilder.DEFAULT_NAME
+import java.io.File
 import javax.inject.Singleton
 
 @Module
@@ -16,12 +18,11 @@ class DatabaseModule() {
     @Provides
     @Singleton
     fun provideDatabase(): BoxStore {
-        val boxStore = MyObjectBox.builder().build()
+        BoxStore.deleteAllFiles(File(DEFAULT_NAME))
+//        val boxStore = MyObjectBox.builder().build()
 //        if (BuildConfig.DEBUG) {
 //            AndroidObjectBrowser(boxStore).start(application)
 //        }
-        boxStore.close()
-        boxStore.deleteAllFiles()
 //        return boxStore
 //        return BoxStore.getDefault();
         return MyObjectBox.builder().build()

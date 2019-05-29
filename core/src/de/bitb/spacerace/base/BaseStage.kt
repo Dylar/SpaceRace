@@ -4,12 +4,15 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseStage(viewport: Viewport = ScreenViewport()) : Stage(viewport) {
 
     companion object {
         val NONE = object : BaseStage(){}
     }
+
+    val compositDisposable: CompositeDisposable = CompositeDisposable()
 
     var posX: Float = 0f
     var posY: Float = 0f

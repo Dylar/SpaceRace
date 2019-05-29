@@ -11,7 +11,6 @@ import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.GameObject
 
 
 open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
@@ -188,6 +187,12 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
 
     fun centerCamera(lock: Boolean = cameraStatus == CAMERA_FREE) {
         cameraStatus = if (lock) CAMERA_LOCKED else CAMERA_FREE
+    }
+
+    fun clear() {
+        backgroundStage.compositDisposable.clear()
+        gameStage.compositDisposable.clear()
+        guiStage.compositDisposable.clear()
     }
 
 }

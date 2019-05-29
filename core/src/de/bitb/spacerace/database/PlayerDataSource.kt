@@ -31,6 +31,8 @@ interface PlayerDataSource {
     //    @Query("SELECT * FROM player WHERE color = :color")
     fun observeByColor(color: PlayerColor): Observable<List<PlayerData>>
 
+//    fun observeByVictories(amount: Long): Observable<PlayerData>
+
 //    @Query("SELECT * FROM LessonData")
 //    fun lessons(): Flowable<List<Player>>
 

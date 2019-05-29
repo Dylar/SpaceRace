@@ -6,10 +6,13 @@ import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
+import de.bitb.spacerace.events.commands.obtain.ObtainGoalCommand
 import de.bitb.spacerace.events.commands.phases.EndRoundCommand
 import de.bitb.spacerace.events.commands.phases.EndTurnCommand
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.events.commands.phases.StartMain2Command
+import de.bitb.spacerace.events.commands.player.DiceCommand
+import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.ui.base.BaseMenu
@@ -58,5 +61,8 @@ interface AppComponent {
     fun inject(gameOverCommand: GameOverCommand)
     fun inject(nextPhaseCommand: NextPhaseCommand)
     fun inject(startMain2Command: StartMain2Command)
+    fun inject(obtainGoalCommand: ObtainGoalCommand)
+    fun inject(moveCommand: MoveCommand)
+    fun inject(diceCommand: DiceCommand)
 
 }

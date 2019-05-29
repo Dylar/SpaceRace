@@ -2,8 +2,6 @@ package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.usecase.ui.PlayerChangedUsecase
-import javax.inject.Inject
 
 class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
 

@@ -1,9 +1,11 @@
 package de.bitb.spacerace.usecase
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -14,104 +16,70 @@ import io.reactivex.schedulers.Schedulers
  * By convention each UseCase implementation will return the result using a {@link DisposableObserver}
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-abstract class UseCase<Type, in Params>(
-        private val workerScheduler: Scheduler = Schedulers.io(),
-        private val observerScheduler: Scheduler = GdxSchedulers.mainThread
-) where Type : Any {
-
-    protected val onNextStub: (Type) -> Unit = {}
-    protected val onErrorStub: (Throwable) -> Unit = {}
-    var observer: DisposableObserver<Type>? = null
-
-    val defaultObserver = object : DisposableObserver<Type>() {
-        override fun onComplete() {
-            // nothing
-        }
-
-        override fun onNext(t: Type) {
-            // nothing
-        }
-
-        override fun onError(e: Throwable) {
-            // nothing
-        }
-    }
+abstract class UseCase<ReturnType, in Params>(
+        protected val workerScheduler: Scheduler = Schedulers.io(),
+        protected val observerScheduler: Scheduler = GdxSchedulers.mainThread
+) where ReturnType : Any {
 
     /**
      * Builds an [Observable] which will be used when executing the current [UseCase].
      */
-    abstract fun buildUseCaseObservable(params: Params): Observable<Type>
-
-    @JvmOverloads
-    fun observe(params: Params, observer: DisposableObserver<Type> = defaultObserver): Disposable {
-
-        this.observer = observer
-
-        return buildUseCaseObservable(params)
-                .subscribeOn(workerScheduler)
-                .observeOn(observerScheduler)
-                .doOnDispose { observer.onComplete() }
-                .subscribeWith(observer)
-    }
+    abstract fun buildUseCaseObservable(params: Params): Observable<ReturnType>
 
     /**
-     * Invoke use case by declaring functions for onNext() or onError()
+     * Builds an [Observable] build from [buildUseCaseObservable] as [Single]
      */
-    @JvmOverloads
-    operator fun invoke(
+    fun buildUseCaseSingle(params: Params): Single<ReturnType> = Single
+            .fromObservable<ReturnType>(buildUseCaseObservable(params))
+
+    /**
+     * Builds an [Observable] build from [buildUseCaseObservable] as [Completable]
+     */
+    fun buildUseCaseCompletable(params: Params): Completable = Completable
+            .fromObservable<ReturnType>(buildUseCaseObservable(params))
+
+    /**
+     * Subscribe to an [Observable] build from [buildUseCaseObservable]
+     */
+    fun observeStream(
             params: Params,
-            onNext: (Type) -> Unit = onNextStub,
-            onError: (Throwable) -> Unit = onErrorStub
-    ): Disposable {
-
-        val defaultObserver = object : DisposableObserver<Type>() {
-            override fun onComplete() {
-                // nothing
-            }
-
-            override fun onNext(t: Type) {
-                onNext(t)
-            }
-
-            override fun onError(e: Throwable) {
-                onError(e)
-            }
-        }
-
-        return buildUseCaseObservable(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(GdxSchedulers.mainThread)
-                .doOnDispose { defaultObserver.onComplete() }
-                .subscribeWith(defaultObserver)
-    }
+            onNext: (ReturnType) -> Unit = {},
+            onError: (Throwable) -> Unit = {}
+    ): Disposable = buildUseCaseObservable(params)
+            .subscribeOn(workerScheduler)
+            .observeOn(observerScheduler)
+            .subscribeBy(
+                    onNext = onNext,
+                    onError = onError
+            )
 
     /**
-     * Invoke use case by subscribing to it
+     * Subscribe to an [Single] (converted from [buildUseCaseObservable])
      */
-    operator fun invoke(params: Params): Observable<Type> {
-
-        val defaultObserver = object : DisposableObserver<Type>() {
-            override fun onComplete() {
-                // nothing
-            }
-
-            override fun onNext(t: Type) {
-                onNext(t)
-            }
-
-            override fun onError(e: Throwable) {
-                onError(e)
-            }
-        }
-
-        return buildUseCaseObservable(params)
-                .subscribeOn(workerScheduler)
-                .observeOn(observerScheduler)
-                .doOnDispose { defaultObserver.onComplete() }
-    }
+    fun getResult(
+            params: Params,
+            onSuccess: (ReturnType) -> Unit = {},
+            onError: (Throwable) -> Unit = {}
+    ): Disposable = buildUseCaseSingle(params)
+            .subscribeOn(workerScheduler)
+            .observeOn(observerScheduler)
+            .subscribeBy(
+                    onSuccess = onSuccess,
+                    onError = onError
+            )
 
     /**
-     * Use class [None] for fire and forget [UseCase]
+     * Subscribe to an [Completable] (converted from [buildUseCaseObservable])
      */
-    object None
+    fun execute(
+            params: Params,
+            onComplete: () -> Unit = {},
+            onError: (Throwable) -> Unit = {}
+    ): Disposable = buildUseCaseCompletable(params)
+            .subscribeOn(workerScheduler)
+            .observeOn(observerScheduler)
+            .subscribeBy(
+                    onComplete = onComplete,
+                    onError = onError
+            )
 }

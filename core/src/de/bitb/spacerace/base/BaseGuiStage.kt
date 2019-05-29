@@ -6,6 +6,7 @@ import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.ui.base.GuiComponent
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 abstract class BaseGuiStage(val screen: BaseScreen,

@@ -43,8 +43,8 @@ class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Pla
     }
 
     private fun addText(player: Player) {
-        addText(GAME_ROUND_DETAILS_VICTORIES + guiStage.gameController.playerController.victories[player.playerData.playerColor]!!)
-        addText(GAME_ROUND_DETAILS_CREDITS + player.playerData.credits)
+        addText("$GAME_ROUND_DETAILS_VICTORIES${player.playerData.victories}")
+        addText("$GAME_ROUND_DETAILS_CREDITS${player.playerData.credits}")
 
         var mineAmount = 0
         for (spaceField in guiStage.gameController.fieldController.fieldsMap[FieldType.MINE]!!) {

@@ -74,4 +74,9 @@ class MainGame : BaseGame() {
         return checkCombi(Input.Keys.ALT_LEFT, Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)
     }
 
+    fun clear() {
+        gameController.compositeDisposable.clear()
+        (screen as BaseScreen).clear()
+    }
+
 }

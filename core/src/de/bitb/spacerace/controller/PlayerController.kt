@@ -8,7 +8,6 @@ import de.bitb.spacerace.model.player.PlayerColor
 
 class PlayerController {
 
-    val victories: MutableMap<PlayerColor, Int> = HashMap()
     var players: MutableList<Player> = ArrayList()
     var playerMap: MutableMap<PlayerColor, Player> = HashMap()
 
@@ -47,19 +46,8 @@ class PlayerController {
     }
 
     fun clearPlayer() {
-        PlayerColor.values().forEach { field -> victories[field] = 0 }
         players.clear()
         playerMap.clear()
     }
 
-    fun getWinner(): PlayerColor {
-        var winner: PlayerColor = PlayerColor.NONE
-        victories.forEach { entrySet ->
-            if (entrySet.value == WIN_AMOUNT) {
-                winner = entrySet.key
-                return@forEach
-            }
-        }
-        return winner
-    }
 }

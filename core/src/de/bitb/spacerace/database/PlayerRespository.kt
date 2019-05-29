@@ -58,4 +58,10 @@ class PlayerRespository(
         return RxQuery.observable(query)
     }
 
+//    override fun observeByVictories(amount: Long): Observable<PlayerData> {
+//        val query = playerBox.query()
+//                .equal(PlayerData_.victories, amount)
+//                .build()
+//        return RxQuery.observable(query).map { it.first() }
+//    }
 }

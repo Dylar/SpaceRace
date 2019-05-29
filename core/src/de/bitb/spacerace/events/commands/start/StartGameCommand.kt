@@ -7,7 +7,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.screens.game.GameScreen
-import de.bitb.spacerace.usecase.LoadPlayerUsecase
+import de.bitb.spacerace.usecase.init.LoadPlayerUsecase
 import io.objectbox.Box
 import javax.inject.Inject
 
@@ -35,9 +35,9 @@ class StartGameCommand() : BaseCommand() {
         val gameController = game.gameController
         inputHandler.removeListener()
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
-        loadPlayerUsecase(
+        loadPlayerUsecase.getResult(
                 gameController.gamePlayer,
-                onNext = {
+                onSuccess = {
                     //TODO make load game
                     Logger.println("NEXT: StartGameCommand")
                     gameController.initGame(game, it)

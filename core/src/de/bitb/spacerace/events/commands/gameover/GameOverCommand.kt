@@ -21,6 +21,7 @@ class GameOverCommand(val winner: PlayerColor = PlayerColor.NONE) : BaseCommand(
     }
 
     override fun execute(game: MainGame) {
+        game.clear()
         inputHandler.removeListener()
         game.changeScreen(GameOverScreen(game))
     }

@@ -9,11 +9,11 @@ class IntListConverter : PropertyConverter<MutableList<Int>, String> {
 
     override fun convertToDatabaseValue(entityProperty: MutableList<Int>?): String? {
         return entityProperty?.let { list ->
-            var bla = ""
+            var content = ""
             list.doForEachExceptLast(
-                    executeForAll = { bla += it },
-                    executeForAllExceptLast = { bla += SEPERATOR })
-            if (bla.isEmpty()) null else bla
+                    executeForAll = { content += it },
+                    executeForAllExceptLast = { content += SEPERATOR })
+            if (content.isEmpty()) null else content
         }
     }
 

@@ -46,15 +46,12 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
     }
 
-
     fun getField(positionData: PositionData): SpaceField {
-        fields.forEach { if (it.gamePosition.isPosition(positionData)) return it }
-        return SpaceField.NONE
+        return fields.find { it.gamePosition.isPosition(positionData) } ?: SpaceField.NONE
     }
 
     fun getField(item: Item): SpaceField {
-        fields.forEach { if (it.disposedItems.contains(item)) return it }
-        return SpaceField.NONE
+        return fields.find { it.disposedItems.contains(item) } ?: SpaceField.NONE
     }
 
     fun addShip(player: Player, spaceField: SpaceField) {
@@ -121,8 +118,7 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
 
         while (tunnel.gamePosition.isPosition(playerPosition)) {
             tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
-        }//TODO klappt das?
-
+        }
         return tunnel
     }
 
@@ -144,13 +140,13 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
 
         val fieldList: MutableList<SpaceField> = ArrayList()
         fields.forEach {
-            if (!it.disposedItems.isEmpty()) {
+            if (it.disposedItems.isNotEmpty()) {
                 fieldList.add(it)
             }
         }
         fieldList.forEach { field: SpaceField ->
             val toRemove: MutableList<Item> = ArrayList()
-            field.disposedItems.forEach { it ->
+            field.disposedItems.forEach {
                 if (it is MovingItem && it.getGameImage().isIdling()) {
                     moveItem(it, toRemove)
                 }

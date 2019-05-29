@@ -127,7 +127,7 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
         update(playerData)
 
 //        disposable.add(userDao.observeAllObserver()
-//                .subscribeOn(Schedulers.io()) TODO
+//                .subscribeOn(Schedulers.io()) TODO OLD
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .doOnDispose { Logger.error("ON DISPOSE: OBSERVER") }
 //                .doOnNext { Logger.error("ON NEXT: OBSERVER") }

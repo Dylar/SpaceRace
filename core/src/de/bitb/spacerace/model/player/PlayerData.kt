@@ -29,7 +29,7 @@ data class PlayerData(
         @Convert(converter = PositionDataConverter::class, dbType = String::class)
         var steps: MutableList<PositionData> = ArrayList(),
         var credits: Int = START_CREDITS,
-        var victories: Int = 0,
+        var victories: Long = 0,
         var controlToken: String = "") {
 
     @Transient
@@ -38,23 +38,6 @@ data class PlayerData(
     @Transient
     var previousStep: PositionData = PositionData()
         get() = if (steps.size < 2) PositionData() else steps[steps.size - 2]
-
-    fun canDice(): Boolean {
-        if (!phase.isMain1()) {
-            return false
-        }
-
-        var diceCharges = 1
-        for (diceModItem in playerItems.multiDiceItem) {
-            diceCharges += diceModItem.getAmount()
-        }
-        return diceResults.size < diceCharges
-    }
-
-    fun dice(maxResult: Int = DICE_MAX) {
-        diceResults.add((Math.random() * maxResult).toInt() + 1)
-        Logger.println("DiceResult: $diceResults")
-    }
 
     fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
         val sameField = previousFieldSelected(playerData, spaceField)
