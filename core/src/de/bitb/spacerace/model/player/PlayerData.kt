@@ -1,9 +1,7 @@
 package de.bitb.spacerace.model.player
 
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.CREDITS_LOSE_AMOUNT
 import de.bitb.spacerace.config.CREDITS_WIN_AMOUNT
-import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter

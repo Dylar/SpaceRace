@@ -12,7 +12,7 @@ class ObservePlayerUsecase @Inject constructor(
 ) : UseCase<List<PlayerData>, PlayerColor>() {
 
     override fun buildUseCaseObservable(params: PlayerColor): Observable<List<PlayerData>> {
-        return playerDataSource
-                .observeByColor(params)
+            return playerDataSource
+                    .observeByColor(params)
     }
 }

@@ -6,15 +6,15 @@ import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class Player(playerData: PlayerData)
-    : GameObject(PositionData()) {
+class Player(
+        var playerData: PlayerData
+) : GameObject(PositionData()) {
 
     companion object {
         val NONE = Player(PlayerData())
     }
 
     var playerImage: PlayerImage = PlayerImage()
-    var playerData = playerData
 
     override fun getGameImage(): GameImage {
         return playerImage

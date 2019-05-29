@@ -10,6 +10,7 @@ import de.bitb.spacerace.ui.player.PlayerStats
 import de.bitb.spacerace.ui.screens.game.control.DebugControl
 import de.bitb.spacerace.ui.screens.game.control.GameControl
 import de.bitb.spacerace.ui.screens.game.control.ViewControl
+import de.bitb.spacerace.usecase.game.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.usecase.game.ObservePlayerUsecase
 import de.bitb.spacerace.usecase.game.PlayerTurnChangedUsecase
 import io.reactivex.disposables.Disposable
@@ -18,13 +19,8 @@ import javax.inject.Inject
 
 class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen), InputObserver {
 
-    private var dbDisposable: Disposable? = null
-
     @Inject
-    protected lateinit var playerTurnChangedUsecase: PlayerTurnChangedUsecase
-
-    @Inject
-    protected lateinit var observePlayerUsecase: ObservePlayerUsecase
+    protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
 
     private var playerStats: PlayerStats = PlayerStats(this)
     private var viewControl: ViewControl = ViewControl(game)
@@ -47,25 +43,11 @@ class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen), I
         inputHandler.addListener(this)
     }
 
-    private fun changeColor(playerData: PlayerData) {
-        dbDisposable?.dispose()
-        dbDisposable = observePlayerUsecase.observeStream(
-                params = playerData.playerColor,
-                onNext = {
-                    Logger.println("UPDATE: updatePlayerUsecase: $it")
-                    playerStats.changePlayerColor(it.first())
-                },
-                onError = {
-                    Logger.println("ERROR: updatePlayerUsecase: $it")
-                }
-        )
-    }
-
     private fun listenToUpdate() {
-        compositDisposable += playerTurnChangedUsecase.observeStream(
+        compositDisposable += observeCurrentPlayerUseCase.observeStream(
                 onNext = {
                     Logger.println("NEXT: playerTurnChangedUsecase: $it")
-                    changeColor(it)
+                    playerStats.update(it)
                 },
                 onError = {
                     Logger.println("ERROR: playerTurnChangedUsecase: $it")

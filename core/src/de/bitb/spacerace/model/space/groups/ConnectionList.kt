@@ -26,10 +26,11 @@ class ConnectionList(
     override fun draw(batch: Batch?, parentAlpha: Float) {
         batch!!.end()
         LineRenderer.startLine(batch.projectionMatrix)
-        for (i in 0 until size) {
-            val con = get(i)
-            val color = getColor(con, playerController.currentPlayer.playerData, playerController.currentPlayer.gamePosition)
-            con.draw(color)
+
+        forEach {
+            it.draw(with(playerController.currentPlayer) {
+                getColor(it, playerData, gamePosition)
+            })
         }
         LineRenderer.endLine()
         batch.begin()
