@@ -1,5 +1,6 @@
 package de.bitb.spacerace.events.commands.phases
 
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.PlayerTurnChangedUsecase
@@ -11,6 +12,9 @@ class EndTurnCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
     @Inject
     protected lateinit var playerTurnChangedUsecase: PlayerTurnChangedUsecase
 
+    @Inject
+    protected lateinit var playerController: PlayerController
+
     init {
         MainGame.appComponent.inject(this)
     }
@@ -20,7 +24,6 @@ class EndTurnCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
     }
 
     override fun execute(game: MainGame) {
-        val playerController = game.gameController.playerController
         playerController.nextTurn()
 
         playerTurnChangedUsecase.publishUpdate(getCurrentPlayer(game).playerData.playerColor)

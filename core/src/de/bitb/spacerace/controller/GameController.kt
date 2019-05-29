@@ -67,7 +67,6 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
         val player = Player(playerData.value)
 
         playerController.players.add(player)
-        playerController.playerMap[playerData.value.playerColor] = player
 
         player.playerImage.movingSpeed * playerData.index
         fieldController.addShip(player, startField)

@@ -9,7 +9,6 @@ import de.bitb.spacerace.model.player.PlayerColor
 class PlayerController {
 
     var players: MutableList<Player> = ArrayList()
-    var playerMap: MutableMap<PlayerColor, Player> = HashMap()
 
     var currentPlayer: Player = Player.NONE
         get() = if (players.isEmpty()) Player.NONE else players[players.size - 1]
@@ -33,6 +32,7 @@ class PlayerController {
         players.add(oldPlayer)
         players.removeAt(0)
 
+        //TODO items in db
         oldPlayer.playerData.playerItems.removeUsedItems()
     }
 
@@ -47,7 +47,6 @@ class PlayerController {
 
     fun clearPlayer() {
         players.clear()
-        playerMap.clear()
     }
 
 }

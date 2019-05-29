@@ -5,15 +5,11 @@ import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.ui.player.PlayerStats
 import de.bitb.spacerace.ui.screens.game.control.DebugControl
 import de.bitb.spacerace.ui.screens.game.control.GameControl
 import de.bitb.spacerace.ui.screens.game.control.ViewControl
 import de.bitb.spacerace.usecase.game.ObserveCurrentPlayerUseCase
-import de.bitb.spacerace.usecase.game.ObservePlayerUsecase
-import de.bitb.spacerace.usecase.game.PlayerTurnChangedUsecase
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
