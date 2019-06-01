@@ -17,7 +17,7 @@ enum class FieldType(val color: Color? = null, val texture: Texture = TextureCol
     MINE(SKY, texture = TextureCollection.minePlanet),
     GIFT(SKY, texture = TextureCollection.debrisField),
     SHOP(texture = TextureCollection.fieldItemShop),
-    GOAL(Color.SKY, texture = TextureCollection.goalPlanet),
+    GOAL(SKY, texture = TextureCollection.goalPlanet),
     TUNNEL(PURPLE, TextureCollection.blackhole),
     RANDOM(GREEN, TextureCollection.blackhole),
     UNKNOWN(texture = TextureCollection.unknownPlanet);

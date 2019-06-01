@@ -17,11 +17,11 @@ enum class Phase(val text: String, val color: Color) {
     companion object {
         fun next(phase: Phase): Phase {
             return when (phase) {
-                Phase.MAIN1 -> MOVE
-                Phase.MOVE -> MAIN2
-                Phase.MAIN2 -> END_TURN
-                Phase.END_TURN -> END_ROUND
-                Phase.END_ROUND -> MAIN1
+                MAIN1 -> MOVE
+                MOVE -> MAIN2
+                MAIN2 -> END_TURN
+                END_TURN -> END_ROUND
+                END_ROUND -> MAIN1
             }
         }
     }

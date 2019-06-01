@@ -35,24 +35,80 @@
         {
           "id": "7:2762963473384793847",
           "name": "victories"
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:2211750837420228735",
+          "name": "steps"
+        }
+      ]
+    },
+    {
+      "id": "2:2227677414998271861",
+      "lastPropertyId": "5:5597309057063200936",
+      "name": "PositionData",
+      "properties": [
+        {
+          "id": "1:8406354701997605876",
+          "name": "uuid"
         },
         {
-          "id": "8:2390078597524281923",
-          "name": "steps"
+          "id": "2:1768135798635728858",
+          "name": "posX"
+        },
+        {
+          "id": "3:1567510913242276229",
+          "name": "posY"
+        },
+        {
+          "id": "4:4861397447757206723",
+          "name": "width"
+        },
+        {
+          "id": "5:5597309057063200936",
+          "name": "height"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:5571163132412737000",
+      "lastPropertyId": "4:7905827838833423037",
+      "name": "FieldData",
+      "properties": [
+        {
+          "id": "1:2050600922870455603",
+          "name": "uuid"
+        },
+        {
+          "id": "2:4597254748519990090",
+          "name": "fieldType"
+        },
+        {
+          "id": "3:6877082659515583318",
+          "name": "owner"
+        },
+        {
+          "id": "4:7905827838833423037",
+          "indexId": "1:7143019785493195633",
+          "name": "positionId"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:3580311040723788758",
-  "lastIndexId": "0:0",
-  "lastRelationId": "0:0",
+  "lastEntityId": "3:5571163132412737000",
+  "lastIndexId": "1:7143019785493195633",
+  "lastRelationId": "1:2211750837420228735",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    2390078597524281923
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

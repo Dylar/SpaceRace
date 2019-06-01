@@ -1,8 +1,9 @@
 package de.bitb.spacerace.usecase.game
 
 import de.bitb.spacerace.core.Dispender
-import de.bitb.spacerace.database.PlayerColorDispender
-import de.bitb.spacerace.database.PlayerDataSource
+import de.bitb.spacerace.database.player.PlayerColorDispender
+import de.bitb.spacerace.database.map.MapDataSource
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.usecase.UseCaseWithoutParams

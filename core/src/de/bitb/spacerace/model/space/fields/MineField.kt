@@ -3,7 +3,6 @@ package de.bitb.spacerace.model.space.fields
 import com.badlogic.gdx.graphics.Color
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 
 class MineField : SpaceField(FieldType.MINE) {
@@ -17,7 +16,7 @@ class MineField : SpaceField(FieldType.MINE) {
         }
 
     fun harvestOres(game: MainGame): Int {
-        return if (owner == NONE) 0 else getPlayerData(game, owner).addRandomWin()
+        return if (owner == PlayerColor.NONE) 0 else getPlayerData(game, owner).addRandomWin()
     }
 
 }

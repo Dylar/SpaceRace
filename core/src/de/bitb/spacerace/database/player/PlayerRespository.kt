@@ -1,5 +1,6 @@
-package de.bitb.spacerace.database
+package de.bitb.spacerace.database.player
 
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.player.PlayerData_
@@ -10,7 +11,8 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 class PlayerRespository(
-        private val playerBox: Box<PlayerData>
+        private val playerBox: Box<PlayerData>,
+        posBox: Box<PositionData>
 ) : PlayerDataSource {
 
     override fun insertAll(vararg userData: PlayerData): Single<List<PlayerData>> {

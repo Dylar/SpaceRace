@@ -1,4 +1,4 @@
-package de.bitb.spacerace.database
+package de.bitb.spacerace.database.player
 
 import de.bitb.spacerace.core.Dispender
 import de.bitb.spacerace.model.player.PlayerColor

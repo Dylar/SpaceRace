@@ -10,7 +10,7 @@ class StartMoveCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
     }
 
     override fun execute(game: MainGame) {
-        getPlayerData(game, playerColor).steps.add(getPlayerField(game, playerColor).gamePosition)
+        getPlayerData(game, playerColor).steps!!.add(getPlayerField(game, playerColor).gamePosition)
     }
 
 }

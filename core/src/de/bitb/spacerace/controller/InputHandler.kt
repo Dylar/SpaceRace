@@ -22,9 +22,9 @@ class InputHandler(private val game: MainGame) : DefaultFunction {
         EventBus.getDefault().register(this)
         MainGame.appComponent.inject(this)
 
-        commandUsecase.observeStream( //TODO just execute
+        commandUsecase.getResult( //TODO just execute
                 game,
-                onNext = {
+                onSuccess = {
                     notifyObserver(it)
                 },
                 onError = {

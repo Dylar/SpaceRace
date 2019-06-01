@@ -29,7 +29,6 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
 
     var currentGoal: SpaceField = SpaceField.NONE
 
-    var fieldGroups: MutableList<SpaceGroup> = mutableListOf()
     var fields: MutableList<SpaceField> = mutableListOf()
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = HashMap()
     var connections: ConnectionList = ConnectionList(playerController)
@@ -40,7 +39,6 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
 
     private fun clearField() {
 //        fields.forEach { it.fieldImage.remove() }
-        fieldGroups.clear()
         fields.clear()
         connections.clear()
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
@@ -88,7 +86,6 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
 
     fun addFields(gameController: GameController, vararg spaceGroups: SpaceGroup) {
         for (spaceGroup in spaceGroups) {
-            fieldGroups.add(spaceGroup)
             for (field in spaceGroup.fields.entries.withIndex()) {
                 addField(gameController, field.value.value)
             }

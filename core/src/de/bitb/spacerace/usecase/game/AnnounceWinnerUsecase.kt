@@ -1,7 +1,8 @@
 package de.bitb.spacerace.usecase.game
 
 import de.bitb.spacerace.config.WIN_AMOUNT
-import de.bitb.spacerace.database.PlayerDataSource
+import de.bitb.spacerace.database.map.MapDataSource
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.usecase.UseCase
 import io.reactivex.Observable

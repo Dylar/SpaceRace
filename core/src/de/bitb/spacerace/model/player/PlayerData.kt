@@ -6,13 +6,13 @@ import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
-import de.bitb.spacerace.database.converter.PositionDataConverter
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
+import io.objectbox.relation.ToMany
 
 @Entity
 data class PlayerData(
@@ -24,8 +24,7 @@ data class PlayerData(
         var diceResults: MutableList<Int> = ArrayList(),
         @Convert(converter = PhaseConverter::class, dbType = String::class)
         var phase: Phase = Phase.MAIN1,
-        @Convert(converter = PositionDataConverter::class, dbType = String::class)
-        var steps: MutableList<PositionData> = ArrayList(),
+        var steps: ToMany<PositionData>? = null,
         var credits: Int = START_CREDITS,
         var victories: Long = 0,
         var controlToken: String = "") {
@@ -33,21 +32,26 @@ data class PlayerData(
     @Transient
     val playerItems: PlayerItems = PlayerItems(playerColor)
 
-    @Transient
-    var previousStep: PositionData = PositionData()
-        get() = if (steps.size < 2) PositionData() else steps[steps.size - 2]
+    val previousStep: PositionData
+        get() = steps?.let {
+            if (it.size < 2) PositionData() else it[it.size - 2]!!
+        } ?: PositionData()
 
     fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
         val sameField = previousFieldSelected(playerData, spaceField)
         if (sameField) {
-            playerData.steps.removeAt(playerData.steps.size - 1)
+            steps?.let {
+                playerData.steps?.let {
+                    it.removeAt(it.size - 1)
+                }
+            }
         } else {
-            playerData.steps.add(spaceField.gamePosition)
+            playerData.steps!!.add(spaceField.gamePosition)
         }
     }
 
     private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
-        return playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
+        return playerData.steps!!.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
     }
 
     fun getMaxSteps(): Int {
@@ -67,7 +71,7 @@ data class PlayerData(
     }
 
     fun stepsLeft(): Int {
-        return getMaxSteps() - (if (steps.isEmpty()) 0 else steps.size - 1)
+        return getMaxSteps() - (if (steps!!.isEmpty()) 0 else steps!!.size - 1)
     }
 
     fun areStepsLeft(): Boolean {
@@ -80,7 +84,7 @@ data class PlayerData(
     }
 
     fun nextRound() {
-        steps = ArrayList()
+        steps!!.clear()
         diceResults.clear()
         phase = Phase.MAIN1
     }
@@ -96,5 +100,4 @@ data class PlayerData(
         credits -= lose
         return lose
     }
-
 }
