@@ -10,13 +10,13 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.MyObjectBox
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.FieldData
+import de.bitb.spacerace.model.space.maps.MapData
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.BoxStoreBuilder.DEFAULT_NAME
+import io.objectbox.kotlin.boxFor
 import java.io.File
 import javax.inject.Singleton
-
-import io.objectbox.kotlin.boxFor
 
 @Module
 class DatabaseModule() {
@@ -42,6 +42,12 @@ class DatabaseModule() {
 
     @Provides
     @Singleton
+    fun provideMapDataBox(store: BoxStore): Box<MapData> {
+        return store.boxFor(MapData::class)
+    }
+
+    @Provides
+    @Singleton
     fun provideFieldDataBox(store: BoxStore): Box<FieldData> {
         return store.boxFor(FieldData::class)
     }
@@ -54,8 +60,8 @@ class DatabaseModule() {
 
     @Provides
     @Singleton
-    fun provideMapDataSource(fieldBox: Box<FieldData>, posBox: Box<PositionData>): MapDataSource {
-        return MapRespository(fieldBox, posBox)
+    fun provideMapDataSource(mapBox: Box<MapData>, fieldBox: Box<FieldData>, posBox: Box<PositionData>): MapDataSource {
+        return MapRespository(fieldBox, posBox,mapBox)
     }
 
     @Provides
@@ -69,7 +75,7 @@ class DatabaseModule() {
 //    fun provideItemBox(store: BoxStore): Box<Item> {
 //        return store.boxFor(Item::class.java)
 //    }
-
+//
 //    @Provides
 //    @Singleton
 //    fun provideItemDataSource(box: Box<Item>): ItemDataSource {

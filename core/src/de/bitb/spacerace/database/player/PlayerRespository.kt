@@ -12,7 +12,7 @@ import io.reactivex.Single
 
 class PlayerRespository(
         private val playerBox: Box<PlayerData>,
-        posBox: Box<PositionData>
+        private val posBox: Box<PositionData>
 ) : PlayerDataSource {
 
     override fun insertAll(vararg userData: PlayerData): Single<List<PlayerData>> {

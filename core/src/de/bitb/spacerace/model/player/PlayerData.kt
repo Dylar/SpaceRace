@@ -24,10 +24,11 @@ data class PlayerData(
         var diceResults: MutableList<Int> = ArrayList(),
         @Convert(converter = PhaseConverter::class, dbType = String::class)
         var phase: Phase = Phase.MAIN1,
-        var steps: ToMany<PositionData>? = null,
         var credits: Int = START_CREDITS,
         var victories: Long = 0,
         var controlToken: String = "") {
+
+    lateinit var steps: ToMany<PositionData>
 
     @Transient
     val playerItems: PlayerItems = PlayerItems(playerColor)

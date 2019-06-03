@@ -88,27 +88,44 @@
         {
           "id": "3:6877082659515583318",
           "name": "owner"
-        },
-        {
-          "id": "4:7905827838833423037",
-          "indexId": "1:7143019785493195633",
-          "name": "positionId"
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:5253894932022766226",
+      "lastPropertyId": "1:1391279656740946960",
+      "name": "MapData",
+      "properties": [
+        {
+          "id": "1:1391279656740946960",
+          "name": "uuid"
+        }
+      ],
+      "relations": [
+        {
+          "id": "2:2861284069035337580",
+          "name": "fields"
+        }
+      ]
     }
   ],
-  "lastEntityId": "3:5571163132412737000",
+  "lastEntityId": "4:5253894932022766226",
   "lastIndexId": "1:7143019785493195633",
-  "lastRelationId": "1:2211750837420228735",
+  "lastRelationId": "3:3731710873615029369",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [
-    2390078597524281923
+  "retiredIndexUids": [
+    7143019785493195633
   ],
-  "retiredRelationUids": [],
+  "retiredPropertyUids": [
+    2390078597524281923,
+    7905827838833423037
+  ],
+  "retiredRelationUids": [
+    3731710873615029369
+  ],
   "version": 1
 }

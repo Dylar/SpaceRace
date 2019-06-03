@@ -6,6 +6,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.FieldData
 import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.maps.MapData
 import io.objectbox.Box
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -13,7 +14,8 @@ import io.reactivex.Single
 
 class MapRespository(
         private val fieldBox: Box<FieldData>,
-        private val posBox: Box<PositionData>
+        private val posBox: Box<PositionData>,
+        private val mapBox: Box<MapData>
 ) : MapDataSource {
 
     override fun insertAll(vararg userData: SpaceField): Single<List<SpaceField>> {
