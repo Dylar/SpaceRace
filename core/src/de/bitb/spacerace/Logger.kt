@@ -1,6 +1,7 @@
 package de.bitb.spacerace
 
 import com.badlogic.gdx.Gdx
+import de.bitb.spacerace.Logger.Constants.PACKAGE_NAME
 
 object Logger {
 
@@ -78,7 +79,8 @@ object Logger {
     fun println(message: String) {
         if (isAllowedToLog) {
 //            System.out.println("$callingClass: $message")
-            Gdx.app.log(callingClass, createMessage(message))
+//            Gdx.app.log(callingClass, createMessage(message))
+            log(message)
         }
     }
 
@@ -100,6 +102,34 @@ object Logger {
         val inMillis = (System.currentTimeMillis() - time).toDouble()
         println("$msg (TIME: $inMillis)")
     }
+
+
+    object Constants {
+        const val PACKAGE_NAME = "bitb"
+    }
+
+    fun log(vararg params: Any) {
+        Thread.currentThread().also { thread ->
+            val callerStack = thread
+                    .stackTrace
+                    .filter(appClass())
+                    .drop(2)
+                    .map { "\n$it" }
+            val last = thread
+                    .stackTrace
+                    .filter(appClass())
+                    .drop(2)
+                    .first()
+
+            val paramsString = params.map { "\n$it" }
+            val paramsValue = if (paramsString.isEmpty()) "" else "params:\n$paramsString"
+
+            Gdx.app.log("$last", "called by $callerStack $paramsValue")
+        }
+    }
+
+    private fun appClass(): (StackTraceElement) -> Boolean = { it.className.contains(PACKAGE_NAME) }
+
 
 //    fun wtf(message: String) {
 //        if (isAllowedToLog) {
