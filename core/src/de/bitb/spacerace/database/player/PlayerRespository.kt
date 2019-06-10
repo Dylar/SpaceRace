@@ -11,8 +11,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 class PlayerRespository(
-        private val playerBox: Box<PlayerData>,
-        private val posBox: Box<PositionData>
+        private val playerBox: Box<PlayerData>
 ) : PlayerDataSource {
 
     override fun insertAll(vararg userData: PlayerData): Single<List<PlayerData>> {

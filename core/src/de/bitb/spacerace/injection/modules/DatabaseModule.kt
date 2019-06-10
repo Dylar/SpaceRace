@@ -9,8 +9,6 @@ import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.MyObjectBox
 import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.model.space.fields.FieldData
-import de.bitb.spacerace.model.space.maps.MapData
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.BoxStoreBuilder.DEFAULT_NAME
@@ -40,34 +38,34 @@ class DatabaseModule() {
         return store.boxFor(PlayerData::class)
     }
 
+//    @Provides
+//    @Singleton
+//    fun provideMapDataBox(store: BoxStore): Box<MapData> {
+//        return store.boxFor(MapData::class)
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun provideFieldDataBox(store: BoxStore): Box<FieldData> {
+//        return store.boxFor(FieldData::class)
+//    }
+
+//    @Provides
+//    @Singleton
+//    fun providePositionBox(store: BoxStore): Box<PositionData> {
+//        return store.boxFor(PositionData::class)
+//    }
+
     @Provides
     @Singleton
-    fun provideMapDataBox(store: BoxStore): Box<MapData> {
-        return store.boxFor(MapData::class)
+    fun provideMapDataSource(): MapDataSource {
+        return MapRespository()
     }
 
     @Provides
     @Singleton
-    fun provideFieldDataBox(store: BoxStore): Box<FieldData> {
-        return store.boxFor(FieldData::class)
-    }
-
-    @Provides
-    @Singleton
-    fun providePositionBox(store: BoxStore): Box<PositionData> {
-        return store.boxFor(PositionData::class)
-    }
-
-    @Provides
-    @Singleton
-    fun provideMapDataSource(mapBox: Box<MapData>, fieldBox: Box<FieldData>, posBox: Box<PositionData>): MapDataSource {
-        return MapRespository(fieldBox, posBox,mapBox)
-    }
-
-    @Provides
-    @Singleton
-    fun providePlayerDataSource(box: Box<PlayerData>, posBox: Box<PositionData>): PlayerDataSource {
-        return PlayerRespository(box, posBox)
+    fun providePlayerDataSource(box: Box<PlayerData>): PlayerDataSource {
+        return PlayerRespository(box)
     }
 
 //    @Provides

@@ -108,24 +108,43 @@ object Logger {
         const val PACKAGE_NAME = "bitb"
     }
 
-    fun log(vararg params: Any) {
-        Thread.currentThread().also { thread ->
-            val callerStack = thread
-                    .stackTrace
-                    .filter(appClass())
-                    .drop(2)
-                    .map { "\n$it" }
-            val last = thread
-                    .stackTrace
-                    .filter(appClass())
-                    .drop(2)
-                    .first()
+    fun log(vararg params: String) {
+        Pair(Thread.currentThread(), appClass())
+                .also { (thread, filterClass) ->
+                    val callerStack = thread
+                            .stackTrace
+                            .filter(filterClass)
+                            .drop(2)
+                            .map { "$it" }
+                            .map { it.filterPackage() }
+                            .map { "\n$it" }
 
-            val paramsString = params.map { "\n$it" }
-            val paramsValue = if (paramsString.isEmpty()) "" else "params:\n$paramsString"
+                    val last = thread
+                            .stackTrace
+                            .filter(filterClass)
+                            .drop(2)
+                            .first()
+                            .toString()
+                            .filterPackage()
 
-            Gdx.app.log("$last", "called by $callerStack $paramsValue")
-        }
+                    val paramsString = params
+                            .map { it }
+                            .let {
+                                if (it.isEmpty()) "Log"
+                                else "Params: $it"
+                            }
+
+                    Gdx.app.log(paramsString, "$last called by $callerStack\n")
+                }
+    }
+
+    private fun String.filterPackage(): String {
+        return replaceBefore(".", "")
+                .substring(1)
+                .replaceBefore(".", "")
+                .substring(1)
+                .replaceBefore(".", "")
+                .substring(1)
     }
 
     private fun appClass(): (StackTraceElement) -> Boolean = { it.className.contains(PACKAGE_NAME) }

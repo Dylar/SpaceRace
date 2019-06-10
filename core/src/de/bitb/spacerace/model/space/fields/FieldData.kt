@@ -11,16 +11,16 @@ import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
 import io.objectbox.relation.ToOne
 
-@Entity
-data class FieldData(
-        @Id
-        var uuid: Long = 0,
-        @Convert(converter = FieldTypeConverter::class, dbType = String::class)
-        var fieldType: FieldType = FieldType.UNKNOWN,
-        @Convert(converter = PlayerColorConverter::class, dbType = String::class)
-        var owner: PlayerColor = PlayerColor.NONE) {
-
-//    lateinit var position: ToOne<PositionData>
-//    lateinit var connections: ToMany<FieldData>
-
-}
+//@Entity
+//data class FieldData(
+//        @Id
+//        var uuid: Long = 0,
+//        @Convert(converter = FieldTypeConverter::class, dbType = String::class)
+//        var fieldType: FieldType = FieldType.UNKNOWN,
+//        @Convert(converter = PlayerColorConverter::class, dbType = String::class)
+//        var owner: PlayerColor = PlayerColor.NONE) {
+//
+////    lateinit var position: ToOne<PositionData>
+////    lateinit var connections: ToMany<FieldData>
+//
+//}

@@ -6,13 +6,13 @@ import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
+import de.bitb.spacerace.database.converter.PositionDataConverter
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
-import io.objectbox.relation.ToMany
 
 @Entity
 data class PlayerData(
@@ -28,7 +28,9 @@ data class PlayerData(
         var victories: Long = 0,
         var controlToken: String = "") {
 
-    lateinit var steps: ToMany<PositionData>
+
+    @Convert(converter = PositionDataConverter::class, dbType = String::class)
+    var steps: ArrayList<PositionData> = ArrayList()
 
     @Transient
     val playerItems: PlayerItems = PlayerItems(playerColor)

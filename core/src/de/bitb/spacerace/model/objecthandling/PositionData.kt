@@ -4,7 +4,7 @@ import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 
 
-@Entity
+//@Entity
 data class PositionData(
         var posX: Float = 0f,
         var posY: Float = 0f,
