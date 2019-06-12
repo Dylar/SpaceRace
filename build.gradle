@@ -108,6 +108,9 @@ project(":core") {
 
     kapt {
         generateStubs = true
+        arguments {
+            arg("objectbox.myObjectBoxPackage", "de.bitb.spacerace.model")
+        }
     }
 
     dependencies {
