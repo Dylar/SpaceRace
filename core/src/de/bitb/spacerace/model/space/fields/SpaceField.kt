@@ -1,22 +1,25 @@
 package de.bitb.spacerace.model.space.fields
 
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
+import de.bitb.spacerace.database.converter.FieldTypeConverter
+import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
-import de.bitb.spacerace.model.space.groups.SpaceGroup
+import io.objectbox.annotation.Convert
+import io.objectbox.annotation.Entity
+import io.objectbox.annotation.Id
 
-open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN,
-                      var fieldImage: FieldImage = FieldImage(fieldType),
-                      positionData: PositionData = PositionData()) :
-        GameObject(positionData), IBlinkingImage by fieldImage {
-
-    override fun getGameImage(): GameImage {
-        return fieldImage
-    }
+open class SpaceField(
+        val fieldType: FieldType = FieldType.UNKNOWN,
+        val fieldImage: FieldImage = FieldImage(fieldType),
+        positionData: PositionData = PositionData())
+    : GameObject(positionData),
+        IBlinkingImage by fieldImage {
 
     companion object {
         val NONE: SpaceField = SpaceField()
@@ -32,10 +35,13 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN,
         }
     }
 
-    var group: SpaceGroup? = null
     val connections: MutableList<SpaceConnection> = ArrayList()
 
     val disposedItems: MutableList<DisposableItem> = ArrayList()
+
+    override fun getGameImage(): GameImage {
+        return fieldImage
+    }
 
     init {
         setBounds(positionData.posX, positionData.posY, FIELD_BORDER, FIELD_BORDER)
@@ -51,10 +57,7 @@ open class SpaceField(val fieldType: FieldType = FieldType.UNKNOWN,
     }
 
     fun hasConnectionTo(spaceField: SpaceField): Boolean {
-        connections.forEach {
-            if (it.isConnection(this, spaceField)) return true
-        }
-        return false
+        return connections.any { it.isConnection(this, spaceField) }
     }
 
 }

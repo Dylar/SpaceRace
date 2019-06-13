@@ -5,11 +5,11 @@ enum class ConnectionPoint {
 
     fun getOpposite(): ConnectionPoint {
         return when (this) {
-            ConnectionPoint.NONE -> NONE
-            ConnectionPoint.LEFT -> RIGHT
-            ConnectionPoint.RIGHT -> LEFT
-            ConnectionPoint.TOP -> BOTTOM
-            ConnectionPoint.BOTTOM -> TOP
+            NONE -> NONE
+            LEFT -> RIGHT
+            RIGHT -> LEFT
+            TOP -> BOTTOM
+            BOTTOM -> TOP
         }
     }
 }

@@ -2,14 +2,15 @@ package de.bitb.spacerace.injection.modules
 
 import dagger.Module
 import dagger.Provides
-import de.bitb.spacerace.database.PlayerDataSource
-import de.bitb.spacerace.database.PlayerRespository
+import de.bitb.spacerace.database.map.MapDataSource
+import de.bitb.spacerace.database.map.MapRespository
 import de.bitb.spacerace.model.MyObjectBox
 import de.bitb.spacerace.model.player.PlayerData
 import de.bitb.spacerace.model.space.fields.FieldData
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.BoxStoreBuilder.DEFAULT_NAME
+import io.objectbox.kotlin.boxFor
 import java.io.File
 import javax.inject.Singleton
 
@@ -25,15 +26,14 @@ class DatabaseModule() {
 //            AndroidObjectBrowser(boxStore).start(application)
 //        }
 //        return boxStore
-       return  MyObjectBox.builder().build()
-//        return BoxStore.getDefault()
+//        return BoxStore.getDefault();
+        return MyObjectBox.builder().build()
     }
 
     @Provides
     @Singleton
     fun providePlayerBox(store: BoxStore): Box<PlayerData> {
-        return store.boxFor(PlayerData::class.java)
-//        return store.boxFor(PlayerData::class)
+        return store.boxFor(PlayerData::class)
     }
 
 //    @Provides
@@ -45,8 +45,7 @@ class DatabaseModule() {
     @Provides
     @Singleton
     fun provideFieldDataBox(store: BoxStore): Box<FieldData> {
-    return store.boxFor(FieldData::class.java)
-//        return store.boxFor(FieldData::class)
+        return store.boxFor(FieldData::class)
     }
 
 //    @Provides
@@ -55,16 +54,31 @@ class DatabaseModule() {
 //        return store.boxFor(PositionData::class)
 //    }
 
-//    @Provides
-//    @Singleton
-//    fun provideMapDataSource(): MapDataSource {
-//        return MapRespository()
-//    }
+    @Provides
+    @Singleton
+    fun provideMapDataSource(): MapDataSource {
+        return MapRespository()
+    }
 
     @Provides
     @Singleton
-    fun providePlayerDataSource(box: Box<PlayerData>): PlayerDataSource {
-        return PlayerRespository(box)
+    fun providePlayerDataSource(box: Box<PlayerData>): de.bitb.spacerace.database.player.PlayerDataSource {
+        return de.bitb.spacerace.database.player.PlayerRespository(box)
     }
+
+
+
+
+//    @Provides
+//    @Singleton
+//    fun provideItemBox(store: BoxStore): Box<Item> {
+//        return store.boxFor(Item::class.java)
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun provideItemDataSource(box: Box<Item>): ItemDataSource {
+//        return ItemRespository(box)
+//    }
 
 }

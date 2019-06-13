@@ -1,5 +1,6 @@
-package de.bitb.spacerace.database
+package de.bitb.spacerace.database.player
 
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 import io.objectbox.Box

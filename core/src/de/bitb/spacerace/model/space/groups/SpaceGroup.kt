@@ -22,7 +22,6 @@ open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0
 
     open fun addField(addField: SpaceField, posX: Float = addField.getGameImage().x, posY: Float = addField.getGameImage().y, connection: ConnectionPoint = ConnectionPoint.NONE) {
         addField.id = fields.size
-        addField.group = this
         addField.setPosition(posX + offsetX, posY + offsetY)
         fields[addField.id] = addField
         if (connection != ConnectionPoint.NONE) {

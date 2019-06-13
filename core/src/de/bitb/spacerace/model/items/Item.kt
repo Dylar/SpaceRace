@@ -3,16 +3,17 @@ package de.bitb.spacerace.model.items
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.ITEM_BORDER
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.FieldImage
-//import io.objectbox.annotation.Entity
+import io.objectbox.annotation.Entity
 
-abstract class Item(var owner: PlayerColor,
-                    val price: Int,
-                    val img: Texture) : GameObject() {
+
+abstract class Item(
+        var owner: PlayerColor,
+        val price: Int,
+        val img: Texture
+) : GameObject() {
 
     abstract val itemType: ItemCollection
     abstract var text: String

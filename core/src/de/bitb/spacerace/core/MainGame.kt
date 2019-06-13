@@ -11,6 +11,8 @@ import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
+import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.FieldData
 import de.bitb.spacerace.ui.screens.start.StartScreen
 import io.objectbox.Box
@@ -38,8 +40,26 @@ class MainGame : BaseGame() {
         appComponent.inject(this)
         setScreen(StartScreen(this))
 
-//        box.put(FieldData(fieldType = FieldType.MINE))
-//        box.put(FieldData(fieldType = FieldType.MINE, owner = PlayerColor.NAVY))
+        Pair(
+                FieldData(fieldType = FieldType.MINE),
+                FieldData(fieldType = FieldType.MINE,
+                        owner = PlayerColor.NAVY)
+        ).also { (mineNot, mineOwned) ->
+            mineNot.connections.add(mineOwned)
+            mineOwned.connections.add(mineNot)
+            box.put(mineNot)
+            box.put(mineOwned)
+        }.also { (mineNot, mineOwned) ->
+            val all = box.all
+            val not = all[0]
+            val own = all[1]
+            val conOwn = mineOwned.connections[0]
+            val conNot = mineNot.connections[0]
+            val conOwn2 = own.connections[0]
+            val conNot2 = not.connections[0]
+            Logger.log("RESULT: ", all)
+        }
+
         val all = box.all
         Logger.log("RESULT: ", all)
 //        setScreen(GameScreen(this))

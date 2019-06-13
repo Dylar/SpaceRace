@@ -11,11 +11,11 @@ class PositionDataConverter : PropertyConverter<MutableList<PositionData>, Strin
 
     override fun convertToDatabaseValue(entityProperty: MutableList<PositionData>?): String? {
         return entityProperty?.let { list ->
-            var bla = ""
+            var value = ""
             list.doForEachExceptLast(
-                    executeForAll = { bla += "${it.posX}$SEPERATOR${it.posY}$SEPERATOR${it.width}$SEPERATOR${it.height}$SEPERATOR" },
-                    executeForAllExceptLast = { bla += SEPERATOR_GROUP })
-            if (bla.isEmpty()) null else bla
+                    executeForAll = { value += "${it.posX}$SEPERATOR${it.posY}$SEPERATOR${it.width}$SEPERATOR${it.height}$SEPERATOR" },
+                    executeForAllExceptLast = { value += SEPERATOR_GROUP })
+            if (value.isEmpty()) null else value
         }
     }
 

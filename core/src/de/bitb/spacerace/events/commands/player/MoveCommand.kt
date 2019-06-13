@@ -19,7 +19,7 @@ class MoveCommand(val spaceField: SpaceField, playerColor: PlayerColor) : BaseCo
 
     override fun canExecute(game: MainGame): Boolean {
         val playerData = getPlayerData(game, playerColor)
-        val sameField = playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
+        val sameField = playerData.steps!!.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
         val hasConnection = getPlayerField(game, playerColor).hasConnectionTo(spaceField)
         return hasConnection && (sameField && playerData.phase.isMoving() || playerData.canMove())
     }
