@@ -25,8 +25,8 @@ class DatabaseModule() {
 //            AndroidObjectBrowser(boxStore).start(application)
 //        }
 //        return boxStore
-//        return BoxStore.getDefault();
-        return MyObjectBox.builder().build()
+       return  MyObjectBox.builder().build()
+//        return BoxStore.getDefault()
     }
 
     @Provides

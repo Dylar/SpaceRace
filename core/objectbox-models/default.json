@@ -4,22 +4,6 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:7347382737218873978",
-      "lastPropertyId": "2:8316987506035648924",
-      "name": "FieldData",
-      "properties": [
-        {
-          "id": "1:7079400413717477051",
-          "name": "uuid"
-        },
-        {
-          "id": "2:8316987506035648924",
-          "name": "owner"
-        }
-      ],
-      "relations": []
-    },
-    {
       "id": "2:905299321358295578",
       "lastPropertyId": "8:6914370155988182697",
       "name": "PlayerData",
@@ -58,17 +42,38 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:6886439689368316702",
+      "lastPropertyId": "2:8843373762035126779",
+      "name": "FieldData",
+      "properties": [
+        {
+          "id": "1:3741259235329525511",
+          "name": "uuid"
+        },
+        {
+          "id": "2:8843373762035126779",
+          "name": "owner"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "2:905299321358295578",
+  "lastEntityId": "3:6886439689368316702",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    7347382737218873978
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    7079400413717477051,
+    8316987506035648924
+  ],
   "retiredRelationUids": [],
   "version": 1
 }
