@@ -2,6 +2,7 @@ package de.bitb.spacerace.core
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.controller.GameController
@@ -10,7 +11,11 @@ import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
+import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.space.fields.FieldData
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.start.StartScreen
+import io.objectbox.Box
 import javax.inject.Inject
 
 class MainGame : BaseGame() {
@@ -22,6 +27,9 @@ class MainGame : BaseGame() {
     @Inject
     lateinit var inputHandler: InputHandler
 
+    @Inject
+    lateinit var box: Box<FieldData>
+
     lateinit var gameController: GameController
 
     override fun initScreen() {
@@ -31,6 +39,11 @@ class MainGame : BaseGame() {
                 .build()
         appComponent.inject(this)
         setScreen(StartScreen(this))
+
+//        box.put(FieldData(fieldType = FieldType.MINE))
+//        box.put(FieldData(fieldType = FieldType.MINE, owner = PlayerColor.NAVY))
+        val all = box.all
+        Logger.log("RESULT: ", all)
 //        setScreen(GameScreen(this))
 //        setScreen(GameOverScreen(this))
     }

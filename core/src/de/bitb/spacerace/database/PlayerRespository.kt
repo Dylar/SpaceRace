@@ -2,7 +2,6 @@ package de.bitb.spacerace.database
 
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.model.player.PlayerData_
 import io.objectbox.Box
 import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
@@ -53,7 +52,7 @@ class PlayerRespository(
 
     override fun observeByColor(color: PlayerColor): Observable<List<PlayerData>> {
         val query = playerBox.query()
-                .equal(PlayerData_.playerColor, color.toString())
+//                .equal(PlayerData_.playerColor, color.toString())
                 .build()
         return RxQuery.observable(query)
     }

@@ -4,47 +4,63 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:3580311040723788758",
-      "lastPropertyId": "8:2390078597524281923",
-      "name": "PlayerData",
+      "id": "1:7347382737218873978",
+      "lastPropertyId": "2:8316987506035648924",
+      "name": "FieldData",
       "properties": [
         {
-          "id": "1:3710614145870826092",
+          "id": "1:7079400413717477051",
           "name": "uuid"
         },
         {
-          "id": "2:5269883619867347945",
+          "id": "2:8316987506035648924",
+          "name": "owner"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:905299321358295578",
+      "lastPropertyId": "8:6914370155988182697",
+      "name": "PlayerData",
+      "properties": [
+        {
+          "id": "1:4743106823473145829",
+          "name": "uuid"
+        },
+        {
+          "id": "2:7153168064900295161",
           "name": "playerColor"
         },
         {
-          "id": "3:1497990908190298779",
-          "name": "credits"
-        },
-        {
-          "id": "4:3312701823000328276",
-          "name": "controlToken"
-        },
-        {
-          "id": "5:9202005958666119171",
+          "id": "3:4023731237178436773",
           "name": "diceResults"
         },
         {
-          "id": "6:5328812361171395530",
+          "id": "4:4744701423243630686",
           "name": "phase"
         },
         {
-          "id": "7:2762963473384793847",
+          "id": "5:8486578583378696767",
+          "name": "steps"
+        },
+        {
+          "id": "6:2206043095047176154",
+          "name": "credits"
+        },
+        {
+          "id": "7:221786298052421553",
           "name": "victories"
         },
         {
-          "id": "8:2390078597524281923",
-          "name": "steps"
+          "id": "8:6914370155988182697",
+          "name": "controlToken"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:3580311040723788758",
+  "lastEntityId": "2:905299321358295578",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
