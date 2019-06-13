@@ -2,28 +2,25 @@ package de.bitb.spacerace.model.space.fields
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
+import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH
 import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerData
 
 class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) {
 
-    fun getColor(playerData: PlayerData, positionData: PositionData): Color {
-        val isConnected = isConnected(positionData)
-        if (isConnected) {
-            val canMove = playerData.canMove()
-            if (canMove || playerData.phase.isMoving() && isConnected(playerData.previousStep)) {
-                return Color.GREEN
-            }
-        }
+    var reverse = false
+    var index = 0
+    fun draw(color: Color) {
+//        index += if (reverse) {
+//            -1
+//        } else {//TODO haha
+//            +1
+//        }
+        reverse = if (index == 0) false else if (index > 50) true else reverse
 
-        return Color.RED
-    }
-
-    fun draw(playerData: PlayerData, positionData: PositionData) {
         val start = Vector2(spaceField1.fieldImage.getCenterX(), spaceField1.fieldImage.getCenterY())
         val end = Vector2(spaceField2.fieldImage.getCenterX(), spaceField2.fieldImage.getCenterY())
-        LineRenderer.drawDebugLine(start, end, getColor(playerData, positionData))
+        LineRenderer.drawDebugLine(start, end, GAME_CONNECTIONS_WIDTH + index, color)
     }
 
     fun isConnected(spaceField: PositionData): Boolean {

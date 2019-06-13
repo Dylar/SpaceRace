@@ -23,6 +23,7 @@ import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
+import org.greenrobot.eventbus.EventBus
 
 class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, val item: Item) : BaseMenu(guiStage, shopMenu), InputObserver {
 
@@ -74,7 +75,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
         buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                game.gameController.inputHandler.handleCommand(BuyItemCommand(item, getCurrentPlayer(game).playerData.playerColor))
+                EventBus.getDefault().post(BuyItemCommand(item, getCurrentPlayer(game).playerData.playerColor))
                 return true
             }
         })
@@ -86,7 +87,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
         sellBtn = createButton(name = GAME_BUTTON_SELL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                game.gameController.inputHandler.handleCommand(SellItemCommand(item, game.gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(SellItemCommand(item, game.gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })

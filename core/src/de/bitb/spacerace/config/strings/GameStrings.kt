@@ -67,6 +67,24 @@ object GameStrings {
                 Language.GERMAN -> "Ein Ionenantrieb,\nist besser als ein normaler Antrieb, vermutlich."
             }
 
+        var SHIP_SPEEDER_TEXT: String = ""
+            get() = when (LANGUAGE) {
+                Language.ENGLISH -> "The Speeder, it is not so fast as his name assume."
+                Language.GERMAN -> "Der Speeder, lass dich nicht vom Namen täuschen,\nso schnell ist er nicht"
+            }
+
+        var SHIP_RAIDER_TEXT: String = ""
+            get() = when (LANGUAGE) {
+                Language.ENGLISH -> "The Raider, pretty fast."
+                Language.GERMAN -> "Der Raider, ziemlich schnell"
+            }
+
+        var SHIP_BUMPER_TEXT: String = ""
+            get() = when (LANGUAGE) {
+                Language.ENGLISH -> "The Bumper, pretty slow."
+                Language.GERMAN -> "Der Bumper, ziemlich langsam"
+            }
+
         var ITEM_SLOW_MINE_TEXT: String = ""
             get() = when (LANGUAGE) {
                 Language.ENGLISH -> "An slow minePlanet,\nits slowing your enemy"

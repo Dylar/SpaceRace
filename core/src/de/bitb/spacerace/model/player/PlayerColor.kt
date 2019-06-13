@@ -11,6 +11,7 @@ enum class PlayerColor(val color: Color) {
     ORANGE(Color.ORANGE),
     SLATE(Color.SLATE),
     NAVY(Color.NAVY),
+    WHITE(Color.WHITE),
 
     NONE(Color.CLEAR);
 
@@ -23,9 +24,17 @@ enum class PlayerColor(val color: Color) {
             TEAL -> ORANGE
             ORANGE -> SLATE
             SLATE -> NAVY
-            NAVY -> RED
+            NAVY -> NAVY
+            WHITE -> RED
 
             NONE -> NONE
         }
     }
+
+    companion object {
+        fun get(index: Int): PlayerColor {
+            return values()[index]
+        }
+    }
+
 }

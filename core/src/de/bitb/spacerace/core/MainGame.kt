@@ -5,13 +5,25 @@ import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.injection.components.AppComponent
+import de.bitb.spacerace.injection.components.DaggerAppComponent
+import de.bitb.spacerace.injection.modules.ApplicationModule
+import de.bitb.spacerace.injection.modules.DatabaseModule
 import de.bitb.spacerace.ui.screens.start.StartScreen
 
 class MainGame : BaseGame() {
 
+    companion object {
+        lateinit var appComponent: AppComponent
+    }
+
     lateinit var gameController: GameController
 
     override fun initScreen() {
+        appComponent = DaggerAppComponent.builder()
+                .applicationModule(ApplicationModule(this))
+                .databaseModule(DatabaseModule())
+                .build()
         setScreen(StartScreen(this))
 //        setScreen(GameScreen(this))
 //        setScreen(GameOverScreen(this))

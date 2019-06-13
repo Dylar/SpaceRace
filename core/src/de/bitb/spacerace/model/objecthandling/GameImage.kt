@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 
@@ -14,16 +15,31 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
         }
     }
 
+    var boundingRectangle: Rectangle = Rectangle(0f, 0f, 10f, 10f)
+        get() {
+            field.x = getCenterX()
+            field.y = getCenterY()
+            field.width = 10f
+            field.height = 10f
+            return field
+        }
+
     var movingState: MovingState = MovingState.NONE
+
+    var targetPoint: Rectangle? = null
     var followImage: GameImage = NONE
+
     abstract var movingSpeed: Float
     var idlingCount = 0
 
     private val actionQueue: MutableList<Action> = ArrayList()
+        //TODO maybe
         @Synchronized get
+
 
     init {
         drawable = animation
+        debug = DEBUG_LAYOUT
     }
 
     fun getCenterX(): Float {
@@ -51,7 +67,9 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
     }
 
     fun addAction(vararg actions: Action) {
-        actionQueue.add(Actions.sequence(*actions))
+        if (actions.isNotEmpty()) {
+            actionQueue.add(Actions.sequence(*actions))
+        }
     }
 
     override fun act(delta: Float) {
@@ -62,9 +80,5 @@ abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Im
             actionQueue.clear()
             super.addAction(seq)
         }
-    }
-
-    open fun getBoundingRectangle(): Rectangle {
-        return Rectangle(getCenterX(), getCenterY(), 100f, 100f)
     }
 }

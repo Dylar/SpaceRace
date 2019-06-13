@@ -17,6 +17,7 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
+import org.greenrobot.eventbus.EventBus
 
 
 class MapSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
@@ -34,7 +35,7 @@ class MapSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
             buttonGroup.add(checkBox)
             if (value == SELECTED_MAP) {
                 checkBox.isChecked = true
-                inputHandler.handleCommand(SelectMapCommand(value))
+                EventBus.getDefault().post(SelectMapCommand(value))
             }
         }
 
@@ -46,7 +47,7 @@ class MapSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
     private fun addCheckbox(mapCollection: MapCollection): CheckBox {
         val checkBox = createCheckbox(name = mapCollection.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                inputHandler.handleCommand(SelectMapCommand(mapCollection))
+                EventBus.getDefault().post(SelectMapCommand(mapCollection))
                 return true
             }
         })

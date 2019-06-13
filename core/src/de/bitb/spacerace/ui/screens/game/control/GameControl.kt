@@ -28,6 +28,7 @@ import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
 import de.bitb.spacerace.ui.player.shop.ShopMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
+import org.greenrobot.eventbus.EventBus
 
 class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
@@ -40,7 +41,7 @@ class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCol
         val diceBtn = createButton(name = GAME_BUTTON_DICE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 val gameController = guiStage.gameController
-                gameController.inputHandler.handleCommand(DiceCommand(gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(DiceCommand(gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })
@@ -48,7 +49,7 @@ class GameControl(game: MainGame, val guiStage: GameGuiStage) : Table(TextureCol
         val continueBtn = createButton(name = GAME_BUTTON_CONTINUE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 val gameController = guiStage.gameController
-                gameController.inputHandler.handleCommand(NextPhaseCommand(gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(NextPhaseCommand(gameController.playerController.currentPlayer.playerData.playerColor))
                 return true
             }
         })

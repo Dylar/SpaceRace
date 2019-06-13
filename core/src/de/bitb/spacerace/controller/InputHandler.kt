@@ -1,25 +1,22 @@
 package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.Gdx
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
+import org.greenrobot.eventbus.EventBus
 import java.util.concurrent.Executors
+import org.greenrobot.eventbus.ThreadMode
+import org.greenrobot.eventbus.Subscribe
+
 
 class InputHandler(private val game: MainGame) {
     private val executor = Executors.newFixedThreadPool(5)!!
 
     private val inputObserver: MutableList<InputObserver> = ArrayList()
 
-    fun <T : BaseCommand> handleCommand(event: T) {
-        val handleCommand = Runnable {
-            run {
-                if (event.canExecute(game)) {
-                    event.execute(game)
-                }
-                notifyObserver(event)
-            }
-        }
-        executor.execute(handleCommand)
+    init {
+        EventBus.getDefault().register(this)
     }
 
     private fun notifyObserver(event: BaseCommand) {
@@ -41,6 +38,20 @@ class InputHandler(private val game: MainGame) {
 
     fun removeListener() {
         inputObserver.clear()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun receiveCommand(event: BaseCommand) {
+        Logger.println(event::class.java.simpleName)
+        val handleCommand = Runnable {
+            run {
+                if (event.canExecute(game)) {
+                    event.execute(game)
+                }
+                notifyObserver(event)
+            }
+        }
+        executor.execute(handleCommand)
     }
 
 }

@@ -15,7 +15,7 @@ open class SpinningGroup(gameController: GameController, offsetX: Float = 0f, of
 
     init {
         val distance = FIELD_PADDING_XXLARGE
-        val radius = (FIELD_BORDER/2 * distance).toDouble()
+        val radius = (FIELD_BORDER * 2 * distance).toDouble()
         //CENTER
 
         fieldTypeSize = fieldType.size
@@ -73,6 +73,7 @@ open class SpinningGroup(gameController: GameController, offsetX: Float = 0f, of
         var center = centerPoint
         for (i in 0..10) {
             val moon = SpaceField.createField(fieldType[index])
+            moon.gamePosition.posX = i.toFloat()
             addMoon(moon, center, radius)
             connect(center, moon)
             center = moon

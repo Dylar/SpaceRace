@@ -1,5 +1,7 @@
 package de.bitb.spacerace
 
+import com.badlogic.gdx.Gdx
+
 object Logger {
 
     private const val isAllowedToLog: Boolean = true
@@ -7,53 +9,34 @@ object Logger {
     private val callingClass: String
         get() {
             val stackTraceElements = Thread.currentThread().stackTrace
-            for (i in stackTraceElements.indices) {
-                if (stackTraceElements[i].className == Logger::class.java.canonicalName) {
-                    return try {
-                        val split = stackTraceElements[i + 2].className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                        var className = split[split.size - 1]
+            for (searchLoggerClassIndex in stackTraceElements.indices) {
+                if (isLoggerClass(stackTraceElements[searchLoggerClassIndex])) {
+                    try {
+                        for (searchNextNotLoggerClassIndex in searchLoggerClassIndex until stackTraceElements.size) {
+                            val callingClass = stackTraceElements[searchNextNotLoggerClassIndex]
+                            if (!isLoggerClass(callingClass)) {
+                                val split = callingClass.className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                                var className = split.last()
 
-                        if (className.contains("$")) {
-                            className = className.split("\\$".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+                                if (className.contains("$")) {
+                                    className = className.split("\\$".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+                                }
+
+                                return "(" + className + ".java:" + callingClass.lineNumber + ")"
+                            }
                         }
-
-                        "(" + className + ".java:" + stackTraceElements[i + 2].lineNumber + ")"
                     } catch (e: Exception) {
-                        Logger::class.java.simpleName
+                        return Logger::class.java.simpleName
                     }
+
                 }
             }
             return Logger::class.java.simpleName
         }
 
-    //TODO mach das mal
-//
-//    private fun getCallingClass(): String {
-//        val stackTraceElements = Thread.currentThread().stackTrace
-//        for (searchLoggerClassIndex in stackTraceElements.indices) {
-//            if (isLoggerClass(stackTraceElements[searchLoggerClassIndex])) {
-//                try {
-//                    for (searchNextNotLoggerClassIndex in searchLoggerClassIndex until stackTraceElements.size) {
-//                        val callingClass = stackTraceElements[searchNextNotLoggerClassIndex]
-//                        if (!isLoggerClass(callingClass)) {
-//                            val split = callingClass.className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-//                            var className = split[split.size - 1]
-//
-//                            if (className.contains("$")) {
-//                                className = className.split("\\$".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-//                            }
-//
-//                            return "(" + className + ".java:" + callingClass.lineNumber + ")"
-//                        }
-//                    }
-//                } catch (e: Exception) {
-//                    return Logger::class.java.simpleName
-//                }
-//
-//            }
-//        }
-//        return Logger::class.java.simpleName
-//    }
+    private fun isLoggerClass(stackTraceElement: StackTraceElement): Boolean {
+        return stackTraceElement.className == Logger::class.java.canonicalName
+    }
 
 //    fun error(message: String) {
 //        if (isAllowedToLog) {
@@ -87,7 +70,8 @@ object Logger {
 
     fun println(message: String) {
         if (isAllowedToLog) {
-            System.out.println("$callingClass: $message")
+//            System.out.println("$callingClass: $message")
+            Gdx.app.log(callingClass,message)
         }
     }
 
