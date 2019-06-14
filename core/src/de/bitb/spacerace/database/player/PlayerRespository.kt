@@ -1,6 +1,7 @@
 package de.bitb.spacerace.database.player
 
-import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
 import io.objectbox.Box
@@ -8,17 +9,26 @@ import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import javax.inject.Inject
 
 class PlayerRespository(
         private val playerBox: Box<PlayerData>
 ) : PlayerDataSource {
 
+    @Inject
+    protected lateinit var playerController: PlayerController
+
+    init {
+        MainGame.appComponent.inject(this)
+    }
+
     override fun insertAll(vararg userData: PlayerData): Single<List<PlayerData>> {
         return Completable
-                .fromCallable {
-                    playerBox.put(*userData)
-                }
+                .fromCallable { playerBox.put(*userData) }
                 .andThen(getAllBy(*userData))
+                .doOnSuccess {
+                    playerController.updatePlayer(it)
+                }
     }
 
     private fun getAllBy(vararg playerData: PlayerData): Single<List<PlayerData>>? {

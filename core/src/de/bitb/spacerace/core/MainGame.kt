@@ -45,18 +45,21 @@ class MainGame : BaseGame() {
                 FieldData(fieldType = FieldType.MINE,
                         owner = PlayerColor.NAVY)
         ).also { (mineNot, mineOwned) ->
-            mineNot.connections.add(mineOwned)
-            mineOwned.connections.add(mineNot)
-            box.put(mineNot)
-            box.put(mineOwned)
-        }.also { (mineNot, mineOwned) ->
+            box.put(listOf(
+                    mineNot.apply {
+                        connections.add(mineOwned)
+                    },
+                    mineOwned.apply {
+                        connections.add(mineNot)
+                    }))
+        }.also { (notLocal, ownLocal) ->
             val all = box.all
-            val not = all[0]
-            val own = all[1]
-            val conOwn = mineOwned.connections[0]
-            val conNot = mineNot.connections[0]
-            val conOwn2 = own.connections[0]
-            val conNot2 = not.connections[0]
+            val notDb = all[0]
+            val ownDb = all[1]
+            val conOwn = ownLocal.connections[0]
+            val conNot = notLocal.connections[0]
+            val conOwnDb = ownDb.connections[0]
+            val conNotDb = notDb.connections[0]
             Logger.log("RESULT: ", all)
         }
 

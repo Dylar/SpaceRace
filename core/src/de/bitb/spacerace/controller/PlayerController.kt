@@ -4,6 +4,7 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.player.PlayerData
 
 class PlayerController {
 
@@ -46,6 +47,16 @@ class PlayerController {
 
     fun clearPlayer() {
         players.clear()
+    }
+
+    fun updatePlayer(player: List<PlayerData>) {
+        player.forEach { updatePlayer ->
+            Logger.log("UPDATE PLAYER: $player")
+            players.find { it.playerData.playerColor == updatePlayer.playerColor }
+                    ?.let {
+                        it.playerData = updatePlayer
+                    }
+        }
     }
 
 }

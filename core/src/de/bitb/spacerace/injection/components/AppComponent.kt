@@ -5,6 +5,7 @@ import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainGoalCommand
 import de.bitb.spacerace.events.commands.phases.EndRoundCommand
@@ -22,6 +23,7 @@ import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.game.control.GameControl
+import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
 import javax.inject.Singleton
 
 @Singleton
@@ -64,5 +66,11 @@ interface AppComponent {
     fun inject(obtainGoalCommand: ObtainGoalCommand)
     fun inject(moveCommand: MoveCommand)
     fun inject(diceCommand: DiceCommand)
+
+    //USE CASE
+    fun inject(updatePlayerUsecase: UpdatePlayerUsecase)
+
+    //DATABASE
+    fun inject(playerRespository: PlayerRespository)
 
 }

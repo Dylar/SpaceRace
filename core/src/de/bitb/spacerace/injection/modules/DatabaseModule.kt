@@ -36,7 +36,7 @@ class DatabaseModule() {
         return store.boxFor(PlayerData::class)
     }
 
-//    @Provides
+    //    @Provides
 //    @Singleton
 //    fun provideMapDataBox(store: BoxStore): Box<MapData> {
 //        return store.boxFor(MapData::class)
@@ -56,8 +56,8 @@ class DatabaseModule() {
 
     @Provides
     @Singleton
-    fun provideMapDataSource(): MapDataSource {
-        return MapRespository()
+    fun provideMapDataSource(fieldBox: Box<FieldData>): MapDataSource {
+        return MapRespository(fieldBox)
     }
 
     @Provides
@@ -65,8 +65,6 @@ class DatabaseModule() {
     fun providePlayerDataSource(box: Box<PlayerData>): de.bitb.spacerace.database.player.PlayerDataSource {
         return de.bitb.spacerace.database.player.PlayerRespository(box)
     }
-
-
 
 
 //    @Provides

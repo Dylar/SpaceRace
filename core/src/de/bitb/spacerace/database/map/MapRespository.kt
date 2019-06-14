@@ -1,46 +1,44 @@
 package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.fields.FieldData
 import io.objectbox.Box
+import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
 class MapRespository(
-//        private val fieldBox: Box<FieldData>,
+        private val fieldBox: Box<FieldData>
 //        private val posBox: Box<PositionData>
 //        private val mapBox: Box<MapData>
 ) : MapDataSource {
 
-    override fun insertAll(vararg userData: SpaceField): Single<List<SpaceField>> {
+    override fun insertAll(vararg field: FieldData): Single<List<FieldData>> =
+            Completable
+                    .fromCallable { fieldBox.put(*field) }
+                    .andThen(getAllFields(*field))
+
+    override fun getAllFields(vararg field: FieldData): Single<List<FieldData>> =
+            RxQuery.single(fieldBox.query()
+                    .filter { field.contains(it) }
+                    .build())
+
+    override fun delete(vararg field: FieldData): Completable =
+            Completable
+                    .fromCallable { fieldBox.remove(*field) }
+
+    override fun getPlayerField(vararg player: PlayerData): Single<List<FieldData>> =
+            RxQuery.single(fieldBox.query()
+                    .filter { field -> field.players.any { player.contains(it) } }
+                    .build())
+
+    override fun observeAllObserver(): Observable<List<FieldData>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(vararg userData: PlayerData): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getAllFields(): Single<List<SpaceField>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getById(vararg userIds: Long): Single<List<SpaceField>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getByColor(vararg color: PlayerColor): Single<List<SpaceField>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun observeAllObserver(): Observable<List<SpaceField>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun observeByType(color: FieldType): Observable<List<SpaceField>> {
+    override fun observeByType(type: FieldType): Observable<List<FieldData>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -5,6 +5,7 @@ import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.model.DataObject
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.player.PlayerData
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
@@ -28,6 +29,8 @@ data class FieldData(
 
     @JvmField
     var connections: ToMany<FieldData> = ToMany(this, FieldData_.connections)
-    //    lateinit var position: ToOne<PositionData>
+
+    @JvmField
+    var players: ToMany<PlayerData> = ToMany(this, FieldData_.players)
 
 }

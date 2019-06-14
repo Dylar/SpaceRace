@@ -26,8 +26,15 @@ data class PlayerData(
         var phase: Phase = Phase.MAIN1,
         var credits: Int = START_CREDITS,
         var victories: Long = 0,
-        var controlToken: String = "") {
+        var controlToken: String = ""
+) {
 
+//    @Transient
+//    @JvmField
+//    protected var __boxStore: BoxStore? = null
+//
+//    @JvmField
+//    var positionField: ToOne<FieldData> = ToOne(this, PlayerData_.positionField)
 
     @Convert(converter = PositionDataConverter::class, dbType = String::class)
     var steps: ArrayList<PositionData> = ArrayList()
