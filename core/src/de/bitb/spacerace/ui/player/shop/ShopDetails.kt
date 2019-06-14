@@ -49,7 +49,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
     private fun addTitle(game: MainGame) {
         creditsTitle = add("-")
-        setCreditsTitle(playerController.currentPlayer.playerData.playerItems.getItems(item.itemType).size)
+        setCreditsTitle(playerController.currentPlayerData.playerItems.getItems(item.itemType).size)
         addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()
@@ -82,7 +82,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
         buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(BuyItemCommand(item, getCurrentPlayer(game).playerData.playerColor))
+                EventBus.getDefault().post(BuyItemCommand(item,playerController.currentPlayerData))
                 return true
             }
         })
@@ -94,7 +94,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
         sellBtn = createButton(name = GAME_BUTTON_SELL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SellItemCommand(item, playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(SellItemCommand(item, playerController.currentPlayerData))
                 return true
             }
         })
@@ -122,7 +122,8 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
     override fun <T : BaseCommand> update(game: MainGame, event: T) {
         when (event) {
-            is BuyItemCommand, is SellItemCommand -> setCreditsTitle(getPlayerItems(game, event.playerColor).getItems(item.itemType).size)
+            is BuyItemCommand,
+            is SellItemCommand -> setCreditsTitle(getPlayerItems(game, event.playerData.playerColor).getItems(item.itemType).size)
         }
     }
 

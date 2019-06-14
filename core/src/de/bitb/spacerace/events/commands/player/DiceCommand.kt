@@ -4,12 +4,11 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
 import javax.inject.Inject
 
-class DiceCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
+class DiceCommand(playerColor: PlayerData) : BaseCommand(playerColor) {
 
     @Inject
     protected lateinit var updatePlayerUsecase: UpdatePlayerUsecase
@@ -19,7 +18,7 @@ class DiceCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
     }
 
     override fun canExecute(game: MainGame): Boolean {
-        return canDice(getPlayerData(game, playerColor))
+        return canDice(playerData)
     }
 
     fun canDice(playerData: PlayerData): Boolean {
@@ -35,7 +34,7 @@ class DiceCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
     }
 
     override fun execute(game: MainGame) {
-        getPlayerData(game, playerColor)
+        playerData
                 .apply { dice(this) }
                 .also { updatePlayerUsecase.execute(listOf(it)) }
     }

@@ -16,7 +16,7 @@ interface MapDataSource {
 
     fun getPlayerField(vararg player: PlayerData): Single<List<FieldData>>
 
-    fun observeAllObserver(): Observable<List<FieldData>>
+    fun observeAllFields(): Observable<List<FieldData>>
 
     fun observeByType(type: FieldType): Observable<List<FieldData>>
 

@@ -1,9 +1,9 @@
 package de.bitb.spacerace.events.commands.phases
 
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 
-class StartMain1Command(playerColor: PlayerColor) : PhaseCommand(playerColor) {
+class StartMain1Command(playerData: PlayerData) : PhaseCommand(playerData) {
 
     override fun canExecute(game: MainGame): Boolean {
         return true

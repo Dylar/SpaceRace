@@ -9,7 +9,7 @@ import de.bitb.spacerace.usecase.UseCaseWithoutParams
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class ObserveCurrentPlayerUseCase @Inject constructor(
+class ObserveCurrentPlayerUseCase(
         private val playerDataSource: PlayerDataSource,
         private val playerColorDispender: PlayerColorDispender
 ) : UseCaseWithoutParams<PlayerData>(),

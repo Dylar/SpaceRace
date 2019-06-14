@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.LineRenderer
-import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 
 class ConnectionList(
@@ -19,6 +20,7 @@ class ConnectionList(
     val disconnectedColor = Color(Color.RED)
 
     init {
+        MainGame.appComponent.inject(this)
         connectedColor.a = 0.9f
         disconnectedColor.a = 0.7f
     }
@@ -27,10 +29,11 @@ class ConnectionList(
         batch!!.end()
         LineRenderer.startLine(batch.projectionMatrix)
 
-        forEach {
-            it.draw(with(playerController.currentPlayer) {
-                getColor(it, playerData, gamePosition)
-            })
+        forEach { con ->
+            val currentPlayer = playerController.currentPlayerData
+            with(playerController.getPlayer(currentPlayer.playerColor).gamePosition) {
+                con.draw(getColor(con, currentPlayer, this))
+            }
         }
         LineRenderer.endLine()
         batch.begin()

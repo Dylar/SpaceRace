@@ -3,12 +3,12 @@ package de.bitb.spacerace.events.commands.phases
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.player.PlayerColor
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class NextPhaseCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
+class NextPhaseCommand(playerData: PlayerData) : PhaseCommand(playerData) {
 
     @Inject
     lateinit var inputHandler: InputHandler
@@ -18,19 +18,18 @@ class NextPhaseCommand(playerColor: PlayerColor) : PhaseCommand(playerColor) {
     }
 
     override fun canExecute(game: MainGame): Boolean {
-        return canContinue(getPlayerData(game, playerColor))
+        return canContinue(playerData)
     }
 
     override fun execute(game: MainGame) {
-        val playerData = getPlayerData(game, playerColor)
         playerData.phase = Phase.next(playerData.phase)
 
         Logger.println("Phase: ${playerData.phase.name}")
         when (playerData.phase) {
-            Phase.MAIN1 -> EventBus.getDefault().post(StartMain1Command(playerColor))
-            Phase.MOVE -> EventBus.getDefault().post(StartMoveCommand(playerColor))
-            Phase.MAIN2 -> EventBus.getDefault().post(StartMain2Command(playerColor))
-            Phase.END_TURN -> EventBus.getDefault().post(EndTurnCommand(playerColor))
+            Phase.MAIN1 -> EventBus.getDefault().post(StartMain1Command(this.playerData))
+            Phase.MOVE -> EventBus.getDefault().post(StartMoveCommand(this.playerData))
+            Phase.MAIN2 -> EventBus.getDefault().post(StartMain2Command(this.playerData))
+            Phase.END_TURN -> EventBus.getDefault().post(EndTurnCommand(this.playerData))
             Phase.END_ROUND -> throw UnsupportedOperationException("END ROUND NEXT?")
         }
 

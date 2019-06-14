@@ -1,17 +1,36 @@
 package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
+import javax.inject.Inject
 
-class PlayerController {
+class PlayerController() {
 
+    var currentPlayerData: PlayerData = Player.NONE.playerData
     var players: MutableList<Player> = ArrayList()
 
-    var currentPlayer: Player = Player.NONE
-        get() = if (players.isEmpty()) Player.NONE else players[players.size - 1]
+    val currentPlayer: Player
+        get() = players.findLast { currentPlayerData.playerColor == it.playerData.playerColor }
+                ?: Player.NONE
+
+    @Inject
+    protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
+
+    init {
+        MainGame.appComponent.inject(this)
+        initObserver()
+    }
+
+    private fun initObserver() {
+        observeCurrentPlayerUseCase.observeStream(
+                onNext = { currentPlayerData = it },
+                onError = { Logger.log(it) })
+    }
 
     fun isRoundEnd(): Boolean {
         for (player in players) {
@@ -37,12 +56,14 @@ class PlayerController {
     }
 
     fun getPlayer(playerColor: PlayerColor): Player {
-        for (player in players) {
-            if (playerColor == player.playerData.playerColor) {
-                return player
-            }
-        }
-        return Player.NONE
+//        for (player in players) {
+//            if (playerColor == player.playerData.playerColor) {
+//                return player
+//            }
+//        }
+//        return Player.NONE
+        return players.find { playerColor == it.playerData.playerColor }
+                ?: Player.NONE
     }
 
     fun clearPlayer() {

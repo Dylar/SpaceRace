@@ -62,7 +62,7 @@ class RoundEndMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 closeMenu()
-                EventBus.getDefault().post(NextPhaseCommand(guiStage.screen.game.gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(NextPhaseCommand(guiStage.screen.game.gameController.playerController.currentPlayer.playerData))
                 return true
             }
         })

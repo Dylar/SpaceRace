@@ -1,17 +1,17 @@
 package de.bitb.spacerace.events.commands.obtain
 
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 
-class ObtainLoseCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
+class ObtainLoseCommand(playerData: PlayerData) : BaseCommand(playerData) {
 
     override fun canExecute(game: MainGame): Boolean {
         return true
     }
 
     override fun execute(game: MainGame) {
-        val lose = getPlayerData(game, playerColor).substractRandomWin()
+        val lose = playerData.substractRandomWin()
     }
 
 }

@@ -60,7 +60,7 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by object
         val indices: MutableList<Int> = ArrayList()
         playerController.players.forEach {
             indices.add(it.getGameImage().zIndex)
-//            Logger.println("PLAYER INDEX PRE ${it.playerData.playerColor.name}: ${it.getGameImage().zIndex}")
+//            Logger.println("PLAYER INDEX PRE ${it.playerData.playerData.name}: ${it.getGameImage().zIndex}")
         }
         indices.reverse()
 

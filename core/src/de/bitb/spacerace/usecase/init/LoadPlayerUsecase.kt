@@ -1,30 +1,32 @@
 package de.bitb.spacerace.usecase.init
 
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.player.PlayerColorDispender
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.usecase.UseCase
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
 class LoadPlayerUsecase @Inject constructor(
+        private val playerController: PlayerController,
         private val playerColorDispender: PlayerColorDispender,
         private val playerDataSource: PlayerDataSource
 ) : UseCase<List<PlayerData>, List<PlayerColor>>() {
 
     override fun buildUseCaseObservable(params: List<PlayerColor>): Observable<List<PlayerData>> {
         return playerDataSource
-//                .insertAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
+//                .insertAll(*params.map { PlayerData(playerData = it) }.toTypedArray())
                 .getByColor(*params.toTypedArray())
                 .map {
                     Logger.println("insertNewPlayer: $it")
                     insertNewPlayer(it, params)
                 }
                 .flatMap { it }
-                .map {
+                .doAfterSuccess {
                     Logger.println("pushCurrentPlayer: $it")
                     pushCurrentPlayer(it)
                 }
@@ -33,18 +35,20 @@ class LoadPlayerUsecase @Inject constructor(
 
     private fun insertNewPlayer(list: List<PlayerData>, params: List<PlayerColor>): Single<List<PlayerData>> {
         return playerDataSource
-                .insertAll(*params.map { color ->
-                    list.find { it.playerColor == color }
-                            ?.let { it }
-                            ?: PlayerData(playerColor = color)
-                }.toTypedArray())
+                .insertAll(*params
+                        .map { color ->
+                            list.find { it.playerColor == color }
+                                    ?.let { it }
+                                    ?: PlayerData(playerColor = color)
+                        }.toTypedArray()
+                ).doOnSuccess {
+                    playerController.updatePlayer(it) //TODO necessary?
+                }
     }
 
-    private fun pushCurrentPlayer(list: List<PlayerData>): List<PlayerData> {
-        return list.also {
-            if (list.isNotEmpty()) {
-                playerColorDispender.publisher.onNext(it.last().playerColor)
-            }
+    private fun pushCurrentPlayer(list: List<PlayerData>) {
+        if (list.isNotEmpty()) {
+            playerColorDispender.publisher.onNext(list.last().playerColor)
         }
     }
 }

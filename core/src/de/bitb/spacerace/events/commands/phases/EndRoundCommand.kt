@@ -3,11 +3,12 @@ package de.bitb.spacerace.events.commands.phases
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
 import javax.inject.Inject
 
-class EndRoundCommand() : PhaseCommand(PlayerColor.NONE) {
+class EndRoundCommand() : PhaseCommand(Player.NONE.playerData) {
 
     @Inject
     protected lateinit var updatePlayerUsecase: UpdatePlayerUsecase

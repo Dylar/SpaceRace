@@ -61,7 +61,7 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
     fun addField(gameController: GameController, spaceField: SpaceField) {
         spaceField.getGameImage().addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(MoveCommand(spaceField, gameController.playerController.currentPlayer.playerData.playerColor))
+                EventBus.getDefault().post(MoveCommand(spaceField, playerController.currentPlayerData))
                 return true
             }
         })

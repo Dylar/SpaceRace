@@ -5,7 +5,7 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.database.player.PlayerData
 
-abstract class PhaseCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
+abstract class PhaseCommand(playerColor: PlayerData) : BaseCommand(playerColor) {
 
     private fun canEndMain1(playerData: PlayerData): Boolean {
         return playerData.phase.isMain1() && playerData.areStepsLeft()

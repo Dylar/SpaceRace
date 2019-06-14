@@ -4,6 +4,7 @@ import dagger.Component
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
@@ -16,6 +17,7 @@ import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.injection.modules.*
+import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.player.PlayerStats
 import de.bitb.spacerace.ui.player.shop.ShopDetails
@@ -32,6 +34,7 @@ import javax.inject.Singleton
     NetworkModule::class,
     DatabaseModule::class,
     GameModule::class,
+    UseCaseModule::class,
     UtilsModule::class,
     ControllerModule::class,
     BuilderModule::class]
@@ -43,8 +46,11 @@ interface AppComponent {
     //CONTROLLER
     fun inject(gameController: GameController)
 
+    fun inject(playerController: PlayerController)
+
     //UI
     fun inject(baseGuiStage: BaseGuiStage)
+
     fun inject(gameGuiStage: GameGuiStage)
 
     fun inject(baseMenu: BaseMenu)
@@ -54,10 +60,14 @@ interface AppComponent {
 
     //GAME
     fun inject(gameScreen: GameScreen)
+
     fun inject(gameStage: GameStage)
+
+    fun inject(connectionList: ConnectionList)
 
     //COMMAND
     fun inject(endRoundCommand: EndRoundCommand)
+
     fun inject(endTurnCommand: EndTurnCommand)
     fun inject(startGameCommand: StartGameCommand)
     fun inject(gameOverCommand: GameOverCommand)
@@ -72,5 +82,6 @@ interface AppComponent {
 
     //DATABASE
     fun inject(playerRespository: PlayerRespository)
+
 
 }
