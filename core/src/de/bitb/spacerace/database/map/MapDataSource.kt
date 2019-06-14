@@ -1,10 +1,7 @@
 package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.model.space.fields.FieldData
-import de.bitb.spacerace.model.space.fields.SpaceField
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

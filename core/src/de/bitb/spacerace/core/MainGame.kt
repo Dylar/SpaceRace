@@ -13,7 +13,7 @@ import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.FieldData
+import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.ui.screens.start.StartScreen
 import io.objectbox.Box
 import javax.inject.Inject
@@ -60,6 +60,10 @@ class MainGame : BaseGame() {
             val conNot = notLocal.connections[0]
             val conOwnDb = ownDb.connections[0]
             val conNotDb = notDb.connections[0]
+            Logger.log("conOwn: ", conOwn)
+            Logger.log("conNot: ", conNot)
+            Logger.log("conOwnDb: ", conOwnDb)
+            Logger.log("conNotDb: ", conNotDb)
             Logger.log("RESULT: ", all)
         }
 

@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.space.fields
+package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.database.converter.FieldTypeConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
@@ -31,6 +31,6 @@ data class FieldData(
     var connections: ToMany<FieldData> = ToMany(this, FieldData_.connections)
 
     @JvmField
-    var players: ToMany<PlayerData> = ToMany(this, FieldData_.players)
+    var players: ToMany<PlayerData>  = ToMany(this, FieldData_.players)
 
 }

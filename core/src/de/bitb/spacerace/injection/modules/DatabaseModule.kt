@@ -6,7 +6,7 @@ import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.MapRespository
 import de.bitb.spacerace.model.MyObjectBox
 import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.model.space.fields.FieldData
+import de.bitb.spacerace.database.map.FieldData
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.BoxStoreBuilder.DEFAULT_NAME

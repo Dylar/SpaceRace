@@ -2,7 +2,6 @@ package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerData
-import de.bitb.spacerace.model.space.fields.FieldData
 import io.objectbox.Box
 import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
@@ -31,7 +30,7 @@ class MapRespository(
 
     override fun getPlayerField(vararg player: PlayerData): Single<List<FieldData>> =
             RxQuery.single(fieldBox.query()
-                    .filter { field -> field.players.any { player.contains(it) } }
+//                    .filter { field -> field.players.any { player.contains(it) } }
                     .build())
 
     override fun observeAllObserver(): Observable<List<FieldData>> {
