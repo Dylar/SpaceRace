@@ -26,7 +26,7 @@ class EndTurnCommand(playerData: PlayerData) : PhaseCommand(playerData) {
     override fun execute(game: MainGame) {
         playerController.nextTurn()
 
-        playerTurnChangedUsecase.publishUpdate(playerData.playerColor)
+        playerTurnChangedUsecase.publishUpdate(playerController.players.first().playerData.playerColor)
 
         if (playerController.isRoundEnd()) {
             EventBus.getDefault().post(EndRoundCommand())

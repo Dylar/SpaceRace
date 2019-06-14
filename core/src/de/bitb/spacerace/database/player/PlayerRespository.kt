@@ -49,7 +49,7 @@ class PlayerRespository(
 
     override fun observeByColor(color: PlayerColor): Observable<List<PlayerData>> {
         val query = playerBox.query()
-//                .equal(PlayerData_.playerData, color.toString())
+                .equal(PlayerData_.playerColor, color.toString())
                 .build()
         return RxQuery.observable(query)
     }

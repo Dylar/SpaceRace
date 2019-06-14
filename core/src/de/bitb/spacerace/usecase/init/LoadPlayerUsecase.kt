@@ -41,7 +41,7 @@ class LoadPlayerUsecase @Inject constructor(
                                     ?.let { it }
                                     ?: PlayerData(playerColor = color)
                         }.toTypedArray()
-                ).doOnSuccess {
+                ).doAfterSuccess {
                     playerController.updatePlayer(it) //TODO necessary?
                 }
     }

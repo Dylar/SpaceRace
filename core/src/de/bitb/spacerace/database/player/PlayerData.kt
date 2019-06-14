@@ -7,6 +7,7 @@ import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionDataConverter
+import de.bitb.spacerace.model.DataObject
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
@@ -19,7 +20,7 @@ import io.objectbox.annotation.Id
 @Entity
 data class PlayerData(
         @Id
-        var uuid: Long = 0,
+        override var uuid: Long = 0,
         @Convert(converter = PlayerColorConverter::class, dbType = String::class)
         var playerColor: PlayerColor = PlayerColor.NONE,
         @Convert(converter = IntListConverter::class, dbType = String::class)
@@ -29,7 +30,7 @@ data class PlayerData(
         var credits: Int = START_CREDITS,
         var victories: Long = 0,
         var controlToken: String = ""
-) {
+) : DataObject() {
 
 //    @Transient
 //    @JvmField
@@ -112,4 +113,5 @@ data class PlayerData(
         credits -= lose
         return lose
     }
+
 }

@@ -11,4 +11,5 @@ abstract class DataObject {
 //    override fun hashCode(): Int {
 //        return (super.hashCode() + uuid).toInt()
 //    }
+
 }

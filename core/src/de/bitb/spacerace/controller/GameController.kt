@@ -69,14 +69,13 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
         val player = Player(playerData.value)
 
         playerController.players.add(player)
-
 //        player.playerImage.movingSpeed * playerData.index
         fieldController.addShip(player, startField)
 
-        observePlayerUsecase.observeStream(player.playerData.playerColor,
-                onNext = {
-                    player.playerData = it.first() //TODO necessary?
-                })
+//        observePlayerUsecase.observeStream(player.playerData.playerColor,
+//                onNext = {
+//                    player.playerData = it.first() //TODO necessary?
+//                })
     }
 
 }
