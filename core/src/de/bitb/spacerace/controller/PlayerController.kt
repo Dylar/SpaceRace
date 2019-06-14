@@ -4,7 +4,7 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerData
 
 class PlayerController {
 

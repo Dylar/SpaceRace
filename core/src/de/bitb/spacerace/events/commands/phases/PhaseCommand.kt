@@ -3,7 +3,7 @@ package de.bitb.spacerace.events.commands.phases
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerData
 
 abstract class PhaseCommand(playerColor: PlayerColor) : BaseCommand(playerColor) {
 

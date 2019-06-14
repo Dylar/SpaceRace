@@ -2,10 +2,9 @@ package de.bitb.spacerace.usecase.init
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.database.player.PlayerColorDispender
-import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.usecase.UseCase
 import io.reactivex.Observable
 import io.reactivex.Single

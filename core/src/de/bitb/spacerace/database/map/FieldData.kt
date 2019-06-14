@@ -5,7 +5,7 @@ import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.model.DataObject
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerData
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity

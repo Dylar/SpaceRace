@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.LineRenderer
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 
 class ConnectionList(

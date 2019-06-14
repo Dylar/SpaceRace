@@ -3,7 +3,6 @@ package de.bitb.spacerace.database.player
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerData
 import io.objectbox.Box
 import io.objectbox.rx.RxQuery
 import io.reactivex.Completable

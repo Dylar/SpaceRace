@@ -1,7 +1,7 @@
 package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerData
 import io.objectbox.Box
 import io.objectbox.rx.RxQuery
 import io.reactivex.Completable

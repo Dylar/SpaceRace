@@ -1,4 +1,4 @@
-package de.bitb.spacerace.model.player
+package de.bitb.spacerace.database.player
 
 import de.bitb.spacerace.config.CREDITS_LOSE_AMOUNT
 import de.bitb.spacerace.config.CREDITS_WIN_AMOUNT
@@ -9,6 +9,8 @@ import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionDataConverter
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.model.space.fields.SpaceField
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity

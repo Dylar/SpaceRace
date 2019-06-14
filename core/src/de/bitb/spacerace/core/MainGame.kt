@@ -40,6 +40,12 @@ class MainGame : BaseGame() {
         appComponent.inject(this)
         setScreen(StartScreen(this))
 
+        testFields()
+//        setScreen(GameScreen(this))
+//        setScreen(GameOverScreen(this))
+    }
+
+    private fun testFields() {
         Pair(
                 FieldData(fieldType = FieldType.MINE),
                 FieldData(fieldType = FieldType.MINE,
@@ -69,8 +75,6 @@ class MainGame : BaseGame() {
 
         val all = box.all
         Logger.log("RESULT: ", all)
-//        setScreen(GameScreen(this))
-//        setScreen(GameOverScreen(this))
     }
 
     override fun render() {

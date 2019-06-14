@@ -5,7 +5,7 @@ import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
 import javax.inject.Inject
 

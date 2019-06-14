@@ -1,7 +1,7 @@
 package de.bitb.spacerace.model.history
 
 import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerData
 
 class Round(player:Player) {
 
