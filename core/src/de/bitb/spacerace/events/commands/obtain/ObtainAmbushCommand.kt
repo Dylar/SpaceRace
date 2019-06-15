@@ -13,7 +13,8 @@ class ObtainAmbushCommand(playerData: PlayerData) : BaseCommand(playerData) {
     }
 
     override fun execute(game: MainGame) {
-        val lose = playerData.playerItems.attachItem(ItemCollection.SLOW_MINE.create(playerData.playerColor) as DisposableItem)
+        val lose = getPlayerItems(game, playerData.playerColor)
+                .attachItem(ItemCollection.SLOW_MINE.create(playerData.playerColor) as DisposableItem)
     }
 
 }

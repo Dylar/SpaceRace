@@ -43,10 +43,10 @@ class RoundEndMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
     private fun addPlayer(players: MutableList<Player>) {
         row()
         for (player in players) {
-            val displayImage = player.getDisplayImage(player, color = player.playerData.playerColor.color)
+            val displayImage = player.getDisplayImage(player, color = player.playerColor.color)
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    val playerDetails = RoundEndDetails(guiStage, this@RoundEndMenu, player)
+                    val playerDetails = RoundEndDetails(guiStage, this@RoundEndMenu, playerController.currentPlayerData)
                     playerDetails.openMenu()
                     guiStage.addActor(playerDetails)
                     return true
@@ -62,7 +62,7 @@ class RoundEndMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 closeMenu()
-                EventBus.getDefault().post(NextPhaseCommand(guiStage.screen.game.gameController.playerController.currentPlayer.playerData))
+                EventBus.getDefault().post(NextPhaseCommand(guiStage.screen.game.gameController.playerController.currentPlayerData))
                 return true
             }
         })

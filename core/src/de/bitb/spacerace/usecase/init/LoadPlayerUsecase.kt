@@ -41,14 +41,12 @@ class LoadPlayerUsecase @Inject constructor(
                                     ?.let { it }
                                     ?: PlayerData(playerColor = color)
                         }.toTypedArray()
-                ).doAfterSuccess {
-                    playerController.updatePlayer(it) //TODO necessary?
-                }
+                )
     }
 
     private fun pushCurrentPlayer(list: List<PlayerData>) {
         if (list.isNotEmpty()) {
-            playerColorDispender.publisher.onNext(list.last().playerColor)
+            playerColorDispender.publisher.onNext(playerController.currentPlayer.playerColor)
         }
     }
 }

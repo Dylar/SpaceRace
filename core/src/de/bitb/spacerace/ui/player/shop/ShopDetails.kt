@@ -30,9 +30,6 @@ import javax.inject.Inject
 class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, val item: Item)
     : BaseMenu(guiStage, shopMenu), InputObserver {
 
-    @Inject
-    protected lateinit var playerController: PlayerController
-
     private lateinit var buyBtn: TextButton
     private lateinit var sellBtn: TextButton
     private lateinit var creditsTitle: Cell<Label>
@@ -49,7 +46,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
     private fun addTitle(game: MainGame) {
         creditsTitle = add("-")
-        setCreditsTitle(playerController.currentPlayerData.playerItems.getItems(item.itemType).size)
+        setCreditsTitle(getPlayerItems(game,playerController.currentPlayer.playerColor).getItems(item.itemType).size)
         addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()

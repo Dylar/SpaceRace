@@ -7,6 +7,7 @@ import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.InputObserver
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -22,6 +23,9 @@ abstract class BaseMenu(val guiStage: GameGuiStage,
 
     @Inject
     lateinit var inputHandler: InputHandler
+
+    @Inject
+    lateinit var playerController: PlayerController
 
     init {
         MainGame.appComponent.inject(this)

@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.items.ships
 
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
@@ -12,22 +13,22 @@ abstract class ShipItem(owner: PlayerColor, price: Int, img: Texture) : Item(own
     abstract fun getAnimation(): BaseAnimation
     abstract fun getSpeed(): Float
 
-    override fun canUse(game: MainGame, player: PlayerColor): Boolean {
+    override fun canUse(game: MainGame, playerData: PlayerData): Boolean {
         return when (state) {
-            ItemState.STORAGE, ItemState.EQUIPPED -> owner == player && getPlayerData(game, player).phase.isMain()
+            ItemState.STORAGE, ItemState.EQUIPPED -> owner == playerData.playerColor && playerData.phase.isMain()
             else -> {
                 return false
             }
         }
     }
 
-    override fun use(game: MainGame, player: PlayerColor): Boolean {
+    override fun use(game: MainGame, playerData: PlayerData): Boolean {
         return when (state) {
             ItemState.STORAGE -> {
-                val image = getPlayerImage(game, player)
+                val image = getPlayerImage(game, playerData.playerColor)
                 image.animation = getAnimation()
                 image.movingSpeed = getSpeed()
-                getPlayerItems(game, player).changeShip(this)
+                getPlayerItems(game, playerData.playerColor).changeShip(this)
                 return true
             }
 //            ItemState.EQUIPPED -> {

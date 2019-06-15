@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
@@ -54,7 +55,7 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
 
     fun addShip(player: Player, spaceField: SpaceField) {
         player.setPosition(spaceField.gamePosition)
-        player.getGameImage().color = player.playerData.playerColor.color
+        player.getGameImage().color = player.playerColor.color
         player.getGameImage().followImage = spaceField.fieldImage
     }
 
@@ -99,15 +100,6 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
         spaceField2.connections.add(connection)
     }
 
-    fun harvestOres(game: MainGame) {
-        val list: MutableList<SpaceField> = fieldsMap[FieldType.MINE]!!
-        for (spaceField in list) {
-            val harvest = (spaceField as MineField).harvestOres(game)
-//            gameController.history.addRoundActivity(HarvestOres(harvest))//TODO mach das in den command
-        }
-
-    }
-
     fun getRandomTunnel(game: MainGame, playerColor: PlayerColor): SpaceField {
         val playerPosition = getPlayerPosition(game, playerColor)
         val tunnelList = fieldsMap[FieldType.TUNNEL]!!
@@ -119,9 +111,9 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
         return tunnel
     }
 
-    fun moveMovables(game: MainGame) {
+    fun moveMovables() {
         val moveItem = { item: MovingItem, toRemove: MutableList<Item> ->
-            val field = getItemField(game, item)
+            val field = getField(item)
             val list = field.connections
             val con = list[(Math.random() * list.size).toInt()]
             val newField = con.getOpposite(field)

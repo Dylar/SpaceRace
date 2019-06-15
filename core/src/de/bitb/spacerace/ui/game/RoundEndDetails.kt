@@ -12,43 +12,49 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROU
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_CREDITS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_MINES
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_VICTORIES
+import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
+import javax.inject.Inject
 
-class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, player: Player) : BaseMenu(guiStage, endMenu) {
+class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, var playerData: PlayerData) : BaseMenu(guiStage, endMenu) {
 
     init {
-        addTitle(player)
-        addImage(player)
-        addText(player)
+        MainGame.appComponent.inject(this)
+        addTitle()
+        addImage()
+        addText()
         addButtons()
         pack()
         setPosition()
         endMenu.closeMenu()
     }
 
-    private fun addTitle(player: Player) {
-        val cell = add(GAME_MENU_END_ROUND_DETAILS_TITLE + player.playerData.playerColor.name)
+    private fun addTitle() {
+        val cell = add(GAME_MENU_END_ROUND_DETAILS_TITLE + playerData.playerColor.name)
         setFont(cell.actor)
     }
 
-    private fun addImage(player: Player) {
+    private fun addImage() {
         row()
-        val cell = add(player.getDisplayImage(player, color = player.playerData.playerColor.color))
+        val player = playerController.getPlayer(playerData.playerColor)
+        val cell = add(player.getDisplayImage(player, color = player.playerColor.color))
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }
 
-    private fun addText(player: Player) {
-        addText("$GAME_ROUND_DETAILS_VICTORIES${player.playerData.victories}")
-        addText("$GAME_ROUND_DETAILS_CREDITS${player.playerData.credits}")
+    private fun addText() {
+        addText("$GAME_ROUND_DETAILS_VICTORIES${playerData.victories}")
+        addText("$GAME_ROUND_DETAILS_CREDITS${playerData.credits}")
 
         var mineAmount = 0
         for (spaceField in guiStage.gameController.fieldController.fieldsMap[FieldType.MINE]!!) {
-            if ((spaceField as MineField).owner == player.playerData.playerColor) {
+            if ((spaceField as MineField).owner == playerData.playerColor) {
                 mineAmount++
             }
         }

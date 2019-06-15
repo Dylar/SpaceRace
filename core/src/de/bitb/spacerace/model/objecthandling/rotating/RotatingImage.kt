@@ -68,8 +68,8 @@ class RotatingImage : IRotatingImage {
         rotatePosition.getCenter(targetCenter)
         when (rotatingImage.movingState) {
             MovingState.ROTATE_POINT -> {
-//                if (rotationPosition == NONE) {//TODO needed?
-//                    rotatingImage.movingState = MovingState.NONE
+//                if (rotationPosition == NONE_PLAYER) {//TODO needed?
+//                    rotatingImage.movingState = MovingState.NONE_PLAYER
 //                } else {
                 angle += slice * rotatingImage.movingSpeed * delta
                 setRotationPosition(rotatingImage, getRotationPoint(rotatingImage, targetCenter, angle))
@@ -85,7 +85,7 @@ class RotatingImage : IRotatingImage {
                 currentRotation = rotatingImage.rotation - rotation
             }
             MovingState.NONE -> {
-//                if (rotationPosition != GameImage.NONE) {// TODO needed?
+//                if (rotationPosition != GameImage.NONE_PLAYER) {// TODO needed?
                 rotatingImage.rotation = rotation + currentRotation
 //                }
 

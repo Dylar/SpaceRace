@@ -14,15 +14,21 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_MODS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.controller.InputObserver
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.ui.base.GuiComponent
+import javax.inject.Inject
 
 class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+
+    @Inject
+    protected lateinit var playerController: PlayerController
 
     private var creditsLabel: Label
 
@@ -89,25 +95,16 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
     }
 
     private fun updateDice(playerData: PlayerData) {
-        val maxSteps = playerData.getMaxSteps()
-        val diceResult = "${(maxSteps - playerData.stepsLeft())}/$maxSteps"
+        val maxSteps = playerController.getMaxSteps(playerData)
+        val diceResult = "${(maxSteps - playerController.stepsLeft(playerData))}/$maxSteps"
         diceLabel.setText(diceResult)
     }
 
-    private fun updateDiceMod(playerData: PlayerData) {
-        val items = playerData.playerItems
-
-        var mod = 0.0
-        items.diceModItems.forEach {
-            mod += it.getModification()
-        }
-
-        var add = 0
-        items.diceAddItems.forEach {
-            add += it.getAddition()
-        }
-
-        diceModLabel.setText("${"%.1f".format(mod)} / $add")
+    private fun updateDiceMod(playerItems: PlayerItems) {
+        playerItems.getModifierValues()
+                .also { (mod, add) ->
+                    diceModLabel.setText("${"%.1f".format(mod)} / $add")
+                }
     }
 
     private fun updatePhase(phase: Phase) {
@@ -115,10 +112,12 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
     }
 
     fun update(playerData: PlayerData) {
+        val items = guiStage.screen.game.gameController.playerController.getPlayer(playerData.playerColor).playerItems
+
         updateCredits(playerData)
         updateRound(playerData.playerColor)
         updateDice(playerData)
-        updateDiceMod(playerData)
+        updateDiceMod(items)
         updatePhase(playerData.phase)
         pack()
     }

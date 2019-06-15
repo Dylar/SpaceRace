@@ -3,12 +3,12 @@ package de.bitb.spacerace.events.commands.player
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
 import javax.inject.Inject
 
-class DiceCommand(playerColor: PlayerData) : BaseCommand(playerColor) {
+class DiceCommand(playerData: PlayerData, val maxResult: Int = DICE_MAX) : BaseCommand(playerData) {
 
     @Inject
     protected lateinit var updatePlayerUsecase: UpdatePlayerUsecase
@@ -18,31 +18,19 @@ class DiceCommand(playerColor: PlayerData) : BaseCommand(playerColor) {
     }
 
     override fun canExecute(game: MainGame): Boolean {
-        return canDice(playerData)
-    }
-
-    fun canDice(playerData: PlayerData): Boolean {
         if (!playerData.phase.isMain1()) {
             return false
         }
-
-        var diceCharges = 1
-        for (diceModItem in playerData.playerItems.multiDiceItem) {
-            diceCharges += diceModItem.getAmount()
-        }
+        val items = getPlayerItems(game, playerData.playerColor)
+        val diceCharges = 1 + items.multiDiceItem.sumBy { it.getAmount() }
         return playerData.diceResults.size < diceCharges
     }
 
     override fun execute(game: MainGame) {
-        playerData
-                .apply { dice(this) }
-                .also { updatePlayerUsecase.execute(listOf(it)) }
-    }
-
-    private fun dice(playerData: PlayerData, maxResult: Int = DICE_MAX) {
         val result = (Math.random() * maxResult).toInt() + 1
         playerData.diceResults.add(result)
         Logger.println("DiceResult: $result")
+        updatePlayerUsecase.execute(listOf(playerData))
     }
 
 }

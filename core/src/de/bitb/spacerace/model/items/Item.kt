@@ -3,10 +3,10 @@ package de.bitb.spacerace.model.items
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.ITEM_BORDER
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.player.PlayerColor
-import io.objectbox.annotation.Entity
 
 
 abstract class Item(
@@ -31,7 +31,7 @@ abstract class Item(
         setBounds(0f, 0f, ITEM_BORDER, ITEM_BORDER)
     }
 
-    abstract fun canUse(game: MainGame, player: PlayerColor): Boolean
-    abstract fun use(game: MainGame, player: PlayerColor): Boolean
+    abstract fun canUse(game: MainGame, playerData: PlayerData): Boolean
+    abstract fun use(game: MainGame, playerData: PlayerData): Boolean
 
 }

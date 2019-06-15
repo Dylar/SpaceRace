@@ -66,15 +66,15 @@ class MainGame : BaseGame() {
             val conNot = notLocal.connections[0]
             val conOwnDb = ownDb.connections[0]
             val conNotDb = notDb.connections[0]
-            Logger.log("conOwn: ", conOwn)
-            Logger.log("conNot: ", conNot)
-            Logger.log("conOwnDb: ", conOwnDb)
-            Logger.log("conNotDb: ", conNotDb)
-            Logger.log("RESULT: ", all)
+            Logger.println("conOwn: ", conOwn)
+            Logger.println("conNot: ", conNot)
+            Logger.println("conOwnDb: ", conOwnDb)
+            Logger.println("conNotDb: ", conNotDb)
+            Logger.println("RESULT: ", all)
         }
 
         val all = box.all
-        Logger.log("RESULT: ", all)
+        Logger.println("RESULT: ", all)
     }
 
     override fun render() {

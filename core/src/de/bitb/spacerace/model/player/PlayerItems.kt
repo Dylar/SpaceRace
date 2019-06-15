@@ -2,7 +2,6 @@ package de.bitb.spacerace.model.player
 
 import de.bitb.spacerace.config.DEBUG_ITEM
 import de.bitb.spacerace.config.DEBUG_ITEMS
-import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.ItemState
@@ -13,7 +12,6 @@ import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.items.itemtype.MultiDice
 import de.bitb.spacerace.model.items.ships.ShipItem
 import de.bitb.spacerace.model.items.usable.UsableItem
-import java.lang.UnsupportedOperationException
 
 data class PlayerItems(val playerColor: PlayerColor) {
     private var currentShip: ShipItem? = null
@@ -172,6 +170,12 @@ data class PlayerItems(val playerColor: PlayerColor) {
         currentShip = shipItem
         currentShip?.state = ItemState.EQUIPPED
         currentShip?.let { addModification(currentShip as Item) }
+    }
+
+    fun getModifierValues(modModifier: Int = 0): Pair<Double, Int> {
+        return Pair(
+                diceModItems.sumByDouble { it.getModification().toDouble() } + modModifier,
+                diceAddItems.sumBy { it.getAddition() })
     }
 
 }

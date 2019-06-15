@@ -11,15 +11,15 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
-import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
 class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     private lateinit var itemDetails: ItemDetails
 
     init {
-        val items = guiStage.gameController.playerController.currentPlayer.playerData.playerItems.getItemsTypeMap()
+        val items = guiStage.gameController.playerController.currentPlayer.playerItems.getItemsTypeMap()
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 

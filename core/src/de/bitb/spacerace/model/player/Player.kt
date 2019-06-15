@@ -7,14 +7,13 @@ import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceField
 
+val NONE_PLAYER = Player(PlayerColor.NONE)
+
 class Player(
-        var playerData: PlayerData,
+        var playerColor: PlayerColor,
+        val playerItems: PlayerItems = PlayerItems(playerColor),
         var playerImage: PlayerImage = PlayerImage()
 ) : GameObject(PositionData()) {
-
-    companion object {
-        val NONE = Player(PlayerData())
-    }
 
     init {
         setBounds(gamePosition.posX, gamePosition.posY, PLAYER_BORDER, PLAYER_BORDER)

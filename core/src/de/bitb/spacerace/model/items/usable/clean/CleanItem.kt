@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.items.usable.clean
 
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.usable.UsableItem
 import de.bitb.spacerace.model.player.PlayerColor
@@ -10,11 +11,11 @@ abstract class CleanItem(playerColor: PlayerColor, price: Int, img: Texture) : U
 
     val cleanable = ArrayList<ItemCollection>()
 
-    override fun use(game: MainGame, player: PlayerColor): Boolean {
+    override fun use(game: MainGame, playerData: PlayerData): Boolean {
         if (state.isStorage()) {
-            getPlayerData(game, player).playerItems.detachItems(cleanable)
+            getPlayerItems(game, playerData.playerColor).detachItems(cleanable)
         }
-        return super.use(game, player)
+        return super.use(game, playerData)
     }
 
 

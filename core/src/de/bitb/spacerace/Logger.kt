@@ -19,9 +19,9 @@ object Logger {
         println("$msg (TIME: $inMillis)")
     }
 
-    fun println(message: String) {
+    fun println(vararg params: Any) {
         if (isAllowedToLog) {
-            log(message)
+            log(params)
         }
     }
 
@@ -34,7 +34,7 @@ object Logger {
         return "$timeString<-- $message --> $threadString)"
     }
 
-    fun log(vararg params: Any) {
+    private fun log(vararg params: Any) {
         Pair(Thread.currentThread(), appClass())
                 .also { (thread, filterClass) ->
                     val callerStack = thread
@@ -53,15 +53,16 @@ object Logger {
                             .toString()
                             .filterPackage()
 
+                    val threadString = "Thread: ${thread.name}\n"
+
                     val paramsString = params
                             .map { it }
-                            .let {
-                                if (it.isEmpty()) "Log"
-                                else "Params: $it"
-                            }
-                            .let { "Thread: ${thread.name}\n$it" }
+                            .let { "Params: $it" }
 
-                    Gdx.app.log(paramsString, "\n$last\ncalled by $callerStack\n")
+                    val tag = "$threadString$paramsString"
+                    val message = "\nCaller: $last\nStack: $callerStack\n"
+
+                    Gdx.app.log(tag, message)
                 }
     }
 

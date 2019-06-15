@@ -50,7 +50,7 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by object
     }
 
     private fun rearrangePlayer(actor: Actor) {
-        if (playerController.players.isEmpty() || playerController.players[0].getGameImage().zIndex == -1) {
+        if (playerController.players.isEmpty() || playerController.currentPlayer.getGameImage().zIndex == -1) {
             return
         }
 

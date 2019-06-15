@@ -1,19 +1,15 @@
 package de.bitb.spacerace.events.commands.phases
 
-import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.usecase.game.PlayerTurnChangedUsecase
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class EndTurnCommand(playerData: PlayerData) : PhaseCommand(playerData) {
 
     @Inject
     protected lateinit var playerTurnChangedUsecase: PlayerTurnChangedUsecase
-
-    @Inject
-    protected lateinit var playerController: PlayerController
 
     init {
         MainGame.appComponent.inject(this)
@@ -24,13 +20,24 @@ class EndTurnCommand(playerData: PlayerData) : PhaseCommand(playerData) {
     }
 
     override fun execute(game: MainGame) {
-        playerController.nextTurn()
+        playerController
+                .players
+                .also { players ->
+                    Logger.println("nextTurn1")
+                    val oldPlayer = players[0]
+                    var indexOld = oldPlayer.getGameImage().zIndex + 1 //TODO do it in gui
+                    for (ship in players) {
+                        ship.getGameImage().zIndex = indexOld++
+                    }
+                    players.add(oldPlayer)
+                    players.removeAt(0)
 
-        playerTurnChangedUsecase.publishUpdate(playerController.players.first().playerData.playerColor)
+                    //TODO items in db
+                    //oldPlayer.playerData.playerItems.removeUsedItems()
 
-        if (playerController.isRoundEnd()) {
-            EventBus.getDefault().post(EndRoundCommand())
-        }
+                    playerTurnChangedUsecase.publishUpdate(playerController.currentPlayer.playerColor)
+                }
+
 
     }
 

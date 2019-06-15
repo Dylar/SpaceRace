@@ -7,7 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.player.*
+import de.bitb.spacerace.model.player.Player
+import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.player.PlayerImage
+import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.model.space.fields.SpaceField
 
 interface DefaultFunction {
@@ -24,12 +27,8 @@ interface DefaultFunction {
         return getPlayer(game, playerColor).gamePosition
     }
 
-    fun getPlayerData(game: MainGame, playerColor: PlayerColor): PlayerData {
-        return getPlayer(game, playerColor).playerData
-    }
-
     fun getPlayerItems(game: MainGame, playerColor: PlayerColor): PlayerItems {
-        return getPlayerData(game, playerColor).playerItems
+        return getPlayer(game, playerColor).playerItems
     }
 
     fun getPlayerField(game: MainGame, playerColor: PlayerColor): SpaceField {

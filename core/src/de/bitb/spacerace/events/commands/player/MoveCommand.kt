@@ -1,6 +1,7 @@
 package de.bitb.spacerace.events.commands.player
 
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -13,6 +14,9 @@ class MoveCommand(val spaceField: SpaceField, playerData: PlayerData) : BaseComm
     @Inject
     protected lateinit var updatePlayerUsecase: UpdatePlayerUsecase
 
+    @Inject
+    protected lateinit var playerController: PlayerController
+
     init {
         MainGame.appComponent.inject(this)
     }
@@ -20,7 +24,7 @@ class MoveCommand(val spaceField: SpaceField, playerData: PlayerData) : BaseComm
     override fun canExecute(game: MainGame): Boolean {
         val sameField = playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
         val hasConnection = getPlayerField(game, playerData.playerColor).hasConnectionTo(spaceField)
-        return hasConnection && (sameField && playerData.phase.isMoving() || playerData.canMove())
+        return hasConnection && (sameField && playerData.phase.isMoving() || playerController.canMove(playerData))
     }
 
     override fun execute(game: MainGame) {

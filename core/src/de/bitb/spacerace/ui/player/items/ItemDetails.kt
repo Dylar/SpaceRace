@@ -82,7 +82,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     val item = getByState(ItemState.EQUIPPED)
                     if (item.isNotEmpty()) {
-                        EventBus.getDefault().post(UseItemCommand(item[0], game.gameController.playerController.currentPlayer.playerData))
+                        EventBus.getDefault().post(UseItemCommand(item[0], game.gameController.playerController.currentPlayerData))
                     }
                     return true
                 }

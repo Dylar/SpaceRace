@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CONTINUE
@@ -17,22 +16,19 @@ import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
-import de.bitb.spacerace.events.commands.phases.EndRoundCommand
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
+import de.bitb.spacerace.events.commands.phases.OpenEndRoundMenuCommand
 import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.events.commands.player.UseItemCommand
-import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
 import de.bitb.spacerace.ui.player.shop.ShopMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
-import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
@@ -45,7 +41,6 @@ class GameControl(game: MainGame,
 
     @Inject
     protected lateinit var playerController: PlayerController
-
 
     init {
         MainGame.appComponent.inject(this)
@@ -124,7 +119,7 @@ class GameControl(game: MainGame,
 
     override fun <T : BaseCommand> update(game: MainGame, event: T) {
         when (event) {
-            is EndRoundCommand -> openEndRoundMenu()
+            is OpenEndRoundMenuCommand -> openEndRoundMenu()
             is ObtainShopCommand -> openShop(game)
             is UseItemCommand -> itemMenu.update(game, event)
             is BuyItemCommand, is SellItemCommand -> shopMenu.update(game, event)

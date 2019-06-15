@@ -9,16 +9,15 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainGoalCommand
-import de.bitb.spacerace.events.commands.phases.EndRoundCommand
-import de.bitb.spacerace.events.commands.phases.EndTurnCommand
-import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
-import de.bitb.spacerace.events.commands.phases.StartMain2Command
+import de.bitb.spacerace.events.commands.phases.*
 import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.player.MoveCommand
+import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.game.RoundEndDetails
 import de.bitb.spacerace.ui.player.PlayerStats
 import de.bitb.spacerace.ui.player.shop.ShopDetails
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -45,29 +44,26 @@ interface AppComponent {
 
     //CONTROLLER
     fun inject(gameController: GameController)
-
     fun inject(playerController: PlayerController)
 
     //UI
     fun inject(baseGuiStage: BaseGuiStage)
-
     fun inject(gameGuiStage: GameGuiStage)
 
     fun inject(baseMenu: BaseMenu)
+    fun inject(baseMenu: RoundEndDetails)
     fun inject(playerStats: PlayerStats)
     fun inject(gameControl: GameControl)
     fun inject(shopDetails: ShopDetails)
 
     //GAME
     fun inject(gameScreen: GameScreen)
-
     fun inject(gameStage: GameStage)
 
     fun inject(connectionList: ConnectionList)
 
     //COMMAND
-    fun inject(endRoundCommand: EndRoundCommand)
-
+    fun inject(phaseCommand: PhaseCommand)
     fun inject(endTurnCommand: EndTurnCommand)
     fun inject(startGameCommand: StartGameCommand)
     fun inject(gameOverCommand: GameOverCommand)

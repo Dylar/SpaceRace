@@ -2,7 +2,7 @@ package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -26,7 +26,7 @@ class StartMain2Command(playerData: PlayerData) : PhaseCommand(playerData) {
 
     override fun execute(game: MainGame) {
         val field = getPlayerField(game, playerData.playerColor)
-        field.disposedItems.forEach { it.use(game, playerData.playerColor) }
+        field.disposedItems.forEach { it.use(game, playerData) }
 
         val command: BaseCommand = when (field.fieldType) {
             FieldType.WIN -> ObtainWinCommand(playerData)

@@ -1,18 +1,27 @@
 package de.bitb.spacerace.events.commands.phases
 
+import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.database.player.PlayerData
+import javax.inject.Inject
 
 abstract class PhaseCommand(playerColor: PlayerData) : BaseCommand(playerColor) {
 
+    @Inject
+    lateinit var playerController: PlayerController
+
+    init {
+        MainGame.appComponent.inject(this)
+    }
+
     private fun canEndMain1(playerData: PlayerData): Boolean {
-        return playerData.phase.isMain1() && playerData.areStepsLeft()
+        return playerData.phase.isMain1() && playerController.areStepsLeft(playerData)
     }
 
     private fun canEndMove(playerData: PlayerData): Boolean {
-        return !playerData.canMove()
+        return playerController.canMove(playerData)
     }
 
     private fun canEndMain2(playerData: PlayerData): Boolean {
