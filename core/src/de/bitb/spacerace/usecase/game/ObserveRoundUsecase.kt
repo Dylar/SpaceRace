@@ -14,21 +14,22 @@ import javax.inject.Inject
 
 class ObserveRoundUsecase @Inject constructor(
         private val fieldController: FieldController,
-        private val playerDataSource: PlayerDataSource,
-        private val playerColorDispender: PlayerColorDispender
+        private val playerDataSource: PlayerDataSource
 ) : UseCaseWithoutParams<Boolean>() {
 
-    override fun buildUseCaseObservable(): Observable<Boolean> {
-        return playerColorDispender
-                .publisher
-                .flatMap { playerDataSource.observeAllObserver() }
-                .map(::filterPlayer)
-                .map(::endRound)
-                .flatMap(::updatePlayer)
-    }
+    override fun buildUseCaseObservable(): Observable<Boolean> =
+            playerDataSource.observeAllObserver()
+                    .map(::filterPlayer)
+                    .map(::endRound)
+                    .flatMap(::updatePlayer)
 
     private fun filterPlayer(player: List<PlayerData>) =
-            player.filter { it.phase.isEndTurn() }
+            player.filter { it.phase.isEndTurn() }.toMutableList()
+                    .apply {
+                        if (size != player.size) {
+                            clear()
+                        }
+                    }
 
     private fun endRound(player: List<PlayerData>) =
             player.apply {

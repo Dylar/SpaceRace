@@ -19,6 +19,7 @@ import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class GameController() : DefaultFunction by object : DefaultFunction {} {
+
     val gamePlayer: MutableList<PlayerColor> = mutableListOf()
 
     val compositeDisposable = CompositeDisposable()

@@ -69,7 +69,6 @@ data class PlayerData(
     fun nextRound() {
         steps.clear()
         diceResults.clear()
-        phase = Phase.MAIN1
     }
 
     fun addRandomWin(): Int {

@@ -63,12 +63,10 @@ interface AppComponent {
     fun inject(connectionList: ConnectionList)
 
     //COMMAND
-    fun inject(phaseCommand: PhaseCommand)
-    fun inject(endTurnCommand: EndTurnCommand)
     fun inject(startGameCommand: StartGameCommand)
     fun inject(gameOverCommand: GameOverCommand)
     fun inject(nextPhaseCommand: NextPhaseCommand)
-    fun inject(startMain2Command: StartMain2Command)
+    fun inject(startNextRoundCommand: StartNextRoundCommand)
     fun inject(obtainGoalCommand: ObtainGoalCommand)
     fun inject(moveCommand: MoveCommand)
     fun inject(diceCommand: DiceCommand)

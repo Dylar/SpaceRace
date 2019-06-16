@@ -3,6 +3,7 @@ package de.bitb.spacerace.controller
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
+import de.bitb.spacerace.database.player.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.Player
@@ -14,16 +15,16 @@ import javax.inject.Inject
 class PlayerController() {
 
     @Inject
+    protected lateinit var playerColorDispender: PlayerColorDispender
+    @Inject
     protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
 
-    var currentPlayerColor = PlayerColor.NONE
     var currentPlayerData = NONE_PLAYER_DATA
 
     var players: MutableList<Player> = ArrayList()
 
     var currentPlayer: Player = NONE_PLAYER
-        get() = players.find { currentPlayerColor == it.playerColor }
-                ?: NONE_PLAYER
+        get() = players.find { currentPlayerData.playerColor == it.playerColor } ?: NONE_PLAYER
 
     init {
         MainGame.appComponent.inject(this)
@@ -37,8 +38,7 @@ class PlayerController() {
     }
 
     fun getPlayer(playerColor: PlayerColor): Player {
-        return players.find { playerColor == it.playerColor }
-                ?: NONE_PLAYER
+        return players.find { playerColor == it.playerColor } ?: NONE_PLAYER
     }
 
     fun clearPlayer() {
@@ -68,6 +68,23 @@ class PlayerController() {
 
     fun addPlayer(player: Player) {
         players.add(player)
+    }
+
+    fun nextPlayer() {
+        players.apply {
+            val oldPlayer = this[0]
+            var indexOld = oldPlayer.getGameImage().zIndex + 1 //TODO do it in gui
+            forEach {
+                it.getGameImage().zIndex = indexOld++
+            }
+            removeAt(0)
+            add(oldPlayer)
+
+            //TODO items in db
+            //oldPlayer.playerData.playerItems.removeUsedItems()
+        }.also {
+            playerColorDispender.publishUpdate(it.first().playerColor)
+        }
     }
 
 }

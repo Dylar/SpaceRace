@@ -1,5 +1,6 @@
 package de.bitb.spacerace.usecase
 
+import de.bitb.spacerace.Logger
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -20,6 +21,12 @@ abstract class UseCase<ReturnType, in Params>(
         protected val workerScheduler: Scheduler = Schedulers.io(),
         protected val observerScheduler: Scheduler = GdxSchedulers.mainThread
 ) where ReturnType : Any {
+    private val onCompleteStub: () -> Unit =
+            { Logger.println("Default onComplete") }
+    private val onSuccessStub: (ReturnType) -> Unit =
+            { Logger.println("Default onSuccess: $it") }
+    private val onErrorStub: (Throwable) -> Unit =
+            { Logger.println("Default onError: $it") }
 
     /**
      * Builds an [Observable] which will be used when executing the current [UseCase].
@@ -43,8 +50,8 @@ abstract class UseCase<ReturnType, in Params>(
      */
     fun observeStream(
             params: Params,
-            onNext: (ReturnType) -> Unit = {},
-            onError: (Throwable) -> Unit = {}
+            onNext: (ReturnType) -> Unit = onSuccessStub,
+            onError: (Throwable) -> Unit = onErrorStub
     ): Disposable = buildUseCaseObservable(params)
             .subscribeOn(workerScheduler)
             .observeOn(observerScheduler)
@@ -58,8 +65,8 @@ abstract class UseCase<ReturnType, in Params>(
      */
     fun getResult(
             params: Params,
-            onSuccess: (ReturnType) -> Unit = {},
-            onError: (Throwable) -> Unit = {}
+            onSuccess: (ReturnType) -> Unit = onSuccessStub,
+            onError: (Throwable) -> Unit = onErrorStub
     ): Disposable = buildUseCaseSingle(params)
             .subscribeOn(workerScheduler)
             .observeOn(observerScheduler)
@@ -73,8 +80,8 @@ abstract class UseCase<ReturnType, in Params>(
      */
     fun execute(
             params: Params,
-            onComplete: () -> Unit = {},
-            onError: (Throwable) -> Unit = {}
+            onComplete: () -> Unit = onCompleteStub,
+            onError: (Throwable) -> Unit = onErrorStub
     ): Disposable = buildUseCaseCompletable(params)
             .subscribeOn(workerScheduler)
             .observeOn(observerScheduler)

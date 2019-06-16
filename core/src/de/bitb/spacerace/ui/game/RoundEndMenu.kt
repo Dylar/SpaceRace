@@ -8,6 +8,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_TITLE
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
+import de.bitb.spacerace.events.commands.phases.StartNextRoundCommand
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -62,7 +63,7 @@ class RoundEndMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 closeMenu()
-                EventBus.getDefault().post(NextPhaseCommand(guiStage.screen.game.gameController.playerController.currentPlayerData))
+                EventBus.getDefault().post(StartNextRoundCommand())
                 return true
             }
         })

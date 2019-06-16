@@ -56,7 +56,6 @@ object Logger {
                     val threadString = "Thread: ${thread.name}\n"
 
                     val paramsString = params
-                            .map { it }
                             .let { "Params: $it" }
 
                     val tag = "$threadString$paramsString"
