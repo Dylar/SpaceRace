@@ -21,7 +21,7 @@ abstract class PhaseCommand(playerColor: PlayerData) : BaseCommand(playerColor) 
     }
 
     private fun canEndMove(playerData: PlayerData): Boolean {
-        return playerController.canMove(playerData)
+        return !playerController.canMove(playerData)
     }
 
     private fun canEndMain2(playerData: PlayerData): Boolean {

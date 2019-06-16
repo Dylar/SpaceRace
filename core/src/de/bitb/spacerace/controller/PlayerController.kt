@@ -16,11 +16,13 @@ class PlayerController() {
     @Inject
     protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
 
+    var currentPlayerColor = PlayerColor.NONE
     var currentPlayerData = NONE_PLAYER_DATA
+
     var players: MutableList<Player> = ArrayList()
 
-    val currentPlayer: Player
-        get() = players.findLast { currentPlayerData.playerColor == it.playerColor }
+    var currentPlayer: Player = NONE_PLAYER
+        get() = players.find { currentPlayerColor == it.playerColor }
                 ?: NONE_PLAYER
 
     init {

@@ -1,6 +1,7 @@
 package de.bitb.spacerace.usecase.game
 
 import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.database.player.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.phases.OpenEndRoundMenuCommand
@@ -13,12 +14,14 @@ import javax.inject.Inject
 
 class ObserveRoundUsecase @Inject constructor(
         private val fieldController: FieldController,
-        private val playerDataSource: PlayerDataSource
+        private val playerDataSource: PlayerDataSource,
+        private val playerColorDispender: PlayerColorDispender
 ) : UseCaseWithoutParams<Boolean>() {
 
     override fun buildUseCaseObservable(): Observable<Boolean> {
-        return playerDataSource
-                .observeAllObserver()
+        return playerColorDispender
+                .publisher
+                .flatMap { playerDataSource.observeAllObserver() }
                 .map(::filterPlayer)
                 .map(::endRound)
                 .flatMap(::updatePlayer)

@@ -22,20 +22,20 @@ class EndTurnCommand(playerData: PlayerData) : PhaseCommand(playerData) {
     override fun execute(game: MainGame) {
         playerController
                 .players
-                .also { players ->
-                    Logger.println("nextTurn1")
-                    val oldPlayer = players[0]
+                .apply {
+                    val oldPlayer = this[0]
                     var indexOld = oldPlayer.getGameImage().zIndex + 1 //TODO do it in gui
-                    for (ship in players) {
-                        ship.getGameImage().zIndex = indexOld++
+                    forEach {
+                        it.getGameImage().zIndex = indexOld++
                     }
-                    players.add(oldPlayer)
-                    players.removeAt(0)
+                    removeAt(0)
+                    add(oldPlayer)
 
                     //TODO items in db
                     //oldPlayer.playerData.playerItems.removeUsedItems()
 
-                    playerTurnChangedUsecase.publishUpdate(playerController.currentPlayer.playerColor)
+                }.also {
+                    playerTurnChangedUsecase.publishUpdate(it.last().playerColor)
                 }
 
 

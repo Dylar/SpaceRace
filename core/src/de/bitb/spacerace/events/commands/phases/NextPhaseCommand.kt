@@ -2,10 +2,10 @@ package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
@@ -13,6 +13,9 @@ class NextPhaseCommand(playerData: PlayerData) : PhaseCommand(playerData) {
 
     @Inject
     lateinit var inputHandler: InputHandler
+
+    @Inject
+    lateinit var updatePlayerUsecase: UpdatePlayerUsecase
 
     init {
         MainGame.appComponent.inject(this)
@@ -34,6 +37,7 @@ class NextPhaseCommand(playerData: PlayerData) : PhaseCommand(playerData) {
             Phase.END_ROUND -> throw UnsupportedOperationException("END ROUND NEXT?")
         }
 
+//        updatePlayerUsecase.execute(listOf(playerData))
     }
 
 }
