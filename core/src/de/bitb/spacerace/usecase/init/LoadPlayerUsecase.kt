@@ -46,14 +46,15 @@ class LoadPlayerUsecase @Inject constructor(
 
     private fun pushCurrentPlayer(list: List<PlayerData>) {
         if (list.isNotEmpty()) {
-            playerController.currentPlayer.playerColor.let {
-                when (it) {
-                    PlayerColor.NONE -> list.first().playerColor
-                    else -> it
-                }
-            }.also {
-                playerColorDispender.publisher.onNext(it)
-            }
+            playerController.currentPlayer.playerColor
+                    .let {
+                        when (it) {
+                            PlayerColor.NONE -> list.first().playerColor
+                            else -> it
+                        }
+                    }.also {
+                        playerColorDispender.publisher.onNext(it)
+                    }
 
         }
     }

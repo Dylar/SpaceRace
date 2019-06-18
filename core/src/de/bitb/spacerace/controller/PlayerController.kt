@@ -10,6 +10,7 @@ import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class PlayerController() {
@@ -19,12 +20,14 @@ class PlayerController() {
     @Inject
     protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
 
+    private var dispo: Disposable? = null
+
     var currentPlayerData = NONE_PLAYER_DATA
 
     var players: MutableList<Player> = ArrayList()
 
     var currentPlayer: Player = NONE_PLAYER
-        get() = players.find { currentPlayerData.playerColor == it.playerColor } ?: NONE_PLAYER
+        get() = players.firstOrNull() ?: NONE_PLAYER
 
     init {
         MainGame.appComponent.inject(this)
@@ -32,7 +35,8 @@ class PlayerController() {
     }
 
     private fun initObserver() {
-        observeCurrentPlayerUseCase.observeStream(
+        dispo?.dispose()
+        dispo = observeCurrentPlayerUseCase.observeStream(
                 onNext = { currentPlayerData = it },
                 onError = { Logger.println(it) })
     }

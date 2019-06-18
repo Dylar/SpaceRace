@@ -11,8 +11,8 @@ import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.ui.screens.game.GameStage
-import de.bitb.spacerace.usecase.game.ObserveWinnerUsecase
 import de.bitb.spacerace.usecase.game.ObserveRoundUsecase
+import de.bitb.spacerace.usecase.game.ObserveWinnerUsecase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
@@ -45,10 +45,11 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
 
         playerController.clearPlayer()
         val startField = map.startField
-        playerDatas.withIndex().forEach {
-            Logger.println("NEXT: loadPlayerUsecase: ${it.value}")
-            addPlayer(it, startField)
-        }
+        playerDatas.withIndex()
+                .forEach {
+                    Logger.println("NEXT: loadPlayerUsecase: ${it.value}")
+                    addPlayer(it, startField)
+                }
         val gameStage = (game.screen as BaseScreen).gameStage as GameStage
         gameStage.addEntitiesToMap()
 

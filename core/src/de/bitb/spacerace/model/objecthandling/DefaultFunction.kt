@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
-import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
@@ -13,30 +13,32 @@ import de.bitb.spacerace.model.player.PlayerImage
 import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.model.space.fields.SpaceField
 
+val DEFAULT = object : DefaultFunction {}
+
 interface DefaultFunction {
 
-    fun getPlayer(game: MainGame, playerColor: PlayerColor): Player {
-        return game.gameController.playerController.getPlayer(playerColor)
+    fun getPlayer(playerController: PlayerController, playerColor: PlayerColor): Player {
+        return playerController.getPlayer(playerColor)
     }
 
-    fun getPlayerImage(game: MainGame, playerColor: PlayerColor): PlayerImage {
-        return getPlayer(game, playerColor).playerImage
+    fun getPlayerImage(playerController: PlayerController, playerColor: PlayerColor): PlayerImage {
+        return getPlayer(playerController, playerColor).playerImage
     }
 
-    fun getPlayerPosition(game: MainGame, playerColor: PlayerColor): PositionData {
-        return getPlayer(game, playerColor).gamePosition
+    fun getPlayerPosition(playerController: PlayerController, playerColor: PlayerColor): PositionData {
+        return getPlayer(playerController, playerColor).gamePosition
     }
 
-    fun getPlayerItems(game: MainGame, playerColor: PlayerColor): PlayerItems {
-        return getPlayer(game, playerColor).playerItems
+    fun getPlayerItems(playerController: PlayerController, playerColor: PlayerColor): PlayerItems {
+        return getPlayer(playerController, playerColor).playerItems
     }
 
-    fun getPlayerField(game: MainGame, playerColor: PlayerColor): SpaceField {
-        return game.gameController.fieldController.getField(getPlayerPosition(game, playerColor))
+    fun getPlayerField(fieldController: FieldController, playerColor: PlayerColor): SpaceField {
+        return fieldController.getField(getPlayerPosition(fieldController.playerController, playerColor))
     }
 
-    fun getItemField(game: MainGame, item: Item): SpaceField {
-        return game.gameController.fieldController.getField(item)
+    fun getItemField(fieldController: FieldController, item: Item): SpaceField {
+        return fieldController.getField(item)
     }
 
     fun getDisplayImage(gameObject: GameObject, posX: Float = 0f, posY: Float = 0f, color: Color = Color(1f, 1f, 1f, 1f), actor: Actor = Actor()): Image {

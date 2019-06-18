@@ -11,9 +11,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class StartNewRoundUsecase @Inject constructor(
-        private val playerController: PlayerController,
-        private val playerDataSource: PlayerDataSource,
-        private val playerColorDispender: PlayerColorDispender
+        private val playerDataSource: PlayerDataSource
 ) : UseCaseWithoutParams<Boolean>() {
 
     override fun buildUseCaseObservable(): Observable<Boolean> =
@@ -22,9 +20,9 @@ class StartNewRoundUsecase @Inject constructor(
                     .flatMap(::resetPlayer)
                     .flatMap(::updatePlayer)
                     .flatMapObservable { Observable.just(it.isNotEmpty()) }
-                    .doOnNext {
-                        playerColorDispender.publishUpdate(playerController.currentPlayerData.playerColor)
-                    }
+//                    .doOnNext {
+//                        playerColorDispender.publishUpdate(playerController.currentPlayerData.playerColor)
+//                    }
 
     private fun resetPlayer(player: List<PlayerData>) =
             Single.just(player.apply { forEach { it.phase = Phase.MAIN1 } })
