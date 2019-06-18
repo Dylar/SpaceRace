@@ -1,6 +1,7 @@
 package de.bitb.spacerace.model.enums
 
 import com.badlogic.gdx.graphics.Color
+import de.bitb.spacerace.config.strings.GameStrings.PHASE_END_ROUND
 import de.bitb.spacerace.config.strings.GameStrings.PHASE_END_TURN
 import de.bitb.spacerace.config.strings.GameStrings.PHASE_MAIN1
 import de.bitb.spacerace.config.strings.GameStrings.PHASE_MAIN2
@@ -10,7 +11,8 @@ enum class Phase(val text: String, val color: Color) {
     MAIN1(PHASE_MAIN1, Color.MAROON),
     MOVE(PHASE_MOVE, Color.DARK_GRAY),
     MAIN2(PHASE_MAIN2, Color.FIREBRICK),
-    END_TURN(PHASE_END_TURN, Color.PINK);
+    END_TURN(PHASE_END_TURN, Color.PINK),
+    END_ROUND(PHASE_END_ROUND, Color.BROWN);
 
     companion object {
         fun next(phase: Phase): Phase {
@@ -18,7 +20,8 @@ enum class Phase(val text: String, val color: Color) {
                 MAIN1 -> MOVE
                 MOVE -> MAIN2
                 MAIN2 -> END_TURN
-                END_TURN -> MAIN1
+                END_TURN -> END_TURN
+                END_ROUND -> MAIN1
             }
         }
     }

@@ -21,7 +21,7 @@ object Logger {
 
     fun println(vararg params: Any) {
         if (isAllowedToLog) {
-            log(params)
+            log(params.toString())
         }
     }
 
@@ -34,7 +34,7 @@ object Logger {
         return "$timeString<-- $message --> $threadString)"
     }
 
-    private fun log(vararg params: Any) {
+    private fun log(vararg params: String) {
         Pair(Thread.currentThread(), appClass())
                 .also { (thread, filterClass) ->
                     val callerStack = thread
@@ -50,13 +50,14 @@ object Logger {
                             .filter(filterClass)
                             .drop(2)
                             .first()
-                            .toString()
+                            .let { "$it" }
                             .filterPackage()
 
                     val threadString = "Thread: ${thread.name}\n"
 
                     val paramsString = params
-                            .let { "Params: $it" }
+                            .map { it }
+//                            .let { "Params: $it" }
 
                     val tag = "$threadString$paramsString"
                     val message = "\nCaller: $last\nStack: $callerStack\n"

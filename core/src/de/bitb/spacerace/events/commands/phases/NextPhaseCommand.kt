@@ -10,6 +10,7 @@ import de.bitb.spacerace.events.commands.obtain.*
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.usecase.game.NextPhaseUsecase
+import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
@@ -34,6 +35,7 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
                 Phase.MOVE -> canEndMove(playerData)
                 Phase.MAIN2 -> canEndMain2(playerData)
                 Phase.END_TURN -> playerData.phase.isEndTurn()
+                Phase.END_ROUND -> true
             }
 
     private fun canEndMain1(playerData: PlayerData): Boolean {
@@ -53,10 +55,10 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
         playerData.phase = Phase.next(playerData.phase)
 
         Logger.println("Phase: ${playerData.phase.name}")
-        val doPhase: (PlayerData) -> PlayerData =
+        val doPhase: (PlayerData) -> Single<PlayerData>  =
                 when (playerData.phase) {
                     Phase.MAIN1 -> {
-                        { playerData }
+                        { Single.just(playerData) }
                     }
                     Phase.MOVE -> startMove(game)
                     Phase.MAIN2 -> startMain2(game)
@@ -67,12 +69,12 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
 
     }
 
-    private fun startMove(game: MainGame): (PlayerData) -> PlayerData = {
-        it.apply { steps.add(getPlayerField(game, it.playerColor).gamePosition) }
+    private fun startMove(game: MainGame): (PlayerData) -> Single<PlayerData> = {
+        Single.just(it.apply { steps.add(getPlayerField(game, it.playerColor).gamePosition) })
     }
 
-    private fun startMain2(game: MainGame): (PlayerData) -> PlayerData = {
-        it.also { playerData ->
+    private fun startMain2(game: MainGame): (PlayerData) -> Single<PlayerData> = {
+        Single.just(it.also { playerData ->
             val field = getPlayerField(game, playerData.playerColor)
             field.disposedItems.forEach { it.use(game, playerData) }
 
@@ -95,11 +97,14 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
 //            FieldType.RANDOM -> TODO()
 //            FieldType.UNKNOWN -> TODO()
             EventBus.getDefault().post(command)
-        }
+        })
     }
 
-    private fun endTurn(): (PlayerData) -> PlayerData = {
-        it.also { playerController.nextPlayer() }
+    private fun endTurn(): (PlayerData) -> Single<PlayerData> = {
+        Single.just(it.also {
+            playerController.nextPlayer()
+//            publish current player ?
+        })
     }
 
 }

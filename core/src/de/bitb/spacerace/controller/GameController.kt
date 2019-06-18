@@ -11,7 +11,7 @@ import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.ui.screens.game.GameStage
-import de.bitb.spacerace.usecase.game.AnnounceWinnerUsecase
+import de.bitb.spacerace.usecase.game.ObserveWinnerUsecase
 import de.bitb.spacerace.usecase.game.ObserveRoundUsecase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -31,7 +31,7 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
     lateinit var fieldController: FieldController
 
     @Inject
-    lateinit var announceWinnerUsecase: AnnounceWinnerUsecase
+    lateinit var observeWinnerUsecase: ObserveWinnerUsecase
 
     @Inject
     lateinit var observeRoundUsecase: ObserveRoundUsecase
@@ -58,7 +58,7 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
     }
 
     private fun initWinnerObserver() {
-        compositeDisposable += announceWinnerUsecase.observeStream(WIN_AMOUNT,
+        compositeDisposable += observeWinnerUsecase.observeStream(WIN_AMOUNT,
                 onNext = { winner ->
                     Logger.println("AND THE WINNER IIIIISSS: $winner")
                     EventBus.getDefault().post(GameOverCommand(winner.playerColor))

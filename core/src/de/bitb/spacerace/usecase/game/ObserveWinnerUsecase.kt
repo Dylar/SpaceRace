@@ -6,7 +6,7 @@ import de.bitb.spacerace.usecase.UseCase
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class AnnounceWinnerUsecase @Inject constructor(
+class ObserveWinnerUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource
 ) : UseCase<PlayerData, Long>() {
 

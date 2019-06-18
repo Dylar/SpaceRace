@@ -9,11 +9,11 @@ import javax.inject.Inject
 
 class NextPhaseUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource
-) : UseCase<Boolean, Pair<PlayerData, (PlayerData) -> PlayerData>>() {
+) : UseCase<Boolean, Pair<PlayerData, (PlayerData) -> Single<PlayerData>>>() {
 
-    override fun buildUseCaseObservable(params: Pair<PlayerData, (PlayerData) -> PlayerData>): Observable<Boolean> =
+    override fun buildUseCaseObservable(params: Pair<PlayerData, (PlayerData) -> Single<PlayerData>>): Observable<Boolean> =
             params.let { (playerData, doPhase) ->
-                Single.create<PlayerData> { emitter -> emitter.onSuccess(doPhase(playerData)) }
+                doPhase(playerData)
                         .flatMap { intoDb -> playerDataSource.insertAll(intoDb) }
                         .map { true }
                         .toObservable()
