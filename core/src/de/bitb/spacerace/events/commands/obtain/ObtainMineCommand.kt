@@ -12,7 +12,7 @@ class ObtainMineCommand(playerData: PlayerData) : BaseCommand(playerData) {
     }
 
     override fun execute(game: MainGame) {
-        val mineField: MineField = getPlayerField(game, playerData.playerColor) as MineField
+        val mineField: MineField = getPlayerField(game.gameController.fieldController, playerData.playerColor) as MineField
         mineField.owner = playerData.playerColor
     }
 

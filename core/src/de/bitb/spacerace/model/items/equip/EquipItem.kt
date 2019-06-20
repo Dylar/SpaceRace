@@ -21,11 +21,11 @@ abstract class EquipItem(owner: PlayerColor, price: Int, img: Texture) : Item(ow
     override fun use(game: MainGame, playerData: PlayerData): Boolean {
         return when (state) {
             ItemState.STORAGE -> {
-                getPlayerItems(game, playerData.playerColor).equipItem(this)
+                getPlayerItems(game.gameController.playerController, playerData.playerColor).equipItem(this)
                 return true
             }
             ItemState.EQUIPPED -> {
-                getPlayerItems(game, playerData.playerColor).unequipItem(this)
+                getPlayerItems(game.gameController.playerController, playerData.playerColor).unequipItem(this)
                 return true
             }
             else -> false

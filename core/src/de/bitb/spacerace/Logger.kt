@@ -1,6 +1,7 @@
 package de.bitb.spacerace
 
 import com.badlogic.gdx.Gdx
+import java.util.*
 
 const val PACKAGE_NAME = "bitb"
 
@@ -19,9 +20,9 @@ object Logger {
         println("$msg (TIME: $inMillis)")
     }
 
-    fun println(vararg params: Any) {
+    fun <TYPE : Any> println(vararg params: TYPE) {
         if (isAllowedToLog) {
-            log(params.toString())
+            log(params)
         }
     }
 
@@ -34,7 +35,7 @@ object Logger {
         return "$timeString<-- $message --> $threadString)"
     }
 
-    private fun log(vararg params: String) {
+    private fun <TYPE : Any> log(vararg params: TYPE) {
         Pair(Thread.currentThread(), appClass())
                 .also { (thread, filterClass) ->
                     val callerStack = thread
@@ -43,7 +44,9 @@ object Logger {
                             .drop(2)
                             .map { "$it" }
                             .map { it.filterPackage() }
-                            .map { "\n$it" }
+                            .map {
+                                "\n$it"
+                            }
 
                     val last = thread
                             .stackTrace
@@ -52,14 +55,16 @@ object Logger {
                             .first()
                             .let { "$it" }
                             .filterPackage()
+                            .filterArrays()
 
                     val threadString = "Thread: ${thread.name}\n"
 
                     val paramsString = params
-                            .map { it }
-//                            .let { "Params: $it" }
+                            .let { Arrays.deepToString(it) }
+                            .let { "Params: $it" }
 
                     val tag = "$threadString$paramsString"
+                            .filterArrays()
                     val message = "\nCaller: $last\nStack: $callerStack\n"
 
                     Gdx.app.log(tag, message)
@@ -74,4 +79,9 @@ object Logger {
                 .replaceBefore(".", "")
                 .substring(1)
     }
+
+    private fun String.filterArrays(): String =
+            replace("[", "")
+                    .replace("]", "")
 }
+

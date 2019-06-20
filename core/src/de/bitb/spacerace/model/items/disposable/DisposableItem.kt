@@ -24,18 +24,18 @@ abstract class DisposableItem(owner: PlayerColor, price: Int, img: Texture) : It
         val playerColor = playerData.playerColor
         return when (state) {
             ItemState.STORAGE -> {
-                val field = getPlayerField(game, playerColor)
+                val field = getPlayerField(game.gameController.fieldController, playerColor)
                 val fieldImage = field.getGameImage()
                 this.itemImage.setRotating(this, fieldImage, fieldImage.width * 0.7)
                 field.disposeItem(this)
-                getPlayerItems(game, playerColor).disposeItem(this)
+                getPlayerItems(game.gameController.playerController, playerColor).disposeItem(this)
                 true
             }
             ItemState.DISPOSED -> {
                 attachedTo = playerColor
-                val playerImage = getPlayerImage(game, playerColor)
-                getPlayerItems(game, playerColor).attachItem(this)
-                game.gameController.fieldController.getField(getPlayerPosition(game, playerColor)).attachItem(this)
+                val playerImage = getPlayerImage(game.gameController.playerController, playerColor)
+                getPlayerItems(game.gameController.playerController, playerColor).attachItem(this)
+                game.gameController.fieldController.getField(getPlayerPosition(game.gameController.playerController, playerColor)).attachItem(this)
                 this.itemImage.setRotating(this, playerImage, playerImage.width * 0.7)
                 true
             }

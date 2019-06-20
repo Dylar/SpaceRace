@@ -21,7 +21,7 @@ class DiceCommand(playerData: PlayerData, val maxResult: Int = DICE_MAX) : BaseC
         if (!playerData.phase.isMain1()) {
             return false
         }
-        val items = getPlayerItems(game, playerData.playerColor)
+        val items = getPlayerItems(game.gameController.playerController, playerData.playerColor)
         val diceCharges = 1 + items.multiDiceItem.sumBy { it.getAmount() }
         return playerData.diceResults.size < diceCharges
     }

@@ -11,7 +11,7 @@ class ObtainGiftCommand(playerData: PlayerData) : BaseCommand(playerData) {
     }
 
     override fun execute(game: MainGame) {
-        val lose = getPlayerItems(game, playerData.playerColor).addRandomGift()
+        val lose = getPlayerItems(game.gameController.playerController, playerData.playerColor).addRandomGift()
     }
 
 }

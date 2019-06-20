@@ -13,7 +13,7 @@ class BuyItemCommand(val item: Item, buyer: PlayerData) : BaseCommand(buyer) {
     }
 
     override fun execute(game: MainGame) {
-        getPlayerItems(game, playerData.playerColor).addItem(item.itemType.create(playerData.playerColor))
+        getPlayerItems(game.gameController.playerController, playerData.playerColor).addItem(item.itemType.create(playerData.playerColor))
         playerData.credits -= item.price
     }
 

@@ -21,7 +21,7 @@ class ObtainGoalCommand(playerData: PlayerData) : BaseCommand(playerData) {
     }
 
     override fun canExecute(game: MainGame): Boolean {
-        return game.gameController.fieldController.currentGoal == getPlayerField(game, playerData.playerColor)
+        return game.gameController.fieldController.currentGoal == getPlayerField(game.gameController.fieldController, playerData.playerColor)
     }
 
     override fun execute(game: MainGame) {

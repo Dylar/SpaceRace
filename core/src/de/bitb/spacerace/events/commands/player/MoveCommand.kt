@@ -23,12 +23,12 @@ class MoveCommand(val spaceField: SpaceField, playerData: PlayerData) : BaseComm
 
     override fun canExecute(game: MainGame): Boolean {
         val sameField = playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
-        val hasConnection = getPlayerField(game, playerData.playerColor).hasConnectionTo(spaceField)
+        val hasConnection = getPlayerField(game.gameController.fieldController, playerData.playerColor).hasConnectionTo(spaceField)
         return hasConnection && (sameField && playerData.phase.isMoving() || playerController.canMove(playerData))
     }
 
     override fun execute(game: MainGame) {
-        val player = getPlayer(game, playerData.playerColor)
+        val player = getPlayer(game.gameController.playerController, playerData.playerColor)
         val playerImage = player.playerImage
         val fieldImage = spaceField.fieldImage
 

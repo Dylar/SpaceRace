@@ -16,8 +16,6 @@ import javax.inject.Inject
 class PlayerController() {
 
     @Inject
-    protected lateinit var playerColorDispender: PlayerColorDispender
-    @Inject
     protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
 
     private var dispo: Disposable? = null
@@ -72,23 +70,6 @@ class PlayerController() {
 
     fun addPlayer(player: Player) {
         players.add(player)
-    }
-
-    fun nextPlayer() {
-        players.apply {
-            val oldPlayer = this[0]
-            var indexOld = oldPlayer.getGameImage().zIndex + 1 //TODO do it in gui
-            forEach {
-                it.getGameImage().zIndex = indexOld++
-            }
-            removeAt(0)
-            add(oldPlayer)
-
-            //TODO items in db
-            //oldPlayer.playerData.playerItems.removeUsedItems()
-        }.also {
-            playerColorDispender.publishUpdate(it.first().playerColor)
-        }
     }
 
 }

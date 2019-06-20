@@ -37,7 +37,7 @@ abstract class UseCase<ReturnType, in Params>(
      * Builds an [Observable] build from [buildUseCaseObservable] as [Single]
      */
     fun buildUseCaseSingle(params: Params): Single<ReturnType> = Single
-            .fromObservable<ReturnType>(buildUseCaseObservable(params))
+            .fromObservable(buildUseCaseObservable(params))
 
     /**
      * Builds an [Observable] build from [buildUseCaseObservable] as [Completable]

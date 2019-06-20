@@ -101,7 +101,7 @@ class FieldController(var playerController: PlayerController) : DefaultFunction 
     }
 
     fun getRandomTunnel(game: MainGame, playerColor: PlayerColor): SpaceField {
-        val playerPosition = getPlayerPosition(game, playerColor)
+        val playerPosition = getPlayerPosition(playerController, playerColor)
         val tunnelList = fieldsMap[FieldType.TUNNEL]!!
         var tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
 

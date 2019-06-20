@@ -8,11 +8,11 @@ import de.bitb.spacerace.model.items.Item
 class SellItemCommand(val item: Item, seller: PlayerData) : BaseCommand(seller) {
 
     override fun canExecute(game: MainGame): Boolean {
-        return getPlayerItems(game, playerData.playerColor).getSaleableItems(item.itemType).isNotEmpty()
+        return getPlayerItems(game.gameController.playerController, playerData.playerColor).getSaleableItems(item.itemType).isNotEmpty()
     }
 
     override fun execute(game: MainGame) {
-        getPlayerItems(game, playerData.playerColor)
+        getPlayerItems(game.gameController.playerController, playerData.playerColor)
                 .apply {
                     val item = getItems(item.itemType)[0]
                     sellItem(item)

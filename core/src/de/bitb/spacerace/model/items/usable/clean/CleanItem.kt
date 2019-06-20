@@ -13,7 +13,7 @@ abstract class CleanItem(playerColor: PlayerColor, price: Int, img: Texture) : U
 
     override fun use(game: MainGame, playerData: PlayerData): Boolean {
         if (state.isStorage()) {
-            getPlayerItems(game, playerData.playerColor).detachItems(cleanable)
+            getPlayerItems(game.gameController.playerController, playerData.playerColor).detachItems(cleanable)
         }
         return super.use(game, playerData)
     }

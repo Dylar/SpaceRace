@@ -55,18 +55,8 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
         playerData.phase = Phase.next(playerData.phase)
 
         Logger.println("Phase: ${playerData.phase.name}")
-        val doPhase: (PlayerData) -> Single<PlayerData> =
-                when (playerData.phase) {
-                    Phase.MAIN1,
-                    Phase.END_ROUND -> {
-                        { Single.just(playerData) }
-                    }
-                    Phase.MOVE -> startMove(game)
-                    Phase.MAIN2 -> startMain2(game)
-                    Phase.END_TURN -> endTurn()
-                }
 
-        nextPhaseUsecase.execute(Pair(playerData, doPhase))
+        nextPhaseUsecase.execute(playerData)
 
     }
 

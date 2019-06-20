@@ -14,7 +14,7 @@ class ObtainTunnelCommand(playerData: PlayerData) : BaseCommand(playerData) {
         val gameController = game.gameController
         val tunnel = gameController.fieldController.getRandomTunnel(game, playerData.playerColor)
         //TODO klappt das? Nö :P grafik muss neu gesetzt werden.............
-        getPlayer(game, playerData.playerColor).setFieldPosition(tunnel)
+        getPlayer(game.gameController.playerController, playerData.playerColor).setFieldPosition(tunnel)
     }
 
 }

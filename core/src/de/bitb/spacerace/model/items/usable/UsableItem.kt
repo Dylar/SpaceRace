@@ -20,11 +20,11 @@ abstract class UsableItem(owner: PlayerColor, price: Int, img: Texture) : Item(o
     override fun use(game: MainGame, playerData: PlayerData): Boolean {
         return when (state) {
             ItemState.STORAGE -> {
-                getPlayerItems(game, playerData.playerColor).useItem(this)
+                getPlayerItems(game.gameController.playerController, playerData.playerColor).useItem(this)
                 true
             }
             ItemState.USED -> {
-                getPlayerItems(game, playerData.playerColor).removeUsedItem(this)
+                getPlayerItems(game.gameController.playerController, playerData.playerColor).removeUsedItem(this)
                 true
             }
             else -> true

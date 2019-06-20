@@ -25,10 +25,10 @@ abstract class ShipItem(owner: PlayerColor, price: Int, img: Texture) : Item(own
     override fun use(game: MainGame, playerData: PlayerData): Boolean {
         return when (state) {
             ItemState.STORAGE -> {
-                val image = getPlayerImage(game, playerData.playerColor)
+                val image = getPlayerImage(game.gameController.playerController, playerData.playerColor)
                 image.animation = getAnimation()
                 image.movingSpeed = getSpeed()
-                getPlayerItems(game, playerData.playerColor).changeShip(this)
+                getPlayerItems(game.gameController.playerController, playerData.playerColor).changeShip(this)
                 return true
             }
 //            ItemState.EQUIPPED -> {
