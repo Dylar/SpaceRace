@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
 abstract class UseCaseWithoutParams<ReturnType>(
-        workerScheduler: Scheduler = Schedulers.io(),
+        workerScheduler: Scheduler = GdxSchedulers.workerThread,
         observerScheduler: Scheduler = GdxSchedulers.mainThread
 ) : UseCase<ReturnType, None>(workerScheduler, observerScheduler)
         where ReturnType : Any {

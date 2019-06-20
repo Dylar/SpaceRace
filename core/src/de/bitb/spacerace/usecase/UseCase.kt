@@ -18,9 +18,10 @@ import io.reactivex.schedulers.Schedulers
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
 abstract class UseCase<ReturnType, in Params>(
-        protected val workerScheduler: Scheduler = Schedulers.io(),
+        protected val workerScheduler: Scheduler = GdxSchedulers.workerThread,
         protected val observerScheduler: Scheduler = GdxSchedulers.mainThread
 ) where ReturnType : Any {
+
     private val onCompleteStub: () -> Unit =
             { Logger.println("Default onComplete") }
     private val onSuccessStub: (ReturnType) -> Unit =
