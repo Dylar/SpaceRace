@@ -4,7 +4,6 @@ import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.core.CommandDispender
 import de.bitb.spacerace.database.player.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
@@ -25,25 +24,23 @@ class NextPhaseUsecase @Inject constructor(
         private val playerController: PlayerController,
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource,
-        private var playerColorDispender: PlayerColorDispender,
-        private val commandDispender: CommandDispender
+        private var playerColorDispender: PlayerColorDispender
 ) : UseCase<Boolean, PlayerData>(), DefaultFunction by DEFAULT {
 
     override fun buildUseCaseObservable(params: PlayerData) =
             params.let { playerData ->
                 playerData.nextPhase()
 
-                val doPhase: (PlayerData) -> Single<PlayerData> =
+                val doPhase: (PlayerData) -> PlayerData =
                         when (playerData.phase) {
-                            Phase.MAIN1,
-                            Phase.END_ROUND -> {
-                                { Single.just(playerData) }
-                            }
                             Phase.MOVE -> startMove()
                             Phase.MAIN2 -> startMain2()
                             Phase.END_TURN -> endTurn()
+                            else -> {
+                                { playerData }
+                            }
                         }
-                doPhase(playerData)
+                Single.just(doPhase(playerData))
                         .flatMap { intoDb -> playerDataSource.insertAll(intoDb) }
                         .map {
                             Logger.println("DO NEXT PHASE")
@@ -54,16 +51,16 @@ class NextPhaseUsecase @Inject constructor(
             }
 
 
-    private fun startMove(): (PlayerData) -> Single<PlayerData> = {
-        Single.just(it.apply { steps.add(getPlayerField(fieldController, it.playerColor).gamePosition) })
+    private fun startMove(): (PlayerData) -> PlayerData = {
+        it.apply { steps.add(getPlayerField(fieldController, it.playerColor).gamePosition) }
     }
 
-    private fun startMain2(): (PlayerData) -> Single<PlayerData> = {
-        Single.just(obstainField(it))
+    private fun startMain2(): (PlayerData) -> PlayerData = {
+        obstainField(it)
     }
 
-    private fun endTurn(): (PlayerData) -> Single<PlayerData> = {
-        Single.just(it.also {
+    private fun endTurn(): (PlayerData) -> PlayerData = {
+        it.also {
             playerController.players
                     .apply {
                         val oldPlayer = this[0]
@@ -83,7 +80,7 @@ class NextPhaseUsecase @Inject constructor(
                         Logger.println("oldPlayer: ${newPlayer.playerColor}")
                         playerColorDispender.publishUpdate(newPlayer.playerColor)
                     }
-        })
+        }
     }
 
     private fun obstainField(playerData: PlayerData): PlayerData {

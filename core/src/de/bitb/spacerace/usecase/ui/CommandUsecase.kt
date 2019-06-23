@@ -35,9 +35,9 @@ class CommandUsecase @Inject constructor(
                 .flatMap { command ->
                     Completable.fromCallable {
                         if (command.canExecute(params)) {
-                            Logger.println("doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
+                            Logger.println("Executed doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
                             command.execute(params)
-                        } else Logger.println("Error doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
+                        } else Logger.println("Not Executed doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
                     }.toSingleDefault(command).toObservable()
                 }
     }
