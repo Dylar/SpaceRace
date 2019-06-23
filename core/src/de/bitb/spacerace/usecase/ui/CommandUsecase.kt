@@ -21,7 +21,7 @@ class CommandUsecase @Inject constructor(
         return publisher
                 .flatMap { command ->
                     Completable.fromCallable {
-                        Logger.println("Command doOnNext: ${command::class.java.simpleName}")
+                        Logger.println("doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
                         if (command.canExecute(params)) {
                             Logger.println("Executed")
                             command.execute(params)

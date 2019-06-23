@@ -10,14 +10,10 @@ class ObserveWinnerUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource
 ) : UseCase<PlayerData, Long>() {
 
-    override fun buildUseCaseObservable(params: Long): Observable<PlayerData> {
-        return playerDataSource
-                .observeAllObserver()
-                .map { all ->
-                    all.find {
-                        it.victories == params
-                    }
-                }
-    }
+    override fun buildUseCaseObservable(params: Long): Observable<PlayerData> =
+            playerDataSource
+                    .observeAllObserver()
+                    .flatMapIterable { it }
+                    .filter { it.victories == params }
 
 }

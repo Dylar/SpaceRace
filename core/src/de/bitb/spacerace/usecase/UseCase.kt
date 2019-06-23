@@ -7,7 +7,6 @@ import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
@@ -22,12 +21,15 @@ abstract class UseCase<ReturnType, in Params>(
         protected val observerScheduler: Scheduler = GdxSchedulers.mainThread
 ) where ReturnType : Any {
 
-    private val onCompleteStub: () -> Unit =
-            { Logger.println("Default onComplete") }
-    private val onSuccessStub: (ReturnType) -> Unit =
-            { Logger.println("Default onSuccess: $it") }
-    private val onErrorStub: (Throwable) -> Unit =
-            { Logger.println("Default onError: $it") }
+    protected val onCompleteStub: () -> Unit = {
+        //Logger.println("Default onComplete")
+    }
+    protected val onSuccessStub: (ReturnType) -> Unit = {
+        //Logger.println("Default onSuccess: $it")
+    }
+    protected val onErrorStub: (Throwable) -> Unit = {
+        Logger.println("(${this.javaClass.name})Default onError: $it")
+    }
 
     /**
      * Builds an [Observable] which will be used when executing the current [UseCase].
@@ -37,14 +39,17 @@ abstract class UseCase<ReturnType, in Params>(
     /**
      * Builds an [Observable] build from [buildUseCaseObservable] as [Single]
      */
-    fun buildUseCaseSingle(params: Params): Single<ReturnType> = Single
-            .fromObservable(buildUseCaseObservable(params))
+    fun buildUseCaseSingle(params: Params): Single<ReturnType> =
+            buildUseCaseObservable(params)
+                    .firstOrError()
 
     /**
      * Builds an [Observable] build from [buildUseCaseObservable] as [Completable]
      */
-    fun buildUseCaseCompletable(params: Params): Completable = Completable
-            .fromObservable<ReturnType>(buildUseCaseObservable(params))
+    fun buildUseCaseCompletable(params: Params): Completable =
+            buildUseCaseObservable(params)
+                    .takeWhile { false }
+                    .flatMapCompletable { Completable.complete() }
 
     /**
      * Subscribe to an [Observable] build from [buildUseCaseObservable]

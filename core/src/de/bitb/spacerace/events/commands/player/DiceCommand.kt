@@ -8,7 +8,10 @@ import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
 import javax.inject.Inject
 
-class DiceCommand(playerData: PlayerData, val maxResult: Int = DICE_MAX) : BaseCommand(playerData) {
+class DiceCommand(
+        playerData: PlayerData,
+        val maxResult: Int = DICE_MAX
+) : BaseCommand(playerData) {
 
     @Inject
     protected lateinit var updatePlayerUsecase: UpdatePlayerUsecase

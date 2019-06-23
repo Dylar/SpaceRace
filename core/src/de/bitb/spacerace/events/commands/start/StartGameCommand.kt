@@ -41,10 +41,6 @@ class StartGameCommand() : BaseCommand() {
                     //TODO make load game
                     Logger.println("NEXT: StartGameCommand")
                     gameController.initGame(game, it)
-                },
-                onError = {
-                    Logger.println("NEXT ERROR: StartGameCommand")
-                    it.printStackTrace()
                 })
     }
 

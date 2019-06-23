@@ -71,17 +71,16 @@ object Logger {
                 }
     }
 
-    private fun String.filterPackage(): String {
-        return replaceBefore(".", "")
-                .substring(1)
-                .replaceBefore(".", "")
-                .substring(1)
-                .replaceBefore(".", "")
-                .substring(1)
-    }
-
     private fun String.filterArrays(): String =
             replace("[", "")
                     .replace("]", "")
 }
 
+fun String.filterPackage(): String {
+    return replaceBefore(".", "")
+            .substring(1)
+            .replaceBefore(".", "")
+            .substring(1)
+            .replaceBefore(".", "")
+            .substring(1)
+}

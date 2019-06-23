@@ -26,9 +26,6 @@ class InputHandler(private val game: MainGame) : DefaultFunction {
                 game,
                 onNext = {
                     notifyObserver(it)
-                },
-                onError = {
-                    it.printStackTrace()
                 }
         )
     }

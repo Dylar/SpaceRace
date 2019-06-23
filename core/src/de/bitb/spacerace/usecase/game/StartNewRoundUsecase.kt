@@ -1,7 +1,5 @@
 package de.bitb.spacerace.usecase.game
 
-import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.database.player.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.enums.Phase

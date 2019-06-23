@@ -59,13 +59,11 @@ class GameController() : DefaultFunction by object : DefaultFunction {} {
     }
 
     private fun initWinnerObserver() {
-        compositeDisposable += observeWinnerUsecase.observeStream(WIN_AMOUNT,
+        compositeDisposable += observeWinnerUsecase.observeStream(
+                params = WIN_AMOUNT,
                 onNext = { winner ->
                     Logger.println("AND THE WINNER IIIIISSS: $winner")
                     EventBus.getDefault().post(GameOverCommand(winner.playerColor))
-                },
-                onError = {
-                    Logger.println("ERROR WINNER! HAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHA")
                 })
     }
 

@@ -52,10 +52,7 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
 
 
     override fun execute(game: MainGame) {
-        playerData.phase = Phase.next(playerData.phase)
-
-        Logger.println("Phase: ${playerData.phase.name}")
-
+        Logger.println("Phase previous: ${playerData.phase.name}")
         nextPhaseUsecase.execute(playerData)
 
     }

@@ -31,6 +31,9 @@ data class PlayerData(
         var credits: Int = START_CREDITS,
         var victories: Long = 0,
 
+        @Convert(converter = PositionDataConverter::class, dbType = String::class)
+        var steps: ArrayList<PositionData> = ArrayList(),
+
         var controlToken: String = ""
 ) : DataObject() {
 
@@ -41,8 +44,6 @@ data class PlayerData(
 //    @JvmField
 //    var positionField: ToOne<FieldData> = ToOne(this, PlayerData_.positionField)
 
-    @Convert(converter = PositionDataConverter::class, dbType = String::class)
-    var steps: ArrayList<PositionData> = ArrayList()
 
     val previousStep: PositionData
         get() = steps.let {
@@ -82,6 +83,10 @@ data class PlayerData(
         val lose = (Math.random() * CREDITS_LOSE_AMOUNT).toInt() + 1
         credits -= lose
         return lose
+    }
+
+    fun nextPhase() {
+        phase = Phase.next(phase)
     }
 
 }

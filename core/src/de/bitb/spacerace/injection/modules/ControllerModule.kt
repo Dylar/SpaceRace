@@ -6,7 +6,6 @@ import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import javax.inject.Singleton
 
 @Module
@@ -14,9 +13,7 @@ class ControllerModule {
 
     @Provides
     @Singleton
-    fun providePlayerController(): PlayerController {
-        return PlayerController()
-    }
+    fun providePlayerController() = PlayerController()
 
     @Provides
     @Singleton

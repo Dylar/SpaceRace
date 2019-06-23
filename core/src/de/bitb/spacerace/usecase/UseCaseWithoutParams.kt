@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2018 EDEKA AG
- *  All rights reserved.
- */
-
 package de.bitb.spacerace.usecase
 
 import io.reactivex.Completable
@@ -11,7 +6,6 @@ import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
@@ -32,26 +26,27 @@ abstract class UseCaseWithoutParams<ReturnType>(
      */
     abstract fun buildUseCaseObservable(): Observable<ReturnType>
 
-    override fun buildUseCaseObservable(params: None): Observable<ReturnType> = buildUseCaseObservable(None)
+    override fun buildUseCaseObservable(params: None): Observable<ReturnType> =
+            buildUseCaseObservable()
 
     /**
      * Builds an [Observable] build from [buildUseCaseObservable] as [Single]
      */
-    fun buildUseCaseSingle(): Single<ReturnType> = Single
-            .fromObservable<ReturnType>(buildUseCaseObservable())
+    fun buildUseCaseSingle(): Single<ReturnType> =
+            buildUseCaseSingle(None)
 
     /**
      * Builds an [Observable] build from [buildUseCaseObservable] as [Completable]
      */
-    fun buildUseCaseCompletable(): Completable = Completable
-            .fromObservable<ReturnType>(buildUseCaseObservable())
+    fun buildUseCaseCompletable(): Completable =
+            buildUseCaseCompletable(None)
 
     /**
      * Subscribe to an [Observable] build from [buildUseCaseObservable]
      */
     fun observeStream(
-            onNext: (ReturnType) -> Unit = {},
-            onError: (Throwable) -> Unit = {}
+            onNext: (ReturnType) -> Unit = onSuccessStub,
+            onError: (Throwable) -> Unit = onErrorStub
     ): Disposable = buildUseCaseObservable()
             .subscribeOn(workerScheduler)
             .observeOn(observerScheduler)
@@ -64,8 +59,8 @@ abstract class UseCaseWithoutParams<ReturnType>(
      * Subscribe to an [Single] (converted from [buildUseCaseObservable])
      */
     fun getResult(
-            onSuccess: (ReturnType) -> Unit = {},
-            onError: (Throwable) -> Unit = {}
+            onSuccess: (ReturnType) -> Unit = onSuccessStub,
+            onError: (Throwable) -> Unit = onErrorStub
     ): Disposable = buildUseCaseSingle()
             .subscribeOn(workerScheduler)
             .observeOn(observerScheduler)
@@ -78,8 +73,8 @@ abstract class UseCaseWithoutParams<ReturnType>(
      * Subscribe to an [Completable] (converted from [buildUseCaseObservable])
      */
     fun execute(
-            onComplete: () -> Unit = {},
-            onError: (Throwable) -> Unit = {}
+            onComplete: () -> Unit = onCompleteStub,
+            onError: (Throwable) -> Unit = onErrorStub
     ): Disposable = buildUseCaseCompletable()
             .subscribeOn(workerScheduler)
             .observeOn(observerScheduler)

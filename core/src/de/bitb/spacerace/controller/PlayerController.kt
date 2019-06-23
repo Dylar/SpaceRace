@@ -3,7 +3,6 @@ package de.bitb.spacerace.controller
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
-import de.bitb.spacerace.database.player.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.Player
@@ -35,9 +34,21 @@ class PlayerController() {
     private fun initObserver() {
         dispo?.dispose()
         dispo = observeCurrentPlayerUseCase.observeStream(
-                onNext = { currentPlayerData = it },
-                onError = { Logger.println(it) })
+                onNext = { fixColor(it) })
     }
+
+    private fun fixColor(playerData: PlayerData) {
+        currentPlayerData = playerData
+//        = currentPlayer.playerColor
+//                .let { current ->
+//                    if (current != PlayerColor.NONE &&
+//                            current == currentPlayerData.playerColor &&
+//                            current == playerData.playerColor)
+//                        playerData
+//                    else currentPlayerData
+//                }
+    }
+
 
     fun getPlayer(playerColor: PlayerColor): Player {
         return players.find { playerColor == it.playerColor } ?: NONE_PLAYER

@@ -24,7 +24,7 @@ class ObserveRoundUsecase @Inject constructor(
                     .flatMap(::updatePlayer)
 
     private fun filterPlayer(player: List<PlayerData>) =
-            player.filter { it.phase.isEndTurn() }.toMutableList()
+            player.filter { it.phase.isEndTurn()}.toMutableList()
                     .apply {
                         if (size != player.size) {
                             clear()

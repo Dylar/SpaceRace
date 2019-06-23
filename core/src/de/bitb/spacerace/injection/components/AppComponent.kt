@@ -8,11 +8,9 @@ import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
-import de.bitb.spacerace.events.commands.obtain.ObtainGoalCommand
 import de.bitb.spacerace.events.commands.phases.*
 import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.player.MoveCommand
-import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.model.space.groups.ConnectionList
@@ -67,7 +65,6 @@ interface AppComponent {
     fun inject(gameOverCommand: GameOverCommand)
     fun inject(nextPhaseCommand: NextPhaseCommand)
     fun inject(startNextRoundCommand: StartNextRoundCommand)
-    fun inject(obtainGoalCommand: ObtainGoalCommand)
     fun inject(moveCommand: MoveCommand)
     fun inject(diceCommand: DiceCommand)
 

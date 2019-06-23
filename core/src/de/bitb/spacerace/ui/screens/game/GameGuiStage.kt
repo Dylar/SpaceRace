@@ -10,6 +10,7 @@ import de.bitb.spacerace.ui.screens.game.control.DebugControl
 import de.bitb.spacerace.ui.screens.game.control.GameControl
 import de.bitb.spacerace.ui.screens.game.control.ViewControl
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
@@ -17,6 +18,8 @@ class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen), I
 
     @Inject
     protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
+
+    private var dispo: Disposable? = null
 
     private var playerStats: PlayerStats = PlayerStats(this)
     private var viewControl: ViewControl = ViewControl(game)
@@ -40,13 +43,11 @@ class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen), I
     }
 
     private fun listenToUpdate() {
-        compositDisposable += observeCurrentPlayerUseCase.observeStream(
+        dispo?.dispose()
+        dispo = observeCurrentPlayerUseCase.observeStream(
                 onNext = {
                     Logger.println("NEXT: playerTurnChangedUsecase: $it")
                     playerStats.update(it)
-                },
-                onError = {
-                    Logger.println("ERROR: playerTurnChangedUsecase: $it")
                 })
     }
 

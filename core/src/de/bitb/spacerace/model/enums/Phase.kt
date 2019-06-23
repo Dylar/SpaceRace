@@ -27,13 +27,10 @@ enum class Phase(val text: String, val color: Color) {
     }
 
     fun isMain() = this == MAIN1 || this == MAIN2
-
     fun isMain1() = this == MAIN1
-
     fun isMoving() = this == MOVE
-
     fun isMain2() = this == MAIN2
-
     fun isEndTurn() = this == END_TURN
+    fun isEndRound(): Boolean = this == END_ROUND
 
 }
