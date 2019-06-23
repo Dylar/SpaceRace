@@ -8,7 +8,7 @@ import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 
-abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Image(), DefaultFunction by object : DefaultFunction {} {
+abstract class GameImage(var animation: BaseAnimation = TextureAnimation()) : Image(), DefaultFunction by DEFAULT {
     companion object {
         val NONE: GameImage = object : GameImage() {
             override var movingSpeed: Float = (MOVING_SPS * Math.random()).toFloat()

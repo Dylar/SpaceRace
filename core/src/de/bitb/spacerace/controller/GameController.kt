@@ -6,6 +6,7 @@ import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
+import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
@@ -18,7 +19,7 @@ import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class GameController() : DefaultFunction by object : DefaultFunction {} {
+class GameController() : DefaultFunction by DEFAULT {
 
     val gamePlayer: MutableList<PlayerColor> = mutableListOf()
 

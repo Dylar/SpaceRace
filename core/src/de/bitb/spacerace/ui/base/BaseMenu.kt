@@ -11,6 +11,7 @@ import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import javax.inject.Inject
@@ -19,7 +20,7 @@ abstract class BaseMenu(val guiStage: GameGuiStage,
                         private val previousMenu: BaseMenu? = null)
     : Table(TextureCollection.skin),
         GuiComponent by guiStage, InputObserver,
-        DefaultFunction by object : DefaultFunction {} {
+        DefaultFunction by DEFAULT {
 
     @Inject
     lateinit var inputHandler: InputHandler

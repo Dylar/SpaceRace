@@ -12,10 +12,7 @@ import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
-import de.bitb.spacerace.model.objecthandling.BaseAnimation
-import de.bitb.spacerace.model.objecthandling.DefaultFunction
-import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.TextureAnimation
+import de.bitb.spacerace.model.objecthandling.*
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
@@ -23,7 +20,7 @@ import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 import de.bitb.spacerace.model.player.PlayerImage
 import javax.inject.Inject
 
-class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by object : DefaultFunction {} {
+class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by DEFAULT {
 
     @Inject
     protected lateinit var fieldController: FieldController
