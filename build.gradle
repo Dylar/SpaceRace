@@ -99,7 +99,12 @@ project(":core") {
     apply plugin: "net.ltgt.apt"
     apply plugin: 'io.objectbox'
 
-    sourceSets.test.java.srcDirs = ["/test"]
+
+//    sourceSets {
+//        test{
+//            java.srcDirs += "$rootDir/de/bitb/spacerace/java"
+//        }
+//    }
 
     kapt {
         generateStubs = true
