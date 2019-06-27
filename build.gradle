@@ -107,6 +107,8 @@ project(":core") {
     apply plugin: "net.ltgt.apt"
     apply plugin: 'io.objectbox'
 
+    sourceSets.test.java.srcDirs = ["/test"]
+
     kapt {
         generateStubs = true
         arguments {
@@ -115,23 +117,55 @@ project(":core") {
     }
 
     dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        implementation "com.google.code.gson:gson:$gsonVersion"
+        
+        implementation 'org.greenrobot:eventbus:3.1.1'
+
+
+//        ██╗     ██╗██████╗  ██████╗ ██████╗ ██╗  ██╗
+//        ██║     ██║██╔══██╗██╔════╝ ██╔══██╗╚██╗██╔╝
+//        ██║     ██║██████╔╝██║  ███╗██║  ██║ ╚███╔╝
+//        ██║     ██║██╔══██╗██║   ██║██║  ██║ ██╔██╗
+//        ███████╗██║██████╔╝╚██████╔╝██████╔╝██╔╝ ██╗
+//        ╚══════╝╚═╝╚═════╝  ╚═════╝ ╚═════╝ ╚═╝  ╚═╝
+
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
 
-        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-        implementation "com.google.code.gson:gson:$gsonVersion"
+
+//        ██╗███╗   ██╗     ██╗███████╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗
+//        ██║████╗  ██║     ██║██╔════╝██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║
+//        ██║██╔██╗ ██║     ██║█████╗  ██║        ██║   ██║██║   ██║██╔██╗ ██║
+//        ██║██║╚██╗██║██   ██║██╔══╝  ██║        ██║   ██║██║   ██║██║╚██╗██║
+//        ██║██║ ╚████║╚█████╔╝███████╗╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║
+//        ╚═╝╚═╝  ╚═══╝ ╚════╝ ╚══════╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
 
         implementation "com.google.dagger:dagger:$daggerVersion"
         kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+
+
+//        ██████╗ ███████╗ █████╗  ██████╗████████╗██╗██╗   ██╗
+//        ██╔══██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝██║██║   ██║
+//        ██████╔╝█████╗  ███████║██║        ██║   ██║██║   ██║
+//        ██╔══██╗██╔══╝  ██╔══██║██║        ██║   ██║╚██╗ ██╔╝
+//        ██║  ██║███████╗██║  ██║╚██████╗   ██║   ██║ ╚████╔╝
+//        ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝  ╚═══╝
 
         implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
         implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
 
 
+//        ██████╗  █████╗ ████████╗ █████╗ ██████╗  █████╗ ███████╗███████╗
+//        ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝
+//        ██║  ██║███████║   ██║   ███████║██████╔╝███████║███████╗█████╗
+//        ██║  ██║██╔══██║   ██║   ██╔══██║██╔══██╗██╔══██║╚════██║██╔══╝
+//        ██████╔╝██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║███████║███████╗
+//        ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
+
         kapt "io.objectbox:objectbox-processor:$dbVersion"
 //        kapt("io.objectbox:objectbox-processor:$dbVersion")
         // some useful Kotlin extension functions
-
 
         implementation "io.objectbox:objectbox-java:$dbVersion"
         implementation "io.objectbox:objectbox-kotlin:$dbVersion"
@@ -140,7 +174,20 @@ project(":core") {
 //        debugImplementation "io.objectbox:objectbox-android-objectbrowser:$dbVersion"
         implementation "io.objectbox:objectbox-rxjava:$dbVersion"
 
-        implementation 'org.greenrobot:eventbus:3.1.1'
+
+//         ████████╗███████╗███████╗████████╗
+//         ╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝
+//            ██║   █████╗  ███████╗   ██║
+//            ██║   ██╔══╝  ╚════██║   ██║
+//            ██║   ███████╗███████║   ██║
+//            ╚═╝   ╚══════╝╚══════╝   ╚═╝
+
+        testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        testCompile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+
     }
 }
 
