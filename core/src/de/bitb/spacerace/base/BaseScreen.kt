@@ -60,7 +60,7 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
             }
 
             override fun keyDown(keycode: Int): Boolean {
-                Logger.println("KEY DOWN: ${Input.Keys.toString(keycode)}, KEY CODE: $keycode")
+                Logger.println("KEY DOWN: ${Input.Keys.toString(keycode)}", "KEY CODE: $keycode")
                 return true
             }
 

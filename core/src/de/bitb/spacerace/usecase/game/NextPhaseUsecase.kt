@@ -77,7 +77,7 @@ class NextPhaseUsecase @Inject constructor(
                     }.let {
                         it.first()
                     }.also { newPlayer ->
-                        Logger.println("oldPlayer: ${newPlayer.playerColor}")
+                        Logger.println("newPlayer: ${newPlayer.playerColor}")
                         playerColorDispender.publishUpdate(newPlayer.playerColor)
                     }
         }

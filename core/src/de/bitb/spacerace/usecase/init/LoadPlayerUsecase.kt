@@ -22,12 +22,10 @@ class LoadPlayerUsecase @Inject constructor(
 //                .insertAll(*params.map { PlayerData(playerData = it) }.toTypedArray())
                 .getByColor(*params.toTypedArray())
                 .map {
-                    Logger.println("insertNewPlayer: $it")
                     insertNewPlayer(it, params)
                 }
                 .flatMap { it }
                 .doAfterSuccess {
-                    Logger.println("pushCurrentPlayer: $it")
                     pushCurrentPlayer(it)
                 }
                 .toObservable()

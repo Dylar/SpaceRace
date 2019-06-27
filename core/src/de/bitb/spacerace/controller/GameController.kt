@@ -48,7 +48,6 @@ class GameController() : DefaultFunction by DEFAULT {
         val startField = map.startField
         playerDatas.withIndex()
                 .forEach {
-                    Logger.println("NEXT: loadPlayerUsecase: ${it.value}")
                     addPlayer(it, startField)
                 }
         val gameStage = (game.screen as BaseScreen).gameStage as GameStage
@@ -71,10 +70,7 @@ class GameController() : DefaultFunction by DEFAULT {
     private fun initPhaseObserver() {
         compositeDisposable += observeRoundUsecase.observeStream(
                 onNext = { isNext ->
-                    Logger.println("NEXT ROUND: $isNext")
-                },
-                onError = {
-                    Logger.println("NEXT ROUND ERROR! HAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHAHAHAHHAHAHA")
+                    Logger.println("observeRoundUsecase: NEXT ROUND: $isNext")
                 })
     }
 

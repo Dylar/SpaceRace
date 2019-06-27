@@ -32,7 +32,6 @@ class DiceCommand(
     override fun execute(game: MainGame) {
         val result = (Math.random() * maxResult).toInt() + 1
         playerData.diceResults.add(result)
-        Logger.println("DiceResult: $result")
         updatePlayerUsecase.execute(listOf(playerData))
     }
 

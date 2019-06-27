@@ -24,22 +24,25 @@ class CommandUsecase @Inject constructor(
 
     override fun buildUseCaseObservable(params: MainGame): Observable<BaseCommand> {
         return publisher
-                .switchMap { command ->
-                    if (command.playerData != NONE_PLAYER_DATA) {
-                        playerDataSource.getByColor(command.playerData.playerColor)
-                                .map { command.apply { playerData = it.first() } }
-                    } else {
-                        Single.just(command)
-                    }.toObservable()
-                }
-                .flatMap { command ->
-                    Completable.fromCallable {
-                        if (command.canExecute(params)) {
-                            Logger.println("Executed doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
-                            command.execute(params)
-                        } else Logger.println("Not Executed doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
-                    }.toSingleDefault(command).toObservable()
-                }
+                .switchMap(::updatePlayerData)
+                .flatMap { handleCommand(it, params) }
     }
+
+    private fun updatePlayerData(command: BaseCommand) =
+            if (command.playerData != NONE_PLAYER_DATA) {
+                playerDataSource
+                        .getByColor(command.playerData.playerColor)
+                        .map { command.apply { playerData = it.first() } }
+            } else {
+                Single.just(command)
+            }.toObservable()
+
+    private fun handleCommand(command: BaseCommand, game: MainGame) =
+            Completable.fromCallable {
+                if (command.canExecute(game)) {
+                    Logger.println("Executed doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
+                    command.execute(game)
+                } else Logger.println("Not Executed doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
+            }.toSingleDefault(command).toObservable()
 
 }

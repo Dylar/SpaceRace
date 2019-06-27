@@ -40,7 +40,7 @@ class MainGame : BaseGame() {
         appComponent.inject(this)
         setScreen(StartScreen(this))
 
-        testFields()
+//        testFields()
 //        setScreen(GameScreen(this))
 //        setScreen(GameOverScreen(this))
     }
@@ -72,9 +72,6 @@ class MainGame : BaseGame() {
             Logger.println("conNotDb: ", conNotDb)
             Logger.println("RESULT: ", all)
         }
-
-        val all = box.all
-        Logger.println("RESULT: ", all)
     }
 
     override fun render() {
