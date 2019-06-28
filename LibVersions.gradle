@@ -1,34 +1,24 @@
 project.ext {
-
-    gdxVersion = '1.9.9'
-    roboVMVersion = '2.3.5'
-    box2DLightsVersion = '1.4'
-    aiVersion = '1.8.0'
     gsonVersion = '2.8.5'
     daggerVersion = '2.15'
-    roboVMVersion = '2.3.5'
     kotlinVersion = '1.3.40'
+
     dbVersion = '2.3.4'
 
-//    configuration = [buildTools    : '28.0.3',
-//                     kotlinVersion: '1.3.31',
-//                     applicationId : "mobile.lunar.edeka.de.thmapp",
-//                     compileSdk    : 28,
-//                     targetSdk     : 28,
-//                     minSdk        : 21]
-//
-//    libs = [
-//            androidX   : [
-//                    appcompat       : '1.0.2',
-//                    constraintLayout: '1.1.3',
-//                    core:'1.0.0',
-//                    espresso_core   : '3.2.0',
-//                    junit           : '1.0.0',
-//                    testrunner      : '1.1.0',
-//                    orchestrator    : '1.1.0'
-//
-//            ],
-//            crashlytics: '2.9.6@aar',
-//            junit:'4.12'
-//    ]
+    gdx = [
+            version           : '1.9.9',
+            roboVMVersion     : '2.3.5',
+            box2DLightsVersion: '1.4',
+            aiVersion         : '1.8.0'
+    ]
+
+    rx = [
+            java  : '2.2.7',
+            kotlin: '2.3.0'
+    ]
+
+    testing = [
+            junit       : '4.12',
+            mockkVersion: '1.8.13'
+    ]
 }

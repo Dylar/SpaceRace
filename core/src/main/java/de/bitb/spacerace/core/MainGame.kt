@@ -18,7 +18,7 @@ import de.bitb.spacerace.ui.screens.start.StartScreen
 import io.objectbox.Box
 import javax.inject.Inject
 
-class MainGame : BaseGame() {
+open class MainGame : BaseGame() {
 
     companion object {
         lateinit var appComponent: AppComponent
