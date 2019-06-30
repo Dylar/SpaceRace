@@ -1,6 +1,7 @@
 package de.bitb.spacerace
 
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.injection.TestComponent
 
 class TestGame : MainGame(), MockData {
 
@@ -13,7 +14,7 @@ class TestGame : MainGame(), MockData {
 //        testComponent = DaggerTestComponent.builder()
 //                .appComponent(appComponent)
 //                .build()
-        testComponent.inject(this)
+//        testComponent.inject(this)
 
     }
 }

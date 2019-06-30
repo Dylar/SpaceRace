@@ -49,7 +49,7 @@ class InputHandler(private val game: MainGame) : DefaultFunction {
 
     private fun notifyObserver(event: BaseCommand) {
         Gdx.app.postRunnable {
-            val observerList = ArrayList<InputObserver>(inputObserver)
+            val observerList = ArrayList(inputObserver)
             for (obs in observerList) {
                 obs.update(game, event)
             }

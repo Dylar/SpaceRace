@@ -9,7 +9,7 @@ sourceCompatibility = 1.6
 sourceSets {
 	test {
         java {
-            srcDir 'src'
+            srcDir 'src/test/kotlin'
         }
     }
     

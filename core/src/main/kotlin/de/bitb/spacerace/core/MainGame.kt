@@ -8,12 +8,12 @@ import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.injection.components.AppComponent
-import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.ui.screens.start.StartScreen
 import io.objectbox.Box
 import javax.inject.Inject

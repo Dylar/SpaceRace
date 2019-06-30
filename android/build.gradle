@@ -4,10 +4,10 @@ android {
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ["src/main/java/"]
-            aidl.srcDirs = ["src/main/java/"]
-            renderscript.srcDirs = ["src/main/java/"]
-            res.srcDirs = ["src/main/java/res"]
+            java.srcDirs = ["src/main/kotlin/"]
+            aidl.srcDirs = ["src/main/kotlin/"]
+            renderscript.srcDirs = ["src/main/kotlin/"]
+            res.srcDirs = ["src/main/kotlin/res"]
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
         }
@@ -96,7 +96,7 @@ eclipse {
     // ignores any nodes added in classpath.file.withXml
     sourceSets {
         main {
-            java.srcDirs "src", 'gen'
+            java.srcDirs "src/main/kotlin", 'gen'
         }
     }
 
@@ -123,7 +123,7 @@ eclipse {
 // sets up the Android Idea project, using the old Ant based build.
 idea {
     module {
-        sourceDirs += file("src");
+        sourceDirs += file("src/main/kotlin");
         scopes = [COMPILE: [plus: [project.configurations.compile]]]
 
         iml {

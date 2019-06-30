@@ -11,7 +11,7 @@ import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class PlayerController() {
+class PlayerController @Inject constructor() {
 
     @Inject
     protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
