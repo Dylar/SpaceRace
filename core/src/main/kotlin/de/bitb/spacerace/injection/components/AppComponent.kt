@@ -28,13 +28,13 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     ApplicationModule::class,
-    NetworkModule::class,
+//    NetworkModule::class,
     DatabaseModule::class,
     GameModule::class,
-    UseCaseModule::class,
-    UtilsModule::class,
-    ControllerModule::class,
-    BuilderModule::class]
+//    UseCaseModule::class,
+//    UtilsModule::class,
+//    BuilderModule::class,
+    ControllerModule::class]
 )
 interface AppComponent {
     fun inject(game: MainGame)

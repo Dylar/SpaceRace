@@ -10,10 +10,10 @@ import javax.inject.Singleton
 @Module
 class TestModule() {
 
-    @Provides
-    @Singleton
-    fun provideGame(): TestGame {
-        return game
-    }
+//    @Provides
+//    @Singleton
+//    fun provideGame(): TestGame {
+//        return game
+//    }
 
 }

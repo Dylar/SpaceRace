@@ -5,14 +5,30 @@ import de.bitb.spacerace.TestGame
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.usecase.game.NextPhaseUsecaseTest
 import javax.inject.Scope
+import javax.inject.Singleton
 
-
-@FragmentScope
+@Singleton
 @Component(
-        dependencies = [AppComponent::class],
         modules = [TestModule::class])
-interface TestComponent {
-//    fun inject(game: TestGame)
+interface TestComponent : AppComponent {
+
+//    fun provideGame(): TestGame
+//
+//    fun providesPlayerDataSource(box: Box<PlayerData>): PlayerDataSource
+//    fun providesMapDataSource(fieldBox: Box<FieldData>): MapDataSource
+//
+//    fun providesBoxStore(): BoxStore
+//    fun providesFieldDataBox(): Box<FieldData>
+//    fun providesPlayerDataBox(): Box<PlayerData>
+//
+//    fun providePlayerController() = PlayerController()
+//    fun provideFieldController(playerController: PlayerController): FieldController
+//    fun provideInputHandler(): InputHandler
+//
+//    fun providePlayerColorDispender(): PlayerColorDispender
+//    fun provideCommandDispender(): CommandDispender
+
+    fun inject(game: TestGame)
     fun inject(nextPhaseUsecaseTest: NextPhaseUsecaseTest)
 
 }

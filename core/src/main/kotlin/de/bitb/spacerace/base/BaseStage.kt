@@ -5,11 +5,22 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import io.reactivex.disposables.CompositeDisposable
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 abstract class BaseStage(viewport: Viewport = ScreenViewport()) : Stage(viewport) {
 
     companion object {
-        val NONE = object : BaseStage(){}
+        val STAGE_DELEGATE = object : ReadWriteProperty<BaseScreen, BaseStage> {
+            var stage: BaseStage? = null
+            override fun getValue(thisRef: BaseScreen, property: KProperty<*>) =
+                    stage ?: NONE
+
+            override fun setValue(thisRef: BaseScreen, property: KProperty<*>, value: BaseStage) {
+                stage = value
+            }
+        }
+        val NONE = object : BaseStage() {}
     }
 
     val compositDisposable: CompositeDisposable = CompositeDisposable()

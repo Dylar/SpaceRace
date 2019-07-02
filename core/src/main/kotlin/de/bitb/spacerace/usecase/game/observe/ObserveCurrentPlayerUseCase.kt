@@ -7,8 +7,9 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.UseCaseWithoutParams
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class ObserveCurrentPlayerUseCase(
+class ObserveCurrentPlayerUseCase @Inject constructor(
         private val playerDataSource: PlayerDataSource,
         private val playerColorDispender: PlayerColorDispender
 ) : UseCaseWithoutParams<PlayerData>(),
