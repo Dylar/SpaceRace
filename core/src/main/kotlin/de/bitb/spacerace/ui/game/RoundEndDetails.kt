@@ -12,14 +12,19 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROU
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_CREDITS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_MINES
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_VICTORIES
+import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
+import javax.inject.Inject
 
 class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, var playerData: PlayerData) : BaseMenu(guiStage, endMenu) {
+
+    @Inject
+    lateinit var fieldController: FieldController
 
     init {
         MainGame.appComponent.inject(this)
@@ -50,7 +55,7 @@ class RoundEndDetails(guiStage: GameGuiStage, endMenu: RoundEndMenu, var playerD
         addText("$GAME_ROUND_DETAILS_CREDITS${playerData.credits}")
 
         var mineAmount = 0
-        for (spaceField in guiStage.gameController.fieldController.fieldsMap[FieldType.MINE]!!) {
+        fieldController.fieldsMap[FieldType.MINE]?.forEach { spaceField ->
             if ((spaceField as MineField).owner == playerData.playerColor) {
                 mineAmount++
             }

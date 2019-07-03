@@ -14,7 +14,9 @@ import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
+import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.UseCase
 import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus
@@ -52,7 +54,7 @@ class NextPhaseUsecase @Inject constructor(
 
 
     private fun startMove(): (PlayerData) -> PlayerData = {
-        it.apply { steps.add(getPlayerField(fieldController, it.playerColor).gamePosition) }
+        it.apply { steps.add(getPlayerField(playerController, fieldController, it.playerColor).gamePosition) }
     }
 
     private fun startMain2(): (PlayerData) -> PlayerData = {
@@ -86,7 +88,7 @@ class NextPhaseUsecase @Inject constructor(
     private fun obstainField(playerData: PlayerData): PlayerData {
 //            field.disposedItems.forEach { it.use(game, playerData) } //TODO no game in here
 
-        getPlayerField(fieldController, playerData.playerColor)
+        getPlayerField(playerController, fieldController, playerData.playerColor)
                 .fieldType
                 .also {
                     when (it) {
@@ -107,7 +109,7 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainGoalCommand(playerData: PlayerData) {
-        if (fieldController.currentGoal == getPlayerField(fieldController, playerData.playerColor)) {
+        if (fieldController.currentGoal == getPlayerField(playerController, fieldController, playerData.playerColor)) {
             playerData.apply {
                 credits += GOAL_CREDITS
                 victories++
@@ -117,13 +119,24 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainTunnelCommand(playerData: PlayerData) {
-        val tunnel = fieldController.getRandomTunnel(playerData.playerColor)
+        val tunnel = getRandomTunnel(playerData.playerColor)
         //TODO klappt das? Nö :P grafik muss neu gesetzt werden.............
         getPlayer(playerController, playerData.playerColor).setFieldPosition(tunnel)
     }
 
+    private fun getRandomTunnel(playerColor: PlayerColor): SpaceField {
+        val playerPosition = getPlayerPosition(playerController, playerColor)
+        val tunnelList = fieldController.fieldsMap[FieldType.TUNNEL]!!
+        var tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
+
+        while (tunnel.gamePosition.isPosition(playerPosition)) {
+            tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
+        }
+        return tunnel
+    }
+
     private fun obtainMineCommand(playerData: PlayerData) {
-        (getPlayerField(fieldController, playerData.playerColor) as MineField)
+        (getPlayerField(playerController, fieldController, playerData.playerColor) as MineField)
                 .apply { owner = playerData.playerColor }
     }
 

@@ -20,9 +20,7 @@ class TestGame : MainGame(), MockData {
         ApplicationModule(this)
     }
 
-
 }
-
 
 val game: TestGame
     get() = TestGame()

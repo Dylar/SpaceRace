@@ -20,12 +20,18 @@ import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.objecthandling.DEFAULT
+import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.ui.base.GuiComponent
 import javax.inject.Inject
 
-class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class PlayerStats(private val guiStage: BaseGuiStage)
+    : Table(TextureCollection.skin),
+        GuiComponent by guiStage,
+        DefaultFunction by DEFAULT,
+        InputObserver {
 
     @Inject
     protected lateinit var playerController: PlayerController
@@ -78,7 +84,7 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
         return cell
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
 
 //        update(game.gameController.playerController.currentPlayer.playerData) //TODO update not all
     }
@@ -112,7 +118,7 @@ class PlayerStats(private val guiStage: BaseGuiStage) : Table(TextureCollection.
     }
 
     fun update(playerData: PlayerData) {
-        val items = guiStage.screen.game.gameController.playerController.getPlayer(playerData.playerColor).playerItems
+        val items = getPlayerItems(playerController, playerData.playerColor)
 
         updateCredits(playerData)
         updateRound(playerData.playerColor)

@@ -1,7 +1,6 @@
 package de.bitb.spacerace.model.space.maps
 
 import de.bitb.spacerace.config.DEBUG_TEST_FIELD
-import de.bitb.spacerace.controller.GameController
 
 enum class MapCollection {
 
@@ -11,13 +10,13 @@ enum class MapCollection {
     TEST_MAP(),
     RANDOM();
 
-    fun createMap(gameController: GameController, mapCollection: MapCollection = this): SpaceMap {
+    fun createMap(mapCollection: MapCollection = this): SpaceMap {
         val map = when (mapCollection) {
-            CIRCLEROAD -> CircleRoadMap(gameController)
-            CROSSROAD -> CrossRoadMap(gameController)
-            SOLARROAD -> SolarsystemMap(gameController, *DEBUG_TEST_FIELD.toTypedArray())
-            TEST_MAP -> TestMap(gameController, *DEBUG_TEST_FIELD.toTypedArray())
-            RANDOM -> TestMap(gameController)
+            CIRCLEROAD -> CircleRoadMap()
+            CROSSROAD -> CrossRoadMap()
+            SOLARROAD -> SolarsystemMap(*DEBUG_TEST_FIELD.toTypedArray())
+            TEST_MAP -> TestMap(*DEBUG_TEST_FIELD.toTypedArray())
+            RANDOM -> TestMap()
         }
         map.addAllGoals()
         return map

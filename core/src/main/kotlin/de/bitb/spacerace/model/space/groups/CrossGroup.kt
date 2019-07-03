@@ -6,10 +6,12 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH_HALF
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class CrossGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f, starMode: Boolean = false) : SpaceGroup(gameController, offsetX, offsetY) {
+class CrossGroup(offsetX: Float = 0f,
+                 offsetY: Float = 0f,
+                 starMode: Boolean = false
+) : SpaceGroup(offsetX, offsetY) {
 
     init {
 

@@ -12,7 +12,6 @@ import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LANGUAGE
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_START
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.start.*
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
@@ -79,7 +78,7 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
     private fun addAmountPanel(lessBtn: TextButton, label: Label, moreBtn: TextButton) {
         setFont(addCell(lessBtn, 1).actor)
         val cell = add(label)
-        cell.colspan(maxSpan-3)
+        cell.colspan(maxSpan - 3)
         setFont(cell.actor)
         setFont(addCell(moreBtn, 1).actor)
         row()
@@ -139,7 +138,7 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
         return cell
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
         when (event) {
             is ChangeLanguageCommand -> updateButtonText()
             is ChangeWinAmountCommand -> updateWinLabelText()

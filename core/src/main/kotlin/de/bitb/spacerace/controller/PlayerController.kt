@@ -1,6 +1,5 @@
 package de.bitb.spacerace.controller
 
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.player.NONE_PLAYER
@@ -10,11 +9,15 @@ import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class PlayerController @Inject constructor() {
+@Singleton
+class PlayerController
+@Inject constructor(
+        var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
+) {
 
-    @Inject
-    protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
+    val gamePlayer: MutableList<PlayerColor> = mutableListOf()
 
     private var dispo: Disposable? = null
 
@@ -26,7 +29,6 @@ class PlayerController @Inject constructor() {
         get() = players.firstOrNull() ?: NONE_PLAYER
 
     init {
-        MainGame.appComponent.inject(this)
         initObserver()
     }
 

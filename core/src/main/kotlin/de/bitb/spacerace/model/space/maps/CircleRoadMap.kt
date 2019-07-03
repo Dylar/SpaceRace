@@ -1,15 +1,12 @@
 package de.bitb.spacerace.model.space.maps
 
 import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.controller.FieldController
-import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.groups.BoxGroup
 import de.bitb.spacerace.model.space.groups.CircleGroup
 
-class CircleRoadMap(gameController: GameController,
-                    fieldController: FieldController = gameController.fieldController)
+class CircleRoadMap()
     : SpaceMap() {
 
     init {
@@ -26,16 +23,16 @@ class CircleRoadMap(gameController: GameController,
         fieldTypes.add(FieldType.LOSE)
         fieldTypes.add(FieldType.GOAL)
 
-        val centerGroup = CircleGroup(gameController, fieldTypes = fieldTypes)
-        val upGroup = BoxGroup(gameController, offsetY = offsetY * 1.2f)
-        val rightGroup = BoxGroup(gameController, offsetX)
-        val downGroup = BoxGroup(gameController, offsetY = -offsetY / 1.2f)
-        val leftGroup = BoxGroup(gameController, -offsetX)
+        val centerGroup = CircleGroup(fieldTypes = fieldTypes)
+        val upGroup = BoxGroup(offsetY = offsetY * 1.2f)
+        val rightGroup = BoxGroup(offsetX)
+        val downGroup = BoxGroup(offsetY = -offsetY / 1.2f)
+        val leftGroup = BoxGroup(-offsetX)
 
-        centerGroup.connect(fieldController, ConnectionPoint.TOP, upGroup)
-        centerGroup.connect(fieldController, ConnectionPoint.RIGHT, rightGroup)
-        centerGroup.connect(fieldController, ConnectionPoint.BOTTOM, downGroup)
-        centerGroup.connect(fieldController, ConnectionPoint.LEFT, leftGroup)
+        centerGroup.connect(ConnectionPoint.TOP, upGroup)
+        centerGroup.connect(ConnectionPoint.RIGHT, rightGroup)
+        centerGroup.connect(ConnectionPoint.BOTTOM, downGroup)
+        centerGroup.connect(ConnectionPoint.LEFT, leftGroup)
 
         startField = centerGroup.getField(0)
         groups.add(centerGroup)

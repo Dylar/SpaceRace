@@ -16,13 +16,17 @@ class GameOverCommand(val winner: PlayerColor = PlayerColor.NONE) : BaseCommand(
         MainGame.appComponent.inject(this)
     }
 
-    override fun canExecute(game: MainGame): Boolean {
+    override fun canExecute(): Boolean {
         return true
     }
 
-    override fun execute(game: MainGame) {
-        game.clear()
-        inputHandler.removeListener()
-        game.changeScreen(GameOverScreen(game))
+    override fun execute() {
+
+        //TODO do this as "command"
+//
+//        game.clear()
+//        inputHandler.removeListener()
+//
+//        game.changeScreen(GameOverScreen(game))
     }
 }

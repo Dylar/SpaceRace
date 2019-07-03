@@ -13,7 +13,7 @@ import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen), InputObserver {
+class GameGuiStage(screen: GameScreen) : BaseGuiStage(screen), InputObserver {
 
     @Inject
     protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
@@ -21,9 +21,9 @@ class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen), I
     private var dispo: Disposable? = null
 
     private var playerStats: PlayerStats = PlayerStats(this)
-    private var viewControl: ViewControl = ViewControl(game)
-    private var gameControl: GameControl = GameControl(game, this)
-    private var debugControl: DebugControl = DebugControl(game)
+    private var viewControl: ViewControl = ViewControl(screen)
+    private var gameControl: GameControl = GameControl(this)
+    private var debugControl: DebugControl = DebugControl(screen)
 
     init {
         MainGame.appComponent.inject(this)
@@ -50,7 +50,7 @@ class GameGuiStage(game: MainGame, screen: GameScreen) : BaseGuiStage(screen), I
                 })
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
 
     }
 

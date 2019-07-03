@@ -7,11 +7,11 @@ import de.bitb.spacerace.model.enums.FieldType
 
 class SelectTestFieldCommand(private val testField: FieldType) : BaseCommand() {
 
-    override fun canExecute(game: MainGame): Boolean {
+    override fun canExecute(): Boolean {
         return true
     }
 
-    override fun execute(game: MainGame) {
+    override fun execute() {
         if (!DEBUG_TEST_FIELD.remove(testField)) {
             DEBUG_TEST_FIELD.add(testField)
         }

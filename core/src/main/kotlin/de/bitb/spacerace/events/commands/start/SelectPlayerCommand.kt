@@ -1,19 +1,30 @@
 package de.bitb.spacerace.events.commands.start
 
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.player.PlayerColor
+import javax.inject.Inject
 
-class SelectPlayerCommand(var playerColor: PlayerColor) : BaseCommand(NONE_PLAYER_DATA) {
+class SelectPlayerCommand(
+        var playerColor: PlayerColor
+) : BaseCommand(NONE_PLAYER_DATA) {
 
-    override fun canExecute(game: MainGame): Boolean {
+    @Inject
+    protected lateinit var playerController: PlayerController
+
+    init {
+        MainGame.appComponent.inject(this)
+    }
+
+    override fun canExecute(): Boolean {
         return true
     }
 
-    override fun execute(game: MainGame) {
-        if (!game.gameController.gamePlayer.remove(playerColor)) {
-            game.gameController.gamePlayer.add(playerColor)
+    override fun execute() {
+        if (!playerController.gamePlayer.remove(playerColor)) {
+            playerController.gamePlayer.add(playerColor)
         }
     }
 

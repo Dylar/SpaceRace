@@ -9,15 +9,19 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceConnection
+import javax.inject.Inject
 
 class ConnectionList(
-        val playerController: PlayerController,
+//        var playerController: PlayerController,
         val mutableList: MutableList<SpaceConnection> = ArrayList())
     : MutableList<SpaceConnection> by mutableList,
         Actor() {
 
     val connectedColor = Color(Color.GREEN)
     val disconnectedColor = Color(Color.RED)
+
+    @Inject
+    lateinit var playerController: PlayerController
 
     init {
         MainGame.appComponent.inject(this)
@@ -54,5 +58,6 @@ class ConnectionList(
 
     override fun clear() {
         mutableList.clear()
+        super.clear()
     }
 }

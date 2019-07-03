@@ -64,7 +64,7 @@ abstract class BaseMenu(val guiStage: GameGuiStage,
         previousMenu?.openMenu()
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
 
     }
 }

@@ -11,7 +11,8 @@ import io.reactivex.Observable
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class ObserveRoundUsecase @Inject constructor(
+class ObserveRoundUsecase
+@Inject constructor(
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource
 ) : UseCaseWithoutParams<Boolean>() {
@@ -23,7 +24,7 @@ class ObserveRoundUsecase @Inject constructor(
                     .flatMap(::updatePlayer)
 
     private fun filterPlayer(player: List<PlayerData>) =
-            player.filter { it.phase.isEndTurn()}.toMutableList()
+            player.filter { it.phase.isEndTurn() }.toMutableList()
                     .apply {
                         if (size != player.size) {
                             clear()

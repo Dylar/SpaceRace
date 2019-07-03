@@ -2,11 +2,14 @@ package de.bitb.spacerace.model.items
 
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.ITEM_BORDER
+import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.player.PlayerColor
+import javax.inject.Inject
 
 
 abstract class Item(
@@ -14,6 +17,12 @@ abstract class Item(
         val price: Int,
         val img: Texture
 ) : GameObject() {
+
+    @Inject
+    protected lateinit var playerController: PlayerController
+
+    @Inject
+    protected lateinit var fieldController: FieldController
 
     abstract val itemType: ItemCollection
     abstract var text: String
@@ -29,9 +38,10 @@ abstract class Item(
 
     init {
         setBounds(0f, 0f, ITEM_BORDER, ITEM_BORDER)
+        MainGame.appComponent.inject(this)
     }
 
-    abstract fun canUse(game: MainGame, playerData: PlayerData): Boolean
-    abstract fun use(game: MainGame, playerData: PlayerData): Boolean
+    abstract fun canUse(playerData: PlayerData): Boolean
+    abstract fun use(playerData: PlayerData): Boolean
 
 }

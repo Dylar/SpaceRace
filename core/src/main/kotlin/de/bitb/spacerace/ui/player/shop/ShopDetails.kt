@@ -25,7 +25,7 @@ import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import org.greenrobot.eventbus.EventBus
 
-class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, val item: Item)
+class ShopDetails(guiStage: GameGuiStage, shopMenu: ShopMenu, val item: Item)
     : BaseMenu(guiStage, shopMenu), InputObserver {
 
     private lateinit var buyBtn: TextButton
@@ -34,17 +34,17 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
 
     init {
         MainGame.appComponent.inject(this)
-        addTitle(game)
+        addTitle()
         addImage()
         addText()
-        addButtons(game)
+        addButtons()
         pack()
         setPosition()
     }
 
-    private fun addTitle(game: MainGame) {
+    private fun addTitle() {
         creditsTitle = add("-")
-        setCreditsTitle(getPlayerItems(game.gameController.playerController, playerController.currentPlayer.playerColor).getItems(item.itemType).size)
+        setCreditsTitle(getPlayerItems(playerController, playerController.currentPlayer.playerColor).getItems(item.itemType).size)
         addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()
@@ -68,7 +68,7 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
         y = (Dimensions.SCREEN_HEIGHT - (Dimensions.SCREEN_HEIGHT / 2) - height / 2)
     }
 
-    private fun addButtons(game: MainGame) {
+    private fun addButtons() {
         row()
 
         val container = Table(skin)
@@ -115,10 +115,10 @@ class ShopDetails(game: MainGame, guiStage: GameGuiStage, shopMenu: ShopMenu, va
         creditsTitle.actor.setText("${item.price} ($items)")
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
         when (event) {
             is BuyItemCommand,
-            is SellItemCommand -> setCreditsTitle(getPlayerItems(game.gameController.playerController, event.playerData.playerColor).getItems(item.itemType).size)
+            is SellItemCommand -> setCreditsTitle(getPlayerItems(playerController, event.playerData.playerColor).getItems(item.itemType).size)
         }
     }
 

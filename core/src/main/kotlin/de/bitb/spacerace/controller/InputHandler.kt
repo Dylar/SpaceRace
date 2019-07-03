@@ -11,19 +11,18 @@ import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 
-class InputHandler(private val game: MainGame) : DefaultFunction {
+class InputHandler @Inject constructor() : DefaultFunction {
 
     @Inject
     protected lateinit var commandUsecase: CommandUsecase
 
-    private val inputObserver: MutableList<InputObserver> = ArrayList()
+    private val inputObserver: MutableList<InputObserver> = ArrayList() //TODO delete me
 
     init {
         EventBus.getDefault().register(this)
         MainGame.appComponent.inject(this)
 
         commandUsecase.observeStream( //TODO just execute
-                game,
                 onNext = {
                     notifyObserver(it)
                 }
@@ -51,7 +50,7 @@ class InputHandler(private val game: MainGame) : DefaultFunction {
         Gdx.app.postRunnable {
             val observerList = ArrayList(inputObserver)
             for (obs in observerList) {
-                obs.update(game, event)
+                obs.update(event)
             }
         }
     }

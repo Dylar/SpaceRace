@@ -1,6 +1,5 @@
 package de.bitb.spacerace.events.commands.phases
 
-import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
@@ -15,16 +14,13 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
     protected lateinit var nextPhaseUsecase: NextPhaseUsecase
 
     @Inject
-    lateinit var inputHandler: InputHandler
-
-    @Inject
     lateinit var playerController: PlayerController
 
     init {
         MainGame.appComponent.inject(this)
     }
 
-    override fun canExecute(game: MainGame) =
+    override fun canExecute() =
             when (playerData.phase) {
                 Phase.MAIN1 -> canEndMain1(playerData)
                 Phase.MOVE -> canEndMove(playerData)
@@ -46,7 +42,7 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
     }
 
 
-    override fun execute(game: MainGame) {
+    override fun execute() {
         nextPhaseUsecase.execute(playerData)
     }
 

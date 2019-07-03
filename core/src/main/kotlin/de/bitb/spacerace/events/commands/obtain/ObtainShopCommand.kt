@@ -6,11 +6,11 @@ import de.bitb.spacerace.events.commands.BaseCommand
 
 class ObtainShopCommand(playerData: PlayerData) : BaseCommand(playerData) {
 
-    override fun canExecute(game: MainGame): Boolean {
+    override fun canExecute(): Boolean {
         return true
     }
 
-    override fun execute(game: MainGame) {
+    override fun execute() {
 
     }
 

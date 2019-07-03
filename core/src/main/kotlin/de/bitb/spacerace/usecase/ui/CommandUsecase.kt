@@ -10,6 +10,7 @@ import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.usecase.UseCase
+import de.bitb.spacerace.usecase.UseCaseWithoutParams
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -18,14 +19,14 @@ import javax.inject.Inject
 class CommandUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource,
         private val commandDispender: CommandDispender
-) : UseCase<BaseCommand, MainGame>(),
+) : UseCaseWithoutParams<BaseCommand>(),
         Dispender<BaseCommand> by commandDispender,
         DefaultFunction by DEFAULT {
 
-    override fun buildUseCaseObservable(params: MainGame): Observable<BaseCommand> {
+    override fun buildUseCaseObservable(): Observable<BaseCommand> {
         return publisher
                 .switchMap(::updatePlayerData)
-                .flatMap { handleCommand(it, params) }
+                .flatMap(::handleCommand)
     }
 
     private fun updatePlayerData(command: BaseCommand) =
@@ -37,11 +38,11 @@ class CommandUsecase @Inject constructor(
                 Single.just(command)
             }.toObservable()
 
-    private fun handleCommand(command: BaseCommand, game: MainGame) =
+    private fun handleCommand(command: BaseCommand) =
             Completable.fromCallable {
-                if (command.canExecute(game)) {
+                if (command.canExecute()) {
                     Logger.println("Executed doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
-                    command.execute(game)
+                    command.execute()
                 } else Logger.println("Not Executed doOnNext:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
             }.toSingleDefault(command).toObservable()
 

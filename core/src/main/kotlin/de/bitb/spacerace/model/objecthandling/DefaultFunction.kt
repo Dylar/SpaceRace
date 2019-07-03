@@ -33,8 +33,8 @@ interface DefaultFunction {
         return getPlayer(playerController, playerColor).playerItems
     }
 
-    fun getPlayerField(fieldController: FieldController, playerColor: PlayerColor): SpaceField {
-        return fieldController.getField(getPlayerPosition(fieldController.playerController, playerColor))
+    fun getPlayerField(playerController: PlayerController, fieldController: FieldController, playerColor: PlayerColor): SpaceField {
+        return fieldController.getField(getPlayerPosition(playerController, playerColor))
     }
 
     fun getItemField(fieldController: FieldController, item: Item): SpaceField {

@@ -9,7 +9,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class EquipItem(owner: PlayerColor, price: Int, img: Texture) : Item(owner, price, img) {
 
-    override fun canUse(game: MainGame, playerData: PlayerData): Boolean {
+    override fun canUse(playerData: PlayerData): Boolean {
         return when (state) {
             ItemState.STORAGE, ItemState.EQUIPPED -> owner == playerData.playerColor && playerData.phase.isMain()
             else -> {
@@ -18,14 +18,14 @@ abstract class EquipItem(owner: PlayerColor, price: Int, img: Texture) : Item(ow
         }
     }
 
-    override fun use(game: MainGame, playerData: PlayerData): Boolean {
+    override fun use(playerData: PlayerData): Boolean {
         return when (state) {
             ItemState.STORAGE -> {
-                getPlayerItems(game.gameController.playerController, playerData.playerColor).equipItem(this)
+                getPlayerItems(playerController, playerData.playerColor).equipItem(this)
                 return true
             }
             ItemState.EQUIPPED -> {
-                getPlayerItems(game.gameController.playerController, playerData.playerColor).unequipItem(this)
+                getPlayerItems(playerController, playerData.playerColor).unequipItem(this)
                 return true
             }
             else -> false

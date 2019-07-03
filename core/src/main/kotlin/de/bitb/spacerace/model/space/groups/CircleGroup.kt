@@ -3,17 +3,17 @@ package de.bitb.spacerace.model.space.groups
 import com.badlogic.gdx.math.Vector2
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.utils.CalculationUtils
 
 
-open class CircleGroup(gameController: GameController,
-                       offsetX: Float = 0f,
-                       offsetY: Float = 0f,
-                       fieldTypes: List<FieldType>) : SpaceGroup(gameController, offsetX, offsetY) {
+open class CircleGroup(
+        offsetX: Float = 0f,
+        offsetY: Float = 0f,
+        fieldTypes: List<FieldType>
+) : SpaceGroup(offsetX, offsetY) {
 
     init {
         val size = fieldTypes.size

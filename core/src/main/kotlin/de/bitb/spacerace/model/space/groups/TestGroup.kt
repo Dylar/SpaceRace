@@ -6,10 +6,13 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDI
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-open class TestGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f, vararg fieldType: FieldType) : SpaceGroup(gameController, offsetX, offsetY) {
+open class TestGroup(
+        offsetX: Float = 0f,
+        offsetY: Float = 0f,
+        vararg fieldType: FieldType
+) : SpaceGroup(offsetX, offsetY) {
     var fieldTypeSize = fieldType.size
     var index = 0
 

@@ -32,12 +32,11 @@ import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class GameControl(game: MainGame,
-                  val guiStage: GameGuiStage
+class GameControl(val guiStage: GameGuiStage
 ) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
 
-    private var itemMenu = ItemMenu(game, guiStage)
-    private var shopMenu = ShopMenu(game, guiStage)
+    private var itemMenu = ItemMenu(guiStage)
+    private var shopMenu = ShopMenu(guiStage)
 
     @Inject
     protected lateinit var playerController: PlayerController
@@ -55,7 +54,6 @@ class GameControl(game: MainGame,
 
         val continueBtn = createButton(name = GAME_BUTTON_CONTINUE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                val gameController = guiStage.gameController
                 EventBus.getDefault().post(NextPhaseCommand(playerController.currentPlayerData))
                 return true
             }
@@ -63,7 +61,7 @@ class GameControl(game: MainGame,
 
         val storageBtn = createButton(name = GAME_BUTTON_STORAGE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                openItemMenu(game)
+                openItemMenu()
                 return true
             }
         })
@@ -91,21 +89,21 @@ class GameControl(game: MainGame,
         return cell
     }
 
-    private fun openItemMenu(game: MainGame) {
+    private fun openItemMenu() {
         if (itemMenu.isOpen) {
             itemMenu.closeMenu()
         } else {
-            itemMenu = ItemMenu(game, guiStage)
+            itemMenu = ItemMenu(guiStage)
             itemMenu.openMenu()
             guiStage.addActor(itemMenu)
         }
     }
 
-    private fun openShop(game: MainGame) {
+    private fun openShop() {
         if (shopMenu.isOpen) {
             shopMenu.closeMenu()
         } else {
-            shopMenu = ShopMenu(game, guiStage)
+            shopMenu = ShopMenu(guiStage)
             shopMenu.openMenu()
             guiStage.addActor(shopMenu)
         }
@@ -117,12 +115,12 @@ class GameControl(game: MainGame,
         guiStage.addActor(endMenu)
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
         when (event) {
             is OpenEndRoundMenuCommand -> openEndRoundMenu()
-            is ObtainShopCommand -> openShop(game)
-            is UseItemCommand -> itemMenu.update(game, event)
-            is BuyItemCommand, is SellItemCommand -> shopMenu.update(game, event)
+            is ObtainShopCommand -> openShop()
+            is UseItemCommand -> itemMenu.update(event)
+            is BuyItemCommand, is SellItemCommand -> shopMenu.update(event)
         }
     }
 

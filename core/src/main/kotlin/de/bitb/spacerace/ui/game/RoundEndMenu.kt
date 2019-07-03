@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.EventBus
 class RoundEndMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     init {
-        val players = guiStage.gameController.playerController.players
+        val players = playerController.players
         var size = players.size
         size = if (size < GAME_MENU_END_ROUND_WIDTH_MIN) GAME_MENU_END_ROUND_WIDTH_MIN else size
 

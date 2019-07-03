@@ -1,14 +1,22 @@
 package de.bitb.spacerace.model.space.groups
 
 import de.bitb.spacerace.controller.FieldController
-import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.space.fields.SpaceField
+import javax.inject.Inject
 
-open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0f, val offsetY: Float = 0f) {
+open class SpaceGroup(val offsetX: Float = 0f, val offsetY: Float = 0f) {
+
+    @Inject
+    protected lateinit var fieldController: FieldController
 
     private val connectionPoint: MutableMap<ConnectionPoint, MutableList<SpaceField>> = HashMap()
     val fields: MutableMap<Int, SpaceField> = HashMap()
+
+    init {
+        MainGame.appComponent.inject(this)
+    }
 
     fun getField(id: Int): SpaceField {
         return fields[id]!!
@@ -30,7 +38,7 @@ open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0
     }
 
     fun connect(spaceField1: SpaceField, spaceField2: SpaceField) {
-        gameController.fieldController.addConnection(spaceField1, spaceField2)
+        fieldController.addConnection(spaceField1, spaceField2)
     }
 
     private fun getConnectionPoint(connection: ConnectionPoint): MutableList<SpaceField> {
@@ -46,7 +54,7 @@ open class SpaceGroup(val gameController: GameController, val offsetX: Float = 0
         getConnectionPoint(connection).add(field)
     }
 
-    fun connect(fieldController: FieldController, connection: ConnectionPoint, group: SpaceGroup) {
+    fun connect(connection: ConnectionPoint, group: SpaceGroup) {
         val thisConnection = getConnectionPoint(connection)
         val thatConnection = group.getConnectionPoint(connection.getOpposite())
         for (index in thisConnection.withIndex()) {

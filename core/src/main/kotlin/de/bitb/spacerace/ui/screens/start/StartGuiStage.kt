@@ -3,7 +3,6 @@ package de.bitb.spacerace.ui.screens.start
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.controller.InputObserver
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.start.OpenDebugGuiCommand
 import de.bitb.spacerace.ui.screens.start.control.MapSelectionControl
@@ -34,7 +33,7 @@ class StartGuiStage(screen: StartScreen) : BaseGuiStage(screen), InputObserver {
         inputHandler.addListener(this)
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
         when (event) {
             is OpenDebugGuiCommand -> {
                 if (mapSelection.stage == null) {

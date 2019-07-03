@@ -4,12 +4,14 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDE
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDING_XXLARGE
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH_HALF
-import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-open class SpinningGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f, vararg fieldType: FieldType) : SpaceGroup(gameController, offsetX, offsetY) {
+open class SpinningGroup(offsetX: Float = 0f,
+                         offsetY: Float = 0f,
+                         vararg fieldType: FieldType
+) : SpaceGroup(offsetX, offsetY) {
     var fieldTypeSize = fieldType.size
     var index = 0
 

@@ -12,7 +12,7 @@ abstract class DisposableItem(owner: PlayerColor, price: Int, img: Texture) : It
     val speed = Math.random()
     var attachedTo = PlayerColor.NONE
 
-    override fun canUse(game: MainGame, playerData: PlayerData): Boolean {
+    override fun canUse(playerData: PlayerData): Boolean {
         return when (state) {
             ItemState.STORAGE -> playerData.phase.isMain()
             ItemState.DISPOSED, ItemState.USED -> playerData.playerColor != owner && playerData.phase.isMain2()
@@ -20,22 +20,22 @@ abstract class DisposableItem(owner: PlayerColor, price: Int, img: Texture) : It
         }
     }
 
-    override fun use(game: MainGame, playerData: PlayerData): Boolean {
+    override fun use(playerData: PlayerData): Boolean {
         val playerColor = playerData.playerColor
         return when (state) {
             ItemState.STORAGE -> {
-                val field = getPlayerField(game.gameController.fieldController, playerColor)
+                val field = getPlayerField(playerController, fieldController, playerColor)
                 val fieldImage = field.getGameImage()
                 this.itemImage.setRotating(this, fieldImage, fieldImage.width * 0.7)
                 field.disposeItem(this)
-                getPlayerItems(game.gameController.playerController, playerColor).disposeItem(this)
+                getPlayerItems(playerController, playerColor).disposeItem(this)
                 true
             }
             ItemState.DISPOSED -> {
                 attachedTo = playerColor
-                val playerImage = getPlayerImage(game.gameController.playerController, playerColor)
-                getPlayerItems(game.gameController.playerController, playerColor).attachItem(this)
-                game.gameController.fieldController.getField(getPlayerPosition(game.gameController.playerController, playerColor)).attachItem(this)
+                val playerImage = getPlayerImage(playerController, playerColor)
+                getPlayerItems(playerController, playerColor).attachItem(this)
+                fieldController.getField(getPlayerPosition(playerController, playerColor)).attachItem(this)
                 this.itemImage.setRotating(this, playerImage, playerImage.width * 0.7)
                 true
             }

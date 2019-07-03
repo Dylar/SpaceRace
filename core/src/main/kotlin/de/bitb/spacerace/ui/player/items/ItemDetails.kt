@@ -23,11 +23,11 @@ import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.items.equip.EquipItem
 import de.bitb.spacerace.model.items.usable.UsableItem
-import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import org.greenrobot.eventbus.EventBus
 
-class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, val items: MutableList<Item>) : BaseMenu(guiStage, itemMenu), InputObserver {
+class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val items: MutableList<Item>) : BaseMenu(guiStage, itemMenu), InputObserver {
 
     private lateinit var useBtn: TextButton
     private lateinit var unuseBtn: TextButton
@@ -37,7 +37,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
         addTitle()
         addImage()
         addText()
-        addButtons(game)
+        addButtons()
         pack()
         setPosition()
         setUsedTitle()
@@ -70,7 +70,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
         y = (Dimensions.SCREEN_HEIGHT - (Dimensions.SCREEN_HEIGHT / 2) - height / 2)
     }
 
-    private fun addButtons(game: MainGame) {
+    private fun addButtons() {
         row()
 
         val container = Table(skin)
@@ -82,7 +82,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     val item = getByState(ItemState.EQUIPPED)
                     if (item.isNotEmpty()) {
-                        EventBus.getDefault().post(UseItemCommand(item[0], game.gameController.playerController.currentPlayerData))
+                        EventBus.getDefault().post(UseItemCommand(item[0], playerController.currentPlayerData))
                     }
                     return true
                 }
@@ -94,7 +94,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 val item = getByState(ItemState.STORAGE)
                 if (item.isNotEmpty()) {
-                    EventBus.getDefault().post(UseItemCommand(item[0], game.gameController.playerController.currentPlayerData))
+                    EventBus.getDefault().post(UseItemCommand(item[0], playerController.currentPlayerData))
                 }
                 return true
             }
@@ -159,7 +159,7 @@ class ItemDetails(game: MainGame, guiStage: GameGuiStage, itemMenu: ItemMenu, va
         }
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
         if (event is UseItemCommand) {
             setUsedTitle()
             setUseButton()

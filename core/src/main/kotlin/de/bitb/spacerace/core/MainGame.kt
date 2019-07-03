@@ -32,11 +32,14 @@ open class MainGame : BaseGame() {
 
     lateinit var gameController: GameController
 
-    override fun initScreen() {
+    init {
         appComponent = DaggerAppComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .databaseModule(DatabaseModule())
                 .build()
+    }
+
+    override fun initScreen() {
         appComponent.inject(this)
         setScreen(StartScreen(this))
 
@@ -113,6 +116,7 @@ open class MainGame : BaseGame() {
         return checkCombi(Input.Keys.ALT_LEFT, Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)
     }
 
+    //TODO clear on
     fun clear() {
         gameController.compositeDisposable.clear()
         (screen as BaseScreen).clear()

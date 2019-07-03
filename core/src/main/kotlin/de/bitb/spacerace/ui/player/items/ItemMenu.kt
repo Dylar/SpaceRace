@@ -7,24 +7,23 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
-class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
+class ItemMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
     private lateinit var itemDetails: ItemDetails
 
     init {
-        val items = guiStage.gameController.playerController.currentPlayer.playerItems.getItemsTypeMap()
+        val items = playerController.currentPlayer.playerItems.getItemsTypeMap()
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
         addTitle(size)
-        addItems(game, items)
+        addItems(items)
         addButtons(size)
 
         pack()
@@ -43,14 +42,14 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
         cell.colspan(size)
     }
 
-    private fun addItems(game: MainGame, items: MutableMap<ItemCollection, MutableList<Item>>) {
+    private fun addItems(items: MutableMap<ItemCollection, MutableList<Item>>) {
         row()
         for (typeList in items) {
             if (typeList.value.isNotEmpty()) {
                 val displayImage = typeList.value[0].getDisplayImage(typeList.value[0])
                 displayImage.addListener(object : InputListener() {
                     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                        itemDetails = ItemDetails(game, guiStage, this@ItemMenu, typeList.value)
+                        itemDetails = ItemDetails(guiStage, this@ItemMenu, typeList.value)
                         itemDetails.openMenu()
                         return true
                     }
@@ -73,9 +72,9 @@ class ItemMenu(game: MainGame, guiStage: GameGuiStage) : BaseMenu(guiStage) {
         setFont(cellBtn.actor)
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
         if (::itemDetails.isInitialized) {
-            itemDetails.update(game, event)
+            itemDetails.update(event)
         }
     }
 }

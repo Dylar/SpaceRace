@@ -21,7 +21,7 @@ class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, 
     protected lateinit var playerController: PlayerController
 
     override fun createGuiStage(): BaseStage {
-        return GameGuiStage(game, this)
+        return GameGuiStage(this)
     }
 
     override fun createGameStage(): BaseStage {

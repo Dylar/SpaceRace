@@ -20,9 +20,7 @@ import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.game.GameScreen
 
-class ViewControl(val game: MainGame) : Table(TextureCollection.skin), InputObserver, GuiComponent by object : GuiComponent {} {
-
-    val screen = (game.screen as GameScreen)
+class ViewControl(val screen: GameScreen) : Table(TextureCollection.skin), InputObserver, GuiComponent by object : GuiComponent {} {
 
     private var centerBtn: TextButton
 
@@ -70,7 +68,7 @@ class ViewControl(val game: MainGame) : Table(TextureCollection.skin), InputObse
         return cell
     }
 
-    override fun <T : BaseCommand> update(game: MainGame, event: T) {
+    override fun <T : BaseCommand> update(event: T) {
         updateButtons()
     }
 

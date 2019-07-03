@@ -5,10 +5,9 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDI
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.model.space.fields.SpaceField
 
-class AsteroidGroup(gameController: GameController, offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(gameController, offsetX, offsetY) {
+class AsteroidGroup(offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(offsetX, offsetY) {
 
     init {
 

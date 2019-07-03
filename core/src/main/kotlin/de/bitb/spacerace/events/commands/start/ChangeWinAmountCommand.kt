@@ -5,11 +5,11 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 
 class ChangeWinAmountCommand(val amount: Int) : StartScreenCommand(NONE_PLAYER_DATA) {
-    override fun canExecute(game: MainGame): Boolean {
+    override fun canExecute(): Boolean {
         return true
     }
 
-    override fun execute(game: MainGame) {
+    override fun execute() {
         WIN_AMOUNT += amount
         WIN_AMOUNT = if (WIN_AMOUNT < 1) 1 else WIN_AMOUNT
     }

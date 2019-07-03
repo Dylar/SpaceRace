@@ -15,11 +15,11 @@ class StartNextRoundCommand() : BaseCommand(NONE_PLAYER_DATA) {
         MainGame.appComponent.inject(this)
     }
 
-    override fun canExecute(game: MainGame): Boolean {
+    override fun canExecute(): Boolean {
         return true
     }
 
-    override fun execute(game: MainGame) {
+    override fun execute() {
         startNewRoundUsecase.execute()
     }
 

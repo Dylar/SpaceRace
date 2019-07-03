@@ -21,15 +21,7 @@ import javax.inject.Inject
 
 class GameController() : DefaultFunction by DEFAULT {
 
-    val gamePlayer: MutableList<PlayerColor> = mutableListOf()
-
     val compositeDisposable = CompositeDisposable()
-
-    @Inject
-    lateinit var playerController: PlayerController
-
-    @Inject
-    lateinit var fieldController: FieldController
 
     @Inject
     lateinit var observeWinnerUsecase: ObserveWinnerUsecase
@@ -39,23 +31,6 @@ class GameController() : DefaultFunction by DEFAULT {
 
     init {
         MainGame.appComponent.inject(this)
-    }
-
-    fun initGame(game: MainGame, playerDatas: List<PlayerData>) {
-        val map = fieldController.initMap(this)
-
-        playerController.clearPlayer()
-        val startField = map.startField
-        playerDatas.withIndex()
-                .forEach {
-                    addPlayer(it, startField)
-                }
-        val gameStage = (game.screen as BaseScreen).gameStage as GameStage
-        gameStage.addEntitiesToMap()
-
-        initWinnerObserver()
-        initPhaseObserver()
-
     }
 
     private fun initWinnerObserver() {
@@ -72,14 +47,6 @@ class GameController() : DefaultFunction by DEFAULT {
                 onNext = { isNext ->
                     Logger.println("observeRoundUsecase: NEXT ROUND: $isNext")
                 })
-    }
-
-    private fun addPlayer(playerData: IndexedValue<PlayerData>, startField: SpaceField) {
-        val player = Player(playerData.value.playerColor)
-
-        playerController.addPlayer(player)
-//        player.playerImage.movingSpeed * playerData.index
-        fieldController.addShip(player, startField)
     }
 
 }

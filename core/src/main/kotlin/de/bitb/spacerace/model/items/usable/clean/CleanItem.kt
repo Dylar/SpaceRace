@@ -11,12 +11,11 @@ abstract class CleanItem(playerColor: PlayerColor, price: Int, img: Texture) : U
 
     val cleanable = ArrayList<ItemCollection>()
 
-    override fun use(game: MainGame, playerData: PlayerData): Boolean {
+    override fun use(playerData: PlayerData): Boolean {
         if (state.isStorage()) {
-            getPlayerItems(game.gameController.playerController, playerData.playerColor).detachItems(cleanable)
+            getPlayerItems(playerController, playerData.playerColor).detachItems(cleanable)
         }
-        return super.use(game, playerData)
+        return super.use(playerData)
     }
-
 
 }
