@@ -7,15 +7,22 @@ import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
+import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.injection.components.AppComponent
+import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.database.map.FieldData
-import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.ui.screens.start.StartScreen
+import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
+import de.bitb.spacerace.usecase.ui.CommandUsecase
 import io.objectbox.Box
+import io.reactivex.disposables.Disposable
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 open class MainGame : BaseGame() {
@@ -25,22 +32,51 @@ open class MainGame : BaseGame() {
     }
 
     @Inject
-    lateinit var inputHandler: InputHandler
+    protected lateinit var commandUsecase: CommandUsecase
 
     @Inject
     lateinit var box: Box<FieldData>
 
     lateinit var gameController: GameController
 
+    @Inject
+    lateinit var inputHandler: InputHandler
+
+    @Inject
+    lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
+
+    private var dispo: Disposable? = null
+
     init {
+        EventBus.getDefault().register(this)
         appComponent = DaggerAppComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .databaseModule(DatabaseModule())
                 .build()
     }
 
+    private fun initObserver() {
+        dispo?.dispose()
+        dispo = observeCurrentPlayerUseCase.observeStream(
+                onNext = {
+                    //                    playerController.fixColor(it)
+                })
+
+        commandUsecase.observeStream(
+                onNext = {
+                    inputHandler.notifyObserver(it)
+                }
+        )
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun receiveCommand(event: BaseCommand) {
+        commandUsecase.commandDispender.publishUpdate(event)
+    }
+
     override fun initScreen() {
         appComponent.inject(this)
+        initObserver()
         setScreen(StartScreen(this))
 
 //        testFields()

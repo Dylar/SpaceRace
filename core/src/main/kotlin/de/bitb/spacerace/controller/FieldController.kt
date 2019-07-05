@@ -32,17 +32,16 @@ class FieldController
 
     var fields: MutableList<SpaceField> = mutableListOf()
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
-    val connections: ConnectionList by lazy { ConnectionList() }
+    lateinit var connections: ConnectionList
 
     init {
         MainGame.appComponent.inject(this)
-        clearField()
+//        clearField()
     }
 
     fun clearField() {
 //        fields.forEach { it.fieldImage.remove() }
         fields.clear()
-        connections.clear()
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
     }
 
@@ -65,10 +64,17 @@ class FieldController
     }
 
     fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
+        initConnection()
         val connection = SpaceConnection(spaceField1, spaceField2)
         connections.add(connection)
         spaceField1.connections.add(connection)
         spaceField2.connections.add(connection)
+    }
+
+    private fun initConnection() {
+        if (!::connections.isInitialized) {
+            connections = ConnectionList()
+        }
     }
 
     fun moveMovables() {

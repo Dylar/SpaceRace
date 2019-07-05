@@ -10,10 +10,10 @@ import javax.inject.Singleton
 @Module
 class UseCaseModule {
 
-    @Provides
-    fun provideObserveCurrentPlayerUseCase(
-            playerDataSource: PlayerDataSource,
-            playerColorDispender: PlayerColorDispender
-    ) = ObserveCurrentPlayerUseCase(playerDataSource, playerColorDispender)
+//    @Provides
+//    fun provideObserveCurrentPlayerUseCase(
+//            playerDataSource: PlayerDataSource,
+//            playerColorDispender: PlayerColorDispender
+//    ) = ObserveCurrentPlayerUseCase(playerDataSource, playerColorDispender)
 
 }

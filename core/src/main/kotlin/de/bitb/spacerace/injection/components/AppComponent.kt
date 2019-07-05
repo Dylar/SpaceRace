@@ -47,16 +47,13 @@ import javax.inject.Singleton
 )
 interface AppComponent {
     fun inject(game: MainGame)
-    fun inject(inputHandler: InputHandler)
 
     //CONTROLLER
     fun inject(gameController: GameController)
     fun inject(fieldController: FieldController)
-    fun inject(playerController: PlayerController)
+//    fun inject(playerController: PlayerController)
 
     //UI
-    fun inject(playerSelectionControl: PlayerSelectionControl)
-
     fun inject(baseGuiStage: BaseGuiStage)
     fun inject(gameGuiStage: GameGuiStage)
 
@@ -79,12 +76,10 @@ interface AppComponent {
     //COMMAND
     fun inject(startGameCommand: StartGameCommand)
 
-    fun inject(gameOverCommand: GameOverCommand)
     fun inject(nextPhaseCommand: NextPhaseCommand)
     fun inject(startNextRoundCommand: StartNextRoundCommand)
     fun inject(moveCommand: MoveCommand)
     fun inject(diceCommand: DiceCommand)
-    fun inject(selectPlayerCommand: SelectPlayerCommand)
     fun inject(selectMapCommand: SelectMapCommand)
     fun inject(sellItemCommand: SellItemCommand)
     fun inject(buyItemCommand: BuyItemCommand)

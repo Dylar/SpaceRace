@@ -20,6 +20,8 @@ var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
 var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 val SELECTED_MAP = MapCollection.TEST_MAP
+
+val SELECTED_PLAYER: MutableList<PlayerColor> = mutableListOf(PlayerColor.ORANGE, PlayerColor.GREEN)
 var WIN_AMOUNT = 1L
 var DICE_MAX = 1
 const val GOAL_CREDITS = 10000
@@ -41,7 +43,7 @@ const val FIELD_ROTATION = true
 const val STAR_COUNT = 5
 
 //DEBUG
-var PRESELECTED_PLAYER = arrayListOf(PlayerColor.ORANGE, PlayerColor.GREEN)
+//var PRESELECTED_PLAYER = arrayListOf()
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL)
 var DEBUG_ITEM = arrayListOf(ItemCollection.NONE)
 const val DEBUG_ITEMS = 5

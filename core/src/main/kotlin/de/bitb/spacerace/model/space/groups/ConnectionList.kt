@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.LineRenderer
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceConnection
@@ -24,7 +23,6 @@ class ConnectionList(
     lateinit var playerController: PlayerController
 
     init {
-        MainGame.appComponent.inject(this)
         connectedColor.a = 0.9f
         disconnectedColor.a = 0.7f
     }

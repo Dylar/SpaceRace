@@ -3,7 +3,6 @@ package de.bitb.spacerace.ui.screens.start.control
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.commands.BaseCommand

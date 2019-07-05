@@ -30,6 +30,7 @@ allprojects {
     }
 
     repositories {
+        jcenter()
         jcenter { url "http://jcenter.bintray.com/" }
         mavenLocal()
         mavenCentral()
@@ -167,6 +168,11 @@ project(":core") {
         implementation "com.google.dagger:dagger:$daggerVersion"
         kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
+        // Koin for Kotlin
+        implementation "org.koin:koin-core:$koin_version"
+        // Koin extended & experimental features
+        implementation "org.koin:koin-core-ext:$koin_version"
+
 
 //        ██████╗ ███████╗ █████╗  ██████╗████████╗██╗██╗   ██╗
 //        ██╔══██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝██║██║   ██║
@@ -186,8 +192,8 @@ project(":core") {
 //        ██████╔╝██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║███████║███████╗
 //        ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 
-        kapt "io.objectbox:objectbox-processor:$dbVersion"
-//        kapt("io.objectbox:objectbox-processor:$dbVersion")
+//        kapt "io.objectbox:objectbox-processor:$dbVersion"
+        kapt("io.objectbox:objectbox-processor:$dbVersion")
         // some useful Kotlin extension functions
 
         implementation "io.objectbox:objectbox-java:$dbVersion"
@@ -216,6 +222,9 @@ project(":core") {
 
         testImplementation "com.google.dagger:dagger:$daggerVersion"
         kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+
+// Koin for Unit tests
+        testImplementation "org.koin:koin-test:$koin_version"
     }
 }
 

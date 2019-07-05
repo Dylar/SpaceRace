@@ -1,25 +1,19 @@
 package de.bitb.spacerace.controller
 
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerItems
-import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
-import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class PlayerController
 @Inject constructor(
-        var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
 ) {
-
-    val gamePlayer: MutableList<PlayerColor> = mutableListOf()
-
-    private var dispo: Disposable? = null
 
     var currentPlayerData = NONE_PLAYER_DATA
 
@@ -29,16 +23,12 @@ class PlayerController
         get() = players.firstOrNull() ?: NONE_PLAYER
 
     init {
-        initObserver()
+        Logger.println(
+                "WAS IS DAS FÜRN HUSO"
+        )
     }
 
-    private fun initObserver() {
-        dispo?.dispose()
-        dispo = observeCurrentPlayerUseCase.observeStream(
-                onNext = { fixColor(it) })
-    }
-
-    private fun fixColor(playerData: PlayerData) {
+    fun fixColor(playerData: PlayerData) {
         currentPlayerData = playerData
 //        = currentPlayer.playerColor
 //                .let { current ->

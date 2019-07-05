@@ -3,6 +3,7 @@ package de.bitb.spacerace.events.commands.start
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.PlayerController
@@ -20,8 +21,8 @@ import javax.inject.Inject
 
 class StartGameCommand() : BaseCommand() {
 
-    @Inject
-    protected lateinit var loadPlayerUsecase: LoadPlayerUsecase
+//    @Inject
+//    protected lateinit var loadPlayerUsecase: LoadPlayerUsecase
 
 //    @Inject
 //    protected lateinit var gameController: GameController
@@ -38,38 +39,38 @@ class StartGameCommand() : BaseCommand() {
     init {
         MainGame.appComponent.inject(this)
     }
-
     override fun canExecute(): Boolean {
-        return playerController.gamePlayer.size > 1
+        return SELECTED_PLAYER.size > 1
     }
 
     override fun execute() {
+
         Logger.println("EXECUTE StartGameCommand")
         inputHandler.removeListener()
         //TODO do this as "command"
 //        game.changeScreen(GameScreen(game, game.screen as BaseScreen))
-        loadPlayerUsecase.getResult(
-                playerController.gamePlayer,
-                onSuccess = { players ->
-                    //TODO make load game
-                    Logger.println("NEXT: StartGameCommand")
-
-                    val map = initMap()
-
-                    playerController.clearPlayer()
-                    val startField = map.startField
-                    players.withIndex()
-                            .forEach {
-                                addPlayer(it, startField)
-                            }
-                    //TODO do this as command in "start GameScreen"
-//                    val gameStage = (game.screen as BaseScreen).gameStage as GameStage
-//                    gameStage.addEntitiesToMap()
-
-                    //TODO observe somewhere
-//                    initWinnerObserver()
-//                    initPhaseObserver()
-                })
+//        loadPlayerUsecase.getResult(
+//                SELECTED_PLAYER,
+//                onSuccess = { players ->
+//                    //TODO make load game
+//                    Logger.println("NEXT: StartGameCommand")
+//
+//                    val map = initMap()
+//
+//                    playerController.clearPlayer()
+//                    val startField = map.startField
+//                    players.withIndex()
+//                            .forEach {
+//                                addPlayer(it, startField)
+//                            }
+//                    //TODO do this as command in "start GameScreen"
+////                    val gameStage = (game.screen as BaseScreen).gameStage as GameStage
+////                    gameStage.addEntitiesToMap()
+//
+//                    //TODO observe somewhere
+////                    initWinnerObserver()
+////                    initPhaseObserver()
+//                })
     }
 
 

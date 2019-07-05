@@ -7,58 +7,45 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.config.PRESELECTED_PLAYER
+import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
-import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.TextureCollection
 import de.bitb.spacerace.events.commands.start.SelectPlayerCommand
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import org.greenrobot.eventbus.EventBus
-import javax.inject.Inject
-
 
 class PlayerSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
-    @Inject
-    protected lateinit var playerController: PlayerController
-
     init {
-        MainGame.appComponent.inject(this)
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
         initPlayers()
 
         pack()
-
     }
 
     private fun initPlayers() {
         PlayerColor.values()
-                .forEach { value ->
-                    if (value != PlayerColor.NONE) {
-                        val checkBox = addCheckbox(value)
-                        val playerSelected = playerController.gamePlayer.contains(value)
-                        checkBox.isChecked = playerSelected
-                        if (PRESELECTED_PLAYER.contains(value)) {
-                            if (playerController.gamePlayer.size < 2 && !playerSelected) {
-                                checkBox.isChecked = true
-                                EventBus.getDefault().post(SelectPlayerCommand(value))
-                            }
-                        }
+                .forEach { playerColor ->
+                    if (playerColor != PlayerColor.NONE) {
+                        val checkBox = addCheckbox(playerColor)
+                        checkBox.isChecked = SELECTED_PLAYER.contains(playerColor)
                     }
                 }
     }
 
     private fun addCheckbox(color: PlayerColor): CheckBox {
-        val checkBox = createCheckbox(name = color.name, fontSize = GAME_SIZE_FONT_SMALL, fontColor = color.color, listener = object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SelectPlayerCommand(color))
-                return true
-            }
-        })
+        val checkBox = createCheckbox(name = color.name,
+                fontSize = GAME_SIZE_FONT_SMALL,
+                fontColor = color.color,
+                listener = object : InputListener() {
+                    override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                        EventBus.getDefault().post(SelectPlayerCommand(color))
+                        return true
+                    }
+                })
 
         addCell(checkBox)
         val box = checkBox.cells.get(0)
