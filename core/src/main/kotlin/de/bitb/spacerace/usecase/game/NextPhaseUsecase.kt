@@ -10,6 +10,7 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.objecthandling.DEFAULT
@@ -19,7 +20,7 @@ import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.UseCase
 import io.reactivex.Single
-import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.EventBus.getDefault
 import javax.inject.Inject
 
 class NextPhaseUsecase @Inject constructor(
@@ -52,7 +53,6 @@ class NextPhaseUsecase @Inject constructor(
                         .toObservable()
             }
 
-
     private fun startMove(): (PlayerData) -> PlayerData = {
         it.apply { steps.add(getPlayerField(playerController, fieldController, it.playerColor).gamePosition) }
     }
@@ -75,7 +75,7 @@ class NextPhaseUsecase @Inject constructor(
 
                         Logger.println("oldPlayer: ${oldPlayer.playerColor}")
                         //TODO items in db
-                        //oldPlayer.playerData.playerItems.removeUsedItems()
+                        oldPlayer.playerItems.removeUsedItems()
                     }.let {
                         it.first()
                     }.also { newPlayer ->
@@ -85,28 +85,29 @@ class NextPhaseUsecase @Inject constructor(
         }
     }
 
-    private fun obstainField(playerData: PlayerData): PlayerData {
-//            field.disposedItems.forEach { it.use(game, playerData) } //TODO no game in here
-
-        getPlayerField(playerController, fieldController, playerData.playerColor)
-                .fieldType
-                .also {
-                    when (it) {
-                        FieldType.WIN -> obtainWinCommand(playerData)
-                        FieldType.LOSE -> obtainLoseCommand(playerData)
-                        FieldType.AMBUSH -> obtainAmbushCommand(playerData)
-                        FieldType.GIFT -> obtainGiftCommand(playerData)
-                        FieldType.MINE -> obtainMineCommand(playerData)
-                        FieldType.TUNNEL -> obtainTunnelCommand(playerData)
-                        FieldType.GOAL -> obtainGoalCommand(playerData)
-                        FieldType.SHOP -> EventBus.getDefault().post(ObtainShopCommand(playerData))
-                        else -> Logger.println("IMPL ME")
+    private fun obstainField(playerData: PlayerData): PlayerData =
+            getPlayerField(playerController, fieldController, playerData.playerColor)
+                    .apply {
+                        val items =
+                                mutableListOf<Item>().apply { addAll(disposedItems) }
+                        items.forEach { it.use(playerData) }
                     }
-                    Logger.println("Field ${it.name}: $playerData")
-                }
-
-        return playerData
-    }
+                    .fieldType
+                    .also {
+                        when (it) {
+                            FieldType.WIN -> obtainWinCommand(playerData)
+                            FieldType.LOSE -> obtainLoseCommand(playerData)
+                            FieldType.AMBUSH -> obtainAmbushCommand(playerData)
+                            FieldType.GIFT -> obtainGiftCommand(playerData)
+                            FieldType.MINE -> obtainMineCommand(playerData)
+                            FieldType.TUNNEL -> obtainTunnelCommand(playerData)
+                            FieldType.GOAL -> obtainGoalCommand(playerData)
+                            FieldType.SHOP -> getDefault().post(ObtainShopCommand(playerData))
+                            else -> Logger.println("IMPL ME")
+                        }
+                        Logger.println("Field ${it.name}: $playerData")
+                    }
+                    .let { playerData }
 
     private fun obtainGoalCommand(playerData: PlayerData) {
         if (fieldController.currentGoal == getPlayerField(playerController, fieldController, playerData.playerColor)) {

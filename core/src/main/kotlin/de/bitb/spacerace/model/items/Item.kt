@@ -18,8 +18,8 @@ abstract class Item(
         val img: Texture
 ) : GameObject() {
 
-//    @Inject
-    protected  var playerController: PlayerController = PlayerController()
+    @Inject
+    protected lateinit var playerController: PlayerController
 
     @Inject
     protected lateinit var fieldController: FieldController

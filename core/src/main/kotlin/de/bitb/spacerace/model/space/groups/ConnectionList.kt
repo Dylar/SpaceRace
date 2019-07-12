@@ -11,16 +11,13 @@ import de.bitb.spacerace.model.space.fields.SpaceConnection
 import javax.inject.Inject
 
 class ConnectionList(
-//        var playerController: PlayerController,
+        var playerController: PlayerController,
         val mutableList: MutableList<SpaceConnection> = ArrayList())
     : MutableList<SpaceConnection> by mutableList,
         Actor() {
 
     val connectedColor = Color(Color.GREEN)
     val disconnectedColor = Color(Color.RED)
-
-    @Inject
-    lateinit var playerController: PlayerController
 
     init {
         connectedColor.a = 0.9f

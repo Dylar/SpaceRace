@@ -33,7 +33,7 @@ class GameController() : DefaultFunction by DEFAULT {
         MainGame.appComponent.inject(this)
     }
 
-    private fun initWinnerObserver() {
+    fun initWinnerObserver() {
         compositeDisposable += observeWinnerUsecase.observeStream(
                 params = WIN_AMOUNT,
                 onNext = { winner ->
@@ -42,7 +42,7 @@ class GameController() : DefaultFunction by DEFAULT {
                 })
     }
 
-    private fun initPhaseObserver() {
+    fun initPhaseObserver() {
         compositeDisposable += observeRoundUsecase.observeStream(
                 onNext = { isNext ->
                     Logger.println("observeRoundUsecase: NEXT ROUND: $isNext")

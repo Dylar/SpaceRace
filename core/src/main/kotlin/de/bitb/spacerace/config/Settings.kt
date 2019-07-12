@@ -34,6 +34,7 @@ var LANGUAGE = Language.ENGLISH
 //GAME
 
 const val BLINKING_INTERVAL = 2f
+const val ITEM_SELL_MOD = 0.7
 
 //GAME UI
 const val MAX_ZOOM = 5.0

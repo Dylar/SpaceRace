@@ -7,6 +7,7 @@ import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.injection.components.AppComponent
@@ -15,6 +16,8 @@ import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.ui.screens.GameOverScreen
+import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.start.StartScreen
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
@@ -44,6 +47,8 @@ open class MainGame : BaseGame() {
 
     @Inject
     lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
+    @Inject
+    lateinit var playerController: PlayerController
 
     private var dispo: Disposable? = null
 
@@ -59,7 +64,7 @@ open class MainGame : BaseGame() {
         dispo?.dispose()
         dispo = observeCurrentPlayerUseCase.observeStream(
                 onNext = {
-                    //                    playerController.fixColor(it)
+                    playerController.fixColor(it)
                 })
 
         commandUsecase.observeStream(
@@ -156,6 +161,26 @@ open class MainGame : BaseGame() {
     fun clear() {
         gameController.compositeDisposable.clear()
         (screen as BaseScreen).clear()
+    }
+
+    fun startGameDELETE_ME() {
+
+//        TODO do this as command in "start GameScreen"
+
+        val gameStage = (screen as BaseScreen).gameStage as GameStage
+        gameStage.addEntitiesToMap()
+
+//        TODO observe somewhere
+        gameController.initWinnerObserver()
+        gameController.initPhaseObserver()
+    }
+
+    fun endGameDELETE_ME(){
+        //TODO do this as "command"
+        clear()
+        inputHandler.removeListener()
+
+        changeScreen(GameOverScreen(this))
     }
 
 }

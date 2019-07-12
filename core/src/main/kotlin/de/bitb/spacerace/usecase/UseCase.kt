@@ -28,7 +28,8 @@ abstract class UseCase<ReturnType, in Params>(
         //Logger.println("Default onSuccess: $it")
     }
     protected val onErrorStub: (Throwable) -> Unit = {
-        Logger.println("(${this.javaClass.name})Default onError: $it")
+        Logger.println("Default onError:")
+        it.printStackTrace()
     }
 
     /**

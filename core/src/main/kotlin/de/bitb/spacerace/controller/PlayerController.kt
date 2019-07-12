@@ -19,12 +19,12 @@ class PlayerController
 
     var players: MutableList<Player> = ArrayList()
 
-    var currentPlayer: Player = NONE_PLAYER
+    val currentPlayer: Player
         get() = players.firstOrNull() ?: NONE_PLAYER
 
     init {
         Logger.println(
-                "WAS IS DAS FÜRN HUSO"
+                "WAS IS DAS FÜRN HUSO", this
         )
     }
 

@@ -45,7 +45,7 @@ class GameGuiStage(screen: GameScreen) : BaseGuiStage(screen), InputObserver {
         dispo?.dispose()
         dispo = observeCurrentPlayerUseCase.observeStream(
                 onNext = {
-                    Logger.println("observeCurrentPlayerUseCase NEXT:\n$it")
+//                    Logger.println("observeCurrentPlayerUseCase NEXT:\n$it")
                     playerStats.update(it)
                 })
     }

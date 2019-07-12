@@ -17,4 +17,8 @@ abstract class BaseCommand(
 
     }
 
+    open fun reset() {
+        CommandPool.addPool(this)
+    }
+
 }

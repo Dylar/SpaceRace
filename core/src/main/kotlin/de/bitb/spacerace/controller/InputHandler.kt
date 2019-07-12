@@ -1,14 +1,15 @@
 package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.Gdx
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class InputHandler @Inject constructor() : DefaultFunction {
+@Singleton
+class InputHandler
+@Inject constructor(
+) : DefaultFunction {
 
     private val inputObserver: MutableList<InputObserver> = ArrayList() //TODO delete me
 

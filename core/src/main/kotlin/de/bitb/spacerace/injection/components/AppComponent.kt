@@ -75,6 +75,7 @@ interface AppComponent {
 
     //COMMAND
     fun inject(startGameCommand: StartGameCommand)
+    fun inject(gameOverCommand: GameOverCommand)
 
     fun inject(nextPhaseCommand: NextPhaseCommand)
     fun inject(startNextRoundCommand: StartNextRoundCommand)

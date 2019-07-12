@@ -1,5 +1,6 @@
 package de.bitb.spacerace.events.commands.player
 
+import de.bitb.spacerace.config.ITEM_SELL_MOD
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
@@ -25,7 +26,7 @@ class SellItemCommand(val item: Item, seller: PlayerData) : BaseCommand(seller) 
                 .apply {
                     val item = getItems(item.itemType)[0]
                     sellItem(item)
-                    playerData.credits += (item.price * 0.7).toInt() //TODO modifier into constants
+                    playerData.credits += (item.price * ITEM_SELL_MOD).toInt()
                 }
 
     }

@@ -26,21 +26,16 @@ class CommandUsecase @Inject constructor(
     }
 
     private fun updatePlayerData(command: BaseCommand) =
-            run {
-                Logger.println("Executed updatePlayerData:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
-            }.let {
-                if (command.playerData != NONE_PLAYER_DATA) {
-                    playerDataSource
-                            .getByColor(command.playerData.playerColor)
-                            .map { command.apply { playerData = it.first() } }
-                } else {
-                    Single.just(command)
-                }.toObservable()
-            }
+            if (command.playerData != NONE_PLAYER_DATA) {
+                playerDataSource
+                        .getByColor(command.playerData.playerColor)
+                        .map { command.apply { playerData = it.first() } }
+            } else {
+                Single.just(command)
+            }.toObservable()
 
     private fun handleCommand(command: BaseCommand) =
             Completable.fromCallable {
-                Thread.sleep(2000)
                 if (command.canExecute()) {
                     Logger.println("Executed handleCommand:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
                     command.execute()

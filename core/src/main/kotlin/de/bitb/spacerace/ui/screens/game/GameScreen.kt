@@ -9,7 +9,10 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.GameImage
 import javax.inject.Inject
 
-class GameScreen(game: MainGame, previousScreen: BaseScreen) : BaseScreen(game, previousScreen) {
+class GameScreen(
+        game: MainGame,
+        previousScreen: BaseScreen
+) : BaseScreen(game, previousScreen) {
 
     init {
         MainGame.appComponent.inject(this)

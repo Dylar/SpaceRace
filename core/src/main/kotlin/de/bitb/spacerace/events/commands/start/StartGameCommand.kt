@@ -3,6 +3,7 @@ package de.bitb.spacerace.events.commands.start
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.Logger
+import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.InputHandler
@@ -15,17 +16,18 @@ import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.maps.SpaceMap
+import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.init.LoadPlayerUsecase
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class StartGameCommand() : BaseCommand() {
 
-//    @Inject
-//    protected lateinit var loadPlayerUsecase: LoadPlayerUsecase
+    @Inject
+    protected lateinit var loadPlayerUsecase: LoadPlayerUsecase
 
-//    @Inject
-//    protected lateinit var gameController: GameController
+    @Inject
+    protected lateinit var game: MainGame
 
     @Inject
     protected lateinit var playerController: PlayerController
@@ -39,6 +41,7 @@ class StartGameCommand() : BaseCommand() {
     init {
         MainGame.appComponent.inject(this)
     }
+
     override fun canExecute(): Boolean {
         return SELECTED_PLAYER.size > 1
     }
@@ -47,30 +50,24 @@ class StartGameCommand() : BaseCommand() {
 
         Logger.println("EXECUTE StartGameCommand")
         inputHandler.removeListener()
-        //TODO do this as "command"
-//        game.changeScreen(GameScreen(game, game.screen as BaseScreen))
-//        loadPlayerUsecase.getResult(
-//                SELECTED_PLAYER,
-//                onSuccess = { players ->
-//                    //TODO make load game
-//                    Logger.println("NEXT: StartGameCommand")
-//
-//                    val map = initMap()
-//
-//                    playerController.clearPlayer()
-//                    val startField = map.startField
-//                    players.withIndex()
-//                            .forEach {
-//                                addPlayer(it, startField)
-//                            }
-//                    //TODO do this as command in "start GameScreen"
-////                    val gameStage = (game.screen as BaseScreen).gameStage as GameStage
-////                    gameStage.addEntitiesToMap()
-//
-//                    //TODO observe somewhere
-////                    initWinnerObserver()
-////                    initPhaseObserver()
-//                })
+        game.changeScreen(GameScreen(game, game.screen as BaseScreen))
+        loadPlayerUsecase.getResult(
+                SELECTED_PLAYER,
+                onSuccess = { players ->
+                    //TODO make load game
+                    Logger.println("NEXT: StartGameCommand")
+
+                    val map = initMap()
+
+                    playerController.clearPlayer()
+                    val startField = map.startField
+                    players.withIndex()
+                            .forEach {
+                                addPlayer(it, startField)
+                            }
+
+                    game.startGameDELETE_ME()
+                })
     }
 
 

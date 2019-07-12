@@ -1,5 +1,6 @@
 package de.bitb.spacerace.events.commands.player
 
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
@@ -35,7 +36,15 @@ class DiceCommand(
     override fun execute() {
         val result = (Math.random() * maxResult).toInt() + 1
         playerData.diceResults.add(result)
-        updatePlayerUsecase.execute(listOf(playerData))
+        get bei minus minen mindestens ne 1
+        updatePlayerUsecase.execute(
+                params = listOf(playerData),
+                onComplete = {
+                    Logger.println("onComplete")
+                },
+                onError = {
+                    Logger.println("onError")
+                })
     }
 
 }

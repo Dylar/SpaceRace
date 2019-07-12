@@ -1,15 +1,35 @@
 package de.bitb.spacerace.events.commands
 
-//object CommandPool {
+import de.bitb.spacerace.events.commands.start.ChangeDiceAmountCommand
+
+object CommandPool {
+    val pool = mutableMapOf<String, BaseCommand>()
+
+    fun getCommand(commandType: String) {
+        when (commandType) {
+            ChangeDiceAmountCommand::class.toString() -> {
+            }
+            else -> {
+            }
+        }
+    }
+
+    fun addPool(baseCommand: BaseCommand) {
+    }
+
+
+}
 //
-//    fun getCommand(commandType: CommandType) {
-//        when (commandType) {
+//sealed class Command() {
 //
-//            else -> {}
-//        }
+//    open fun reset() {
+//
 //    }
 //}
 //
-//enum class CommandType {
-//    MOVE,
+//sealed class ChangeDiceAmountCommand() : Command() {
 //}
+//
+//sealed class DeliveriesOnDeviceError : Command()
+//sealed class PrintDeliveryError : Command()
+//sealed class CannotDeleteFinsishedDelivery : Command()

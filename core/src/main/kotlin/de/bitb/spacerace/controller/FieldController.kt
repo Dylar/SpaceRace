@@ -22,7 +22,7 @@ import kotlin.collections.ArrayList
 @Singleton
 class FieldController
 @Inject constructor(
-//        val playerController: PlayerController
+        val playerController: PlayerController
 ) : DefaultFunction {
 
     lateinit var map: SpaceMap
@@ -32,11 +32,11 @@ class FieldController
 
     var fields: MutableList<SpaceField> = mutableListOf()
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
-    lateinit var connections: ConnectionList
+    var connections: ConnectionList = ConnectionList(playerController)
 
     init {
         MainGame.appComponent.inject(this)
-//        clearField()
+        clearField()
     }
 
     fun clearField() {
@@ -64,17 +64,10 @@ class FieldController
     }
 
     fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
-        initConnection()
         val connection = SpaceConnection(spaceField1, spaceField2)
         connections.add(connection)
         spaceField1.connections.add(connection)
         spaceField2.connections.add(connection)
-    }
-
-    private fun initConnection() {
-        if (!::connections.isInitialized) {
-            connections = ConnectionList()
-        }
     }
 
     fun moveMovables() {
