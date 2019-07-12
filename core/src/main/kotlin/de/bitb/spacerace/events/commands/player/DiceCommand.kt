@@ -36,7 +36,7 @@ class DiceCommand(
     override fun execute() {
         val result = (Math.random() * maxResult).toInt() + 1
         playerData.diceResults.add(result)
-        get bei minus minen mindestens ne 1
+
         updatePlayerUsecase.execute(
                 params = listOf(playerData),
                 onComplete = {

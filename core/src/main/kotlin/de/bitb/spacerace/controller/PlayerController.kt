@@ -55,7 +55,7 @@ class PlayerController
                         val diceResult = playerData.diceResults.sum()
                         val result = (diceResult * mod + add).toInt()
 
-                        if (playerData.diceResults.isNotEmpty() && result == 0) 1 else result
+                        if (playerData.diceResults.isNotEmpty() && result <= 0) 1 else result
                     }
 
     private fun getPlayerItems(playerColor: PlayerColor): PlayerItems =
