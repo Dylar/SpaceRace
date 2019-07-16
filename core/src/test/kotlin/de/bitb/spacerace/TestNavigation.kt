@@ -25,7 +25,7 @@ object TestNavigation {
      *
      */
     fun navigateToView(
-            testEnvironment: SystelEnvironment = SystelEnvironment(),
+            testEnvironment: SpaceEnvironment = SpaceEnvironment(),
             navigationTarget: NavigationTarget = LOGIN()
     ) {
 //        testEnvironment.launch()

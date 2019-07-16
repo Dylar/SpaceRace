@@ -54,11 +54,14 @@ open class MainGame : BaseGame() {
 
     init {
         EventBus.getDefault().register(this)
-        appComponent = DaggerAppComponent.builder()
-                .applicationModule(ApplicationModule(this))
-                .databaseModule(DatabaseModule())
-                .build()
+        appComponent = initComponent()
     }
+
+    open fun initComponent(): AppComponent =
+            DaggerAppComponent.builder()
+                    .applicationModule(ApplicationModule(this))
+                    .databaseModule(DatabaseModule())
+                    .build()
 
     private fun initObserver() {
         dispo?.dispose()
@@ -175,7 +178,7 @@ open class MainGame : BaseGame() {
         gameController.initPhaseObserver()
     }
 
-    fun endGameDELETE_ME(){
+    fun endGameDELETE_ME() {
         //TODO do this as "command"
         clear()
         inputHandler.removeListener()

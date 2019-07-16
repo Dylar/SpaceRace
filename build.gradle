@@ -168,10 +168,10 @@ project(":core") {
         implementation "com.google.dagger:dagger:$daggerVersion"
         kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
-        // Koin for Kotlin
-        implementation "org.koin:koin-core:$koin_version"
-        // Koin extended & experimental features
-        implementation "org.koin:koin-core-ext:$koin_version"
+//        // Koin for Kotlin
+//        implementation "org.koin:koin-core:$koin_version"
+//        // Koin extended & experimental features
+//        implementation "org.koin:koin-core-ext:$koin_version"
 
 
 //        ██████╗ ███████╗ █████╗  ██████╗████████╗██╗██╗   ██╗
@@ -224,7 +224,7 @@ project(":core") {
         kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
 // Koin for Unit tests
-        testImplementation "org.koin:koin-test:$koin_version"
+//        testImplementation "org.koin:koin-test:$koin_version"
     }
 }
 

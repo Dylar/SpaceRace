@@ -1,13 +1,11 @@
 package de.bitb.spacerace
 
 import de.bitb.spacerace.model.MyObjectBox
-import io.mockk.every
 import io.objectbox.BoxStore
 import java.io.File
 
 class Setup(
-        mockContext: MockData
-) : MockData by mockContext {
+) {
 
     companion object {
         fun createMockBoxStore(): BoxStore {

@@ -4,7 +4,7 @@ import de.bitb.spacerace.GameTest
 import org.junit.Before
 import org.junit.Test
 
-class LoadingGame : GameTest() {
+class LoadingGameTest : GameTest() {
 
 //    private val boxStore = Setup.createMockBoxStore()
 //    private val tourDataSource = TourRepository(boxStore)

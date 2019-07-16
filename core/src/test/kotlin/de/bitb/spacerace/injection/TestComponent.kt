@@ -3,13 +3,20 @@ package de.bitb.spacerace.injection
 import dagger.Component
 import de.bitb.spacerace.TestGame
 import de.bitb.spacerace.injection.components.AppComponent
+import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.usecase.game.NextPhaseUsecaseTest
 import javax.inject.Scope
 import javax.inject.Singleton
 
 @Singleton
 @Component(
-        modules = [TestModule::class])
+        modules = [
+            TestModule::class,
+            ApplicationModule::class,
+            DatabaseModule::class,
+            GameModule::class,
+            UseCaseModule::class,
+            ControllerModule::class])
 interface TestComponent : AppComponent {
 
 //    fun provideGame(): TestGame
@@ -32,9 +39,3 @@ interface TestComponent : AppComponent {
     fun inject(nextPhaseUsecaseTest: NextPhaseUsecaseTest)
 
 }
-
-/**
- * Scope for a lifetime of a fragment
- */
-@Scope
-annotation class FragmentScope
