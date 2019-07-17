@@ -41,10 +41,8 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
         return playerData.phase.isMain2()
     }
 
-
     override fun execute() {
-        nextPhaseUsecase.execute(playerData)
+        nextPhaseUsecase.execute(params = playerData)
     }
-
 
 }

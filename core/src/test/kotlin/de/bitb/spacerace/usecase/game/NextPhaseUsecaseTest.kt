@@ -27,7 +27,7 @@ class NextPhaseUsecaseTest : GameTest() {
 //        Setup.trampilineSchedulers()
 //
 //        val test = nextPhaseUseCase
-//                .buildUseCaseObservable(mockk())
+//                .buildUseCaseFlowable(mockk())
 //                .test()
 //
 //        test.await()

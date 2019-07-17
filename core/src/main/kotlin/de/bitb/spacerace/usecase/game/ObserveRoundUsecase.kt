@@ -6,7 +6,7 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.phases.OpenEndRoundMenuCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.fields.MineField
-import de.bitb.spacerace.usecase.UseCaseWithoutParams
+import de.bitb.spacerace.usecase.core.StreamUseCaseNoParams
 import io.reactivex.Observable
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
@@ -15,9 +15,9 @@ class ObserveRoundUsecase
 @Inject constructor(
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource
-) : UseCaseWithoutParams<Boolean>() {
+) : StreamUseCaseNoParams<Boolean> {
 
-    override fun buildUseCaseObservable(): Observable<Boolean> =
+    override fun buildUseCaseFlowable(): Observable<Boolean> =
             playerDataSource.observeAllObserver()
                     .map(::filterPlayer)
                     .map(::endRound)

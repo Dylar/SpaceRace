@@ -52,7 +52,7 @@ class StartGameCommand() : BaseCommand() {
         inputHandler.removeListener()
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
         loadPlayerUsecase.getResult(
-                SELECTED_PLAYER,
+                params = SELECTED_PLAYER,
                 onSuccess = { players ->
                     //TODO make load game
                     Logger.println("NEXT: StartGameCommand")

@@ -15,7 +15,7 @@ class LoadingGameTest : GameTest() {
 //        // given
 //        val saveCustomerUseCase = SaveCustomerUseCase(tourDataSource, view)
 //        val test = saveCustomerUseCase
-//                .buildUseCaseObservable(customCustomer1234)
+//                .buildUseCaseFlowable(customCustomer1234)
 //                .test()
 //
 //        test.await()
@@ -36,13 +36,13 @@ class LoadingGameTest : GameTest() {
 //        // given
 //        val customCustomer = customCustomer1234.copy()
 //        SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(customCustomer)
+//                .buildUseCaseFlowable(customCustomer)
 //                .test()
 //                .await()
 //
 //        // when
 //        val test = SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(customCustomer)
+//                .buildUseCaseFlowable(customCustomer)
 //                .test()
 //        test.awaitCount(1)
 //        // when
@@ -71,7 +71,7 @@ class LoadingGameTest : GameTest() {
 //        // given
 //        val newCustomCustomer = customCustomer1234.copy(canUpdate = true)
 //        SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(newCustomCustomer)
+//                .buildUseCaseFlowable(newCustomCustomer)
 //                .test()
 //                .await()
 //
@@ -82,7 +82,7 @@ class LoadingGameTest : GameTest() {
 //                        currentCustomerNo = newCustomCustomer.newUpdatedNumber
 //                )
 //        val test = SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(updatedCustomCustomer)
+//                .buildUseCaseFlowable(updatedCustomCustomer)
 //                .test()
 //        test.awaitCount(1)
 //        // when
@@ -111,18 +111,18 @@ class LoadingGameTest : GameTest() {
 //        val existingButOtherThanEditing =
 //                customCustomer1234.copy(customerName = "Do not override me", newUpdatedNumber = customerNoOfNotOverrideable)
 //        SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(existingButOtherThanEditing)
+//                .buildUseCaseFlowable(existingButOtherThanEditing)
 //                .test()
 //                .await()
 //
 //        val newCustomerToEditLater = customCustomer1234.copy(canUpdate = true)
 //        SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(newCustomerToEditLater)
+//                .buildUseCaseFlowable(newCustomerToEditLater)
 //                .test()
 //                .await()
 //
 //        val test = SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(
+//                .buildUseCaseFlowable(
 //                        newCustomerToEditLater.copy(
 //                                currentCustomerNo = newCustomerToEditLater.newUpdatedNumber,
 //                                newUpdatedNumber = customerNoOfNotOverrideable,
@@ -149,7 +149,7 @@ class LoadingGameTest : GameTest() {
 //        // given
 //        val customCustomer = customCustomer1234.copy()
 //        SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(customCustomer)
+//                .buildUseCaseFlowable(customCustomer)
 //                .test()
 //                .await()
 //
@@ -162,7 +162,7 @@ class LoadingGameTest : GameTest() {
 //                        canUpdate = true
 //                )
 //        val test = SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(updatedCustomer)
+//                .buildUseCaseFlowable(updatedCustomer)
 //                .test()
 //        test.awaitCount(1)
 //        // when
@@ -189,7 +189,7 @@ class LoadingGameTest : GameTest() {
 //        // given
 //        val customCustomer = customCustomer1234.copy()
 //        SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(customCustomer)
+//                .buildUseCaseFlowable(customCustomer)
 //                .test()
 //                .await()
 //
@@ -202,12 +202,12 @@ class LoadingGameTest : GameTest() {
 //                        canUpdate = true
 //                )
 //        SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(updatedCustomer)
+//                .buildUseCaseFlowable(updatedCustomer)
 //                .test()
 //                .await()
 //
 //        val test = SaveCustomerUseCase(tourDataSource, view)
-//                .buildUseCaseObservable(customCustomer)
+//                .buildUseCaseFlowable(customCustomer)
 //                .test()
 //        test.await()
 //

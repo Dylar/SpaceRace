@@ -18,7 +18,7 @@ import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.usecase.UseCase
+import de.bitb.spacerace.usecase.core.ExecuteUseCase
 import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus.getDefault
 import javax.inject.Inject
@@ -28,9 +28,10 @@ class NextPhaseUsecase @Inject constructor(
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource,
         private var playerColorDispender: PlayerColorDispender
-) : UseCase<Boolean, PlayerData>(), DefaultFunction by DEFAULT {
+) : ExecuteUseCase<PlayerData>,
+        DefaultFunction by DEFAULT {
 
-    override fun buildUseCaseObservable(params: PlayerData) =
+    override fun buildUseCaseCompletable(params: PlayerData) =
             params.let { playerData ->
                 playerData.nextPhase()
 
@@ -50,7 +51,7 @@ class NextPhaseUsecase @Inject constructor(
                             it.isNotEmpty()
                         }
                         .doOnDispose { Logger.println("DISPOSE NEXT PHASE") }
-                        .toObservable()
+                        .toCompletable() //TODO change that
             }
 
     private fun startMove(): (PlayerData) -> PlayerData = {

@@ -2,17 +2,17 @@ package de.bitb.spacerace.usecase.game
 
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.usecase.UseCase
-import io.reactivex.Observable
+import de.bitb.spacerace.usecase.core.ExecuteUseCase
+import io.reactivex.Completable
 import javax.inject.Inject
 
 class UpdatePlayerUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource
-) : UseCase<List<PlayerData>, List<PlayerData>>() {
+) : ExecuteUseCase<List<PlayerData>> {
 
-    override fun buildUseCaseObservable(params: List<PlayerData>): Observable<List<PlayerData>> {
+    override fun buildUseCaseCompletable(params: List<PlayerData>): Completable {
         return playerDataSource
                 .insertAll(*params.toTypedArray())
-                .toObservable()
+                .toCompletable() //TODO change that
     }
 }

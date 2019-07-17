@@ -3,21 +3,21 @@ package de.bitb.spacerace.usecase.game
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.usecase.UseCaseWithoutParams
-import io.reactivex.Observable
+import de.bitb.spacerace.usecase.core.ExecuteUseCaseNoParams
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
 class StartNewRoundUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource
-) : UseCaseWithoutParams<Boolean>() {
+) : ExecuteUseCaseNoParams {
 
-    override fun buildUseCaseObservable(): Observable<Boolean> =
+    override fun buildUseCaseCompletable(): Completable =
             playerDataSource
                     .getAll()
                     .flatMap(::resetPlayer)
                     .flatMap(::updatePlayer)
-                    .flatMapObservable { Observable.just(it.isNotEmpty()) }
+                    .toCompletable() //TODO change that
 //                    .doOnNext {
 //                        playerColorDispender.publishUpdate(playerController.currentPlayerData.playerColor)
 //                    }

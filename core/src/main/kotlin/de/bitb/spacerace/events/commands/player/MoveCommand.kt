@@ -45,7 +45,7 @@ class MoveCommand(val spaceField: SpaceField, playerData: PlayerData) : BaseComm
         Logger.println("Player Field: ${spaceField.gamePosition}, ${spaceField.fieldType.name}",
                 "Player: $playerData")
 
-        updatePlayerUsecase.execute(listOf(playerData))
+        updatePlayerUsecase.execute(params = listOf(playerData))
     }
 
 }
