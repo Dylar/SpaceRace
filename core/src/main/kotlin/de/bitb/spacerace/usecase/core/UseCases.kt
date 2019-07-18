@@ -21,9 +21,9 @@ interface ExecuteUseCase<in Params> {
     fun buildUseCaseCompletable(params: Params): Completable
 
     fun execute(
+            params: Params,
             workerScheduler: Scheduler = defaultWorkerThread,
             observerScheduler: Scheduler = defaultSubscriberThread,
-            params: Params,
             onError: (Throwable) -> Unit = defaultOnError,
             onComplete: () -> Unit = {}
     ): Disposable = buildUseCaseCompletable(params)
@@ -58,9 +58,9 @@ interface ResultUseCase<ReturnType, in Params> where ReturnType : Any {
     fun buildUseCaseSingle(params: Params): Single<ReturnType>
 
     fun getResult(
+            params: Params,
             workerScheduler: Scheduler = defaultWorkerThread,
             observerScheduler: Scheduler = defaultSubscriberThread,
-            params: Params,
             onError: (Throwable) -> Unit = defaultOnError,
             onSuccess: (ReturnType) -> Unit = {}
     ): Disposable = buildUseCaseSingle(params)
@@ -95,9 +95,9 @@ interface StreamUseCase<ReturnType, in Params> where ReturnType : Any {
     fun buildUseCaseFlowable(params: Params): Observable<ReturnType>
 
     fun observeStream(
+            params: Params,
             workerScheduler: Scheduler = defaultWorkerThread,
             observerScheduler: Scheduler = defaultSubscriberThread,
-            params: Params,
             onError: (Throwable) -> Unit = defaultOnError,
             onNext: (ReturnType) -> Unit = {}
     ): Disposable = buildUseCaseFlowable(params)
