@@ -2,7 +2,7 @@ package de.bitb.spacerace.usecase.game
 
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.usecase.core.StreamUseCase
+import de.bitb.spacerace.usecase.StreamUseCase
 import io.reactivex.Observable
 import javax.inject.Inject
 

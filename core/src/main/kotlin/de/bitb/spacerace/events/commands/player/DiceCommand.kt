@@ -37,9 +37,9 @@ class DiceCommand(
         val result = (Math.random() * maxResult).toInt() + 1
         playerData.diceResults.add(result)
 
-        updatePlayerUsecase.execute(
+        updatePlayerUsecase.getResult(
                 params = listOf(playerData),
-                onComplete = {
+                onSuccess = {
                     Logger.println("onComplete")
                 },
                 onError = {

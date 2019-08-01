@@ -20,7 +20,7 @@ class StartNextRoundCommand() : BaseCommand(NONE_PLAYER_DATA) {
     }
 
     override fun execute() {
-        startNewRoundUsecase.execute()
+        startNewRoundUsecase.getResult()
     }
 
 }

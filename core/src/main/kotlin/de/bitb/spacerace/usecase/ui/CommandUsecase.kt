@@ -7,7 +7,7 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
-import de.bitb.spacerace.usecase.core.StreamUseCaseNoParams
+import de.bitb.spacerace.usecase.StreamUseCaseNoParams
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

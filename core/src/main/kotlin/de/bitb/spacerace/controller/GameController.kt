@@ -1,17 +1,11 @@
 package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
-import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.usecase.game.ObserveRoundUsecase
 import de.bitb.spacerace.usecase.game.ObserveWinnerUsecase
 import io.reactivex.disposables.CompositeDisposable

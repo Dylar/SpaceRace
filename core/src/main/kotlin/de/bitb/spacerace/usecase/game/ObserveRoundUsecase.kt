@@ -6,7 +6,7 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.phases.OpenEndRoundMenuCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.space.fields.MineField
-import de.bitb.spacerace.usecase.core.StreamUseCaseNoParams
+import de.bitb.spacerace.usecase.StreamUseCaseNoParams
 import io.reactivex.Observable
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject

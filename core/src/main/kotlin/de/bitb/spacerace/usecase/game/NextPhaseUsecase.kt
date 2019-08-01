@@ -18,7 +18,8 @@ import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.usecase.core.ExecuteUseCase
+import de.bitb.spacerace.usecase.ExecuteUseCase
+import io.reactivex.Completable
 import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus.getDefault
 import javax.inject.Inject
@@ -46,12 +47,11 @@ class NextPhaseUsecase @Inject constructor(
                         }
                 Single.just(doPhase(playerData))
                         .flatMap { intoDb -> playerDataSource.insertAll(intoDb) }
-                        .map {
+                        .flatMapCompletable {
                             Logger.println("DO NEXT PHASE")
-                            it.isNotEmpty()
+                            Completable.complete() //TODO change that
                         }
                         .doOnDispose { Logger.println("DISPOSE NEXT PHASE") }
-                        .toCompletable() //TODO change that
             }
 
     private fun startMove(): (PlayerData) -> PlayerData = {

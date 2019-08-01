@@ -1,7 +1,6 @@
-package de.bitb.spacerace.usecase.core
+package de.bitb.spacerace.usecase
 
 import de.bitb.spacerace.Logger
-import de.bitb.spacerace.usecase.GdxSchedulers
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Scheduler

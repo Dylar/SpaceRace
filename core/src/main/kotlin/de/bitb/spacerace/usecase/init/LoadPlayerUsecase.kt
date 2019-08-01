@@ -5,7 +5,7 @@ import de.bitb.spacerace.database.player.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.usecase.core.ResultUseCase
+import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
