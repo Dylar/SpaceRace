@@ -1,11 +1,6 @@
 package de.bitb.spacerace
 
 import com.badlogic.gdx.Application
-import com.badlogic.gdx.ApplicationListener
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.backends.headless.HeadlessApplication
-import io.mockk.mockk
-import net.bytebuddy.implementation.bind.annotation.SuperCall
 import org.junit.After
 import org.junit.Before
 
@@ -25,6 +20,10 @@ open class GameTest {
 //            application = HeadlessApplication(it)
 //        }
         testGame = game
+        testGame?.also {
+            it.initGame() //TODO do it?
+            Logger.println(it)
+        }
 //        application = HeadlessApplication(object : ApplicationListener {
 //            override fun create() {
 //                testGame?.create()

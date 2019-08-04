@@ -1,6 +1,7 @@
 package de.bitb.spacerace.usecase.game
 
 import de.bitb.spacerace.GameTest
+import io.mockk.mockk
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -23,20 +24,20 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun bla() {
-//        var nextPhaseUseCase = NextPhaseUsecase(testGame.)
-//        Setup.trampilineSchedulers()
-//
-//        val test = nextPhaseUseCase
-//                .buildUseCaseFlowable(mockk())
-//                .test()
-//
-//        test.await()
-//
-//        // when
-//        test.assertValueCount(1)
-//                .assertValue {
-//                    // then
-//                    it
-//                }
+        testGame?.playerController
+                ?.let { playerController ->
+                    val nextPhaseUseCase = NextPhaseUsecase(playerController, mockk(), mockk(), mockk())
+                    nextPhaseUseCase
+                            .buildUseCaseCompletable(playerController.currentPlayerData)
+                            .test()
+                }
+                ?.apply {
+                    await()
+                    assertComplete()
+                    // when
+//                    test.assertComplete()
+//                .assertValue { it }
+                }
+
     }
 }

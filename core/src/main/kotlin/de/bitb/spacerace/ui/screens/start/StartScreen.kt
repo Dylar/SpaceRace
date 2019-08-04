@@ -18,7 +18,6 @@ class StartScreen(game: MainGame) : BaseScreen(game, null) {
     }
 
     override fun show() {
-        game.gameController = GameController()
         super.show()
     }
 

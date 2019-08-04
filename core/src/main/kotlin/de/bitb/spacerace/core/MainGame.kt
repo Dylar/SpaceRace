@@ -52,11 +52,6 @@ open class MainGame : BaseGame() {
 
     private var dispo: Disposable? = null
 
-    init {
-        EventBus.getDefault().register(this)
-        appComponent = initComponent()
-    }
-
     open fun initComponent(): AppComponent =
             DaggerAppComponent.builder()
                     .applicationModule(ApplicationModule(this))
@@ -82,12 +77,18 @@ open class MainGame : BaseGame() {
         commandUsecase.commandDispender.publishUpdate(event)
     }
 
-    override fun initScreen() {
+    override fun initGame() {
+        EventBus.getDefault().register(this)
+        appComponent = initComponent()
         appComponent.inject(this)
-        initObserver()
-        setScreen(StartScreen(this))
 
+        initObserver()
+        gameController = GameController()
 //        testFields()
+    }
+
+    override fun initScreen() {
+        setScreen(StartScreen(this))
 //        setScreen(GameScreen(this))
 //        setScreen(GameOverScreen(this))
     }

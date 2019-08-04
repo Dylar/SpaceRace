@@ -4,8 +4,6 @@ import dagger.Component
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GameController
-import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
@@ -16,7 +14,6 @@ import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.events.commands.start.SelectMapCommand
-import de.bitb.spacerace.events.commands.start.SelectPlayerCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.model.items.Item
@@ -30,31 +27,33 @@ import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.game.control.GameControl
-import de.bitb.spacerace.ui.screens.start.control.PlayerSelectionControl
 import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    ApplicationModule::class,
+@Component(
+        modules = [
+            ApplicationModule::class,
 //    NetworkModule::class,
-    DatabaseModule::class,
-    GameModule::class,
-    UseCaseModule::class,
+            DatabaseModule::class,
+            GameModule::class,
+            UseCaseModule::class,
 //    UtilsModule::class,
 //    BuilderModule::class,
-    ControllerModule::class]
+            ControllerModule::class]
 )
 interface AppComponent {
     fun inject(game: MainGame)
 
     //CONTROLLER
     fun inject(gameController: GameController)
+
     fun inject(fieldController: FieldController)
 //    fun inject(playerController: PlayerController)
 
     //UI
     fun inject(baseGuiStage: BaseGuiStage)
+
     fun inject(gameGuiStage: GameGuiStage)
 
     fun inject(baseMenu: BaseMenu)
@@ -75,6 +74,7 @@ interface AppComponent {
 
     //COMMAND
     fun inject(startGameCommand: StartGameCommand)
+
     fun inject(gameOverCommand: GameOverCommand)
 
     fun inject(nextPhaseCommand: NextPhaseCommand)

@@ -1,7 +1,11 @@
 apply plugin: "kotlin"
 sourceCompatibility = 1.8
-//sourceSets.main.java.srcDirs = ["src/"]
+//
+////sourceSets.main.java.srcDirs = ["src/"]
+//sourceSets.main.java.srcDirs = ["src/main/kotlin/"]
+//sourceSets.test.java.srcDirs = ["src/main/kotlin/", "src/test/kotlin/"]
 sourceSets.main.java.srcDirs = ["src/main/java/"]
+
 project.ext.mainClassName = "de.bitb.spacerace.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets")
 task run(dependsOn: classes, type: JavaExec) {

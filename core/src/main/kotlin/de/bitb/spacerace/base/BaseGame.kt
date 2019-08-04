@@ -8,9 +8,11 @@ abstract class BaseGame : Game() {
 
     override fun create() {
         Gdx.input.isCatchBackKey = true
+        initGame()
         initScreen()
     }
 
+    abstract fun initGame()
     abstract fun initScreen()
 
     fun changeScreen(screen: BaseScreen) {

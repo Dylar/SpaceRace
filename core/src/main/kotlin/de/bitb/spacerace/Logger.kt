@@ -41,7 +41,7 @@ object Logger {
                     val callerStack = thread
                             .stackTrace
                             .filter(filterClass)
-                            .drop(2)
+                            .drop(3)
                             .map { "$it" }
                             .map { it.filterPackage() }
                             .map {
@@ -63,11 +63,18 @@ object Logger {
                             .let { Arrays.deepToString(it) }
                             .let { "Params: $it" }
 
-                    val tag = "$threadString$paramsString"
+                    val border = "--------------------------------------------------------------------------------------\n"
+                    val tag = "$border$threadString$paramsString"
                             .filterArrays()
-                    val message = "\nCaller: $last\nStack: $callerStack\n"
+                            .filterArrays()
+                    val message = "\nCaller: $last\nStack: $callerStack\n$border"
+                            .filterArrays()
+                            .filterArrays()
 
-                    Gdx.app.log(tag, message)
+                    Gdx.app?.let {
+                        Gdx.app.log(tag, message)
+                    } ?: kotlin.io.println("$tag $message")
+
                 }
     }
 

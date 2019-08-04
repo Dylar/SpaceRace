@@ -5,18 +5,20 @@ import de.bitb.spacerace.TestGame
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.usecase.game.NextPhaseUsecaseTest
-import javax.inject.Scope
 import javax.inject.Singleton
 
 @Singleton
 @Component(
         modules = [
-            TestModule::class,
             ApplicationModule::class,
+//    NetworkModule::class,
             DatabaseModule::class,
             GameModule::class,
             UseCaseModule::class,
-            ControllerModule::class])
+//    UtilsModule::class,
+//    BuilderModule::class,
+            ControllerModule::class]
+)
 interface TestComponent : AppComponent {
 
 //    fun provideGame(): TestGame

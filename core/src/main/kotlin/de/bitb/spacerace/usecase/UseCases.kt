@@ -1,10 +1,7 @@
 package de.bitb.spacerace.usecase
 
 import de.bitb.spacerace.Logger
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.Single
+import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -110,6 +107,46 @@ interface StreamUseCase<ReturnType, in Params> where ReturnType : Any {
 }
 
 interface StreamUseCaseNoParams<ReturnType> where ReturnType : Any {
+
+    fun buildUseCaseFlowable(): Observable<ReturnType>
+
+    fun observeStream(
+            workerScheduler: Scheduler = defaultWorkerThread,
+            observerScheduler: Scheduler = defaultSubscriberThread,
+            onError: (Throwable) -> Unit = defaultOnError,
+            onNext: (ReturnType) -> Unit = {}
+    ): Disposable = buildUseCaseFlowable()
+            .subscribeOn(workerScheduler)
+            .observeOn(observerScheduler)
+            .subscribeBy(
+                    onNext = onNext,
+                    onError = onError
+            )
+
+}
+
+
+interface MassiveStreamUseCase<ReturnType, in Params> where ReturnType : Any {
+
+    fun buildUseCaseFlowable(params: Params): Flowable<ReturnType>
+
+    fun observeStream(
+            params: Params,
+            workerScheduler: Scheduler = defaultWorkerThread,
+            observerScheduler: Scheduler = defaultSubscriberThread,
+            onError: (Throwable) -> Unit = defaultOnError,
+            onNext: (ReturnType) -> Unit = {}
+    ): Disposable = buildUseCaseFlowable(params)
+            .subscribeOn(workerScheduler)
+            .observeOn(observerScheduler)
+            .subscribeBy(
+                    onNext = onNext,
+                    onError = onError
+            )
+
+}
+
+interface MassiveStreamUseCaseNoParams<ReturnType> where ReturnType : Any {
 
     fun buildUseCaseFlowable(): Observable<ReturnType>
 
