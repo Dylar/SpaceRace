@@ -13,7 +13,7 @@ import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 
 
 class PlayerImage
-    : GameImage(RaiderShip(PlayerColor.TEAL, 0).getAnimation()),//TODO mach das anders
+    : GameImage(),//TODO mach das anders //RaiderShip(PlayerColor.TEAL, 0).getAnimation()
         IMovingImage by MovingImage(),
         IRotatingImage by RotatingImage() {
 

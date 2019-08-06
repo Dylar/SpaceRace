@@ -47,7 +47,7 @@ const val STAR_COUNT = 5
 //var PRESELECTED_PLAYER = arrayListOf()
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL)
 var DEBUG_ITEM = arrayListOf(ItemCollection.NONE)
-const val DEBUG_ITEMS = 5
+const val DEBUG_ITEMS = 0
 
 const val DEBUG_WIN_FIELD = true
 const val DEBUG_FIELDS = false

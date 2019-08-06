@@ -19,6 +19,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ExecuteUseCase
+import de.bitb.spacerace.usecase.defaultWorkerThread
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus.getDefault
@@ -35,7 +36,7 @@ class NextPhaseUsecase @Inject constructor(
     override fun buildUseCaseCompletable(params: PlayerData) =
             params.let { playerData ->
                 playerData.nextPhase()
-
+                Logger.println("DO NEXT PHASE1")
                 val doPhase: (PlayerData) -> PlayerData =
                         when (playerData.phase) {
                             Phase.MOVE -> startMove()
@@ -48,7 +49,7 @@ class NextPhaseUsecase @Inject constructor(
                 Single.just(doPhase(playerData))
                         .flatMap { intoDb -> playerDataSource.insertAll(intoDb) }
                         .flatMapCompletable {
-                            Logger.println("DO NEXT PHASE")
+                            Logger.println("DO NEXT PHASE2")
                             Completable.complete() //TODO change that
                         }
                         .doOnDispose { Logger.println("DISPOSE NEXT PHASE") }

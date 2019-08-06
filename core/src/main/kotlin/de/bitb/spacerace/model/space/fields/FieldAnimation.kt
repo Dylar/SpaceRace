@@ -6,15 +6,17 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 
-class FieldAnimation(fieldType: FieldType) : BaseAnimation() {
+class FieldAnimation(
+        val fieldType: FieldType
+) : BaseAnimation() {
 
-    var fieldTexture = TextureRegion(fieldType.texture)
-
-    init {
-        region = fieldTexture
-    }
+//    var fieldTexture =
+//
+//    init {
+//        region = fieldTexture
+//    }
 
     override fun actAnimation(gameImage: GameImage, delta: Float) {
-        (gameImage.drawable as TextureRegionDrawable).region = fieldTexture
+        (gameImage.drawable as TextureRegionDrawable).region = TextureRegion(fieldType.texture)
     }
 }

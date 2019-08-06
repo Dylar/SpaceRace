@@ -24,9 +24,10 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun bla() {
-        testGame?.playerController
-                ?.let { playerController ->
-                    val nextPhaseUseCase = NextPhaseUsecase(playerController, mockk(), mockk(), mockk())
+        testGame
+                ?.let {
+                    val playerController = it.playerController
+                    val nextPhaseUseCase = NextPhaseUsecase(playerController, it.fieldController, it.playerDataSource, it.playerColorDispender)
                     nextPhaseUseCase
                             .buildUseCaseCompletable(playerController.currentPlayerData)
                             .test()

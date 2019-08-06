@@ -6,7 +6,11 @@ import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.player.PlayerColor
 
-abstract class UsableItem(owner: PlayerColor, price: Int, img: Texture) : Item(owner, price, img) {
+abstract class UsableItem(
+        owner: PlayerColor,
+        price: Int,
+        img: Texture
+) : Item(owner, price, img) {
 
     override fun canUse(playerData: PlayerData): Boolean {
         return when (state) {

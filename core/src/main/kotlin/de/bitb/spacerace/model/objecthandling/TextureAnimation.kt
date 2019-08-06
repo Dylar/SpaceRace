@@ -3,17 +3,25 @@ package de.bitb.spacerace.model.objecthandling
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.core.TextureCollection
 
-class TextureAnimation(img:Texture = TextureCollection.unknownPlanet) : BaseAnimation() {
+class TextureAnimation(
+        img: Texture? = null
+) : BaseAnimation() {
 
-    var texture = TextureRegion(img)
+    var texture: TextureRegion? = null
 
     init {
-        region = texture
+        img?.also {
+            texture = TextureRegion(it)
+            region = texture
+        }
+//        TextureCollection.unknownPlanet
+//        region = texture
     }
 
     override fun actAnimation(gameImage: GameImage, delta: Float) {
-        (gameImage.drawable as TextureRegionDrawable).region = texture
+        texture?.also {
+            (gameImage.drawable as TextureRegionDrawable).region = it
+        }
     }
 }

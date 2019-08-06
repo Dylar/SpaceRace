@@ -5,10 +5,13 @@ import com.badlogic.gdx.Input
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
+import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.database.player.PlayerColorDispender
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
@@ -49,6 +52,14 @@ open class MainGame : BaseGame() {
     lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
     @Inject
     lateinit var playerController: PlayerController
+
+    //DELETE ME
+    @Inject
+    lateinit var fieldController: FieldController
+    @Inject
+    lateinit var playerDataSource: PlayerDataSource
+    @Inject
+    lateinit var playerColorDispender: PlayerColorDispender
 
     private var dispo: Disposable? = null
 

@@ -20,9 +20,9 @@ class TestGame : MainGame() {
         testComponent.inject(this)
     }
 
-//    override fun initComponent(): AppComponent =
-//            DaggerTestComponent.builder()
-//                .build()
+    override fun initComponent(): AppComponent =
+            DaggerTestComponent.builder()
+                .build()
 
 }
 

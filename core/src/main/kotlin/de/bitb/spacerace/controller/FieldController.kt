@@ -28,7 +28,7 @@ class FieldController
     lateinit var map: SpaceMap
     var spaceMap: MapCollection = MapCollection.RANDOM
 
-    var currentGoal: SpaceField = SpaceField.NONE
+    var currentGoal: SpaceField? = null
 
     var fields: MutableList<SpaceField> = mutableListOf()
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
@@ -103,9 +103,10 @@ class FieldController
     }
 
     fun setRandomGoal() {
-        currentGoal.fieldImage.setBlinkColor(null)
+        currentGoal?.fieldImage?.setBlinkColor(null)
         currentGoal = map.getRandomGoal()
-        currentGoal.fieldImage.setBlinkColor(Color(currentGoal.fieldType.color))
+        currentGoal?.fieldImage?.setBlinkColor(Color(currentGoal?.fieldType?.color))
+
     }
 
 }

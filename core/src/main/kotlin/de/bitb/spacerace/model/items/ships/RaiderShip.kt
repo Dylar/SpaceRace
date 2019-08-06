@@ -11,7 +11,10 @@ import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.player.PlayerAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
-class RaiderShip(owner: PlayerColor, price: Int) : ShipItem(owner, price, TextureCollection.raiderShipLanding2), DiceAddition {
+class RaiderShip(
+        owner: PlayerColor, price: Int
+) : ShipItem(owner, price, TextureCollection.raiderShipLanding2),
+        DiceAddition {
 
     override val itemType: ItemCollection = ItemCollection.SHIP_RAIDER
     override var text: String = ""

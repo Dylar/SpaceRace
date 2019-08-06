@@ -22,8 +22,9 @@ interface ExecuteUseCase<in Params> {
             observerScheduler: Scheduler = defaultSubscriberThread,
             onError: (Throwable) -> Unit = defaultOnError,
             onComplete: () -> Unit = {}
-    ): Disposable = buildUseCaseCompletable(params)
-            .subscribeOn(workerScheduler)
+    ): Disposable = Completable.complete()
+            .observeOn(workerScheduler)
+            .andThen(buildUseCaseCompletable(params))
             .observeOn(observerScheduler)
             .subscribeBy(
                     onComplete = onComplete,
@@ -40,8 +41,9 @@ interface ExecuteUseCaseNoParams {
             observerScheduler: Scheduler = defaultSubscriberThread,
             onError: (Throwable) -> Unit = defaultOnError,
             onComplete: () -> Unit = {}
-    ): Disposable = buildUseCaseCompletable()
-            .subscribeOn(workerScheduler)
+    ): Disposable = Completable.complete()
+            .observeOn(workerScheduler)
+            .andThen(buildUseCaseCompletable())
             .observeOn(observerScheduler)
             .subscribeBy(
                     onComplete = onComplete,
@@ -59,8 +61,9 @@ interface ResultUseCase<ReturnType, in Params> where ReturnType : Any {
             observerScheduler: Scheduler = defaultSubscriberThread,
             onError: (Throwable) -> Unit = defaultOnError,
             onSuccess: (ReturnType) -> Unit = {}
-    ): Disposable = buildUseCaseSingle(params)
-            .subscribeOn(workerScheduler)
+    ): Disposable = Completable.complete()
+            .observeOn(workerScheduler)
+            .andThen(buildUseCaseSingle(params))
             .observeOn(observerScheduler)
             .subscribeBy(
                     onSuccess = onSuccess,
@@ -77,8 +80,9 @@ interface ResultUseCaseNoParams<ReturnType> where ReturnType : Any {
             observerScheduler: Scheduler = defaultSubscriberThread,
             onError: (Throwable) -> Unit = defaultOnError,
             onSuccess: (ReturnType) -> Unit = {}
-    ): Disposable = buildUseCaseSingle()
-            .subscribeOn(workerScheduler)
+    ): Disposable = Completable.complete()
+            .observeOn(workerScheduler)
+            .andThen(buildUseCaseSingle())
             .observeOn(observerScheduler)
             .subscribeBy(
                     onSuccess = onSuccess,
@@ -96,8 +100,9 @@ interface StreamUseCase<ReturnType, in Params> where ReturnType : Any {
             observerScheduler: Scheduler = defaultSubscriberThread,
             onError: (Throwable) -> Unit = defaultOnError,
             onNext: (ReturnType) -> Unit = {}
-    ): Disposable = buildUseCaseFlowable(params)
-            .subscribeOn(workerScheduler)
+    ): Disposable = Completable.complete()
+            .observeOn(workerScheduler)
+            .andThen(buildUseCaseFlowable(params))
             .observeOn(observerScheduler)
             .subscribeBy(
                     onNext = onNext,
@@ -115,8 +120,9 @@ interface StreamUseCaseNoParams<ReturnType> where ReturnType : Any {
             observerScheduler: Scheduler = defaultSubscriberThread,
             onError: (Throwable) -> Unit = defaultOnError,
             onNext: (ReturnType) -> Unit = {}
-    ): Disposable = buildUseCaseFlowable()
-            .subscribeOn(workerScheduler)
+    ): Disposable = Completable.complete()
+            .observeOn(workerScheduler)
+            .andThen(buildUseCaseFlowable())
             .observeOn(observerScheduler)
             .subscribeBy(
                     onNext = onNext,
@@ -136,8 +142,9 @@ interface MassiveStreamUseCase<ReturnType, in Params> where ReturnType : Any {
             observerScheduler: Scheduler = defaultSubscriberThread,
             onError: (Throwable) -> Unit = defaultOnError,
             onNext: (ReturnType) -> Unit = {}
-    ): Disposable = buildUseCaseFlowable(params)
-            .subscribeOn(workerScheduler)
+    ): Disposable = Completable.complete()
+            .observeOn(workerScheduler)
+            .andThen(buildUseCaseFlowable(params))
             .observeOn(observerScheduler)
             .subscribeBy(
                     onNext = onNext,
@@ -155,8 +162,9 @@ interface MassiveStreamUseCaseNoParams<ReturnType> where ReturnType : Any {
             observerScheduler: Scheduler = defaultSubscriberThread,
             onError: (Throwable) -> Unit = defaultOnError,
             onNext: (ReturnType) -> Unit = {}
-    ): Disposable = buildUseCaseFlowable()
-            .subscribeOn(workerScheduler)
+    ): Disposable = Completable.complete()
+            .observeOn(workerScheduler)
+            .andThen(buildUseCaseFlowable())
             .observeOn(observerScheduler)
             .subscribeBy(
                     onNext = onNext,

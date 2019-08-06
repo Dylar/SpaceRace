@@ -12,8 +12,9 @@ import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 
-class FieldImage(var fieldType: FieldType)
-    : GameImage(fieldType.getAnimation()),
+class FieldImage(
+        var fieldType: FieldType
+) : GameImage(fieldType.getAnimation()),
         IBlinkingImage by BlinkingImage(),
         IRotatingImage by RotatingImage() {
 
