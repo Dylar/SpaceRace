@@ -3,6 +3,7 @@ package de.bitb.spacerace
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.injection.TestComponent
 import de.bitb.spacerace.injection.components.AppComponent
+import de.bitb.spacerace.injection.components.DaggerAppComponent
 
 class TestGame : MainGame() {
 
@@ -14,15 +15,15 @@ class TestGame : MainGame() {
 //        testComponent = appComponent as TestComponent
     }
 
-    override fun initScreen() {
-        super.initScreen()
+    override fun initGame() {
+        super.initGame()
         testComponent = appComponent as TestComponent
         testComponent.inject(this)
     }
 
-    override fun initComponent(): AppComponent =
-            DaggerTestComponent.builder()
-                .build()
+//    override fun initComponent(): AppComponent =
+//            DaggerTestComponent.builder()
+//                .build()
 
 }
 
