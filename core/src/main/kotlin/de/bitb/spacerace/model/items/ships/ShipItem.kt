@@ -7,7 +7,11 @@ import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
-abstract class ShipItem(owner: PlayerColor, price: Int, img: Texture) : Item(owner, price, img) {
+abstract class ShipItem(
+        owner: PlayerColor,
+        price: Int,
+        img: Texture
+) : Item(owner, price, img) {
 
     abstract fun getAnimation(): BaseAnimation
     abstract fun getSpeed(): Float

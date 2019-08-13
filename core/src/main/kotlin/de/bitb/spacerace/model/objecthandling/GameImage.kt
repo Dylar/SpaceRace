@@ -12,6 +12,7 @@ abstract class GameImage(
         var animation: BaseAnimation = TextureAnimation()
 ) : Image(),
         DefaultFunction by DEFAULT {
+
     companion object {
         val NONE: GameImage = object : GameImage() {
             override var movingSpeed: Float = (MOVING_SPS * Math.random()).toFloat()

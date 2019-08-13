@@ -1,18 +1,15 @@
 package de.bitb.spacerace
 
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.injection.TestComponent
 import de.bitb.spacerace.injection.components.AppComponent
-import de.bitb.spacerace.injection.components.DaggerAppComponent
+import de.bitb.spacerace.injection.components.DaggerTestComponent
+import de.bitb.spacerace.injection.components.TestComponent
+import de.bitb.spacerace.injection.modules.ApplicationModule
 
 class TestGame : MainGame() {
 
     companion object {
         lateinit var testComponent: TestComponent
-    }
-
-    init {
-//        testComponent = appComponent as TestComponent
     }
 
     override fun initGame() {
@@ -21,9 +18,10 @@ class TestGame : MainGame() {
         testComponent.inject(this)
     }
 
-//    override fun initComponent(): AppComponent =
-//            DaggerTestComponent.builder()
-//                .build()
+    override fun initComponent(): AppComponent = DaggerTestComponent
+            .builder()
+            .applicationModule(ApplicationModule(this))
+            .build()
 
 }
 

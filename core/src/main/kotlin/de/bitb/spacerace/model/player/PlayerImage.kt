@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
 import de.bitb.spacerace.model.items.ships.RaiderShip
+import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage

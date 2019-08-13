@@ -1,0 +1,9 @@
+dependencies {
+
+    //Dagger
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+//    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger2Version"
+
+}

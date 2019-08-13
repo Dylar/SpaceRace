@@ -7,8 +7,10 @@ import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 
-class PlayerAnimation(private var movingAnimation: Animation<TextureRegion>,
-                      private var landingAnimation: Animation<TextureRegion>) : BaseAnimation() {
+class PlayerAnimation(
+        private var movingAnimation: Animation<TextureRegion>,
+        private var landingAnimation: Animation<TextureRegion>
+) : BaseAnimation() {
 
     private var movingTime = 0f
     private var landingTime = 0f

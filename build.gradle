@@ -222,6 +222,9 @@ project(":core") {
         testImplementation "com.badlogicgames.gdx:gdx-box2d:$gdx.version"
         testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-desktop"
 
+        implementation "junit:junit:$testing.junit"
+        implementation "io.mockk:mockk:$testing.mockkVersion"
+
         testImplementation "junit:junit:$testing.junit"
         testImplementation "io.mockk:mockk:$testing.mockkVersion"
 
@@ -238,16 +241,18 @@ project(":core") {
 //        kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
         /////DAGGER/////
-// Dagger
-        implementation "com.google.dagger:dagger:$daggerVersion"
-//        annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-        kapt("com.google.dagger:dagger-compiler:$daggerVersion")
-
-// Test Dagger
-        testImplementation "com.google.dagger:dagger:$daggerVersion"
-//        testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-        kaptTest("com.google.dagger:dagger-compiler:$daggerVersion")
+//// Dagger
+//        implementation "com.google.dagger:dagger:$daggerVersion"
+////        annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+//        kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+//
+//// Test Dagger
+//        testImplementation "com.google.dagger:dagger:$daggerVersion"
+////        testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+//        kaptTest("com.google.dagger:dagger-compiler:$daggerVersion")
     }
+
+    apply from: '../core/CoreDependency.gradle'
 
 }
 

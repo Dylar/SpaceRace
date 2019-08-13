@@ -53,14 +53,6 @@ open class MainGame : BaseGame() {
     @Inject
     lateinit var playerController: PlayerController
 
-    //DELETE ME
-    @Inject
-    lateinit var fieldController: FieldController
-    @Inject
-    lateinit var playerDataSource: PlayerDataSource
-    @Inject
-    lateinit var playerColorDispender: PlayerColorDispender
-
     private var dispo: Disposable? = null
 
     open fun initComponent(): AppComponent =
