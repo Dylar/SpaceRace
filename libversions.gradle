@@ -1,0 +1,26 @@
+project.ext {
+    gsonVersion = '2.8.5'
+    daggerVersion = '2.24'
+    koin_version = '2.0.1'
+
+    kotlinVersion = '1.3.41'
+
+    dbVersion = '2.3.4'
+
+    gdx = [
+            version           : '1.9.9',
+            roboVMVersion     : '2.3.5',
+            box2DLightsVersion: '1.4',
+            aiVersion         : '1.8.0'
+    ]
+
+    rx = [
+            java  : '3.0.0-RC1',
+            kotlin: '2.4.0'
+    ]
+
+    testing = [
+            junit       : '4.12',
+            mockkVersion: '1.8.13'
+    ]
+}

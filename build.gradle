@@ -1,7 +1,6 @@
 buildscript {
-    ext.roboVMVersion = '2.3.5'
-    ext.kotlinVersion = '1.3.11'
-    ext.dbVersion = '2.3.4'
+
+    apply from: './libversions.gradle'
 
     repositories {
         mavenLocal()
@@ -13,8 +12,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
-        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$roboVMVersion"
+        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$gdx.roboVMVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.20"
         classpath "io.objectbox:objectbox-gradle-plugin:$dbVersion"
@@ -25,18 +24,13 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '0.4.0-ALPHA'
+    version = '0.5.0-ALPHA'
     ext {
         appName = "SpaceRace"
-        gdxVersion = '1.9.9'
-        roboVMVersion = '2.3.5'
-        box2DLightsVersion = '1.4'
-        aiVersion = '1.8.0'
-        gsonVersion = '2.8.5'
-        daggerVersion = '2.15'
     }
 
     repositories {
+        jcenter()
         jcenter { url "http://jcenter.bintray.com/" }
         mavenLocal()
         mavenCentral()
@@ -46,43 +40,68 @@ allprojects {
     }
 }
 
+//        ██████╗ ███████╗███████╗██╗  ██╗████████╗ ██████╗ ██████╗
+//        ██╔══██╗██╔════╝██╔════╝██║ ██╔╝╚══██╔══╝██╔═══██╗██╔══██╗
+//        ██║  ██║█████╗  ███████╗█████╔╝    ██║   ██║   ██║██████╔╝
+//        ██║  ██║██╔══╝  ╚════██║██╔═██╗    ██║   ██║   ██║██╔═══╝
+//        ██████╔╝███████╗███████║██║  ██╗   ██║   ╚██████╔╝██║
+//        ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝
+
 project(":desktop") {
     apply plugin: "kotlin"
-
+    apply plugin: "net.ltgt.apt"
+    apply plugin: "idea"
 
     dependencies {
         implementation project(":core")
-        implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-        implementation "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+
+        implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdx.version"
+        implementation "com.badlogicgames.gdx:gdx-platform:$gdx.version:natives-desktop"
+        implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-desktop"
+        implementation "com.badlogicgames.gdx:gdx-tools:$gdx.version"
     }
 }
+
+//        █████╗ ███╗   ██╗██████╗ ██████╗  ██████╗ ██╗██████╗
+//        ██╔══██╗████╗  ██║██╔══██╗██╔══██╗██╔═══██╗██║██╔══██╗
+//        ███████║██╔██╗ ██║██║  ██║██████╔╝██║   ██║██║██║  ██║
+//        ██╔══██║██║╚██╗██║██║  ██║██╔══██╗██║   ██║██║██║  ██║
+//        ██║  ██║██║ ╚████║██████╔╝██║  ██║╚██████╔╝██║██████╔╝
+//        ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝╚═════╝
 
 project(":android") {
     apply plugin: "android"
     apply plugin: "kotlin-android"
+    apply plugin: "kotlin-android-extensions"
 
     configurations { natives }
 
     dependencies {
         implementation project(":core")
-        implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-        implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+        implementation "com.badlogicgames.gdx:gdx-backend-android:$gdx.version"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdx.version:natives-armeabi"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdx.version:natives-armeabi-v7a"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdx.version:natives-arm64-v8a"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdx.version:natives-x86"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdx.version:natives-x86_64"
+        implementation "com.badlogicgames.gdx:gdx-box2d:$gdx.version"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-armeabi"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-armeabi-v7a"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-arm64-v8a"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-x86"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-x86_64"
     }
 }
+
+//        ██╗ ██████╗ ███████╗
+//        ██║██╔═══██╗██╔════╝
+//        ██║██║   ██║███████╗
+//        ██║██║   ██║╚════██║
+//        ██║╚██████╔╝███████║
+//        ╚═╝ ╚═════╝ ╚══════╝
 
 project(":ios") {
     apply plugin: "kotlin"
@@ -91,42 +110,192 @@ project(":ios") {
 
     dependencies {
         implementation project(":core")
-        implementation "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
-        implementation "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
-        implementation "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
-        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+        implementation "com.mobidevelop.robovm:robovm-rt:$gdx.roboVMVersion"
+        implementation "com.mobidevelop.robovm:robovm-cocoatouch:$gdx.roboVMVersion"
+        implementation "com.badlogicgames.gdx:gdx-backend-robovm:$gdx.version"
+        implementation "com.badlogicgames.gdx:gdx-platform:$gdx.version:natives-ios"
+        implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-ios"
     }
 }
+
+
+//        ██████╗ ██████╗ ██████╗ ███████╗
+//        ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+//        ██║     ██║   ██║██████╔╝█████╗
+//        ██║     ██║   ██║██╔══██╗██╔══╝
+//        ╚██████╗╚██████╔╝██║  ██║███████╗
+//        ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+//
 
 project(":core") {
     apply plugin: "kotlin"
     apply plugin: 'kotlin-kapt'
-    apply plugin: "net.ltgt.apt"
     apply plugin: 'io.objectbox'
 
-    dependencies {
-        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-        implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    kapt {
+        generateStubs = true
+        arguments {
+            arg("objectbox.myObjectBoxPackage", "de.bitb.spacerace.model")
 
+//            arg('dagger.fastInit', 'enabled')
+//            arg('dagger.formatGeneratedSource', 'disabled')
+//            arg('dagger.gradle.incremental', 'enabled')
+        }
+    }
+
+    dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         implementation "com.google.code.gson:gson:$gsonVersion"
 
-        implementation "com.google.dagger:dagger:$daggerVersion"
-        kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+        implementation 'org.greenrobot:eventbus:3.1.1'
 
-        implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
-        implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
+
+//        ██╗     ██╗██████╗  ██████╗ ██████╗ ██╗  ██╗
+//        ██║     ██║██╔══██╗██╔════╝ ██╔══██╗╚██╗██╔╝
+//        ██║     ██║██████╔╝██║  ███╗██║  ██║ ╚███╔╝
+//        ██║     ██║██╔══██╗██║   ██║██║  ██║ ██╔██╗
+//        ███████╗██║██████╔╝╚██████╔╝██████╔╝██╔╝ ██╗
+//        ╚══════╝╚═╝╚═════╝  ╚═════╝ ╚═════╝ ╚═╝  ╚═╝
+
+        implementation "com.badlogicgames.gdx:gdx:$gdx.version"
+        implementation "com.badlogicgames.gdx:gdx-box2d:$gdx.version"
+
+
+//        ██╗███╗   ██╗     ██╗███████╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗
+//        ██║████╗  ██║     ██║██╔════╝██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║
+//        ██║██╔██╗ ██║     ██║█████╗  ██║        ██║   ██║██║   ██║██╔██╗ ██║
+//        ██║██║╚██╗██║██   ██║██╔══╝  ██║        ██║   ██║██║   ██║██║╚██╗██║
+//        ██║██║ ╚████║╚█████╔╝███████╗╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║
+//        ╚═╝╚═╝  ╚═══╝ ╚════╝ ╚══════╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+
+//        implementation "com.google.dagger:dagger:$daggerVersion"
+//        kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+
+//        // Koin for Kotlin
+//        implementation "org.koin:koin-core:$koin_version"
+//        // Koin extended & experimental features
+//        implementation "org.koin:koin-core-ext:$koin_version"
+
+
+//        ██████╗ ███████╗ █████╗  ██████╗████████╗██╗██╗   ██╗
+//        ██╔══██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝██║██║   ██║
+//        ██████╔╝█████╗  ███████║██║        ██║   ██║██║   ██║
+//        ██╔══██╗██╔══╝  ██╔══██║██║        ██║   ██║╚██╗ ██╔╝
+//        ██║  ██║███████╗██║  ██║╚██████╗   ██║   ██║ ╚████╔╝
+//        ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝  ╚═══╝
+
+        implementation "io.reactivex.rxjava3:rxjava:$rx.java"
+        implementation "io.reactivex.rxjava2:rxkotlin:$rx.kotlin"
+
+
+//        ██████╗  █████╗ ████████╗ █████╗ ██████╗  █████╗ ███████╗███████╗
+//        ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝
+//        ██║  ██║███████║   ██║   ███████║██████╔╝███████║███████╗█████╗
+//        ██║  ██║██╔══██║   ██║   ██╔══██║██╔══██╗██╔══██║╚════██║██╔══╝
+//        ██████╔╝██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║███████║███████╗
+//        ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
+
+//        kapt "io.objectbox:objectbox-processor:$dbVersion"
+        kapt("io.objectbox:objectbox-processor:$dbVersion")
+        // some useful Kotlin extension functions
 
         implementation "io.objectbox:objectbox-java:$dbVersion"
         implementation "io.objectbox:objectbox-kotlin:$dbVersion"
         annotationProcessor "io.objectbox:objectbox-processor:$dbVersion"
-        kapt("io.objectbox:objectbox-processor:$dbVersion")
         implementation "io.objectbox:objectbox-macos:$dbVersion"
 //        debugImplementation "io.objectbox:objectbox-android-objectbrowser:$dbVersion"
+        implementation "io.objectbox:objectbox-rxjava:$dbVersion"
 
-        implementation 'org.greenrobot:eventbus:3.1.1'
+
+//         ████████╗███████╗███████╗████████╗
+//         ╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝
+//            ██║   █████╗  ███████╗   ██║
+//            ██║   ██╔══╝  ╚════██║   ██║
+//            ██║   ███████╗███████║   ██║
+//            ╚═╝   ╚══════╝╚══════╝   ╚═╝
+
+        testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdx.version"
+        testImplementation "com.badlogicgames.gdx:gdx:$gdx.version"
+        testImplementation "com.badlogicgames.gdx:gdx-platform:$gdx.version:natives-desktop"
+        testImplementation "com.badlogicgames.gdx:gdx-box2d:$gdx.version"
+        testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-desktop"
+
+        implementation "junit:junit:$testing.junit"
+        implementation "io.mockk:mockk:$testing.mockkVersion"
+
+        testImplementation "junit:junit:$testing.junit"
+        testImplementation "io.mockk:mockk:$testing.mockkVersion"
+
+//        kaptTest ("com.google.dagger:dagger-compiler:$daggerVersion")
+//        testImplementation ("com.google.dagger:dagger:$daggerVersion")
+
+// Koin for Unit tests
+//        testImplementation "org.koin:koin-test:$koin_version"
+
+
+//        api "com.google.dagger:dagger:$daggerVersion"
+//        kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+//        testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+//        kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+
+        /////DAGGER/////
+//// Dagger
+//        implementation "com.google.dagger:dagger:$daggerVersion"
+////        annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+//        kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+//
+//// Test Dagger
+//        testImplementation "com.google.dagger:dagger:$daggerVersion"
+////        testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+//        kaptTest("com.google.dagger:dagger-compiler:$daggerVersion")
+    }
+
+    apply from: '../core/CoreDependency.gradle'
+
+}
+
+project(":tests") {
+    apply plugin: "java"
+
+    sourceSets.test.java.srcDirs = ["src/"]
+
+    dependencies {
+
+        /**
+         * If you do have some classes to test in os specific code you may want to uncomment
+         * some of these lines.
+         *
+         * BUT: I recommend to create seperate test sub projects for each platform. Trust me :)
+         *
+         */
+
+//        compile project(":android")
+//        compile project(":html")
+//        compile project(":desktop")
+
+
+//        if(System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
+//        	compile project(":ios")
+//        }
+
+        implementation project(":core")
+//
+//        implementation "junit:junit:4.+"
+//        implementation "org.mockito:mockito-all:1.9.+"
+//
+//        implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+//        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+//
+//        testImplementation 'junit:junit:4.+'
+//        testImplementation "org.mockito:mockito-all:1.9.+"
+//
+//        testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+//        testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+//        testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+
+
     }
 }
 

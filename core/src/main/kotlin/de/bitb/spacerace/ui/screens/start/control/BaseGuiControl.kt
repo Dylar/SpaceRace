@@ -1,0 +1,25 @@
+package de.bitb.spacerace.ui.screens.start.control
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.controller.InputObserver
+import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.ui.base.GuiComponent
+import de.bitb.spacerace.ui.screens.start.StartGuiStage
+
+abstract class BaseGuiControl(val guiStage: StartGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+
+
+    init {
+        background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
+
+        pack()
+
+    }
+
+    override fun <T : BaseCommand> update(event: T) {
+
+    }
+}
