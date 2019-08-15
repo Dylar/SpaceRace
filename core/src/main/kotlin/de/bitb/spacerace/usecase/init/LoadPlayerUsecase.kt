@@ -1,28 +1,49 @@
 package de.bitb.spacerace.usecase.init
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
+import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.player.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
+import de.bitb.spacerace.events.commands.player.MoveCommand
+import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.groups.SpaceGroup
+import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Single
+import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class LoadPlayerUsecase @Inject constructor(
         private val playerController: PlayerController,
+        private val fieldController: FieldController,
         private val playerColorDispender: PlayerColorDispender,
         private val playerDataSource: PlayerDataSource
 ) : ResultUseCase<List<PlayerData>, List<PlayerColor>> {
 
     override fun buildUseCaseSingle(params: List<PlayerColor>): Single<List<PlayerData>> =
             playerDataSource
-//                .insertAll(*params.map { PlayerData(playerData = it) }.toTypedArray())
-                    .getByColor(*params.toTypedArray())
-                    .map {
+                    .insertAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
+                    .flatMap { playerDataSource.getAll() }
+                    .flatMap {
                         insertNewPlayer(it, params)
                     }
-                    .flatMap { it }
+                    .map { players ->
+
+                        val map = initMap()
+
+                        playerController.clearPlayer()
+                        val startField = map.startField
+                        players.withIndex()
+                                .forEach {
+                                    addPlayer(it, startField)
+                                }
+                        players
+                    }
                     .doAfterSuccess {
                         pushCurrentPlayer(it)
                     }
@@ -51,5 +72,44 @@ class LoadPlayerUsecase @Inject constructor(
                     }
 
         }
+    }
+
+
+    private fun initMap(): SpaceMap {
+        fieldController.clearField()
+        return fieldController.spaceMap
+                .createMap()
+                .also {
+                    fieldController.map = it
+                    fieldController.setRandomGoal()
+                    addFields(*it.groups.toTypedArray())
+                }
+    }
+
+    private fun addFields(vararg spaceGroups: SpaceGroup) {
+        for (spaceGroup in spaceGroups) {
+            for (field in spaceGroup.fields.entries.withIndex()) {
+                addField(field.value.value)
+            }
+        }
+    }
+
+    private fun addField(spaceField: SpaceField) {
+        spaceField.getGameImage().addListener(object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                EventBus.getDefault().post(MoveCommand(spaceField, playerController.currentPlayerData))
+                return true
+            }
+        })
+        fieldController.fields.add(spaceField)
+        fieldController.addFieldMap(spaceField)
+    }
+
+    private fun addPlayer(playerData: IndexedValue<PlayerData>, startField: SpaceField) {
+        val player = Player(playerData.value.playerColor)
+
+        playerController.addPlayer(player)
+//        player.playerImage.movingSpeed * playerData.index
+        fieldController.addShip(player, startField)
     }
 }

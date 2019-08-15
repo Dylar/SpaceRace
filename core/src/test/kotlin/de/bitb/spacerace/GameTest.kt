@@ -8,7 +8,7 @@ import org.junit.Before
 open class GameTest {
     // This is our "test" application
     private var application: Application? = null
-    protected var testGame: TestGame? = null
+//    protected var testGame: TestGame? = null
 
     // Before running any tests, initialize the application with the headless backend
     @Before
@@ -19,11 +19,11 @@ open class GameTest {
 //            testGame = it
 //            application = HeadlessApplication(it)
 //        }
-        testGame = game
-        testGame?.also {
-            it.initGame() //TODO do it?
-            Logger.println(it)
-        }
+//        testGame = game
+//        testGame?.also {
+//            it.initGame() //TODO do it?
+//            Logger.println(it)
+//        }
 //        application = HeadlessApplication(object : ApplicationListener {
 //            override fun create() {
 //                testGame?.create()
@@ -65,5 +65,6 @@ open class GameTest {
         // Exit the application first
         application?.exit()
         application = null
+
     }
 }

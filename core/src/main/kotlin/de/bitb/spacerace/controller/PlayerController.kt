@@ -22,13 +22,14 @@ class PlayerController
     val currentPlayer: Player
         get() = players.firstOrNull() ?: NONE_PLAYER
 
-    init {
-        Logger.println(
-                "WAS IS DAS FÜRN HUSO", this
-        )
-    }
+//    init {
+//        Logger.println(
+//                "WAS IS DAS FÜRN HUSO", this
+//        )
+//    }
 
     fun fixColor(playerData: PlayerData) {
+        Logger.println("SET CURRENT: $playerData")
         currentPlayerData = playerData
 //        = currentPlayer.playerColor
 //                .let { current ->

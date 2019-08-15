@@ -1,10 +1,12 @@
 package de.bitb.spacerace
 
+import de.bitb.spacerace.config.dimensions.Dimensions.IS_TEST
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerTestComponent
 import de.bitb.spacerace.injection.components.TestComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
+import de.bitb.spacerace.injection.modules.DatabaseModule
 
 class TestGame : MainGame() {
 
@@ -14,6 +16,7 @@ class TestGame : MainGame() {
 
     override fun initGame() {
         super.initGame()
+        IS_TEST = true
         testComponent = appComponent as TestComponent
         testComponent.inject(this)
     }
@@ -21,6 +24,9 @@ class TestGame : MainGame() {
     override fun initComponent(): AppComponent = DaggerTestComponent
             .builder()
             .applicationModule(ApplicationModule(this))
+            .databaseModule(DatabaseModule(
+                    mockDb = Setup.createMockBoxStore()
+            ))
             .build()
 
 }

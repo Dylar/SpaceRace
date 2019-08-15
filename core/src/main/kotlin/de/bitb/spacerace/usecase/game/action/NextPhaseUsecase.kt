@@ -1,4 +1,4 @@
-package de.bitb.spacerace.usecase.game
+package de.bitb.spacerace.usecase.game.action
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.GOAL_CREDITS
@@ -19,7 +19,6 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ExecuteUseCase
-import de.bitb.spacerace.usecase.defaultWorkerThread
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus.getDefault
@@ -30,30 +29,33 @@ class NextPhaseUsecase @Inject constructor(
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource,
         private var playerColorDispender: PlayerColorDispender
-) : ExecuteUseCase<PlayerData>,
+) : ExecuteUseCase<PlayerColor>,
         DefaultFunction by DEFAULT {
 
-    override fun buildUseCaseCompletable(params: PlayerData) =
-            params.let { playerData ->
-                playerData.nextPhase()
-                Logger.println("DO NEXT PHASE1")
-                val doPhase: (PlayerData) -> PlayerData =
-                        when (playerData.phase) {
-                            Phase.MOVE -> startMove()
-                            Phase.MAIN2 -> startMain2()
-                            Phase.END_TURN -> endTurn()
-                            else -> {
-                                { playerData }
-                            }
-                        }
-                Single.just(doPhase(playerData))
-                        .flatMap { intoDb -> playerDataSource.insertAll(intoDb) }
-                        .flatMapCompletable {
-                            Logger.println("DO NEXT PHASE2")
-                            Completable.complete() //TODO change that
-                        }
-                        .doOnDispose { Logger.println("DISPOSE NEXT PHASE") }
-            }
+    override fun buildUseCaseCompletable(params: PlayerColor) =
+            playerDataSource
+                    .getByColor(params)
+                    .map { it.first() }
+                    .flatMapCompletable { playerData ->
+                        playerData.nextPhase()
+                        Logger.println("DO NEXT PHASE1")
+                        val doPhase: (PlayerData) -> PlayerData =
+                                when (playerData.phase) {
+                                    Phase.MOVE -> startMove()
+                                    Phase.MAIN2 -> startMain2()
+                                    Phase.END_TURN -> endTurn()
+                                    else -> {
+                                        { playerData }
+                                    }
+                                }
+                        Single.just(doPhase(playerData))
+                                .flatMap { intoDb -> playerDataSource.insertAll(intoDb) }
+                                .flatMapCompletable {
+                                    Logger.println("DO NEXT PHASE2")
+                                    Completable.complete() //TODO change that
+                                }
+                                .doOnDispose { Logger.println("DISPOSE NEXT PHASE") }
+                    }
 
     private fun startMove(): (PlayerData) -> PlayerData = {
         it.apply { steps.add(getPlayerField(playerController, fieldController, it.playerColor).gamePosition) }

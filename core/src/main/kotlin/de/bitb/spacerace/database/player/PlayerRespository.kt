@@ -11,9 +11,16 @@ class PlayerRespository(
         private val playerBox: Box<PlayerData>
 ) : PlayerDataSource {
 
+
     override fun insertAll(vararg userData: PlayerData): Single<List<PlayerData>> {
         return Completable
                 .fromCallable { playerBox.put(*userData) }
+                .andThen(getAllBy(*userData))
+    }
+
+    override fun replaceAll(vararg userData: PlayerData): Single<List<PlayerData>> {
+        return delete(*userData)
+                .andThen(Completable.fromCallable { playerBox.put(*userData) })
                 .andThen(getAllBy(*userData))
     }
 

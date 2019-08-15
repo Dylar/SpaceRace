@@ -4,16 +4,19 @@ import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.config.LANGUAGE
 import de.bitb.spacerace.config.enums.Language.*
 
+
 object Dimensions {
 
-    var SCREEN_WIDTH = 0f
-        get() = Gdx.graphics.width.toFloat()
-    var SCREEN_HEIGHT = 0f
-        get() = Gdx.graphics.height.toFloat()
+    var IS_TEST = false
 
-    var SCREEN_WIDTH_HALF = 0f
+    val SCREEN_WIDTH
+        get() = if(IS_TEST) 200f else Gdx.graphics.width.toFloat()
+    val SCREEN_HEIGHT
+        get() = if(IS_TEST) 100f else Gdx.graphics.height.toFloat()
+
+    val SCREEN_WIDTH_HALF
         get() = SCREEN_WIDTH / 2
-    var SCREEN_HEIGHT_HALF = 0f
+    val SCREEN_HEIGHT_HALF
         get() = SCREEN_HEIGHT / 2
 
     const val ONE_EIGHTY_DEGREE = 180.0

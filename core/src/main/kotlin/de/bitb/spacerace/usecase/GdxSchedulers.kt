@@ -1,7 +1,7 @@
 package de.bitb.spacerace.usecase
 
 import com.badlogic.gdx.Gdx
-import io.objectbox.reactive.RunWithParam
+import de.bitb.spacerace.config.dimensions.Dimensions.IS_TEST
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -10,8 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object GdxSchedulers {
 
-    val workerThread = Schedulers.from(Executors.newFixedThreadPool(1))
-//    val objBoxThread: io.objectbox.reactive.Scheduler = object : io.objectbox.reactive.Scheduler{
+    //    val objBoxThread: io.objectbox.reactive.Scheduler = object : io.objectbox.reactive.Scheduler{
 //        override fun <T : Any?> run(runnable: RunWithParam<Any>, param: T) {
 //            runnable.run(param)
 //        }
@@ -29,7 +28,11 @@ object GdxSchedulers {
                 }
 
                 override fun schedule(run: Runnable, delay: Long, unit: TimeUnit): Disposable {
-                    Gdx.app.postRunnable(run)
+                    if (IS_TEST) {
+                        run.run()
+                    } else {
+                        Gdx.app.postRunnable(run)
+                    }
                     return this
                 }
 
@@ -41,4 +44,5 @@ object GdxSchedulers {
         }
     }
 
+    val workerThread = if (IS_TEST) mainThread else Schedulers.from(Executors.newFixedThreadPool(1))
 }

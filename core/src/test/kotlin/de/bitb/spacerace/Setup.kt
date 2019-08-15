@@ -2,18 +2,30 @@ package de.bitb.spacerace
 
 import de.bitb.spacerace.model.MyObjectBox
 import io.objectbox.BoxStore
+import io.objectbox.DebugFlags
 import java.io.File
+
 
 class Setup(
 ) {
 
     companion object {
+        val TEST_DIRECTORY = File("object-store-test")
+
         fun createMockBoxStore(): BoxStore {
-            val tempFile = File.createTempFile("object-store-test", "")
-            tempFile.delete()
+            BoxStore.deleteAllFiles(TEST_DIRECTORY)
             return MyObjectBox.builder()
-                    .directory(tempFile)
+                    // add directory flag to change where ObjectBox puts its database files
+                    .directory(TEST_DIRECTORY)
+                    // optional: add debug flags for more detailed ObjectBox log output
+                    .debugFlags(DebugFlags.LOG_QUERIES or DebugFlags.LOG_QUERY_PARAMETERS)
                     .build()
+
+//            val tempFile = File.createTempFile("object-store-test", "")
+//            tempFile.delete()
+//            return MyObjectBox.builder()
+//                    .directory(tempFile)
+//                    .build()
         }
     }
 

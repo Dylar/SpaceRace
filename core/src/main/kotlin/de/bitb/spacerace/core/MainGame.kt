@@ -5,13 +5,10 @@ import com.badlogic.gdx.Input
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.map.FieldData
-import de.bitb.spacerace.database.player.PlayerColorDispender
-import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
@@ -63,8 +60,10 @@ open class MainGame : BaseGame() {
 
     private fun initObserver() {
         dispo?.dispose()
+        Logger.println("initObserver")
         dispo = observeCurrentPlayerUseCase.observeStream(
                 onNext = {
+                    Logger.println("observeCurrentPlayerUseCase: $it")
                     playerController.fixColor(it)
                 })
 
@@ -178,6 +177,11 @@ open class MainGame : BaseGame() {
         gameStage.addEntitiesToMap()
 
 //        TODO observe somewhere
+
+        initGameObserver()
+    }
+
+    fun initGameObserver() {
         gameController.initWinnerObserver()
         gameController.initPhaseObserver()
     }

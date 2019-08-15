@@ -17,20 +17,23 @@ import java.io.File
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule() {
+class DatabaseModule(
+        private val mockDb: BoxStore? = null
+) {
 
     @Provides
     @Singleton
-    fun provideDatabase(): BoxStore {
-        BoxStore.deleteAllFiles(File(DEFAULT_NAME))
+    fun provideDatabase(): BoxStore =
+            if (mockDb == null) {
+                BoxStore.deleteAllFiles(File(DEFAULT_NAME))
 //        val boxStore = MyObjectBox.builder().build()
 //        if (BuildConfig.DEBUG) {
 //            AndroidObjectBrowser(boxStore).start(application)
 //        }
 //        return boxStore
 //        return BoxStore.getDefault();
-        return MyObjectBox.builder().build()
-    }
+                MyObjectBox.builder().build()
+            } else mockDb
 
     @Provides
     @Singleton
