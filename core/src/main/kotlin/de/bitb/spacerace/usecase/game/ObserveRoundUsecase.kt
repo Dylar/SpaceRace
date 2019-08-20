@@ -46,7 +46,7 @@ class ObserveRoundUsecase
 
     private fun updatePlayer(player: List<PlayerData>) =
             playerDataSource
-                    .insertAll(*player.toTypedArray())
+                    .insertAllReturnAll(*player.toTypedArray())
                     .map { player.isNotEmpty() }
                     .doOnSuccess { roundEnd ->
                         if (roundEnd) {

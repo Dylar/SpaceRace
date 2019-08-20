@@ -1,7 +1,5 @@
 package de.bitb.spacerace.events.commands.start
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.SELECTED_PLAYER
@@ -9,22 +7,15 @@ import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.events.commands.player.MoveCommand
-import de.bitb.spacerace.model.player.Player
-import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.model.space.groups.SpaceGroup
-import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.ui.screens.game.GameScreen
-import de.bitb.spacerace.usecase.init.LoadPlayerUsecase
-import org.greenrobot.eventbus.EventBus
+import de.bitb.spacerace.usecase.init.LoadGameUsecase
 import javax.inject.Inject
 
 class StartGameCommand() : BaseCommand() {
 
     @Inject
-    protected lateinit var loadPlayerUsecase: LoadPlayerUsecase
+    protected lateinit var loadGameUsecase: LoadGameUsecase
 
     @Inject
     protected lateinit var game: MainGame
@@ -51,7 +42,7 @@ class StartGameCommand() : BaseCommand() {
         Logger.println("EXECUTE StartGameCommand")
         inputHandler.removeListener()
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
-        loadPlayerUsecase.getResult(
+        loadGameUsecase.getResult(
                 params = SELECTED_PLAYER,
                 onSuccess = { players ->
                     //TODO make load game

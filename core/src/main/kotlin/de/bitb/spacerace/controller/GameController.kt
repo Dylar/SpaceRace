@@ -37,10 +37,9 @@ class GameController() : DefaultFunction by DEFAULT {
     }
 
     fun initPhaseObserver() {
-        Logger.println("initPhaseObserver")
         compositeDisposable += observeRoundUsecase.observeStream(
                 onNext = { isNext ->
-                    Logger.println("observeRoundUsecase: NEXT ROUND: $isNext")
+//                    Logger.println("observeRoundUsecase: NEXT ROUND: $isNext")
                 })
     }
 

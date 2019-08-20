@@ -3,10 +3,7 @@ package de.bitb.spacerace.usecase.game
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.usecase.ExecuteUseCaseNoParams
-import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.ResultUseCaseNoParams
-import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -27,6 +24,6 @@ class StartNewRoundUsecase @Inject constructor(
             Single.just(player.apply { forEach { it.phase = Phase.MAIN1 } })
 
     private fun updatePlayer(player: List<PlayerData>) =
-            playerDataSource.insertAll(*player.toTypedArray())
+            playerDataSource.insertAllReturnAll(*player.toTypedArray())
 
 }

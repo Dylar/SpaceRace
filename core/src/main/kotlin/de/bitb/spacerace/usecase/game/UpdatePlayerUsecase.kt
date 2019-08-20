@@ -12,6 +12,6 @@ class UpdatePlayerUsecase @Inject constructor(
 
     override fun buildUseCaseSingle(params: List<PlayerData>): Single<List<PlayerData>> {
         return playerDataSource
-                .insertAll(*params.toTypedArray())
+                .insertAllReturnAll(*params.toTypedArray())
     }
 }

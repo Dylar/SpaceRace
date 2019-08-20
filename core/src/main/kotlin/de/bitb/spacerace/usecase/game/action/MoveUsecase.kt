@@ -10,7 +10,7 @@ import de.bitb.spacerace.usecase.ExecuteUseCase
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class DiceUsecase @Inject constructor(
+class MoveUsecase @Inject constructor(
         private val playerController: PlayerController,
         private val playerDataSource: PlayerDataSource
 ) : ExecuteUseCase<Pair<PlayerColor, Int>>,

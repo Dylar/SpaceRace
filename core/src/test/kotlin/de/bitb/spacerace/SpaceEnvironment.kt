@@ -1,15 +1,16 @@
 package de.bitb.spacerace
 
+import de.bitb.spacerace.TestActions.waitForIt
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.MapCollection.TEST_MAP
+import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
-import de.bitb.spacerace.usecase.init.LoadPlayerUsecase
+import de.bitb.spacerace.usecase.init.LoadGameUsecase
 import javax.inject.Inject
 
 val TEST_PLAYER_1 = PlayerColor.ORANGE
@@ -19,13 +20,13 @@ val DEFAULT_TEST_PLAYER = mutableListOf(TEST_PLAYER_1, TEST_PLAYER_2)
 class SpaceEnvironment {
 
     @Inject
-    lateinit var loadPlayerUsecase: LoadPlayerUsecase
+    lateinit var loadGameUsecase: LoadGameUsecase
 
     @Inject
     lateinit var nextPhaseUseCase: NextPhaseUsecase
 
     @Inject
-    lateinit var diceCommand: DiceCommand
+    lateinit var diceUsecase: DiceUsecase
 
     @Inject
     lateinit var playerController: PlayerController
@@ -61,27 +62,14 @@ class SpaceEnvironment {
 
         fieldController.spaceMap = mapCollection
 
-        loadPlayerUsecase.buildUseCaseSingle(SELECTED_PLAYER)
+        loadGameUsecase.buildUseCaseSingle(SELECTED_PLAYER)
                 .test()
                 .await()
                 .assertComplete()
 
-//        Logger.println("load player")
-//        loadPlayerUsecase.getResult(
-//                params = SELECTED_PLAYER,
-//                onSuccess = {
-//                    Logger.println("player loaded")
-//                })
-
-
         testGame.initGameObserver()
 
         waitForIt()
-    }
-
-    private fun waitForIt(time: Long = 600) {
-        Logger.println("waitForIt")
-        Thread.sleep(time)
     }
 
     fun nextPhase(color: PlayerColor) {
@@ -92,7 +80,10 @@ class SpaceEnvironment {
                 .assertComplete()
     }
 
-    fun dice(player: PlayerColor) {
-        diceCo
+    fun dice(player: PlayerColor, maxResult: Int = 1) {
+        diceUsecase.buildUseCaseCompletable(player to maxResult)
+                .test()
+                .await()
+                .assertComplete()
     }
 }

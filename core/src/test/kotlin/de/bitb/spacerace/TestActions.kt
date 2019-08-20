@@ -20,5 +20,12 @@ object TestActions {
             is NEXT_PHASE -> testEnvironment.nextPhase(action.player)
             is Action.DICE ->  testEnvironment.dice(action.player)
         }
+
+        waitForIt()
     }
+
+    fun waitForIt(time: Long = 600) {
+        Thread.sleep(time)
+    }
+
 }

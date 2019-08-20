@@ -1,12 +1,10 @@
 package de.bitb.spacerace.events.commands.player
 
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.DICE_MAX
-import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
+import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import javax.inject.Inject
 
 class DiceCommand(
@@ -15,36 +13,18 @@ class DiceCommand(
 ) : BaseCommand(playerData) {
 
     @Inject
-    protected lateinit var updatePlayerUsecase: UpdatePlayerUsecase
-
-    @Inject
-    protected lateinit var playerController: PlayerController
+    protected lateinit var diceUsecase: DiceUsecase
 
     init {
         MainGame.appComponent.inject(this)
     }
 
     override fun canExecute(): Boolean {
-        if (!playerData.phase.isMain1()) {
-            return false
-        }
-        val items = getPlayerItems(playerController, playerData.playerColor)
-        val diceCharges = 1 + items.multiDiceItem.sumBy { it.getAmount() }
-        return playerData.diceResults.size < diceCharges
+        return true
     }
 
     override fun execute() {
-        val result = (Math.random() * maxResult).toInt() + 1
-        playerData.diceResults.add(result)
-
-        updatePlayerUsecase.getResult(
-                params = listOf(playerData),
-                onSuccess = {
-                    Logger.println("onComplete")
-                },
-                onError = {
-                    Logger.println("onError")
-                })
+        diceUsecase.execute(playerData.playerColor to maxResult)
     }
 
 }

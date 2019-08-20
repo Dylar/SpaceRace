@@ -2,6 +2,7 @@ package de.bitb.spacerace.usecase.init
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import de.bitb.spacerace.Logger
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.player.PlayerColorDispender
@@ -18,7 +19,7 @@ import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class LoadPlayerUsecase @Inject constructor(
+class LoadGameUsecase @Inject constructor(
         private val playerController: PlayerController,
         private val fieldController: FieldController,
         private val playerColorDispender: PlayerColorDispender,
@@ -27,9 +28,10 @@ class LoadPlayerUsecase @Inject constructor(
 
     override fun buildUseCaseSingle(params: List<PlayerColor>): Single<List<PlayerData>> =
             playerDataSource
-                    .insertAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
+                    .insertAllReturnAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
                     .flatMap { playerDataSource.getAll() }
                     .flatMap {
+                        Logger.println(*it.toTypedArray())
                         insertNewPlayer(it, params)
                     }
                     .map { players ->
@@ -50,7 +52,7 @@ class LoadPlayerUsecase @Inject constructor(
 
     private fun insertNewPlayer(list: List<PlayerData>, params: List<PlayerColor>): Single<List<PlayerData>> {
         return playerDataSource
-                .insertAll(*params
+                .insertAllReturnAll(*params
                         .map { color ->
                             list.find { it.playerColor == color }
                                     ?.let { it }

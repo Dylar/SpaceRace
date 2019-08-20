@@ -32,30 +32,54 @@ class NextPhaseUsecase @Inject constructor(
 ) : ExecuteUseCase<PlayerColor>,
         DefaultFunction by DEFAULT {
 
+    //TODO clean me
     override fun buildUseCaseCompletable(params: PlayerColor) =
             playerDataSource
                     .getByColor(params)
                     .map { it.first() }
                     .flatMapCompletable { playerData ->
-                        playerData.nextPhase()
-                        Logger.println("DO NEXT PHASE1")
-                        val doPhase: (PlayerData) -> PlayerData =
-                                when (playerData.phase) {
-                                    Phase.MOVE -> startMove()
-                                    Phase.MAIN2 -> startMain2()
-                                    Phase.END_TURN -> endTurn()
-                                    else -> {
-                                        { playerData }
+                        if (canExecute(playerData)) {
+                            playerData.nextPhase()
+                            val doPhase: (PlayerData) -> PlayerData =
+                                    when (playerData.phase) {
+                                        Phase.MOVE -> startMove()
+                                        Phase.MAIN2 -> startMain2()
+                                        Phase.END_TURN -> endTurn()
+                                        else -> {
+                                            { playerData }
+                                        }
                                     }
-                                }
-                        Single.just(doPhase(playerData))
-                                .flatMap { intoDb -> playerDataSource.insertAll(intoDb) }
-                                .flatMapCompletable {
-                                    Logger.println("DO NEXT PHASE2")
-                                    Completable.complete() //TODO change that
-                                }
-                                .doOnDispose { Logger.println("DISPOSE NEXT PHASE") }
+                            Single.just(doPhase(playerData))
+                                    .flatMap { intoDb -> playerDataSource.insertAllReturnAll(intoDb) }
+                                    .flatMapCompletable {
+                                        Completable.complete() //TODO change that
+                                    }
+                        } else {
+                            Completable.complete() //TODO change that
+                        }
                     }
+
+    private fun canExecute(playerData: PlayerData) =
+            when (playerData.phase) {
+                Phase.MAIN1 -> canEndMain1(playerData)
+                Phase.MOVE -> canEndMove(playerData)
+                Phase.MAIN2 -> canEndMain2(playerData)
+                Phase.END_TURN -> playerData.phase.isEndTurn()
+                Phase.END_ROUND -> false
+            }
+
+    private fun canEndMain1(playerData: PlayerData): Boolean {
+        return playerData.phase.isMain1() && playerController.areStepsLeft(playerData)
+    }
+
+    private fun canEndMove(playerData: PlayerData): Boolean {
+        return !playerController.canMove(playerData)
+    }
+
+    private fun canEndMain2(playerData: PlayerData): Boolean {
+        return playerData.phase.isMain2()
+    }
+
 
     private fun startMove(): (PlayerData) -> PlayerData = {
         it.apply { steps.add(getPlayerField(playerController, fieldController, it.playerColor).gamePosition) }

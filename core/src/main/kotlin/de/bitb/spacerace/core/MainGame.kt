@@ -60,10 +60,8 @@ open class MainGame : BaseGame() {
 
     private fun initObserver() {
         dispo?.dispose()
-        Logger.println("initObserver")
         dispo = observeCurrentPlayerUseCase.observeStream(
                 onNext = {
-                    Logger.println("observeCurrentPlayerUseCase: $it")
                     playerController.fixColor(it)
                 })
 
