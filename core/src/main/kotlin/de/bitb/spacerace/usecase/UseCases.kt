@@ -92,7 +92,7 @@ interface ResultUseCaseNoParams<ReturnType> where ReturnType : Any {
 
 interface StreamUseCase<ReturnType, in Params> where ReturnType : Any {
 
-    fun buildUseCaseFlowable(params: Params): Observable<ReturnType>
+    fun buildUseCaseObservable(params: Params): Observable<ReturnType>
 
     fun observeStream(
             params: Params,
@@ -102,7 +102,7 @@ interface StreamUseCase<ReturnType, in Params> where ReturnType : Any {
             onNext: (ReturnType) -> Unit = {}
     ): Disposable = Completable.complete()
             .observeOn(workerScheduler)
-            .andThen(buildUseCaseFlowable(params))
+            .andThen(buildUseCaseObservable(params))
             .observeOn(observerScheduler)
             .subscribeBy(
                     onNext = onNext,
@@ -113,7 +113,7 @@ interface StreamUseCase<ReturnType, in Params> where ReturnType : Any {
 
 interface StreamUseCaseNoParams<ReturnType> where ReturnType : Any {
 
-    fun buildUseCaseFlowable(): Observable<ReturnType>
+    fun buildUseCaseObservable(): Observable<ReturnType>
 
     fun observeStream(
             workerScheduler: Scheduler = defaultWorkerThread,
@@ -122,7 +122,7 @@ interface StreamUseCaseNoParams<ReturnType> where ReturnType : Any {
             onNext: (ReturnType) -> Unit = {}
     ): Disposable = Completable.complete()
             .observeOn(workerScheduler)
-            .andThen(buildUseCaseFlowable())
+            .andThen(buildUseCaseObservable())
             .observeOn(observerScheduler)
             .subscribeBy(
                     onNext = onNext,

@@ -10,7 +10,7 @@ class ObserveWinnerUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource
 ) : StreamUseCase<PlayerData, Long> {
 
-    override fun buildUseCaseFlowable(params: Long): Observable<PlayerData> =
+    override fun buildUseCaseObservable(params: Long): Observable<PlayerData> =
             playerDataSource
                     .observeAllObserver()
                     .flatMapIterable { it }

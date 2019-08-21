@@ -19,7 +19,7 @@ class CommandUsecase @Inject constructor(
 ) : StreamUseCaseNoParams<BaseCommand>,
         DefaultFunction by DEFAULT {
 
-    override fun buildUseCaseFlowable(): Observable<BaseCommand> {
+    override fun buildUseCaseObservable(): Observable<BaseCommand> {
         return commandDispender.publisher
                 .switchMap(::updatePlayerData)
                 .switchMap(::handleCommand)

@@ -20,35 +20,35 @@ open class TestGroup(
         //BOTTOM
         fieldTypeSize = fieldType.size
         val centerBottomField = SpaceField.createField(fieldType[index])
-        addField(centerBottomField, SCREEN_WIDTH / 2)
+/*0*/   addField(centerBottomField, SCREEN_WIDTH / 2)
         val leftBottomCorner = SpaceField.createField(fieldType[index])
-        addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
+/*1*/   addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
         val rightBottomCorner = SpaceField.createField(fieldType[index])
-        addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
+/*2*/   addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
         connect(leftBottomCorner, centerBottomField)
         connect(rightBottomCorner, centerBottomField)
 
         //TOP
         val centerTopField = SpaceField.createField(fieldType[index])
-        addField(centerTopField, centerBottomField, verticalMod = FIELD_PADDING_XXLARGE)
+/*3*/   addField(centerTopField, centerBottomField, verticalMod = FIELD_PADDING_XXLARGE)
         val leftTopCorner = SpaceField.createField(fieldType[index])
-        addField(leftTopCorner, centerTopField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
+/*4*/   addField(leftTopCorner, centerTopField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
         val rightTopCorner = SpaceField.createField(fieldType[index])
-        addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
+/*5*/   addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
 
         connect(leftTopCorner, centerTopField)
         connect(rightTopCorner, centerTopField)
 
         //CENTER
         val leftCenterField = SpaceField.createField(fieldType[index])
-        addField(leftCenterField, centerBottomField, -FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.LEFT)
+/*6*/   addField(leftCenterField, centerBottomField, -FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.LEFT)
         val rightCenterField = SpaceField.createField(fieldType[index])
-        addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
+/*7*/   addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
 
         //LONG WAY
         val longWayField = SpaceField.createField(fieldType[index])
-        addField(longWayField, centerBottomField, verticalMod = -FIELD_PADDING_TOO_LARGE, connection = ConnectionPoint.TOP)
+/*8*/   addField(longWayField, centerBottomField, verticalMod = -FIELD_PADDING_TOO_LARGE, connection = ConnectionPoint.TOP)
 //        addConnectionPoint(ConnectionPoint.BOTTOM, longWayField)
 //        addConnectionPoint(ConnectionPoint.LEFT, longWayField)
 //        addConnectionPoint(ConnectionPoint.RIGHT, longWayField)

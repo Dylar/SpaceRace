@@ -109,4 +109,6 @@ class FieldController
 
     }
 
+    fun getField(groupId: Int, fieldId: Int) = map.groups[groupId].getField(fieldId)
+
 }

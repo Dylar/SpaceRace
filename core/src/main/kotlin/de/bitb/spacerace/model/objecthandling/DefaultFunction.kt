@@ -15,6 +15,7 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 
 val DEFAULT = object : DefaultFunction {}
 
+//TODO do this as extentions
 interface DefaultFunction {
 
     fun getPlayer(playerController: PlayerController, playerColor: PlayerColor): Player {

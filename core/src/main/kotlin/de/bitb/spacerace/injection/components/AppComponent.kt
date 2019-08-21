@@ -27,7 +27,6 @@ import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.game.control.GameControl
-import de.bitb.spacerace.usecase.game.UpdatePlayerUsecase
 import javax.inject.Singleton
 
 @Singleton
@@ -86,7 +85,6 @@ interface AppComponent {
     fun inject(buyItemCommand: BuyItemCommand)
 
     //USE CASE
-    fun inject(updatePlayerUsecase: UpdatePlayerUsecase)
 
     //DATABASE
     fun inject(playerRespository: PlayerRespository)

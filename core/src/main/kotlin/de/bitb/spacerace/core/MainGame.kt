@@ -164,7 +164,7 @@ open class MainGame : BaseGame() {
     //TODO clear on
     fun clear() {
         gameController.compositeDisposable.clear()
-        (screen as BaseScreen).clear()
+        (screen as? BaseScreen)?.clear()
     }
 
     fun startGameDELETE_ME() {

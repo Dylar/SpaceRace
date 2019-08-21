@@ -2,7 +2,6 @@ package de.bitb.spacerace.usecase.init
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.player.PlayerColorDispender
@@ -30,10 +29,7 @@ class LoadGameUsecase @Inject constructor(
             playerDataSource
                     .insertAllReturnAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
                     .flatMap { playerDataSource.getAll() }
-                    .flatMap {
-                        Logger.println(*it.toTypedArray())
-                        insertNewPlayer(it, params)
-                    }
+                    .flatMap { insertNewPlayer(it, params) }
                     .map { players ->
 
                         val map = initMap()

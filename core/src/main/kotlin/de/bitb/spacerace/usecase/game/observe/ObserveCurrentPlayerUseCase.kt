@@ -12,7 +12,7 @@ class ObserveCurrentPlayerUseCase @Inject constructor(
         private val playerColorDispender: PlayerColorDispender
 ) : StreamUseCaseNoParams<PlayerData> {
 
-    override fun buildUseCaseFlowable(): Observable<PlayerData> {
+    override fun buildUseCaseObservable(): Observable<PlayerData> {
         return playerColorDispender.publisher
                 .switchMap { playerDataSource.observeByColor(it) }
                 .map { it.first() }

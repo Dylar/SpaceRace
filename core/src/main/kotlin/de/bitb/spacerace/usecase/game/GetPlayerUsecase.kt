@@ -2,16 +2,18 @@ package de.bitb.spacerace.usecase.game
 
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-class UpdatePlayerUsecase @Inject constructor(
+class GetPlayerUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource
-) : ResultUseCase<List<PlayerData>, List<PlayerData>> {
+) : ResultUseCase<PlayerData, PlayerColor> {
 
-    override fun buildUseCaseSingle(params: List<PlayerData>): Single<List<PlayerData>> {
+    override fun buildUseCaseSingle(params: PlayerColor): Single<PlayerData> {
         return playerDataSource
-                .insertAllReturnAll(*params.toTypedArray())
+                .getByColor(params)
+                .map { it.first() }
     }
 }

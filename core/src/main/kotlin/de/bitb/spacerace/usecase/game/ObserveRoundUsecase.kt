@@ -17,7 +17,7 @@ class ObserveRoundUsecase
         private val playerDataSource: PlayerDataSource
 ) : StreamUseCaseNoParams<Boolean> {
 
-    override fun buildUseCaseFlowable(): Observable<Boolean> =
+    override fun buildUseCaseObservable(): Observable<Boolean> =
             playerDataSource.observeAllObserver()
                     .map(::filterPlayer)
                     .map(::endRound)

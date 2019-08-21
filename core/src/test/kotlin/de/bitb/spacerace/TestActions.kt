@@ -1,31 +1,43 @@
 package de.bitb.spacerace
 
-import de.bitb.spacerace.TestActions.Action.NEXT_PHASE
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.space.fields.SpaceField
 
 object TestActions {
 
     sealed class Action(
             var player: PlayerColor = PlayerColor.NONE
     ) {
-        class NEXT_PHASE(player: PlayerColor) : Action(player)
-        class DICE(player: PlayerColor) : Action(player)
-    }
 
-    fun doAction(
-            testEnvironment: SpaceEnvironment,
-            action: Action = NEXT_PHASE(PlayerColor.NONE)
-    ) {
-        when (action) {
-            is NEXT_PHASE -> testEnvironment.nextPhase(action.player)
-            is Action.DICE ->  testEnvironment.dice(action.player)
+        class NEXT_PHASE(
+                player: PlayerColor
+        ) : Action(player)
+
+        class DICE(
+                player: PlayerColor,
+                val setDice: Int = -1
+        ) : Action(player)
+
+        class MOVE(
+                player: PlayerColor,
+                val target: SpaceField
+        ) : Action(player)
+
+        fun doAction(
+                testEnvironment: SpaceEnvironment
+        ) {
+            when (this) {
+                is NEXT_PHASE -> testEnvironment.nextPhase(player)
+                is DICE -> testEnvironment.dice(player, setDice)
+                is MOVE -> testEnvironment.move(player, target)
+            }
+
+            waitForIt()
         }
 
-        waitForIt()
     }
 
-    fun waitForIt(time: Long = 600) {
+    fun waitForIt(time: Long = 100) {
         Thread.sleep(time)
     }
-
 }

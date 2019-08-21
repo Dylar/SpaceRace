@@ -19,12 +19,14 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ExecuteUseCase
+import de.bitb.spacerace.usecase.game.GetPlayerUsecase
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus.getDefault
 import javax.inject.Inject
 
 class NextPhaseUsecase @Inject constructor(
+        private val getPlayerUsecase: GetPlayerUsecase,
         private val playerController: PlayerController,
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource,
@@ -34,9 +36,7 @@ class NextPhaseUsecase @Inject constructor(
 
     //TODO clean me
     override fun buildUseCaseCompletable(params: PlayerColor) =
-            playerDataSource
-                    .getByColor(params)
-                    .map { it.first() }
+            getPlayerUsecase.buildUseCaseSingle(params)
                     .flatMapCompletable { playerData ->
                         if (canExecute(playerData)) {
                             playerData.nextPhase()
@@ -50,12 +50,9 @@ class NextPhaseUsecase @Inject constructor(
                                         }
                                     }
                             Single.just(doPhase(playerData))
-                                    .flatMap { intoDb -> playerDataSource.insertAllReturnAll(intoDb) }
-                                    .flatMapCompletable {
-                                        Completable.complete() //TODO change that
-                                    }
+                                    .flatMapCompletable { intoDb -> playerDataSource.insertAll(intoDb) }
                         } else {
-                            Completable.complete() //TODO change that
+                            Completable.complete()
                         }
                     }
 
@@ -86,7 +83,7 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun startMain2(): (PlayerData) -> PlayerData = {
-        obstainField(it)
+        obtainField(it)
     }
 
     private fun endTurn(): (PlayerData) -> PlayerData = {
@@ -113,7 +110,7 @@ class NextPhaseUsecase @Inject constructor(
         }
     }
 
-    private fun obstainField(playerData: PlayerData): PlayerData =
+    private fun obtainField(playerData: PlayerData): PlayerData =
             getPlayerField(playerController, fieldController, playerData.playerColor)
                     .apply {
                         val items =
