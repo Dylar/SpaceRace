@@ -185,13 +185,13 @@ class NextPhaseUsecaseTest : GameTest() {
                 .also { env ->
                     val target1: SpaceField = env.defaultField1
                     val target2: SpaceField = env.defaultField2
-                    assertTargetNotSame(target1, target2)
+                    assertNotSameField(target1, target2)
                     val playerField1: SpaceField = env.getPlayerField(TEST_PLAYER_1)
 
                     //move1
                     MOVE(env.currentPlayerColor, target1).doAction(env)
                     val playerField2: SpaceField = env.getPlayerField(TEST_PLAYER_1)
-                    assertTargetNotSame(playerField1, playerField2)
+                    assertNotSameField(playerField1, playerField2)
 
                     //next phase failed
                     NEXT_PHASE(env.currentPlayerColor).doAction(env)
@@ -218,7 +218,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     //move action
                     val target1: SpaceField = env.defaultField1
                     val target2: SpaceField = env.defaultField2
-                    assertTargetNotSame(target1, target2)
+                    assertNotSameField(target1, target2)
 
                     MOVE(env.currentPlayerColor, target1).doAction(env)
                     assertPlayerOnField(env, TEST_PLAYER_1, target1)

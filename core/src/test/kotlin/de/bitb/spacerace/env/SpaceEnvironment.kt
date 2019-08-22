@@ -55,6 +55,8 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
         get() = currentPlayer.playerColor
     val currentPhase: Phase
         get() = currentPlayer.phase
+    val currentPosition: SpaceField
+        get() = getPlayerField(currentPlayerColor)
 
     val defaultField1: SpaceField
         get() = getField(0, 4)

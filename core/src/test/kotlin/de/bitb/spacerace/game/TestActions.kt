@@ -6,6 +6,7 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 
 object TestActions {
 
+    //TODO do this as object in env -> delegate
     sealed class Action(
             var player: PlayerColor = PlayerColor.NONE
     ) {

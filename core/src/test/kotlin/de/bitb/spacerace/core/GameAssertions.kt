@@ -28,8 +28,14 @@ fun assertDiceResult(env: SpaceEnvironment,
                 .assertComplete()
                 .assertValue { env.playerController.stepsLeft(it) == diceResult }
 
-fun assertTargetNotSame(field1: SpaceField, field2: SpaceField) =
+fun assertSameField(field1: SpaceField, field2: SpaceField) =
+        assertThat(field1, `is`(field2))
+
+fun assertNotSameField(field1: SpaceField, field2: SpaceField) =
         assertThat(field1, `is`(not(field2)))
 
 fun assertPlayerOnField(env: SpaceEnvironment, player: PlayerColor, field: SpaceField) =
         assertThat(env.getPlayerField(player), `is`(field))
+
+fun assertPlayerNotOnField(env: SpaceEnvironment, player: PlayerColor, field: SpaceField) =
+        assertThat(env.getPlayerField(player),  `is`(not(field)))
