@@ -1,11 +1,13 @@
-package de.bitb.spacerace
+package de.bitb.spacerace.env
 
-import de.bitb.spacerace.TestActions.Action.*
-import de.bitb.spacerace.TestActions.waitForIt
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.assertCurrentPhase
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.game.TestActions.Action.*
+import de.bitb.spacerace.game.TestActions.waitForIt
+import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
@@ -31,20 +33,16 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     lateinit var loadGameUsecase: LoadGameUsecase
 
     @Inject
-    lateinit var getPlayerUsecase: GetPlayerUsecase
-
-    @Inject
     lateinit var nextPhaseUseCase: NextPhaseUsecase
-
     @Inject
     lateinit var diceUsecase: DiceUsecase
-
     @Inject
     lateinit var moveUsecase: MoveUsecase
 
     @Inject
+    lateinit var getPlayerUsecase: GetPlayerUsecase
+    @Inject
     lateinit var playerController: PlayerController
-
     @Inject
     lateinit var fieldController: FieldController
 
@@ -55,6 +53,12 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
         get() = playerController.currentPlayerData
     val currentPlayerColor: PlayerColor
         get() = currentPlayer.playerColor
+
+    val defaultField1: SpaceField
+        get() = getField(0, 4)
+
+    val defaultField2: SpaceField
+        get() = getField(0, 3)
 
     fun initGame(
             vararg playerColor: PlayerColor = arrayOf(),
@@ -97,8 +101,7 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     fun setToMain2Phase() {
         setToMovePhase()
 
-        val target: SpaceField = getField(0, 4)
-        MOVE(currentPlayerColor, target).doAction(this)
+        MOVE(currentPlayerColor, defaultField1).doAction(this)
         NEXT_PHASE(currentPlayerColor).doAction(this)
 
         assertCurrentPhase(this, Phase.MAIN2)
@@ -137,20 +140,17 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     }
 
     fun getCurrentField() = fieldController.getField(playerController.currentPlayer.gamePosition)
-    fun getRandomTarget() =
-            (currentPlayer to getCurrentField()).let { (player, currentField) ->
-                currentField.connections
-                        .first { connection ->
-                            connection.spaceField1 != fieldController.currentGoal
-                                    && connection.spaceField2 != fieldController.currentGoal
-                                    && player.steps.last().let { lastStep ->
-                                lastStep != connection.spaceField1.gamePosition || lastStep != connection.spaceField2.gamePosition
-                            }
-                        }
-                        .getOpposite(currentField)
-            }
-
     fun getField(groupId: Int, fieldId: Int) = fieldController.getField(groupId, fieldId)
     fun getPlayerField(player: PlayerColor): SpaceField = getPlayerField(playerController, fieldController, player)
+    fun getRandomConnectedField() =
+            (currentPlayer to getCurrentField()).let { (player, currentField) ->
+                currentField.connections.first { connection ->
+                    connection.spaceField1 != fieldController.currentGoal
+                            && connection.spaceField2 != fieldController.currentGoal
+                            && player.steps.last().let { lastStep ->
+                        lastStep != connection.spaceField1.gamePosition || lastStep != connection.spaceField2.gamePosition
+                    }
+                }.getOpposite(currentField)
+            }
 
 }

@@ -1,7 +1,11 @@
 package de.bitb.spacerace.usecase.game
 
-import de.bitb.spacerace.*
-import de.bitb.spacerace.TestActions.Action.*
+import de.bitb.spacerace.core.*
+import de.bitb.spacerace.env.SpaceEnvironment
+import de.bitb.spacerace.env.TEST_PLAYER_1
+import de.bitb.spacerace.env.TEST_PLAYER_2
+import de.bitb.spacerace.env.TEST_PLAYER_3
+import de.bitb.spacerace.game.TestActions.Action.*
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.space.fields.SpaceField
 import junit.framework.Assert.assertTrue
@@ -23,6 +27,58 @@ class NextPhaseUsecaseTest : GameTest() {
     }
 
     @Test
+    fun onlyCurrentPlayerCanChangePhase_Main1ToMove() {
+        SpaceEnvironment()
+                .apply { initGame() }
+                .also { env ->
+                    //assert start
+                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
+                    assertCurrentPlayer(env, TEST_PLAYER_1)
+                    assertCurrentPhase(env, Phase.MAIN1)
+
+                    DICE(TEST_PLAYER_1).doAction(env)
+                    //do next phase action with not current player
+                    NEXT_PHASE(TEST_PLAYER_2).doAction(env)
+
+                    //assert still same phase
+                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
+                    assertCurrentPlayer(env, TEST_PLAYER_1)
+                    assertCurrentPhase(env, Phase.MAIN1)
+
+                    NEXT_PHASE(TEST_PLAYER_1).doAction(env)
+                    assertCurrentPhase(env, Phase.MOVE)
+                }
+    }
+
+    @Test
+    fun onlyCurrentPlayerCanChangePhase_MoveToMain1() {
+        SpaceEnvironment()
+                .apply {
+                    initGame()
+                    setToMovePhase()
+                    MOVE(currentPlayerColor, defaultField1).doAction(this)
+                }
+                .also { env ->
+
+                    //assert start
+                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
+                    assertCurrentPlayer(env, TEST_PLAYER_1)
+                    assertCurrentPhase(env, Phase.MOVE)
+
+                    //do next phase action with not current player
+                    NEXT_PHASE(TEST_PLAYER_2).doAction(env)
+
+                    //assert still same phase
+                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
+                    assertCurrentPlayer(env, TEST_PLAYER_1)
+                    assertCurrentPhase(env, Phase.MOVE)
+
+                    NEXT_PHASE(TEST_PLAYER_1).doAction(env)
+                    assertCurrentPhase(env, Phase.MAIN2)
+                }
+    }
+
+    @Test
     fun noDice_nextPhaseClicked_failure_stillMainPhase() {
         SpaceEnvironment()
                 .apply { initGame() }
@@ -32,14 +88,11 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(env, Phase.MAIN1)
 
                     //do next phase action
-                    NEXT_PHASE(env.currentPlayer.playerColor).doAction(env)
+                    NEXT_PHASE(env.currentPlayerColor).doAction(env)
 
                     //assert still same phase
                     assertCurrentPhase(env, Phase.MAIN1)
                 }
-        // when
-//                    test.assertComplete()
-//                .assertValue { it }
     }
 
     @Test
@@ -87,7 +140,7 @@ class NextPhaseUsecaseTest : GameTest() {
                 }
                 .also { env ->
                     //get move target
-                    val target: SpaceField = env.getRandomTarget()
+                    val target: SpaceField = env.getRandomConnectedField()
 
                     //move action
                     MOVE(env.currentPlayerColor, target).doAction(env)
@@ -105,8 +158,8 @@ class NextPhaseUsecaseTest : GameTest() {
                     setToMovePhase(-2)
                 }
                 .also { env ->
-                    val target1: SpaceField = env.getField(0, 4)
-                    val target2: SpaceField = env.getField(0, 3)
+                    val target1: SpaceField = env.defaultField1
+                    val target2: SpaceField = env.defaultField2
                     assertTargetNotSame(target1, target2)
                     val playerField1: SpaceField = env.getPlayerField(TEST_PLAYER_1)
 
@@ -138,8 +191,8 @@ class NextPhaseUsecaseTest : GameTest() {
                 }
                 .also { env ->
                     //move action
-                    val target1: SpaceField = env.getField(0, 4)
-                    val target2: SpaceField = env.getField(0, 3)
+                    val target1: SpaceField = env.defaultField1
+                    val target2: SpaceField = env.defaultField2
                     assertTargetNotSame(target1, target2)
 
                     MOVE(env.currentPlayerColor, target1).doAction(env)

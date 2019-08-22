@@ -1,4 +1,4 @@
-package de.bitb.spacerace
+package de.bitb.spacerace.core
 
 import com.badlogic.gdx.Application
 import org.junit.After

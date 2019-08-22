@@ -1,8 +1,8 @@
 package de.bitb.spacerace.injection.components
 
 import dagger.Component
-import de.bitb.spacerace.SpaceEnvironment
-import de.bitb.spacerace.TestGame
+import de.bitb.spacerace.env.SpaceEnvironment
+import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.usecase.game.NextPhaseUsecaseTest
 import javax.inject.Singleton

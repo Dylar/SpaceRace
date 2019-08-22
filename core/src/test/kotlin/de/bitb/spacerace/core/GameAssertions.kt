@@ -1,5 +1,6 @@
-package de.bitb.spacerace
+package de.bitb.spacerace.core
 
+import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -8,10 +9,16 @@ import org.hamcrest.CoreMatchers.not
 import org.junit.Assert
 
 
-fun assertCurrentPlayer(env: SpaceEnvironment, testPlayer1: PlayerColor) =
+fun assertCurrentPlayer(env: SpaceEnvironment, testPlayer: PlayerColor) =
         env.playerController.currentPlayerData
                 .also {
-                    Assert.assertThat(it.playerColor, `is`(testPlayer1))
+                    Assert.assertThat(it.playerColor, `is`(testPlayer))
+                }
+
+fun assertNotCurrentPlayer(env: SpaceEnvironment, testPlayer: PlayerColor) =
+        env.playerController.currentPlayerData
+                .also {
+                    Assert.assertThat(it.playerColor, `is`(not(testPlayer)))
                 }
 
 fun assertCurrentPhase(env: SpaceEnvironment, phase: Phase) =

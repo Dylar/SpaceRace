@@ -1,7 +1,8 @@
-package de.bitb.spacerace
+package de.bitb.spacerace.game
 
 import de.bitb.spacerace.config.dimensions.Dimensions.IS_TEST
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.env.Setup
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerTestComponent
 import de.bitb.spacerace.injection.components.TestComponent

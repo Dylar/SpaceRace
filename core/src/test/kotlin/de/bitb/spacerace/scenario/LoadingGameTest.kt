@@ -1,8 +1,6 @@
 package de.bitb.spacerace.scenario
 
-import de.bitb.spacerace.GameTest
-import org.junit.Before
-import org.junit.Test
+import de.bitb.spacerace.core.GameTest
 
 class LoadingGameTest : GameTest() {
 

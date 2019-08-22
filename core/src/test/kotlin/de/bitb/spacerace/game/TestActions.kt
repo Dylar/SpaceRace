@@ -1,5 +1,6 @@
-package de.bitb.spacerace
+package de.bitb.spacerace.game
 
+import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 
