@@ -5,8 +5,6 @@ import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.assertCurrentPhase
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.game.TestActions.Action.*
-import de.bitb.spacerace.game.TestActions.waitForIt
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.DEFAULT
@@ -64,6 +62,15 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     val defaultField2: SpaceField
         get() = getField(0, 3)
 
+//
+//    ███████╗███████╗████████╗     ██████╗  █████╗ ███╗   ███╗███████╗
+//    ██╔════╝██╔════╝╚══██╔══╝    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝
+//    ███████╗█████╗     ██║       ██║  ███╗███████║██╔████╔██║█████╗
+//    ╚════██║██╔══╝     ██║       ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝
+//    ███████║███████╗   ██║       ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗
+//    ╚══════╝╚══════╝   ╚═╝        ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
+//
+
     fun initGame(
             vararg playerColor: PlayerColor = arrayOf(),
             mapCollection: MapCollection = TEST_MAP
@@ -96,8 +103,8 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     }
 
     fun setToMovePhase(setDice: Int = -1) {
-        DICE(currentPlayerColor, setDice).doAction(this)
-        NEXT_PHASE(currentPlayerColor).doAction(this)
+        dice(setDice = setDice)
+        nextPhase()
 
         assertCurrentPhase(this, Phase.MOVE)
     }
@@ -105,8 +112,8 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     fun setToMain2Phase() {
         setToMovePhase()
 
-        MOVE(currentPlayerColor, defaultField1).doAction(this)
-        NEXT_PHASE(currentPlayerColor).doAction(this)
+        move()
+        nextPhase()
 
         assertCurrentPhase(this, Phase.MAIN2)
     }
@@ -116,32 +123,20 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
             return
         } else {
             setToMain2Phase()
-            NEXT_PHASE(currentPlayerColor).doAction(this)
+            nextPhase()
             changePlayerTo(player)
         }
     }
 
-    fun nextPhase(color: PlayerColor) {
-        nextPhaseUseCase
-                .buildUseCaseCompletable(color)
-                .test()
-                .await()
-                .assertComplete()
-    }
+//
+//    ██████╗ ███████╗████████╗████████╗███████╗██████╗
+//    ██╔════╝ ██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
+//    ██║  ███╗█████╗     ██║      ██║   █████╗  ██████╔╝
+//    ██║   ██║██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
+//    ╚██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
+//    ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
+//
 
-    fun dice(player: PlayerColor, maxResult: Int = -1) {
-        diceUsecase.buildUseCaseCompletable(player to maxResult)
-                .test()
-                .await()
-                .assertComplete()
-    }
-
-    fun move(player: PlayerColor, target: SpaceField) {
-        moveUsecase.buildUseCaseCompletable(player to target)
-                .test()
-                .await()
-                .assertComplete()
-    }
 
     fun getField(groupId: Int, fieldId: Int) =
             fieldController.getField(groupId, fieldId)
@@ -159,5 +154,44 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
                     }
                 }.getOpposite(currentField)
             }
+
+
+    //
+    // █████╗  ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
+    //██╔══██╗██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
+    //███████║██║        ██║   ██║██║   ██║██╔██╗ ██║███████╗
+    //██╔══██║██║        ██║   ██║██║   ██║██║╚██╗██║╚════██║
+    //██║  ██║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║███████║
+    //╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+    //
+    fun nextPhase(color: PlayerColor = currentPlayerColor) {
+        nextPhaseUseCase
+                .buildUseCaseCompletable(color)
+                .test()
+                .await()
+                .assertComplete()
+        waitForIt()
+    }
+
+    fun dice(player: PlayerColor = currentPlayerColor, setDice: Int = -1) {
+        diceUsecase.buildUseCaseCompletable(player to setDice)
+                .test()
+                .await()
+                .assertComplete()
+        waitForIt()
+    }
+
+    fun move(player: PlayerColor = currentPlayerColor,
+             target: SpaceField = defaultField1) {
+        moveUsecase.buildUseCaseCompletable(player to target)
+                .test()
+                .await()
+                .assertComplete()
+        waitForIt()
+    }
+
+    fun waitForIt(time: Long = 100) {
+        Thread.sleep(time)
+    }
 
 }

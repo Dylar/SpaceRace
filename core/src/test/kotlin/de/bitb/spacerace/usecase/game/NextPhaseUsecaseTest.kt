@@ -5,7 +5,6 @@ import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.TEST_PLAYER_2
 import de.bitb.spacerace.env.TEST_PLAYER_3
-import de.bitb.spacerace.game.TestActions.Action.*
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.space.fields.SpaceField
 import junit.framework.Assert.assertTrue
@@ -25,7 +24,7 @@ class NextPhaseUsecaseTest : GameTest() {
         SpaceEnvironment()
                 .apply {
                     initGame()
-                    DICE(currentPlayerColor).doAction(this)
+                    dice()
                 }
                 .also { env ->
                     //assert start
@@ -34,14 +33,14 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(env, Phase.MAIN1)
 
                     //do next phase action with not current player
-                    NEXT_PHASE(TEST_PLAYER_2).doAction(env)
+                    env.nextPhase(TEST_PLAYER_2)
 
                     //assert still same phase
                     assertNotCurrentPlayer(env, TEST_PLAYER_2)
                     assertCurrentPlayer(env, TEST_PLAYER_1)
                     assertCurrentPhase(env, Phase.MAIN1)
 
-                    NEXT_PHASE(TEST_PLAYER_1).doAction(env)
+                    env.nextPhase(TEST_PLAYER_1)
                     assertCurrentPhase(env, Phase.MOVE)
                 }
     }
@@ -52,7 +51,7 @@ class NextPhaseUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMovePhase()
-                    MOVE(currentPlayerColor, defaultField1).doAction(this)
+                    move()
                 }
                 .also { env ->
                     //assert start
@@ -61,14 +60,14 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(env, Phase.MOVE)
 
                     //do next phase action with not current player
-                    NEXT_PHASE(TEST_PLAYER_2).doAction(env)
+                    env.nextPhase(TEST_PLAYER_2)
 
                     //assert still same phase
                     assertNotCurrentPlayer(env, TEST_PLAYER_2)
                     assertCurrentPlayer(env, TEST_PLAYER_1)
                     assertCurrentPhase(env, Phase.MOVE)
 
-                    NEXT_PHASE(TEST_PLAYER_1).doAction(env)
+                    env.nextPhase(TEST_PLAYER_1)
                     assertCurrentPhase(env, Phase.MAIN2)
                 }
     }
@@ -87,14 +86,14 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(env, Phase.MAIN2)
 
                     //do next phase action with not current player
-                    NEXT_PHASE(TEST_PLAYER_2).doAction(env)
+                    env.nextPhase(TEST_PLAYER_2)
 
                     //assert still same phase
                     assertNotCurrentPlayer(env, TEST_PLAYER_2)
                     assertCurrentPlayer(env, TEST_PLAYER_1)
                     assertCurrentPhase(env, Phase.MAIN2)
 
-                    NEXT_PHASE(TEST_PLAYER_1).doAction(env)
+                    env.nextPhase(TEST_PLAYER_1)
 
                     //assert player changed
                     assertNotCurrentPlayer(env, TEST_PLAYER_1)
@@ -113,7 +112,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(env, Phase.MAIN1)
 
                     //do next phase action
-                    NEXT_PHASE(env.currentPlayerColor).doAction(env)
+                    env.nextPhase()
 
                     //assert still same phase
                     assertCurrentPhase(env, Phase.MAIN1)
@@ -130,10 +129,10 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(env, Phase.MAIN1)
 
                     //do dice action
-                    DICE(env.currentPlayerColor).doAction(env)
+                    env.dice()
 
                     //do next phase action
-                    NEXT_PHASE(env.currentPlayer.playerColor).doAction(env)
+                    env.nextPhase()
 
                     //assert move phase
                     assertCurrentPhase(env, Phase.MOVE)
@@ -149,7 +148,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     setToMovePhase()
                 }
                 .also { env ->
-                    NEXT_PHASE(env.currentPlayerColor).doAction(env)
+                    env.nextPhase()
 
                     //assert move phase
                     assertCurrentPhase(env, Phase.MOVE)
@@ -168,8 +167,8 @@ class NextPhaseUsecaseTest : GameTest() {
                     val target: SpaceField = env.getRandomConnectedField()
 
                     //move action
-                    MOVE(env.currentPlayerColor, target).doAction(env)
-                    NEXT_PHASE(env.currentPlayerColor).doAction(env)
+                    env.move(target = target)
+                    env.nextPhase()
 
                     assertCurrentPhase(env, Phase.MAIN2)
                 }
@@ -189,19 +188,19 @@ class NextPhaseUsecaseTest : GameTest() {
                     val playerField1: SpaceField = env.getPlayerField(TEST_PLAYER_1)
 
                     //move1
-                    MOVE(env.currentPlayerColor, target1).doAction(env)
+                    env.move(target = target1)
                     val playerField2: SpaceField = env.getPlayerField(TEST_PLAYER_1)
                     assertNotSameField(playerField1, playerField2)
 
                     //next phase failed
-                    NEXT_PHASE(env.currentPlayerColor).doAction(env)
+                    env.nextPhase()
                     assertCurrentPhase(env, Phase.MOVE)
 
                     //move2
-                    MOVE(env.currentPlayerColor, target2).doAction(env)
+                    env.move(target = target2)
 
                     //next phase success
-                    NEXT_PHASE(env.currentPlayerColor).doAction(env)
+                    env.nextPhase()
 
                     assertCurrentPhase(env, Phase.MAIN2)
                 }
@@ -220,11 +219,11 @@ class NextPhaseUsecaseTest : GameTest() {
                     val target2: SpaceField = env.defaultField2
                     assertNotSameField(target1, target2)
 
-                    MOVE(env.currentPlayerColor, target1).doAction(env)
+                    env.move(target = target1)
                     assertPlayerOnField(env, TEST_PLAYER_1, target1)
-                    MOVE(env.currentPlayerColor, target2).doAction(env)
+                    env.move(target = target2)
 
-                    NEXT_PHASE(env.currentPlayerColor).doAction(env)
+                    env.nextPhase()
 
                     //assert main2 phase
                     assertCurrentPhase(env, Phase.MAIN2)
@@ -240,7 +239,8 @@ class NextPhaseUsecaseTest : GameTest() {
                 }
                 .also { env ->
                     assertCurrentPlayer(env, TEST_PLAYER_1)
-                    NEXT_PHASE(env.currentPlayerColor).doAction(env)
+
+                    env.nextPhase()
 
                     //assert main1 phase
                     assertCurrentPhase(env, Phase.MAIN1)

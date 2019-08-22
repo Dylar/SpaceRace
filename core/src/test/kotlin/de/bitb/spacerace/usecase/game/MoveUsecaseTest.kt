@@ -4,8 +4,6 @@ import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.TEST_PLAYER_2
-import de.bitb.spacerace.game.TestActions.Action.DICE
-import de.bitb.spacerace.game.TestActions.Action.MOVE
 import de.bitb.spacerace.model.enums.Phase
 import org.junit.Test
 
@@ -17,7 +15,7 @@ class MoveUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMovePhase()
-                    DICE(currentPlayerColor).doAction(this)
+                    dice()
                 }
                 .also { env ->
                     val target = env.defaultField1
@@ -32,7 +30,7 @@ class MoveUsecaseTest : GameTest() {
                     assertPlayerOnField(env, TEST_PLAYER_2, position)
 
                     //move player 2 -> failed
-                    MOVE(TEST_PLAYER_2, env.defaultField1).doAction(env)
+                    env.move(TEST_PLAYER_2, target)
 
                     position = env.currentPosition
                     assertNotSameField(target, position)
@@ -40,7 +38,7 @@ class MoveUsecaseTest : GameTest() {
                     assertPlayerOnField(env, TEST_PLAYER_2, position)
 
                     //move player 1 -> success
-                    MOVE(TEST_PLAYER_1, env.defaultField1).doAction(env)
+                    env.move(TEST_PLAYER_1, target)
 
                     position = env.currentPosition
                     assertSameField(target, position)
@@ -75,16 +73,16 @@ class MoveUsecaseTest : GameTest() {
                             assertPlayerOnField(env, TEST_PLAYER_2, position)
                         }
                         //move player 2 -> failed
-                        MOVE(TEST_PLAYER_2, env.defaultField1).doAction(env)
+                        env.move(TEST_PLAYER_2, target)
                         check()
                         //move player 1 -> failed
-                        MOVE(TEST_PLAYER_1, env.defaultField1).doAction(env)
+                        env.move(TEST_PLAYER_1, target)
                         check()
                     }
 
                     moveAndCheck()
                     //after dice still not movable
-                    DICE(env.currentPlayerColor)
+                    env.dice()
                     moveAndCheck()
                 }
     }
@@ -116,16 +114,16 @@ class MoveUsecaseTest : GameTest() {
                             assertPlayerNotOnField(env, TEST_PLAYER_2, position)
                         }
                         //move player 2 -> failed
-                        MOVE(TEST_PLAYER_2, env.defaultField1).doAction(env)
+                        env.move(TEST_PLAYER_2, target)
                         check()
                         //move player 1 -> failed
-                        MOVE(TEST_PLAYER_1, env.defaultField1).doAction(env)
+                        env.move(TEST_PLAYER_1, target)
                         check()
                     }
 
                     moveAndCheck()
                     //after dice still not movable
-                    DICE(env.currentPlayerColor)
+                    env.move()
                     moveAndCheck()
                 }
     }

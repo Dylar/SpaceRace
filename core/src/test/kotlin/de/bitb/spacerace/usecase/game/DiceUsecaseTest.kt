@@ -4,7 +4,6 @@ import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.TEST_PLAYER_2
-import de.bitb.spacerace.game.TestActions.Action.DICE
 import de.bitb.spacerace.model.enums.Phase
 import org.junit.Test
 
@@ -23,12 +22,12 @@ class DiceUsecaseTest : GameTest() {
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    DICE(TEST_PLAYER_2).doAction(env)
+                    env.dice(TEST_PLAYER_2)
 
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    DICE(TEST_PLAYER_1).doAction(env)
+                    env.dice(TEST_PLAYER_1)
 
                     assertDiceResult(env, 1, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
@@ -51,12 +50,12 @@ class DiceUsecaseTest : GameTest() {
                     assertDiceResult(env, 1, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    DICE(TEST_PLAYER_2).doAction(env)
+                    env.dice(TEST_PLAYER_2)
 
                     assertDiceResult(env, 1, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    DICE(TEST_PLAYER_1).doAction(env)
+                    env.dice(TEST_PLAYER_1)
 
                     assertDiceResult(env, 1, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
@@ -79,12 +78,12 @@ class DiceUsecaseTest : GameTest() {
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    DICE(TEST_PLAYER_2).doAction(env)
+                    env.dice(TEST_PLAYER_2)
 
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    DICE(TEST_PLAYER_1).doAction(env)
+                    env.dice(TEST_PLAYER_1)
 
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
