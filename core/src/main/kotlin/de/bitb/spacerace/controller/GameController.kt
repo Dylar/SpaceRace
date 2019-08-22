@@ -6,8 +6,8 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
-import de.bitb.spacerace.usecase.game.ObserveRoundUsecase
-import de.bitb.spacerace.usecase.game.ObserveWinnerUsecase
+import de.bitb.spacerace.usecase.action.ObserveRoundUsecase
+import de.bitb.spacerace.usecase.action.ObserveWinnerUsecase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus

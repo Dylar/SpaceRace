@@ -6,7 +6,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.usecase.game.action.MoveUsecase
+import de.bitb.spacerace.usecase.action.action.MoveUsecase
 import javax.inject.Inject
 
 class MoveCommand(val spaceField: SpaceField, playerData: PlayerData) : BaseCommand(playerData) {

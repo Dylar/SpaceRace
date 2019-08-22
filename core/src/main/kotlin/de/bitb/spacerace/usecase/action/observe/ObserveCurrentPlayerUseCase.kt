@@ -1,4 +1,4 @@
-package de.bitb.spacerace.usecase.game.observe
+package de.bitb.spacerace.usecase.action.observe
 
 import de.bitb.spacerace.database.player.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData

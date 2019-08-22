@@ -19,7 +19,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.start.StartScreen
-import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
+import de.bitb.spacerace.usecase.action.observe.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
 import io.objectbox.Box
 import io.reactivex.disposables.Disposable

@@ -1,6 +1,5 @@
 package de.bitb.spacerace.ui.screens.game
 
-import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
@@ -9,7 +8,7 @@ import de.bitb.spacerace.ui.player.PlayerStats
 import de.bitb.spacerace.ui.screens.game.control.DebugControl
 import de.bitb.spacerace.ui.screens.game.control.GameControl
 import de.bitb.spacerace.ui.screens.game.control.ViewControl
-import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
+import de.bitb.spacerace.usecase.action.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 

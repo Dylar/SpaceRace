@@ -5,7 +5,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
+import de.bitb.spacerace.usecase.action.action.NextPhaseUsecase
 import javax.inject.Inject
 
 class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {

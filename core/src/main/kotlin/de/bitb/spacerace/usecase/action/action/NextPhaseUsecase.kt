@@ -1,4 +1,4 @@
-package de.bitb.spacerace.usecase.game.action
+package de.bitb.spacerace.usecase.action.action
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.config.GOAL_CREDITS
@@ -19,7 +19,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ExecuteUseCase
-import de.bitb.spacerace.usecase.game.GetPlayerUsecase
+import de.bitb.spacerace.usecase.action.GetPlayerUsecase
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus.getDefault

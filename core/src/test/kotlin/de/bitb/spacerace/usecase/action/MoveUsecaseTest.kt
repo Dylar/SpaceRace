@@ -1,4 +1,4 @@
-package de.bitb.spacerace.usecase.game
+package de.bitb.spacerace.usecase.action
 
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.SpaceEnvironment

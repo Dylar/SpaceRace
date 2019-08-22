@@ -13,10 +13,10 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.MapCollection.TEST_MAP
-import de.bitb.spacerace.usecase.game.GetPlayerUsecase
-import de.bitb.spacerace.usecase.game.action.DiceUsecase
-import de.bitb.spacerace.usecase.game.action.MoveUsecase
-import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
+import de.bitb.spacerace.usecase.action.GetPlayerUsecase
+import de.bitb.spacerace.usecase.action.action.DiceUsecase
+import de.bitb.spacerace.usecase.action.action.MoveUsecase
+import de.bitb.spacerace.usecase.action.action.NextPhaseUsecase
 import de.bitb.spacerace.usecase.init.LoadGameUsecase
 import javax.inject.Inject
 

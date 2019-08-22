@@ -1,4 +1,4 @@
-package de.bitb.spacerace.usecase.game.action
+package de.bitb.spacerace.usecase.action.action
 
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.controller.FieldController
@@ -10,7 +10,7 @@ import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ExecuteUseCase
-import de.bitb.spacerace.usecase.game.GetPlayerUsecase
+import de.bitb.spacerace.usecase.action.GetPlayerUsecase
 import io.reactivex.Completable
 import javax.inject.Inject
 
