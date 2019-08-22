@@ -3,8 +3,10 @@ package de.bitb.spacerace.usecase.game
 import de.bitb.spacerace.core.GameTest
 import de.bitb.spacerace.core.assertCurrentPhase
 import de.bitb.spacerace.core.assertCurrentPlayer
+import de.bitb.spacerace.core.assertNotCurrentPlayer
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_1
+import de.bitb.spacerace.env.TEST_PLAYER_2
 import de.bitb.spacerace.game.TestActions.Action.*
 import de.bitb.spacerace.model.enums.Phase
 import org.junit.Before
@@ -18,19 +20,26 @@ class DiceUsecaseTest : GameTest() {
     }
 
     @Test
-    fun noDice_nextPhaseClicked_failure_stillMainPhase() {
+    fun onlyCurrentPlayerCanDice() {
         SpaceEnvironment()
                 .apply { initGame() }
                 .also { env ->
                     //assert start
+                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
                     assertCurrentPlayer(env, TEST_PLAYER_1)
                     assertCurrentPhase(env, Phase.MAIN1)
 
-                    //do next phase action
-                    NEXT_PHASE(env.currentPlayer.playerColor).doAction(env)
+                    DICE(TEST_PLAYER_1).doAction(env)
+                    //do next phase action with not current player
+                    NEXT_PHASE(TEST_PLAYER_2).doAction(env)
 
                     //assert still same phase
+                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
+                    assertCurrentPlayer(env, TEST_PLAYER_1)
                     assertCurrentPhase(env, Phase.MAIN1)
+
+                    NEXT_PHASE(TEST_PLAYER_1).doAction(env)
+                    assertCurrentPhase(env, Phase.MOVE)
                 }
     }
 

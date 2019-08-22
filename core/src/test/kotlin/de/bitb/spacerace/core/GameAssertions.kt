@@ -7,36 +7,20 @@ import de.bitb.spacerace.model.space.fields.SpaceField
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.not
 import org.junit.Assert
+import org.junit.Assert.*
 
 
 fun assertCurrentPlayer(env: SpaceEnvironment, testPlayer: PlayerColor) =
-        env.playerController.currentPlayerData
-                .also {
-                    Assert.assertThat(it.playerColor, `is`(testPlayer))
-                }
+        assertThat(env.currentPlayerColor, `is`(testPlayer))
 
 fun assertNotCurrentPlayer(env: SpaceEnvironment, testPlayer: PlayerColor) =
-        env.playerController.currentPlayerData
-                .also {
-                    Assert.assertThat(it.playerColor, `is`(not(testPlayer)))
-                }
+        assertThat(env.currentPlayerColor, `is`(not(testPlayer)))
 
 fun assertCurrentPhase(env: SpaceEnvironment, phase: Phase) =
-        env.playerController.currentPlayerData
-                .also {
-                    Assert.assertThat(it.phase, `is`(phase))
-                }
+        assertThat(env.currentPhase, `is`(phase))
 
 fun assertTargetNotSame(field1: SpaceField, field2: SpaceField) =
-        Assert.assertThat(field1, `is`(not(field2)))
+        assertThat(field1, `is`(not(field2)))
 
 fun assertPlayerOnField(env: SpaceEnvironment, player: PlayerColor, field: SpaceField) =
-        env.getPlayerUsecase
-                .buildUseCaseSingle(player)
-                .test()
-                .await()
-                .assertComplete()
-                .assertValue {
-                    env.getPlayerField(env.playerController, env.fieldController, player) == field
-//                Assert.assertThat(env.currentPlayerUseCase., `is`(not(field2)))
-                }
+        assertThat(env.getPlayerField(player), `is`(field))

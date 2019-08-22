@@ -29,14 +29,16 @@ class NextPhaseUsecaseTest : GameTest() {
     @Test
     fun onlyCurrentPlayerCanChangePhase_Main1ToMove() {
         SpaceEnvironment()
-                .apply { initGame() }
+                .apply {
+                    initGame()
+                    DICE(currentPlayerColor).doAction(this)
+                }
                 .also { env ->
                     //assert start
                     assertNotCurrentPlayer(env, TEST_PLAYER_2)
                     assertCurrentPlayer(env, TEST_PLAYER_1)
                     assertCurrentPhase(env, Phase.MAIN1)
 
-                    DICE(TEST_PLAYER_1).doAction(env)
                     //do next phase action with not current player
                     NEXT_PHASE(TEST_PLAYER_2).doAction(env)
 
@@ -51,7 +53,7 @@ class NextPhaseUsecaseTest : GameTest() {
     }
 
     @Test
-    fun onlyCurrentPlayerCanChangePhase_MoveToMain1() {
+    fun onlyCurrentPlayerCanChangePhase_MoveToMain2() {
         SpaceEnvironment()
                 .apply {
                     initGame()
@@ -59,7 +61,6 @@ class NextPhaseUsecaseTest : GameTest() {
                     MOVE(currentPlayerColor, defaultField1).doAction(this)
                 }
                 .also { env ->
-
                     //assert start
                     assertNotCurrentPlayer(env, TEST_PLAYER_2)
                     assertCurrentPlayer(env, TEST_PLAYER_1)
@@ -75,6 +76,36 @@ class NextPhaseUsecaseTest : GameTest() {
 
                     NEXT_PHASE(TEST_PLAYER_1).doAction(env)
                     assertCurrentPhase(env, Phase.MAIN2)
+                }
+    }
+
+    @Test
+    fun onlyCurrentPlayerCanChangePhase_Main2ToMain1_playerChanged() {
+        SpaceEnvironment()
+                .apply {
+                    initGame()
+                    setToMain2Phase()
+                }
+                .also { env ->
+                    //assert start
+                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
+                    assertCurrentPlayer(env, TEST_PLAYER_1)
+                    assertCurrentPhase(env, Phase.MAIN2)
+
+                    //do next phase action with not current player
+                    NEXT_PHASE(TEST_PLAYER_2).doAction(env)
+
+                    //assert still same phase
+                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
+                    assertCurrentPlayer(env, TEST_PLAYER_1)
+                    assertCurrentPhase(env, Phase.MAIN2)
+
+                    NEXT_PHASE(TEST_PLAYER_1).doAction(env)
+
+                    //assert player changed
+                    assertNotCurrentPlayer(env, TEST_PLAYER_1)
+                    assertCurrentPlayer(env, TEST_PLAYER_2)
+                    assertCurrentPhase(env, Phase.MAIN1)
                 }
     }
 

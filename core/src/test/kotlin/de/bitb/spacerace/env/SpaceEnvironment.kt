@@ -53,6 +53,8 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
         get() = playerController.currentPlayerData
     val currentPlayerColor: PlayerColor
         get() = currentPlayer.playerColor
+    val currentPhase: Phase
+        get() = currentPlayer.phase
 
     val defaultField1: SpaceField
         get() = getField(0, 4)
@@ -139,11 +141,14 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
                 .assertComplete()
     }
 
-    fun getCurrentField() = fieldController.getField(playerController.currentPlayer.gamePosition)
-    fun getField(groupId: Int, fieldId: Int) = fieldController.getField(groupId, fieldId)
-    fun getPlayerField(player: PlayerColor): SpaceField = getPlayerField(playerController, fieldController, player)
+    fun getField(groupId: Int, fieldId: Int) =
+            fieldController.getField(groupId, fieldId)
+
+    fun getPlayerField(player: PlayerColor = currentPlayerColor): SpaceField =
+            getPlayerField(playerController, fieldController, player)
+
     fun getRandomConnectedField() =
-            (currentPlayer to getCurrentField()).let { (player, currentField) ->
+            (currentPlayer to getPlayerField()).let { (player, currentField) ->
                 currentField.connections.first { connection ->
                     connection.spaceField1 != fieldController.currentGoal
                             && connection.spaceField2 != fieldController.currentGoal
