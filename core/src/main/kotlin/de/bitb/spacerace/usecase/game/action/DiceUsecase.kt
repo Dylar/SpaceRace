@@ -39,12 +39,11 @@ class DiceUsecase @Inject constructor(
     }
 
     private fun canExecute(playerData: PlayerData): Boolean {
-        if (!playerData.phase.isMain1()) {
-            return false
-        }
-        val items = getPlayerItems(playerController, playerData.playerColor)
-        val diceCharges = 1 + items.multiDiceItem.sumBy { it.getAmount() }
-        return playerData.diceResults.size < diceCharges
+        return if (playerData.phase.isMain1() && playerData.playerColor == playerController.currentPlayerData.playerColor) {
+            val items = getPlayerItems(playerController, playerData.playerColor)
+            val diceCharges = 1 + items.multiDiceItem.sumBy { it.getAmount() }
+            playerData.diceResults.size < diceCharges
+        } else false
     }
 
 }

@@ -6,8 +6,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.not
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertThat
 
 
 fun assertCurrentPlayer(env: SpaceEnvironment, testPlayer: PlayerColor) =
@@ -18,6 +17,16 @@ fun assertNotCurrentPlayer(env: SpaceEnvironment, testPlayer: PlayerColor) =
 
 fun assertCurrentPhase(env: SpaceEnvironment, phase: Phase) =
         assertThat(env.currentPhase, `is`(phase))
+
+fun assertDiceResult(env: SpaceEnvironment,
+                     diceResult: Int,
+                     player: PlayerColor = env.currentPlayerColor) =
+        env.getPlayerUsecase
+                .buildUseCaseSingle(player)
+                .test()
+                .await()
+                .assertComplete()
+                .assertValue { env.playerController.stepsLeft(it) == diceResult }
 
 fun assertTargetNotSame(field1: SpaceField, field2: SpaceField) =
         assertThat(field1, `is`(not(field2)))

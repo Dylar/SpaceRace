@@ -9,15 +9,9 @@ import de.bitb.spacerace.game.TestActions.Action.*
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.space.fields.SpaceField
 import junit.framework.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
 
 class NextPhaseUsecaseTest : GameTest() {
-
-    @Before
-    override fun setup() {
-        super.setup()
-    }
 
     @Test
     fun simpleAssert() {

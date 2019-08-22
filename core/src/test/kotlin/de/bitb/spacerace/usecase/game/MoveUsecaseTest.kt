@@ -8,7 +8,7 @@ import de.bitb.spacerace.game.TestActions.Action.DICE
 import de.bitb.spacerace.model.enums.Phase
 import org.junit.Test
 
-class DiceUsecaseTest : GameTest() {
+class MoveUsecaseTest : GameTest() {
 
     @Test
     fun onlyCurrentPlayerCanDice_inMain1Phase() {
