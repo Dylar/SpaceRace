@@ -1,6 +1,6 @@
-package de.bitb.spacerace.database.player
+package de.bitb.spacerace.core
 
-import de.bitb.spacerace.core.Dispender
+import de.bitb.spacerace.base.Dispender
 import de.bitb.spacerace.model.player.PlayerColor
 import io.reactivex.subjects.BehaviorSubject
 

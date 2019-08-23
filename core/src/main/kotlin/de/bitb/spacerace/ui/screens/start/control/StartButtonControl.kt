@@ -12,12 +12,13 @@ import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LANGUAGE
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_START
+import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.start.*
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import org.greenrobot.eventbus.EventBus
 
-class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
+class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage), InputObserver {
 
     private lateinit var startBtn: TextButton
     private lateinit var winLabel: Label

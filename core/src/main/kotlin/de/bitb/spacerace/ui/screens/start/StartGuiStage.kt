@@ -27,9 +27,6 @@ class StartGuiStage(screen: StartScreen) : BaseGuiStage(screen), InputObserver {
         addActor(playerSelection)
         addActor(testFieldSelectionControl)
         inputHandler.addListener(startButtonControl)
-        inputHandler.addListener(playerSelection)
-        inputHandler.addListener(mapSelection)
-        inputHandler.addListener(testFieldSelectionControl)
         inputHandler.addListener(this)
     }
 

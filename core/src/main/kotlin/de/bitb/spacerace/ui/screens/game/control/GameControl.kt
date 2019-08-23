@@ -15,7 +15,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORA
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand

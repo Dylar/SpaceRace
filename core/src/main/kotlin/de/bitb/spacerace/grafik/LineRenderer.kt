@@ -1,4 +1,4 @@
-package de.bitb.spacerace.core
+package de.bitb.spacerace.grafik
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color

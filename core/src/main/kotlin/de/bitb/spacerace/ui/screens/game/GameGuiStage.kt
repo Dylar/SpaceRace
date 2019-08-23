@@ -8,11 +8,11 @@ import de.bitb.spacerace.ui.player.PlayerStats
 import de.bitb.spacerace.ui.screens.game.control.DebugControl
 import de.bitb.spacerace.ui.screens.game.control.GameControl
 import de.bitb.spacerace.ui.screens.game.control.ViewControl
-import de.bitb.spacerace.usecase.action.observe.ObserveCurrentPlayerUseCase
+import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class GameGuiStage(screen: GameScreen) : BaseGuiStage(screen), InputObserver {
+class GameGuiStage(screen: GameScreen) : BaseGuiStage(screen) {
 
     @Inject
     protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
@@ -37,7 +37,6 @@ class GameGuiStage(screen: GameScreen) : BaseGuiStage(screen), InputObserver {
         inputHandler.addListener(gameControl)
 //        inputHandler.addListener(playerStats)
         inputHandler.addListener(viewControl)
-        inputHandler.addListener(this)
     }
 
     private fun listenToUpdate() {
@@ -47,10 +46,6 @@ class GameGuiStage(screen: GameScreen) : BaseGuiStage(screen), InputObserver {
 //                    Logger.println("observeCurrentPlayerUseCase NEXT:\n$it")
                     playerStats.update(it)
                 })
-    }
-
-    override fun <T : BaseCommand> update(event: T) {
-
     }
 
 }

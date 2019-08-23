@@ -4,11 +4,10 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.core.LineRenderer
+import de.bitb.spacerace.grafik.LineRenderer
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceConnection
-import javax.inject.Inject
 
 class ConnectionList(
         var playerController: PlayerController,

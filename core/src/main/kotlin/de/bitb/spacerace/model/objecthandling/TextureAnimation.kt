@@ -3,7 +3,7 @@ package de.bitb.spacerace.model.objecthandling
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 
 class TextureAnimation(
         img: Texture? = null

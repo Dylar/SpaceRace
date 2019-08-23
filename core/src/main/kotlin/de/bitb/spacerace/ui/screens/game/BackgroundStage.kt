@@ -7,7 +7,7 @@ import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.STAR_COUNT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.background.FallingStar
 import de.bitb.spacerace.model.objecthandling.GameImage
 

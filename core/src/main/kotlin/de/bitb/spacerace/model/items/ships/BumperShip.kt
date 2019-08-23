@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.strings.GameStrings
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.objecthandling.BaseAnimation

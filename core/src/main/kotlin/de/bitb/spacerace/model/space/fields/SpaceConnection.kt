@@ -3,7 +3,7 @@ package de.bitb.spacerace.model.space.fields
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH
-import de.bitb.spacerace.core.LineRenderer
+import de.bitb.spacerace.grafik.LineRenderer
 import de.bitb.spacerace.model.objecthandling.PositionData
 
 class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) {

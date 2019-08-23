@@ -2,8 +2,8 @@ package de.bitb.spacerace.injection.modules
 
 import dagger.Module
 import dagger.Provides
-import de.bitb.spacerace.core.CommandDispender
-import de.bitb.spacerace.database.player.PlayerColorDispender
+import de.bitb.spacerace.events.commands.CommandDispender
+import de.bitb.spacerace.core.PlayerColorDispender
 import javax.inject.Singleton
 
 @Module

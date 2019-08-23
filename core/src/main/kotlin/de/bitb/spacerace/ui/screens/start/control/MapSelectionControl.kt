@@ -13,7 +13,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LAB
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.ui.screens.start.StartGuiStage

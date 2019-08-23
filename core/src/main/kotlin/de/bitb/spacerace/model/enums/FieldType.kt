@@ -3,7 +3,7 @@ package de.bitb.spacerace.model.enums
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Color.*
 import com.badlogic.gdx.graphics.Texture
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.space.fields.FieldAnimation
 

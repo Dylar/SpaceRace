@@ -9,7 +9,7 @@ import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction

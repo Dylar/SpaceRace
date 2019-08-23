@@ -6,7 +6,7 @@ import com.badlogic.gdx.input.GestureDetector
 import de.bitb.spacerace.CameraActions.CAMERA_FREE
 import de.bitb.spacerace.CameraActions.CAMERA_LOCKED
 import de.bitb.spacerace.GestureListenerAdapter
-import de.bitb.spacerace.Logger
+import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame

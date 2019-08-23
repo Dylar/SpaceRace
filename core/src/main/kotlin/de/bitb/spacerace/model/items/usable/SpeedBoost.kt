@@ -2,7 +2,7 @@ package de.bitb.spacerace.model.items.usable
 
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.config.strings.GameStrings
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.itemtype.MultiDice
 import de.bitb.spacerace.model.player.PlayerColor

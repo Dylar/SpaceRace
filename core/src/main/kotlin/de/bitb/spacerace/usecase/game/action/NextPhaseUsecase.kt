@@ -1,10 +1,10 @@
-package de.bitb.spacerace.usecase.action.action
+package de.bitb.spacerace.usecase.game.action
 
-import de.bitb.spacerace.Logger
+import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.database.player.PlayerColorDispender
+import de.bitb.spacerace.core.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
@@ -19,7 +19,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ExecuteUseCase
-import de.bitb.spacerace.usecase.action.GetPlayerUsecase
+import de.bitb.spacerace.usecase.game.GetPlayerUsecase
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus.getDefault

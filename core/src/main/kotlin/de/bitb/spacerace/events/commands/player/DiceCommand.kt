@@ -4,7 +4,7 @@ import de.bitb.spacerace.config.DICE_MAX
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.usecase.action.action.DiceUsecase
+import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import javax.inject.Inject
 
 class DiceCommand(

@@ -1,6 +1,6 @@
 package de.bitb.spacerace.events.commands.start
 
-import de.bitb.spacerace.Logger
+import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.FieldController
@@ -9,7 +9,7 @@ import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.ui.screens.game.GameScreen
-import de.bitb.spacerace.usecase.init.LoadGameUsecase
+import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
 import javax.inject.Inject
 
 class StartGameCommand() : BaseCommand() {

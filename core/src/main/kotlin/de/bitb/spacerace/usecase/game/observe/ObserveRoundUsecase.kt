@@ -1,4 +1,4 @@
-package de.bitb.spacerace.usecase.action
+package de.bitb.spacerace.usecase.game.observe
 
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.database.player.PlayerData

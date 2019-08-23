@@ -5,7 +5,7 @@ import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 
 class GameOverScreen(game: MainGame) : BaseScreen(game, null) {
 

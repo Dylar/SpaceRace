@@ -13,12 +13,10 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDI
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_MODS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
-import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.TextureCollection
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
@@ -27,11 +25,11 @@ import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.ui.base.GuiComponent
 import javax.inject.Inject
 
-class PlayerStats(private val guiStage: BaseGuiStage)
-    : Table(TextureCollection.skin),
+class PlayerStats(
+        private val guiStage: BaseGuiStage
+) : Table(TextureCollection.skin),
         GuiComponent by guiStage,
-        DefaultFunction by DEFAULT,
-        InputObserver {
+        DefaultFunction by DEFAULT {
 
     @Inject
     protected lateinit var playerController: PlayerController
@@ -82,11 +80,6 @@ class PlayerStats(private val guiStage: BaseGuiStage)
         val cell = super.add(actor)
         addPaddingLeftRight(cell)
         return cell
-    }
-
-    override fun <T : BaseCommand> update(event: T) {
-
-//        update(game.gameController.playerController.currentPlayer.playerData) //TODO update not all
     }
 
     private fun updateCredits(playerData: PlayerData) {

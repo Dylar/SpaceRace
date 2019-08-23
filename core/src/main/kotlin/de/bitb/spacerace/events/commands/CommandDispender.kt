@@ -1,4 +1,4 @@
-package de.bitb.spacerace.core
+package de.bitb.spacerace.events.commands
 
 import de.bitb.spacerace.events.commands.BaseCommand
 import io.reactivex.subjects.BehaviorSubject

@@ -1,6 +1,6 @@
 package de.bitb.spacerace.usecase
 
-import de.bitb.spacerace.Logger
+import de.bitb.spacerace.utils.Logger
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy

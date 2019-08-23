@@ -1,4 +1,4 @@
-package de.bitb.spacerace
+package de.bitb.spacerace.utils
 
 import com.badlogic.gdx.Gdx
 import java.util.*

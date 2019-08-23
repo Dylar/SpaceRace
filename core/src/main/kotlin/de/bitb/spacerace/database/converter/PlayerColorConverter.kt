@@ -5,12 +5,10 @@ import io.objectbox.converter.PropertyConverter
 
 class PlayerColorConverter : PropertyConverter<PlayerColor, String> {
 
-    override fun convertToDatabaseValue(entityProperty: PlayerColor?): String? {
-        return entityProperty?.toString()
-    }
+    override fun convertToDatabaseValue(entityProperty: PlayerColor?) =
+            entityProperty?.toString()
 
-    override fun convertToEntityProperty(databaseValue: String?): PlayerColor? {
-        return databaseValue?.let { PlayerColor.get(it) }
-    }
+    override fun convertToEntityProperty(databaseValue: String?) =
+            databaseValue?.let { PlayerColor.get(it) }
 
 }

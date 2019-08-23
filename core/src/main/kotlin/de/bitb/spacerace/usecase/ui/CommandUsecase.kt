@@ -1,7 +1,7 @@
 package de.bitb.spacerace.usecase.ui
 
-import de.bitb.spacerace.Logger
-import de.bitb.spacerace.core.CommandDispender
+import de.bitb.spacerace.utils.Logger
+import de.bitb.spacerace.events.commands.CommandDispender
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.BaseCommand

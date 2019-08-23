@@ -2,7 +2,7 @@ package de.bitb.spacerace.core
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import de.bitb.spacerace.Logger
+import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.WIN_AMOUNT
@@ -20,9 +20,9 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.start.StartScreen
-import de.bitb.spacerace.usecase.action.ObserveRoundUsecase
-import de.bitb.spacerace.usecase.action.ObserveWinnerUsecase
-import de.bitb.spacerace.usecase.action.observe.ObserveCurrentPlayerUseCase
+import de.bitb.spacerace.usecase.game.observe.ObserveRoundUsecase
+import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
+import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
 import io.objectbox.Box
 import io.reactivex.disposables.CompositeDisposable

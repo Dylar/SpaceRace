@@ -7,13 +7,17 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
+import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
-class ItemMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
+class ItemMenu(
+        guiStage: GameGuiStage
+) : BaseMenu(guiStage),
+        InputObserver {
 
     private lateinit var itemDetails: ItemDetails
 

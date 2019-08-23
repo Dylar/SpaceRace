@@ -1,10 +1,10 @@
-package de.bitb.spacerace.usecase.init
+package de.bitb.spacerace.usecase.game.init
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.database.player.PlayerColorDispender
+import de.bitb.spacerace.core.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.player.MoveCommand

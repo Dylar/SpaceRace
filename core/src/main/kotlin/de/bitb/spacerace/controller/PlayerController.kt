@@ -1,6 +1,6 @@
 package de.bitb.spacerace.controller
 
-import de.bitb.spacerace.Logger
+import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.player.NONE_PLAYER
