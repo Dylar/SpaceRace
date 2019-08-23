@@ -1,4 +1,4 @@
-package de.bitb.spacerace.usecase.game
+package de.bitb.spacerace.usecase.game.getter
 
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource

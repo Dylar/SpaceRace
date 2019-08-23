@@ -15,7 +15,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.MapCollection.TEST_MAP
-import de.bitb.spacerace.usecase.game.GetPlayerUsecase
+import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
