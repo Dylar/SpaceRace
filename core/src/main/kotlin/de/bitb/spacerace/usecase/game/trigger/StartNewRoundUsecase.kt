@@ -16,9 +16,6 @@ class StartNewRoundUsecase @Inject constructor(
                     .getAll()
                     .flatMap(::resetPlayer)
                     .flatMap(::updatePlayer)
-//                    .doOnNext {
-//                        playerColorDispender.publishUpdate(playerController.currentPlayerData.playerColor)
-//                    }
 
     private fun resetPlayer(player: List<PlayerData>) =
             Single.just(player.apply { forEach { it.phase = Phase.MAIN1 } })
