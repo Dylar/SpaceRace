@@ -1,11 +1,11 @@
 package de.bitb.spacerace.core
 
+import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.not
+import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.assertThat
 
 
@@ -38,4 +38,32 @@ fun assertPlayerOnField(env: SpaceEnvironment, player: PlayerColor, field: Space
         assertThat(env.getPlayerField(player), `is`(field))
 
 fun assertPlayerNotOnField(env: SpaceEnvironment, player: PlayerColor, field: SpaceField) =
-        assertThat(env.getPlayerField(player),  `is`(not(field)))
+        assertThat(env.getPlayerField(player), `is`(not(field)))
+
+fun assertPlayerVictories(env: SpaceEnvironment, player: PlayerColor, amount: Long = 1) =
+        env.getPlayerUsecase
+                .buildUseCaseSingle(player)
+                .test()
+                .await()
+                .assertComplete()
+                .assertValue { it.victories == amount }
+
+fun assertWinner(env: SpaceEnvironment, player: PlayerColor) {
+    val winner = env.winnerObserver.values().lastOrNull() ?: NONE_PLAYER_DATA
+    assertThat(winner.playerColor, `is`(player))
+}
+
+fun assertNotWinner(env: SpaceEnvironment, player: PlayerColor) {
+    val winner = env.winnerObserver.values().lastOrNull() ?: NONE_PLAYER_DATA
+    assertThat(winner.playerColor, `is`(not(player)))
+}
+
+fun assertGameEnd(env: SpaceEnvironment) {
+    val winner = env.winnerObserver.values()
+    assertThat(winner, `is`(notNullValue()))
+}
+
+fun assertNotGameEnd(env: SpaceEnvironment) {
+    val winner = env.winnerObserver.values().lastOrNull()
+    assertThat(winner, `is`(nullValue()))
+}

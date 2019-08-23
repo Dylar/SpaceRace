@@ -5,11 +5,12 @@ import com.badlogic.gdx.Input
 import de.bitb.spacerace.Logger
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.controller.GameController
+import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
@@ -19,10 +20,14 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.start.StartScreen
+import de.bitb.spacerace.usecase.action.ObserveRoundUsecase
+import de.bitb.spacerace.usecase.action.ObserveWinnerUsecase
 import de.bitb.spacerace.usecase.action.observe.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
 import io.objectbox.Box
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -34,13 +39,18 @@ open class MainGame : BaseGame() {
         lateinit var appComponent: AppComponent
     }
 
+    private val compositeDisposable = CompositeDisposable()
+
     @Inject
     protected lateinit var commandUsecase: CommandUsecase
 
     @Inject
-    lateinit var box: Box<FieldData>
+    lateinit var observeWinnerUsecase: ObserveWinnerUsecase
+    @Inject
+    lateinit var observeRoundUsecase: ObserveRoundUsecase
 
-    lateinit var gameController: GameController
+    @Inject
+    lateinit var box: Box<FieldData>
 
     @Inject
     lateinit var inputHandler: InputHandler
@@ -83,7 +93,6 @@ open class MainGame : BaseGame() {
         appComponent.inject(this)
 
         initObserver()
-        gameController = GameController()
 //        testFields()
     }
 
@@ -163,7 +172,7 @@ open class MainGame : BaseGame() {
 
     //TODO clear on
     fun clear() {
-        gameController.compositeDisposable.clear()
+        compositeDisposable.clear()
         (screen as? BaseScreen)?.clear()
     }
 
@@ -180,8 +189,24 @@ open class MainGame : BaseGame() {
     }
 
     fun initGameObserver() {
-        gameController.initWinnerObserver()
-        gameController.initPhaseObserver()
+        initWinnerObserver()
+        initPhaseObserver()
+    }
+
+     fun initWinnerObserver() {
+        compositeDisposable += observeWinnerUsecase.observeStream(
+                params = WIN_AMOUNT,
+                onNext = { winner ->
+                    Logger.println("AND THE WINNER IIIIISSS: $winner")
+                    EventBus.getDefault().post(GameOverCommand(winner.playerColor))
+                })
+    }
+
+     fun initPhaseObserver() {
+        compositeDisposable += observeRoundUsecase.observeStream(
+                onNext = { isNext ->
+                    //                    Logger.println("observeRoundUsecase: NEXT ROUND: $isNext")
+                })
     }
 
     fun endGameDELETE_ME() {

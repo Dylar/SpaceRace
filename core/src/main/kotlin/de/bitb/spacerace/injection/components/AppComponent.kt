@@ -3,7 +3,6 @@ package de.bitb.spacerace.injection.components
 import dagger.Component
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.controller.FieldController
-import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
@@ -45,8 +44,6 @@ interface AppComponent {
     fun inject(game: MainGame)
 
     //CONTROLLER
-    fun inject(gameController: GameController)
-
     fun inject(fieldController: FieldController)
 //    fun inject(playerController: PlayerController)
 

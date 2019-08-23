@@ -1,9 +1,11 @@
 package de.bitb.spacerace.env
 
 import de.bitb.spacerace.config.SELECTED_PLAYER
+import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.assertCurrentPhase
+import de.bitb.spacerace.core.assertSameField
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
@@ -18,6 +20,7 @@ import de.bitb.spacerace.usecase.action.action.DiceUsecase
 import de.bitb.spacerace.usecase.action.action.MoveUsecase
 import de.bitb.spacerace.usecase.action.action.NextPhaseUsecase
 import de.bitb.spacerace.usecase.init.LoadGameUsecase
+import io.reactivex.observers.TestObserver
 import javax.inject.Inject
 
 val TEST_PLAYER_1 = PlayerColor.ORANGE
@@ -44,6 +47,8 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     @Inject
     lateinit var fieldController: FieldController
 
+    lateinit var winnerObserver: TestObserver<PlayerData>
+
     lateinit var testGame: TestGame
     val setup = Setup()
 
@@ -56,11 +61,12 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     val currentPosition: SpaceField
         get() = getPlayerField(currentPlayerColor)
 
+    val goalField: SpaceField
+        get() = getField(0)
     val defaultField1: SpaceField
-        get() = getField(0, 4)
-
+        get() = getField(4)
     val defaultField2: SpaceField
-        get() = getField(0, 3)
+        get() = getField(3)
 
 //
 //    ███████╗███████╗████████╗     ██████╗  █████╗ ███╗   ███╗███████╗
@@ -73,9 +79,10 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
 
     fun initGame(
             vararg playerColor: PlayerColor = arrayOf(),
-            mapCollection: MapCollection = TEST_MAP
+            mapCollection: MapCollection = TEST_MAP,
+            winAmount: Long = 1
     ) {
-
+        WIN_AMOUNT = winAmount
         SELECTED_PLAYER.apply {
             clear()
             if (playerColor.isEmpty()) {
@@ -97,7 +104,12 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
                 .await()
                 .assertComplete()
 
-        testGame.initGameObserver()
+//        testGame.initGameObserver()
+        testGame.initPhaseObserver() //Only phase observer -> so winner is as test observer
+        winnerObserver = testGame
+                .observeWinnerUsecase
+                .buildUseCaseObservable(winAmount)
+                .test()
 
         waitForIt()
     }
@@ -128,6 +140,12 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
         }
     }
 
+    fun moveToGoal() {
+        setToMovePhase()
+        move(target = goalField)
+        assertSameField(getPlayerField(), goalField)
+    }
+
 //
 //    ██████╗ ███████╗████████╗████████╗███████╗██████╗
 //    ██╔════╝ ██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
@@ -138,7 +156,7 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
 //
 
 
-    fun getField(groupId: Int, fieldId: Int) =
+    fun getField(fieldId: Int, groupId: Int = 0) =
             fieldController.getField(groupId, fieldId)
 
     fun getPlayerField(player: PlayerColor = currentPlayerColor): SpaceField =
