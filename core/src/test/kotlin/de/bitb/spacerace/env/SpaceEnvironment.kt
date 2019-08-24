@@ -7,6 +7,7 @@ import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.assertCurrentPhase
 import de.bitb.spacerace.core.assertSameField
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.DEFAULT
@@ -15,10 +16,10 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.MapCollection.TEST_MAP
-import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
+import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
 import io.reactivex.observers.TestObserver
 import javax.inject.Inject
@@ -196,6 +197,22 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
                 .test()
                 .await()
                 .assertComplete()
+        waitForIt()
+    }
+
+    fun diceError(error: Throwable, player: PlayerColor = currentPlayerColor, setDice: Int = -1) {
+        diceUsecase.buildUseCaseCompletable(player to setDice)
+                .test()
+                .await()
+                .assertError {
+                    when {
+                        it::class == error::class
+                        -> true
+                        it is NotCurrentPlayerException && error is NotCurrentPlayerException
+                        -> it.player == error.player
+                        else -> false
+                    }
+                }
         waitForIt()
     }
 

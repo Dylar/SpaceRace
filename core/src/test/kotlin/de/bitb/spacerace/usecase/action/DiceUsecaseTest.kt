@@ -4,6 +4,7 @@ import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.TEST_PLAYER_2
+import de.bitb.spacerace.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.model.enums.Phase
 import org.junit.Test
 
@@ -22,7 +23,10 @@ class DiceUsecaseTest : GameTest() {
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    env.dice(TEST_PLAYER_2)
+                    env.diceError(
+                            error = NotCurrentPlayerException(TEST_PLAYER_2),
+                            player = TEST_PLAYER_2
+                    )
 
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
@@ -50,7 +54,10 @@ class DiceUsecaseTest : GameTest() {
                     assertDiceResult(env, 1, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    env.dice(TEST_PLAYER_2)
+                    env.diceError(
+                            error = NotCurrentPlayerException(TEST_PLAYER_2),
+                            player = TEST_PLAYER_2
+                    )
 
                     assertDiceResult(env, 1, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
@@ -78,7 +85,10 @@ class DiceUsecaseTest : GameTest() {
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    env.dice(TEST_PLAYER_2)
+                    env.diceError(
+                            error = NotCurrentPlayerException(TEST_PLAYER_2),
+                            player = TEST_PLAYER_2
+                    )
 
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)

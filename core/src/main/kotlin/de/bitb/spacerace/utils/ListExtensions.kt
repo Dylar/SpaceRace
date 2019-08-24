@@ -1,4 +1,4 @@
-package de.bitb.spacerace.extension
+package de.bitb.spacerace.utils
 
 fun <T> List<T>.doForEachExceptLast(
     executeForAll: (T) -> Unit,

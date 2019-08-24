@@ -1,6 +1,6 @@
 package de.bitb.spacerace.database.converter
 
-import de.bitb.spacerace.extension.doForEachExceptLast
+import de.bitb.spacerace.utils.doForEachExceptLast
 import io.objectbox.converter.PropertyConverter
 
 private const val SEPERATOR = ","
