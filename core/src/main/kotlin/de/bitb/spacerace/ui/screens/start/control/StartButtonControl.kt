@@ -12,13 +12,19 @@ import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LANGUAGE
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_START
-import de.bitb.spacerace.controller.InputObserver
-import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.start.*
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
+import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
-class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage), InputObserver {
+class StartButtonControl(
+        guiStage: StartGuiStage
+) : BaseGuiControl(guiStage) {
+
+    @Inject
+    lateinit var observeCommandUsecase: ObserveCommandUsecase
 
     private lateinit var startBtn: TextButton
     private lateinit var winLabel: Label
@@ -29,12 +35,25 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage), In
     private val maxSpan = 7
 
     init {
+        MainGame.appComponent.inject(this)
+        initObserver()
+
         addStartButton()
         addWinButtons()
         addDiceButtons()
         addLanguageButtons()
         addDebugButton()
         pack()
+    }
+
+    private fun initObserver() {
+        observeCommandUsecase.observeStream { event ->
+            when (event) {
+                is ChangeLanguageCommand -> updateButtonText()
+                is ChangeWinAmountCommand -> updateWinLabelText()
+                is ChangeDiceAmountCommand -> updateDiceLabelText()
+            }
+        }
     }
 
     override fun setPosition(x: Float, y: Float) {
@@ -137,15 +156,6 @@ class StartButtonControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage), In
         cell.fill()
         cell.colspan(colspan)
         return cell
-    }
-
-    override fun <T : BaseCommand> update(event: T) {
-        when (event) {
-            is ChangeLanguageCommand -> updateButtonText()
-            is ChangeWinAmountCommand -> updateWinLabelText()
-            is ChangeDiceAmountCommand -> updateDiceLabelText()
-        }
-
     }
 
     private fun updateButtonText() {

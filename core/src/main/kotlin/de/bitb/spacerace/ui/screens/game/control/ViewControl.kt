@@ -13,13 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.CameraActions
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
-import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.game.GameScreen
 
-class ViewControl(val screen: GameScreen) : Table(TextureCollection.skin), InputObserver, GuiComponent by object : GuiComponent {} {
+class ViewControl(
+        val screen: GameScreen
+) : Table(TextureCollection.skin),
+        GuiComponent {
 
     private var centerBtn: TextButton
 
@@ -42,6 +43,7 @@ class ViewControl(val screen: GameScreen) : Table(TextureCollection.skin), Input
         centerBtn = createButton(name = "(O)", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 screen.centerCamera()
+                updateButtons()
                 return true
             }
         })
@@ -65,10 +67,6 @@ class ViewControl(val screen: GameScreen) : Table(TextureCollection.skin), Input
         addPaddingLeftRight(cell)
         cell.fill()
         return cell
-    }
-
-    override fun <T : BaseCommand> update(event: T) {
-        updateButtons()
     }
 
     private fun updateButtons() {

@@ -2,6 +2,7 @@ package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.model.objecthandling.DEFAULT
 import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -9,7 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class InputHandler
 @Inject constructor(
-) : DefaultFunction {
+) : DefaultFunction by DEFAULT {
 
     private val inputObserver: MutableList<InputObserver> = ArrayList() //TODO delete me
 

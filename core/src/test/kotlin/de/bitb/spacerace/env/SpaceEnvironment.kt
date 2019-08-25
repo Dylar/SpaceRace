@@ -131,9 +131,7 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     }
 
     fun changePlayerTo(player: PlayerColor) {
-        if (player == currentPlayerColor) {
-            return
-        } else {
+        if (player != currentPlayerColor) {
             setToMain2Phase()
             nextPhase()
             changePlayerTo(player)

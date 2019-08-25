@@ -15,8 +15,6 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORA
 import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.events.commands.phases.OpenEndRoundMenuCommand
@@ -24,25 +22,33 @@ import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.events.commands.player.UseItemCommand
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
 import de.bitb.spacerace.ui.player.shop.ShopMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
+import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class GameControl(val guiStage: GameGuiStage
-) : Table(TextureCollection.skin), GuiComponent by guiStage, InputObserver {
+class GameControl(
+        val guiStage: GameGuiStage
+) : Table(TextureCollection.skin),
+        GuiComponent by guiStage {
 
     private var itemMenu = ItemMenu(guiStage)
     private var shopMenu = ShopMenu(guiStage)
 
     @Inject
     protected lateinit var playerController: PlayerController
+    @Inject
+    protected lateinit var observeCommandUsecase: ObserveCommandUsecase
 
     init {
         MainGame.appComponent.inject(this)
+        initObserver()
+
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
         val diceBtn = createButton(name = GAME_BUTTON_DICE, listener = object : InputListener() {
@@ -75,6 +81,17 @@ class GameControl(val guiStage: GameGuiStage
         pack()
 
         setPosition()
+    }
+
+    private fun initObserver() {
+        observeCommandUsecase.observeStream { event ->
+            when (event) {
+                is OpenEndRoundMenuCommand -> openEndRoundMenu()
+                is ObtainShopCommand -> openShop()
+                is UseItemCommand -> itemMenu.update(event)
+                is BuyItemCommand, is SellItemCommand -> shopMenu.update(event)
+            }
+        }
     }
 
     private fun setPosition() {
@@ -113,15 +130,6 @@ class GameControl(val guiStage: GameGuiStage
         val endMenu = RoundEndMenu(guiStage)
         endMenu.openMenu()
         guiStage.addActor(endMenu)
-    }
-
-    override fun <T : BaseCommand> update(event: T) {
-        when (event) {
-            is OpenEndRoundMenuCommand -> openEndRoundMenu()
-            is ObtainShopCommand -> openShop()
-            is UseItemCommand -> itemMenu.update(event)
-            is BuyItemCommand, is SellItemCommand -> shopMenu.update(event)
-        }
     }
 
 }
