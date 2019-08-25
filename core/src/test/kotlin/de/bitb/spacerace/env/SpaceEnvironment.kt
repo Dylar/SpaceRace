@@ -5,8 +5,10 @@ import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.assertCurrentPhase
+import de.bitb.spacerace.core.assertDiceException
 import de.bitb.spacerace.core.assertSameField
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
@@ -192,26 +194,13 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
         waitForIt()
     }
 
-    fun dice(player: PlayerColor = currentPlayerColor, setDice: Int = -1) {
+    fun dice(player: PlayerColor = currentPlayerColor, setDice: Int = -1, error: GameException? = null) {
         diceUsecase.buildUseCaseCompletable(player to setDice)
                 .test()
                 .await()
-                .assertComplete()
-        waitForIt()
-    }
-
-    fun diceError(error: Throwable, player: PlayerColor = currentPlayerColor, setDice: Int = -1) {
-        diceUsecase.buildUseCaseCompletable(player to setDice)
-                .test()
-                .await()
-                .assertError {
-                    when {
-                        it::class == error::class
-                        -> true
-                        it is NotCurrentPlayerException && error is NotCurrentPlayerException
-                        -> it.player == error.player
-                        else -> false
-                    }
+                .apply {
+                    if (error == null) assertComplete()
+                    else assertError { error.assertDiceException(it) }
                 }
         waitForIt()
     }

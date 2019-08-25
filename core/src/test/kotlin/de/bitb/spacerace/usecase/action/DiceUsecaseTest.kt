@@ -23,7 +23,7 @@ class DiceUsecaseTest : GameTest() {
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    env.diceError(
+                    env.dice(
                             error = NotCurrentPlayerException(TEST_PLAYER_2),
                             player = TEST_PLAYER_2
                     )
@@ -54,7 +54,7 @@ class DiceUsecaseTest : GameTest() {
                     assertDiceResult(env, 1, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    env.diceError(
+                    env.dice(
                             error = NotCurrentPlayerException(TEST_PLAYER_2),
                             player = TEST_PLAYER_2
                     )
@@ -85,7 +85,7 @@ class DiceUsecaseTest : GameTest() {
                     assertDiceResult(env, 0, TEST_PLAYER_1)
                     assertDiceResult(env, 0, TEST_PLAYER_2)
 
-                    env.diceError(
+                    env.dice(
                             error = NotCurrentPlayerException(TEST_PLAYER_2),
                             player = TEST_PLAYER_2
                     )
