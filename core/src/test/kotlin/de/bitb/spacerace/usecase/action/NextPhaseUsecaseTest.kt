@@ -25,23 +25,22 @@ class NextPhaseUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     dice()
-                }
-                .also { env ->
+
                     //assert start
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN1)
+                    assertNotCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN1)
 
                     //do next phase action with not current player
-                    env.nextPhase(TEST_PLAYER_2)
+                    nextPhase(TEST_PLAYER_2)
 
                     //assert still same phase
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN1)
+                    assertNotCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN1)
 
-                    env.nextPhase(TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MOVE)
+                    nextPhase(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MOVE)
                 }
     }
 
@@ -52,23 +51,22 @@ class NextPhaseUsecaseTest : GameTest() {
                     initGame()
                     setToMovePhase()
                     move()
-                }
-                .also { env ->
+
                     //assert start
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MOVE)
+                    assertNotCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MOVE)
 
                     //do next phase action with not current player
-                    env.nextPhase(TEST_PLAYER_2)
+                    nextPhase(TEST_PLAYER_2)
 
                     //assert still same phase
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MOVE)
+                    assertNotCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MOVE)
 
-                    env.nextPhase(TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN2)
+                    nextPhase(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN2)
                 }
     }
 
@@ -78,64 +76,63 @@ class NextPhaseUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMain2Phase()
-                }
-                .also { env ->
+
                     //assert start
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN2)
+                    assertNotCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN2)
 
                     //do next phase action with not current player
-                    env.nextPhase(TEST_PLAYER_2)
+                    nextPhase(TEST_PLAYER_2)
 
                     //assert still same phase
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN2)
+                    assertNotCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN2)
 
-                    env.nextPhase(TEST_PLAYER_1)
+                    nextPhase(TEST_PLAYER_1)
 
                     //assert player changed
-                    assertNotCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPhase(env, Phase.MAIN1)
+                    assertNotCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPhase(Phase.MAIN1)
                 }
     }
 
     @Test
     fun noDice_nextPhaseClicked_failure_stillMainPhase() {
         SpaceEnvironment()
-                .apply { initGame() }
-                .also { env ->
+                .apply {
+                    initGame()
                     //assert start
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN1)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN1)
 
                     //do next phase action
-                    env.nextPhase()
+                    nextPhase()
 
                     //assert still same phase
-                    assertCurrentPhase(env, Phase.MAIN1)
+                    assertCurrentPhase(Phase.MAIN1)
                 }
     }
 
     @Test
     fun dice_nextPhaseClicked_success_movePhase() {
         SpaceEnvironment()
-                .apply { initGame() }
-                .also { env ->
+                .apply {
+                    initGame()
                     //assert start
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN1)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN1)
 
                     //do dice action
-                    env.dice()
+                    dice()
 
                     //do next phase action
-                    env.nextPhase()
+                    nextPhase()
 
                     //assert move phase
-                    assertCurrentPhase(env, Phase.MOVE)
+                    assertCurrentPhase(Phase.MOVE)
                 }
     }
 
@@ -146,12 +143,11 @@ class NextPhaseUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMovePhase()
-                }
-                .also { env ->
-                    env.nextPhase()
+
+                    nextPhase()
 
                     //assert move phase
-                    assertCurrentPhase(env, Phase.MOVE)
+                    assertCurrentPhase(Phase.MOVE)
                 }
     }
 
@@ -161,16 +157,15 @@ class NextPhaseUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMovePhase()
-                }
-                .also { env ->
+
                     //get move target
-                    val target: SpaceField = env.getRandomConnectedField()
+                    val target: SpaceField = getRandomConnectedField()
 
                     //move action
-                    env.move(target = target)
-                    env.nextPhase()
+                    move(target = target)
+                    nextPhase()
 
-                    assertCurrentPhase(env, Phase.MAIN2)
+                    assertCurrentPhase(Phase.MAIN2)
                 }
     }
 
@@ -180,29 +175,28 @@ class NextPhaseUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMovePhase(-2)
-                }
-                .also { env ->
-                    val target1: SpaceField = env.defaultField1
-                    val target2: SpaceField = env.defaultField2
+
+                    val target1: SpaceField = defaultField1
+                    val target2: SpaceField = defaultField2
                     assertNotSameField(target1, target2)
-                    val playerField1: SpaceField = env.getPlayerField(TEST_PLAYER_1)
+                    val playerField1: SpaceField = getPlayerField(TEST_PLAYER_1)
 
                     //move1
-                    env.move(target = target1)
-                    val playerField2: SpaceField = env.getPlayerField(TEST_PLAYER_1)
+                    move(target = target1)
+                    val playerField2: SpaceField = getPlayerField(TEST_PLAYER_1)
                     assertNotSameField(playerField1, playerField2)
 
                     //next phase failed
-                    env.nextPhase()
-                    assertCurrentPhase(env, Phase.MOVE)
+                    nextPhase()
+                    assertCurrentPhase(Phase.MOVE)
 
                     //move2
-                    env.move(target = target2)
+                    move(target = target2)
 
                     //next phase success
-                    env.nextPhase()
+                    nextPhase()
 
-                    assertCurrentPhase(env, Phase.MAIN2)
+                    assertCurrentPhase(Phase.MAIN2)
                 }
     }
 
@@ -212,21 +206,20 @@ class NextPhaseUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMovePhase(-2)
-                }
-                .also { env ->
+
                     //move action
-                    val target1: SpaceField = env.defaultField1
-                    val target2: SpaceField = env.defaultField2
+                    val target1: SpaceField = defaultField1
+                    val target2: SpaceField = defaultField2
                     assertNotSameField(target1, target2)
 
-                    env.move(target = target1)
-                    assertPlayerOnField(env, TEST_PLAYER_1, target1)
-                    env.move(target = target2)
+                    move(target = target1)
+                    assertPlayerOnField(TEST_PLAYER_1, target1)
+                    move(target = target2)
 
-                    env.nextPhase()
+                    nextPhase()
 
                     //assert main2 phase
-                    assertCurrentPhase(env, Phase.MAIN2)
+                    assertCurrentPhase(Phase.MAIN2)
                 }
     }
 
@@ -236,15 +229,14 @@ class NextPhaseUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMain2Phase()
-                }
-                .also { env ->
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
 
-                    env.nextPhase()
+                    assertCurrentPlayer(TEST_PLAYER_1)
+
+                    nextPhase()
 
                     //assert main1 phase
-                    assertCurrentPhase(env, Phase.MAIN1)
-                    assertCurrentPlayer(env, TEST_PLAYER_2)
+                    assertCurrentPhase(Phase.MAIN1)
+                    assertCurrentPlayer(TEST_PLAYER_2)
                 }
     }
 
@@ -253,14 +245,13 @@ class NextPhaseUsecaseTest : GameTest() {
         SpaceEnvironment()
                 .apply {
                     initGame()
-                }
-                .also { env ->
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN1)
 
-                    env.changePlayerTo(TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPhase(env, Phase.MAIN1)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN1)
+
+                    changePlayerTo(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPhase(Phase.MAIN1)
                 }
     }
 
@@ -269,14 +260,13 @@ class NextPhaseUsecaseTest : GameTest() {
         SpaceEnvironment()
                 .apply {
                     initGame(TEST_PLAYER_1, TEST_PLAYER_2, TEST_PLAYER_3)
-                }
-                .also { env ->
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN1)
 
-                    env.changePlayerTo(TEST_PLAYER_3)
-                    assertCurrentPlayer(env, TEST_PLAYER_3)
-                    assertCurrentPhase(env, Phase.MAIN1)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN1)
+
+                    changePlayerTo(TEST_PLAYER_3)
+                    assertCurrentPlayer(TEST_PLAYER_3)
+                    assertCurrentPhase(Phase.MAIN1)
                 }
     }
 

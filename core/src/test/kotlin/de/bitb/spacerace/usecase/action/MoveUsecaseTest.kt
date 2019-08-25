@@ -16,34 +16,34 @@ class MoveUsecaseTest : GameTest() {
                     initGame()
                     setToMovePhase()
                     dice()
-                }
-                .also { env ->
-                    val target = env.defaultField1
-                    var position = env.currentPosition
+
+
+                    val target = defaultField1
+                    var position = currentPosition
 
                     //assert start
                     assertNotSameField(target, position)
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MOVE)
-                    assertPlayerOnField(env, TEST_PLAYER_1, position)
-                    assertPlayerOnField(env, TEST_PLAYER_2, position)
+                    assertNotCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MOVE)
+                    assertPlayerOnField(TEST_PLAYER_1, position)
+                    assertPlayerOnField(TEST_PLAYER_2, position)
 
                     //move player 2 -> failed
-                    env.move(TEST_PLAYER_2, target)
+                    move(TEST_PLAYER_2, target)
 
-                    position = env.currentPosition
+                    position = currentPosition
                     assertNotSameField(target, position)
-                    assertPlayerOnField(env, TEST_PLAYER_1, position)
-                    assertPlayerOnField(env, TEST_PLAYER_2, position)
+                    assertPlayerOnField(TEST_PLAYER_1, position)
+                    assertPlayerOnField(TEST_PLAYER_2, position)
 
                     //move player 1 -> success
-                    env.move(TEST_PLAYER_1, target)
+                    move(TEST_PLAYER_1, target)
 
-                    position = env.currentPosition
+                    position = currentPosition
                     assertSameField(target, position)
-                    assertPlayerNotOnField(env, TEST_PLAYER_2, target)
-                    assertPlayerOnField(env, TEST_PLAYER_1, target)
+                    assertPlayerNotOnField(TEST_PLAYER_2, target)
+                    assertPlayerOnField(TEST_PLAYER_1, target)
                 }
     }
 
@@ -52,37 +52,37 @@ class MoveUsecaseTest : GameTest() {
         SpaceEnvironment()
                 .apply {
                     initGame()
-                }
-                .also { env ->
-                    val target = env.defaultField1
-                    var position = env.currentPosition
+
+
+                    val target = defaultField1
+                    var position = currentPosition
 
                     //assert start
                     assertNotSameField(target, position)
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN1)
-                    assertPlayerOnField(env, TEST_PLAYER_1, position)
-                    assertPlayerOnField(env, TEST_PLAYER_2, position)
+                    assertNotCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN1)
+                    assertPlayerOnField(TEST_PLAYER_1, position)
+                    assertPlayerOnField(TEST_PLAYER_2, position)
 
                     val moveAndCheck = fun() {
                         val check = fun() {
-                            position = env.currentPosition
+                            position = currentPosition
                             assertNotSameField(target, position)
-                            assertPlayerOnField(env, TEST_PLAYER_1, position)
-                            assertPlayerOnField(env, TEST_PLAYER_2, position)
+                            assertPlayerOnField(TEST_PLAYER_1, position)
+                            assertPlayerOnField(TEST_PLAYER_2, position)
                         }
                         //move player 2 -> failed
-                        env.move(TEST_PLAYER_2, target)
+                        move(TEST_PLAYER_2, target)
                         check()
                         //move player 1 -> failed
-                        env.move(TEST_PLAYER_1, target)
+                        move(TEST_PLAYER_1, target)
                         check()
                     }
 
                     moveAndCheck()
                     //after dice still not movable
-                    env.dice()
+                    dice()
                     moveAndCheck()
                 }
     }
@@ -93,37 +93,37 @@ class MoveUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMain2Phase()
-                }
-                .also { env ->
-                    val target = env.defaultField2
-                    var position = env.currentPosition
+
+
+                    val target = defaultField2
+                    var position = currentPosition
 
                     //assert start
                     assertNotSameField(target, position)
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN2)
-                    assertPlayerOnField(env, TEST_PLAYER_1, position)
-                    assertPlayerNotOnField(env, TEST_PLAYER_2, position)
+                    assertNotCurrentPlayer(TEST_PLAYER_2)
+                    assertCurrentPlayer(TEST_PLAYER_1)
+                    assertCurrentPhase(Phase.MAIN2)
+                    assertPlayerOnField(TEST_PLAYER_1, position)
+                    assertPlayerNotOnField(TEST_PLAYER_2, position)
 
                     val moveAndCheck = fun() {
                         val check = fun() {
-                            position = env.currentPosition
+                            position = currentPosition
                             assertNotSameField(target, position)
-                            assertPlayerOnField(env, TEST_PLAYER_1, position)
-                            assertPlayerNotOnField(env, TEST_PLAYER_2, position)
+                            assertPlayerOnField(TEST_PLAYER_1, position)
+                            assertPlayerNotOnField(TEST_PLAYER_2, position)
                         }
                         //move player 2 -> failed
-                        env.move(TEST_PLAYER_2, target)
+                        move(TEST_PLAYER_2, target)
                         check()
                         //move player 1 -> failed
-                        env.move(TEST_PLAYER_1, target)
+                        move(TEST_PLAYER_1, target)
                         check()
                     }
 
                     moveAndCheck()
                     //after dice still not movable
-                    env.move()
+                    move()
                     moveAndCheck()
                 }
     }

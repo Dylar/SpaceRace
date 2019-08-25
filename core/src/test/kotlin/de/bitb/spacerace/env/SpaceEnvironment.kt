@@ -4,12 +4,9 @@ import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.core.assertCurrentPhase
-import de.bitb.spacerace.core.assertDiceException
-import de.bitb.spacerace.core.assertSameField
+import de.bitb.spacerace.core.*
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
-import de.bitb.spacerace.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.DEFAULT
@@ -121,7 +118,7 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
         dice(setDice = setDice)
         nextPhase()
 
-        assertCurrentPhase(this, Phase.MOVE)
+        assertCurrentPhase(Phase.MOVE)
     }
 
     fun setToMain2Phase() {
@@ -130,7 +127,7 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
         move()
         nextPhase()
 
-        assertCurrentPhase(this, Phase.MAIN2)
+        assertCurrentPhase(Phase.MAIN2)
     }
 
     fun changePlayerTo(player: PlayerColor) {
@@ -185,16 +182,21 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     //██║  ██║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║███████║
     //╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
     //
-    fun nextPhase(color: PlayerColor = currentPlayerColor) {
-        nextPhaseUseCase
-                .buildUseCaseCompletable(color)
+    fun nextPhase(color: PlayerColor = currentPlayerColor,
+                  error: GameException? = null) {
+        nextPhaseUseCase.buildUseCaseCompletable(color)
                 .test()
                 .await()
-                .assertComplete()
+                .apply {
+                    if (error == null) assertComplete()
+                    else assertError { error.assertNextPhaseException(it) }
+                }
         waitForIt()
     }
 
-    fun dice(player: PlayerColor = currentPlayerColor, setDice: Int = -1, error: GameException? = null) {
+    fun dice(player: PlayerColor = currentPlayerColor,
+             setDice: Int = -1,
+             error: GameException? = null) {
         diceUsecase.buildUseCaseCompletable(player to setDice)
                 .test()
                 .await()
@@ -206,16 +208,29 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
     }
 
     fun move(player: PlayerColor = currentPlayerColor,
-             target: SpaceField = defaultField1) {
+             target: SpaceField = defaultField1,
+             error: GameException? = null) {
         moveUsecase.buildUseCaseCompletable(player to target)
                 .test()
                 .await()
+                .apply {
+                    if (error == null) assertComplete()
+                    else assertError { error.assertMoveException(it) }
+                }
                 .assertComplete()
         waitForIt()
     }
 
     fun waitForIt(time: Long = 100) {
         Thread.sleep(time)
+    }
+
+    fun getDBPlayer(player: PlayerColor, assertPlayer: (PlayerData) -> Boolean) {
+        getPlayerUsecase.buildUseCaseSingle(player)
+                .test()
+                .await()
+                .assertComplete()
+                .assertValue { assertPlayer(it) }
     }
 
 }

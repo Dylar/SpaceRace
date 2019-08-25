@@ -13,28 +13,27 @@ class DiceUsecaseTest : GameTest() {
     @Test
     fun onlyCurrentPlayerCanDice_inMain1Phase() {
         SpaceEnvironment()
-                .apply { initGame() }
-                .also { env ->
+                .apply { initGame()
                     //assert start
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN1)
+                    assertNotCurrentPlayer( TEST_PLAYER_2)
+                    assertCurrentPlayer( TEST_PLAYER_1)
+                    assertCurrentPhase( Phase.MAIN1)
 
-                    assertDiceResult(env, 0, TEST_PLAYER_1)
-                    assertDiceResult(env, 0, TEST_PLAYER_2)
+                    assertDiceResult(0, TEST_PLAYER_1)
+                    assertDiceResult(0, TEST_PLAYER_2)
 
-                    env.dice(
+                    dice(
                             error = NotCurrentPlayerException(TEST_PLAYER_2),
                             player = TEST_PLAYER_2
                     )
 
-                    assertDiceResult(env, 0, TEST_PLAYER_1)
-                    assertDiceResult(env, 0, TEST_PLAYER_2)
+                    assertDiceResult(0, TEST_PLAYER_1)
+                    assertDiceResult(0, TEST_PLAYER_2)
 
-                    env.dice(TEST_PLAYER_1)
+                    dice(TEST_PLAYER_1)
 
-                    assertDiceResult(env, 1, TEST_PLAYER_1)
-                    assertDiceResult(env, 0, TEST_PLAYER_2)
+                    assertDiceResult(1, TEST_PLAYER_1)
+                    assertDiceResult(0, TEST_PLAYER_2)
                 }
     }
 
@@ -44,28 +43,27 @@ class DiceUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMovePhase()
-                }
-                .also { env ->
+
                     //assert start
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MOVE)
+                    assertNotCurrentPlayer( TEST_PLAYER_2)
+                    assertCurrentPlayer( TEST_PLAYER_1)
+                    assertCurrentPhase( Phase.MOVE)
 
-                    assertDiceResult(env, 1, TEST_PLAYER_1)
-                    assertDiceResult(env, 0, TEST_PLAYER_2)
+                    assertDiceResult(1, TEST_PLAYER_1)
+                    assertDiceResult(0, TEST_PLAYER_2)
 
-                    env.dice(
+                    dice(
                             error = NotCurrentPlayerException(TEST_PLAYER_2),
                             player = TEST_PLAYER_2
                     )
 
-                    assertDiceResult(env, 1, TEST_PLAYER_1)
-                    assertDiceResult(env, 0, TEST_PLAYER_2)
+                    assertDiceResult(1, TEST_PLAYER_1)
+                    assertDiceResult(0, TEST_PLAYER_2)
 
-                    env.dice(TEST_PLAYER_1)
+                    dice(TEST_PLAYER_1)
 
-                    assertDiceResult(env, 1, TEST_PLAYER_1)
-                    assertDiceResult(env, 0, TEST_PLAYER_2)
+                    assertDiceResult(1, TEST_PLAYER_1)
+                    assertDiceResult(0, TEST_PLAYER_2)
                 }
     }
 
@@ -75,28 +73,27 @@ class DiceUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMain2Phase()
-                }
-                .also { env ->
+
                     //assert start
-                    assertNotCurrentPlayer(env, TEST_PLAYER_2)
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertCurrentPhase(env, Phase.MAIN2)
+                    assertNotCurrentPlayer( TEST_PLAYER_2)
+                    assertCurrentPlayer( TEST_PLAYER_1)
+                    assertCurrentPhase( Phase.MAIN2)
 
-                    assertDiceResult(env, 0, TEST_PLAYER_1)
-                    assertDiceResult(env, 0, TEST_PLAYER_2)
+                    assertDiceResult(0, TEST_PLAYER_1)
+                    assertDiceResult(0, TEST_PLAYER_2)
 
-                    env.dice(
+                    dice(
                             error = NotCurrentPlayerException(TEST_PLAYER_2),
                             player = TEST_PLAYER_2
                     )
 
-                    assertDiceResult(env, 0, TEST_PLAYER_1)
-                    assertDiceResult(env, 0, TEST_PLAYER_2)
+                    assertDiceResult(0, TEST_PLAYER_1)
+                    assertDiceResult(0, TEST_PLAYER_2)
 
-                    env.dice(TEST_PLAYER_1)
+                    dice(TEST_PLAYER_1)
 
-                    assertDiceResult(env, 0, TEST_PLAYER_1)
-                    assertDiceResult(env, 0, TEST_PLAYER_2)
+                    assertDiceResult(0, TEST_PLAYER_1)
+                    assertDiceResult(0, TEST_PLAYER_2)
                 }
     }
 

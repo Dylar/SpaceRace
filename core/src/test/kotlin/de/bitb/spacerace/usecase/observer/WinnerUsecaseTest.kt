@@ -15,14 +15,13 @@ class WinnerUsecaseTest : GameTest() {
                     initGame()
                     setToMovePhase()
                     move()
-                }
-                .also { env ->
-                    env.nextPhase()
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertPlayerVictories(env, TEST_PLAYER_1, 0)
-                    assertNotGameEnd(env)
-                    assertNotWinner(env, TEST_PLAYER_1)
-                    assertNotWinner(env, TEST_PLAYER_2)
+
+                    nextPhase()
+                    assertCurrentPlayer( TEST_PLAYER_1)
+                    assertPlayerVictories( TEST_PLAYER_1, 0)
+                    assertNotGameEnd()
+                    assertNotWinner( TEST_PLAYER_1)
+                    assertNotWinner( TEST_PLAYER_2)
                 }
     }
 
@@ -32,14 +31,13 @@ class WinnerUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     moveToGoal()
-                }
-                .also { env ->
-                    env.nextPhase()
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertPlayerVictories(env, TEST_PLAYER_1)
-                    assertGameEnd(env)
-                    assertWinner(env, TEST_PLAYER_1)
-                    assertNotWinner(env, TEST_PLAYER_2)
+
+                    nextPhase()
+                    assertCurrentPlayer( TEST_PLAYER_1)
+                    assertPlayerVictories( TEST_PLAYER_1)
+                    assertGameEnd()
+                    assertWinner( TEST_PLAYER_1)
+                    assertNotWinner( TEST_PLAYER_2)
                 }
     }
 
@@ -49,14 +47,13 @@ class WinnerUsecaseTest : GameTest() {
                 .apply {
                     initGame(winAmount = 2)
                     moveToGoal()
-                }
-                .also { env ->
-                    env.nextPhase()
-                    assertCurrentPlayer(env, TEST_PLAYER_1)
-                    assertPlayerVictories(env, TEST_PLAYER_1)
-                    assertNotGameEnd(env)
-                    assertNotWinner(env, TEST_PLAYER_1)
-                    assertNotWinner(env, TEST_PLAYER_2)
+
+                    nextPhase()
+                    assertCurrentPlayer( TEST_PLAYER_1)
+                    assertPlayerVictories( TEST_PLAYER_1)
+                    assertNotGameEnd()
+                    assertNotWinner( TEST_PLAYER_1)
+                    assertNotWinner( TEST_PLAYER_2)
                 }
     }
 
