@@ -10,6 +10,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_SHOP_TITLE
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
+import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
@@ -46,7 +47,7 @@ class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
     private fun addItems(items: List<Item>) {
         row()
         for (item in items) {
-            val displayImage = item.getDisplayImage(item)
+            val displayImage = item.getDisplayImage()
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     shopDetails = ShopDetails(guiStage, this@ShopMenu, item)

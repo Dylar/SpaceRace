@@ -13,13 +13,13 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDI
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_MODS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.objecthandling.DEFAULT
-import de.bitb.spacerace.model.objecthandling.DefaultFunction
+import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.ui.base.GuiComponent
@@ -28,11 +28,13 @@ import javax.inject.Inject
 class PlayerStats(
         private val guiStage: BaseGuiStage
 ) : Table(TextureCollection.skin),
-        GuiComponent by guiStage,
-        DefaultFunction by DEFAULT {
+        GuiComponent by guiStage {
 
     @Inject
     protected lateinit var playerController: PlayerController
+
+    @Inject
+    protected lateinit var graphicController: GraphicController
 
     private var creditsLabel: Label
 
@@ -111,7 +113,7 @@ class PlayerStats(
     }
 
     fun update(playerData: PlayerData) {
-        val items = getPlayerItems(playerController, playerData.playerColor)
+        val items = graphicController.getPlayerItems(playerData.playerColor)
 
         updateCredits(playerData)
         updateRound(playerData.playerColor)

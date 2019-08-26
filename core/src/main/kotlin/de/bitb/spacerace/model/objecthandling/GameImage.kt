@@ -10,8 +10,7 @@ import de.bitb.spacerace.model.items.disposable.moving.MovingState
 
 abstract class GameImage(
         var animation: BaseAnimation = TextureAnimation()
-) : Image(),
-        DefaultFunction by DEFAULT {
+) : Image() {
 
     companion object {
         val NONE: GameImage = object : GameImage() {

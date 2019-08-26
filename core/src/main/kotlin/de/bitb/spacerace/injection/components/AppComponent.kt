@@ -16,6 +16,7 @@ import de.bitb.spacerace.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.events.commands.start.StartGameCommand
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.BaseMenu

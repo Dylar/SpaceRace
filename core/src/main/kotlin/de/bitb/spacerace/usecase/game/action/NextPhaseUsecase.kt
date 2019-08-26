@@ -1,8 +1,8 @@
 package de.bitb.spacerace.usecase.game.action
 
-import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
@@ -13,26 +13,28 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
-import de.bitb.spacerace.model.objecthandling.DEFAULT
-import de.bitb.spacerace.model.objecthandling.DefaultFunction
+import de.bitb.spacerace.model.objecthandling.getPlayerField
+import de.bitb.spacerace.model.objecthandling.getPlayerItems
+import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ExecuteUseCase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
+import de.bitb.spacerace.utils.Logger
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.greenrobot.eventbus.EventBus.getDefault
 import javax.inject.Inject
 
 class NextPhaseUsecase @Inject constructor(
+        private val graphicController: GraphicController,
         private val getPlayerUsecase: GetPlayerUsecase,
         private val playerController: PlayerController,
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource,
         private var playerColorDispender: PlayerColorDispender
-) : ExecuteUseCase<PlayerColor>,
-        DefaultFunction by DEFAULT {
+) : ExecuteUseCase<PlayerColor> {
 
     //TODO clean me
     override fun buildUseCaseCompletable(params: PlayerColor) =
@@ -79,7 +81,7 @@ class NextPhaseUsecase @Inject constructor(
 
 
     private fun startMove(): (PlayerData) -> PlayerData = {
-        it.apply { steps.add(getPlayerField(playerController, fieldController, it.playerColor).gamePosition) }
+        it.apply { steps.add(graphicController.getPlayerField(fieldController, it.playerColor).gamePosition) }
     }
 
     private fun startMain2(): (PlayerData) -> PlayerData = {
@@ -88,7 +90,7 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun endTurn(): (PlayerData) -> PlayerData = {
         it.also {
-            playerController.players
+            graphicController.players
                     .apply {
                         val oldPlayer = this[0]
                         var indexOld = oldPlayer.getGameImage().zIndex + 1 //TODO do it in gui
@@ -111,7 +113,7 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainField(playerData: PlayerData): PlayerData =
-            getPlayerField(playerController, fieldController, playerData.playerColor)
+            graphicController.getPlayerField(fieldController, playerData.playerColor)
                     .apply {
                         val items =
                                 mutableListOf<Item>().apply { addAll(disposedItems) }
@@ -135,7 +137,7 @@ class NextPhaseUsecase @Inject constructor(
                     .let { playerData }
 
     private fun obtainGoalCommand(playerData: PlayerData) {
-        if (fieldController.currentGoal == getPlayerField(playerController, fieldController, playerData.playerColor)) {
+        if (fieldController.currentGoal == graphicController.getPlayerField(fieldController, playerData.playerColor)) {
             playerData.apply {
                 credits += GOAL_CREDITS
                 victories++
@@ -147,11 +149,11 @@ class NextPhaseUsecase @Inject constructor(
     private fun obtainTunnelCommand(playerData: PlayerData) {
         val tunnel = getRandomTunnel(playerData.playerColor)
         //TODO klappt das? Nö :P grafik muss neu gesetzt werden.............
-        getPlayer(playerController, playerData.playerColor).setFieldPosition(tunnel)
+        graphicController.getPlayer(playerData.playerColor).setFieldPosition(tunnel)
     }
 
     private fun getRandomTunnel(playerColor: PlayerColor): SpaceField {
-        val playerPosition = getPlayerPosition(playerController, playerColor)
+        val playerPosition = graphicController.getPlayerPosition(playerColor)
         val tunnelList = fieldController.fieldsMap[FieldType.TUNNEL]!!
         var tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
 
@@ -162,16 +164,16 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainMineCommand(playerData: PlayerData) {
-        (getPlayerField(playerController, fieldController, playerData.playerColor) as MineField)
+        (graphicController.getPlayerField(fieldController, playerData.playerColor) as MineField)
                 .apply { owner = playerData.playerColor }
     }
 
     private fun obtainGiftCommand(playerData: PlayerData) {
-        getPlayerItems(playerController, playerData.playerColor).addRandomGift()
+        graphicController.getPlayerItems(playerData.playerColor).addRandomGift()
     }
 
     private fun obtainAmbushCommand(playerData: PlayerData) {
-        getPlayerItems(playerController, playerData.playerColor)
+        graphicController.getPlayerItems(playerData.playerColor)
                 .attachItem(ItemCollection.SLOW_MINE.create(playerData.playerColor) as DisposableItem)
     }
 

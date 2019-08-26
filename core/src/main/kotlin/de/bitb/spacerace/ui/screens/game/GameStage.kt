@@ -7,6 +7,7 @@ import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
 import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.TextureCollection
@@ -18,12 +19,16 @@ import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 import de.bitb.spacerace.model.player.PlayerImage
 import javax.inject.Inject
 
-class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by DEFAULT {
+class GameStage(
+        val screen: GameScreen
+) : BaseStage() {
 
     @Inject
     protected lateinit var fieldController: FieldController
     @Inject
     protected lateinit var playerController: PlayerController
+    @Inject
+    protected lateinit var graphicController: GraphicController
 
     init {
         MainGame.appComponent.inject(this)
@@ -34,7 +39,7 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by DEFAUL
         addActor(fieldController.connections)
         fieldController.connections.zIndex = 0
         fieldController.fields.forEach { addActor(it.getGameImage()) }
-        playerController.players.forEach { addActor(it.getGameImage()) }
+        graphicController.players.forEach { addActor(it.getGameImage()) }
     }
 
     override fun addActor(actor: Actor?) {
@@ -45,7 +50,7 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by DEFAUL
     }
 
     private fun rearrangePlayer(actor: Actor) {
-        if (playerController.players.isEmpty() || playerController.currentPlayer.getGameImage().zIndex == -1) {
+        if (graphicController.players.isEmpty() || graphicController.currentPlayer.getGameImage().zIndex == -1) {
             return
         }
 
@@ -53,7 +58,7 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by DEFAUL
 //        Logger.println("ACTOR INDEX: $actorIndex")
 
         val indices: MutableList<Int> = ArrayList()
-        playerController.players.forEach {
+        graphicController.players.forEach {
             indices.add(it.getGameImage().zIndex)
 //            Logger.println("PLAYER INDEX PRE ${it.playerData.playerData.name}: ${it.getGameImage().zIndex}")
         }
@@ -63,7 +68,7 @@ class GameStage(val screen: GameScreen) : BaseStage(), DefaultFunction by DEFAUL
         indices.removeAt(indices.lastIndex)
         indices.add(actorIndex)
         for (value in indices.withIndex()) {
-            val player = playerController.players[value.index]
+            val player = graphicController.players[value.index]
             player.getGameImage().zIndex = value.value + 1
         }
     }

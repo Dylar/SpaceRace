@@ -1,13 +1,23 @@
 package de.bitb.spacerace.model.items.disposable
 
 import com.badlogic.gdx.graphics.Texture
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
+import de.bitb.spacerace.model.objecthandling.getPlayerField
+import de.bitb.spacerace.model.objecthandling.getPlayerImage
+import de.bitb.spacerace.model.objecthandling.getPlayerItems
+import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
+import javax.inject.Inject
 
-abstract class DisposableItem(owner: PlayerColor, price: Int, img: Texture) : Item(owner, price, img) {
+abstract class DisposableItem(
+        owner: PlayerColor,
+        price: Int,
+        img: Texture
+) : Item(owner, price, img) {
 
     val speed = Math.random()
     var attachedTo = PlayerColor.NONE
@@ -24,18 +34,18 @@ abstract class DisposableItem(owner: PlayerColor, price: Int, img: Texture) : It
         val playerColor = playerData.playerColor
         return when (state) {
             ItemState.STORAGE -> {
-                val field = getPlayerField(playerController, fieldController, playerColor)
+                val field = graphicController.getPlayerField(fieldController, playerColor)
                 val fieldImage = field.getGameImage()
                 this.itemImage.setRotating(this, fieldImage, fieldImage.width * 0.7)
                 field.disposeItem(this)
-                getPlayerItems(playerController, playerColor).disposeItem(this)
+                graphicController.getPlayerItems(playerColor).disposeItem(this)
                 true
             }
             ItemState.DISPOSED -> {
                 attachedTo = playerColor
-                val playerImage = getPlayerImage(playerController, playerColor)
-                getPlayerItems(playerController, playerColor).attachItem(this)
-                fieldController.getField(getPlayerPosition(playerController, playerColor)).attachItem(this)
+                val playerImage = graphicController.getPlayerImage(playerColor)
+                graphicController.getPlayerItems(playerColor).attachItem(this)
+                fieldController.getField(graphicController.getPlayerPosition(playerColor)).attachItem(this)
                 this.itemImage.setRotating(this, playerImage, playerImage.width * 0.7)
                 true
             }

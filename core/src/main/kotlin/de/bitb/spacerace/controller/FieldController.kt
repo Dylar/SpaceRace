@@ -6,7 +6,6 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
-import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.space.fields.SpaceConnection
@@ -22,8 +21,9 @@ import kotlin.collections.ArrayList
 @Singleton
 class FieldController
 @Inject constructor(
+        val graphicController: GraphicController,
         val playerController: PlayerController
-) : DefaultFunction {
+) {
 
     lateinit var map: SpaceMap
     var spaceMap: MapCollection = MapCollection.RANDOM
@@ -32,7 +32,7 @@ class FieldController
 
     var fields: MutableList<SpaceField> = mutableListOf()
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
-    var connections: ConnectionList = ConnectionList(playerController)
+    var connections: ConnectionList = ConnectionList(graphicController, playerController)
 
     init {
         MainGame.appComponent.inject(this)

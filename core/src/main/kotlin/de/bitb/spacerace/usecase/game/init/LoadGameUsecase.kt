@@ -3,6 +3,7 @@ package de.bitb.spacerace.usecase.game.init
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
@@ -19,6 +20,7 @@ import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class LoadGameUsecase @Inject constructor(
+        private val graphicController: GraphicController,
         private val playerController: PlayerController,
         private val fieldController: FieldController,
         private val playerColorDispender: PlayerColorDispender,
@@ -34,7 +36,7 @@ class LoadGameUsecase @Inject constructor(
 
                         val map = initMap()
 
-                        playerController.clearPlayer()
+                        graphicController.clearPlayer()
                         val startField = map.startField
                         players.withIndex()
                                 .forEach {
@@ -59,7 +61,7 @@ class LoadGameUsecase @Inject constructor(
 
     private fun pushCurrentPlayer(list: List<PlayerData>) {
         if (list.isNotEmpty()) {
-            playerController.currentPlayer.playerColor
+            graphicController.currentPlayer.playerColor
                     .let {
                         when (it) {
                             PlayerColor.NONE -> list.first().playerColor
@@ -106,7 +108,7 @@ class LoadGameUsecase @Inject constructor(
     private fun addPlayer(playerData: IndexedValue<PlayerData>, startField: SpaceField) {
         val player = Player(playerData.value.playerColor)
 
-        playerController.addPlayer(player)
+        graphicController.addPlayer(player)
 //        player.playerImage.movingSpeed * playerData.index
         fieldController.addShip(player, startField)
     }

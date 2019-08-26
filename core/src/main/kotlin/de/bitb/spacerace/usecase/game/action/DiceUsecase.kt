@@ -1,10 +1,10 @@
 package de.bitb.spacerace.usecase.game.action
 
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.model.objecthandling.DEFAULT
-import de.bitb.spacerace.model.objecthandling.DefaultFunction
+import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ExecuteUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
@@ -16,10 +16,9 @@ import kotlin.math.absoluteValue
 class DiceUsecase @Inject constructor(
         private val getPlayerUsecase: GetPlayerUsecase,
         private val checkCurrentPlayerUsecase: CheckCurrentPlayerUsecase,
-        private val playerController: PlayerController,
+        private val graphicController: GraphicController,
         private val playerDataSource: PlayerDataSource
-) : ExecuteUseCase<Pair<PlayerColor, Int>>,
-        DefaultFunction by DEFAULT {
+) : ExecuteUseCase<Pair<PlayerColor, Int>> {
 
     override fun buildUseCaseCompletable(params: Pair<PlayerColor, Int>) =
             params.let { (playerColor, maxResult) ->
@@ -41,7 +40,7 @@ class DiceUsecase @Inject constructor(
 
     private fun canExecute(playerData: PlayerData): Boolean =
             if (playerData.phase.isMain1()) {
-                val items = getPlayerItems(playerController, playerData.playerColor)
+                val items = graphicController.getPlayerItems(playerData.playerColor)
                 val diceCharges = 1 + items.multiDiceItem.sumBy { it.getAmount() }
                 playerData.diceResults.size < diceCharges
             } else false

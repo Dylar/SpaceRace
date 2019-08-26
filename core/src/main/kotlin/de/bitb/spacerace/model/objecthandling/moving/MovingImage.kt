@@ -9,6 +9,7 @@ import de.bitb.spacerace.config.GAME_SPEED
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.objecthandling.getRunnableAction
 
 class MovingImage : IMovingImage {
 
@@ -30,7 +31,7 @@ class MovingImage : IMovingImage {
     }
 
     override fun moveToPoint(movingImage: GameImage, targetImage: GameImage, vararg doAfter: Action) {
-        val action = movingImage.getRunnableAction(Runnable {
+        val action = getRunnableAction(Runnable {
             this.doAfter.addAll(doAfter)
             movingImage.movingState = MovingState.MOVING
             movingImage.followImage = targetImage
@@ -42,7 +43,7 @@ class MovingImage : IMovingImage {
     }
 
     override fun moveToPoint(movingImage: GameImage, targetPoint: Rectangle, vararg doAfter: Action) {
-        val action = movingImage.getRunnableAction(Runnable {
+        val action = getRunnableAction(Runnable {
             this.doAfter.addAll(doAfter)
             movingImage.movingState = MovingState.MOVING
             movingImage.targetPoint = targetPoint
@@ -53,7 +54,7 @@ class MovingImage : IMovingImage {
     }
 
     override fun patrollingBetweenPoints(movingImage: GameImage, targetPoint1: Rectangle, targetPoint2: Rectangle, vararg doAfter: Action) {
-        val action = movingImage.getRunnableAction(Runnable {
+        val action = getRunnableAction(Runnable {
             this.doAfter.addAll(doAfter)
             this.doAfter.add(getPatrollingAction(movingImage, targetPoint1, targetPoint2))
             movingImage.movingState = MovingState.PATROLLING
@@ -65,7 +66,7 @@ class MovingImage : IMovingImage {
     }
 
     private fun getPatrollingAction(image: GameImage, targetPosition1: Rectangle, targetPosition2: Rectangle): RunnableAction {
-        val action = image.getRunnableAction(Runnable {
+        val action = getRunnableAction(Runnable {
             (image as IMovingImage).patrollingBetweenPoints(image, targetPosition2, targetPosition1)
         })
         return action

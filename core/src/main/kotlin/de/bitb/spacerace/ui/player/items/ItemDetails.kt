@@ -21,6 +21,7 @@ import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.items.equip.EquipItem
 import de.bitb.spacerace.model.items.usable.UsableItem
+import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
@@ -75,7 +76,7 @@ class ItemDetails(
     }
 
     private fun addImage() {
-        val cell = add(items[0].getDisplayImage(items[0]))
+        val cell = add(items[0].getDisplayImage())
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }

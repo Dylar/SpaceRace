@@ -6,6 +6,7 @@ import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.objecthandling.getRunnableAction
 
 interface IRotatingImage {
 
@@ -18,7 +19,7 @@ interface IRotatingImage {
 
     fun getRotationAction(gameImage: GameImage, followImage: GameImage): RunnableAction
     fun getNONEAction(gameImage: GameImage, followImage: GameImage): RunnableAction {
-        return gameImage.getRunnableAction(Runnable {
+        return getRunnableAction(Runnable {
             gameImage.followImage = followImage
             gameImage.movingState = MovingState.NONE
         })

@@ -7,6 +7,7 @@ import de.bitb.spacerace.model.items.ships.RaiderShip
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage

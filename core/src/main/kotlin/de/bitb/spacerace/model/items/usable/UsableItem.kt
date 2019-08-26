@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
+import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class UsableItem(
@@ -23,11 +24,11 @@ abstract class UsableItem(
     override fun use(playerData: PlayerData): Boolean {
         return when (state) {
             ItemState.STORAGE -> {
-                getPlayerItems(playerController, playerData.playerColor).useItem(this)
+                graphicController.getPlayerItems(playerData.playerColor).useItem(this)
                 true
             }
             ItemState.USED -> {
-                getPlayerItems(playerController, playerData.playerColor).removeUsedItem(this)
+                graphicController.getPlayerItems(playerData.playerColor).removeUsedItem(this)
                 true
             }
             else -> true

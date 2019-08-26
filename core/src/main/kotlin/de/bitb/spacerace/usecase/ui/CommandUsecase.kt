@@ -5,8 +5,6 @@ import de.bitb.spacerace.events.commands.CommandDispender
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.objecthandling.DEFAULT
-import de.bitb.spacerace.model.objecthandling.DefaultFunction
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -16,8 +14,7 @@ import javax.inject.Inject
 class CommandUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource,
         val commandDispender: CommandDispender
-) : StreamUseCaseNoParams<BaseCommand>,
-        DefaultFunction by DEFAULT {
+) : StreamUseCaseNoParams<BaseCommand> {
 
     override fun buildUseCaseObservable(): Observable<BaseCommand> {
         return commandDispender.publisher

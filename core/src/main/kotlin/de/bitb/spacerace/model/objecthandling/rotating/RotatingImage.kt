@@ -11,6 +11,7 @@ import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameImage.Companion.NONE
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.utils.CalculationUtils
 
 
@@ -26,7 +27,7 @@ class RotatingImage : IRotatingImage {
     }
 
     override fun getRotationAction(gameImage: GameImage, followImage: GameImage): RunnableAction {
-        return gameImage.getRunnableAction(Runnable {
+        return getRunnableAction(Runnable {
             gameImage.followImage = followImage
             gameImage.movingState = MovingState.ROTATE_POINT
         })

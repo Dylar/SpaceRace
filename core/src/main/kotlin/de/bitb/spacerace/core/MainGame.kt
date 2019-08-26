@@ -50,9 +50,6 @@ open class MainGame : BaseGame() {
     lateinit var observeRoundUsecase: ObserveRoundUsecase
 
     @Inject
-    lateinit var box: Box<FieldData>
-
-    @Inject
     lateinit var observeCommandUsecase: ObserveCommandUsecase
     @Inject
     lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
@@ -71,7 +68,7 @@ open class MainGame : BaseGame() {
         dispo?.dispose()
         dispo = observeCurrentPlayerUseCase.observeStream(
                 onNext = {
-                    playerController.fixColor(it)
+                    playerController.currentPlayerData = it
                 })
 
         commandUsecase.observeStream()
@@ -96,6 +93,9 @@ open class MainGame : BaseGame() {
 //        setScreen(GameScreen(this))
 //        setScreen(GameOverScreen(this))
     }
+
+    @Inject
+    lateinit var box: Box<FieldData>
 
     private fun testFields() {
         Pair(

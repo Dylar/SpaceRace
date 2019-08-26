@@ -2,7 +2,7 @@ package de.bitb.spacerace.model.objecthandling
 
 abstract class GameObject(
         var gamePosition: PositionData = PositionData()
-) : DefaultFunction by DEFAULT {
+) {
 
     open var id: Int = 0
 

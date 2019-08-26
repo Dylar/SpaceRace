@@ -7,13 +7,11 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
-import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
+import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
-import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
-import javax.inject.Inject
 
 class ItemMenu(
         guiStage: GameGuiStage
@@ -22,7 +20,7 @@ class ItemMenu(
     private lateinit var itemDetails: ItemDetails
 
     init {
-        val items = playerController.currentPlayer.playerItems.getItemsTypeMap()
+        val items = graphicController.currentPlayer.playerItems.getItemsTypeMap()
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
@@ -50,7 +48,7 @@ class ItemMenu(
         row()
         for (typeList in items) {
             if (typeList.value.isNotEmpty()) {
-                val displayImage = typeList.value[0].getDisplayImage(typeList.value[0])
+                val displayImage = typeList.value[0].getDisplayImage()
                 displayImage.addListener(object : InputListener() {
                     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                         itemDetails = ItemDetails(guiStage, this@ItemMenu, typeList.value)

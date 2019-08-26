@@ -3,14 +3,14 @@ package de.bitb.spacerace.env
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.objecthandling.DEFAULT
-import de.bitb.spacerace.model.objecthandling.DefaultFunction
+import de.bitb.spacerace.model.objecthandling.getPlayerField
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCollection
@@ -28,7 +28,10 @@ val TEST_PLAYER_2 = PlayerColor.GREEN
 val TEST_PLAYER_3 = PlayerColor.PINK
 val DEFAULT_TEST_PLAYER = mutableListOf(TEST_PLAYER_1, TEST_PLAYER_2)
 
-class SpaceEnvironment : DefaultFunction by DEFAULT {
+class SpaceEnvironment {
+
+    @Inject
+    lateinit var graphicController: GraphicController
 
     @Inject
     lateinit var loadGameUsecase: LoadGameUsecase
@@ -158,7 +161,7 @@ class SpaceEnvironment : DefaultFunction by DEFAULT {
             fieldController.getField(groupId, fieldId)
 
     fun getPlayerField(player: PlayerColor = currentPlayerColor): SpaceField =
-            getPlayerField(playerController, fieldController, player)
+            graphicController.getPlayerField(fieldController, player)
 
     fun getRandomConnectedField() =
             (currentPlayer to getPlayerField()).let { (player, currentField) ->

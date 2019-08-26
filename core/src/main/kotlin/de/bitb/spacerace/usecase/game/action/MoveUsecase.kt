@@ -1,26 +1,26 @@
 package de.bitb.spacerace.usecase.game.action
 
-import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.model.objecthandling.DEFAULT
-import de.bitb.spacerace.model.objecthandling.DefaultFunction
+import de.bitb.spacerace.model.objecthandling.getPlayerField
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ExecuteUseCase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
+import de.bitb.spacerace.utils.Logger
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class MoveUsecase @Inject constructor(
         private val getPlayerUsecase: GetPlayerUsecase,
         private val playerController: PlayerController,
+        private val graphicController: GraphicController,
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource
-) : ExecuteUseCase<Pair<PlayerColor, SpaceField>>,
-        DefaultFunction by DEFAULT {
+) : ExecuteUseCase<Pair<PlayerColor, SpaceField>> {
 
     override fun buildUseCaseCompletable(params: Pair<PlayerColor, SpaceField>) =
             params.let { (playerColor, target) ->
@@ -30,7 +30,7 @@ class MoveUsecase @Inject constructor(
 
     private fun move(playerData: PlayerData, targetField: SpaceField): Completable {
         if (canExecute(playerData, targetField)) {
-            val player = getPlayer(playerController, playerData.playerColor)
+            val player = graphicController.getPlayer(playerData.playerColor)
             val playerImage = player.playerImage
             val fieldImage = targetField.fieldImage
 
@@ -51,7 +51,7 @@ class MoveUsecase @Inject constructor(
 
     private fun canExecute(playerData: PlayerData, spaceField: SpaceField): Boolean {
         val sameField = playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
-        val hasConnection = getPlayerField(playerController, fieldController, playerData.playerColor).hasConnectionTo(spaceField)
+        val hasConnection = graphicController.getPlayerField(fieldController, playerData.playerColor).hasConnectionTo(spaceField)
         return hasConnection && (sameField && playerData.phase.isMoving() || playerController.canMove(playerData))
     }
 

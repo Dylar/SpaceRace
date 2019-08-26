@@ -3,16 +3,18 @@ package de.bitb.spacerace.model.space.groups
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.grafik.LineRenderer
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.grafik.LineRenderer
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 
 class ConnectionList(
+        var graphicController: GraphicController,
         var playerController: PlayerController,
-        val mutableList: MutableList<SpaceConnection> = ArrayList())
-    : MutableList<SpaceConnection> by mutableList,
+        val mutableList: MutableList<SpaceConnection> = ArrayList()
+) : MutableList<SpaceConnection> by mutableList,
         Actor() {
 
     val connectedColor = Color(Color.GREEN)
@@ -29,7 +31,7 @@ class ConnectionList(
 
         forEach { con ->
             val currentPlayer = playerController.currentPlayerData
-            with(playerController.getPlayer(currentPlayer.playerColor).gamePosition) {
+            with(graphicController.getPlayer(currentPlayer.playerColor).gamePosition) {
                 con.draw(getColor(con, currentPlayer, this))
             }
         }

@@ -3,6 +3,7 @@ package de.bitb.spacerace.model.items
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.ITEM_BORDER
 import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
@@ -18,6 +19,9 @@ abstract class Item(
         val img: Texture
 ) : GameObject() {
 
+    @Inject
+    protected lateinit var graphicController: GraphicController
+    
     @Inject
     protected lateinit var playerController: PlayerController
 
