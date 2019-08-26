@@ -13,7 +13,7 @@ class GameOverScreen(game: MainGame) : BaseScreen(game, null) {
         return object : BaseStage() {
             override fun draw() {
                 batch.begin()
-                batch.draw(TextureCollection.gameOverBackground, 0f, 0f, SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
+                batch.draw(TextureCollection.gameOverBackground, 0f, 0f, SCREEN_WIDTH, SCREEN_HEIGHT)
                 batch.end()
                 super.draw()
             }

@@ -14,9 +14,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
-import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.player.UseItemCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
@@ -25,15 +23,27 @@ import de.bitb.spacerace.model.items.equip.EquipItem
 import de.bitb.spacerace.model.items.usable.UsableItem
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
+import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
-class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val items: MutableList<Item>) : BaseMenu(guiStage, itemMenu), InputObserver {
+class ItemDetails(
+        guiStage: GameGuiStage,
+        itemMenu: ItemMenu,
+        val items: MutableList<Item>
+) : BaseMenu(guiStage, itemMenu) {
+
+    @Inject
+    protected lateinit var observeCommandUsecase: ObserveCommandUsecase
 
     private lateinit var useBtn: TextButton
     private lateinit var unuseBtn: TextButton
     private lateinit var usedTitle: Cell<Label>
 
     init {
+        MainGame.appComponent.inject(this)
+        initObserver()
+
         addTitle()
         addImage()
         addText()
@@ -42,6 +52,18 @@ class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val items: Mutable
         setPosition()
         setUsedTitle()
         setUseButton()
+    }
+
+    private fun initObserver() {
+        observeCommandUsecase.observeStream { event ->
+            when (event) {
+                is UseItemCommand -> {
+                    setUsedTitle()
+                    setUseButton()
+                    setUnuseButton()
+                }
+            }
+        }
     }
 
     private fun addTitle() {
@@ -156,14 +178,6 @@ class ItemDetails(guiStage: GameGuiStage, itemMenu: ItemMenu, val items: Mutable
                 else -> "-"
             }
             unuseBtn.setText(text)
-        }
-    }
-
-    override fun <T : BaseCommand> update(event: T) {
-        if (event is UseItemCommand) {
-            setUsedTitle()
-            setUseButton()
-            setUnuseButton()
         }
     }
 

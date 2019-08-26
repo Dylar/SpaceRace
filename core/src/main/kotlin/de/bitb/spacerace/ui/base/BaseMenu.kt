@@ -5,8 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING
-import de.bitb.spacerace.controller.InputHandler
-import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.TextureCollection
@@ -19,11 +17,8 @@ import javax.inject.Inject
 abstract class BaseMenu(val guiStage: GameGuiStage,
                         private val previousMenu: BaseMenu? = null)
     : Table(TextureCollection.skin),
-        GuiComponent by guiStage, InputObserver,
+        GuiComponent by guiStage,
         DefaultFunction by DEFAULT {
-
-    @Inject
-    lateinit var inputHandler: InputHandler
 
     @Inject
     lateinit var playerController: PlayerController
@@ -48,23 +43,17 @@ abstract class BaseMenu(val guiStage: GameGuiStage,
     }
 
     open fun openMenu() {
-        inputHandler.addListener(this)
         isOpen = true
         previousMenu?.closeMenu()
         guiStage.addActor(this)
     }
 
     open fun closeMenu() {
-        inputHandler.removeListener(this)
         isOpen = false
     }
 
     open fun onBack() {
         closeMenu()
         previousMenu?.openMenu()
-    }
-
-    override fun <T : BaseCommand> update(event: T) {
-
     }
 }

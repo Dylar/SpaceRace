@@ -6,11 +6,12 @@ import com.badlogic.gdx.input.GestureDetector
 import de.bitb.spacerace.CameraActions.CAMERA_FREE
 import de.bitb.spacerace.CameraActions.CAMERA_LOCKED
 import de.bitb.spacerace.GestureListenerAdapter
-import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.utils.Logger
+import net.bytebuddy.implementation.bind.annotation.SuperCall
 
 
 open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
@@ -189,7 +190,7 @@ open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Scr
         cameraStatus = if (lock) CAMERA_LOCKED else CAMERA_FREE
     }
 
-    fun clear() {
+    open fun clear() {
         backgroundStage.compositDisposable.clear()
         gameStage.compositDisposable.clear()
         guiStage.compositDisposable.clear()

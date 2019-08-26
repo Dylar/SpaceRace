@@ -12,7 +12,6 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CONTINUE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORAGE
-import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
@@ -88,8 +87,8 @@ class GameControl(
             when (event) {
                 is OpenEndRoundMenuCommand -> openEndRoundMenu()
                 is ObtainShopCommand -> openShop()
-                is UseItemCommand -> itemMenu.update(event)
-                is BuyItemCommand, is SellItemCommand -> shopMenu.update(event)
+//                is UseItemCommand -> itemMenu.update(event)
+//                is BuyItemCommand, is SellItemCommand -> shopMenu.update(event)
             }
         }
     }

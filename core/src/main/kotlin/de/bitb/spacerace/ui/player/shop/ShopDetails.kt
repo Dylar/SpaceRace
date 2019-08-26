@@ -15,18 +15,24 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_BUY
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_SELL
-import de.bitb.spacerace.controller.InputObserver
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
+import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
-class ShopDetails(guiStage: GameGuiStage, shopMenu: ShopMenu, val item: Item)
-    : BaseMenu(guiStage, shopMenu), InputObserver {
+class ShopDetails(
+        guiStage: GameGuiStage,
+        shopMenu: ShopMenu,
+        val item: Item
+) : BaseMenu(guiStage, shopMenu) {
+
+    @Inject
+    protected lateinit var observeCommandUsecase: ObserveCommandUsecase
 
     private lateinit var buyBtn: TextButton
     private lateinit var sellBtn: TextButton
@@ -34,6 +40,8 @@ class ShopDetails(guiStage: GameGuiStage, shopMenu: ShopMenu, val item: Item)
 
     init {
         MainGame.appComponent.inject(this)
+        initObserver()
+
         addTitle()
         addImage()
         addText()
@@ -115,11 +123,15 @@ class ShopDetails(guiStage: GameGuiStage, shopMenu: ShopMenu, val item: Item)
         creditsTitle.actor.setText("${item.price} ($items)")
     }
 
-    override fun <T : BaseCommand> update(event: T) {
-        when (event) {
-            is BuyItemCommand,
-            is SellItemCommand -> setCreditsTitle(getPlayerItems(playerController, event.playerData.playerColor).getItems(item.itemType).size)
+    fun initObserver() {
+        observeCommandUsecase.observeStream { event ->
+            when (event) {
+                is BuyItemCommand,
+                is SellItemCommand
+                -> setCreditsTitle(getPlayerItems(playerController, event.playerData.playerColor).getItems(item.itemType).size)
+            }
         }
+
     }
 
 }

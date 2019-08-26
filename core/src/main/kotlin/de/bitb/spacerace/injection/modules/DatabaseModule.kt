@@ -21,19 +21,28 @@ class DatabaseModule(
         private val mockDb: BoxStore? = null
 ) {
 
+    private lateinit var boxStore: BoxStore
+
     @Provides
     @Singleton
     fun provideDatabase(): BoxStore =
-            if (mockDb == null) {
-                BoxStore.deleteAllFiles(File(DEFAULT_NAME))
+            mockDb ?: run {
+                if (!::boxStore.isInitialized || boxStore.isClosed) {
+                    BoxStore.deleteAllFiles(File(DEFAULT_NAME))
+                    boxStore = MyObjectBox.builder().build()
+                }
+
+                boxStore
+
 //        val boxStore = MyObjectBox.builder().build()
 //        if (BuildConfig.DEBUG) {
 //            AndroidObjectBrowser(boxStore).start(application)
 //        }
 //        return boxStore
 //        return BoxStore.getDefault();
-                MyObjectBox.builder().build()
-            } else mockDb
+
+            }
+
 
     @Provides
     @Singleton

@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$gdx.roboVMVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.20"
@@ -162,23 +162,6 @@ project(":core") {
         implementation "com.badlogicgames.gdx:gdx:$gdx.version"
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdx.version"
 
-
-//        ██╗███╗   ██╗     ██╗███████╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗
-//        ██║████╗  ██║     ██║██╔════╝██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║
-//        ██║██╔██╗ ██║     ██║█████╗  ██║        ██║   ██║██║   ██║██╔██╗ ██║
-//        ██║██║╚██╗██║██   ██║██╔══╝  ██║        ██║   ██║██║   ██║██║╚██╗██║
-//        ██║██║ ╚████║╚█████╔╝███████╗╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║
-//        ╚═╝╚═╝  ╚═══╝ ╚════╝ ╚══════╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
-
-//        implementation "com.google.dagger:dagger:$daggerVersion"
-//        kapt("com.google.dagger:dagger-compiler:$daggerVersion")
-
-//        // Koin for Kotlin
-//        implementation "org.koin:koin-core:$koin_version"
-//        // Koin extended & experimental features
-//        implementation "org.koin:koin-core-ext:$koin_version"
-
-
 //        ██████╗ ███████╗ █████╗  ██████╗████████╗██╗██╗   ██╗
 //        ██╔══██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝██║██║   ██║
 //        ██████╔╝█████╗  ███████║██║        ██║   ██║██║   ██║
@@ -227,76 +210,10 @@ project(":core") {
 
         testImplementation "junit:junit:$testing.junit"
         testImplementation "io.mockk:mockk:$testing.mockkVersion"
-
-//        kaptTest ("com.google.dagger:dagger-compiler:$daggerVersion")
-//        testImplementation ("com.google.dagger:dagger:$daggerVersion")
-
-// Koin for Unit tests
-//        testImplementation "org.koin:koin-test:$koin_version"
-
-
-//        api "com.google.dagger:dagger:$daggerVersion"
-//        kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-//        testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-//        kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
-
-        /////DAGGER/////
-//// Dagger
-//        implementation "com.google.dagger:dagger:$daggerVersion"
-////        annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-//        kapt("com.google.dagger:dagger-compiler:$daggerVersion")
-//
-//// Test Dagger
-//        testImplementation "com.google.dagger:dagger:$daggerVersion"
-////        testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-//        kaptTest("com.google.dagger:dagger-compiler:$daggerVersion")
     }
 
     apply from: '../core/CoreDependency.gradle'
 
-}
-
-project(":tests") {
-    apply plugin: "java"
-
-    sourceSets.test.java.srcDirs = ["src/"]
-
-    dependencies {
-
-        /**
-         * If you do have some classes to test in os specific code you may want to uncomment
-         * some of these lines.
-         *
-         * BUT: I recommend to create seperate test sub projects for each platform. Trust me :)
-         *
-         */
-
-//        compile project(":android")
-//        compile project(":html")
-//        compile project(":desktop")
-
-
-//        if(System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
-//        	compile project(":ios")
-//        }
-
-        implementation project(":core")
-//
-//        implementation "junit:junit:4.+"
-//        implementation "org.mockito:mockito-all:1.9.+"
-//
-//        implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
-//        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-//
-//        testImplementation 'junit:junit:4.+'
-//        testImplementation "org.mockito:mockito-all:1.9.+"
-//
-//        testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
-//        testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-//        testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-
-
-    }
 }
 
 tasks.eclipse.doLast {

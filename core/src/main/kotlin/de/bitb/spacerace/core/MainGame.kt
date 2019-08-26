@@ -2,11 +2,9 @@ package de.bitb.spacerace.core
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.WIN_AMOUNT
-import de.bitb.spacerace.controller.InputHandler
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -20,10 +18,12 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.start.StartScreen
+import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.usecase.game.observe.ObserveRoundUsecase
 import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
-import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
+import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
+import de.bitb.spacerace.utils.Logger
 import io.objectbox.Box
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -53,8 +53,7 @@ open class MainGame : BaseGame() {
     lateinit var box: Box<FieldData>
 
     @Inject
-    lateinit var inputHandler: InputHandler
-
+    lateinit var observeCommandUsecase: ObserveCommandUsecase
     @Inject
     lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
     @Inject
@@ -75,11 +74,7 @@ open class MainGame : BaseGame() {
                     playerController.fixColor(it)
                 })
 
-        commandUsecase.observeStream(
-                onNext = {
-                    inputHandler.notifyObserver(it)
-                }
-        )
+        commandUsecase.observeStream()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -192,9 +187,21 @@ open class MainGame : BaseGame() {
     fun initGameObserver() {
         initWinnerObserver()
         initPhaseObserver()
+        initGameOverObserver()
     }
 
-     fun initWinnerObserver() {
+    private fun initGameOverObserver() {
+        observeCommandUsecase.observeStream { event ->
+            when (event) {
+                is GameOverCommand -> {
+                    clear()
+                    changeScreen(GameOverScreen(this))
+                }
+            }
+        }
+    }
+
+    fun initWinnerObserver() {
         compositeDisposable += observeWinnerUsecase.observeStream(
                 params = WIN_AMOUNT,
                 onNext = { winner ->
@@ -203,19 +210,11 @@ open class MainGame : BaseGame() {
                 })
     }
 
-     fun initPhaseObserver() {
+    fun initPhaseObserver() {
         compositeDisposable += observeRoundUsecase.observeStream(
                 onNext = { isNext ->
                     //                    Logger.println("observeRoundUsecase: NEXT ROUND: $isNext")
                 })
-    }
-
-    fun endGameDELETE_ME() {
-        //TODO do this as "command"
-        clear()
-        inputHandler.removeListener()
-
-        changeScreen(GameOverScreen(this))
     }
 
 }

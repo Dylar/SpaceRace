@@ -15,8 +15,4 @@ class ControllerModule {
 //        return FieldController(playerController)
 //    }
 
-//    @Provides
-//    @Singleton
-//    fun provideInputHandler() = InputHandler()
-
 }

@@ -7,6 +7,9 @@ import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.GameImage
+import io.objectbox.BoxStore
+import io.objectbox.BoxStoreBuilder
+import java.io.File
 import javax.inject.Inject
 
 class GameScreen(
@@ -18,6 +21,8 @@ class GameScreen(
         MainGame.appComponent.inject(this)
     }
 
+    @Inject
+    protected lateinit var boxStore: BoxStore
     @Inject
     protected lateinit var fieldController: FieldController
     @Inject
@@ -47,5 +52,11 @@ class GameScreen(
     fun onZoomMinusClicked() {
         currentZoom++
         zoom()
+    }
+
+    override fun clear() {
+        super.clear()
+//        boxStore.close()
+//        BoxStore.deleteAllFiles(File(BoxStoreBuilder.DEFAULT_NAME))
     }
 }

@@ -71,10 +71,4 @@ class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
         setFont(cellBtn.actor)
     }
 
-    override fun <T : BaseCommand> update(event: T) {
-        if (::shopDetails.isInitialized) {
-            shopDetails.update(event)
-        }
-    }
-
 }
