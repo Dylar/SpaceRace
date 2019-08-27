@@ -113,7 +113,8 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainField(playerData: PlayerData): PlayerData =
-            graphicController.getPlayerField(fieldController, playerData.playerColor)
+            graphicController
+                    .getPlayerField(fieldController, playerData.playerColor)
                     .apply {
                         val items =
                                 mutableListOf<Item>().apply { addAll(disposedItems) }

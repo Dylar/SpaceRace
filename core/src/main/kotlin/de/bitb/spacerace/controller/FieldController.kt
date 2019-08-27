@@ -7,7 +7,7 @@ import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.Player
+import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
@@ -46,21 +46,15 @@ class FieldController
     }
 
     fun getField(positionData: PositionData): SpaceField {
-        return fields.find { it.gamePosition.isPosition(positionData) } ?: SpaceField.NONE
+        return fields.find { it.gamePosition.isPosition(positionData) } ?: NONE_FIELD
     }
 
     fun getField(item: Item): SpaceField {
-        return fields.find { it.disposedItems.contains(item) } ?: SpaceField.NONE
+        return fields.find { it.disposedItems.contains(item) } ?: NONE_FIELD
     }
 
     fun addFieldMap(spaceField: SpaceField) {
         fieldsMap[spaceField.fieldType]!!.add(spaceField)
-    }
-
-    fun addShip(player: Player, spaceField: SpaceField) {
-        player.setPosition(spaceField.gamePosition)
-        player.getGameImage().color = player.playerColor.color
-        player.getGameImage().followImage = spaceField.fieldImage
     }
 
     fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {

@@ -9,7 +9,6 @@ import de.bitb.spacerace.core.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.player.MoveCommand
-import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.SpaceGroup
@@ -38,10 +37,9 @@ class LoadGameUsecase @Inject constructor(
 
                         graphicController.clearPlayer()
                         val startField = map.startField
-                        players.withIndex()
-                                .forEach {
-                                    addPlayer(it, startField)
-                                }
+                        players.forEach {
+                            addPlayer(it, startField)
+                        }
                         players
                     }
                     .doAfterSuccess {
@@ -105,11 +103,8 @@ class LoadGameUsecase @Inject constructor(
         fieldController.addFieldMap(spaceField)
     }
 
-    private fun addPlayer(playerData: IndexedValue<PlayerData>, startField: SpaceField) {
-        val player = Player(playerData.value.playerColor)
-
-        graphicController.addPlayer(player)
+    private fun addPlayer(playerData: PlayerData, startField: SpaceField) {
+        graphicController.addPlayer(playerData, startField)
 //        player.playerImage.movingSpeed * playerData.index
-        fieldController.addShip(player, startField)
     }
 }

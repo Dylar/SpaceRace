@@ -39,14 +39,16 @@ class MoveUsecase @Inject constructor(
 
             playerData.setSteps(playerData, targetField)
             player.gamePosition.setPosition(targetField.gamePosition)
+
+            Logger.println(
+                    "Player: $playerData",
+                    "Field: ${targetField.fieldType.name}, ${targetField.id}"
+            )
+
+            return playerDataSource.insertAll(playerData)
         }
 
-        Logger.println(
-                "Player: $playerData",
-                "Field: ${targetField.fieldType.name}, ${targetField.id}"
-        )
-
-        return playerDataSource.insertAll(playerData)
+        return Completable.complete()
     }
 
     private fun canExecute(playerData: PlayerData, spaceField: SpaceField): Boolean {

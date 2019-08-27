@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.player.PlayerColor
 
 fun GraphicController.getPlayerImage(playerColor: PlayerColor) =

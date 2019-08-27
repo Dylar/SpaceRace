@@ -2,7 +2,7 @@ package de.bitb.spacerace.model.objecthandling
 
 import io.objectbox.annotation.Id
 
-
+val NONE_POSITION = PositionData()
 //@Entity
 data class PositionData(
         var posX: Float = 0f,

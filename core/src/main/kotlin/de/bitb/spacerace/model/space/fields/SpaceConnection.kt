@@ -6,7 +6,10 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.GAME_CONNEC
 import de.bitb.spacerace.grafik.LineRenderer
 import de.bitb.spacerace.model.objecthandling.PositionData
 
-class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) {
+class SpaceConnection(
+        val spaceField1: SpaceField,
+        val spaceField2: SpaceField
+) {
 
     var reverse = false
     var index = 0
@@ -28,8 +31,10 @@ class SpaceConnection(val spaceField1: SpaceField, val spaceField2: SpaceField) 
     }
 
     fun isConnection(spaceField1: SpaceField, spaceField2: SpaceField): Boolean {
-        return this.spaceField1.gamePosition.isPosition(spaceField1.gamePosition) && this.spaceField2.gamePosition.isPosition(spaceField2.gamePosition)
-                || this.spaceField2.gamePosition.isPosition(spaceField1.gamePosition) && this.spaceField1.gamePosition.isPosition(spaceField2.gamePosition)
+        return this.spaceField1.gamePosition.isPosition(spaceField1.gamePosition) &&
+                this.spaceField2.gamePosition.isPosition(spaceField2.gamePosition)
+                || this.spaceField2.gamePosition.isPosition(spaceField1.gamePosition) &&
+                this.spaceField1.gamePosition.isPosition(spaceField2.gamePosition)
     }
 
     fun getOpposite(fieldPosition: SpaceField): SpaceField {

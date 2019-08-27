@@ -5,18 +5,20 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
+import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
+
+val NONE_FIELD: SpaceField = SpaceField()
 
 open class SpaceField(
         val fieldType: FieldType = FieldType.UNKNOWN,
         val fieldImage: FieldImage = FieldImage(fieldType),
-        positionData: PositionData = PositionData())
-    : GameObject(positionData),
+        positionData: PositionData = PositionData()
+) : GameObject(positionData),
         IBlinkingImage by fieldImage {
 
     companion object {
-        val NONE: SpaceField = SpaceField()
 
         fun createField(fieldType: FieldType): SpaceField {
             return when (fieldType) {
