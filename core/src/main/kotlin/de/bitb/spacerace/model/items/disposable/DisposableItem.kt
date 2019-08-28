@@ -41,7 +41,8 @@ abstract class DisposableItem(
                 attachedTo = playerColor
                 val playerImage = graphicController.getPlayerImage(playerColor)
                 graphicController.getPlayerItems(playerColor).attachItem(this)
-                fieldController.getField(graphicController.getPlayerPosition(playerColor)).attachItem(this)
+                graphicController.getPlayerField(playerColor)
+//                fieldController.getField(graphicController.getPlayerPosition(playerColor)).attachItem(this)
                 this.itemImage.setRotating(this, playerImage, playerImage.width * 0.7)
                 true
             }

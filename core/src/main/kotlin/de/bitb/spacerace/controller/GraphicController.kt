@@ -1,6 +1,7 @@
 package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.Player
@@ -24,13 +25,13 @@ class GraphicController
     fun getPlayer(playerColor: PlayerColor) =
             players.find { playerColor == it.playerColor } ?: NONE_PLAYER
 
-    fun getField(gamePosition: PositionData) = fields[gamePosition] ?: NONE_FIELD
+    fun getField(gamePosition: PositionData) =
+            fields.keys.find { it.isPosition(gamePosition) }
+                    ?.let { fields[it] }
+                    ?: NONE_FIELD
+
     fun getPlayerField(playerColor: PlayerColor) =
-            getPlayer(playerColor).gamePosition.let { playerPosition ->
-                fields.keys.find { it.isPosition(playerPosition) }
-                        ?.let { fields[it] }
-                        ?: NONE_FIELD
-            }
+            getField(getPlayer(playerColor).gamePosition)
 
     fun addPlayer(playerData: PlayerData, startField: SpaceField) {
         val color = playerData.playerColor

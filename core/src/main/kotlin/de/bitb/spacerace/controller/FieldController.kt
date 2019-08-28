@@ -29,28 +29,28 @@ class FieldController
     var spaceMap: MapCollection = MapCollection.RANDOM
 
     var currentGoal: SpaceField? = null
-
-    var fields: MutableList<SpaceField> = mutableListOf()
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
+
     var connections: ConnectionList = ConnectionList(graphicController, playerController)
 
     init {
         MainGame.appComponent.inject(this)
-        clearField()
-    }
-
-    fun clearField() {
-//        fields.forEach { it.fieldImage.remove() }
-        fields.clear()
+//        clearField()
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
     }
 
-    fun getField(positionData: PositionData): SpaceField {
-        return fields.find { it.gamePosition.isPosition(positionData) } ?: NONE_FIELD
-    }
+//    fun clearField() {
+////        fields.forEach { it.fieldImage.remove() }
+//        fields.clear()
+//        FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
+//    }
+
+    fun getField(groupId: Int, fieldId: Int) = map.groups[groupId].getField(fieldId)
 
     fun getField(item: Item): SpaceField {
-        return fields.find { it.disposedItems.contains(item) } ?: NONE_FIELD
+        return graphicController.fields.values
+                .filter { it.disposedItems.contains(item) }
+                .firstOrNull() ?: NONE_FIELD
     }
 
     fun addFieldMap(spaceField: SpaceField) {
@@ -81,7 +81,8 @@ class FieldController
         }
 
         val fieldList: MutableList<SpaceField> = ArrayList()
-        fields.filter { it.disposedItems.isNotEmpty() }
+        graphicController.fields.values
+                .filter { it.disposedItems.isNotEmpty() }
                 .forEach { fieldList.add(it) }
 
         fieldList.forEach { field: SpaceField ->
@@ -102,7 +103,5 @@ class FieldController
         currentGoal?.fieldImage?.setBlinkColor(Color(currentGoal?.fieldType?.color))
 
     }
-
-    fun getField(groupId: Int, fieldId: Int) = map.groups[groupId].getField(fieldId)
 
 }

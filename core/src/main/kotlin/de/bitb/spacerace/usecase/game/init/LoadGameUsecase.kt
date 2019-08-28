@@ -74,7 +74,6 @@ class LoadGameUsecase @Inject constructor(
 
 
     private fun initMap(): SpaceMap {
-        fieldController.clearField()
         return fieldController.spaceMap
                 .createMap()
                 .also {
@@ -100,7 +99,6 @@ class LoadGameUsecase @Inject constructor(
             }
         })
         graphicController.addField(spaceField)
-        fieldController.fields.add(spaceField)
         fieldController.addFieldMap(spaceField)
     }
 
