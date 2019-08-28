@@ -10,7 +10,6 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.objecthandling.getPlayerField
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCollection
@@ -161,7 +160,7 @@ class SpaceEnvironment {
             fieldController.getField(groupId, fieldId)
 
     fun getPlayerField(player: PlayerColor = currentPlayerColor): SpaceField =
-            graphicController.getPlayerField(fieldController, player)
+            graphicController.getPlayerField(player)
 
     fun getRandomConnectedField() =
             (currentPlayer to getPlayerField()).let { (player, currentField) ->

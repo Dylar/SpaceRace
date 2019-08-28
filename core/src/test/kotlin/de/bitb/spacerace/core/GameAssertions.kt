@@ -21,9 +21,7 @@ fun SpaceEnvironment.assertCurrentPhase(phase: Phase) =
 fun SpaceEnvironment.assertDiceResult(
         diceResult: Int,
         player: PlayerColor = currentPlayerColor) =
-        getDBPlayer(player) {
-            playerController.stepsLeft(it) == diceResult
-        }
+        getDBPlayer(player) { it.stepsLeft() == diceResult }
 
 fun SpaceEnvironment.assertSameField(field1: SpaceField, field2: SpaceField) =
         assertThat(field1, `is`(field2))

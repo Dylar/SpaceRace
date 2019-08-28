@@ -1,5 +1,6 @@
 package de.bitb.spacerace.exceptions
 
+import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 
@@ -11,8 +12,27 @@ class NotCurrentPlayerException(
         val player: PlayerColor
 ) : GameException("$player is not current player")
 
-class NotMovableException(
+class PlayerNotInPhaseException(
         val player: PlayerColor,
-        val field: SpaceField
-) : GameException("$player can not move to $field")
+        val phase: Phase
+) : GameException("$player not in phase $phase")
+
+
+sealed class NotMovableException(
+        val player: PlayerColor,
+        val field: SpaceField,
+        reason: String
+) : GameException("$player can not move to $field - $reason")
+
+class FieldsNotConnectedException(
+        player: PlayerColor,
+        field: SpaceField
+) : NotMovableException(player, field, "not connected")
+
+class NoStepsLeftException(
+        player: PlayerColor,
+        field: SpaceField
+) : NotMovableException(player, field, "no steps left")
+
+
 

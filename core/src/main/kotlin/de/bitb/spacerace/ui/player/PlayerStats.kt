@@ -96,8 +96,8 @@ class PlayerStats(
     }
 
     private fun updateDice(playerData: PlayerData) {
-        val maxSteps = playerController.getMaxSteps(playerData)
-        val diceResult = "${(maxSteps - playerController.stepsLeft(playerData))}/$maxSteps"
+        val maxSteps = playerData.getMaxSteps()
+        val diceResult = "${(maxSteps - playerData.stepsLeft())}/$maxSteps"
         diceLabel.setText(diceResult)
     }
 

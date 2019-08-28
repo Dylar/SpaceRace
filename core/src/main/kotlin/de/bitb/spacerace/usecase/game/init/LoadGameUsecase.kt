@@ -32,10 +32,10 @@ class LoadGameUsecase @Inject constructor(
                     .flatMap { playerDataSource.getAll() }
                     .flatMap { insertNewPlayer(it, params) }
                     .map { players ->
+                        graphicController.clearGraphics()
 
                         val map = initMap()
 
-                        graphicController.clearPlayer()
                         val startField = map.startField
                         players.forEach {
                             addPlayer(it, startField)
@@ -99,6 +99,7 @@ class LoadGameUsecase @Inject constructor(
                 return true
             }
         })
+        graphicController.addField(spaceField)
         fieldController.fields.add(spaceField)
         fieldController.addFieldMap(spaceField)
     }

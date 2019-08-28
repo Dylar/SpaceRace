@@ -1,17 +1,13 @@
 package de.bitb.spacerace.model.items.disposable
 
 import com.badlogic.gdx.graphics.Texture
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
-import de.bitb.spacerace.model.objecthandling.getPlayerField
 import de.bitb.spacerace.model.objecthandling.getPlayerImage
 import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
-import javax.inject.Inject
 
 abstract class DisposableItem(
         owner: PlayerColor,
@@ -34,7 +30,7 @@ abstract class DisposableItem(
         val playerColor = playerData.playerColor
         return when (state) {
             ItemState.STORAGE -> {
-                val field = graphicController.getPlayerField(fieldController, playerColor)
+                val field = graphicController.getPlayerField( playerColor)
                 val fieldImage = field.getGameImage()
                 this.itemImage.setRotating(this, fieldImage, fieldImage.width * 0.7)
                 field.disposeItem(this)

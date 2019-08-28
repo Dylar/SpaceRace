@@ -18,7 +18,7 @@ fun GameException.assertMoveException(error: Throwable) =
             this is NotCurrentPlayerException && error is NotCurrentPlayerException
             -> this.player == error.player
             this is NotMovableException && error is NotMovableException
-            -> this.player == error.player && this.field == error.field
+            -> this.player == error.player && this.field == error.field && this::class == error::class
             else
             -> this::class == error::class
         }

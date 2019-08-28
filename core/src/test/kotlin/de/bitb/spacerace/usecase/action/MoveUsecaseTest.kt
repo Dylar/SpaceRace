@@ -5,7 +5,7 @@ import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.TEST_PLAYER_2
 import de.bitb.spacerace.exceptions.NotCurrentPlayerException
-import de.bitb.spacerace.exceptions.NotMovableException
+import de.bitb.spacerace.exceptions.PlayerNotInPhaseException
 import de.bitb.spacerace.model.enums.Phase
 import org.junit.Test
 
@@ -18,7 +18,6 @@ class MoveUsecaseTest : GameTest() {
                     initGame()
                     setToMovePhase()
                     dice()
-
 
                     val target = defaultField1
                     var position = currentPosition
@@ -55,7 +54,6 @@ class MoveUsecaseTest : GameTest() {
                 .apply {
                     initGame()
 
-
                     val target = defaultField1
                     var position = currentPosition
 
@@ -78,7 +76,7 @@ class MoveUsecaseTest : GameTest() {
                         move(TEST_PLAYER_2, target, NotCurrentPlayerException(TEST_PLAYER_2))
                         check()
                         //move player 1 -> failed
-                        move(TEST_PLAYER_1, target, NotMovableException(TEST_PLAYER_1, target))
+                        move(TEST_PLAYER_1, target, PlayerNotInPhaseException(TEST_PLAYER_1, Phase.MOVE))
                         check()
                     }
 
@@ -95,7 +93,6 @@ class MoveUsecaseTest : GameTest() {
                 .apply {
                     initGame()
                     setToMain2Phase()
-
 
                     val target = defaultField2
                     var position = currentPosition
@@ -119,7 +116,7 @@ class MoveUsecaseTest : GameTest() {
                         move(TEST_PLAYER_2, target, NotCurrentPlayerException(TEST_PLAYER_2))
                         check()
                         //move player 1 -> failed
-                        move(TEST_PLAYER_1, target, NotMovableException(TEST_PLAYER_1, target))
+                        move(TEST_PLAYER_1, target, PlayerNotInPhaseException(TEST_PLAYER_1, Phase.MOVE))
                         check()
                     }
 
@@ -130,5 +127,7 @@ class MoveUsecaseTest : GameTest() {
                 }
     }
 
+    //TODO test NoStepsLeftException
+    //TODO test FieldsNotConnectedException
 
 }

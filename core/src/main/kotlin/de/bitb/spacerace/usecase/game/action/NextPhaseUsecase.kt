@@ -3,7 +3,6 @@ package de.bitb.spacerace.usecase.game.action
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
@@ -13,7 +12,6 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
-import de.bitb.spacerace.model.objecthandling.getPlayerField
 import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
@@ -30,7 +28,6 @@ import javax.inject.Inject
 class NextPhaseUsecase @Inject constructor(
         private val graphicController: GraphicController,
         private val getPlayerUsecase: GetPlayerUsecase,
-        private val playerController: PlayerController,
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource,
         private var playerColorDispender: PlayerColorDispender
@@ -68,11 +65,11 @@ class NextPhaseUsecase @Inject constructor(
             }
 
     private fun canEndMain1(playerData: PlayerData): Boolean {
-        return playerData.phase.isMain1() && playerController.areStepsLeft(playerData)
+        return playerData.phase.isMain1() && playerData.areStepsLeft()
     }
 
     private fun canEndMove(playerData: PlayerData): Boolean {
-        return !playerController.canMove(playerData)
+        return !playerData.canMove()
     }
 
     private fun canEndMain2(playerData: PlayerData): Boolean {
@@ -81,7 +78,7 @@ class NextPhaseUsecase @Inject constructor(
 
 
     private fun startMove(): (PlayerData) -> PlayerData = {
-        it.apply { steps.add(graphicController.getPlayerField(fieldController, it.playerColor).gamePosition) }
+        it.apply { steps.add(graphicController.getPlayerField(it.playerColor).gamePosition) }
     }
 
     private fun startMain2(): (PlayerData) -> PlayerData = {
@@ -114,7 +111,7 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun obtainField(playerData: PlayerData): PlayerData =
             graphicController
-                    .getPlayerField(fieldController, playerData.playerColor)
+                    .getPlayerField(playerData.playerColor)
                     .apply {
                         val items =
                                 mutableListOf<Item>().apply { addAll(disposedItems) }
@@ -138,7 +135,7 @@ class NextPhaseUsecase @Inject constructor(
                     .let { playerData }
 
     private fun obtainGoalCommand(playerData: PlayerData) {
-        if (fieldController.currentGoal == graphicController.getPlayerField(fieldController, playerData.playerColor)) {
+        if (fieldController.currentGoal == graphicController.getPlayerField(playerData.playerColor)) {
             playerData.apply {
                 credits += GOAL_CREDITS
                 victories++
@@ -165,7 +162,7 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainMineCommand(playerData: PlayerData) {
-        (graphicController.getPlayerField(fieldController, playerData.playerColor) as MineField)
+        (graphicController.getPlayerField(playerData.playerColor) as MineField)
                 .apply { owner = playerData.playerColor }
     }
 

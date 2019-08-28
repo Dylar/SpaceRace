@@ -43,7 +43,7 @@ class ConnectionList(
         val isConnected = con.isConnected(positionData)
         var color = disconnectedColor
         if (isConnected) {
-            val canMove = playerController.canMove(playerData)
+            val canMove = playerData.canMove()
             if (canMove || playerData.phase.isMoving() && con.isConnected(playerData.previousStep)) {
                 color = connectedColor
             }

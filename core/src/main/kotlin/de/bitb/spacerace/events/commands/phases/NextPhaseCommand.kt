@@ -30,11 +30,11 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
             }
 
     private fun canEndMain1(playerData: PlayerData): Boolean {
-        return playerData.phase.isMain1() && playerController.areStepsLeft(playerData)
+        return playerData.phase.isMain1() && playerData.areStepsLeft()
     }
 
     private fun canEndMove(playerData: PlayerData): Boolean {
-        return !playerController.canMove(playerData)
+        return !playerData.canMove()
     }
 
     private fun canEndMain2(playerData: PlayerData): Boolean {

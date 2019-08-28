@@ -16,9 +16,6 @@ fun GraphicController.getPlayerPosition(playerColor: PlayerColor) =
 
 fun GraphicController.getPlayerItems(playerColor: PlayerColor) = getPlayer(playerColor).playerItems
 
-fun GraphicController.getPlayerField(fieldController: FieldController, playerColor: PlayerColor) =
-        fieldController.getField(getPlayerPosition(playerColor))
-
 fun GameObject.getDisplayImage(posX: Float = 0f,
                                posY: Float = 0f,
                                color: Color = Color(1f, 1f, 1f, 1f),

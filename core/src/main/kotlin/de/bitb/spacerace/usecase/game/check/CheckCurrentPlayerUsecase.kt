@@ -13,9 +13,9 @@ class CheckCurrentPlayerUsecase @Inject constructor(
 ) : ExecuteUseCase<PlayerColor> {
 
     override fun buildUseCaseCompletable(params: PlayerColor): Completable =
-            Completable.create {
+            Completable.create { emitter ->
                 val currentPlayer = playerColorDispender.publisher.value
-                if (params == currentPlayer) it.onComplete()
-                else it.onError(NotCurrentPlayerException(params))
+                if (params == currentPlayer) emitter.onComplete()
+                else emitter.onError(NotCurrentPlayerException(params))
             }
 }

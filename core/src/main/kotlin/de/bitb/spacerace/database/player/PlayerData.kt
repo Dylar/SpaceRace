@@ -7,16 +7,14 @@ import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionDataConverter
-import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
-import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
-import io.objectbox.relation.ToOne
 
 val NONE_PLAYER_DATA: PlayerData = PlayerData()
 
@@ -48,7 +46,7 @@ data class PlayerData(
 
     val previousStep: PositionData
         get() = steps.let {
-            if (it.size < 2) PositionData() else it[it.size - 2]
+            if (it.size < 2) NONE_POSITION else it[it.size - 2]
         }
 
     fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
@@ -90,4 +88,24 @@ data class PlayerData(
         phase = Phase.next(phase)
     }
 
+
+    fun stepsLeft(): Int =
+            getMaxSteps() - (if (steps.isEmpty()) 0 else steps.size - 1)
+
+    fun areStepsLeft(): Boolean =
+            stepsLeft() > 0
+
+    fun canMove(): Boolean =
+            phase.isMoving() && areStepsLeft()
+
+    fun getMaxSteps(): Int = diceResults.sum().let { result -> if (diceResults.isNotEmpty() && result <= 0) 1 else result }
+
+    fun isPreviousPosition(fieldPosition: PositionData) = steps.size > 1 && previousStep.isPosition(fieldPosition)
+//            playerController.getPlayerItems(playerColor).getModifierValues(1) //TODO do item shit
+//                    .let { (mod, add) ->
+//                        val diceResult = diceResults.sum()
+//                        val result = (diceResult * mod + add).toInt()
+//
+//                        if (diceResults.isNotEmpty() && result <= 0) 1 else result
+//                    }
 }
