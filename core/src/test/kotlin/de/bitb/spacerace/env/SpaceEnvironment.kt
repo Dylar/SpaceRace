@@ -211,14 +211,13 @@ class SpaceEnvironment {
     fun move(player: PlayerColor = currentPlayerColor,
              target: SpaceField = defaultField1,
              error: GameException? = null) {
-        moveUsecase.buildUseCaseCompletable(player to target)
+        moveUsecase.buildUseCaseSingle(player to target)
                 .test()
                 .await()
                 .apply {
                     if (error == null) assertComplete()
                     else assertError { error.assertMoveException(it) }
                 }
-                .assertComplete()
         waitForIt()
     }
 

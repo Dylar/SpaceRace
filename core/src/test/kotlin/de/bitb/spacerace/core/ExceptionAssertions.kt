@@ -2,6 +2,7 @@ package de.bitb.spacerace.core
 
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.exceptions.NotCurrentPlayerException
+import de.bitb.spacerace.exceptions.NotMovableException
 
 
 fun GameException.assertDiceException(error: Throwable) =
@@ -14,6 +15,10 @@ fun GameException.assertDiceException(error: Throwable) =
 
 fun GameException.assertMoveException(error: Throwable) =
         when {
+            this is NotCurrentPlayerException && error is NotCurrentPlayerException
+            -> this.player == error.player
+            this is NotMovableException && error is NotMovableException
+            -> this.player == error.player && this.field == error.field
             else
             -> this::class == error::class
         }

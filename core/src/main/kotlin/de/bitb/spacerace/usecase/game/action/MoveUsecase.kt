@@ -5,56 +5,66 @@ import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
+import de.bitb.spacerace.exceptions.NotMovableException
 import de.bitb.spacerace.model.objecthandling.getPlayerField
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.usecase.ExecuteUseCase
+import de.bitb.spacerace.usecase.ResultUseCase
+import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.utils.Logger
-import io.reactivex.Completable
+import io.reactivex.Single
 import javax.inject.Inject
 
 class MoveUsecase @Inject constructor(
+        private val checkCurrentPlayerUsecase: CheckCurrentPlayerUsecase,
         private val getPlayerUsecase: GetPlayerUsecase,
         private val playerController: PlayerController,
         private val graphicController: GraphicController,
         private val fieldController: FieldController,
         private val playerDataSource: PlayerDataSource
-) : ExecuteUseCase<Pair<PlayerColor, SpaceField>> {
+) : ResultUseCase<Pair<PlayerData, SpaceField>, Pair<PlayerColor, SpaceField>> {
 
-    override fun buildUseCaseCompletable(params: Pair<PlayerColor, SpaceField>) =
+    override fun buildUseCaseSingle(params: Pair<PlayerColor, SpaceField>): Single<Pair<PlayerData, SpaceField>> =
             params.let { (playerColor, target) ->
-                getPlayerUsecase.buildUseCaseSingle(playerColor)
-                        .flatMapCompletable { move(it, target) }
+                checkCurrentPlayerUsecase.buildUseCaseCompletable(playerColor)
+                        .andThen(getPlayerUsecase.buildUseCaseSingle(playerColor))
+                        .flatMap { checkMoveable(it, target) }
+                        .flatMap { move(it, target) }
             }
 
-    private fun move(playerData: PlayerData, targetField: SpaceField): Completable {
-        if (canExecute(playerData, targetField)) {
-            val player = graphicController.getPlayer(playerData.playerColor)
-            val playerImage = player.playerImage
-            val fieldImage = targetField.fieldImage
+    private fun checkMoveable(playerData: PlayerData, spaceField: SpaceField): Single<PlayerData> =
+            Single.create<PlayerData> {
+                val sameField = playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
+                val hasConnection = graphicController.getPlayerField(fieldController, playerData.playerColor).hasConnectionTo(spaceField)
+                val canMove = hasConnection && (sameField && playerData.phase.isMoving() || playerController.canMove(playerData))
 
-            //TODO dont do this here
-            playerImage.moveToPoint(playerImage, fieldImage, playerImage.getNONEAction(playerImage, fieldImage))
+                if (canMove) it.onSuccess(playerData)
+                else it.onError(NotMovableException(playerData.playerColor, spaceField))
+            }
 
-            playerData.setSteps(playerData, targetField)
-            player.gamePosition.setPosition(targetField.gamePosition)
+    private fun move(playerData: PlayerData, targetField: SpaceField): Single<Pair<PlayerData, SpaceField>> {
 
-            Logger.println(
-                    "Player: $playerData",
-                    "Field: ${targetField.fieldType.name}, ${targetField.id}"
-            )
+        playerData.setSteps(playerData, targetField)
 
-            return playerDataSource.insertAll(playerData)
-        }
+        Logger.println(
+                "Player: $playerData",
+                "Field: ${targetField.fieldType.name}, ${targetField.id}"
+        )
 
-        return Completable.complete()
+        //TODO dont do this here
+        val player = graphicController.getPlayer(playerData.playerColor)
+        val playerImage = player.playerImage
+        val fieldImage = targetField.fieldImage
+
+        playerImage.moveToPoint(playerImage, fieldImage, playerImage.getNONEAction(playerImage, fieldImage))
+        player.gamePosition.setPosition(targetField.gamePosition)
+
+        return playerDataSource.insertAll(playerData).andThen(Single.just(playerData to targetField))
+//        } else Single.create<Pair<PlayerData, SpaceField>> {
+//            it.onError()
+//        }
     }
 
-    private fun canExecute(playerData: PlayerData, spaceField: SpaceField): Boolean {
-        val sameField = playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
-        val hasConnection = graphicController.getPlayerField(fieldController, playerData.playerColor).hasConnectionTo(spaceField)
-        return hasConnection && (sameField && playerData.phase.isMoving() || playerController.canMove(playerData))
-    }
 
 }

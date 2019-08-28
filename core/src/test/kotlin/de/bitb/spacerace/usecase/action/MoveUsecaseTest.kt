@@ -4,6 +4,8 @@ import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.TEST_PLAYER_2
+import de.bitb.spacerace.exceptions.NotCurrentPlayerException
+import de.bitb.spacerace.exceptions.NotMovableException
 import de.bitb.spacerace.model.enums.Phase
 import org.junit.Test
 
@@ -30,7 +32,7 @@ class MoveUsecaseTest : GameTest() {
                     assertPlayerOnField(TEST_PLAYER_2, position)
 
                     //move player 2 -> failed
-                    move(TEST_PLAYER_2, target)
+                    move(TEST_PLAYER_2, target, NotCurrentPlayerException(TEST_PLAYER_2))
 
                     position = currentPosition
                     assertNotSameField(target, position)
@@ -73,10 +75,10 @@ class MoveUsecaseTest : GameTest() {
                             assertPlayerOnField(TEST_PLAYER_2, position)
                         }
                         //move player 2 -> failed
-                        move(TEST_PLAYER_2, target)
+                        move(TEST_PLAYER_2, target, NotCurrentPlayerException(TEST_PLAYER_2))
                         check()
                         //move player 1 -> failed
-                        move(TEST_PLAYER_1, target)
+                        move(TEST_PLAYER_1, target, NotMovableException(TEST_PLAYER_1, target))
                         check()
                     }
 
@@ -114,16 +116,16 @@ class MoveUsecaseTest : GameTest() {
                             assertPlayerNotOnField(TEST_PLAYER_2, position)
                         }
                         //move player 2 -> failed
-                        move(TEST_PLAYER_2, target)
+                        move(TEST_PLAYER_2, target, NotCurrentPlayerException(TEST_PLAYER_2))
                         check()
                         //move player 1 -> failed
-                        move(TEST_PLAYER_1, target)
+                        move(TEST_PLAYER_1, target, NotMovableException(TEST_PLAYER_1, target))
                         check()
                     }
 
                     moveAndCheck()
                     //after dice still not movable
-                    move()
+                    dice()
                     moveAndCheck()
                 }
     }

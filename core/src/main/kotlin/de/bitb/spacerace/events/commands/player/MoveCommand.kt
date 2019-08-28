@@ -27,7 +27,7 @@ class MoveCommand(val spaceField: SpaceField, playerData: PlayerData) : BaseComm
     override fun canExecute(): Boolean = true
 
     override fun execute() {
-        moveUsecase.execute(
+        moveUsecase.getResult(
                 params = playerData.playerColor to spaceField
         )
     }
