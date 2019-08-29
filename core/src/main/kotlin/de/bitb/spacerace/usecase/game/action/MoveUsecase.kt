@@ -30,7 +30,6 @@ class MoveUsecase @Inject constructor(
                         .andThen(checkMovePhase(playerColor))
                         .flatMap { checkMoveable(it, target) }
                         .flatMap { move(it, target) }
-                        .doOnSuccess { setGraphics(it) }
             }
 
     private fun checkCurrentPlayer(playerColor: PlayerColor) =
@@ -73,12 +72,6 @@ class MoveUsecase @Inject constructor(
         val moveInfo = MoveInfo(playerData.playerColor, targetField.gamePosition, playerData.areStepsLeft(), playerData.previousStep)
         return playerDataSource.insertAll(playerData)
                 .andThen(Single.just(moveInfo))
-    }
-
-    private fun setGraphics(moveInfo: MoveInfo) {
-        //TODO dont do this here
-        graphicController.movePlayer(moveInfo)
-        graphicController.setConnectionColor(moveInfo.toConnectionInfo())
     }
 
 }
