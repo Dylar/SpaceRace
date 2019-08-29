@@ -36,8 +36,8 @@ class GameStage(
     }
 
     fun addEntitiesToMap() {
-        addActor(fieldController.connections)
-        fieldController.connections.zIndex = 0
+        addActor(graphicController.connections)
+        graphicController.connections.zIndex = 0
         graphicController.fields.values.forEach { addActor(it.getGameImage()) }
         graphicController.players.forEach { addActor(it.getGameImage()) }
     }

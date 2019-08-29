@@ -6,11 +6,8 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
-import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.NONE_FIELD
-import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import java.util.*
@@ -30,8 +27,6 @@ class FieldController
 
     var currentGoal: SpaceField? = null
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
-
-    var connections: ConnectionList = ConnectionList(graphicController, playerController)
 
     init {
         MainGame.appComponent.inject(this)
@@ -58,10 +53,7 @@ class FieldController
     }
 
     fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
-        val connection = SpaceConnection(spaceField1, spaceField2)
-        connections.add(connection)
-        spaceField1.connections.add(connection)
-        spaceField2.connections.add(connection)
+        graphicController.addConnection(spaceField1, spaceField2)
     }
 
     fun moveMovables() {

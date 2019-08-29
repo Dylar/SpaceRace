@@ -1,5 +1,6 @@
 package de.bitb.spacerace.config
 
+import com.badlogic.gdx.graphics.Color
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
 import de.bitb.spacerace.config.enums.GameSpeed
@@ -42,6 +43,9 @@ const val MIN_ZOOM = 1.0
 
 const val FIELD_ROTATION = true
 const val STAR_COUNT = 5
+
+val COLOR_CONNECTED = Color(Color.GREEN).apply { a = 0.9f }
+val COLOR_DISCONNECTED = Color(Color.RED).apply { a = 0.7f }
 
 //DEBUG
 //var PRESELECTED_PLAYER = arrayListOf()

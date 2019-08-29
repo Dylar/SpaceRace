@@ -9,12 +9,8 @@ import javax.inject.Singleton
 @Singleton
 class PlayerController
 @Inject constructor(
-        private val graphicController: GraphicController
 ) {
 
     var currentPlayerData = NONE_PLAYER_DATA
-
-    fun getPlayerItems(playerColor: PlayerColor): PlayerItems =
-            graphicController.getPlayer(playerColor).playerItems
 
 }

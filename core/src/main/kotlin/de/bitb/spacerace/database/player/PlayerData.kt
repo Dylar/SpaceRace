@@ -3,6 +3,7 @@ package de.bitb.spacerace.database.player
 import de.bitb.spacerace.config.CREDITS_LOSE_AMOUNT
 import de.bitb.spacerace.config.CREDITS_WIN_AMOUNT
 import de.bitb.spacerace.config.START_CREDITS
+import de.bitb.spacerace.controller.ConnectionInfo
 import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
@@ -101,6 +102,7 @@ data class PlayerData(
     fun getMaxSteps(): Int = diceResults.sum().let { result -> if (diceResults.isNotEmpty() && result <= 0) 1 else result }
 
     fun isPreviousPosition(fieldPosition: PositionData) = steps.size > 1 && previousStep.isPosition(fieldPosition)
+
 //            playerController.getPlayerItems(playerColor).getModifierValues(1) //TODO do item shit
 //                    .let { (mod, add) ->
 //                        val diceResult = diceResults.sum()

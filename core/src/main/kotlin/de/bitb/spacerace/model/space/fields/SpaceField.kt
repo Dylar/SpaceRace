@@ -53,7 +53,7 @@ open class SpaceField(
     }
 
     fun hasConnectionTo(spaceField: SpaceField): Boolean {
-        return connections.any { it.isConnection(this, spaceField) }
+        return connections.any { it.isConnection(this.gamePosition, spaceField.gamePosition) }
     }
 
 }

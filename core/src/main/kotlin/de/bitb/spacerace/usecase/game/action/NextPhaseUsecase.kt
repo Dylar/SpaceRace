@@ -3,6 +3,7 @@ package de.bitb.spacerace.usecase.game.action
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
+import de.bitb.spacerace.controller.toConnectionInfo
 import de.bitb.spacerace.core.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
@@ -12,7 +13,6 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
-import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
@@ -77,8 +77,12 @@ class NextPhaseUsecase @Inject constructor(
     }
 
 
-    private fun startMove(): (PlayerData) -> PlayerData = {
-        it.apply { steps.add(graphicController.getPlayerField(it.playerColor).gamePosition) }
+    private fun startMove(): (PlayerData) -> PlayerData = { player ->
+        player.apply { steps.add(graphicController.getPlayerField(playerColor).gamePosition) }
+                .also {
+                    val position = graphicController.getPlayerPosition(player.playerColor)
+                    graphicController.setConnectionColor(player.toConnectionInfo(position))
+                }
     }
 
     private fun startMain2(): (PlayerData) -> PlayerData = {
@@ -91,8 +95,8 @@ class NextPhaseUsecase @Inject constructor(
                     .apply {
                         val oldPlayer = this[0]
                         var indexOld = oldPlayer.getGameImage().zIndex + 1 //TODO do it in gui
-                        forEach {
-                            it.getGameImage().zIndex = indexOld++
+                        forEach {player ->
+                            player.getGameImage().zIndex = indexOld++
                         }
                         removeAt(0)
                         add(oldPlayer)

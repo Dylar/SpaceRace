@@ -1,10 +1,9 @@
 package de.bitb.spacerace.usecase.game.action
 
+import de.bitb.spacerace.controller.ConnectionInfo
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ExecuteUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
@@ -35,7 +34,14 @@ class DiceUsecase @Inject constructor(
                         } else maxResult.absoluteValue
 
                 playerData.diceResults.add(result)
+
                 playerDataSource.insertAll(playerData)
+                        .also {
+                            val position = graphicController.getPlayer(playerData.playerColor).gamePosition
+                            val connectionInfo = ConnectionInfo(position, playerData.areStepsLeft(), playerData.previousStep, playerData.phase)
+                            graphicController.setConnectionColor(connectionInfo)
+                        }
+
             } else Completable.complete()
 
     private fun canExecute(playerData: PlayerData): Boolean =
