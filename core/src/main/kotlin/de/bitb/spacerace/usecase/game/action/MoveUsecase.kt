@@ -2,7 +2,6 @@ package de.bitb.spacerace.usecase.game.action
 
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.MoveInfo
-import de.bitb.spacerace.controller.toConnectionInfo
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.exceptions.FieldsNotConnectedException
@@ -30,6 +29,10 @@ class MoveUsecase @Inject constructor(
                         .andThen(checkMovePhase(playerColor))
                         .flatMap { checkMoveable(it, target) }
                         .flatMap { move(it, target) }
+                        .doOnSuccess {
+                            val player = graphicController.getPlayer(it.playerColor)
+                            player.gamePosition.setPosition(it.position) //TODO put position in playerdata
+                        }
             }
 
     private fun checkCurrentPlayer(playerColor: PlayerColor) =

@@ -4,6 +4,7 @@ import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
+import de.bitb.spacerace.controller.MoveInfo
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.database.player.PlayerData
@@ -209,13 +210,17 @@ class SpaceEnvironment {
 
     fun move(player: PlayerColor = currentPlayerColor,
              target: SpaceField = defaultField1,
-             error: GameException? = null) {
+             error: GameException? = null,
+             assertSuccess: ((MoveInfo) -> Boolean)? = null,
+             assertError: ((Throwable) -> Boolean) = { error?.assertMoveException(it) ?: false }) {
         moveUsecase.buildUseCaseSingle(player to target)
                 .test()
                 .await()
                 .apply {
-                    if (error == null) assertComplete()
-                    else assertError { error.assertMoveException(it) }
+                    if (error == null) assertComplete().assertValue {
+                        assertSuccess?.invoke(it) ?: true
+                    }
+                    else assertError { assertError.invoke(it) }
                 }
         waitForIt()
     }

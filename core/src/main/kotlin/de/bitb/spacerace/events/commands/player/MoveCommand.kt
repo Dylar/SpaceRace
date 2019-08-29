@@ -8,7 +8,6 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
-import de.bitb.spacerace.utils.Logger
 import javax.inject.Inject
 
 class MoveCommand(
@@ -31,9 +30,7 @@ class MoveCommand(
     override fun execute() {
         moveUsecase.getResult(
                 params = playerData.playerColor to spaceField,
-                onSuccess = {
-                    setGraphics(it)
-                }
+                onSuccess = ::setGraphics
         )
     }
 

@@ -129,5 +129,6 @@ class MoveUsecaseTest : GameTest() {
 
     //TODO test NoStepsLeftException
     //TODO test FieldsNotConnectedException
+    //TODO test connection color -> separate into file
 
 }
