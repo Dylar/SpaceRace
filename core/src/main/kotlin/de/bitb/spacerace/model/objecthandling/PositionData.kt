@@ -3,6 +3,7 @@ package de.bitb.spacerace.model.objecthandling
 import io.objectbox.annotation.Id
 
 val NONE_POSITION = PositionData()
+
 //@Entity
 data class PositionData(
         var posX: Float = 0f,
@@ -21,4 +22,7 @@ data class PositionData(
         return positionData.posX == posX && positionData.posY == posY
     }
 
+    fun getCenterX() = posX + width / 2
+
+    fun getCenterY() = posY + height / 2
 }

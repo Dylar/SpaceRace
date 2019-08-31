@@ -60,6 +60,7 @@ class GraphicController
     fun clearGraphics() {
         players.clear()
         fields.clear()
+        connections.clear()
     }
 
     fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {

@@ -45,13 +45,9 @@ abstract class GameImage(
         debug = DEBUG_LAYOUT
     }
 
-    fun getCenterX(): Float {
-        return x + width / 2
-    }
+    fun getCenterX() = x + width / 2
 
-    fun getCenterY(): Float {
-        return y + width / 2
-    }
+    fun getCenterY() = y + width / 2
 
     fun setCenterX(posX: Float) {
         x = posX - width / 2
@@ -61,9 +57,7 @@ abstract class GameImage(
         x = posY - height / 2
     }
 
-    fun isIdling(): Boolean {
-        return actions.size == idlingCount
-    }
+    fun isIdling() = actions.size == idlingCount
 
     override fun addAction(action: Action?) {
         addAction(action!!)

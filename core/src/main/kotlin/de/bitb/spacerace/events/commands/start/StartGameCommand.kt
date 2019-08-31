@@ -34,8 +34,6 @@ class StartGameCommand() : BaseCommand() {
     }
 
     override fun execute() {
-
-        Logger.println("EXECUTE StartGameCommand")
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
         loadGameUsecase.getResult(
                 params = SELECTED_PLAYER,

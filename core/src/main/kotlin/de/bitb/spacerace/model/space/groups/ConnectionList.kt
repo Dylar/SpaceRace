@@ -1,10 +1,8 @@
 package de.bitb.spacerace.model.space.groups
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
-import de.bitb.spacerace.config.COLOR_DISCONNECTED
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
@@ -14,7 +12,7 @@ import de.bitb.spacerace.model.space.fields.SpaceConnection
 class ConnectionList(
         var graphicController: GraphicController,
         var playerController: PlayerController,
-        val mutableList: MutableList<SpaceConnection> = ArrayList()
+        private val mutableList: MutableList<SpaceConnection> = ArrayList()
 ) : MutableList<SpaceConnection> by mutableList,
         Actor() {
 
@@ -33,8 +31,10 @@ class ConnectionList(
 //        reverse = if (index == 0) false else if (index > 50) true else reverse
 
         forEach { (spaceField1, spaceField2, color) ->
-            val start = Vector2(spaceField1.fieldImage.getCenterX(), spaceField1.fieldImage.getCenterY())
-            val end = Vector2(spaceField2.fieldImage.getCenterX(), spaceField2.fieldImage.getCenterY())
+            val pos1 = spaceField1.fieldImage
+            val pos2 = spaceField2.fieldImage
+            val start = Vector2(pos1.getCenterX(), pos1.getCenterY())
+            val end = Vector2(pos2.getCenterX(), pos2.getCenterY())
             LineRenderer.drawDebugLine(start, end, Dimensions.GameDimensions.GAME_CONNECTIONS_WIDTH + index, color)
         }
         LineRenderer.endLine()

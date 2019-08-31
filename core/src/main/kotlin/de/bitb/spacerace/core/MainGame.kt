@@ -177,6 +177,7 @@ open class MainGame : BaseGame() {
 //        TODO do this as command in "start GameScreen"
 
         val gameStage = (screen as BaseScreen).gameStage as GameStage
+        gameStage.clear()
         gameStage.addEntitiesToMap()
 
 //        TODO observe somewhere
@@ -211,10 +212,7 @@ open class MainGame : BaseGame() {
     }
 
     fun initPhaseObserver() {
-        compositeDisposable += observeRoundUsecase.observeStream(
-                onNext = { isNext ->
-                    //                    Logger.println("observeRoundUsecase: NEXT ROUND: $isNext")
-                })
+        compositeDisposable += observeRoundUsecase.observeStream()
     }
 
 }
