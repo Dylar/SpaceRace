@@ -19,7 +19,7 @@ class MoveUsecaseTest : GameTest() {
                     setToMovePhase()
                     dice()
 
-                    val target = defaultField1
+                    val target = leftTopField
                     var position = currentPosition
 
                     //assert start
@@ -54,7 +54,7 @@ class MoveUsecaseTest : GameTest() {
                 .apply {
                     initGame()
 
-                    val target = defaultField1
+                    val target = leftTopField
                     var position = currentPosition
 
                     //assert start
@@ -94,7 +94,7 @@ class MoveUsecaseTest : GameTest() {
                     initGame()
                     setToMain2Phase()
 
-                    val target = defaultField2
+                    val target = centerTopField
                     var position = currentPosition
 
                     //assert start
@@ -129,6 +129,5 @@ class MoveUsecaseTest : GameTest() {
 
     //TODO test NoStepsLeftException
     //TODO test FieldsNotConnectedException
-    //TODO test connection color -> separate into file
 
 }

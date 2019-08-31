@@ -1,6 +1,5 @@
 package de.bitb.spacerace.controller
 
-import com.badlogic.gdx.graphics.Color
 import de.bitb.spacerace.config.COLOR_CONNECTED
 import de.bitb.spacerace.config.COLOR_DISCONNECTED
 import de.bitb.spacerace.database.player.PlayerData
@@ -70,12 +69,6 @@ class GraphicController
         spaceField2.connections.add(connection)
     }
 
-    fun setConnectionColor(connectionInfo: ConnectionInfo) {
-        connections.forEach { connection ->
-            connection.currentColor = connectionInfo.getConnectionColor(connection)
-        }
-    }
-
     fun movePlayer(moveInfo: MoveInfo) {
         val player = getPlayer(moveInfo.playerColor)
         val playerImage = player.playerImage
@@ -91,26 +84,17 @@ class GraphicController
 
 }
 
+data class NextPhaseInfo(
+        var playerData: PlayerData,
+        var phase: Phase
+)
+
 data class ConnectionInfo(
         var position: PositionData,
         var stepsLeft: Boolean,
         var previousPosition: PositionData,
         var phase: Phase
-) {
-
-    fun getConnectionColor(spaceConnection: SpaceConnection): Color {
-        val isConnected = spaceConnection.isConnected(position)
-        var color = COLOR_DISCONNECTED
-
-        if (phase == Phase.MOVE && isConnected) {
-            val isConnectedToPrevious = spaceConnection.isConnection(position, previousPosition)
-            if (stepsLeft || isConnectedToPrevious) {
-                color = COLOR_CONNECTED
-            }
-        }
-        return color
-    }
-}
+)
 
 data class MoveInfo(
         var playerColor: PlayerColor,
@@ -123,3 +107,4 @@ data class MoveInfo(
 fun PlayerData.toConnectionInfo(position: PositionData) = ConnectionInfo(position, areStepsLeft(), previousStep, phase)
 
 fun MoveInfo.toConnectionInfo(): ConnectionInfo = ConnectionInfo(position, stepsLeft, previousPosition, phase)
+fun NextPhaseInfo.toConnectionInfo(position: PositionData): ConnectionInfo = ConnectionInfo(position, playerData.areStepsLeft(), playerData.previousStep, phase)

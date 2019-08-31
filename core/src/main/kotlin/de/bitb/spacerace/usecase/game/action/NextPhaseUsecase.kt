@@ -3,6 +3,7 @@ package de.bitb.spacerace.usecase.game.action
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
+import de.bitb.spacerace.controller.NextPhaseInfo
 import de.bitb.spacerace.controller.toConnectionInfo
 import de.bitb.spacerace.core.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
@@ -81,12 +82,15 @@ class NextPhaseUsecase @Inject constructor(
         player.apply { steps.add(graphicController.getPlayerField(playerColor).gamePosition) }
                 .also {
                     val position = graphicController.getPlayerPosition(player.playerColor)
-                    graphicController.setConnectionColor(player.toConnectionInfo(position))
+                    fieldController.setConnectionColor(player.toConnectionInfo(position))
                 }
     }
 
     private fun startMain2(): (PlayerData) -> PlayerData = {
-        obtainField(it)
+        obtainField(it).also {
+            val nextPhaseInfo: NextPhaseInfo = NextPhaseInfo(it, Phase.MAIN2)
+            fieldController.setConnectionColor(nextPhaseInfo.toConnectionInfo(graphicController.getPlayerPosition(it.playerColor)))
+        }
     }
 
     private fun endTurn(): (PlayerData) -> PlayerData = {
@@ -95,7 +99,7 @@ class NextPhaseUsecase @Inject constructor(
                     .apply {
                         val oldPlayer = this[0]
                         var indexOld = oldPlayer.getGameImage().zIndex + 1 //TODO do it in gui
-                        forEach {player ->
+                        forEach { player ->
                             player.getGameImage().zIndex = indexOld++
                         }
                         removeAt(0)
@@ -131,7 +135,7 @@ class NextPhaseUsecase @Inject constructor(
                             FieldType.MINE -> obtainMineCommand(playerData)
                             FieldType.TUNNEL -> obtainTunnelCommand(playerData)
                             FieldType.GOAL -> obtainGoalCommand(playerData)
-                            FieldType.SHOP -> getDefault().post(ObtainShopCommand(playerData))
+                            FieldType.SHOP -> getDefault().post(ObtainShopCommand(playerData)) //TODO open shop onSuccess
                             else -> Logger.println("IMPL ME")
                         }
                         Logger.println("Field ${it.name}: $playerData")
@@ -139,7 +143,7 @@ class NextPhaseUsecase @Inject constructor(
                     .let { playerData }
 
     private fun obtainGoalCommand(playerData: PlayerData) {
-        if (fieldController.currentGoal == graphicController.getPlayerField(playerData.playerColor)) {
+        if (fieldController.currentGoal?.gamePosition?.isPosition(graphicController.getPlayerPosition(playerData.playerColor)) == true) {
             playerData.apply {
                 credits += GOAL_CREDITS
                 victories++

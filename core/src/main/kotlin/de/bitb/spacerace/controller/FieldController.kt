@@ -3,10 +3,12 @@ package de.bitb.spacerace.controller
 import com.badlogic.gdx.graphics.Color
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
 import de.bitb.spacerace.model.space.fields.NONE_FIELD
+import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.SpaceMap
@@ -18,8 +20,7 @@ import kotlin.collections.ArrayList
 @Singleton
 class FieldController
 @Inject constructor(
-        val graphicController: GraphicController,
-        val playerController: PlayerController
+        val graphicController: GraphicController
 ) {
 
     lateinit var map: SpaceMap
@@ -96,4 +97,16 @@ class FieldController
 
     }
 
+    fun setConnectionColor(connectionInfo: ConnectionInfo) {
+        graphicController.connections.forEach { connection ->
+            connection.setColor(connectionCanBeCrossed(connection, connectionInfo))
+        }
+    }
+
+    fun connectionCanBeCrossed(spaceConnection: SpaceConnection, connectionInfo: ConnectionInfo) =
+            with(connectionInfo) {
+                (phase == Phase.MOVE
+                        && spaceConnection.isConnected(position)
+                        && (stepsLeft || spaceConnection.isConnection(position, previousPosition)))
+            }
 }

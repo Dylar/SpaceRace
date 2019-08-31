@@ -2,15 +2,13 @@ package de.bitb.spacerace.env
 
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.config.WIN_AMOUNT
-import de.bitb.spacerace.controller.FieldController
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.MoveInfo
-import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.controller.*
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCollection
@@ -64,13 +62,18 @@ class SpaceEnvironment {
     val currentPosition: SpaceField
         get() = getPlayerField(currentPlayerColor)
 
-    val goalField: SpaceField
+    val centerBottomField: SpaceField
         get() = getField(0)
-    val defaultField1: SpaceField
+    val leftBottomField: SpaceField
+        get() = getField(1)
+    val leftTopField: SpaceField
         get() = getField(4)
-    val defaultField2: SpaceField
+    val centerTopField: SpaceField
         get() = getField(3)
 
+//    val leftBottomField: SpaceField
+//        get() = getField(1)
+//    val leftTopField: SpaceField
 //
 //    ███████╗███████╗████████╗     ██████╗  █████╗ ███╗   ███╗███████╗
 //    ██╔════╝██╔════╝╚══██╔══╝    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝
@@ -143,11 +146,11 @@ class SpaceEnvironment {
 
     fun moveToGoal() {
         setToMovePhase()
-        move(target = goalField)
-        assertSameField(getPlayerField(), goalField)
+        move(target = centerBottomField)
+        assertSameField(getPlayerField(), centerBottomField)
     }
 
-//
+    //
 //    ██████╗ ███████╗████████╗████████╗███████╗██████╗
 //    ██╔════╝ ██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
 //    ██║  ███╗█████╗     ██║      ██║   █████╗  ██████╔╝
@@ -155,7 +158,15 @@ class SpaceEnvironment {
 //    ╚██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
 //    ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
 //
+    fun getPlayerPosition(playerColor: PlayerColor = currentPlayerColor) =
+            getPlayerField(playerColor).gamePosition
 
+    fun getConnectionInfo(
+            playerColor: PlayerColor = currentPlayerColor,
+            stepsLeft: Boolean = currentPlayer.areStepsLeft(),
+            previousPosition: PositionData = currentPlayer.previousStep,
+            phase: Phase = currentPhase
+    ) = ConnectionInfo(getPlayerPosition(playerColor), stepsLeft, previousPosition, phase)
 
     fun getField(fieldId: Int, groupId: Int = 0) =
             fieldController.getField(groupId, fieldId)
@@ -173,7 +184,6 @@ class SpaceEnvironment {
                     }
                 }.getOpposite(currentField)
             }
-
 
     //
     // █████╗  ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
@@ -209,10 +219,10 @@ class SpaceEnvironment {
     }
 
     fun move(player: PlayerColor = currentPlayerColor,
-             target: SpaceField = defaultField1,
+             target: SpaceField = leftTopField,
              error: GameException? = null,
-             assertSuccess: ((MoveInfo) -> Boolean)? = null,
-             assertError: ((Throwable) -> Boolean) = { error?.assertMoveException(it) ?: false }) {
+             assertError: (Throwable) -> Boolean = { error?.assertMoveException(it) ?: false },
+             assertSuccess: ((MoveInfo) -> Boolean)? = null) {
         moveUsecase.buildUseCaseSingle(player to target)
                 .test()
                 .await()

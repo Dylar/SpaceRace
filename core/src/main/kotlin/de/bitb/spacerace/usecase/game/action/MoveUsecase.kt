@@ -1,12 +1,15 @@
 package de.bitb.spacerace.usecase.game.action
 
+import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.MoveInfo
+import de.bitb.spacerace.controller.toConnectionInfo
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.exceptions.FieldsNotConnectedException
 import de.bitb.spacerace.exceptions.NoStepsLeftException
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ResultUseCase
@@ -19,8 +22,9 @@ import javax.inject.Inject
 class MoveUsecase @Inject constructor(
         private val checkCurrentPlayerUsecase: CheckCurrentPlayerUsecase,
         private val checkPlayerPhaseUsecase: CheckPlayerPhaseUsecase,
-        private val graphicController: GraphicController,
-        private val playerDataSource: PlayerDataSource
+        private val playerDataSource: PlayerDataSource,
+        private val fieldController: FieldController,
+        private val graphicController: GraphicController
 ) : ResultUseCase<MoveInfo, Pair<PlayerColor, SpaceField>> {
 
     override fun buildUseCaseSingle(params: Pair<PlayerColor, SpaceField>) =
@@ -30,8 +34,10 @@ class MoveUsecase @Inject constructor(
                         .flatMap { checkMoveable(it, target) }
                         .flatMap { move(it, target) }
                         .doOnSuccess {
-                            val player = graphicController.getPlayer(it.playerColor)
-                            player.gamePosition.setPosition(it.position) //TODO put position in playerdata
+                            graphicController.getPlayerPosition(it.playerColor)
+                                    .setPosition(it.position) //TODO put position in playerdata
+
+                            fieldController.setConnectionColor(it.toConnectionInfo())
                         }
             }
 
@@ -65,7 +71,7 @@ class MoveUsecase @Inject constructor(
             playerData: PlayerData,
             targetField: SpaceField
     ): Single<MoveInfo> {
-        playerData.setSteps(playerData, targetField)
+        playerData.setSteps(targetField)
 //        playerData.positionField(fieldData) TODO make that so
 //        setGraphics(playerData.playerColor, targetField.gamePosition)
         Logger.println(

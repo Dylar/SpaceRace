@@ -1,13 +1,19 @@
 package de.bitb.spacerace.core
 
+import com.badlogic.gdx.graphics.Color
+import de.bitb.spacerace.config.COLOR_DISCONNECTED
+import de.bitb.spacerace.controller.ConnectionInfo
+import de.bitb.spacerace.controller.MoveInfo
+import de.bitb.spacerace.controller.toConnectionInfo
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import org.hamcrest.CoreMatchers.*
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThat
-
 
 fun SpaceEnvironment.assertCurrentPlayer(testPlayer: PlayerColor) =
         assertThat(currentPlayerColor, `is`(testPlayer))
@@ -59,3 +65,26 @@ fun SpaceEnvironment.assertNotGameEnd() {
     val winner = winnerObserver.values().lastOrNull()
     assertThat(winner, `is`(nullValue()))
 }
+
+fun SpaceEnvironment.assertConnectionAfterMove(
+        player: PlayerColor = currentPlayerColor,
+        connection: SpaceConnection = SpaceConnection(currentPosition, leftTopField),
+        isConnected: Boolean = false,
+        assertSuccess: (MoveInfo) -> Boolean = { checkConnection(connection, it.toConnectionInfo(), isConnected) }
+) = move(
+        player = player,
+        target = connection.spaceField2,
+        assertSuccess = assertSuccess
+)
+
+fun SpaceEnvironment.checkConnection(
+        connection: SpaceConnection,
+        connectionInfo: ConnectionInfo,
+        isConnected: Boolean = false
+) = isConnected == fieldController.connectionCanBeCrossed(connection, connectionInfo)
+
+fun SpaceEnvironment.assertConnection(
+        connection: SpaceConnection,
+        connectionInfo: ConnectionInfo,
+        isConnected: Boolean = false
+) = assertEquals(isConnected, fieldController.connectionCanBeCrossed(connection, connectionInfo))

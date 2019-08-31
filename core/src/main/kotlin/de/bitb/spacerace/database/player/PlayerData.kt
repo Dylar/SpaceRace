@@ -3,7 +3,6 @@ package de.bitb.spacerace.database.player
 import de.bitb.spacerace.config.CREDITS_LOSE_AMOUNT
 import de.bitb.spacerace.config.CREDITS_WIN_AMOUNT
 import de.bitb.spacerace.config.START_CREDITS
-import de.bitb.spacerace.controller.ConnectionInfo
 import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
@@ -50,21 +49,16 @@ data class PlayerData(
             if (it.size < 2) NONE_POSITION else it[it.size - 2]
         }
 
-    fun setSteps(playerData: PlayerData, spaceField: SpaceField) {
-        val sameField = previousFieldSelected(playerData, spaceField)
-        if (sameField) {
-            steps.let {
-                playerData.steps.let {
-                    it.removeAt(it.size - 1)
-                }
-            }
+    fun setSteps(spaceField: SpaceField) {
+        if (previousFieldSelected(spaceField)) {
+            steps.let { it.removeAt(it.size - 1) }
         } else {
-            playerData.steps.add(spaceField.gamePosition)
+            steps.add(spaceField.gamePosition)
         }
     }
 
-    private fun previousFieldSelected(playerData: PlayerData, spaceField: SpaceField): Boolean {
-        return playerData.steps.size > 1 && playerData.previousStep.isPosition(spaceField.gamePosition)
+    private fun previousFieldSelected(spaceField: SpaceField): Boolean {
+        return steps.size > 1 && previousStep.isPosition(spaceField.gamePosition)
     }
 
     fun nextRound() {

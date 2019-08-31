@@ -176,8 +176,8 @@ class NextPhaseUsecaseTest : GameTest() {
                     initGame()
                     setToMovePhase(-2)
 
-                    val target1: SpaceField = defaultField1
-                    val target2: SpaceField = defaultField2
+                    val target1: SpaceField = leftTopField
+                    val target2: SpaceField = centerTopField
                     assertNotSameField(target1, target2)
                     val playerField1: SpaceField = getPlayerField(TEST_PLAYER_1)
 
@@ -208,8 +208,8 @@ class NextPhaseUsecaseTest : GameTest() {
                     setToMovePhase(-2)
 
                     //move action
-                    val target1: SpaceField = defaultField1
-                    val target2: SpaceField = defaultField2
+                    val target1: SpaceField = leftTopField
+                    val target2: SpaceField = centerTopField
                     assertNotSameField(target1, target2)
 
                     move(target = target1)
