@@ -3,7 +3,7 @@ package de.bitb.spacerace.usecase.game.init
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.core.PlayerColorDispender
+import de.bitb.spacerace.core.PlayerColorDispenser
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
@@ -18,7 +18,7 @@ class LoadGameUsecase @Inject constructor(
         private val graphicController: GraphicController,
         private val playerController: PlayerController,
         private val fieldController: FieldController,
-        private val playerColorDispender: PlayerColorDispender,
+        private val playerColorDispenser: PlayerColorDispenser,
         private val playerDataSource: PlayerDataSource
 ) : ResultUseCase<List<PlayerData>, List<PlayerColor>> {
 
@@ -52,7 +52,7 @@ class LoadGameUsecase @Inject constructor(
     }
 
     private fun pushCurrentPlayer() {
-        playerColorDispender.publisher.onNext(playerController.currentColor)
+        playerColorDispenser.publisher.onNext(playerController.currentColor)
     }
 
 

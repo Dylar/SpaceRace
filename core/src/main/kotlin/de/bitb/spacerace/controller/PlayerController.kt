@@ -1,6 +1,6 @@
 package de.bitb.spacerace.controller
 
-import de.bitb.spacerace.core.PlayerColorDispender
+import de.bitb.spacerace.core.PlayerColorDispenser
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.utils.Logger
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class PlayerController
 @Inject constructor(
-        private var playerColorDispender: PlayerColorDispender
+        private var playerColorDispenser: PlayerColorDispenser
 ) {
 
     val players: MutableList<PlayerColor> = ArrayList()
@@ -24,7 +24,7 @@ class PlayerController
         players.removeAt(0)
         players.add(oldPlayer)
         Logger.println("newPlayer: $currentColor")
-        playerColorDispender.publishUpdate(currentColor)
+        playerColorDispenser.publishUpdate(currentColor)
     }
 
     fun addPlayer(playerColor: PlayerColor) {

@@ -1,6 +1,6 @@
 package de.bitb.spacerace.usecase.game.observe
 
-import de.bitb.spacerace.core.PlayerColorDispender
+import de.bitb.spacerace.core.PlayerColorDispenser
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
@@ -9,11 +9,11 @@ import javax.inject.Inject
 
 class ObserveCurrentPlayerUseCase @Inject constructor(
         private val playerDataSource: PlayerDataSource,
-        private val playerColorDispender: PlayerColorDispender
+        private val playerColorDispenser: PlayerColorDispenser
 ) : StreamUseCaseNoParams<PlayerData> {
 
     override fun buildUseCaseObservable(): Observable<PlayerData> {
-        return playerColorDispender.publisher
+        return playerColorDispenser.publisher
                 .switchMap { playerDataSource.observeByColor(it) }
                 .map { it.first() }
     }

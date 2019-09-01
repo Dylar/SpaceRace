@@ -3,7 +3,7 @@ package de.bitb.spacerace.injection.modules
 import dagger.Module
 import dagger.Provides
 import de.bitb.spacerace.events.commands.CommandDispender
-import de.bitb.spacerace.core.PlayerColorDispender
+import de.bitb.spacerace.core.PlayerColorDispenser
 import javax.inject.Singleton
 
 @Module
@@ -11,8 +11,8 @@ class GameModule {
 
     @Provides
     @Singleton
-    fun providePlayerColorDispender(): PlayerColorDispender {
-        return PlayerColorDispender()
+    fun providePlayerColorDispender(): PlayerColorDispenser {
+        return PlayerColorDispenser()
     }
 
     @Provides
