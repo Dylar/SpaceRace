@@ -26,4 +26,8 @@ class PlayerController
         Logger.println("newPlayer: $currentColor")
         playerColorDispender.publishUpdate(currentColor)
     }
+
+    fun addPlayer(playerColor: PlayerColor) {
+        players.add(playerColor)
+    }
 }

@@ -1,6 +1,9 @@
 package de.bitb.spacerace.controller
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.NONE_PLAYER
@@ -12,6 +15,7 @@ import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.utils.Logger
+import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -54,6 +58,12 @@ class GraphicController
 
     fun addField(spaceField: SpaceField) {
         fieldGraphics[spaceField.gamePosition] = spaceField
+        spaceField.getGameImage().addListener(object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                EventBus.getDefault().post(MoveCommand(spaceField, playerController.currentPlayerData))
+                return true
+            }
+        })
     }
 
     fun clearGraphics() {

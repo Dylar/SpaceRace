@@ -1,21 +1,17 @@
 package de.bitb.spacerace.usecase.game.init
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispender
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Single
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class LoadGameUsecase @Inject constructor(
@@ -33,18 +29,15 @@ class LoadGameUsecase @Inject constructor(
                     .flatMap { insertNewPlayer(it, params) }
                     .map { players ->
                         graphicController.clearGraphics()
-                        playerController.players.addAll(players.map { it.playerColor })
 
                         val map = initMap()
 
                         val startField = map.startField
-                        players.forEach {
-                            addPlayer(it, startField)
-                        }
+                        players.forEach { addPlayer(it, startField) }
                         players
                     }
                     .doAfterSuccess {
-                        pushCurrentPlayer(it)
+                        pushCurrentPlayer()
                     }
 
     private fun insertNewPlayer(list: List<PlayerData>, params: List<PlayerColor>): Single<List<PlayerData>> {
@@ -58,19 +51,8 @@ class LoadGameUsecase @Inject constructor(
                 )
     }
 
-    private fun pushCurrentPlayer(list: List<PlayerData>) {
-        if (list.isNotEmpty()) {
-            graphicController.currentPlayerGraphic.playerColor
-                    .let {
-                        when (it) {
-                            PlayerColor.NONE -> list.first().playerColor
-                            else -> it
-                        }
-                    }.also {
-                        playerColorDispender.publisher.onNext(it)
-                    }
-
-        }
+    private fun pushCurrentPlayer() {
+        playerColorDispender.publisher.onNext(playerController.currentColor)
     }
 
 
@@ -85,26 +67,21 @@ class LoadGameUsecase @Inject constructor(
     }
 
     private fun addFields(vararg spaceGroups: SpaceGroup) {
-        for (spaceGroup in spaceGroups) {
-            for (field in spaceGroup.fields.entries.withIndex()) {
-                addField(field.value.value)
+        spaceGroups.forEach { spaceGroup ->
+            spaceGroup.fields.entries.forEach { field ->
+                addField(field.value)
             }
         }
     }
 
     private fun addField(spaceField: SpaceField) {
-        spaceField.getGameImage().addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(MoveCommand(spaceField, playerController.currentPlayerData))
-                return true
-            }
-        })
         graphicController.addField(spaceField)
         fieldController.addFieldMap(spaceField)
     }
 
     private fun addPlayer(playerData: PlayerData, startField: SpaceField) {
         graphicController.addPlayer(playerData, startField)
+        playerController.addPlayer(playerData.playerColor)
 //        player.playerImage.movingSpeed * playerData.index
     }
 }

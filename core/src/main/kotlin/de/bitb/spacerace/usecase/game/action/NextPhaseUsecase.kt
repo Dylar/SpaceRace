@@ -34,7 +34,6 @@ class NextPhaseUsecase @Inject constructor(
         private val playerDataSource: PlayerDataSource
 ) : ResultUseCase<NextPhaseInfo, PlayerColor> {
 
-    //TODO clean me
     override fun buildUseCaseSingle(params: PlayerColor): Single<NextPhaseInfo> =
             checkCurrentPlayerUsecase.buildUseCaseSingle(params)
                     .flatMap { checkEndable(it) }
@@ -112,6 +111,7 @@ class NextPhaseUsecase @Inject constructor(
                 playerData.also { playerController.changePlayer() }
             }
 
+    //TODO do me in onsuccess
     private fun setGraphics(nextPhaseInfo: NextPhaseInfo) {
         val position = graphicController.getPlayerPosition(nextPhaseInfo.playerData.playerColor)
         fieldController.setConnectionColor(nextPhaseInfo.toConnectionInfo(position))
@@ -123,6 +123,7 @@ class NextPhaseUsecase @Inject constructor(
         }
     }
 
+    //TODO clean me
     private fun obtainField(playerData: PlayerData): PlayerData =
             graphicController
                     .getPlayerField(playerData.playerColor)
