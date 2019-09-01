@@ -195,15 +195,12 @@ class SpaceEnvironment {
     //
     fun nextPhase(color: PlayerColor = currentPlayerColor,
                   error: GameException? = null,
-                  assertError: (Throwable) -> Boolean = { error?.assertMoveException(it) ?: false },
-                  assertSuccess: ((MoveInfo) -> Boolean)? = null) {
+                  assertError: (Throwable) -> Boolean = { error?.assertNextPhaseException(it) ?: false },
+                  assertSuccess: ((NextPhaseInfo) -> Boolean) = { true }) {
         nextPhaseUseCase.buildUseCaseSingle(color)
                 .test()
                 .await()
-                .apply {
-                    if (error == null) assertComplete()
-                    else assertError { error.assertNextPhaseException(it) }
-                }
+                .apply { assertObserver(error, assertError, assertSuccess) }
         waitForIt()
     }
 
@@ -224,17 +221,22 @@ class SpaceEnvironment {
              target: SpaceField = leftTopField,
              error: GameException? = null,
              assertError: (Throwable) -> Boolean = { error?.assertMoveException(it) ?: false },
-             assertSuccess: ((MoveInfo) -> Boolean)? = null) {
+             assertSuccess: (MoveInfo) -> Boolean = { true }) {
         moveUsecase.buildUseCaseSingle(player to target)
                 .test()
                 .await()
-                .apply {
-                    if (error == null) assertComplete().assertValue {
-                        assertSuccess?.invoke(it) ?: true
-                    }
-                    else assertError { assertError.invoke(it) }
-                }
+                .apply { assertObserver(error, assertError, assertSuccess) }
         waitForIt()
+    }
+
+    private fun <T> TestObserver<T>.assertObserver(
+            error: GameException?,
+            assertError: (Throwable) -> Boolean,
+            assertSuccess: (T) -> Boolean) {
+        if (error == null) assertComplete().assertValue {
+            assertSuccess.invoke(it)
+        }
+        else assertError { assertError.invoke(it) }
     }
 
     fun waitForIt(time: Long = 100) {

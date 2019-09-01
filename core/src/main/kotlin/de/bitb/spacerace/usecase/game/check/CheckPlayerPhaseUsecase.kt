@@ -1,7 +1,7 @@
 package de.bitb.spacerace.usecase.game.check
 
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.exceptions.PlayerNotInPhaseException
+import de.bitb.spacerace.exceptions.WrongPhaseException
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ExecuteUseCase
@@ -22,7 +22,7 @@ class CheckPlayerPhaseUsecase @Inject constructor(
                         .flatMap { player ->
                             Single.create<PlayerData> {
                                 if (player.phase == phase) it.onSuccess(player)
-                                else it.onError(PlayerNotInPhaseException(playerColor, phase))
+                                else it.onError(WrongPhaseException(playerColor, phase))
                             }
                         }
             }
@@ -33,7 +33,7 @@ class CheckPlayerPhaseUsecase @Inject constructor(
                         .flatMapCompletable { player ->
                             Completable.create {
                                 if (player.phase == phase) it.onComplete()
-                                else it.onError(PlayerNotInPhaseException(playerColor, phase))
+                                else it.onError(WrongPhaseException(playerColor, phase))
                             }
                         }
             }

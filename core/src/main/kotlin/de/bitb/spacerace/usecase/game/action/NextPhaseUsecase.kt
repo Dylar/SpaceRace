@@ -10,7 +10,7 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
 import de.bitb.spacerace.exceptions.DiceFirstException
-import de.bitb.spacerace.exceptions.MoveEveryStepException
+import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
@@ -87,7 +87,7 @@ class NextPhaseUsecase @Inject constructor(
                         Single.create { emitter: SingleEmitter<PlayerData> ->
                             if (!playerData.areStepsLeft()) {
                                 emitter.onSuccess(playerData)
-                            } else emitter.onError(MoveEveryStepException(playerData.playerColor))
+                            } else emitter.onError(StepsLeftException(playerData.playerColor, playerData.stepsLeft()))
                         }
                     }
 

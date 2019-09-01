@@ -5,6 +5,9 @@ import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.TEST_PLAYER_2
 import de.bitb.spacerace.env.TEST_PLAYER_3
+import de.bitb.spacerace.exceptions.DiceFirstException
+import de.bitb.spacerace.exceptions.StepsLeftException
+import de.bitb.spacerace.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.space.fields.SpaceField
 import junit.framework.Assert.assertTrue
@@ -32,7 +35,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(Phase.MAIN1)
 
                     //do next phase action with not current player
-                    nextPhase(TEST_PLAYER_2)
+                    nextPhase(TEST_PLAYER_2, error = NotCurrentPlayerException(TEST_PLAYER_2))
 
                     //assert still same phase
                     assertNotCurrentPlayer(TEST_PLAYER_2)
@@ -58,7 +61,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(Phase.MOVE)
 
                     //do next phase action with not current player
-                    nextPhase(TEST_PLAYER_2)
+                    nextPhase(TEST_PLAYER_2, error = NotCurrentPlayerException(TEST_PLAYER_2))
 
                     //assert still same phase
                     assertNotCurrentPlayer(TEST_PLAYER_2)
@@ -83,7 +86,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(Phase.MAIN2)
 
                     //do next phase action with not current player
-                    nextPhase(TEST_PLAYER_2)
+                    nextPhase(TEST_PLAYER_2, error = NotCurrentPlayerException(TEST_PLAYER_2))
 
                     //assert still same phase
                     assertNotCurrentPlayer(TEST_PLAYER_2)
@@ -109,7 +112,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(Phase.MAIN1)
 
                     //do next phase action
-                    nextPhase()
+                    nextPhase(error = DiceFirstException(currentPlayerColor))
 
                     //assert still same phase
                     assertCurrentPhase(Phase.MAIN1)
@@ -144,7 +147,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     initGame()
                     setToMovePhase()
 
-                    nextPhase()
+                    nextPhase(error = StepsLeftException(currentPlayerColor, 1))
 
                     //assert move phase
                     assertCurrentPhase(Phase.MOVE)
@@ -187,7 +190,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertNotSameField(playerField1, playerField2)
 
                     //next phase failed
-                    nextPhase()
+                    nextPhase(error = StepsLeftException(currentPlayerColor, 1))
                     assertCurrentPhase(Phase.MOVE)
 
                     //move2

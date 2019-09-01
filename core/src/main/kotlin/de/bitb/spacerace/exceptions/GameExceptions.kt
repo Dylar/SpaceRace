@@ -12,7 +12,7 @@ class NotCurrentPlayerException(
         val player: PlayerColor
 ) : GameException("$player is not current player")
 
-class PlayerNotInPhaseException(
+class WrongPhaseException(
         val player: PlayerColor,
         val phase: Phase
 ) : GameException("$player not in phase $phase")
@@ -44,7 +44,8 @@ class DiceFirstException(
         player: PlayerColor
 ) : NextPhaseException(player, "Need to dice first")
 
-class MoveEveryStepException(
-        player: PlayerColor
-) : NextPhaseException(player, "Move every step")
+class StepsLeftException(
+        player: PlayerColor,
+        steps: Int
+) : NextPhaseException(player, "$steps steps left")
 
