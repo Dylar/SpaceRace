@@ -2,6 +2,7 @@ package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.graphics.Color
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
@@ -20,6 +21,7 @@ import kotlin.collections.ArrayList
 @Singleton
 class FieldController
 @Inject constructor(
+        val mapDataSource: MapDataSource,
         val graphicController: GraphicController
 ) {
 
@@ -31,15 +33,8 @@ class FieldController
 
     init {
         MainGame.appComponent.inject(this)
-//        clearField()
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
     }
-
-//    fun clearField() {
-////        fields.forEach { it.fieldImage.remove() }
-//        fields.clear()
-//        FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
-//    }
 
     fun getField(groupId: Int, fieldId: Int) = map.groups[groupId].getField(fieldId)
 
@@ -49,8 +44,16 @@ class FieldController
                 .firstOrNull() ?: NONE_FIELD
     }
 
-    fun addFieldMap(spaceField: SpaceField) {
+    fun addField(spaceField: SpaceField) {
         fieldsMap[spaceField.fieldType]!!.add(spaceField)
+
+//        mapDataSource.insertAll(spaceField.toFieldData())
+//                .flatMap {
+//                    it.forEach {
+//
+//                    }
+//                    mapDataSource.insertAll(*it.toTypedArray())
+//                }
     }
 
     fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
@@ -94,7 +97,6 @@ class FieldController
         currentGoal?.fieldImage?.setBlinkColor(null)
         currentGoal = map.getRandomGoal()
         currentGoal?.fieldImage?.setBlinkColor(Color(currentGoal?.fieldType?.color))
-
     }
 
     fun setConnectionColor(connectionInfo: ConnectionInfo) {

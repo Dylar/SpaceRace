@@ -21,6 +21,62 @@ class LoadGameUsecase @Inject constructor(
         private val playerColorDispenser: PlayerColorDispenser,
         private val playerDataSource: PlayerDataSource
 ) : ResultUseCase<List<PlayerData>, List<PlayerColor>> {
+//
+//    override fun buildUseCaseSingle(params: List<PlayerColor>): Single<List<PlayerData>> =
+//            playerDataSource
+//                    .insertAllReturnAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
+//                    .flatMap { initMap(it) }
+//                    .map { (startField, players) ->
+//                        graphicController.clearGraphics()
+//
+//                        players.apply {
+//                            forEach { addPlayer(it, startField) }
+//                        }
+//                    }
+//                    .doAfterSuccess {
+//                        pushCurrentPlayer()
+//                    }
+//
+//    private fun pushCurrentPlayer() {
+//        playerColorDispenser.publisher.onNext(playerController.currentColor)
+//    }
+//
+//
+//    private fun initMap(players: List<PlayerData>): Single<Pair<SpaceField, List<PlayerData>>> =
+//            fieldController.spaceMap
+//                    .createMap()
+//                    .let { addFields(it) }
+//                    .let { Single.just(it.startField to players) }
+////                    .map { it.startField to players }
+//
+//
+//    //    private fun addFields(map: SpaceMap): Single<SpaceMap> =
+////            Single.fromCallable{
+//    private fun addFields(map: SpaceMap): SpaceMap =
+//            map.also {
+//                fieldController.map = map
+//                fieldController.setRandomGoal()
+//                map.also {
+//                    it.groups.forEach { spaceGroup ->
+//                        spaceGroup.fields.entries.forEach { field ->
+//                            addField(field.value)
+//                        }
+//                    }
+//                }
+//            }
+//
+//    private fun addField(spaceField: SpaceField) {
+//        graphicController.addField(spaceField)
+//        fieldController.addField(spaceField)
+//    }
+//
+//    private fun addPlayer(playerData: PlayerData, startField: SpaceField) {
+//        graphicController.addPlayer(playerData, startField)
+//        playerController.addPlayer(playerData.playerColor)
+////        player.playerImage.movingSpeed * playerData.index
+//    }
+//}
+
 
     override fun buildUseCaseSingle(params: List<PlayerColor>): Single<List<PlayerData>> =
             playerDataSource
@@ -76,7 +132,7 @@ class LoadGameUsecase @Inject constructor(
 
     private fun addField(spaceField: SpaceField) {
         graphicController.addField(spaceField)
-        fieldController.addFieldMap(spaceField)
+        fieldController.addField(spaceField)
     }
 
     private fun addPlayer(playerData: PlayerData, startField: SpaceField) {

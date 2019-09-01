@@ -1,11 +1,11 @@
 package de.bitb.spacerace.model.space.fields
 
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
+import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
-import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 

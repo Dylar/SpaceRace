@@ -2,6 +2,8 @@ package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.database.converter.FieldTypeConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
+import de.bitb.spacerace.database.converter.PositionDataConverter
+import de.bitb.spacerace.database.converter.PositionListConverter
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -20,7 +22,10 @@ data class FieldData(
         @Convert(converter = FieldTypeConverter::class, dbType = String::class)
         var fieldType: FieldType = FieldType.UNKNOWN,
         @Convert(converter = PlayerColorConverter::class, dbType = String::class)
-        var owner: PlayerColor = PlayerColor.NONE
+        var owner: PlayerColor = PlayerColor.NONE,
+
+        @Convert(converter = PositionDataConverter::class, dbType = String::class)
+        val gamePosition: PositionData = PositionData()
 ) {
 
     @Transient

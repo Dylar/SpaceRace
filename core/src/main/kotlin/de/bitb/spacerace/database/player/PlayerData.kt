@@ -6,7 +6,7 @@ import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
-import de.bitb.spacerace.database.converter.PositionDataConverter
+import de.bitb.spacerace.database.converter.PositionListConverter
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -31,7 +31,7 @@ data class PlayerData(
         var credits: Int = START_CREDITS,
         var victories: Long = 0,
 
-        @Convert(converter = PositionDataConverter::class, dbType = String::class)
+        @Convert(converter = PositionListConverter::class, dbType = String::class)
         var steps: ArrayList<PositionData> = ArrayList(),
 
         var controlToken: String = ""

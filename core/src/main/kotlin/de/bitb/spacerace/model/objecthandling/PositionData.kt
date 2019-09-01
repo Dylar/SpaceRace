@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.objecthandling
 
+import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 
 val NONE_POSITION = PositionData()
