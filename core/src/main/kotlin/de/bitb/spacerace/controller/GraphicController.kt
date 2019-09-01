@@ -1,7 +1,5 @@
 package de.bitb.spacerace.controller
 
-import de.bitb.spacerace.config.COLOR_CONNECTED
-import de.bitb.spacerace.config.COLOR_DISCONNECTED
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData

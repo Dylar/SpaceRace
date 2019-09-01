@@ -35,4 +35,16 @@ class NoStepsLeftException(
 ) : NotMovableException(player, field, "no steps left")
 
 
+sealed class NextPhaseException(
+        val player: PlayerColor,
+        reason: String
+) : GameException("$player cannot change phase - $reason")
+
+class DiceFirstException(
+        player: PlayerColor
+) : NextPhaseException(player, "Need to dice first")
+
+class MoveEveryStepException(
+        player: PlayerColor
+) : NextPhaseException(player, "Move every step")
 

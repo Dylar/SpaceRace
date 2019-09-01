@@ -42,7 +42,7 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
     }
 
     override fun execute() {
-        nextPhaseUsecase.execute(params = playerData.playerColor)
+        nextPhaseUsecase.getResult(params = playerData.playerColor)
     }
 
 }

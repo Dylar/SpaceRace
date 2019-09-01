@@ -194,8 +194,10 @@ class SpaceEnvironment {
     //╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
     //
     fun nextPhase(color: PlayerColor = currentPlayerColor,
-                  error: GameException? = null) {
-        nextPhaseUseCase.buildUseCaseCompletable(color)
+                  error: GameException? = null,
+                  assertError: (Throwable) -> Boolean = { error?.assertMoveException(it) ?: false },
+                  assertSuccess: ((MoveInfo) -> Boolean)? = null) {
+        nextPhaseUseCase.buildUseCaseSingle(color)
                 .test()
                 .await()
                 .apply {
