@@ -19,7 +19,7 @@ class RoundEndMenu(
 ) : BaseMenu(guiStage) {
 
     init {
-        val players = graphicController.players
+        val players = graphicController.playerGraphics
         var size = players.size
         size = if (size < GAME_MENU_END_ROUND_WIDTH_MIN) GAME_MENU_END_ROUND_WIDTH_MIN else size
 

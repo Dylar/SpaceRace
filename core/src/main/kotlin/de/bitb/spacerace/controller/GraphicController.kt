@@ -11,6 +11,7 @@ import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
+import de.bitb.spacerace.utils.Logger
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,19 +21,19 @@ class GraphicController
         val playerController: PlayerController
 ) {
 
-    var players: MutableList<Player> = ArrayList()
-    val currentPlayer: Player
-        get() = players.firstOrNull() ?: NONE_PLAYER
+    var playerGraphics: MutableList<Player> = ArrayList()
+    val currentPlayerGraphic: Player
+        get() = playerGraphics.firstOrNull() ?: NONE_PLAYER
 
-    var fields: MutableMap<PositionData, SpaceField> = mutableMapOf()
-    var connections: ConnectionList = ConnectionList(this, playerController)
+    var fieldGraphics: MutableMap<PositionData, SpaceField> = mutableMapOf()
+    var connectionGraphics: ConnectionList = ConnectionList(this, playerController)
 
     fun getPlayer(playerColor: PlayerColor) =
-            players.find { playerColor == it.playerColor } ?: NONE_PLAYER
+            playerGraphics.find { playerColor == it.playerColor } ?: NONE_PLAYER
 
     fun getField(gamePosition: PositionData) =
-            fields.keys.find { it.isPosition(gamePosition) }
-                    ?.let { fields[it] }
+            fieldGraphics.keys.find { it.isPosition(gamePosition) }
+                    ?.let { fieldGraphics[it] }
                     ?: NONE_FIELD
 
     fun getPlayerField(playerColor: PlayerColor) =
@@ -45,25 +46,25 @@ class GraphicController
         val color = playerData.playerColor
         val player = Player(color)
 
-        players.add(player)
+        playerGraphics.add(player)
         player.setPosition(startField.gamePosition)
         player.getGameImage().color = color.color
         player.getGameImage().followImage = startField.fieldImage
     }
 
     fun addField(spaceField: SpaceField) {
-        fields[spaceField.gamePosition] = spaceField
+        fieldGraphics[spaceField.gamePosition] = spaceField
     }
 
     fun clearGraphics() {
-        players.clear()
-        fields.clear()
-        connections.clear()
+        playerGraphics.clear()
+        fieldGraphics.clear()
+        connectionGraphics.clear()
     }
 
     fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
         val connection = SpaceConnection(spaceField1, spaceField2)
-        connections.add(connection)
+        connectionGraphics.add(connection)
         spaceField1.connections.add(connection)
         spaceField2.connections.add(connection)
     }
@@ -79,6 +80,21 @@ class GraphicController
                 playerImage.getNONEAction(playerImage, fieldImage))
         player.gamePosition.setPosition(moveInfo.position) //TODO maybe we dont need this
 
+    }
+
+    fun changePlayer() {
+        val oldPlayer = playerGraphics[0]
+        var indexOld = oldPlayer.getGameImage().zIndex + 1
+        playerGraphics.removeAt(0)
+        playerGraphics.add(oldPlayer)
+
+        playerGraphics.forEach { player ->
+            player.getGameImage().zIndex = indexOld++
+        }
+
+        Logger.println("oldPlayer: ${oldPlayer.playerColor}")
+        //TODO items in db
+        oldPlayer.playerItems.removeUsedItems()
     }
 
 }

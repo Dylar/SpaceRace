@@ -33,6 +33,7 @@ class LoadGameUsecase @Inject constructor(
                     .flatMap { insertNewPlayer(it, params) }
                     .map { players ->
                         graphicController.clearGraphics()
+                        playerController.players.addAll(players.map { it.playerColor })
 
                         val map = initMap()
 
@@ -59,7 +60,7 @@ class LoadGameUsecase @Inject constructor(
 
     private fun pushCurrentPlayer(list: List<PlayerData>) {
         if (list.isNotEmpty()) {
-            graphicController.currentPlayer.playerColor
+            graphicController.currentPlayerGraphic.playerColor
                     .let {
                         when (it) {
                             PlayerColor.NONE -> list.first().playerColor

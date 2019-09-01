@@ -20,7 +20,6 @@ import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
-import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
@@ -54,7 +53,7 @@ class ShopDetails(
 
     private fun addTitle() {
         creditsTitle = add("-")
-        setCreditsTitle(graphicController.getPlayerItems(graphicController.currentPlayer.playerColor).getItems(item.itemType).size)
+        setCreditsTitle(graphicController.getPlayerItems(graphicController.currentPlayerGraphic.playerColor).getItems(item.itemType).size)
         addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()

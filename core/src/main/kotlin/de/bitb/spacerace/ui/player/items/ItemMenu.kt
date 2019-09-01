@@ -20,7 +20,7 @@ class ItemMenu(
     private lateinit var itemDetails: ItemDetails
 
     init {
-        val items = graphicController.currentPlayer.playerItems.getItemsTypeMap()
+        val items = graphicController.currentPlayerGraphic.playerItems.getItemsTypeMap()
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 

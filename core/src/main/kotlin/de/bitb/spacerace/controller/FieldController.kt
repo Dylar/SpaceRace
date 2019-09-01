@@ -44,7 +44,7 @@ class FieldController
     fun getField(groupId: Int, fieldId: Int) = map.groups[groupId].getField(fieldId)
 
     fun getField(item: Item): SpaceField {
-        return graphicController.fields.values
+        return graphicController.fieldGraphics.values
                 .filter { it.disposedItems.contains(item) }
                 .firstOrNull() ?: NONE_FIELD
     }
@@ -74,7 +74,7 @@ class FieldController
         }
 
         val fieldList: MutableList<SpaceField> = ArrayList()
-        graphicController.fields.values
+        graphicController.fieldGraphics.values
                 .filter { it.disposedItems.isNotEmpty() }
                 .forEach { fieldList.add(it) }
 
@@ -98,7 +98,7 @@ class FieldController
     }
 
     fun setConnectionColor(connectionInfo: ConnectionInfo) {
-        graphicController.connections.forEach { connection ->
+        graphicController.connectionGraphics.forEach { connection ->
             connection.setColor(connectionCanBeCrossed(connection, connectionInfo))
         }
     }

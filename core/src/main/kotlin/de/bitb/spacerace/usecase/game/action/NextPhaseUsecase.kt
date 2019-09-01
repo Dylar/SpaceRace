@@ -1,11 +1,7 @@
 package de.bitb.spacerace.usecase.game.action
 
 import de.bitb.spacerace.config.GOAL_CREDITS
-import de.bitb.spacerace.controller.FieldController
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.NextPhaseInfo
-import de.bitb.spacerace.controller.toConnectionInfo
-import de.bitb.spacerace.core.PlayerColorDispender
+import de.bitb.spacerace.controller.*
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
@@ -34,38 +30,50 @@ class NextPhaseUsecase @Inject constructor(
         private val checkPlayerPhaseUsecase: CheckPlayerPhaseUsecase,
         private val graphicController: GraphicController,
         private val fieldController: FieldController,
-        private val playerDataSource: PlayerDataSource,
-        private var playerColorDispender: PlayerColorDispender
+        private val playerController: PlayerController,
+        private val playerDataSource: PlayerDataSource
 ) : ResultUseCase<NextPhaseInfo, PlayerColor> {
 
     //TODO clean me
     override fun buildUseCaseSingle(params: PlayerColor): Single<NextPhaseInfo> =
             checkCurrentPlayerUsecase.buildUseCaseSingle(params)
-                    .flatMap { playerData ->
-                        when (playerData.phase) {
-                            Phase.MAIN1 -> canEndMain1(playerData)
-                            Phase.MOVE -> canEndMove(playerData)
-                            Phase.MAIN2 -> canEndMain2(playerData)
-                            Phase.END_TURN -> canEndTurn(playerData)
-                            Phase.END_ROUND -> Single.error(UnsupportedOperationException())
-                        }
+                    .flatMap { checkEndable(it) }
+                    .flatMap { doPhase(it) }
+                    .flatMap { intoDb ->
+                        playerDataSource.insertAllReturnAll(intoDb).map { it.first() }
                     }
-                    .flatMap { playerData ->
-                        playerData.nextPhase()
-                        val phasebla = when (playerData.phase) {
-                            Phase.MOVE -> startMove()
-                            Phase.MAIN2 -> startMain2()
-                            Phase.END_TURN -> endTurn()
+                    .map { NextPhaseInfo(it, it.phase) }
+                    .doOnSuccess {
+                        val position = graphicController.getPlayerPosition(it.playerData.playerColor)
+                        fieldController.setConnectionColor(it.toConnectionInfo(position))
+
+                        when (it.phase) {
+                            Phase.END_TURN -> graphicController.changePlayer()
                             else -> {
-                                { playerData }
                             }
                         }
-
-                        Single.just(phasebla(playerData))
-//                        Single.just(playerData)
-                                .flatMapCompletable { intoDb -> playerDataSource.insertAll(intoDb) }
-                                .andThen(Single.just(NextPhaseInfo(playerData, playerData.phase)))
                     }
+
+    private fun doPhase(playerData: PlayerData): Single<PlayerData> =
+            playerData.apply {
+                phase = Phase.next(phase)
+            }.let { player ->
+                when (player.phase) {
+                    Phase.MOVE -> startMove(player)
+                    Phase.MAIN2 -> startMain2(player)
+                    Phase.END_TURN -> endTurn(player)
+                    else -> Single.just(player)
+                }
+            }
+
+    private fun checkEndable(playerData: PlayerData) =
+            when (playerData.phase) {
+                Phase.MAIN1 -> canEndMain1(playerData)
+                Phase.MOVE -> canEndMove(playerData)
+                Phase.MAIN2 -> canEndMain2(playerData)
+                Phase.END_TURN -> canEndTurn(playerData)
+                Phase.END_ROUND -> Single.error(UnsupportedOperationException())
+            }
 
     private fun checkPhase(playerColor: PlayerColor, phase: Phase) =
             checkPlayerPhaseUsecase.buildUseCaseSingle(playerColor to phase)
@@ -98,44 +106,20 @@ class NextPhaseUsecase @Inject constructor(
             checkPhase(playerData.playerColor, Phase.END_TURN)
 
 
-    private fun startMove(): (PlayerData) -> PlayerData = { player ->
-        player.apply { steps.add(graphicController.getPlayerField(playerColor).gamePosition) }
-                .also {
-                    val position = graphicController.getPlayerPosition(player.playerColor)
-                    fieldController.setConnectionColor(player.toConnectionInfo(position))
-                }
-    }
+    private fun startMove(playerData: PlayerData): Single<PlayerData> =
+            Single.fromCallable {
+                playerData.apply { steps.add(graphicController.getPlayerField(playerColor).gamePosition) }
+            }
 
-    private fun startMain2(): (PlayerData) -> PlayerData = {
-        obtainField(it).also {
-            val nextPhaseInfo: NextPhaseInfo = NextPhaseInfo(it, Phase.MAIN2)
-            fieldController.setConnectionColor(nextPhaseInfo.toConnectionInfo(graphicController.getPlayerPosition(it.playerColor)))
-        }
-    }
+    private fun startMain2(playerData: PlayerData): Single<PlayerData> =
+            Single.fromCallable {
+                obtainField(playerData)
+            }
 
-    private fun endTurn(): (PlayerData) -> PlayerData = {
-        it.also {
-            graphicController.players
-                    .apply {
-                        val oldPlayer = this[0]
-                        var indexOld = oldPlayer.getGameImage().zIndex + 1 //TODO do it in gui
-                        forEach { player ->
-                            player.getGameImage().zIndex = indexOld++
-                        }
-                        removeAt(0)
-                        add(oldPlayer)
-
-                        Logger.println("oldPlayer: ${oldPlayer.playerColor}")
-                        //TODO items in db
-                        oldPlayer.playerItems.removeUsedItems()
-                    }.let {
-                        it.first()
-                    }.also { newPlayer ->
-                        Logger.println("newPlayer: ${newPlayer.playerColor}")
-                        playerColorDispender.publishUpdate(newPlayer.playerColor)
-                    }
-        }
-    }
+    private fun endTurn(playerData: PlayerData): Single<PlayerData> =
+            Single.fromCallable {
+                playerData.also { playerController.changePlayer() }
+            }
 
     private fun obtainField(playerData: PlayerData): PlayerData =
             graphicController

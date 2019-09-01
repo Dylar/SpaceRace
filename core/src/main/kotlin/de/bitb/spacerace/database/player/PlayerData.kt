@@ -79,11 +79,6 @@ data class PlayerData(
         return lose
     }
 
-    fun nextPhase() {
-        phase = Phase.next(phase)
-    }
-
-
     fun stepsLeft(): Int =
             getMaxSteps() - (if (steps.isEmpty()) 0 else steps.size - 1)
 

@@ -9,8 +9,6 @@ import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.GameImage
 import io.objectbox.BoxStore
-import io.objectbox.BoxStoreBuilder
-import java.io.File
 import javax.inject.Inject
 
 class GameScreen(
@@ -44,7 +42,7 @@ class GameScreen(
     }
 
     override fun getCameraTarget(): GameImage? {
-        return CAMERA_TARGET ?: graphicController.currentPlayer.getGameImage()
+        return CAMERA_TARGET ?: graphicController.currentPlayerGraphic.getGameImage()
     }
 
     fun onZoomPlusClicked() {

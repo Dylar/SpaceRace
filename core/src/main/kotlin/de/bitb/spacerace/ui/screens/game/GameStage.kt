@@ -36,10 +36,10 @@ class GameStage(
     }
 
     fun addEntitiesToMap() {
-        addActor(graphicController.connections)
-        graphicController.connections.zIndex = 0
-        graphicController.fields.values.forEach { addActor(it.getGameImage()) }
-        graphicController.players.forEach { addActor(it.getGameImage()) }
+        addActor(graphicController.connectionGraphics)
+        graphicController.connectionGraphics.zIndex = 0
+        graphicController.fieldGraphics.values.forEach { addActor(it.getGameImage()) }
+        graphicController.playerGraphics.forEach { addActor(it.getGameImage()) }
     }
 
     override fun addActor(actor: Actor?) {
@@ -50,7 +50,7 @@ class GameStage(
     }
 
     private fun rearrangePlayer(actor: Actor) {
-        if (graphicController.players.isEmpty() || graphicController.currentPlayer.getGameImage().zIndex == -1) {
+        if (graphicController.playerGraphics.isEmpty() || graphicController.currentPlayerGraphic.getGameImage().zIndex == -1) {
             return
         }
 
@@ -58,7 +58,7 @@ class GameStage(
 //        Logger.println("ACTOR INDEX: $actorIndex")
 
         val indices: MutableList<Int> = ArrayList()
-        graphicController.players.forEach {
+        graphicController.playerGraphics.forEach {
             indices.add(it.getGameImage().zIndex)
 //            Logger.println("PLAYER INDEX PRE ${it.playerData.playerData.name}: ${it.getGameImage().zIndex}")
         }
@@ -68,7 +68,7 @@ class GameStage(
         indices.removeAt(indices.lastIndex)
         indices.add(actorIndex)
         for (value in indices.withIndex()) {
-            val player = graphicController.players[value.index]
+            val player = graphicController.playerGraphics[value.index]
             player.getGameImage().zIndex = value.value + 1
         }
     }
