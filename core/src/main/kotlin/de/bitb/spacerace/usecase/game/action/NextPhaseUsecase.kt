@@ -43,28 +43,7 @@ class NextPhaseUsecase @Inject constructor(
                         playerDataSource.insertAllReturnAll(intoDb).map { it.first() }
                     }
                     .map { NextPhaseInfo(it, it.phase) }
-                    .doOnSuccess {
-                        val position = graphicController.getPlayerPosition(it.playerData.playerColor)
-                        fieldController.setConnectionColor(it.toConnectionInfo(position))
-
-                        when (it.phase) {
-                            Phase.END_TURN -> graphicController.changePlayer()
-                            else -> {
-                            }
-                        }
-                    }
-
-    private fun doPhase(playerData: PlayerData): Single<PlayerData> =
-            playerData.apply {
-                phase = Phase.next(phase)
-            }.let { player ->
-                when (player.phase) {
-                    Phase.MOVE -> startMove(player)
-                    Phase.MAIN2 -> startMain2(player)
-                    Phase.END_TURN -> endTurn(player)
-                    else -> Single.just(player)
-                }
-            }
+                    .doOnSuccess { setGraphics(it) }
 
     private fun checkEndable(playerData: PlayerData) =
             when (playerData.phase) {
@@ -106,6 +85,18 @@ class NextPhaseUsecase @Inject constructor(
             checkPhase(playerData.playerColor, Phase.END_TURN)
 
 
+    private fun doPhase(playerData: PlayerData): Single<PlayerData> =
+            playerData.apply {
+                phase = Phase.next(phase)
+            }.let { player ->
+                when (player.phase) {
+                    Phase.MOVE -> startMove(player)
+                    Phase.MAIN2 -> startMain2(player)
+                    Phase.END_TURN -> endTurn(player)
+                    else -> Single.just(player)
+                }
+            }
+
     private fun startMove(playerData: PlayerData): Single<PlayerData> =
             Single.fromCallable {
                 playerData.apply { steps.add(graphicController.getPlayerField(playerColor).gamePosition) }
@@ -121,33 +112,46 @@ class NextPhaseUsecase @Inject constructor(
                 playerData.also { playerController.changePlayer() }
             }
 
+    private fun setGraphics(nextPhaseInfo: NextPhaseInfo) {
+        val position = graphicController.getPlayerPosition(nextPhaseInfo.playerData.playerColor)
+        fieldController.setConnectionColor(nextPhaseInfo.toConnectionInfo(position))
+
+        when (nextPhaseInfo.phase) {
+            Phase.END_TURN -> graphicController.changePlayer()
+            else -> {
+            }
+        }
+    }
+
     private fun obtainField(playerData: PlayerData): PlayerData =
             graphicController
                     .getPlayerField(playerData.playerColor)
-                    .apply {
-                        val items =
-                                mutableListOf<Item>().apply { addAll(disposedItems) }
-                        items.forEach { it.use(playerData) }
-                    }
-                    .fieldType
-                    .also {
-                        when (it) {
-                            FieldType.WIN -> obtainWinCommand(playerData)
-                            FieldType.LOSE -> obtainLoseCommand(playerData)
-                            FieldType.AMBUSH -> obtainAmbushCommand(playerData)
-                            FieldType.GIFT -> obtainGiftCommand(playerData)
-                            FieldType.MINE -> obtainMineCommand(playerData)
-                            FieldType.TUNNEL -> obtainTunnelCommand(playerData)
-                            FieldType.GOAL -> obtainGoalCommand(playerData)
+                    .let {
+                        triggerItems(it, playerData)
+                        when (it.fieldType) {
+                            FieldType.WIN -> obtainWin(playerData)
+                            FieldType.LOSE -> obtainLose(playerData)
+                            FieldType.AMBUSH -> obtainAmbush(playerData)
+                            FieldType.GIFT -> obtainGift(playerData)
+                            FieldType.MINE -> obtainMine(playerData)
+                            FieldType.TUNNEL -> obtainTunnel(playerData)
+                            FieldType.GOAL -> obtainGoal(playerData)
                             FieldType.SHOP -> getDefault().post(ObtainShopCommand(playerData)) //TODO open shop onSuccess
                             else -> Logger.println("IMPL ME")
                         }
-                        Logger.println("Field ${it.name}: $playerData")
+                        Logger.println("Field ${it.fieldType.name}: $playerData")
+                        playerData
                     }
-                    .let { playerData }
 
-    private fun obtainGoalCommand(playerData: PlayerData) {
-        if (fieldController.currentGoal?.gamePosition?.isPosition(graphicController.getPlayerPosition(playerData.playerColor)) == true) {
+    private fun triggerItems(field: SpaceField, playerData: PlayerData) {
+        mutableListOf<Item>()
+                .apply { addAll(field.disposedItems) }
+                .forEach { it.use(playerData) }
+    }
+
+    private fun obtainGoal(playerData: PlayerData) {
+        val playerPosition = graphicController.getPlayerPosition(playerData.playerColor)
+        if (fieldController.currentGoal?.gamePosition?.isPosition(playerPosition) == true) {
             playerData.apply {
                 credits += GOAL_CREDITS
                 victories++
@@ -156,7 +160,7 @@ class NextPhaseUsecase @Inject constructor(
         }
     }
 
-    private fun obtainTunnelCommand(playerData: PlayerData) {
+    private fun obtainTunnel(playerData: PlayerData) {
         val tunnel = getRandomTunnel(playerData.playerColor)
         //TODO klappt das? Nö :P grafik muss neu gesetzt werden.............
         graphicController.getPlayer(playerData.playerColor).setFieldPosition(tunnel)
@@ -173,25 +177,25 @@ class NextPhaseUsecase @Inject constructor(
         return tunnel
     }
 
-    private fun obtainMineCommand(playerData: PlayerData) {
+    private fun obtainMine(playerData: PlayerData) {
         (graphicController.getPlayerField(playerData.playerColor) as MineField)
                 .apply { owner = playerData.playerColor }
     }
 
-    private fun obtainGiftCommand(playerData: PlayerData) {
+    private fun obtainGift(playerData: PlayerData) {
         graphicController.getPlayerItems(playerData.playerColor).addRandomGift()
     }
 
-    private fun obtainAmbushCommand(playerData: PlayerData) {
+    private fun obtainAmbush(playerData: PlayerData) {
         graphicController.getPlayerItems(playerData.playerColor)
                 .attachItem(ItemCollection.SLOW_MINE.create(playerData.playerColor) as DisposableItem)
     }
 
-    private fun obtainLoseCommand(playerData: PlayerData) {
+    private fun obtainLose(playerData: PlayerData) {
         playerData.substractRandomWin()
     }
 
-    private fun obtainWinCommand(playerData: PlayerData) {
+    private fun obtainWin(playerData: PlayerData) {
         playerData.addRandomWin()
     }
 
