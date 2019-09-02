@@ -31,6 +31,3 @@ class TestGame : MainGame() {
             .build()
 
 }
-
-val game: TestGame
-    get() = TestGame()
