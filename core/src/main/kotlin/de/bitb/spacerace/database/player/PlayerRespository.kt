@@ -30,7 +30,10 @@ class PlayerRespository(
     }
 
     override fun delete(vararg userData: PlayerData): Completable {
-        return Completable.create { playerBox.remove(*userData) }
+        return Completable.fromAction {
+            if (userData.isEmpty()) playerBox.removeAll()
+            else playerBox.remove(*userData)
+        }
     }
 
     override fun getAll(): Single<List<PlayerData>> {
