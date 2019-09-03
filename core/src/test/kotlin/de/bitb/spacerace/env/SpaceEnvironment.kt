@@ -8,8 +8,10 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.MapCollection.TEST_MAP
@@ -176,13 +178,13 @@ class SpaceEnvironment {
 
     fun getRandomConnectedField() =
             (currentPlayer to getPlayerField()).let { (player, currentField) ->
-                currentField.connections.first { connection ->
-                    connection.spaceField1 != fieldController.currentGoal
-                            && connection.spaceField2 != fieldController.currentGoal
+                currentField.connections.firstOrNull { connection ->
+                    !connection.spaceField1.gamePosition.isPosition(fieldController.currentGoal ?: NONE_POSITION)
+                            && !connection.spaceField2.gamePosition.isPosition(fieldController.currentGoal ?: NONE_POSITION)
                             && player.steps.last().let { lastStep ->
                         lastStep != connection.spaceField1.gamePosition || lastStep != connection.spaceField2.gamePosition
                     }
-                }.getOpposite(currentField)
+                }?.getOpposite(currentField) ?: NONE_FIELD
             }
 
     //

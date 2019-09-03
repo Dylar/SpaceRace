@@ -79,7 +79,7 @@ class MoveUsecase @Inject constructor(
                 "Field: ${targetField.fieldType.name}, ${targetField.id}"
         )
         val moveInfo = MoveInfo(playerData.playerColor, targetField.gamePosition, playerData.areStepsLeft(), playerData.previousStep)
-        return playerDataSource.insertAll(playerData)
+        return playerDataSource.insert(playerData)
                 .andThen(Single.just(moveInfo))
     }
 

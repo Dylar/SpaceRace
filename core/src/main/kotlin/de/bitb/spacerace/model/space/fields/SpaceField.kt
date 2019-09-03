@@ -1,7 +1,6 @@
 package de.bitb.spacerace.model.space.fields
 
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
-import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.objecthandling.GameImage
@@ -9,7 +8,7 @@ import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 
-val NONE_FIELD: SpaceField = SpaceField()
+val NONE_FIELD: SpaceField = SpaceField().apply { id = -1 }
 
 open class SpaceField(
         val fieldType: FieldType = FieldType.UNKNOWN,
@@ -56,4 +55,9 @@ open class SpaceField(
         return connections.any { it.isConnection(this.gamePosition, spaceField.gamePosition) }
     }
 
+    override fun toString(): String =
+            super.toString()
+                    .replace("de.bitb.spacerace.model.space.fields.", "") +
+                    ", Type: ${fieldType.name}" +
+                    ", ID: $id"
 }

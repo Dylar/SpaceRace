@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.Player
@@ -107,7 +108,20 @@ class GraphicController
         oldPlayer.playerItems.removeUsedItems()
     }
 
+    fun setGoal(oldGoal: PositionData = NONE_POSITION, currentGoal: PositionData = NONE_POSITION) {
+        val oldGoalGraphic = getField(oldGoal)
+        val currentGoalGraphic = getField(currentGoal)
+        oldGoalGraphic.fieldImage.setBlinkColor(null)
+        currentGoalGraphic.fieldImage.setBlinkColor(currentGoalGraphic.fieldType.color)
+    }
+
 }
+
+data class LoadGameInfo(
+        var currentColor: PlayerColor,
+        var players: List<PlayerData>,
+        var goal: PositionData
+)
 
 data class NextPhaseInfo(
         var playerData: PlayerData,

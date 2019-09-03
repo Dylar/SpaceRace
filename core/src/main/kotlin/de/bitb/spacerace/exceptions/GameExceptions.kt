@@ -8,6 +8,8 @@ sealed class GameException(
         message: String
 ) : Throwable(message)
 
+class SelectMorePlayerException() : GameException("Select more player")
+
 class NotCurrentPlayerException(
         val player: PlayerColor
 ) : GameException("$player is not current player")

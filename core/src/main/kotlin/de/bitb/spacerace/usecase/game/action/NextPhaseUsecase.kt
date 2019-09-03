@@ -152,7 +152,7 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun obtainGoal(playerData: PlayerData) {
         val playerPosition = graphicController.getPlayerPosition(playerData.playerColor)
-        if (fieldController.currentGoal?.gamePosition?.isPosition(playerPosition) == true) {
+        if (fieldController.currentGoal?.isPosition(playerPosition) == true) {
             playerData.apply {
                 credits += GOAL_CREDITS
                 victories++

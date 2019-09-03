@@ -8,7 +8,7 @@ import io.reactivex.Single
 interface PlayerDataSource {
 
     //    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg userData: PlayerData): Completable
+    fun insert(vararg userData: PlayerData): Completable
 
     fun insertAllReturnAll(vararg userData: PlayerData): Single<List<PlayerData>>
 
@@ -16,6 +16,7 @@ interface PlayerDataSource {
 
     //    @Delete
     fun delete(vararg userData: PlayerData): Completable
+    fun deleteAll(): Completable
 
 //    @Query("DELETE FROM player WHERE color = :firstName AND last_name = :lastName")
 //    fun deleteByName(firstName: PlayerColor, lastName: String): Int

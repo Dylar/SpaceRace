@@ -8,6 +8,8 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
+import de.bitb.spacerace.model.objecthandling.NONE_POSITION
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -28,7 +30,7 @@ class FieldController
     lateinit var map: SpaceMap
     var spaceMap: MapCollection = MapCollection.RANDOM
 
-    var currentGoal: SpaceField? = null
+    var currentGoal: PositionData? = null
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
 
     init {
@@ -46,14 +48,6 @@ class FieldController
 
     fun addField(spaceField: SpaceField) {
         fieldsMap[spaceField.fieldType]!!.add(spaceField)
-
-//        mapDataSource.insertAll(spaceField.toFieldData())
-//                .flatMap {
-//                    it.forEach {
-//
-//                    }
-//                    mapDataSource.insertAll(*it.toTypedArray())
-//                }
     }
 
     fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
@@ -93,10 +87,10 @@ class FieldController
 
     }
 
-    fun setRandomGoal() {
-        currentGoal?.fieldImage?.setBlinkColor(null)
-        currentGoal = map.getRandomGoal()
-        currentGoal?.fieldImage?.setBlinkColor(Color(currentGoal?.fieldType?.color))
+    fun setRandomGoal() : Pair<PositionData?, PositionData> {
+        val oldGoal = currentGoal
+        currentGoal = map.getRandomGoal().gamePosition
+        return oldGoal to currentGoal!!
     }
 
     fun setConnectionColor(connectionInfo: ConnectionInfo) {

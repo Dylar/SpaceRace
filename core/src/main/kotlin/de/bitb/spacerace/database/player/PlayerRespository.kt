@@ -11,34 +11,26 @@ class PlayerRespository(
         private val playerBox: Box<PlayerData>
 ) : PlayerDataSource {
 
-    override fun insertAll(vararg userData: PlayerData): Completable =
+    override fun insert(vararg userData: PlayerData): Completable =
             Completable.fromCallable { playerBox.put(*userData) }
 
-    override fun insertAllReturnAll(vararg userData: PlayerData): Single<List<PlayerData>> {
-        return insertAll(*userData)
-                .andThen(getAllBy(*userData))
-    }
+    override fun insertAllReturnAll(vararg userData: PlayerData): Single<List<PlayerData>> =
+            insert(*userData).andThen(getAllBy(*userData))
 
-    override fun replaceAll(vararg userData: PlayerData): Single<List<PlayerData>> {
-        return delete(*userData)
-                .andThen(insertAll(*userData))
-                .andThen(getAllBy(*userData))
-    }
+    override fun replaceAll(vararg userData: PlayerData): Single<List<PlayerData>> =
+            delete(*userData).andThen(insertAllReturnAll(*userData))
 
-    private fun getAllBy(vararg playerData: PlayerData): Single<List<PlayerData>>? {
-        return getByColor(*playerData.map { it.playerColor }.toTypedArray())
-    }
+    private fun getAllBy(vararg playerData: PlayerData): Single<List<PlayerData>>? =
+            getByColor(*playerData.map { it.playerColor }.toTypedArray())
 
-    override fun delete(vararg userData: PlayerData): Completable {
-        return Completable.fromAction {
-            if (userData.isEmpty()) playerBox.removeAll()
-            else playerBox.remove(*userData)
-        }
-    }
+    override fun delete(vararg userData: PlayerData): Completable =
+            Completable.fromAction { playerBox.remove(*userData) }
 
-    override fun getAll(): Single<List<PlayerData>> {
-        return RxQuery.single(playerBox.query().build())
-    }
+    override fun deleteAll(): Completable =
+            Completable.fromAction { playerBox.removeAll() }
+
+    override fun getAll(): Single<List<PlayerData>> =
+            RxQuery.single(playerBox.query().build())
 
     override fun getById(vararg userIds: Long): Single<List<PlayerData>> {
         val query = playerBox.query()
