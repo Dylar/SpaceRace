@@ -6,7 +6,10 @@ import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.space.fields.SpaceField
 import javax.inject.Inject
 
-open class SpaceGroup(val offsetX: Float = 0f, val offsetY: Float = 0f) {
+open class SpaceGroup(
+        val offsetX: Float = 0f,
+        val offsetY: Float = 0f
+) {
 
     @Inject
     protected lateinit var fieldController: FieldController

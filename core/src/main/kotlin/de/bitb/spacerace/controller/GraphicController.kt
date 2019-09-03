@@ -89,8 +89,7 @@ class GraphicController
         playerImage.moveToPoint(playerImage,
                 fieldImage,
                 playerImage.getNONEAction(playerImage, fieldImage))
-        player.gamePosition.setPosition(moveInfo.position) //TODO maybe we dont need this
-
+        player.gamePosition.setPosition(moveInfo.position)
     }
 
     fun changePlayer() {

@@ -42,15 +42,14 @@ open class MainGame : BaseGame() {
     private val compositeDisposable = CompositeDisposable()
 
     @Inject
-    protected lateinit var commandUsecase: CommandUsecase
-
-    @Inject
     lateinit var observeWinnerUsecase: ObserveWinnerUsecase
     @Inject
     lateinit var observeRoundUsecase: ObserveRoundUsecase
-
     @Inject
     lateinit var observeCommandUsecase: ObserveCommandUsecase
+    //TODO dafuq? 2 command usecases
+    @Inject
+    protected lateinit var commandUsecase: CommandUsecase
     @Inject
     lateinit var playerController: PlayerController
 

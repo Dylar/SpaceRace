@@ -11,21 +11,19 @@ import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 val NONE_FIELD: SpaceField = SpaceField().apply { id = -1 }
 
 open class SpaceField(
-        val fieldType: FieldType = FieldType.UNKNOWN,
-        val fieldImage: FieldImage = FieldImage(fieldType),
-        positionData: PositionData = PositionData()
-) : GameObject(positionData),
+        val fieldType: FieldType = FieldType.RANDOM,
+        val fieldImage: FieldImage = FieldImage(fieldType)
+) : GameObject(PositionData()),
         IBlinkingImage by fieldImage {
 
     companion object {
 
         fun createField(fieldType: FieldType): SpaceField {
             return when (fieldType) {
-                FieldType.MINE -> MineField()
-                FieldType.RANDOM -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
-                else -> {
-                    SpaceField(fieldType)
-                }
+//                FieldType.MINE -> MineField()
+                FieldType.RANDOM
+                -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
+                else -> SpaceField(fieldType)
             }
         }
     }
@@ -39,7 +37,7 @@ open class SpaceField(
     }
 
     init {
-        setBounds(positionData.posX, positionData.posY, FIELD_BORDER, FIELD_BORDER)
+        setBounds(gamePosition.posX, gamePosition.posY, FIELD_BORDER, FIELD_BORDER)
     }
 
     fun disposeItem(disposableItem: DisposableItem) {

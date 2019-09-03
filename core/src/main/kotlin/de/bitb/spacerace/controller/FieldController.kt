@@ -37,12 +37,6 @@ class FieldController
 
     fun getField(groupId: Int, fieldId: Int) = map.groups[groupId].getField(fieldId)
 
-    fun getField(item: Item): SpaceField {
-        return graphicController.fieldGraphics.values
-                .filter { it.disposedItems.contains(item) }
-                .firstOrNull() ?: NONE_FIELD
-    }
-
     fun addField(spaceField: SpaceField) {
         fieldsMap[spaceField.fieldType]!!.add(spaceField)
     }
@@ -52,6 +46,13 @@ class FieldController
     }
 
     fun moveMovables() {
+
+        fun getField(item: Item): SpaceField {
+            return graphicController.fieldGraphics.values
+                    .filter { it.disposedItems.contains(item) }
+                    .firstOrNull() ?: NONE_FIELD
+        }
+
         val moveItem = { item: MovingItem, toRemove: MutableList<Item> ->
             val field = getField(item)
             val list = field.connections

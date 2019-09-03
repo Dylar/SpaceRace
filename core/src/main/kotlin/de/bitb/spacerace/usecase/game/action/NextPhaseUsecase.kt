@@ -42,7 +42,6 @@ class NextPhaseUsecase @Inject constructor(
                         playerDataSource.insertAllReturnAll(intoDb).map { it.first() }
                     }
                     .map { NextPhaseInfo(it, it.phase) }
-                    .doOnSuccess { setGraphics(it) }
 
     private fun checkEndable(playerData: PlayerData) =
             when (playerData.phase) {
@@ -110,18 +109,6 @@ class NextPhaseUsecase @Inject constructor(
             Single.fromCallable {
                 playerData.also { playerController.changePlayer() }
             }
-
-    //TODO do me in onsuccess
-    private fun setGraphics(nextPhaseInfo: NextPhaseInfo) {
-        val position = graphicController.getPlayerPosition(nextPhaseInfo.playerData.playerColor)
-        fieldController.setConnectionColor(nextPhaseInfo.toConnectionInfo(position))
-
-        when (nextPhaseInfo.phase) {
-            Phase.END_TURN -> graphicController.changePlayer()
-            else -> {
-            }
-        }
-    }
 
     //TODO clean me
     private fun obtainField(playerData: PlayerData): PlayerData =
