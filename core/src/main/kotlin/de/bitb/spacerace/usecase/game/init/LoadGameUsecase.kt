@@ -8,7 +8,6 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Single
@@ -27,34 +26,25 @@ class LoadGameUsecase @Inject constructor(
                     .delete()
                     .andThen(playerDataSource.insertAllReturnAll(*params.map { PlayerData(playerColor = it) }.toTypedArray()))
                     .flatMap { initMap(it) }
-                    .map { (startField, players) ->
-                        graphicController.clearGraphics()
+                    .flatMap { (startField, players) -> initPlayer(startField, players) }
+                    .doAfterSuccess { pushCurrentPlayer(it.first().playerColor) }
 
-                        players.apply {
-                            forEach { addPlayer(it, startField) }
-                        }
-                    }
-                    .doAfterSuccess {
-                        pushCurrentPlayer()
-                    }
-
-    private fun pushCurrentPlayer() {
-        playerColorDispenser.publisher.onNext(playerController.currentColor)
-    }
-
+    private fun initPlayer(startField: SpaceField, players: List<PlayerData>) =
+            Single.fromCallable {
+                graphicController.clearGraphics()
+                players.apply {
+                    forEach { addPlayer(it, startField) }
+                }
+            }
 
     private fun initMap(players: List<PlayerData>): Single<Pair<SpaceField, List<PlayerData>>> =
-            fieldController.spaceMap
-                    .createMap()
-                    .let { addFields(it) }
-                    .let { Single.just(it.startField to players) }
-//                    .map { it.startField to players }
+            Single.fromCallable { fieldController.spaceMap.createMap() }
+                    .flatMap { addFields(it) }
+                    .map { it.startField to players }
 
 
-    //    private fun addFields(map: SpaceMap): Single<SpaceMap> =
-//            Single.fromCallable{
-    private fun addFields(map: SpaceMap): SpaceMap =
-            map.also {
+    private fun addFields(map: SpaceMap): Single<SpaceMap> =
+            Single.fromCallable {
                 fieldController.map = map
                 fieldController.setRandomGoal()
                 map.also {
@@ -76,10 +66,15 @@ class LoadGameUsecase @Inject constructor(
         playerController.addPlayer(playerData.playerColor)
 //        player.playerImage.movingSpeed * playerData.index
     }
+
+    private fun pushCurrentPlayer(currentColor: PlayerColor) =
+            playerColorDispenser.publisher.onNext(currentColor)
+
+
 }
 
 
-    // TODO OOOLD
+// TODO OOOLD
 
 //    override fun buildUseCaseSingle(params: List<PlayerColor>): Single<List<PlayerData>> =
 //            playerDataSource
