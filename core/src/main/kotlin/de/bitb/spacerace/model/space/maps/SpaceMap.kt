@@ -14,11 +14,6 @@ abstract class SpaceMap {
     val groups: MutableList<SpaceGroup> = ArrayList()
     val allGoals: MutableList<SpaceField> = ArrayList()
 
-    fun getRandomGoal(): SpaceField {
-        return if (DEBUG_WIN_FIELD) allGoals[0]
-        else allGoals[(Math.random() * allGoals.size).toInt()]
-    }
-
     fun addAllGoals() {
         allGoals.apply {
             addAll(groups

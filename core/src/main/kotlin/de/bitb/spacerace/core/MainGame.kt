@@ -52,32 +52,13 @@ open class MainGame : BaseGame() {
     @Inject
     lateinit var observeCommandUsecase: ObserveCommandUsecase
     @Inject
-    lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
-    @Inject
     lateinit var playerController: PlayerController
-
-    private var dispo: Disposable? = null
 
     open fun initComponent(): AppComponent =
             DaggerAppComponent.builder()
                     .applicationModule(ApplicationModule(this))
                     .databaseModule(DatabaseModule())
                     .build()
-
-    private fun initObserver() {
-        dispo?.dispose()
-        dispo = observeCurrentPlayerUseCase.observeStream(
-                onNext = {
-                    playerController.currentPlayerData = it
-                })
-
-        commandUsecase.observeStream()
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun receiveCommand(event: BaseCommand) {
-        commandUsecase.commandDispender.publishUpdate(event)
-    }
 
     override fun initGame() {
         EventBus.getDefault().register(this)
@@ -88,43 +69,30 @@ open class MainGame : BaseGame() {
 //        testFields()
     }
 
+    private fun initObserver() {
+        playerController.initObserver()
+        commandUsecase.observeStream()
+    }
+
     override fun initScreen() {
         setScreen(StartScreen(this))
 //        setScreen(GameScreen(this))
 //        setScreen(GameOverScreen(this))
     }
 
-    @Inject
-    lateinit var box: Box<FieldData>
-
-    private fun testFields() {
-        Pair(
-                FieldData(fieldType = FieldType.MINE),
-                FieldData(fieldType = FieldType.MINE,
-                        owner = PlayerColor.NAVY)
-        ).also { (mineNot, mineOwned) ->
-            box.put(listOf(
-                    mineNot.apply {
-                        connections.add(mineOwned)
-                    },
-                    mineOwned.apply {
-                        connections.add(mineNot)
-                    }))
-        }.also { (notLocal, ownLocal) ->
-            val all = box.all
-            val notDb = all[0]
-            val ownDb = all[1]
-            val conOwn = ownLocal.connections[0]
-            val conNot = notLocal.connections[0]
-            val conOwnDb = ownDb.connections[0]
-            val conNotDb = notDb.connections[0]
-            Logger.println("conOwn: ", conOwn)
-            Logger.println("conNot: ", conNot)
-            Logger.println("conOwnDb: ", conOwnDb)
-            Logger.println("conNotDb: ", conNotDb)
-            Logger.println("RESULT: ", all)
-        }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun receiveCommand(event: BaseCommand) {
+        commandUsecase.commandDispender.publishUpdate(event)
     }
+
+//
+//    ██╗  ██╗███████╗██╗   ██╗███████╗
+//    ██║ ██╔╝██╔════╝╚██╗ ██╔╝██╔════╝
+//    █████╔╝ █████╗   ╚████╔╝ ███████╗
+//    ██╔═██╗ ██╔══╝    ╚██╔╝  ╚════██║
+//    ██║  ██╗███████╗   ██║   ███████║
+//    ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝
+//
 
     override fun render() {
         handleSystemInput()
@@ -168,6 +136,7 @@ open class MainGame : BaseGame() {
 
     //TODO clear on
     fun clear() {
+        playerController.clear()
         compositeDisposable.clear()
         (screen as? BaseScreen)?.clear()
     }
@@ -215,4 +184,41 @@ open class MainGame : BaseGame() {
         compositeDisposable += observeRoundUsecase.observeStream()
     }
 
+
+
+
+    ///TODO TEEEEST
+
+
+    @Inject
+    lateinit var box: Box<FieldData>
+
+    private fun testFields() {
+        Pair(
+                FieldData(fieldType = FieldType.MINE),
+                FieldData(fieldType = FieldType.MINE,
+                        owner = PlayerColor.NAVY)
+        ).also { (mineNot, mineOwned) ->
+            box.put(listOf(
+                    mineNot.apply {
+                        connections.add(mineOwned)
+                    },
+                    mineOwned.apply {
+                        connections.add(mineNot)
+                    }))
+        }.also { (notLocal, ownLocal) ->
+            val all = box.all
+            val notDb = all[0]
+            val ownDb = all[1]
+            val conOwn = ownLocal.connections[0]
+            val conNot = notLocal.connections[0]
+            val conOwnDb = ownDb.connections[0]
+            val conNotDb = notDb.connections[0]
+            Logger.println("conOwn: ", conOwn)
+            Logger.println("conNot: ", conNot)
+            Logger.println("conOwnDb: ", conOwnDb)
+            Logger.println("conNotDb: ", conNotDb)
+            Logger.println("RESULT: ", all)
+        }
+    }
 }

@@ -10,6 +10,7 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.exceptions.SelectMorePlayerException
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -21,15 +22,18 @@ class LoadGameUsecase @Inject constructor(
         private val fieldController: FieldController,
         private val playerColorDispenser: PlayerColorDispenser,
         private val playerDataSource: PlayerDataSource
-) : ResultUseCase<LoadGameInfo, List<PlayerColor>> {
+) : ResultUseCase<LoadGameInfo, LoadGameConfig> {
 
-    override fun buildUseCaseSingle(params: List<PlayerColor>): Single<LoadGameInfo> =
-            checkPlayerSize(params)
-                    .andThen(playerDataSource.deleteAll()
-                    ).andThen(playerDataSource.insertAllReturnAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
-                    ).flatMap {
-                        initMap(it)
-                    }.doAfterSuccess { pushCurrentPlayer(it.currentColor) }
+    override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameInfo> =
+            params.let { (players, mapToLoad) ->
+                checkPlayerSize(players)
+                        .andThen(playerDataSource.deleteAll()
+                        ).andThen(playerDataSource.insertAllReturnAll(*players.map { PlayerData(playerColor = it) }.toTypedArray())
+                        ).flatMap {
+                            initMap(it, mapToLoad)
+                        }.doAfterSuccess { pushCurrentPlayer(it.currentColor) }
+            }
+
 
     private fun checkPlayerSize(players: List<PlayerColor>): Completable =
             Completable.create { emitter ->
@@ -37,13 +41,13 @@ class LoadGameUsecase @Inject constructor(
                 else emitter.onError(SelectMorePlayerException())
             }
 
-    private fun initMap(players: List<PlayerData>): Single<LoadGameInfo> =
+    private fun initMap(players: List<PlayerData>, mapToLoad: MapCollection): Single<LoadGameInfo> =
             Single.fromCallable {
+                //TODO clean from graphics
                 graphicController.clearGraphics()
-                val map = fieldController.spaceMap.createMap()
+                val map = mapToLoad.createMap()
 
                 fieldController.map = map
-                fieldController.setRandomGoal()
                 map.groups.forEach { spaceGroup ->
                     spaceGroup.fields.entries.forEach { field ->
                         addField(field.value)
@@ -51,10 +55,12 @@ class LoadGameUsecase @Inject constructor(
                 }
                 players.forEach { addPlayer(it, map.startField) }
 
+                val goals = fieldController.setRandomGoal()
+
                 LoadGameInfo(
                         currentColor = players.first().playerColor,
                         players = players,
-                        goal = fieldController.currentGoal!!)
+                        goal = goals.second)
             }
 
     private fun addField(spaceField: SpaceField) {
@@ -72,3 +78,8 @@ class LoadGameUsecase @Inject constructor(
             playerColorDispenser.publisher.onNext(currentColor)
 
 }
+
+data class LoadGameConfig(
+        var players: List<PlayerColor>,
+        var mapToLoad: MapCollection
+)

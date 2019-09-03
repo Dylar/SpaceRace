@@ -1,12 +1,15 @@
 package de.bitb.spacerace.events.commands.start
 
+import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.space.maps.MapCollection
 import javax.inject.Inject
 
-class SelectMapCommand(val mapCollection: MapCollection) : BaseCommand() {
+class SelectMapCommand(
+        private val mapCollection: MapCollection
+) : BaseCommand() {
 
     @Inject
     protected lateinit var fieldController: FieldController
@@ -20,7 +23,7 @@ class SelectMapCommand(val mapCollection: MapCollection) : BaseCommand() {
     }
 
     override fun execute() {
-        fieldController.spaceMap = mapCollection
+        SELECTED_MAP = mapCollection
     }
 
 }

@@ -1,6 +1,5 @@
 package de.bitb.spacerace.env
 
-import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.*
 import de.bitb.spacerace.core.*
@@ -19,6 +18,7 @@ import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
+import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
 import io.reactivex.observers.TestObserver
 import javax.inject.Inject
@@ -86,31 +86,27 @@ class SpaceEnvironment {
 //
 
     fun initGame(
-            vararg playerColor: PlayerColor = arrayOf(),
+            vararg playerColor: PlayerColor = DEFAULT_TEST_PLAYER.toTypedArray(),
             mapCollection: MapCollection = TEST_MAP,
-            winAmount: Long = 1
+            winAmount: Long = 1,
+            error: GameException? = null,
+            assertError: (Throwable) -> Boolean = { false },
+            assertSuccess: (LoadGameInfo) -> Boolean = { true }
     ) {
         WIN_AMOUNT = winAmount
-        SELECTED_PLAYER.apply {
-            clear()
-            if (playerColor.isEmpty()) {
-                addAll(DEFAULT_TEST_PLAYER)
-            } else {
-                addAll(playerColor)
-            }
-        }
 
         testGame = TestGame()
         testGame.initGame()
 
         TestGame.testComponent.inject(this)
 
-        fieldController.spaceMap = mapCollection
-
-        loadGameUsecase.buildUseCaseSingle(SELECTED_PLAYER)
+        val config = LoadGameConfig(
+                players = playerColor.toList(),
+                mapToLoad = mapCollection)
+        loadGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()
-                .assertComplete()
+                .apply { assertObserver(error, assertError, assertSuccess) }
 
 //        testGame.initGameObserver()
         testGame.initPhaseObserver() //Only phase observer -> so winner is as test observer
@@ -179,8 +175,10 @@ class SpaceEnvironment {
     fun getRandomConnectedField() =
             (currentPlayer to getPlayerField()).let { (player, currentField) ->
                 currentField.connections.firstOrNull { connection ->
-                    !connection.spaceField1.gamePosition.isPosition(fieldController.currentGoal ?: NONE_POSITION)
-                            && !connection.spaceField2.gamePosition.isPosition(fieldController.currentGoal ?: NONE_POSITION)
+                    !connection.spaceField1.gamePosition.isPosition(fieldController.currentGoal
+                            ?: NONE_POSITION)
+                            && !connection.spaceField2.gamePosition.isPosition(fieldController.currentGoal
+                            ?: NONE_POSITION)
                             && player.steps.last().let { lastStep ->
                         lastStep != connection.spaceField1.gamePosition || lastStep != connection.spaceField2.gamePosition
                     }
@@ -197,7 +195,9 @@ class SpaceEnvironment {
     //
     fun nextPhase(color: PlayerColor = currentPlayerColor,
                   error: GameException? = null,
-                  assertError: (Throwable) -> Boolean = { error?.assertNextPhaseException(it) ?: false },
+                  assertError: (Throwable) -> Boolean = {
+                      error?.assertNextPhaseException(it) ?: false
+                  },
                   assertSuccess: ((NextPhaseInfo) -> Boolean) = { true }) {
         nextPhaseUseCase.buildUseCaseSingle(color)
                 .test()

@@ -1,6 +1,6 @@
 package de.bitb.spacerace.controller
 
-import com.badlogic.gdx.graphics.Color
+import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.model.enums.FieldType
@@ -8,12 +8,10 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
-import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import java.util.*
 import javax.inject.Inject
@@ -28,7 +26,6 @@ class FieldController
 ) {
 
     lateinit var map: SpaceMap
-    var spaceMap: MapCollection = MapCollection.RANDOM
 
     var currentGoal: PositionData? = null
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
@@ -87,9 +84,13 @@ class FieldController
 
     }
 
-    fun setRandomGoal() : Pair<PositionData?, PositionData> {
+    fun setRandomGoal(): Pair<PositionData?, PositionData> {
         val oldGoal = currentGoal
-        currentGoal = map.getRandomGoal().gamePosition
+        val goals = fieldsMap[FieldType.GOAL]!!
+        currentGoal =
+                if (DEBUG_WIN_FIELD) goals.first().gamePosition
+                else goals[(Math.random() * goals.size).toInt()].gamePosition
+
         return oldGoal to currentGoal!!
     }
 

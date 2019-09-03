@@ -108,11 +108,14 @@ class GraphicController
         oldPlayer.playerItems.removeUsedItems()
     }
 
-    fun setGoal(oldGoal: PositionData = NONE_POSITION, currentGoal: PositionData = NONE_POSITION) {
-        val oldGoalGraphic = getField(oldGoal)
-        val currentGoalGraphic = getField(currentGoal)
-        oldGoalGraphic.fieldImage.setBlinkColor(null)
-        currentGoalGraphic.fieldImage.setBlinkColor(currentGoalGraphic.fieldType.color)
+    fun setGoal(goals: Pair<PositionData?, PositionData> = NONE_POSITION to NONE_POSITION) {
+        goals.let { (oldGoal, currentGoal) ->
+            val oldGoalGraphic = getField(oldGoal ?: NONE_POSITION)
+            val currentGoalGraphic = getField(currentGoal)
+            oldGoalGraphic.fieldImage.setBlinkColor(null)
+            currentGoalGraphic.fieldImage.setBlinkColor(currentGoalGraphic.fieldType.color)
+        }
+
     }
 
 }
