@@ -24,15 +24,17 @@ class LoadGameUsecase @Inject constructor(
 ) : ResultUseCase<LoadGameInfo, List<PlayerColor>> {
 
     override fun buildUseCaseSingle(params: List<PlayerColor>): Single<LoadGameInfo> =
-            Completable.create {
-                if (params.size > 1) it.onComplete()
-                else it.onError(SelectMorePlayerException())
-            }.andThen(playerDataSource.deleteAll()
-            ).andThen(playerDataSource.insertAllReturnAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
-            ).flatMap {
-                initMap(it)
-            }.doAfterSuccess {
-                pushCurrentPlayer(it.currentColor)
+            checkPlayerSize(params)
+                    .andThen(playerDataSource.deleteAll()
+                    ).andThen(playerDataSource.insertAllReturnAll(*params.map { PlayerData(playerColor = it) }.toTypedArray())
+                    ).flatMap {
+                        initMap(it)
+                    }.doAfterSuccess { pushCurrentPlayer(it.currentColor) }
+
+    private fun checkPlayerSize(players: List<PlayerColor>): Completable =
+            Completable.create { emitter ->
+                if (players.size > 1) emitter.onComplete()
+                else emitter.onError(SelectMorePlayerException())
             }
 
     private fun initMap(players: List<PlayerData>): Single<LoadGameInfo> =
