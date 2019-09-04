@@ -75,11 +75,32 @@
           "name": "players"
         }
       ]
+    },
+    {
+      "id": "6:2224265662243140674",
+      "lastPropertyId": "2:8851912623459263310",
+      "name": "MapData",
+      "properties": [
+        {
+          "id": "1:2878690140744234841",
+          "name": "name"
+        },
+        {
+          "id": "2:8851912623459263310",
+          "name": "uuid"
+        }
+      ],
+      "relations": [
+        {
+          "id": "7:2195296574750956691",
+          "name": "fields"
+        }
+      ]
     }
   ],
-  "lastEntityId": "5:2659980530038130210",
+  "lastEntityId": "6:2224265662243140674",
   "lastIndexId": "4:2402450461787448114",
-  "lastRelationId": "6:5307040743625307638",
+  "lastRelationId": "7:2195296574750956691",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,

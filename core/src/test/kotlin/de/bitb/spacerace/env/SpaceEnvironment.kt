@@ -12,9 +12,9 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.model.space.maps.MapCollection
-import de.bitb.spacerace.model.space.maps.MapCollection.TEST_MAP
+import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.SpaceMap
+import de.bitb.spacerace.model.space.maps.TEST_MAP
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
@@ -89,7 +89,7 @@ class SpaceEnvironment {
 
     fun initGame(
             vararg playerColor: PlayerColor = DEFAULT_TEST_PLAYER.toTypedArray(),
-            mapToLoad: MapCollection = TEST_MAP,
+            mapToLoad: MapCreator = TEST_MAP(),
             winAmount: Long = 1,
             error: GameException? = null,
             assertError: (Throwable) -> Boolean = { false },
@@ -104,7 +104,7 @@ class SpaceEnvironment {
 
         val config = LoadGameConfig(
                 players = playerColor.toList(),
-                mapToLoad = mapToLoad)
+                mapToLoad = mapToLoad.createMap())
         loadGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()
@@ -248,7 +248,7 @@ class SpaceEnvironment {
         else assertError { assertError.invoke(it) }
     }
 
-    fun waitForIt(time: Long = 100) {
+    fun waitForIt(time: Long = 5) {
         Thread.sleep(time)
     }
 

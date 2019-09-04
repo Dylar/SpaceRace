@@ -48,14 +48,16 @@ class GraphicController
     fun getPlayerItems(playerColor: PlayerColor): PlayerItems =
             getPlayer(playerColor).playerItems
 
-    fun addPlayer(playerData: PlayerData, startField: SpaceField) {
-        val color = playerData.playerColor
-        val player = Player(color)
+    fun addPlayer(playerColor: PlayerColor, startField: SpaceField) {
+        val player = Player(playerColor)
+
+        player.setPosition(startField.gamePosition)
+        player.getGameImage().apply {
+            color = playerColor.color
+            followImage = startField.fieldImage
+        }
 
         playerGraphics.add(player)
-        player.setPosition(startField.gamePosition)
-        player.getGameImage().color = color.color
-        player.getGameImage().followImage = startField.fieldImage
     }
 
     fun addField(spaceField: SpaceField) {
@@ -115,9 +117,7 @@ class GraphicController
             oldGoalGraphic.fieldImage.setBlinkColor(null)
             currentGoalGraphic.fieldImage.setBlinkColor(currentGoalGraphic.fieldType.color)
         }
-
     }
-
 }
 
 data class LoadGameInfo(

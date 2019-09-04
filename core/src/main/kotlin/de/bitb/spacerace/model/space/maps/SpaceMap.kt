@@ -8,19 +8,11 @@ import de.bitb.spacerace.model.space.groups.SpaceGroup
 
 abstract class SpaceMap {
 
-    //TODO save maps in db
+    //TODO save maps in db - only graphics make nu meqefnsjkdanbvsbmas
 
     var startField: SpaceField = NONE_FIELD
-    val groups: MutableList<SpaceGroup> = ArrayList()
+    var startPosition: PositionData = NONE_POSITION
     var firstGoal: PositionData = NONE_POSITION
+    val groups: MutableList<SpaceGroup> = ArrayList()
 
-//    fun addAllGoals() {
-//        allGoals.apply {
-//            addAll(groups
-//                    .map { group -> group.fields.values }
-//                    .flatten()
-//                    .filter { it.fieldType == FieldType.GOAL })
-//        }
-
-//    }
 }

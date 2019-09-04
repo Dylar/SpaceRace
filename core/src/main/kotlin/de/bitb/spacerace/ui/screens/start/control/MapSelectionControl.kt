@@ -15,7 +15,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.events.commands.start.SelectMapCommand
-import de.bitb.spacerace.model.space.maps.MapCollection
+import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import org.greenrobot.eventbus.EventBus
 
@@ -30,7 +30,7 @@ class MapSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
         buttonGroup.setMinCheckCount(1)
         buttonGroup.setUncheckLast(true)
 
-        for (value in MapCollection.values()) {
+        for (value in MapCreator.values()) {
             val checkBox = addCheckbox(value)
             buttonGroup.add(checkBox)
             if (value == SELECTED_MAP) {
@@ -44,10 +44,10 @@ class MapSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
         setPosition()
     }
 
-    private fun addCheckbox(mapCollection: MapCollection): CheckBox {
-        val checkBox = createCheckbox(name = mapCollection.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+    private fun addCheckbox(mapCreator: MapCreator): CheckBox {
+        val checkBox = createCheckbox(name = mapCreator.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SelectMapCommand(mapCollection))
+                EventBus.getDefault().post(SelectMapCommand(mapCreator))
                 return true
             }
         })

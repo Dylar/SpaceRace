@@ -36,7 +36,7 @@ class StartGameCommand() : BaseCommand() {
 
         val config = LoadGameConfig(
                 players = SELECTED_PLAYER,
-                mapToLoad = SELECTED_MAP)
+                mapToLoad = SELECTED_MAP.createMap())
 
         loadGameUsecase.getResult(
                 params = config,

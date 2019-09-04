@@ -16,21 +16,21 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class LoadGameUsecase @Inject constructor(
+class LoadMapUsecase @Inject constructor(
         private val graphicController: GraphicController,
         private val playerController: PlayerController,
         private val fieldController: FieldController,
         private val playerColorDispenser: PlayerColorDispenser,
         private val playerDataSource: PlayerDataSource
-) : ResultUseCase<LoadGameInfo, LoadGameConfig> {
+) : ResultUseCase<LoadGameInfo, LoadMapConfig> {
 
-    override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameInfo> =
-            params.let { (players, map) ->
+    override fun buildUseCaseSingle(params: LoadMapConfig): Single<LoadGameInfo> =
+            params.let { (players, mapToLoad) ->
                 checkPlayerSize(players)
                         .andThen(playerDataSource.deleteAll()
                         ).andThen(playerDataSource.insertAllReturnAll(*players.map { PlayerData(playerColor = it) }.toTypedArray())
                         ).flatMap {
-                            initMap(it, map)
+                            initMap(it, mapToLoad)
                         }.doAfterSuccess { pushCurrentPlayer(it.currentColor) }
             }
 
@@ -51,7 +51,8 @@ class LoadGameUsecase @Inject constructor(
                             addField(field.value)
                         }
                     }
-                    players.forEach { addPlayer(it, map.startField) }
+
+//                    players.forEach { addPlayer(it, map.startField) }
 
                     map.firstGoal = fieldController.setRandomGoal().second
 
@@ -79,7 +80,12 @@ class LoadGameUsecase @Inject constructor(
 
 }
 
-data class LoadGameConfig(
+data class LoadMapConfig(
+        var players: List<PlayerColor>,
+        var mapToLoad: SpaceMap
+)
+
+data class LoadMapInfo(
         var players: List<PlayerColor>,
         var mapToLoad: SpaceMap
 )

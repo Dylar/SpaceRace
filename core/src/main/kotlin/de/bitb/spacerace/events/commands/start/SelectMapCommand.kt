@@ -4,11 +4,11 @@ import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.space.maps.MapCollection
+import de.bitb.spacerace.model.space.maps.MapCreator
 import javax.inject.Inject
 
 class SelectMapCommand(
-        private val mapCollection: MapCollection
+        private val mapCreator: MapCreator
 ) : BaseCommand() {
 
     @Inject
@@ -23,7 +23,7 @@ class SelectMapCommand(
     }
 
     override fun execute() {
-        SELECTED_MAP = mapCollection
+        SELECTED_MAP = mapCreator
     }
 
 }
