@@ -15,6 +15,7 @@ import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
+import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.utils.Logger
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
@@ -122,7 +123,7 @@ class GraphicController
 data class LoadGameInfo(
         var currentColor: PlayerColor,
         var players: List<PlayerData>,
-        var goal: PositionData
+        var map: SpaceMap
 )
 
 data class NextPhaseInfo(

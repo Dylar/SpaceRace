@@ -45,22 +45,22 @@ class LoadGameUsecase @Inject constructor(
             Single.fromCallable {
                 //TODO clean from graphics
                 graphicController.clearGraphics()
-                val map = mapToLoad.createMap()
-
-                fieldController.map = map
-                map.groups.forEach { spaceGroup ->
-                    spaceGroup.fields.entries.forEach { field ->
-                        addField(field.value)
+                mapToLoad.createMap().let { map ->
+                    map.groups.forEach { spaceGroup ->
+                        spaceGroup.fields.entries.forEach { field ->
+                            addField(field.value)
+                        }
                     }
+                    players.forEach { addPlayer(it, map.startField) }
+
+                    map.firstGoal = fieldController.setRandomGoal().second
+
+                    LoadGameInfo(
+                            currentColor = players.first().playerColor,
+                            players = players,
+                            map = map)
                 }
-                players.forEach { addPlayer(it, map.startField) }
 
-                val goals = fieldController.setRandomGoal()
-
-                LoadGameInfo(
-                        currentColor = players.first().playerColor,
-                        players = players,
-                        goal = goals.second)
             }
 
     private fun addField(spaceField: SpaceField) {

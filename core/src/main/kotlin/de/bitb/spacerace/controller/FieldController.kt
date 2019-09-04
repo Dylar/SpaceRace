@@ -25,8 +25,6 @@ class FieldController
         val graphicController: GraphicController
 ) {
 
-    lateinit var map: SpaceMap
-
     var currentGoal: PositionData? = null
     var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
 
@@ -34,8 +32,6 @@ class FieldController
         MainGame.appComponent.inject(this)
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
     }
-
-    fun getField(groupId: Int, fieldId: Int) = map.groups[groupId].getField(fieldId)
 
     fun addField(spaceField: SpaceField) {
         fieldsMap[spaceField.fieldType]!!.add(spaceField)

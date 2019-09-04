@@ -18,7 +18,7 @@ enum class MapCollection {
             TEST_MAP -> TestMap(*DEBUG_TEST_FIELD.toTypedArray())
             RANDOM -> TestMap()
         }
-        map.addAllGoals()
+//        map.addAllGoals()
         return map
     }
 

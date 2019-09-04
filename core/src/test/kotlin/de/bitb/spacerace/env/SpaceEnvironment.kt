@@ -14,6 +14,7 @@ import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCollection
 import de.bitb.spacerace.model.space.maps.MapCollection.TEST_MAP
+import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
@@ -53,6 +54,7 @@ class SpaceEnvironment {
     lateinit var winnerObserver: TestObserver<PlayerData>
 
     lateinit var testGame: TestGame
+    lateinit var testMap: SpaceMap
     val setup = Setup()
 
     val currentPlayer: PlayerData
@@ -87,7 +89,7 @@ class SpaceEnvironment {
 
     fun initGame(
             vararg playerColor: PlayerColor = DEFAULT_TEST_PLAYER.toTypedArray(),
-            mapCollection: MapCollection = TEST_MAP,
+            mapToLoad: MapCollection = TEST_MAP,
             winAmount: Long = 1,
             error: GameException? = null,
             assertError: (Throwable) -> Boolean = { false },
@@ -102,11 +104,17 @@ class SpaceEnvironment {
 
         val config = LoadGameConfig(
                 players = playerColor.toList(),
-                mapToLoad = mapCollection)
+                mapToLoad = mapToLoad)
         loadGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()
-                .apply { assertObserver(error, assertError, assertSuccess) }
+                .apply {
+                    val setAndAssertSuccess: (LoadGameInfo) -> Boolean = {
+                        testMap = it.map
+                        assertSuccess(it)
+                    }
+                    assertObserver(error, assertError, setAndAssertSuccess)
+                }
 
 //        testGame.initGameObserver()
         testGame.initPhaseObserver() //Only phase observer -> so winner is as test observer
@@ -166,8 +174,7 @@ class SpaceEnvironment {
             phase: Phase = currentPhase
     ) = ConnectionInfo(getPlayerPosition(playerColor), stepsLeft, previousPosition, phase)
 
-    fun getField(fieldId: Int, groupId: Int = 0) =
-            fieldController.getField(groupId, fieldId)
+    fun getField(fieldId: Int, groupId: Int = 0) = testMap.groups[groupId].getField(fieldId)
 
     fun getPlayerField(player: PlayerColor = currentPlayerColor): SpaceField =
             graphicController.getPlayerField(player)
