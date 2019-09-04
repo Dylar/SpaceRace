@@ -2,7 +2,7 @@ package de.bitb.spacerace.model.space.maps
 
 import de.bitb.spacerace.config.DEBUG_TEST_FIELD
 
-enum class MapCollection {
+enum class MapCreator {
 
     CROSSROAD(),
     CIRCLEROAD(),

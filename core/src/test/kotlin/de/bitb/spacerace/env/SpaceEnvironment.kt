@@ -14,7 +14,6 @@ import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.SpaceMap
-import de.bitb.spacerace.model.space.maps.TEST_MAP
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
@@ -89,7 +88,7 @@ class SpaceEnvironment {
 
     fun initGame(
             vararg playerColor: PlayerColor = DEFAULT_TEST_PLAYER.toTypedArray(),
-            mapToLoad: MapCreator = TEST_MAP(),
+            mapToLoad: MapCreator = MapCreator.TEST_MAP,
             winAmount: Long = 1,
             error: GameException? = null,
             assertError: (Throwable) -> Boolean = { false },

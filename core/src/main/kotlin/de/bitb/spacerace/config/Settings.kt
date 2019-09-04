@@ -11,7 +11,6 @@ import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.maps.MapCreator
-import de.bitb.spacerace.model.space.maps.TEST_MAP
 
 
 const val MOVE_TIME: Double = 15.0
@@ -22,7 +21,7 @@ var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
 var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 
-var SELECTED_MAP: MapCreator = TEST_MAP()
+var SELECTED_MAP = MapCreator.TEST_MAP
 val SELECTED_PLAYER: MutableList<PlayerColor> = mutableListOf(PlayerColor.ORANGE, PlayerColor.GREEN)
 var WIN_AMOUNT = 1L
 var DICE_MAX = 1
