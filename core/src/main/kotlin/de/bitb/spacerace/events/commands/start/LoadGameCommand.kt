@@ -5,6 +5,7 @@ import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.player.PlayerColor
@@ -36,6 +37,7 @@ class LoadGameCommand() : BaseCommand() {
     }
 
     override fun execute() {
+        val mapData = MapData()
         graphicController.clearGraphics()
 //        val map = initMap(SELECTED_PLAYER, SELECTED_MAP.name)
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
