@@ -7,12 +7,16 @@ import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
+import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.maps.SpaceMap
+import de.bitb.spacerace.model.space.maps.createMap
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
 import javax.inject.Inject
 
-class StartGameCommand() : BaseCommand() {
+class LoadGameCommand() : BaseCommand() {
 
     @Inject
     protected lateinit var loadGameUsecase: LoadGameUsecase
@@ -32,6 +36,8 @@ class StartGameCommand() : BaseCommand() {
     }
 
     override fun execute() {
+        graphicController.clearGraphics()
+//        val map = initMap(SELECTED_PLAYER, SELECTED_MAP.name)
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
 
         val config = LoadGameConfig(
@@ -45,5 +51,26 @@ class StartGameCommand() : BaseCommand() {
                     game.startGameDELETE_ME()
                 })
     }
+//TODO RETURN MAPDATA
+    private fun initMap(players: List<PlayerColor>, mapName: String): SpaceMap =
+                mapName.createMap().also { map ->
+                    map.groups.forEach { spaceGroup ->
+                        spaceGroup.fields.entries.forEach { field ->
+                            addField(field.value)
+                        }
+                    }
+                    graphicController.connectionGraphics.addAll(map.connections)
+                    players.forEach {
+                        addPlayer(it, map.startField)
+                    }
+                }
 
+
+    private fun addField(spaceField: SpaceField) {
+        graphicController.addField(spaceField)
+    }
+
+    private fun addPlayer(playerColor: PlayerColor, startField: SpaceField) {
+        graphicController.addPlayer(playerColor, startField)
+    }
 }

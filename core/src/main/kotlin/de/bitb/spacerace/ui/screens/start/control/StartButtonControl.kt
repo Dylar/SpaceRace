@@ -65,7 +65,7 @@ class StartButtonControl(
     private fun addStartButton() {
         startBtn = createButton(name = START_BUTTON_START, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(StartGameCommand())
+                EventBus.getDefault().post(LoadGameCommand())
                 return true
             }
         })

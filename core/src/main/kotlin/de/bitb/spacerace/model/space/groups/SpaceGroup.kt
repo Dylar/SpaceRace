@@ -43,14 +43,9 @@ open class SpaceGroup(
         }
     }
 
-    private fun getConnectionPoint(connection: ConnectionPoint): MutableList<SpaceField> {
-        var list = connectionPoint[connection]
-        if (list == null) {
-            list = ArrayList()
-            connectionPoint[connection] = list
-        }
-        return list
-    }
+    private fun getConnectionPoint(connection: ConnectionPoint): MutableList<SpaceField> =
+            connectionPoint[connection]
+                    ?: ArrayList<SpaceField>().also { connectionPoint[connection] = it }
 
     fun addConnectionPoint(connection: ConnectionPoint, field: SpaceField) {
         getConnectionPoint(connection).add(field)

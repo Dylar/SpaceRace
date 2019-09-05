@@ -12,7 +12,6 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.model.space.maps.SpaceMap
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton

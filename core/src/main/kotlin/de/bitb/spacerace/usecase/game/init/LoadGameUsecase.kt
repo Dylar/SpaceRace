@@ -43,7 +43,6 @@ class LoadGameUsecase @Inject constructor(
     private fun initMap(players: List<PlayerData>, mapName: String): Single<LoadGameInfo> =
             Single.fromCallable {
                 //TODO clean from graphics
-                graphicController.clearGraphics()
                 mapName.createMap().let { map ->
                     map.groups.forEach { spaceGroup ->
                         spaceGroup.fields.entries.forEach { field ->
