@@ -56,24 +56,19 @@ open class SpaceGroup(
         getConnectionPoint(connection).add(field)
     }
 
-    fun connect(connection: ConnectionPoint, group: SpaceGroup) {
+    fun connectGroups(connection: ConnectionPoint, group: SpaceGroup) {
         val thisConnection = getConnectionPoint(connection)
         val thatConnection = group.getConnectionPoint(connection.getOpposite())
         for (index in thisConnection.withIndex()) {
             if (index.index < thatConnection.size) {
                 val thisField = thisConnection[index.index]
                 val thatField = thatConnection[index.index]
-                addConnection(thisField, thatField)
+                this.connectFields(thisField, thatField)
             }
         }
     }
 
-    //add connection here from space map
-    fun connect(spaceField1: SpaceField, spaceField2: SpaceField) {
-        connections.add(SpaceConnection(spaceField1, spaceField2))
-    }
-
-    fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
+    fun connectFields(spaceField1: SpaceField, spaceField2: SpaceField) {
         val connection = SpaceConnection(spaceField1, spaceField2)
         connections.add(connection)
         connection.also { (field1, field2) ->

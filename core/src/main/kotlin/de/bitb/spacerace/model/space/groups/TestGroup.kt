@@ -26,8 +26,8 @@ open class TestGroup(
         val rightBottomCorner = SpaceField.createField(fieldType[index])
 /*2*/   addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
-        connect(leftBottomCorner, centerBottomField)
-        connect(rightBottomCorner, centerBottomField)
+        connectFields(leftBottomCorner, centerBottomField)
+        connectFields(rightBottomCorner, centerBottomField)
 
         //TOP
         val centerTopField = SpaceField.createField(fieldType[index])
@@ -37,8 +37,8 @@ open class TestGroup(
         val rightTopCorner = SpaceField.createField(fieldType[index])
 /*5*/   addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
 
-        connect(leftTopCorner, centerTopField)
-        connect(rightTopCorner, centerTopField)
+        connectFields(leftTopCorner, centerTopField)
+        connectFields(rightTopCorner, centerTopField)
 
         //CENTER
         val leftCenterField = SpaceField.createField(fieldType[index])
@@ -57,15 +57,15 @@ open class TestGroup(
 
         moonField.fieldImage.setRotating(moonField, leftBottomCorner.getGameImage(), (moonField.getGameImage().height * FIELD_PADDING_XXLARGE).toDouble())
 
-        connect(longWayField, leftBottomCorner)
-        connect(leftBottomCorner, moonField)
+        connectFields(longWayField, leftBottomCorner)
+        connectFields(leftBottomCorner, moonField)
 
-        connect(leftCenterField, rightCenterField)
+        connectFields(leftCenterField, rightCenterField)
 
-        connect(leftCenterField, centerBottomField)
-        connect(rightCenterField, rightTopCorner)
-        connect(leftTopCorner, leftBottomCorner)
-        connect(rightTopCorner, rightBottomCorner)
+        connectFields(leftCenterField, centerBottomField)
+        connectFields(rightCenterField, rightTopCorner)
+        connectFields(leftTopCorner, leftBottomCorner)
+        connectFields(rightTopCorner, rightBottomCorner)
 
     }
 

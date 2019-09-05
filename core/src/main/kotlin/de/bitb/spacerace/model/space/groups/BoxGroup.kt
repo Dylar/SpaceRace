@@ -19,8 +19,8 @@ class BoxGroup(offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(offsetX, o
         val rightBottomCorner = SpaceField.createField(FieldType.GOAL)
         addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
-        connect(leftBottomCorner, centerBottomField)
-        connect(rightBottomCorner, centerBottomField)
+        connectFields(leftBottomCorner, centerBottomField)
+        connectFields(rightBottomCorner, centerBottomField)
 
         //TOP
         val centerTopField = SpaceField.createField(FieldType.LOSE)
@@ -30,8 +30,8 @@ class BoxGroup(offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(offsetX, o
         val rightTopCorner = SpaceField.createField(FieldType.MINE)
         addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
 
-        connect(leftTopCorner, centerTopField)
-        connect(rightTopCorner, centerTopField)
+        connectFields(leftTopCorner, centerTopField)
+        connectFields(rightTopCorner, centerTopField)
 
         //CENTER
         val leftCenterField = SpaceField.createField(FieldType.GIFT)
@@ -39,12 +39,12 @@ class BoxGroup(offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(offsetX, o
         val rightCenterField = SpaceField.createField(FieldType.LOSE)
         addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
 
-        connect(leftCenterField, rightCenterField)
+        connectFields(leftCenterField, rightCenterField)
 
-        connect(leftCenterField, centerBottomField)
-        connect(rightCenterField, rightTopCorner)
-        connect(leftTopCorner, leftBottomCorner)
-        connect(rightTopCorner, rightBottomCorner)
+        connectFields(leftCenterField, centerBottomField)
+        connectFields(rightCenterField, rightTopCorner)
+        connectFields(leftTopCorner, leftBottomCorner)
+        connectFields(rightTopCorner, rightBottomCorner)
 
     }
 

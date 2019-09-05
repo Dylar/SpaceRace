@@ -25,8 +25,8 @@ class CrossGroup(offsetX: Float = 0f,
         val left2Field = SpaceField.createField(FieldType.WIN)
         addField(left2Field, left1Field, -FIELD_PADDING_LARGE, connection = ConnectionPoint.LEFT)
 
-        connect(centerField, left1Field)
-        connect(left1Field, left2Field)
+        connectFields(centerField, left1Field)
+        connectFields(left1Field, left2Field)
 
         //RIGHT
         val right1Field = SpaceField.createField(FieldType.AMBUSH)
@@ -34,8 +34,8 @@ class CrossGroup(offsetX: Float = 0f,
         val right2Field = SpaceField.createField(FieldType.SHOP)
         addField(right2Field, right1Field, FIELD_PADDING_LARGE, connection = ConnectionPoint.RIGHT)
 
-        connect(centerField, right1Field)
-        connect(right1Field, right2Field)
+        connectFields(centerField, right1Field)
+        connectFields(right1Field, right2Field)
 
         //BOTTOM
         val leftDown1Field = SpaceField.createField(FieldType.LOSE)
@@ -47,10 +47,10 @@ class CrossGroup(offsetX: Float = 0f,
         val rightDown2Field = SpaceField.createField(FieldType.WIN)
         addField(rightDown2Field, rightDown1Field, if (starMode) FIELD_PADDING_MEDIUM else 0f, -FIELD_PADDING_LARGE, ConnectionPoint.BOTTOM)
 
-        connect(centerField, rightDown1Field)
-        connect(rightDown1Field, rightDown2Field)
-        connect(centerField, leftDown1Field)
-        connect(leftDown1Field, leftDown2Field)
+        connectFields(centerField, rightDown1Field)
+        connectFields(rightDown1Field, rightDown2Field)
+        connectFields(centerField, leftDown1Field)
+        connectFields(leftDown1Field, leftDown2Field)
 
         //TOP
         val leftUp1Field = SpaceField.createField(FieldType.LOSE)
@@ -62,9 +62,9 @@ class CrossGroup(offsetX: Float = 0f,
         val rightUp2Field = SpaceField.createField(FieldType.WIN)
         addField(rightUp2Field, rightUp1Field, if (starMode) FIELD_PADDING_MEDIUM else 0f, FIELD_PADDING_LARGE, ConnectionPoint.TOP)
 
-        connect(centerField, leftUp1Field)
-        connect(leftUp1Field, leftUp2Field)
-        connect(centerField, rightUp1Field)
-        connect(rightUp1Field, rightUp2Field)
+        connectFields(centerField, leftUp1Field)
+        connectFields(leftUp1Field, leftUp2Field)
+        connectFields(centerField, rightUp1Field)
+        connectFields(rightUp1Field, rightUp2Field)
     }
 }

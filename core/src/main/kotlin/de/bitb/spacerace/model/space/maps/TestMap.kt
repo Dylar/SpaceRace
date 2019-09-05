@@ -18,9 +18,9 @@ class TestMap(vararg fieldType: FieldType) : SpaceMap() {
         val rightGroup = TestGroup(offsetX = SCREEN_WIDTH, fieldType = *arrayOf(FieldType.RANDOM, FieldType.GOAL))
         val topGroup = TestGroup(offsetY = SCREEN_HEIGHT, fieldType = *arrayOf(FieldType.RANDOM, FieldType.GOAL))
 
-        centerGroup.connect(ConnectionPoint.LEFT, crescentGroup)
-        centerGroup.connect(ConnectionPoint.RIGHT, rightGroup)
-        centerGroup.connect(ConnectionPoint.TOP, topGroup)
+        centerGroup.connectGroups(ConnectionPoint.LEFT, crescentGroup)
+        centerGroup.connectGroups(ConnectionPoint.RIGHT, rightGroup)
+        centerGroup.connectGroups(ConnectionPoint.TOP, topGroup)
 
         startField = centerGroup.getField(1)
         connections.apply {

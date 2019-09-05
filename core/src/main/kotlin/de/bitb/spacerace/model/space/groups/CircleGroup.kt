@@ -34,7 +34,7 @@ open class CircleGroup(
             addField = SpaceField.createField(fieldType.value)
 
             if (anchorField != null) {
-                connect(anchorField, addField)
+                connectFields(anchorField, addField)
             }
 
             addField(addField, point.x, point.y)
@@ -50,7 +50,7 @@ open class CircleGroup(
             }
         }
 
-        connect(firstField!!, addField!!)
+        connectFields(firstField!!, addField!!)
 
         if (connectionFields.size > 0)
             addConnectionPoint(ConnectionPoint.RIGHT, connectionFields[0])

@@ -19,8 +19,8 @@ class AsteroidGroup(offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(offse
         val rightBottomCorner = SpaceField.createField(FieldType.AMBUSH)
         addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
-        connect(leftBottomCorner, centerBottomField)
-        connect(rightBottomCorner, centerBottomField)
+        connectFields(leftBottomCorner, centerBottomField)
+        connectFields(rightBottomCorner, centerBottomField)
 
         //TOP
         val centerTopField = SpaceField.createField(FieldType.AMBUSH)
@@ -30,8 +30,8 @@ class AsteroidGroup(offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(offse
         val rightTopCorner = SpaceField.createField(FieldType.AMBUSH)
         addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
 
-        connect(leftTopCorner, centerTopField)
-        connect(rightTopCorner, centerTopField)
+        connectFields(leftTopCorner, centerTopField)
+        connectFields(rightTopCorner, centerTopField)
 
         //CENTER
         val leftCenterField = SpaceField.createField(FieldType.AMBUSH)
@@ -39,12 +39,12 @@ class AsteroidGroup(offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(offse
         val rightCenterField = SpaceField.createField(FieldType.AMBUSH)
         addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
 
-        connect(leftCenterField, rightCenterField)
+        connectFields(leftCenterField, rightCenterField)
 
-        connect(leftCenterField, centerBottomField)
-        connect(rightCenterField, rightTopCorner)
-        connect(leftTopCorner, leftBottomCorner)
-        connect(rightTopCorner, rightBottomCorner)
+        connectFields(leftCenterField, centerBottomField)
+        connectFields(rightCenterField, rightTopCorner)
+        connectFields(leftTopCorner, leftBottomCorner)
+        connectFields(rightTopCorner, rightBottomCorner)
 
     }
 

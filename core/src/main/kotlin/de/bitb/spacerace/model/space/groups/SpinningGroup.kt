@@ -46,14 +46,14 @@ open class SpinningGroup(offsetX: Float = 0f,
         val bottomPoint = SpaceField.createField(fieldType[index])
         addField(bottomPoint, centerPoint, verticalMod = distance, connection = ConnectionPoint.BOTTOM)
 
-        connect(centerPoint, leftPoint)
-        connect(centerPoint, rightPoint)
-        connect(centerPoint, topPoint)
-        connect(centerPoint, bottomPoint)
+        connectFields(centerPoint, leftPoint)
+        connectFields(centerPoint, rightPoint)
+        connectFields(centerPoint, topPoint)
+        connectFields(centerPoint, bottomPoint)
 
         val moonField1 = SpaceField.createField(fieldType[index])
         addMoon(moonField1, centerPoint, radius)
-        connect(centerPoint, moonField1)
+        connectFields(centerPoint, moonField1)
     }
 
     private fun testPlanet(centerPoint: SpaceField, radius: Double, fieldType: Array<out FieldType>) {
@@ -66,9 +66,9 @@ open class SpinningGroup(offsetX: Float = 0f,
         val planet3 = SpaceField.createField(fieldType[index])
         addMoon(planet3, centerPoint, radius * 3.0)
 
-        connect(centerPoint, planet1)
-        connect(centerPoint, planet2)
-        connect(centerPoint, planet3)
+        connectFields(centerPoint, planet1)
+        connectFields(centerPoint, planet2)
+        connectFields(centerPoint, planet3)
     }
 
     private fun testSnake(centerPoint: SpaceField, radius: Double, fieldType: Array<out FieldType>) {
@@ -77,7 +77,7 @@ open class SpinningGroup(offsetX: Float = 0f,
             val moon = SpaceField.createField(fieldType[index])
             moon.gamePosition.posX = i.toFloat()
             addMoon(moon, center, radius)
-            connect(center, moon)
+            connectFields(center, moon)
             center = moon
         }
 

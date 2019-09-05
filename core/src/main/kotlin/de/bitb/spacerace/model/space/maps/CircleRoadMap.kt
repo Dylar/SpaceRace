@@ -29,10 +29,10 @@ class CircleRoadMap()
         val downGroup = BoxGroup(offsetY = -offsetY / 1.2f)
         val leftGroup = BoxGroup(-offsetX)
 
-        centerGroup.connect(ConnectionPoint.TOP, upGroup)
-        centerGroup.connect(ConnectionPoint.RIGHT, rightGroup)
-        centerGroup.connect(ConnectionPoint.BOTTOM, downGroup)
-        centerGroup.connect(ConnectionPoint.LEFT, leftGroup)
+        centerGroup.connectGroups(ConnectionPoint.TOP, upGroup)
+        centerGroup.connectGroups(ConnectionPoint.RIGHT, rightGroup)
+        centerGroup.connectGroups(ConnectionPoint.BOTTOM, downGroup)
+        centerGroup.connectGroups(ConnectionPoint.LEFT, leftGroup)
 
         startField = centerGroup.getField(0)
         connections.apply {
