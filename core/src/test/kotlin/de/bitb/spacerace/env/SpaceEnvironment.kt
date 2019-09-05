@@ -103,7 +103,7 @@ class SpaceEnvironment {
 
         val config = LoadGameConfig(
                 players = playerColor.toList(),
-                mapToLoad = mapToLoad.createMap())
+                mapName = mapToLoad.name)
         loadGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()

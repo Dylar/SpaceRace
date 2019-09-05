@@ -32,7 +32,7 @@ class GraphicController
         get() = playerGraphics.firstOrNull() ?: NONE_PLAYER
 
     var fieldGraphics: MutableMap<PositionData, SpaceField> = mutableMapOf()
-    var connectionGraphics: ConnectionList = ConnectionList(this, playerController)
+    var connectionGraphics: ConnectionList = ConnectionList()
 
     fun getPlayer(playerColor: PlayerColor) =
             playerGraphics.find { playerColor == it.playerColor } ?: NONE_PLAYER
@@ -74,13 +74,6 @@ class GraphicController
         playerGraphics.clear()
         fieldGraphics.clear()
         connectionGraphics.clear()
-    }
-
-    fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
-        val connection = SpaceConnection(spaceField1, spaceField2)
-        connectionGraphics.add(connection)
-        spaceField1.connections.add(connection)
-        spaceField2.connections.add(connection)
     }
 
     fun movePlayer(moveInfo: MoveInfo) {

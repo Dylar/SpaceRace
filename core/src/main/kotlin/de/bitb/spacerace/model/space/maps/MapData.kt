@@ -1,11 +1,5 @@
 package de.bitb.spacerace.model.space.maps
 
-import de.bitb.spacerace.database.map.FieldData
-import io.objectbox.BoxStore
-import io.objectbox.annotation.Entity
-import io.objectbox.annotation.Id
-import io.objectbox.relation.ToMany
-
 //@Entity
 //data class MapData(
 //        val name:String,

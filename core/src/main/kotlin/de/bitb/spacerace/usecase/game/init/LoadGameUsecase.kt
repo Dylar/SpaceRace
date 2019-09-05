@@ -10,7 +10,7 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.exceptions.SelectMorePlayerException
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.model.space.maps.SpaceMap
+import de.bitb.spacerace.model.space.maps.createMap
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -25,15 +25,14 @@ class LoadGameUsecase @Inject constructor(
 ) : ResultUseCase<LoadGameInfo, LoadGameConfig> {
 
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameInfo> =
-            params.let { (players, map) ->
+            params.let { (players, mapName) ->
                 checkPlayerSize(players)
                         .andThen(playerDataSource.deleteAll()
                         ).andThen(playerDataSource.insertAllReturnAll(*players.map { PlayerData(playerColor = it) }.toTypedArray())
                         ).flatMap {
-                            initMap(it, map)
+                            initMap(it, mapName)
                         }.doAfterSuccess { pushCurrentPlayer(it.currentColor) }
             }
-
 
     private fun checkPlayerSize(players: List<PlayerColor>): Completable =
             Completable.create { emitter ->
@@ -41,16 +40,17 @@ class LoadGameUsecase @Inject constructor(
                 else emitter.onError(SelectMorePlayerException())
             }
 
-    private fun initMap(players: List<PlayerData>, mapToLoad: SpaceMap): Single<LoadGameInfo> =
+    private fun initMap(players: List<PlayerData>, mapName: String): Single<LoadGameInfo> =
             Single.fromCallable {
                 //TODO clean from graphics
                 graphicController.clearGraphics()
-                mapToLoad.let { map ->
+                mapName.createMap().let { map ->
                     map.groups.forEach { spaceGroup ->
                         spaceGroup.fields.entries.forEach { field ->
                             addField(field.value)
                         }
                     }
+                    graphicController.connectionGraphics.addAll(map.connections)
                     players.forEach { addPlayer(it, map.startField) }
 
                     map.firstGoal = fieldController.setRandomGoal().second
@@ -81,5 +81,5 @@ class LoadGameUsecase @Inject constructor(
 
 data class LoadGameConfig(
         var players: List<PlayerColor>,
-        var mapToLoad: SpaceMap
+        var mapName: String
 )

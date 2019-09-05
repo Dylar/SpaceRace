@@ -37,10 +37,6 @@ class FieldController
         fieldsMap[spaceField.fieldType]!!.add(spaceField)
     }
 
-    fun addConnection(spaceField1: SpaceField, spaceField2: SpaceField) {
-        graphicController.addConnection(spaceField1, spaceField2)
-    }
-
     fun moveMovables() {
 
         fun getField(item: Item): SpaceField {

@@ -10,8 +10,6 @@ import de.bitb.spacerace.grafik.LineRenderer
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 
 class ConnectionList(
-        var graphicController: GraphicController,
-        var playerController: PlayerController,
         private val mutableList: MutableList<SpaceConnection> = ArrayList()
 ) : MutableList<SpaceConnection> by mutableList,
         Actor() {

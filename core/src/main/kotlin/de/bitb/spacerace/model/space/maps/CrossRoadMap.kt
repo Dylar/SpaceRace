@@ -24,6 +24,13 @@ class CrossRoadMap()
         centerGroup.connect(ConnectionPoint.LEFT, leftGroup)
 
         startField = centerGroup.getField(0)
+        connections.apply {
+            addAll(centerGroup.connections)
+            addAll(upGroup.connections)
+            addAll(rightGroup.connections)
+            addAll(downGroup.connections)
+            addAll(leftGroup.connections)
+        }
         groups.add(centerGroup)
         groups.add(upGroup)
         groups.add(rightGroup)

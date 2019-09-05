@@ -19,3 +19,8 @@ enum class MapCreator {
     }
 
 }
+
+fun String.createMap() =
+        (MapCreator.values()
+                .find { it.name == this }
+                ?: MapCreator.RANDOM).createMap()

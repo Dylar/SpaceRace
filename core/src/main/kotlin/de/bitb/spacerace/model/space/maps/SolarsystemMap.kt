@@ -14,6 +14,7 @@ class SolarsystemMap(vararg fieldType: FieldType) : SpaceMap() {
         val centerGroup1 = SpinningGroup(fieldType = *fieldType)
 
         startField = centerGroup1.getField(1)
+        connections.addAll(centerGroup1.connections)
         groups.add(centerGroup1)
 
     }

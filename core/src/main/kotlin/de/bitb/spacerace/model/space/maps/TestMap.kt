@@ -17,11 +17,18 @@ class TestMap(vararg fieldType: FieldType) : SpaceMap() {
         val crescentGroup = CircleGroup(offsetX = -SCREEN_HEIGHT, fieldTypes = fieldTypes)
         val rightGroup = TestGroup(offsetX = SCREEN_WIDTH, fieldType = *arrayOf(FieldType.RANDOM, FieldType.GOAL))
         val topGroup = TestGroup(offsetY = SCREEN_HEIGHT, fieldType = *arrayOf(FieldType.RANDOM, FieldType.GOAL))
+
         centerGroup.connect(ConnectionPoint.LEFT, crescentGroup)
         centerGroup.connect(ConnectionPoint.RIGHT, rightGroup)
         centerGroup.connect(ConnectionPoint.TOP, topGroup)
 
         startField = centerGroup.getField(1)
+        connections.apply {
+            addAll(centerGroup.connections)
+            addAll(crescentGroup.connections)
+            addAll(rightGroup.connections)
+            addAll(topGroup.connections)
+        }
         groups.add(centerGroup)
         groups.add(crescentGroup)
         groups.add(rightGroup)
