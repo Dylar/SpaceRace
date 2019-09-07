@@ -27,8 +27,8 @@ class SpaceConnection(
                 this.spaceField1.gamePosition.isPosition(spaceField2)
     }
 
-    fun getOpposite(fieldPosition: SpaceField): SpaceField {
-        return if (fieldPosition.gamePosition.isPosition(spaceField1.gamePosition)) spaceField2 else spaceField1
+    fun getOpposite(fieldPosition: PositionData): SpaceField {
+        return if (fieldPosition.isPosition(spaceField1.gamePosition)) spaceField2 else spaceField1
     }
 
     operator fun component1(): SpaceField = spaceField1

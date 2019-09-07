@@ -5,6 +5,7 @@ import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.LoadGameInfo
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
+import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.exceptions.SelectMorePlayerException

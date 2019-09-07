@@ -1,5 +1,7 @@
 package de.bitb.spacerace.database.map
 
+import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.model.objecthandling.PositionData
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
@@ -18,4 +20,7 @@ data class MapData(
 
     @JvmField
     var fields: ToMany<FieldData> = ToMany(this, MapData_.fields)
+
+    @JvmField
+    var players: ToMany<PlayerData> = ToMany(this, MapData_.players)
 }

@@ -48,7 +48,7 @@ class FieldController
             val field = getField(item)
             val list = field.connections
             val con = list[(Math.random() * list.size).toInt()]
-            val newField = con.getOpposite(field)
+            val newField = con.getOpposite(field.gamePosition)
             newField.disposedItems.add(item)
 
             val itemImage = item.getGameImage() as ItemImage

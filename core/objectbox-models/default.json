@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "2:5385849612203896751",
-      "lastPropertyId": "10:6547186847890981121",
+      "lastPropertyId": "11:8736215821112508128",
       "name": "PlayerData",
       "properties": [
         {
@@ -39,6 +39,11 @@
         {
           "id": "8:3153324912933925502",
           "name": "controlToken"
+        },
+        {
+          "id": "11:8736215821112508128",
+          "indexId": "5:2972435713819421456",
+          "name": "positionFieldId"
         }
       ],
       "relations": []
@@ -94,13 +99,17 @@
         {
           "id": "9:3716791261517223962",
           "name": "fields"
+        },
+        {
+          "id": "10:3773640719566219078",
+          "name": "players"
         }
       ]
     }
   ],
   "lastEntityId": "7:2349242900198930459",
-  "lastIndexId": "4:2402450461787448114",
-  "lastRelationId": "9:3716791261517223962",
+  "lastIndexId": "5:2972435713819421456",
+  "lastRelationId": "10:3773640719566219078",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,

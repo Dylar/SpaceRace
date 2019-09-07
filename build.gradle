@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.0-alpha09'
+        classpath 'com.android.tools.build:gradle:3.6.0-alpha10'
         classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$gdx.roboVMVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.20"

@@ -7,14 +7,17 @@ import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionListConverter
+import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
+import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
+import io.objectbox.relation.ToOne
 
 val NONE_PLAYER_DATA: PlayerData = PlayerData()
 
@@ -37,12 +40,12 @@ data class PlayerData(
         var controlToken: String = ""
 ) {
 
-//    @Transient
-//    @JvmField
-//    protected var __boxStore: BoxStore? = null
-//
-//    @JvmField
-//    var positionField: ToOne<FieldData> = ToOne(this, PlayerData_.positionField)
+    @Transient
+    @JvmField
+    protected var __boxStore: BoxStore? = null
+
+    @JvmField
+    var positionField: ToOne<FieldData> = ToOne(this, PlayerData_.positionField)
 
     val previousStep: PositionData
         get() = steps.let {

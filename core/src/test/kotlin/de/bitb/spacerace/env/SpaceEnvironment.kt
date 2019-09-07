@@ -188,7 +188,7 @@ class SpaceEnvironment {
                             && player.steps.last().let { lastStep ->
                         lastStep != connection.spaceField1.gamePosition || lastStep != connection.spaceField2.gamePosition
                     }
-                }?.getOpposite(currentField) ?: NONE_FIELD
+                }?.getOpposite(currentField.gamePosition) ?: NONE_FIELD
             }
 
     //
