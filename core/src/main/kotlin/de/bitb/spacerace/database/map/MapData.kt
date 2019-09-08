@@ -24,23 +24,23 @@ data class MapData(
     @JvmField
     protected var __boxStore: BoxStore? = null
 
-//    @JvmField
-//    var fields: ToMany<FieldData> = ToMany(this, MapData_.fields)
-//
-//    @JvmField
-//    var goal: ToOne<FieldData> = ToOne(this, MapData_.goal)
-//
-//    @JvmField
-//    var players: ToMany<PlayerData> = ToMany(this, MapData_.players)
+    @JvmField
+    var fields: ToMany<FieldData> = ToMany(this, MapData_.fields)
 
-    @Transient
     @JvmField
-    var fields: MutableList<FieldData> = mutableListOf()
-    @Transient
+    var goal: ToOne<FieldData> = ToOne(this, MapData_.goal)
+
     @JvmField
-    var goal: FieldData = FieldData()
-    @Transient
-    @JvmField
-    var players: MutableList<PlayerData> =  mutableListOf()
+    var players: ToMany<PlayerData> = ToMany(this, MapData_.players)
+
+//    @Transient
+//    @JvmField
+//    var fields: MutableList<FieldData> = mutableListOf()
+//    @Transient
+//    @JvmField
+//    var goal: FieldData = FieldData()
+//    @Transient
+//    @JvmField
+//    var players: MutableList<PlayerData> =  mutableListOf()
 
 }

@@ -41,7 +41,7 @@ class LoadGameCommand() : BaseCommand() {
         loadGameUsecase.getResult(
                 params = config,
                 onSuccess = { info ->
-                    graphicController.setGoal(NONE_POSITION to info.map.goal.gamePosition)
+                    graphicController.setGoal(NONE_POSITION to info.map.goal.target.gamePosition)
                     game.startGameDELETE_ME()
                 })
     }

@@ -83,7 +83,7 @@
     },
     {
       "id": "8:2769451295596066148",
-      "lastPropertyId": "3:1188944735623338784",
+      "lastPropertyId": "4:2110483716954686876",
       "name": "MapData",
       "properties": [
         {
@@ -97,14 +97,28 @@
         {
           "id": "3:1188944735623338784",
           "name": "startPosition"
+        },
+        {
+          "id": "4:2110483716954686876",
+          "indexId": "7:8878651235839672074",
+          "name": "goalId"
         }
       ],
-      "relations": []
+      "relations": [
+        {
+          "id": "11:4333913010888357400",
+          "name": "fields"
+        },
+        {
+          "id": "12:3806780999552859928",
+          "name": "players"
+        }
+      ]
     }
   ],
   "lastEntityId": "8:2769451295596066148",
-  "lastIndexId": "6:3252837166721429815",
-  "lastRelationId": "10:3773640719566219078",
+  "lastIndexId": "7:8878651235839672074",
+  "lastRelationId": "12:3806780999552859928",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,

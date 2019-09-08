@@ -13,6 +13,7 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 import de.bitb.spacerace.injection.components.AppComponent
+import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
 import de.bitb.spacerace.model.enums.FieldType

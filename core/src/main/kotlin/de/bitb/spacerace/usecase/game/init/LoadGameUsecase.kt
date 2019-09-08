@@ -5,6 +5,7 @@ import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
+import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.exceptions.SelectMorePlayerException
@@ -46,8 +47,8 @@ class LoadGameUsecase @Inject constructor(
                 map.players.map { it.playerColor }.forEach { playerController.addPlayer(it) }
 
                 val goalPosition = fieldController.setRandomGoalPosition().second
-                map.goal = map.fields.find { it.gamePosition.isPosition(goalPosition) }
-                        ?: FieldData()//NONE_FIELD_DATA
+                map.goal.target = map.fields.find { it.gamePosition.isPosition(goalPosition) }
+                        ?: NONE_FIELD_DATA
 
                 LoadGameInfo(
                         currentColor = map.players.first().playerColor,
