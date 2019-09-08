@@ -35,11 +35,11 @@ class ObserveRoundUsecase
             player.apply {
                 if (isNotEmpty()) {
                     fieldController.moveMovables()
-                    fieldController.fieldsMap[FieldType.MINE]
-                            ?.map { it as MineField }
-                            ?.forEach { mine ->
-                                player.find { mine.owner == it.playerColor }?.addRandomWin()
-                            }
+//                    fieldController.fieldsMap[FieldType.MINE] TODO make mines works again
+//                            ?.map { it as MineField }
+//                            ?.forEach { mine ->
+//                                player.find { mine.owner == it.playerColor }?.addRandomWin()
+//                            }
                     forEach { it.nextRound() }
                 }
             }

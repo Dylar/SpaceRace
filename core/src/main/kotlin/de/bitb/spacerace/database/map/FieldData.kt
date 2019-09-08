@@ -15,6 +15,8 @@ import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
 
 
+//val NONE_FIELD_DATA = FieldData()
+
 @Entity
 data class FieldData(
         @Id

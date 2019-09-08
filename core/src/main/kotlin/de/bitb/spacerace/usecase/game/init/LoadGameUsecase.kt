@@ -1,24 +1,20 @@
 package de.bitb.spacerace.usecase.game.init
 
 import de.bitb.spacerace.controller.FieldController
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.LoadGameInfo
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
+import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.exceptions.SelectMorePlayerException
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.SpaceField
-import de.bitb.spacerace.model.space.maps.createMap
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
 class LoadGameUsecase @Inject constructor(
-        private val graphicController: GraphicController,
         private val playerController: PlayerController,
         private val fieldController: FieldController,
         private val playerColorDispenser: PlayerColorDispenser,
@@ -26,53 +22,38 @@ class LoadGameUsecase @Inject constructor(
 ) : ResultUseCase<LoadGameInfo, LoadGameConfig> {
 
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameInfo> =
-            params.let { (players, mapName) ->
-                checkPlayerSize(players)
-                        .andThen(playerDataSource.deleteAll()
-                        ).andThen(playerDataSource.insertAllReturnAll(*players.map { PlayerData(playerColor = it) }.toTypedArray())
-                        ).flatMap {
-                            initMap(it, mapName)
-                        }.doAfterSuccess { pushCurrentPlayer(it.currentColor) }
-            }
+            params.let { (map) ->
+                checkPlayerSize(map.players)
+                        .andThen(initMap(map))
+                        .flatMap { result ->
+                            playerDataSource.deleteAll()
+                            playerDataSource.insertAllReturnAll(*result.map.players.toTypedArray())
+                                    .map { playerData ->
+                                        result//.also { result.map.players = playerData }
+                                    }
+                        }
+            }.doAfterSuccess { pushCurrentPlayer(it.currentColor) }
 
-    private fun checkPlayerSize(players: List<PlayerColor>): Completable =
+    private fun checkPlayerSize(players: List<PlayerData>): Completable =
             Completable.create { emitter ->
                 if (players.size > 1) emitter.onComplete()
                 else emitter.onError(SelectMorePlayerException())
             }
 
-    private fun initMap(players: List<PlayerData>, mapName: String): Single<LoadGameInfo> =
+    private fun initMap(map: MapData): Single<LoadGameInfo> =
             Single.fromCallable {
-                //TODO clean from graphics
-                mapName.createMap().let { map ->
-                    map.groups.forEach { spaceGroup ->
-                        spaceGroup.fields.entries.forEach { field ->
-                            addField(field.value)
-                        }
-                    }
-                    graphicController.connectionGraphics.addAll(map.connections)
-                    players.forEach { addPlayer(it, map.startField) }
+                map.fields.forEach { fieldController.addField(it) }
+                map.players.map { it.playerColor }.forEach { playerController.addPlayer(it) }
 
-                    map.firstGoal = fieldController.setRandomGoal().second
+                val goalPosition = fieldController.setRandomGoalPosition().second
+                map.goal = map.fields.find { it.gamePosition.isPosition(goalPosition) }
+                        ?: FieldData()//NONE_FIELD_DATA
 
-                    LoadGameInfo(
-                            currentColor = players.first().playerColor,
-                            players = players,
-                            map = map)
-                }
+                LoadGameInfo(
+                        currentColor = map.players.first().playerColor,
+                        map = map)
 
             }
-
-    private fun addField(spaceField: SpaceField) {
-        graphicController.addField(spaceField)
-        fieldController.addField(spaceField)
-    }
-
-    private fun addPlayer(playerData: PlayerData, startField: SpaceField) {
-        graphicController.addPlayer(playerData.playerColor, startField)
-        playerController.addPlayer(playerData.playerColor)
-//        player.playerImage.movingSpeed * playerData.index
-    }
 
     private fun pushCurrentPlayer(currentColor: PlayerColor) =
             playerColorDispenser.publisher.onNext(currentColor)
@@ -80,6 +61,10 @@ class LoadGameUsecase @Inject constructor(
 }
 
 data class LoadGameConfig(
-        var players: List<PlayerColor>,
-        var mapName: String
+        var map: MapData
+)
+
+data class LoadGameInfo(
+        var currentColor: PlayerColor,
+        var map: MapData
 )
