@@ -12,7 +12,6 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.SpaceField
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
@@ -52,16 +51,13 @@ data class PlayerData(
             if (it.size < 2) NONE_POSITION else it[it.size - 2]
         }
 
-    fun setSteps(spaceField: SpaceField) {
-        if (previousFieldSelected(spaceField)) {
-            steps.let { it.removeAt(it.size - 1) }
-        } else {
-            steps.add(spaceField.gamePosition)
-        }
+    fun setSteps(gamePosition: PositionData) {
+        if (previousFieldSelected(gamePosition)) steps.let { it.removeAt(it.size - 1) }
+        else steps.add(gamePosition)
     }
 
-    private fun previousFieldSelected(spaceField: SpaceField): Boolean {
-        return steps.size > 1 && previousStep.isPosition(spaceField.gamePosition)
+    private fun previousFieldSelected(gamePosition: PositionData): Boolean {
+        return steps.size > 1 && previousStep.isPosition(gamePosition)
     }
 
     fun nextRound() {

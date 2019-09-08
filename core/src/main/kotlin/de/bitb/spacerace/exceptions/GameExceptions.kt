@@ -1,5 +1,6 @@
 package de.bitb.spacerace.exceptions
 
+import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceField
@@ -22,18 +23,18 @@ class WrongPhaseException(
 
 sealed class NotMovableException(
         val player: PlayerColor,
-        val field: SpaceField,
+        val field: FieldData,
         reason: String
 ) : GameException("$player can not move to $field - $reason")
 
 class FieldsNotConnectedException(
         player: PlayerColor,
-        field: SpaceField
+        field: FieldData
 ) : NotMovableException(player, field, "not connected")
 
 class NoStepsLeftException(
         player: PlayerColor,
-        field: SpaceField
+        field: FieldData
 ) : NotMovableException(player, field, "no steps left")
 
 

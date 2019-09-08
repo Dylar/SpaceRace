@@ -2,6 +2,7 @@ package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.objecthandling.PositionData
 import io.objectbox.Box
 import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
@@ -15,9 +16,9 @@ class MapRespository(
 ) : MapDataSource {
 
     override fun insertMap(mapData: MapData): Completable =
-        Completable.fromAction {
-            mapBox.put(mapData)
-        }
+            Completable.fromAction {
+                mapBox.put(mapData)
+            }
 
     override fun insertAll(vararg field: FieldData): Single<List<FieldData>> =
             Completable
@@ -28,6 +29,12 @@ class MapRespository(
             RxQuery.single(fieldBox.query()
                     .filter { field.contains(it) }
                     .build())
+
+    override fun getField(positionData: PositionData): Single<FieldData> =
+            RxQuery.single(fieldBox.query()
+                    .filter { it.gamePosition.isPosition(positionData) }.build())
+                    .map { it.first() }
+
 
     override fun delete(vararg field: FieldData): Completable =
             Completable

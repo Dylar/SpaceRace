@@ -8,6 +8,7 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import io.objectbox.BoxStore
+import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
@@ -37,6 +38,7 @@ data class FieldData(
     var connections: ToMany<FieldData> = ToMany(this, FieldData_.connections)
 
     @JvmField
+    @Backlink(to = "positionField")
     var players: ToMany<PlayerData> = ToMany(this, FieldData_.players)
 
 }

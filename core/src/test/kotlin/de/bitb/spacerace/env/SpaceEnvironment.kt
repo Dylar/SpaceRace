@@ -233,7 +233,7 @@ class SpaceEnvironment {
              error: GameException? = null,
              assertError: (Throwable) -> Boolean = { error?.assertMoveException(it) ?: false },
              assertSuccess: (MoveInfo) -> Boolean = { true }) {
-        moveUsecase.buildUseCaseSingle(player to target)
+        moveUsecase.buildUseCaseSingle(player to target.gamePosition)
                 .test()
                 .await()
                 .apply { assertObserver(error, assertError, assertSuccess) }

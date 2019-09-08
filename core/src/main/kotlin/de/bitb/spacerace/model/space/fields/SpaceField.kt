@@ -49,8 +49,8 @@ open class SpaceField(
         disposedItems.remove(disposableItem)
     }
 
-    fun hasConnectionTo(spaceField: SpaceField): Boolean {
-        return connections.any { it.isConnection(this.gamePosition, spaceField.gamePosition) }
+    fun hasConnectionTo(position: PositionData): Boolean {
+        return connections.any { it.isConnection(this.gamePosition, position) }
     }
 
     override fun toString(): String =

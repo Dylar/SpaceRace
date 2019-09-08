@@ -64,7 +64,7 @@ class GraphicController
         fieldGraphics[spaceField.gamePosition] = spaceField
         spaceField.getGameImage().addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(MoveCommand(spaceField, playerController.currentPlayerData))
+                EventBus.getDefault().post(MoveCommand(spaceField.gamePosition, playerController.currentPlayerData))
                 return true
             }
         })

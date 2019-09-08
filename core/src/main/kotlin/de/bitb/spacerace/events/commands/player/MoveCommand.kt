@@ -5,12 +5,12 @@ import de.bitb.spacerace.controller.MoveInfo
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import javax.inject.Inject
 
 class MoveCommand(
-        val spaceField: SpaceField,
+        private val targetPosition: PositionData,
         playerData: PlayerData
 ) : BaseCommand(playerData) {
 
@@ -28,7 +28,7 @@ class MoveCommand(
 
     override fun execute() {
         moveUsecase.getResult(
-                params = playerData.playerColor to spaceField,
+                params = playerData.playerColor to targetPosition,
                 onSuccess = ::setGraphics
         )
     }

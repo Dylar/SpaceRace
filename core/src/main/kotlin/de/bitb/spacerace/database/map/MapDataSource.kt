@@ -2,6 +2,7 @@ package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.model.objecthandling.PositionData
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -15,6 +16,8 @@ interface MapDataSource {
     fun delete(vararg field: FieldData): Completable
 
     fun getAllFields(vararg field: FieldData): Single<List<FieldData>>
+
+    fun getField(positionData: PositionData): Single<FieldData>
 
     fun getPlayerField(vararg player: PlayerData): Single<List<FieldData>>
 
