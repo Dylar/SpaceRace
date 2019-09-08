@@ -1,7 +1,11 @@
 package de.bitb.spacerace.usecase.game.action
 
 import de.bitb.spacerace.config.GOAL_CREDITS
-import de.bitb.spacerace.controller.*
+import de.bitb.spacerace.controller.FieldController
+import de.bitb.spacerace.controller.GraphicController
+import de.bitb.spacerace.controller.NextPhaseInfo
+import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
@@ -15,6 +19,7 @@ import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
+import de.bitb.spacerace.model.space.fields.NONE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
@@ -144,17 +149,18 @@ class NextPhaseUsecase @Inject constructor(
                 credits += GOAL_CREDITS
                 victories++
             }
-            fieldController.setRandomGoal()
+            fieldController.setRandomGoalPosition()
         }
     }
 
     private fun obtainTunnel(playerData: PlayerData) {
         val tunnel = getRandomTunnel(playerData.playerColor)
         //TODO klappt das? Nö :P grafik muss neu gesetzt werden.............
-        graphicController.getPlayer(playerData.playerColor).setFieldPosition(tunnel)
+        val field = graphicController.fieldGraphics[tunnel.gamePosition] ?: NONE_FIELD
+        graphicController.getPlayer(playerData.playerColor).setFieldPosition(field)
     }
 
-    private fun getRandomTunnel(playerColor: PlayerColor): SpaceField {
+    private fun getRandomTunnel(playerColor: PlayerColor): FieldData {
         val playerPosition = graphicController.getPlayerPosition(playerColor)
         val tunnelList = fieldController.fieldsMap[FieldType.TUNNEL]!!
         var tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]

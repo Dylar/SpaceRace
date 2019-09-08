@@ -3,7 +3,6 @@ package de.bitb.spacerace.database.map
 import de.bitb.spacerace.database.converter.FieldTypeConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionDataConverter
-import de.bitb.spacerace.database.converter.PositionListConverter
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -14,6 +13,8 @@ import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
 
+
+val NONE_FIELD_DATA = FieldData()
 
 @Entity
 data class FieldData(

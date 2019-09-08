@@ -5,8 +5,11 @@ import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.WIN_AMOUNT
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.database.map.MapData
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 import de.bitb.spacerace.injection.components.AppComponent
@@ -15,10 +18,11 @@ import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.space.maps.SpaceMap
+import de.bitb.spacerace.model.space.maps.createMap
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.start.StartScreen
-import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.usecase.game.observe.ObserveRoundUsecase
 import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
@@ -26,7 +30,6 @@ import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import de.bitb.spacerace.utils.Logger
 import io.objectbox.Box
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -52,6 +55,8 @@ open class MainGame : BaseGame() {
     protected lateinit var commandUsecase: CommandUsecase
     @Inject
     lateinit var playerController: PlayerController
+    @Inject
+    lateinit var graphicController: GraphicController
 
     open fun initComponent(): AppComponent =
             DaggerAppComponent.builder()
@@ -184,6 +189,47 @@ open class MainGame : BaseGame() {
     }
 
 
+    //TODO RETURN MAPDATA
+    fun initMap(players: List<PlayerColor>, mapName: String): MapData = initMap(players, mapName.createMap())
+
+    fun initMap(players: List<PlayerColor>, map: SpaceMap): MapData =
+            MapData().also { mapData ->
+                //create fields
+                map.groups.forEach { spaceGroup ->
+                    spaceGroup.fields.entries.forEach { field ->
+                        val spaceField = field.value
+                        graphicController.addField(spaceField)
+
+                        val fieldData = FieldData(
+                                fieldType = spaceField.fieldType,
+                                gamePosition = spaceField.gamePosition)
+                        mapData.fields.add(fieldData)
+                    }
+                }
+                //add connections
+                graphicController.connectionGraphics.addAll(map.connections)
+                mapData.fields.forEach { fieldData ->
+                    map.connections
+                            .filter { it.isConnected(fieldData.gamePosition) }
+                            .forEach { connection ->
+                                val opposite = connection.getOpposite(fieldData.gamePosition)
+                                val oppositeData = mapData.fields.find { field -> field.gamePosition.isPosition(opposite.gamePosition) }
+                                oppositeData?.also {
+                                    fieldData.connections.add(it)
+                                }
+                            }
+                }
+
+                val startField = map.startField
+                val startFieldData = mapData.fields.find { it.gamePosition.isPosition(startField.gamePosition) }
+                players.forEach { color ->
+                    graphicController.addPlayer(color, startField)
+                    PlayerData(playerColor = color).also {
+                        it.positionField.target = startFieldData
+                        mapData.players.add(it)
+                    }
+                }
+            }
 
 
     ///TODO TEEEEST
@@ -220,4 +266,5 @@ open class MainGame : BaseGame() {
             Logger.println("RESULT: ", all)
         }
     }
+
 }

@@ -3,6 +3,7 @@ package de.bitb.spacerace.env
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.*
 import de.bitb.spacerace.core.*
+import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
@@ -19,6 +20,7 @@ import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
+import de.bitb.spacerace.usecase.game.init.LoadGameInfo
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
 import io.reactivex.observers.TestObserver
 import javax.inject.Inject
@@ -54,6 +56,7 @@ class SpaceEnvironment {
 
     lateinit var testGame: TestGame
     lateinit var testMap: SpaceMap
+    lateinit var testMapData: MapData
     val setup = Setup()
 
     val currentPlayer: PlayerData
@@ -101,15 +104,15 @@ class SpaceEnvironment {
 
         TestGame.testComponent.inject(this)
 
-        val config = LoadGameConfig(
-                players = playerColor.toList(),
-                mapName = mapToLoad.name)
+        testMap = mapToLoad.createMap()
+        val mapData = testGame.initMap(playerColor.toList(), testMap)
+        val config = LoadGameConfig(map = mapData)
         loadGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()
                 .apply {
                     val setAndAssertSuccess: (LoadGameInfo) -> Boolean = {
-                        testMap = it.map
+                        testMapData = it.map
                         assertSuccess(it)
                     }
                     assertObserver(error, assertError, setAndAssertSuccess)

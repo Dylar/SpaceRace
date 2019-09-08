@@ -2,6 +2,7 @@ package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
@@ -25,14 +26,14 @@ class FieldController
 ) {
 
     var currentGoal: PositionData? = null
-    var fieldsMap: MutableMap<FieldType, MutableList<SpaceField>> = EnumMap(FieldType::class.java)
+    var fieldsMap: MutableMap<FieldType, MutableList<FieldData>> = EnumMap(FieldType::class.java)
 
     init {
         MainGame.appComponent.inject(this)
         FieldType.values().forEach { field -> fieldsMap[field] = ArrayList() }
     }
 
-    fun addField(spaceField: SpaceField) {
+    fun addField(spaceField: FieldData) {
         fieldsMap[spaceField.fieldType]!!.add(spaceField)
     }
 
@@ -76,7 +77,7 @@ class FieldController
 
     }
 
-    fun setRandomGoal(): Pair<PositionData?, PositionData> {
+    fun setRandomGoalPosition(): Pair<PositionData?, PositionData> {
         val oldGoal = currentGoal
         val goals = fieldsMap[FieldType.GOAL]!!
         currentGoal =

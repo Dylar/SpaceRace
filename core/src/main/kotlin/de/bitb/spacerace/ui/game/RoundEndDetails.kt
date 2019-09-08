@@ -60,11 +60,11 @@ class RoundEndDetails(
         addText("$GAME_ROUND_DETAILS_CREDITS${playerData.credits}")
 
         var mineAmount = 0
-        fieldController.fieldsMap[FieldType.MINE]?.forEach { spaceField ->
-            if ((spaceField as MineField).owner == playerData.playerColor) {
-                mineAmount++
-            }
-        }
+//        fieldController.fieldsMap[FieldType.MINE]?.forEach { spaceField ->
+//            if ((spaceField as MineField).owner == playerData.playerColor) {
+//                mineAmount++
+//            } //TODO make mines work again
+//        }
         addText(GAME_ROUND_DETAILS_MINES + mineAmount)
 
     }

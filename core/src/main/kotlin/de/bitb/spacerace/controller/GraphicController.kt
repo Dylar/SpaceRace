@@ -113,12 +113,6 @@ class GraphicController
     }
 }
 
-data class LoadGameInfo(
-        var currentColor: PlayerColor,
-        var players: List<PlayerData>,
-        var map: SpaceMap
-)
-
 data class NextPhaseInfo(
         var playerData: PlayerData,
         var phase: Phase
