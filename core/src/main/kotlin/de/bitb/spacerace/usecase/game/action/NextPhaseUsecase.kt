@@ -6,6 +6,7 @@ import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.NextPhaseInfo
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
@@ -20,7 +21,6 @@ import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.NONE_FIELD
-import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
@@ -36,7 +36,8 @@ class NextPhaseUsecase @Inject constructor(
         private val graphicController: GraphicController,
         private val fieldController: FieldController,
         private val playerController: PlayerController,
-        private val playerDataSource: PlayerDataSource
+        private val playerDataSource: PlayerDataSource,
+        private val mapDataSource: MapDataSource
 ) : ResultUseCase<NextPhaseInfo, PlayerColor> {
 
     override fun buildUseCaseSingle(params: PlayerColor): Single<NextPhaseInfo> =
@@ -110,6 +111,7 @@ class NextPhaseUsecase @Inject constructor(
                 obtainField(playerData)
             }
 
+
     private fun endTurn(playerData: PlayerData): Single<PlayerData> =
             Single.fromCallable {
                 playerData.also { playerController.changePlayer() }
@@ -117,28 +119,30 @@ class NextPhaseUsecase @Inject constructor(
 
     //TODO clean me
     private fun obtainField(playerData: PlayerData): PlayerData =
-            graphicController
-                    .getPlayerField(playerData.playerColor)
-                    .let {
-                        triggerItems(it, playerData)
-                        when (it.fieldType) {
-                            FieldType.WIN -> obtainWin(playerData)
-                            FieldType.LOSE -> obtainLose(playerData)
-                            FieldType.AMBUSH -> obtainAmbush(playerData)
-                            FieldType.GIFT -> obtainGift(playerData)
-                            FieldType.MINE -> obtainMine(playerData)
-                            FieldType.TUNNEL -> obtainTunnel(playerData)
-                            FieldType.GOAL -> obtainGoal(playerData)
-                            FieldType.SHOP -> getDefault().post(ObtainShopCommand(playerData)) //TODO open shop onSuccess
-                            else -> Logger.println("IMPL ME")
-                        }
-                        Logger.println("Field ${it.fieldType.name}: $playerData")
-                        playerData
-                    }
+            playerData.also {
+                triggerItems(playerData)
+                val fieldData = playerData.positionField.target
+                when (fieldData.fieldType) {
+                    FieldType.WIN -> obtainWin(playerData)
+                    FieldType.LOSE -> obtainLose(playerData)
+                    FieldType.AMBUSH -> obtainAmbush(playerData)
+                    FieldType.GIFT -> obtainGift(playerData)
+                    FieldType.MINE -> obtainMine(playerData)
+                    FieldType.TUNNEL -> obtainTunnel(playerData)
+                    FieldType.GOAL -> obtainGoal(playerData)
+                    FieldType.SHOP -> getDefault().post(ObtainShopCommand(playerData)) //TODO open shop onSuccess
+                    else -> Logger.println("IMPL ME")
+                }
+                Logger.println("Field ${fieldData.fieldType.name}: $playerData")
+            }
 
-    private fun triggerItems(field: SpaceField, playerData: PlayerData) {
+    private fun triggerItems(playerData: PlayerData) {
+        //TODO old code change that
         mutableListOf<Item>()
-                .apply { addAll(field.disposedItems) }
+                .apply {
+                    val field = graphicController.getPlayerField(playerData.playerColor)
+                    addAll(field.disposedItems)
+                }
                 .forEach { it.use(playerData) }
     }
 

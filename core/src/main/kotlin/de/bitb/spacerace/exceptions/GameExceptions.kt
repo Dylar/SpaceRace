@@ -3,7 +3,6 @@ package de.bitb.spacerace.exceptions
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.SpaceField
 
 sealed class GameException(
         message: String
