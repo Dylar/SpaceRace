@@ -5,11 +5,15 @@ import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.database.map.MapData
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
+import io.objectbox.Box
 import javax.inject.Inject
 
 class LoadGameCommand() : BaseCommand() {
@@ -22,6 +26,15 @@ class LoadGameCommand() : BaseCommand() {
 
     @Inject
     protected lateinit var graphicController: GraphicController
+
+    @Inject
+    lateinit var mapbox: Box<MapData>
+
+    @Inject
+    lateinit var fieldBox: Box<FieldData>
+
+    @Inject
+    lateinit var playerBox: Box<PlayerData>
 
     init {
         MainGame.appComponent.inject(this)

@@ -9,10 +9,15 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 class MapRespository(
-        private val fieldBox: Box<FieldData>
+        private val fieldBox: Box<FieldData>,
 //        private val posBox: Box<PositionData>
-//        private val mapBox: Box<MapData>
+        private val mapBox: Box<MapData>
 ) : MapDataSource {
+
+    override fun insertMap(mapData: MapData): Completable =
+        Completable.fromAction {
+            mapBox.put(mapData)
+        }
 
     override fun insertAll(vararg field: FieldData): Single<List<FieldData>> =
             Completable

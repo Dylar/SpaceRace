@@ -3,8 +3,8 @@ package de.bitb.spacerace.usecase.game.init
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
-import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
@@ -19,21 +19,21 @@ class LoadGameUsecase @Inject constructor(
         private val playerController: PlayerController,
         private val fieldController: FieldController,
         private val playerColorDispenser: PlayerColorDispenser,
-        private val playerDataSource: PlayerDataSource
+        private val playerDataSource: PlayerDataSource,
+        private val mapDataSource: MapDataSource
 ) : ResultUseCase<LoadGameInfo, LoadGameConfig> {
 
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameInfo> =
             params.let { (map) ->
                 checkPlayerSize(map.players)
+                        .andThen(playerDataSource.deleteAll()) //TODO put player nt on map (except savegamesa bla bla) player color on multiple palyers ... change that
                         .andThen(initMap(map))
-                        .flatMap { result ->
-                            playerDataSource.deleteAll()
-                            playerDataSource.insertAllReturnAll(*result.map.players.toTypedArray())
-                                    .map { playerData ->
-                                        result//.also { result.map.players = playerData }
-                                    }
+                        .flatMap {
+                            mapDataSource.insertMap(it.map)
+                                    .andThen(Single.just(it))
                         }
-            }.doAfterSuccess { pushCurrentPlayer(it.currentColor) }
+                        .doAfterSuccess { pushCurrentPlayer(it.currentColor) }
+            }
 
     private fun checkPlayerSize(players: List<PlayerData>): Completable =
             Completable.create { emitter ->
@@ -49,7 +49,6 @@ class LoadGameUsecase @Inject constructor(
                 val goalPosition = fieldController.setRandomGoalPosition().second
                 map.goal.target = map.fields.find { it.gamePosition.isPosition(goalPosition) }
                         ?: NONE_FIELD_DATA
-
                 LoadGameInfo(
                         currentColor = map.players.first().playerColor,
                         map = map)

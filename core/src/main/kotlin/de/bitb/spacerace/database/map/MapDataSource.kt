@@ -8,6 +8,8 @@ import io.reactivex.Single
 
 interface MapDataSource {
 
+    fun insertMap(mapData:MapData): Completable
+
     fun insertAll(vararg field: FieldData): Single<List<FieldData>>
 
     fun delete(vararg field: FieldData): Completable
