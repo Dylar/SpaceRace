@@ -2,7 +2,7 @@ package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.controller.NextPhaseInfo
 import de.bitb.spacerace.controller.toConnectionInfo
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
@@ -28,14 +28,18 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
     }
 
     override fun execute() {
-        nextPhaseUsecase.getResult(params = playerData.playerColor) { nextPhaseInfo ->
-            val position = graphicController.getPlayerPosition(nextPhaseInfo.playerData.playerColor)
-            fieldController.setConnectionColor(nextPhaseInfo.toConnectionInfo(position))
+        nextPhaseUsecase.getResult(
+                params = playerData.playerColor,
+                onSuccess = ::setGraphics)
+    }
 
-            when (nextPhaseInfo.phase) {
-                Phase.END_TURN -> graphicController.changePlayer()
-                else -> {
-                }
+    private fun setGraphics(nextPhaseInfo: NextPhaseInfo) {
+        val position = graphicController.getPlayerPosition(nextPhaseInfo.playerData.playerColor)
+        fieldController.setConnectionColor(nextPhaseInfo.toConnectionInfo(position))
+
+        when (nextPhaseInfo.phase) {
+            Phase.END_TURN -> graphicController.changePlayer()
+            else -> {
             }
         }
     }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
-import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.model.player.PlayerColor
 
@@ -16,10 +15,11 @@ fun GraphicController.getPlayerPosition(playerColor: PlayerColor) =
 
 fun GraphicController.getPlayerItems(playerColor: PlayerColor) = getPlayer(playerColor).playerItems
 
-fun GameObject.getDisplayImage(posX: Float = 0f,
-                               posY: Float = 0f,
-                               color: Color = Color(1f, 1f, 1f, 1f),
-                               actor: Actor = Actor()
+fun GameObject.getDisplayImage(
+        posX: Float = 0f,
+        posY: Float = 0f,
+        color: Color = Color(1f, 1f, 1f, 1f),
+        actor: Actor = Actor()
 ): Image {
     val image = object : Image(getGameImage().animation.region) {
         override fun act(delta: Float) {

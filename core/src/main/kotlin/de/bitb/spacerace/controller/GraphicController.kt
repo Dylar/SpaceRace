@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemImage
+import de.bitb.spacerace.model.items.disposable.moving.MovingItem
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.NONE_PLAYER
@@ -110,6 +113,47 @@ class GraphicController
             oldGoalGraphic.fieldImage.setBlinkColor(null)
             currentGoalGraphic.fieldImage.setBlinkColor(currentGoalGraphic.fieldType.color)
         }
+    }
+
+
+    fun moveMovables() {
+
+        fun getField(item: Item): SpaceField {
+            return fieldGraphics.values
+                    .filter { it.disposedItems.contains(item) }
+                    .firstOrNull() ?: NONE_FIELD
+        }
+
+        val moveItem = { item: MovingItem, toRemove: MutableList<Item> ->
+            val field = getField(item)
+            val list = field.connections
+            val con = list[(Math.random() * list.size).toInt()]
+            val newField = con.getOpposite(field.gamePosition)
+            newField.disposedItems.add(item)
+
+            val itemImage = item.getGameImage() as ItemImage
+            val point = itemImage.getRotationPosition(itemImage, newField.getGameImage())
+
+            item.gamePosition.setPosition(newField.gamePosition)
+            itemImage.moveTo(item.getGameImage(), point, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
+            toRemove.add(item)
+        }
+
+        val fieldList: MutableList<SpaceField> = ArrayList()
+        fieldGraphics.values
+                .filter { it.disposedItems.isNotEmpty() }
+                .forEach { fieldList.add(it) }
+
+        fieldList.forEach { field: SpaceField ->
+            val toRemove: MutableList<Item> = ArrayList()
+            field.disposedItems.forEach {
+                if (it is MovingItem && it.getGameImage().isIdling()) {
+                    moveItem(it, toRemove)
+                }
+            }
+            field.disposedItems.removeAll(toRemove)
+        }
+
     }
 }
 
