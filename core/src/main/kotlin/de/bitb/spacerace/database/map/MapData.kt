@@ -19,7 +19,6 @@ data class MapData(
         var startPosition: PositionData = PositionData()
 ){
 
-
     @Transient
     @JvmField
     protected var __boxStore: BoxStore? = null
@@ -32,15 +31,5 @@ data class MapData(
 
     @JvmField
     var players: ToMany<PlayerData> = ToMany(this, MapData_.players)
-
-//    @Transient
-//    @JvmField
-//    var fields: MutableList<FieldData> = mutableListOf()
-//    @Transient
-//    @JvmField
-//    var goal: FieldData = FieldData()
-//    @Transient
-//    @JvmField
-//    var players: MutableList<PlayerData> =  mutableListOf()
 
 }
