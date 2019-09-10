@@ -196,15 +196,12 @@ class SpaceEnvironment {
     //
     fun nextPhase(color: PlayerColor = currentPlayerColor,
                   error: GameException? = null,
-                  assertError: (Throwable) -> Boolean = {
-                      error?.assertNextPhaseException(it) ?: false
-                  },
+                  assertError: (Throwable) -> Boolean = { error?.assertNextPhaseException(it) ?: false },
                   assertSuccess: ((NextPhaseResult) -> Boolean) = { true }) {
         nextPhaseUseCase.buildUseCaseSingle(color)
                 .test()
                 .await()
                 .apply { assertObserver(error, assertError, assertSuccess) }
-
     }
 
     fun dice(player: PlayerColor = currentPlayerColor,
