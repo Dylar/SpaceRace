@@ -10,7 +10,6 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceConnection
-import de.bitb.spacerace.model.space.fields.SpaceField
 import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.*
 
@@ -28,12 +27,12 @@ fun SpaceEnvironment.assertDiceResult(
         player: PlayerColor = currentPlayerColor
 ) = getDBPlayer(player) { it.stepsLeft() == diceResult }
 
-fun SpaceEnvironment.assertSameField(field1: SpaceField, field2: SpaceField) =
-        assertTrue(field1.gamePosition.isPosition(field2.gamePosition))
+fun SpaceEnvironment.assertSameField(field1: PositionData, field2: PositionData) =
+        assertTrue(field1.isPosition(field2))
 
 @Deprecated("")
-fun SpaceEnvironment.assertNotSameField(field1: SpaceField, field2: SpaceField) =
-        assertFalse(field1.gamePosition.isPosition(field2.gamePosition))
+fun SpaceEnvironment.assertNotSameField(field1: PositionData, field2: PositionData) =
+        assertFalse(field1.isPosition(field2))
 
 fun SpaceEnvironment.assertOnMap(assertMap: (MapData) -> Boolean) =
         getDBMap(assertMap)
@@ -44,11 +43,13 @@ fun SpaceEnvironment.assertGoalField(positionData: PositionData) =
 fun SpaceEnvironment.assertNotGoalField(positionData: PositionData) =
         assertOnMap { !it.goal.target.gamePosition.isPosition(positionData) }
 
-fun SpaceEnvironment.assertPlayerOnField(player: PlayerColor, field: SpaceField) =
-        assertThat(getPlayerField(player), `is`(field))
+fun SpaceEnvironment.assertPlayerOnField(player: PlayerColor, field: PositionData) =
+        getDBPlayer(player){it.gamePosition.isPosition(field)}
 
-fun SpaceEnvironment.assertPlayerNotOnField(player: PlayerColor, field: SpaceField) =
-        assertThat(getPlayerField(player), `is`(not(field)))
+fun SpaceEnvironment.assertPlayerNotOnField(player: PlayerColor, fieldPosition: PositionData) =
+        getDBPlayer(player){
+            !it.positionField.target.gamePosition.isPosition(fieldPosition)
+        }
 
 fun SpaceEnvironment.assertPlayerVictories(player: PlayerColor, amount: Long = 1) =
         getDBPlayer(player) {
@@ -77,12 +78,12 @@ fun SpaceEnvironment.assertNotGameEnd() {
 
 fun SpaceEnvironment.assertConnectionAfterMove(
         player: PlayerColor = currentPlayerColor,
-        connection: SpaceConnection = SpaceConnection(currentPosition, leftTopField),
+        connection: SpaceConnection = createConnection(currentPosition, leftTopField),
         isConnected: Boolean = false,
         assertSuccess: (MoveInfo) -> Boolean = { checkConnection(connection, it.toConnectionInfo(), isConnected) }
 ) = move(
         player = player,
-        target = connection.spaceField2,
+        target = connection.spaceField2.gamePosition,
         assertSuccess = assertSuccess
 )
 

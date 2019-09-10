@@ -6,8 +6,8 @@ import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.TEST_PLAYER_2
 import de.bitb.spacerace.env.TEST_PLAYER_3
 import de.bitb.spacerace.exceptions.DiceFirstException
-import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.exceptions.NotCurrentPlayerException
+import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.space.fields.SpaceField
 import junit.framework.Assert.assertTrue
@@ -162,7 +162,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     setToMovePhase()
 
                     //get move target
-                    val target: SpaceField = getRandomConnectedField()
+                    val target = leftTopField
 
                     //move action
                     move(target = target)
@@ -179,14 +179,14 @@ class NextPhaseUsecaseTest : GameTest() {
                     initGame()
                     setToMovePhase(-2)
 
-                    val target1: SpaceField = leftTopField
-                    val target2: SpaceField = centerTopField
+                    val target1 = leftTopField
+                    val target2 = centerTopField
                     assertNotSameField(target1, target2)
-                    val playerField1: SpaceField = getPlayerField(TEST_PLAYER_1)
+                    val playerField1 = getPlayerField(TEST_PLAYER_1).gamePosition
 
                     //move1
                     move(target = target1)
-                    val playerField2: SpaceField = getPlayerField(TEST_PLAYER_1)
+                    val playerField2 = getPlayerField(TEST_PLAYER_1).gamePosition
                     assertNotSameField(playerField1, playerField2)
 
                     //next phase failed
@@ -211,8 +211,8 @@ class NextPhaseUsecaseTest : GameTest() {
                     setToMovePhase(-2)
 
                     //move action
-                    val target1: SpaceField = leftTopField
-                    val target2: SpaceField = centerTopField
+                    val target1 = leftTopField
+                    val target2 = centerTopField
                     assertNotSameField(target1, target2)
 
                     move(target = target1)

@@ -48,7 +48,7 @@ class WinnerUsecaseTest : GameTest() {
                 .apply {
                     DEBUG_WIN_FIELD = false
                     initGame(winAmount = 2)
-                    val goalPosition = centerBottomField.gamePosition
+                    val goalPosition = centerBottomField
                     assertGoalField(goalPosition)
 
                     moveToGoal()

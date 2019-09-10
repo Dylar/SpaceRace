@@ -103,7 +103,7 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun startMove(playerData: PlayerData): Single<NextPhaseResult> =
             Single.fromCallable {
-                NextPhaseResult(playerData.apply { steps.add(graphicController.getPlayerFieldGraphic(playerColor).gamePosition) })
+                StartMoveResult(playerData.apply { steps.add(graphicController.getPlayerFieldGraphic(playerColor).gamePosition) })
             }
 
     private fun startMain2(playerData: PlayerData): Single<out NextPhaseResult> =
@@ -233,6 +233,7 @@ class NextPhaseUsecase @Inject constructor(
 
 open class NextPhaseResult(var player: PlayerData)
 
+open class StartMoveResult(player: PlayerData) : NextPhaseResult(player)
 open class ObtainFieldResult(player: PlayerData) : NextPhaseResult(player)
 open class ObtainShopResult(player: PlayerData) : ObtainFieldResult(player)
 class ObtainGoalResult(

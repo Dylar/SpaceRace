@@ -7,10 +7,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.usecase.game.action.NextPhaseResult
-import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
-import de.bitb.spacerace.usecase.game.action.ObtainFieldResult
-import de.bitb.spacerace.usecase.game.action.ObtainGoalResult
+import de.bitb.spacerace.usecase.game.action.*
 import javax.inject.Inject
 
 class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
@@ -38,8 +35,9 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
         val position = nextPhaseResult.player.gamePosition
         val phase = nextPhaseResult.player.phase
 
-        if (nextPhaseResult is ObtainFieldResult){
-            fieldController.setConnectionColor(nextPhaseResult.toConnectionInfo(position))
+        when (nextPhaseResult) {
+            is ObtainFieldResult,
+            is StartMoveResult -> fieldController.setConnectionColor(nextPhaseResult.toConnectionInfo(position))
         }
 
         if (nextPhaseResult is ObtainGoalResult) {

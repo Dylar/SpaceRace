@@ -17,10 +17,10 @@ class ConnectionTest : GameTest() {
                 .apply {
                     initGame()
 
-                    val connection1 = SpaceConnection(leftBottomField, leftTopField)
-                    val connection2 = SpaceConnection(leftBottomField, centerTopField)
-                    val connectionGoal = SpaceConnection(leftBottomField, centerBottomField)
-                    val connectionBack = SpaceConnection(leftTopField, leftBottomField)
+                    val connection1 = createConnection(leftBottomField, leftTopField)
+                    val connection2 = createConnection(leftBottomField, centerTopField)
+                    val connectionGoal = createConnection(leftBottomField, centerBottomField)
+                    val connectionBack = createConnection(leftTopField, leftBottomField)
 
                     fun assertConnectionPlayer2(con: SpaceConnection) {
                         assertConnection(
@@ -39,7 +39,7 @@ class ConnectionTest : GameTest() {
                                     connection = con,
                                     connectionInfo = getConnectionInfo())
 
-                    assertSameField(getPlayerField(), leftBottomField)
+                    assertSameField(getPlayerField().gamePosition, leftBottomField)
 
                     assertConnectionPlayer1(connection1)
                     assertConnectionPlayer1(connection2)
@@ -60,11 +60,11 @@ class ConnectionTest : GameTest() {
                                 it.toConnectionInfo().let { connectionInfo ->
                                     checkConnection(
                                             isConnected = true,
-                                            connection = SpaceConnection(leftBottomField, leftTopField),
+                                            connection = createConnection(leftBottomField, leftTopField),
                                             connectionInfo = connectionInfo)
                                             && checkConnection(
                                             isConnected = true,
-                                            connection = SpaceConnection(leftBottomField, centerBottomField),
+                                            connection = createConnection(leftBottomField, centerBottomField),
                                             connectionInfo = connectionInfo)
                                 }
                             }
@@ -86,11 +86,11 @@ class ConnectionTest : GameTest() {
                     getConnectionInfo().also { info ->
                         assertTrue(checkConnection(
                                 isConnected = true,
-                                connection = SpaceConnection(leftBottomField, leftTopField),
+                                connection = createConnection(leftBottomField, leftTopField),
                                 connectionInfo = info))
                         assertTrue(checkConnection(
                                 isConnected = true,
-                                connection = SpaceConnection(leftBottomField, centerBottomField),
+                                connection = createConnection(leftBottomField, centerBottomField),
                                 connectionInfo = info))
                     }
 
@@ -99,10 +99,10 @@ class ConnectionTest : GameTest() {
                     getConnectionInfo().also { info ->
                         assertTrue(checkConnection(
                                 isConnected = true,
-                                connection = SpaceConnection(leftTopField, leftBottomField),
+                                connection = createConnection(leftTopField, leftBottomField),
                                 connectionInfo = info))
                         assertTrue(checkConnection(
-                                connection = SpaceConnection(leftTopField, centerTopField),
+                                connection = createConnection(leftTopField, centerTopField),
                                 connectionInfo = info))
                     }
 
@@ -110,10 +110,10 @@ class ConnectionTest : GameTest() {
 
                     getConnectionInfo().also { info ->
                         assertTrue(checkConnection(
-                                connection = SpaceConnection(leftTopField, leftBottomField),
+                                connection = createConnection(leftTopField, leftBottomField),
                                 connectionInfo = info))
                         assertTrue(checkConnection(
-                                connection = SpaceConnection(leftTopField, centerTopField),
+                                connection = createConnection(leftTopField, centerTopField),
                                 connectionInfo = info))
                     }
                 }

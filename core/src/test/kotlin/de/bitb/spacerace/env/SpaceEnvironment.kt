@@ -11,7 +11,7 @@ import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
+import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.SpaceMap
@@ -73,17 +73,17 @@ class SpaceEnvironment {
         get() = playerController.currentColor
     val currentPhase: Phase
         get() = currentPlayer.phase
-    val currentPosition: SpaceField
-        get() = getPlayerField(currentPlayerColor)
+    val currentPosition: PositionData
+        get() = currentPlayer.gamePosition
 
-    val centerBottomField: SpaceField
-        get() = getField(0)
-    val leftBottomField: SpaceField
-        get() = getField(1)
-    val leftTopField: SpaceField
-        get() = getField(4)
-    val centerTopField: SpaceField
-        get() = getField(3)
+    val centerBottomField: PositionData
+        get() = getFieldPosition(0)
+    val leftBottomField: PositionData
+        get() = getFieldPosition(1)
+    val leftTopField: PositionData
+        get() = getFieldPosition(4)
+    val centerTopField: PositionData
+        get() = getFieldPosition(3)
 
 //    val leftBottomField: SpaceField
 //        get() = getField(1)
@@ -118,12 +118,7 @@ class SpaceEnvironment {
         loadGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()
-                .apply {
-                    val setAndAssertSuccess: (LoadGameInfo) -> Boolean = {
-                        assertSuccess(it)
-                    }
-                    assertObserver(error, assertError, setAndAssertSuccess)
-                }
+                .apply { assertObserver(error, assertError, assertSuccess) }
 
 //        testGame.initGameObserver()
         testGame.initPhaseObserver() //Only phase observer -> so winner is as test observer
@@ -162,7 +157,7 @@ class SpaceEnvironment {
     fun moveToGoal() {
         setToMovePhase()
         move(target = centerBottomField)
-        assertSameField(getPlayerField(), centerBottomField)
+        assertSameField(getPlayerField().gamePosition, centerBottomField)
     }
 
     //
@@ -183,19 +178,19 @@ class SpaceEnvironment {
             phase: Phase = currentPhase
     ) = ConnectionInfo(getPlayerPosition(playerColor), stepsLeft, previousPosition, phase)
 
-    fun getField(fieldId: Int, groupId: Int = 0) = testMap.groups[groupId].getField(fieldId)
+    fun getFieldPosition(fieldId: Int, groupId: Int = 0) = testMap.groups[groupId].getField(fieldId).gamePosition
 
     fun getPlayerField(player: PlayerColor = currentPlayerColor): SpaceField =
             graphicController.getPlayerFieldGraphic(player)
 
-    fun getRandomConnectedField(): SpaceField {
-        val currentField = currentPlayer.positionField.target
-        val lastStep = currentPlayer.steps.last()
-        return currentField.connections
-                .find { !lastStep.isPosition(it.gamePosition) }
-                ?.let { graphicController.getFieldGraphic(it.gamePosition) }
-                ?: NONE_SPACE_FIELD
-    }
+//    fun getRandomConnectedField(): PositionData {
+//        val currentField = currentPlayer.positionField.target
+//        val lastStep = currentPlayer.steps.last()
+//        return (currentField.connections
+//                .find { it.fieldType != FieldType.GOAL && !lastStep.isPosition(it.gamePosition) }
+//                ?.let { graphicController.getFieldGraphic(it.gamePosition) }
+//                ?: NONE_SPACE_FIELD).gamePosition
+//    }
 
     //
     // █████╗  ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
@@ -232,11 +227,11 @@ class SpaceEnvironment {
     }
 
     fun move(player: PlayerColor = currentPlayerColor,
-             target: SpaceField = leftTopField,
+             target: PositionData = leftTopField,
              error: GameException? = null,
              assertError: (Throwable) -> Boolean = { error?.assertMoveException(it) ?: false },
              assertSuccess: (MoveInfo) -> Boolean = { true }) {
-        moveUsecase.buildUseCaseSingle(player to target.gamePosition)
+        moveUsecase.buildUseCaseSingle(player to target)
                 .test()
                 .await()
                 .apply { assertObserver(error, assertError, assertSuccess) }
@@ -247,10 +242,8 @@ class SpaceEnvironment {
             error: GameException?,
             assertError: (Throwable) -> Boolean,
             assertSuccess: (T) -> Boolean) {
-        if (error == null) assertComplete().assertValue {
-            assertSuccess.invoke(it)
-        }
-        else assertError { assertError.invoke(it) }
+        if (error == null) assertComplete().assertValue { assertSuccess(it) }
+        else assertError { assertError(it) }
     }
 
     fun waitForIt(time: Long = 5) {
@@ -277,5 +270,8 @@ class SpaceEnvironment {
                 .assertComplete()
                 .assertValue { assertIt(it) }
     }
+
+    fun createConnection(field1: PositionData, field2: PositionData): SpaceConnection =
+            SpaceConnection(graphicController.getFieldGraphic(field1), graphicController.getFieldGraphic(field2))
 
 }
