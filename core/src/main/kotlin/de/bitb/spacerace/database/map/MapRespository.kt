@@ -25,6 +25,8 @@ class MapRespository(
                     .fromCallable { fieldBox.put(*field) }
                     .andThen(getAllFields(*field))
 
+    override fun getMap(): Single<MapData> = Single.fromCallable { mapBox.all.first() }
+
     override fun getAllFields(vararg field: FieldData): Single<List<FieldData>> =
             RxQuery.single(fieldBox.query()
                     .filter { field.contains(it) }
@@ -35,8 +37,13 @@ class MapRespository(
                     .filter { it.gamePosition.isPosition(positionData) }.build())
                     .map { it.first() }
 
+    override fun deleteMap(): Completable =
+            Completable.fromAction {
+                mapBox.removeAll()
+                fieldBox.removeAll()
+            }
 
-    override fun delete(vararg field: FieldData): Completable =
+    override fun deleteField(vararg field: FieldData): Completable =
             Completable
                     .fromCallable { fieldBox.remove(*field) }
 

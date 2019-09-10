@@ -23,10 +23,10 @@ class CommandUsecase @Inject constructor(
     }
 
     private fun updatePlayerData(command: BaseCommand) =
-            if (command.playerData != NONE_PLAYER_DATA) {
+            if (command.DONT_USE_THIS_PLAYER_DATA != NONE_PLAYER_DATA) {
                 playerDataSource
-                        .getByColor(command.playerData.playerColor)
-                        .map { command.apply { playerData = it.first() } }
+                        .getByColor(command.DONT_USE_THIS_PLAYER_DATA.playerColor)
+                        .map { command.apply { DONT_USE_THIS_PLAYER_DATA = it.first() } }
             } else {
                 Single.just(command)
             }.toObservable()
@@ -34,9 +34,9 @@ class CommandUsecase @Inject constructor(
     private fun handleCommand(command: BaseCommand) =
             Completable.fromCallable {
                 if (command.canExecute()) {
-                    Logger.println("Executed handleCommand:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
+                    Logger.println("Executed handleCommand:\nPlayer: ${command.DONT_USE_THIS_PLAYER_DATA},\nCommand: ${command::class.java.simpleName}")
                     command.execute()
-                } else Logger.println("Not Executed handleCommand:\nPlayer: ${command.playerData},\nCommand: ${command::class.java.simpleName}")
+                } else Logger.println("Not Executed handleCommand:\nPlayer: ${command.DONT_USE_THIS_PLAYER_DATA},\nCommand: ${command::class.java.simpleName}")
             }.toSingleDefault(command).toObservable()
 
 }

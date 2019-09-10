@@ -14,11 +14,10 @@ import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerItems
-import de.bitb.spacerace.model.space.fields.NONE_FIELD
-import de.bitb.spacerace.model.space.fields.SpaceConnection
+import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
-import de.bitb.spacerace.model.space.maps.SpaceMap
+import de.bitb.spacerace.usecase.game.action.NextPhaseResult
 import de.bitb.spacerace.utils.Logger
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
@@ -43,7 +42,7 @@ class GraphicController
     fun getField(gamePosition: PositionData) =
             fieldGraphics.keys.find { it.isPosition(gamePosition) }
                     ?.let { fieldGraphics[it] }
-                    ?: NONE_FIELD
+                    ?: NONE_SPACE_FIELD
 
     fun getPlayerField(playerColor: PlayerColor) =
             getField(getPlayer(playerColor).gamePosition)
@@ -106,13 +105,11 @@ class GraphicController
         oldPlayer.playerItems.removeUsedItems()
     }
 
-    fun setGoal(goals: Pair<PositionData?, PositionData> = NONE_POSITION to NONE_POSITION) {
-        goals.let { (oldGoal, currentGoal) ->
-            val oldGoalGraphic = getField(oldGoal ?: NONE_POSITION)
-            val currentGoalGraphic = getField(currentGoal)
-            oldGoalGraphic.fieldImage.setBlinkColor(null)
-            currentGoalGraphic.fieldImage.setBlinkColor(currentGoalGraphic.fieldType.color)
-        }
+    fun setGoal(oldGoal: PositionData = NONE_POSITION, currentGoal: PositionData = NONE_POSITION) {
+        val oldGoalGraphic = getField(oldGoal)
+        val currentGoalGraphic = getField(currentGoal)
+        oldGoalGraphic.fieldImage.setBlinkColor(null)
+        currentGoalGraphic.fieldImage.setBlinkColor(currentGoalGraphic.fieldType.color)
     }
 
 
@@ -121,7 +118,7 @@ class GraphicController
         fun getField(item: Item): SpaceField {
             return fieldGraphics.values
                     .filter { it.disposedItems.contains(item) }
-                    .firstOrNull() ?: NONE_FIELD
+                    .firstOrNull() ?: NONE_SPACE_FIELD
         }
 
         val moveItem = { item: MovingItem, toRemove: MutableList<Item> ->
@@ -157,11 +154,6 @@ class GraphicController
     }
 }
 
-data class NextPhaseInfo(
-        var playerData: PlayerData,
-        var phase: Phase
-)
-
 data class ConnectionInfo(
         var position: PositionData,
         var stepsLeft: Boolean,
@@ -180,4 +172,4 @@ data class MoveInfo(
 fun PlayerData.toConnectionInfo(position: PositionData) = ConnectionInfo(position, areStepsLeft(), previousStep, phase)
 
 fun MoveInfo.toConnectionInfo(): ConnectionInfo = ConnectionInfo(position, stepsLeft, previousPosition, phase)
-fun NextPhaseInfo.toConnectionInfo(position: PositionData): ConnectionInfo = ConnectionInfo(position, playerData.areStepsLeft(), playerData.previousStep, phase)
+fun NextPhaseResult.toConnectionInfo(position: PositionData): ConnectionInfo = ConnectionInfo(position, player.areStepsLeft(), player.previousStep, player.phase)

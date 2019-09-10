@@ -24,7 +24,7 @@ class DiceCommand(
     }
 
     override fun execute() {
-        diceUsecase.execute(playerData.playerColor to maxResult)
+        diceUsecase.execute(DONT_USE_THIS_PLAYER_DATA.playerColor to maxResult)
     }
 
 }

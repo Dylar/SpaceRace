@@ -53,7 +53,7 @@ var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL)
 var DEBUG_ITEM = arrayListOf(ItemCollection.NONE)
 const val DEBUG_ITEMS = 0 //Hint: destroys tests
 
-const val DEBUG_WIN_FIELD = true
+const val DEBUG_WIN_FIELD = false
 const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false
 var CAMERA_TARGET: GameImage? = null

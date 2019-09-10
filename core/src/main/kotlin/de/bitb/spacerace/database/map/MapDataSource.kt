@@ -13,7 +13,11 @@ interface MapDataSource {
 
     fun insertAll(vararg field: FieldData): Single<List<FieldData>>
 
-    fun delete(vararg field: FieldData): Completable
+    fun deleteField(vararg field: FieldData): Completable
+
+    fun deleteMap(): Completable
+
+    fun getMap(): Single<MapData>
 
     fun getAllFields(vararg field: FieldData): Single<List<FieldData>>
 

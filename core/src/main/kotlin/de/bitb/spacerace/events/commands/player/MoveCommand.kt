@@ -28,7 +28,7 @@ class MoveCommand(
 
     override fun execute() {
         moveUsecase.getResult(
-                params = playerData.playerColor to targetPosition,
+                params = DONT_USE_THIS_PLAYER_DATA.playerColor to targetPosition,
                 onSuccess = ::setGraphics
         )
     }

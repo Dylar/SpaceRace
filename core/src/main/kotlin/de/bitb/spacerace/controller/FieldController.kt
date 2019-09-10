@@ -19,7 +19,6 @@ class FieldController
         val graphicController: GraphicController
 ) {
 
-    var currentGoal: PositionData? = null
     var fieldsMap: MutableMap<FieldType, MutableList<FieldData>> = EnumMap(FieldType::class.java)
 
     init {
@@ -31,15 +30,15 @@ class FieldController
         fieldsMap[fieldData.fieldType]!!.add(fieldData)
     }
 
-    fun setRandomGoalPosition(): Pair<PositionData?, PositionData> {
-        val oldGoal = currentGoal
-        val goals = fieldsMap[FieldType.GOAL]!!
-        currentGoal =
-                if (DEBUG_WIN_FIELD) goals.first().gamePosition
-                else goals[(Math.random() * goals.size).toInt()].gamePosition
-
-        return oldGoal to currentGoal!!
-    }
+//    fun setRandomGoalPosition(): Pair<PositionData?, PositionData> {
+//        val oldGoal = currentGoal
+//        val goals = fieldsMap[FieldType.GOAL]!!
+//        currentGoal =
+//                if (DEBUG_WIN_FIELD) goals.first().gamePosition
+//                else goals[(Math.random() * goals.size).toInt()].gamePosition
+//
+//        return oldGoal to currentGoal!!
+//    }
 
     fun setConnectionColor(connectionInfo: ConnectionInfo) {
         graphicController.connectionGraphics.forEach { connection ->

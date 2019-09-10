@@ -8,7 +8,7 @@ import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 
-val NONE_FIELD: SpaceField = SpaceField().apply { id = -1 }
+val NONE_SPACE_FIELD: SpaceField = SpaceField().apply { id = -1 }
 
 open class SpaceField(
         val fieldType: FieldType = FieldType.RANDOM,

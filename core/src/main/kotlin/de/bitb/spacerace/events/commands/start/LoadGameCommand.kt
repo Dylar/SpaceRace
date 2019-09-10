@@ -9,7 +9,6 @@ import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
@@ -54,7 +53,7 @@ class LoadGameCommand() : BaseCommand() {
         loadGameUsecase.getResult(
                 params = config,
                 onSuccess = { info ->
-                    graphicController.setGoal(NONE_POSITION to info.map.goal.target.gamePosition)
+                    graphicController.setGoal(currentGoal = info.map.goal.target.gamePosition)
                     game.startGameDELETE_ME()
                 })
     }

@@ -7,11 +7,11 @@ import de.bitb.spacerace.model.items.Item
 class UseItemCommand(val item: Item, playerData: PlayerData) : BaseCommand(playerData) {
 
     override fun canExecute(): Boolean {
-        return item.canUse(playerData)
+        return item.canUse(DONT_USE_THIS_PLAYER_DATA)
     }
 
     override fun execute() {
-        item.use(playerData)
+        item.use(DONT_USE_THIS_PLAYER_DATA)
     }
 
 }

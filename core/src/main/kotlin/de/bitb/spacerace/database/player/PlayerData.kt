@@ -46,6 +46,9 @@ data class PlayerData(
     @JvmField
     var positionField: ToOne<FieldData> = ToOne(this, PlayerData_.positionField)
 
+    val gamePosition: PositionData
+        get() = positionField.target.gamePosition
+
     val previousStep: PositionData
         get() = steps.let {
             if (it.size < 2) NONE_POSITION else it[it.size - 2]

@@ -3,25 +3,29 @@ package de.bitb.spacerace.env
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.*
 import de.bitb.spacerace.core.*
+import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.NONE_FIELD
+import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
+import de.bitb.spacerace.usecase.game.action.NextPhaseResult
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
+import de.bitb.spacerace.usecase.game.getter.GetFieldUsecase
+import de.bitb.spacerace.usecase.game.getter.GetMapUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameInfo
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
+import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import javax.inject.Inject
 
@@ -48,6 +52,10 @@ class SpaceEnvironment {
     @Inject
     lateinit var getPlayerUsecase: GetPlayerUsecase
     @Inject
+    lateinit var getFieldUsecase: GetFieldUsecase
+    @Inject
+    lateinit var getMapUsecase: GetMapUsecase
+    @Inject
     lateinit var playerController: PlayerController
     @Inject
     lateinit var fieldController: FieldController
@@ -56,13 +64,13 @@ class SpaceEnvironment {
 
     lateinit var testGame: TestGame
     lateinit var testMap: SpaceMap
-    lateinit var testMapData: MapData
+
     val setup = Setup()
 
     val currentPlayer: PlayerData
         get() = playerController.currentPlayerData
     val currentPlayerColor: PlayerColor
-        get() = currentPlayer.playerColor
+        get() = playerController.currentColor
     val currentPhase: Phase
         get() = currentPlayer.phase
     val currentPosition: SpaceField
@@ -112,7 +120,6 @@ class SpaceEnvironment {
                 .await()
                 .apply {
                     val setAndAssertSuccess: (LoadGameInfo) -> Boolean = {
-                        testMapData = it.map
                         assertSuccess(it)
                     }
                     assertObserver(error, assertError, setAndAssertSuccess)
@@ -181,18 +188,14 @@ class SpaceEnvironment {
     fun getPlayerField(player: PlayerColor = currentPlayerColor): SpaceField =
             graphicController.getPlayerField(player)
 
-    fun getRandomConnectedField() =
-            (currentPlayer to getPlayerField()).let { (player, currentField) ->
-                currentField.connections.firstOrNull { connection ->
-                    !connection.spaceField1.gamePosition.isPosition(fieldController.currentGoal
-                            ?: NONE_POSITION)
-                            && !connection.spaceField2.gamePosition.isPosition(fieldController.currentGoal
-                            ?: NONE_POSITION)
-                            && player.steps.last().let { lastStep ->
-                        lastStep != connection.spaceField1.gamePosition || lastStep != connection.spaceField2.gamePosition
-                    }
-                }?.getOpposite(currentField.gamePosition) ?: NONE_FIELD
-            }
+    fun getRandomConnectedField(): SpaceField {
+        val currentField = currentPlayer.positionField.target
+        val lastStep = currentPlayer.steps.last()
+        return currentField.connections
+                .find { !lastStep.isPosition(it.gamePosition) }
+                ?.let { graphicController.getField(it.gamePosition) }
+                ?: NONE_SPACE_FIELD
+    }
 
     //
     // █████╗  ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
@@ -207,12 +210,12 @@ class SpaceEnvironment {
                   assertError: (Throwable) -> Boolean = {
                       error?.assertNextPhaseException(it) ?: false
                   },
-                  assertSuccess: ((NextPhaseInfo) -> Boolean) = { true }) {
+                  assertSuccess: ((NextPhaseResult) -> Boolean) = { true }) {
         nextPhaseUseCase.buildUseCaseSingle(color)
                 .test()
                 .await()
                 .apply { assertObserver(error, assertError, assertSuccess) }
-        waitForIt()
+
     }
 
     fun dice(player: PlayerColor = currentPlayerColor,
@@ -256,10 +259,23 @@ class SpaceEnvironment {
 
     fun getDBPlayer(player: PlayerColor, assertPlayer: (PlayerData) -> Boolean) {
         getPlayerUsecase.buildUseCaseSingle(player)
-                .test()
-                .await()
+                .assertValue(assertPlayer)
+    }
+
+    fun getDBField(gamePosition: PositionData, assertField: (FieldData) -> Boolean) {
+        getFieldUsecase.buildUseCaseSingle(gamePosition)
+                .assertValue(assertField)
+    }
+
+    fun getDBMap(assertField: (MapData) -> Boolean) {
+        getMapUsecase.buildUseCaseSingle()
+                .assertValue(assertField)
+    }
+
+    private fun <T> Single<T>.assertValue(assertIt: (T) -> Boolean) {
+        test().await()
                 .assertComplete()
-                .assertValue { assertPlayer(it) }
+                .assertValue { assertIt(it) }
     }
 
 }

@@ -9,6 +9,7 @@ import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.exceptions.SelectMorePlayerException
+import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Completable
@@ -26,6 +27,7 @@ class LoadGameUsecase @Inject constructor(
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameInfo> =
             params.let { (map) ->
                 checkPlayerSize(map.players)
+                        .andThen(mapDataSource.deleteMap())
                         .andThen(playerDataSource.deleteAll()) //TODO put player nt on map (except savegamesa bla bla) player color on multiple palyers ... change that
                         .andThen(initMap(map))
                         .flatMap {
@@ -46,8 +48,7 @@ class LoadGameUsecase @Inject constructor(
                 map.fields.forEach { fieldController.addField(it) }
                 map.players.map { it.playerColor }.forEach { playerController.addPlayer(it) }
 
-                val goalPosition = fieldController.setRandomGoalPosition().second
-                map.goal.target = map.fields.find { it.gamePosition.isPosition(goalPosition) }
+                map.goal.target = map.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another?
                         ?: NONE_FIELD_DATA
                 LoadGameInfo(
                         currentColor = map.players.first().playerColor,

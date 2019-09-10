@@ -4,7 +4,7 @@ import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
 
 abstract class BaseCommand(
-        var playerData: PlayerData = NONE_PLAYER_DATA
+        var DONT_USE_THIS_PLAYER_DATA: PlayerData = NONE_PLAYER_DATA
 ) {
 
     open fun canExecute(): Boolean {

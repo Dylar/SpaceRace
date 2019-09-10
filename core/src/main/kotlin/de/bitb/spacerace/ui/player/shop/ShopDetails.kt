@@ -129,7 +129,7 @@ class ShopDetails(
             when (event) {
                 is BuyItemCommand,
                 is SellItemCommand
-                -> setCreditsTitle(graphicController.getPlayerItems(event.playerData.playerColor).getItems(item.itemType).size)
+                -> setCreditsTitle(graphicController.getPlayerItems(event.DONT_USE_THIS_PLAYER_DATA.playerColor).getItems(item.itemType).size)
             }
         }
 
