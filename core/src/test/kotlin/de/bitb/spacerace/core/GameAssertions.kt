@@ -3,15 +3,39 @@ package de.bitb.spacerace.core
 import de.bitb.spacerace.controller.ConnectionInfo
 import de.bitb.spacerace.controller.MoveInfo
 import de.bitb.spacerace.controller.toConnectionInfo
+import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceConnection
+import io.reactivex.Single
 import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.*
+
+fun SpaceEnvironment.assertDBPlayer(player: PlayerColor, assertPlayer: (PlayerData) -> Boolean) {
+    getPlayerUsecase.buildUseCaseSingle(player)
+            .assertValue(assertPlayer)
+}
+
+fun SpaceEnvironment.assertDBField(gamePosition: PositionData, assertField: (FieldData) -> Boolean) {
+    getFieldUsecase.buildUseCaseSingle(gamePosition)
+            .assertValue(assertField)
+}
+
+fun SpaceEnvironment.assertDBMap(assertField: (MapData) -> Boolean) {
+    getMapUsecase.buildUseCaseSingle()
+            .assertValue(assertField)
+}
+
+private fun <T> Single<T>.assertValue(assertIt: (T) -> Boolean) {
+    test().await()
+            .assertComplete()
+            .assertValue { assertIt(it) }
+}
 
 fun SpaceEnvironment.assertCurrentPlayer(testPlayer: PlayerColor) =
         assertThat(currentPlayerColor, `is`(testPlayer))
@@ -20,41 +44,33 @@ fun SpaceEnvironment.assertNotCurrentPlayer(testPlayer: PlayerColor) =
         assertThat(currentPlayerColor, `is`(not(testPlayer)))
 
 fun SpaceEnvironment.assertCurrentPhase(phase: Phase) =
-        getDBPlayer(currentPlayerColor) { it.phase == phase }
+        assertDBPlayer(currentPlayerColor) { it.phase == phase }
 
 fun SpaceEnvironment.assertDiceResult(
         diceResult: Int,
         player: PlayerColor = currentPlayerColor
-) = getDBPlayer(player) { it.stepsLeft() == diceResult }
+) = assertDBPlayer(player) { it.stepsLeft() == diceResult }
 
 fun SpaceEnvironment.assertSameField(field1: PositionData, field2: PositionData) =
         assertTrue(field1.isPosition(field2))
 
-@Deprecated("")
 fun SpaceEnvironment.assertNotSameField(field1: PositionData, field2: PositionData) =
         assertFalse(field1.isPosition(field2))
 
-fun SpaceEnvironment.assertOnMap(assertMap: (MapData) -> Boolean) =
-        getDBMap(assertMap)
-
 fun SpaceEnvironment.assertGoalField(positionData: PositionData) =
-        assertOnMap { it.goal.target.gamePosition.isPosition(positionData) }
+        assertDBMap { it.goal.target.gamePosition.isPosition(positionData) }
 
 fun SpaceEnvironment.assertNotGoalField(positionData: PositionData) =
-        assertOnMap { !it.goal.target.gamePosition.isPosition(positionData) }
+        assertDBMap { !it.goal.target.gamePosition.isPosition(positionData) }
 
 fun SpaceEnvironment.assertPlayerOnField(player: PlayerColor, field: PositionData) =
-        getDBPlayer(player){it.gamePosition.isPosition(field)}
+        assertDBPlayer(player) { it.gamePosition.isPosition(field) }
 
 fun SpaceEnvironment.assertPlayerNotOnField(player: PlayerColor, fieldPosition: PositionData) =
-        getDBPlayer(player){
-            !it.positionField.target.gamePosition.isPosition(fieldPosition)
-        }
+        assertDBPlayer(player) { !it.positionField.target.gamePosition.isPosition(fieldPosition) }
 
 fun SpaceEnvironment.assertPlayerVictories(player: PlayerColor, amount: Long = 1) =
-        getDBPlayer(player) {
-            it.victories == amount
-        }
+        assertDBPlayer(player) { it.victories == amount }
 
 fun SpaceEnvironment.assertWinner(player: PlayerColor) {
     val winner = winnerObserver.values().lastOrNull() ?: NONE_PLAYER_DATA

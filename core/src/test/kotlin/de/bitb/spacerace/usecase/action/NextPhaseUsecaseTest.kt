@@ -9,7 +9,6 @@ import de.bitb.spacerace.exceptions.DiceFirstException
 import de.bitb.spacerace.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.space.fields.SpaceField
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 
@@ -182,11 +181,11 @@ class NextPhaseUsecaseTest : GameTest() {
                     val target1 = leftTopField
                     val target2 = centerTopField
                     assertNotSameField(target1, target2)
-                    val playerField1 = getPlayerField(TEST_PLAYER_1).gamePosition
+                    val playerField1 = getPlayerPosition(TEST_PLAYER_1)
 
                     //move1
                     move(target = target1)
-                    val playerField2 = getPlayerField(TEST_PLAYER_1).gamePosition
+                    val playerField2 = getPlayerPosition(TEST_PLAYER_1)
                     assertNotSameField(playerField1, playerField2)
 
                     //next phase failed

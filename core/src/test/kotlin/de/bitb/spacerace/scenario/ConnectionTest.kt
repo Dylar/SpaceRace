@@ -39,7 +39,7 @@ class ConnectionTest : GameTest() {
                                     connection = con,
                                     connectionInfo = getConnectionInfo())
 
-                    assertSameField(getPlayerField().gamePosition, leftBottomField)
+                    assertSameField(getPlayerPosition(), leftBottomField)
 
                     assertConnectionPlayer1(connection1)
                     assertConnectionPlayer1(connection2)
