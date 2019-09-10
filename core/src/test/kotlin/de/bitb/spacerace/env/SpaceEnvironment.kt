@@ -186,14 +186,14 @@ class SpaceEnvironment {
     fun getField(fieldId: Int, groupId: Int = 0) = testMap.groups[groupId].getField(fieldId)
 
     fun getPlayerField(player: PlayerColor = currentPlayerColor): SpaceField =
-            graphicController.getPlayerField(player)
+            graphicController.getPlayerFieldGraphic(player)
 
     fun getRandomConnectedField(): SpaceField {
         val currentField = currentPlayer.positionField.target
         val lastStep = currentPlayer.steps.last()
         return currentField.connections
                 .find { !lastStep.isPosition(it.gamePosition) }
-                ?.let { graphicController.getField(it.gamePosition) }
+                ?.let { graphicController.getFieldGraphic(it.gamePosition) }
                 ?: NONE_SPACE_FIELD
     }
 

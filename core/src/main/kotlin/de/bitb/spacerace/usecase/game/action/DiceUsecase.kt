@@ -39,7 +39,7 @@ class DiceUsecase @Inject constructor(
 
                 playerDataSource.insert(playerData)
                         .also {
-                            val position = graphicController.getPlayer(playerData.playerColor).gamePosition
+                            val position = graphicController.getPlayerGraphic(playerData.playerColor).gamePosition
                             val connectionInfo = ConnectionInfo(position, playerData.areStepsLeft(), playerData.previousStep, playerData.phase)
 
                             fieldController.setConnectionColor(connectionInfo)

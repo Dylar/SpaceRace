@@ -36,19 +36,20 @@ class GraphicController
     var fieldGraphics: MutableMap<PositionData, SpaceField> = mutableMapOf()
     var connectionGraphics: ConnectionList = ConnectionList()
 
-    fun getPlayer(playerColor: PlayerColor) =
+    fun getPlayerGraphic(playerColor: PlayerColor) =
             playerGraphics.find { playerColor == it.playerColor } ?: NONE_PLAYER
 
-    fun getField(gamePosition: PositionData) =
+    fun getFieldGraphic(gamePosition: PositionData) =
             fieldGraphics.keys.find { it.isPosition(gamePosition) }
                     ?.let { fieldGraphics[it] }
                     ?: NONE_SPACE_FIELD
 
-    fun getPlayerField(playerColor: PlayerColor) =
-            getField(getPlayer(playerColor).gamePosition)
+    fun getPlayerFieldGraphic(playerColor: PlayerColor) =
+            getFieldGraphic(getPlayerGraphic(playerColor).gamePosition)
 
+    @Deprecated("")
     fun getPlayerItems(playerColor: PlayerColor): PlayerItems =
-            getPlayer(playerColor).playerItems
+            getPlayerGraphic(playerColor).playerItems
 
     fun addPlayer(playerColor: PlayerColor, startField: SpaceField) {
         val player = Player(playerColor)
@@ -79,9 +80,9 @@ class GraphicController
     }
 
     fun movePlayer(moveInfo: MoveInfo) {
-        val player = getPlayer(moveInfo.playerColor)
+        val player = getPlayerGraphic(moveInfo.playerColor)
         val playerImage = player.playerImage
-        val targetField = getField(moveInfo.position)
+        val targetField = getFieldGraphic(moveInfo.position)
         val fieldImage = targetField.fieldImage
 
         playerImage.moveToPoint(playerImage,
@@ -106,8 +107,8 @@ class GraphicController
     }
 
     fun setGoal(oldGoal: PositionData = NONE_POSITION, currentGoal: PositionData = NONE_POSITION) {
-        val oldGoalGraphic = getField(oldGoal)
-        val currentGoalGraphic = getField(currentGoal)
+        val oldGoalGraphic = getFieldGraphic(oldGoal)
+        val currentGoalGraphic = getFieldGraphic(currentGoal)
         oldGoalGraphic.fieldImage.setBlinkColor(null)
         currentGoalGraphic.fieldImage.setBlinkColor(currentGoalGraphic.fieldType.color)
     }

@@ -8,12 +8,12 @@ import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.model.player.PlayerColor
 
 fun GraphicController.getPlayerImage(playerColor: PlayerColor) =
-        getPlayer(playerColor).playerImage
+        getPlayerGraphic(playerColor).playerImage
 
 fun GraphicController.getPlayerPosition(playerColor: PlayerColor) =
-        getPlayer(playerColor).gamePosition
+        getPlayerGraphic(playerColor).gamePosition
 
-fun GraphicController.getPlayerItems(playerColor: PlayerColor) = getPlayer(playerColor).playerItems
+fun GraphicController.getPlayerItems(playerColor: PlayerColor) = getPlayerGraphic(playerColor).playerItems
 
 fun GameObject.getDisplayImage(
         posX: Float = 0f,

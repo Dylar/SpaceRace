@@ -46,7 +46,7 @@ class NextPhaseUsecase @Inject constructor(
                     .flatMap { checkEndable(it) }
                     .flatMap { doPhase(it) }
                     .flatMap { result ->
-                        playerDataSource.insertAllReturnAll(result.player).map { result}
+                        playerDataSource.insertAllReturnAll(result.player).map { result }
                     }
 
     private fun checkEndable(playerData: PlayerData) =
@@ -103,7 +103,7 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun startMove(playerData: PlayerData): Single<NextPhaseResult> =
             Single.fromCallable {
-                NextPhaseResult(playerData.apply { steps.add(graphicController.getPlayerField(playerColor).gamePosition) })
+                NextPhaseResult(playerData.apply { steps.add(graphicController.getPlayerFieldGraphic(playerColor).gamePosition) })
             }
 
     private fun startMain2(playerData: PlayerData): Single<out NextPhaseResult> =
@@ -129,10 +129,7 @@ class NextPhaseUsecase @Inject constructor(
                     FieldType.MINE -> obtainMine(playerData)
                     FieldType.TUNNEL -> obtainTunnel(playerData)
                     FieldType.GOAL -> obtainGoal(playerData)
-                    FieldType.SHOP -> Single.fromCallable {
-                        getDefault().post(ObtainShopCommand(playerData)) //TODO open shop onSuccess
-                        ObtainFieldResult(playerData)
-                    }
+                    FieldType.SHOP -> obtainShop(playerData)
                     FieldType.PLANET,
                     FieldType.RANDOM,
                     FieldType.UNKNOWN -> Single.just(ObtainFieldResult(playerData))
@@ -140,11 +137,17 @@ class NextPhaseUsecase @Inject constructor(
                 restult
             }
 
+    private fun obtainShop(playerData: PlayerData): Single<out ObtainShopResult> =
+            Single.fromCallable {
+                getDefault().post(ObtainShopCommand(playerData)) //TODO open shop onSuccess
+                ObtainShopResult(playerData)
+            }
+
     private fun triggerItems(playerData: PlayerData) {
         //TODO old code change that
         mutableListOf<Item>()
                 .apply {
-                    val field = graphicController.getPlayerField(playerData.playerColor)
+                    val field = graphicController.getPlayerFieldGraphic(playerData.playerColor)
                     addAll(field.disposedItems)
                 }
                 .forEach { it.use(playerData) }
@@ -154,12 +157,11 @@ class NextPhaseUsecase @Inject constructor(
             mapDataSource.getMap()
                     .map { map -> map to map.fields.filter { field -> field.fieldType == FieldType.GOAL } }
                     .flatMap { (map, goals) ->
-                        val player = playerData
                         var goal = map.goal.target
                         val checkGoalPosition =
-                                if (goal.gamePosition.isPosition(player.gamePosition)) {
+                                if (goal.gamePosition.isPosition(playerData.gamePosition)) {
                                     Logger.println("oldGoal: $goal")
-                                    player.apply {
+                                    playerData.apply {
                                         credits += GOAL_CREDITS
                                         victories++
                                     }
@@ -181,7 +183,7 @@ class NextPhaseUsecase @Inject constructor(
                 //TODO klappt das? Nö :P grafik muss neu gesetzt werden.............
                 val field = graphicController.fieldGraphics[tunnel.gamePosition]
                         ?: NONE_SPACE_FIELD
-                graphicController.getPlayer(playerData.playerColor).setFieldPosition(field)
+                graphicController.getPlayerGraphic(playerData.playerColor).setFieldPosition(field)
                 ObtainFieldResult(playerData)
             }
 
@@ -199,7 +201,7 @@ class NextPhaseUsecase @Inject constructor(
     private fun obtainMine(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {
                 playerData.also {
-                    (graphicController.getPlayerField(playerData.playerColor) as MineField)
+                    (graphicController.getPlayerFieldGraphic(playerData.playerColor) as MineField)
                             .apply { owner = playerData.playerColor }
                 }.let { ObtainFieldResult(it) }
             }
@@ -230,7 +232,9 @@ class NextPhaseUsecase @Inject constructor(
 }
 
 open class NextPhaseResult(var player: PlayerData)
+
 open class ObtainFieldResult(player: PlayerData) : NextPhaseResult(player)
+open class ObtainShopResult(player: PlayerData) : ObtainFieldResult(player)
 class ObtainGoalResult(
         player: PlayerData,
         var newGoal: FieldData

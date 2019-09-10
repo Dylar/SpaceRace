@@ -5,8 +5,6 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.objecthandling.getPlayerImage
-import de.bitb.spacerace.model.objecthandling.getPlayerItems
-import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class DisposableItem(
@@ -30,7 +28,7 @@ abstract class DisposableItem(
         val playerColor = playerData.playerColor
         return when (state) {
             ItemState.STORAGE -> {
-                val field = graphicController.getPlayerField( playerColor)
+                val field = graphicController.getPlayerFieldGraphic( playerColor)
                 val fieldImage = field.getGameImage()
                 this.itemImage.setRotating(this, fieldImage, fieldImage.width * 0.7)
                 field.disposeItem(this)
@@ -41,7 +39,7 @@ abstract class DisposableItem(
                 attachedTo = playerColor
                 val playerImage = graphicController.getPlayerImage(playerColor)
                 graphicController.getPlayerItems(playerColor).attachItem(this)
-                graphicController.getPlayerField(playerColor)
+                graphicController.getPlayerFieldGraphic(playerColor)
 //                fieldController.getField(graphicController.getPlayerPosition(playerColor)).attachItem(this)
                 this.itemImage.setRotating(this, playerImage, playerImage.width * 0.7)
                 true

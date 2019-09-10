@@ -64,7 +64,7 @@ class MoveUsecase @Inject constructor(
                 val color = playerData.playerColor
 
                 val hasConnection = graphicController
-                        .getPlayerField(color)
+                        .getPlayerFieldGraphic(color)
                         .hasConnectionTo(target.gamePosition)
                 if (!hasConnection) {
                     emitter.onError(FieldsNotConnectedException(color, target))

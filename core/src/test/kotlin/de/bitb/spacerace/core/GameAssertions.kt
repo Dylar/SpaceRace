@@ -3,7 +3,6 @@ package de.bitb.spacerace.core
 import de.bitb.spacerace.controller.ConnectionInfo
 import de.bitb.spacerace.controller.MoveInfo
 import de.bitb.spacerace.controller.toConnectionInfo
-import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.env.SpaceEnvironment
@@ -22,9 +21,7 @@ fun SpaceEnvironment.assertNotCurrentPlayer(testPlayer: PlayerColor) =
         assertThat(currentPlayerColor, `is`(not(testPlayer)))
 
 fun SpaceEnvironment.assertCurrentPhase(phase: Phase) =
-        getDBPlayer(currentPlayerColor){
-            it.phase == phase
-        }
+        getDBPlayer(currentPlayerColor) { it.phase == phase }
 
 fun SpaceEnvironment.assertDiceResult(
         diceResult: Int,

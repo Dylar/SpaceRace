@@ -15,9 +15,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAIL
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
-import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import javax.inject.Inject
@@ -49,7 +47,7 @@ class RoundEndDetails(
 
     private fun addImage() {
         row()
-        val player = graphicController.getPlayer(playerData.playerColor)
+        val player = graphicController.getPlayerGraphic(playerData.playerColor)
         val cell = add(player.getDisplayImage(color = player.playerColor.color))
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
