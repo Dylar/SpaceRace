@@ -2,7 +2,6 @@ package de.bitb.spacerace.usecase.game.action
 
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.MoveInfo
 import de.bitb.spacerace.controller.toConnectionInfo
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
@@ -29,7 +28,7 @@ class MoveUsecase @Inject constructor(
         private val mapDataSource: MapDataSource,
         private val fieldController: FieldController,
         private val graphicController: GraphicController
-) : ResultUseCase<MoveInfo, Pair<PlayerColor, PositionData>> {
+) : ResultUseCase<MoveResult, Pair<PlayerColor, PositionData>> {
 
     override fun buildUseCaseSingle(params: Pair<PlayerColor, PositionData>) =
             params.let { (playerColor, target) ->
@@ -82,16 +81,31 @@ class MoveUsecase @Inject constructor(
     private fun move(
             playerData: PlayerData,
             targetField: FieldData
-    ): Single<MoveInfo> {
+    ): Single<MoveResult> {
         playerData.setSteps(targetField.gamePosition)
         playerData.positionField.target = targetField
         Logger.println(
                 "Player: $playerData",
                 "Field: ${targetField.fieldType.name}, ${targetField.uuid}"
         )
-        val moveInfo = MoveInfo(playerData.playerColor, targetField.gamePosition, playerData.areStepsLeft(), playerData.previousStep)
+        val moveInfo = MoveResult(playerData.playerColor, targetField.gamePosition, playerData.areStepsLeft(), playerData.previousStep)
         return playerDataSource.insert(playerData)
                 .andThen(Single.just(moveInfo))
     }
 
 }
+
+data class MoveResult(
+        var playerColor: PlayerColor,
+        var position: PositionData,
+        var stepsLeft: Boolean,
+        var previousPosition: PositionData,
+        var phase: Phase = Phase.MOVE
+)
+
+data class ConnectionResult(
+        var position: PositionData,
+        var stepsLeft: Boolean,
+        var previousPosition: PositionData,
+        var phase: Phase
+)

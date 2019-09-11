@@ -22,9 +22,9 @@ class LoadGameUsecase @Inject constructor(
         private val playerColorDispenser: PlayerColorDispenser,
         private val playerDataSource: PlayerDataSource,
         private val mapDataSource: MapDataSource
-) : ResultUseCase<LoadGameInfo, LoadGameConfig> {
+) : ResultUseCase<LoadGameResult, LoadGameConfig> {
 
-    override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameInfo> =
+    override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameResult> =
             params.let { (map) ->
                 checkPlayerSize(map.players)
                         .andThen(mapDataSource.deleteMap())
@@ -43,14 +43,14 @@ class LoadGameUsecase @Inject constructor(
                 else emitter.onError(SelectMorePlayerException())
             }
 
-    private fun initMap(map: MapData): Single<LoadGameInfo> =
+    private fun initMap(map: MapData): Single<LoadGameResult> =
             Single.fromCallable {
                 map.fields.forEach { fieldController.addField(it) }
                 map.players.map { it.playerColor }.forEach { playerController.addPlayer(it) }
 
                 map.goal.target = map.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another?
                         ?: NONE_FIELD_DATA
-                LoadGameInfo(
+                LoadGameResult(
                         currentColor = map.players.first().playerColor,
                         map = map)
 
@@ -65,7 +65,7 @@ data class LoadGameConfig(
         var map: MapData
 )
 
-data class LoadGameInfo(
+data class LoadGameResult(
         var currentColor: PlayerColor,
         var map: MapData
 )

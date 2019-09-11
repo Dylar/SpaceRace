@@ -12,15 +12,12 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.SpaceMap
-import de.bitb.spacerace.usecase.game.action.DiceUsecase
-import de.bitb.spacerace.usecase.game.action.MoveUsecase
-import de.bitb.spacerace.usecase.game.action.NextPhaseResult
-import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
+import de.bitb.spacerace.usecase.game.action.*
 import de.bitb.spacerace.usecase.game.getter.GetFieldUsecase
 import de.bitb.spacerace.usecase.game.getter.GetMapUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
-import de.bitb.spacerace.usecase.game.init.LoadGameInfo
+import de.bitb.spacerace.usecase.game.init.LoadGameResult
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
 import io.reactivex.observers.TestObserver
 import javax.inject.Inject
@@ -98,7 +95,7 @@ class SpaceEnvironment {
             winAmount: Long = 1,
             error: GameException? = null,
             assertError: (Throwable) -> Boolean = { false },
-            assertSuccess: (LoadGameInfo) -> Boolean = { true }
+            assertSuccess: (LoadGameResult) -> Boolean = { true }
     ) {
         WIN_AMOUNT = winAmount
 
@@ -174,7 +171,7 @@ class SpaceEnvironment {
             stepsLeft: Boolean = currentPlayer.areStepsLeft(),
             previousPosition: PositionData = currentPlayer.previousStep,
             phase: Phase = currentPhase
-    ) = ConnectionInfo(getDBPlayer(playerColor).gamePosition, stepsLeft, previousPosition, phase)
+    ) = ConnectionResult(getDBPlayer(playerColor).gamePosition, stepsLeft, previousPosition, phase)
 
 
 //    fun getRandomConnectedField(): PositionData {
@@ -221,7 +218,7 @@ class SpaceEnvironment {
              target: PositionData = leftTopField,
              error: GameException? = null,
              assertError: (Throwable) -> Boolean = { error?.assertMoveException(it) ?: false },
-             assertSuccess: (MoveInfo) -> Boolean = { true }) {
+             assertSuccess: (MoveResult) -> Boolean = { true }) {
         moveUsecase.buildUseCaseSingle(player to target)
                 .test()
                 .await()

@@ -17,7 +17,6 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
-import de.bitb.spacerace.model.objecthandling.getPlayerPosition
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
@@ -177,26 +176,21 @@ class NextPhaseUsecase @Inject constructor(
                         checkGoalPosition.andThen(Single.just(ObtainGoalResult(playerData, goal)))
                     }
 
-    private fun obtainTunnel(playerData: PlayerData): Single<ObtainFieldResult> =
-            Single.fromCallable {
-                val tunnel = getRandomTunnel(playerData.playerColor)
+    private fun obtainTunnel(playerData: PlayerData): Single<out ObtainTunnelResult> =
+            mapDataSource.getFieldsLazy(FieldType.TUNNEL).map { fields ->
+                val playerPosition = playerData.gamePosition
+                var tunnelPosition = fields.random()
+                while (tunnelPosition.gamePosition.isPosition(playerPosition)) {
+                    tunnelPosition = fields.random()
+                }
+
                 //TODO klappt das? Nö :P grafik muss neu gesetzt werden.............
-                val field = graphicController.fieldGraphics[tunnel.gamePosition]
-                        ?: NONE_SPACE_FIELD
-                graphicController.getPlayerGraphic(playerData.playerColor).setFieldPosition(field)
-                ObtainFieldResult(playerData)
+//                val field = graphicController.fieldGraphics[tunnelPosition]
+//                        ?: NONE_SPACE_FIELD
+//                graphicController.getPlayerGraphic(playerData.playerColor).setFieldPosition(field)
+                playerData.positionField.target = tunnelPosition
+                ObtainTunnelResult(playerData)
             }
-
-    private fun getRandomTunnel(playerColor: PlayerColor): FieldData {
-        val playerPosition = graphicController.getPlayerPosition(playerColor)
-        val tunnelList = fieldController.fieldsMap[FieldType.TUNNEL]!!
-        var tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
-
-        while (tunnel.gamePosition.isPosition(playerPosition)) {
-            tunnel = tunnelList[(Math.random() * tunnelList.size).toInt()]
-        }
-        return tunnel
-    }
 
     private fun obtainMine(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {
@@ -234,9 +228,14 @@ class NextPhaseUsecase @Inject constructor(
 open class NextPhaseResult(var player: PlayerData)
 
 open class StartMoveResult(player: PlayerData) : NextPhaseResult(player)
+
 open class ObtainFieldResult(player: PlayerData) : NextPhaseResult(player)
 open class ObtainShopResult(player: PlayerData) : ObtainFieldResult(player)
 class ObtainGoalResult(
         player: PlayerData,
         var newGoal: FieldData
+) : ObtainFieldResult(player)
+
+class ObtainTunnelResult(
+        player: PlayerData
 ) : ObtainFieldResult(player)

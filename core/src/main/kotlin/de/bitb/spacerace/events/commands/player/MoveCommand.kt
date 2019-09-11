@@ -1,11 +1,11 @@
 package de.bitb.spacerace.events.commands.player
 
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.MoveInfo
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.usecase.game.action.MoveResult
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import javax.inject.Inject
 
@@ -33,8 +33,8 @@ class MoveCommand(
         )
     }
 
-    private fun setGraphics(moveInfo: MoveInfo) {
-        graphicController.movePlayer(moveInfo)
+    private fun setGraphics(moveResult: MoveResult) {
+        graphicController.movePlayer(moveResult)
 //        graphicController.setConnectionColor(moveInfo.toConnectionInfo())
     }
 }

@@ -1,7 +1,5 @@
 package de.bitb.spacerace.core
 
-import de.bitb.spacerace.controller.ConnectionInfo
-import de.bitb.spacerace.controller.MoveInfo
 import de.bitb.spacerace.controller.toConnectionInfo
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
@@ -12,6 +10,8 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceConnection
+import de.bitb.spacerace.usecase.game.action.ConnectionResult
+import de.bitb.spacerace.usecase.game.action.MoveResult
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.*
@@ -96,7 +96,7 @@ fun SpaceEnvironment.assertConnectionAfterMove(
         player: PlayerColor = currentPlayerColor,
         connection: SpaceConnection = createConnection(currentPosition, leftTopField),
         isConnected: Boolean = false,
-        assertSuccess: (MoveInfo) -> Boolean = { checkConnection(connection, it.toConnectionInfo(), isConnected) }
+        assertSuccess: (MoveResult) -> Boolean = { checkConnection(connection, it.toConnectionInfo(), isConnected) }
 ) = move(
         player = player,
         target = connection.spaceField2.gamePosition,
@@ -105,12 +105,12 @@ fun SpaceEnvironment.assertConnectionAfterMove(
 
 fun SpaceEnvironment.checkConnection(
         connection: SpaceConnection,
-        connectionInfo: ConnectionInfo,
+        connectionResult: ConnectionResult,
         isConnected: Boolean = false
-) = isConnected == fieldController.connectionCanBeCrossed(connection, connectionInfo)
+) = isConnected == fieldController.connectionCanBeCrossed(connection, connectionResult)
 
 fun SpaceEnvironment.assertConnection(
         connection: SpaceConnection,
-        connectionInfo: ConnectionInfo,
+        connectionResult: ConnectionResult,
         isConnected: Boolean = false
-) = assertEquals(isConnected, fieldController.connectionCanBeCrossed(connection, connectionInfo))
+) = assertEquals(isConnected, fieldController.connectionCanBeCrossed(connection, connectionResult))

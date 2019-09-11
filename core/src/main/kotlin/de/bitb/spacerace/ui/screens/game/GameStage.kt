@@ -11,7 +11,9 @@ import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.model.objecthandling.*
+import de.bitb.spacerace.model.objecthandling.BaseAnimation
+import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.model.objecthandling.TextureAnimation
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
@@ -39,7 +41,10 @@ class GameStage(
         addActor(graphicController.connectionGraphics)
         graphicController.connectionGraphics.zIndex = 0
         graphicController.fieldGraphics.values.forEach { addActor(it.getGameImage()) }
-        graphicController.playerGraphics.forEach { addActor(it.getGameImage()) }
+        graphicController.playerGraphics
+                .map { it.getGameImage() }
+                .reversed()
+                .forEach { addActor(it) }
     }
 
     override fun addActor(actor: Actor?) {
@@ -54,23 +59,31 @@ class GameStage(
             return
         }
 
-        val actorIndex = actor.zIndex
-//        Logger.println("ACTOR INDEX: $actorIndex")
-
-        val indices: MutableList<Int> = ArrayList()
-        graphicController.playerGraphics.forEach {
-            indices.add(it.getGameImage().zIndex)
-//            Logger.println("PLAYER INDEX PRE ${it.playerData.playerData.name}: ${it.getGameImage().zIndex}")
-        }
-        indices.reverse()
-
-        actor.zIndex = indices.last()
-        indices.removeAt(indices.lastIndex)
-        indices.add(actorIndex)
-        for (value in indices.withIndex()) {
-            val player = graphicController.playerGraphics[value.index]
-            player.getGameImage().zIndex = value.value + 1
-        }
+        var index = actor.zIndex
+        graphicController.playerGraphics
+                .map { it.getGameImage() }
+                .reversed()
+                .forEach {
+                    index++
+                    it.zIndex = index
+                }
+//        val actorIndex = actor.zIndex + 10
+////        Logger.println("ACTOR INDEX: $actorIndex")
+//
+//        val indices: MutableList<Int> = ArrayList()
+//        graphicController.playerGraphics.forEach {
+//            indices.add(it.getGameImage().zIndex)
+////            Logger.println("PLAYER INDEX PRE ${it.playerData.playerData.name}: ${it.getGameImage().zIndex}")
+//        }
+//        indices.reverse()
+//
+//        actor.zIndex = indices.last()
+//        indices.removeAt(indices.lastIndex)
+//        indices.add(actorIndex)
+//        for (value in indices.withIndex()) {
+//            val player = graphicController.playerGraphics[value.index]
+//            player.getGameImage().zIndex = value.value + 1
+//        }
     }
 
     private fun addTestActor() {

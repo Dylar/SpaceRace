@@ -32,16 +32,18 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
     }
 
     private fun setGraphics(nextPhaseResult: NextPhaseResult) {
-        val position = nextPhaseResult.player.gamePosition
-        val phase = nextPhaseResult.player.phase
+        val player = nextPhaseResult.player
+        val position = player.gamePosition
+        val phase = player.phase
 
         when (nextPhaseResult) {
             is ObtainFieldResult,
             is StartMoveResult -> fieldController.setConnectionColor(nextPhaseResult.toConnectionInfo(position))
         }
 
-        if (nextPhaseResult is ObtainGoalResult) {
-            graphicController.setGoal(position, nextPhaseResult.newGoal.gamePosition)
+        when (nextPhaseResult) {
+            is ObtainGoalResult -> graphicController.setGoal(position, nextPhaseResult.newGoal.gamePosition)
+            is ObtainTunnelResult -> graphicController.teleportPlayer(player.playerColor, player.gamePosition)
         }
 
         when (phase) {

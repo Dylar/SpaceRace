@@ -6,7 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.MOVING_SPS
+import de.bitb.spacerace.model.background.StarImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
+import de.bitb.spacerace.utils.Logger
 
 abstract class GameImage(
         var animation: BaseAnimation = TextureAnimation()

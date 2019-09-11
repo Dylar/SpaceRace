@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.MoveCommand
-import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
@@ -17,6 +16,8 @@ import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.model.space.fields.SpaceField
 import de.bitb.spacerace.model.space.groups.ConnectionList
+import de.bitb.spacerace.usecase.game.action.ConnectionResult
+import de.bitb.spacerace.usecase.game.action.MoveResult
 import de.bitb.spacerace.usecase.game.action.NextPhaseResult
 import de.bitb.spacerace.utils.Logger
 import org.greenrobot.eventbus.EventBus
@@ -31,7 +32,8 @@ class GraphicController
 
     var playerGraphics: MutableList<Player> = ArrayList()
     val currentPlayerGraphic: Player
-        get() = playerGraphics.firstOrNull() ?: NONE_PLAYER
+        get() = playerGraphics.find { playerController.currentColor == it.playerColor }
+                ?: NONE_PLAYER
 
     var fieldGraphics: MutableMap<PositionData, SpaceField> = mutableMapOf()
     var connectionGraphics: ConnectionList = ConnectionList()
@@ -79,27 +81,34 @@ class GraphicController
         connectionGraphics.clear()
     }
 
-    fun movePlayer(moveInfo: MoveInfo) {
-        val player = getPlayerGraphic(moveInfo.playerColor)
+    fun movePlayer(moveResult: MoveResult) {
+        val player = getPlayerGraphic(moveResult.playerColor)
         val playerImage = player.playerImage
-        val targetField = getFieldGraphic(moveInfo.position)
+        val targetField = getFieldGraphic(moveResult.position)
         val fieldImage = targetField.fieldImage
 
         playerImage.moveToPoint(playerImage,
                 fieldImage,
                 playerImage.getNONEAction(playerImage, fieldImage))
-        player.gamePosition.setPosition(moveInfo.position)
+        player.gamePosition.setPosition(moveResult.position)
+    }
+
+    fun teleportPlayer(playerColor: PlayerColor, position: PositionData) {
+        val player = getPlayerGraphic(playerColor)
+        val playerImage = player.playerImage
+        playerImage.setFieldPosition(player, position)
     }
 
     fun changePlayer() {
         val oldPlayer = playerGraphics[0]
-        var indexOld = oldPlayer.getGameImage().zIndex + 1
+        var indexOld = oldPlayer.getGameImage().zIndex
         playerGraphics.removeAt(0)
         playerGraphics.add(oldPlayer)
 
-        playerGraphics.forEach { player ->
-            player.getGameImage().zIndex = indexOld++
-        }
+        playerGraphics
+                .map { it.getGameImage() }
+                .reversed()
+                .forEach { it.zIndex = indexOld++ }
 
         Logger.println("oldPlayer: ${oldPlayer.playerColor}")
         //TODO items in db
@@ -155,22 +164,7 @@ class GraphicController
     }
 }
 
-data class ConnectionInfo(
-        var position: PositionData,
-        var stepsLeft: Boolean,
-        var previousPosition: PositionData,
-        var phase: Phase
-)
+fun PlayerData.toConnectionInfo(position: PositionData) = ConnectionResult(position, areStepsLeft(), previousStep, phase)
 
-data class MoveInfo(
-        var playerColor: PlayerColor,
-        var position: PositionData,
-        var stepsLeft: Boolean,
-        var previousPosition: PositionData,
-        var phase: Phase = Phase.MOVE
-)
-
-fun PlayerData.toConnectionInfo(position: PositionData) = ConnectionInfo(position, areStepsLeft(), previousStep, phase)
-
-fun MoveInfo.toConnectionInfo(): ConnectionInfo = ConnectionInfo(position, stepsLeft, previousPosition, phase)
-fun NextPhaseResult.toConnectionInfo(position: PositionData): ConnectionInfo = ConnectionInfo(position, player.areStepsLeft(), player.previousStep, player.phase)
+fun MoveResult.toConnectionInfo(): ConnectionResult = ConnectionResult(position, stepsLeft, previousPosition, phase)
+fun NextPhaseResult.toConnectionInfo(position: PositionData): ConnectionResult = ConnectionResult(position, player.areStepsLeft(), player.previousStep, player.phase)

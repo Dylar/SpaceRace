@@ -4,6 +4,7 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
 import io.objectbox.Box
+import io.objectbox.query.LazyList
 import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -36,6 +37,14 @@ class MapRespository(
             RxQuery.single(fieldBox.query()
                     .filter { it.gamePosition.isPosition(positionData) }.build())
                     .map { it.first() }
+
+    override fun getFieldsLazy(type: FieldType): Single<LazyList<FieldData>> =
+            Single.fromCallable {
+                fieldBox.query()
+                        .equal(FieldData_.fieldType, type.name)
+                        .build()
+                        .findLazy()
+            }
 
     override fun deleteMap(): Completable =
             Completable.fromAction {

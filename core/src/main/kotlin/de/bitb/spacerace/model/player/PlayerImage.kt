@@ -12,6 +12,7 @@ import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
+import de.bitb.spacerace.utils.Logger
 
 
 class PlayerImage
@@ -28,7 +29,10 @@ class PlayerImage
 
     fun setFieldPosition(player: Player, positionData: PositionData) {
         addAction(getRunnableAction(Runnable {
+            Logger.println("setFieldPosition")
             player.setPosition(positionData)
+            x = positionData.posX
+            y = positionData.posY
         }))
     }
 

@@ -1,6 +1,5 @@
 package de.bitb.spacerace.usecase.game.action
 
-import de.bitb.spacerace.controller.ConnectionInfo
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.database.player.PlayerData
@@ -40,7 +39,7 @@ class DiceUsecase @Inject constructor(
                 playerDataSource.insert(playerData)
                         .also {
                             val position = graphicController.getPlayerGraphic(playerData.playerColor).gamePosition
-                            val connectionInfo = ConnectionInfo(position, playerData.areStepsLeft(), playerData.previousStep, playerData.phase)
+                            val connectionInfo = ConnectionResult(position, playerData.areStepsLeft(), playerData.previousStep, playerData.phase)
 
                             fieldController.setConnectionColor(connectionInfo)
                         }

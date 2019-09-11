@@ -50,6 +50,7 @@ class WinnerUsecaseTest : GameTest() {
                     initGame(winAmount = 2)
                     val goalPosition = centerBottomField
                     assertGoalField(goalPosition)
+                    assertPlayerVictories(TEST_PLAYER_1, 0)
 
                     moveToGoal()
                     nextPhase()
