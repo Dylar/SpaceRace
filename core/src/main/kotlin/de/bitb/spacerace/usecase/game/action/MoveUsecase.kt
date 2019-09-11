@@ -2,7 +2,7 @@ package de.bitb.spacerace.usecase.game.action
 
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.toConnectionInfo
+import de.bitb.spacerace.controller.toConnectionResult
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
@@ -45,7 +45,7 @@ class MoveUsecase @Inject constructor(
                             graphicController.getPlayerPosition(it.playerColor)
                                     .setPosition(it.position) //TODO put position in playerdata
 
-                            fieldController.setConnectionColor(it.toConnectionInfo())
+                            fieldController.setConnectionColor(it.toConnectionResult())
                         }
             }
 

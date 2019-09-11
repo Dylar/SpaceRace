@@ -164,7 +164,7 @@ class GraphicController
     }
 }
 
-fun PlayerData.toConnectionInfo(position: PositionData) = ConnectionResult(position, areStepsLeft(), previousStep, phase)
+fun PlayerData.toConnectionResult(position: PositionData) = ConnectionResult(position, areStepsLeft(), previousStep, phase)
 
-fun MoveResult.toConnectionInfo(): ConnectionResult = ConnectionResult(position, stepsLeft, previousPosition, phase)
-fun NextPhaseResult.toConnectionInfo(position: PositionData): ConnectionResult = ConnectionResult(position, player.areStepsLeft(), player.previousStep, player.phase)
+fun MoveResult.toConnectionResult(): ConnectionResult = ConnectionResult(position, stepsLeft, previousPosition, phase)
+fun NextPhaseResult.toConnectionResult(position: PositionData): ConnectionResult = ConnectionResult(position, player.areStepsLeft(), player.previousStep, player.phase)

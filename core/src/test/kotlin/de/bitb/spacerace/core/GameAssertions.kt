@@ -1,6 +1,6 @@
 package de.bitb.spacerace.core
 
-import de.bitb.spacerace.controller.toConnectionInfo
+import de.bitb.spacerace.controller.toConnectionResult
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
@@ -96,7 +96,7 @@ fun SpaceEnvironment.assertConnectionAfterMove(
         player: PlayerColor = currentPlayerColor,
         connection: SpaceConnection = createConnection(currentPosition, leftTopField),
         isConnected: Boolean = false,
-        assertSuccess: (MoveResult) -> Boolean = { checkConnection(connection, it.toConnectionInfo(), isConnected) }
+        assertSuccess: (MoveResult) -> Boolean = { checkConnection(connection, it.toConnectionResult(), isConnected) }
 ) = move(
         player = player,
         target = connection.spaceField2.gamePosition,

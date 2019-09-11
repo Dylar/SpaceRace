@@ -1,6 +1,6 @@
 package de.bitb.spacerace.scenario
 
-import de.bitb.spacerace.controller.toConnectionInfo
+import de.bitb.spacerace.controller.toConnectionResult
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_2
@@ -25,7 +25,7 @@ class ConnectionTest : GameTest() {
                     fun assertConnectionPlayer2(con: SpaceConnection) {
                         assertConnection(
                                 connection = con,
-                                connectionInfo = getConnectionInfo(
+                                connectionResult = getConnectionResult(
                                         playerColor = TEST_PLAYER_2,
                                         stepsLeft = false,
                                         previousPosition = NONE_POSITION
@@ -37,7 +37,7 @@ class ConnectionTest : GameTest() {
                             assertConnection(
                                     isConnected = isConnected,
                                     connection = con,
-                                    connectionInfo = getConnectionInfo())
+                                    connectionResult = getConnectionResult())
 
                     assertSameField(getPlayerPosition(), leftBottomField)
 
@@ -53,19 +53,19 @@ class ConnectionTest : GameTest() {
                     assertConnection(
                             isConnected = true,
                             connection = connectionBack,
-                            connectionInfo = getConnectionInfo())
+                            connectionResult = getConnectionResult())
                     assertConnectionAfterMove(
                             connection = connectionBack,
                             assertSuccess = {
-                                it.toConnectionInfo().let { connectionInfo ->
+                                it.toConnectionResult().let { connectionResult ->
                                     checkConnection(
                                             isConnected = true,
                                             connection = createConnection(leftBottomField, leftTopField),
-                                            connectionInfo = connectionInfo)
+                                            connectionResult = connectionResult)
                                             && checkConnection(
                                             isConnected = true,
                                             connection = createConnection(leftBottomField, centerBottomField),
-                                            connectionInfo = connectionInfo)
+                                            connectionResult = connectionResult)
                                 }
                             }
                     )
@@ -83,38 +83,38 @@ class ConnectionTest : GameTest() {
                 .apply {
                     initGame()
                     setToMovePhase()
-                    getConnectionInfo().also { info ->
+                    getConnectionResult().also { info ->
                         assertTrue(checkConnection(
                                 isConnected = true,
                                 connection = createConnection(leftBottomField, leftTopField),
-                                connectionInfo = info))
+                                connectionResult = info))
                         assertTrue(checkConnection(
                                 isConnected = true,
                                 connection = createConnection(leftBottomField, centerBottomField),
-                                connectionInfo = info))
+                                connectionResult = info))
                     }
 
                     move()
 
-                    getConnectionInfo().also { info ->
+                    getConnectionResult().also { info ->
                         assertTrue(checkConnection(
                                 isConnected = true,
                                 connection = createConnection(leftTopField, leftBottomField),
-                                connectionInfo = info))
+                                connectionResult = info))
                         assertTrue(checkConnection(
                                 connection = createConnection(leftTopField, centerTopField),
-                                connectionInfo = info))
+                                connectionResult = info))
                     }
 
                     nextPhase(currentPlayerColor)
 
-                    getConnectionInfo().also { info ->
+                    getConnectionResult().also { info ->
                         assertTrue(checkConnection(
                                 connection = createConnection(leftTopField, leftBottomField),
-                                connectionInfo = info))
+                                connectionResult = info))
                         assertTrue(checkConnection(
                                 connection = createConnection(leftTopField, centerTopField),
-                                connectionInfo = info))
+                                connectionResult = info))
                     }
                 }
     }

@@ -2,7 +2,7 @@ package de.bitb.spacerace.events.commands.phases
 
 import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.toConnectionInfo
+import de.bitb.spacerace.controller.toConnectionResult
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -38,7 +38,7 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
 
         when (nextPhaseResult) {
             is ObtainFieldResult,
-            is StartMoveResult -> fieldController.setConnectionColor(nextPhaseResult.toConnectionInfo(position))
+            is StartMoveResult -> fieldController.setConnectionColor(nextPhaseResult.toConnectionResult(position))
         }
 
         when (nextPhaseResult) {

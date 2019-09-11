@@ -166,7 +166,7 @@ class SpaceEnvironment {
     fun getPlayerPosition(player: PlayerColor = currentPlayerColor) =
             getDBPlayer(player).gamePosition
 
-    fun getConnectionInfo(
+    fun getConnectionResult(
             playerColor: PlayerColor = currentPlayerColor,
             stepsLeft: Boolean = currentPlayer.areStepsLeft(),
             previousPosition: PositionData = currentPlayer.previousStep,
