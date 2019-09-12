@@ -93,15 +93,14 @@ data class PlayerData(
 
     fun canPlayerMoveTo(fieldData: FieldData): Boolean {
         val isMovePhase = phase == Phase.MOVE
-        val playerField = positionField.target
-        val isConnected = playerField isConnectedTo fieldData
+        val isConnected = this isConnectedTo fieldData
         val isPreviousField = previousFieldSelected(fieldData.gamePosition)
 
         return isMovePhase && isConnected && (areStepsLeft() || isPreviousField)
     }
 
-    infix fun isConnectedTo(fieldPosition: PositionData): Boolean =
-            positionField.target.connections.any { it.gamePosition.isPosition(fieldPosition) }
+    infix fun isConnectedTo(fieldData: FieldData): Boolean =
+            fieldData isConnectedTo positionField.target
 
 //            playerController.getPlayerItems(playerColor).getModifierValues(1) //TODO do item shit
 //                    .let { (mod, add) ->

@@ -9,7 +9,6 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.SpaceConnection
-import de.bitb.spacerace.usecase.game.action.ConnectionResult
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers.*
@@ -27,6 +26,15 @@ fun SpaceEnvironment.assertDBField(gamePosition: PositionData, assertField: (Fie
 
 fun SpaceEnvironment.assertDBMap(assertField: (MapData) -> Boolean) {
     getMapUsecase.buildUseCaseSingle()
+            .assertValue(assertField)
+}
+
+fun SpaceEnvironment.assertTargetField(playerColor: PlayerColor, assertField: (List<FieldData>) -> Boolean) {
+    getPlayerUsecase
+            .buildUseCaseSingle(playerColor)
+            .flatMap { player ->
+                getTargetableFieldUsecase.buildUseCaseSingle(player)
+            }
             .assertValue(assertField)
 }
 
@@ -102,14 +110,25 @@ fun SpaceEnvironment.assertConnectionAfterMove(
         assertSuccess = assertSuccess
 )
 
-fun SpaceEnvironment.checkConnection(
-        connection: SpaceConnection,
-        connectionResult: ConnectionResult,
-        isConnected: Boolean = false
-) = false // isConnected == fieldController.connectionCanBeCrossed(connection, connectionResult)
-
 fun SpaceEnvironment.assertConnection(
+        playerColor: PlayerColor = currentPlayerColor,
         connection: SpaceConnection,
-        connectionResult: ConnectionResult,
         isConnected: Boolean = false
-) = {} //assertEquals(isConnected, fieldController.connectionCanBeCrossed(connection, connectionResult))
+) =
+        assertTargetField(playerColor) { fields ->
+            checkConnection(playerColor, fields, connection, isConnected)
+        }
+
+fun SpaceEnvironment.checkConnection(
+        playerColor: PlayerColor = currentPlayerColor,
+        fields: List<FieldData>,
+        connection: SpaceConnection,
+        isConnected: Boolean = false
+) =
+        getDBPlayer(playerColor).gamePosition
+                .let { playerPosition ->
+                    if (isConnected) fields.any { connection.isConnection(playerPosition, it.gamePosition) }
+                    else fields.none { connection.isConnection(playerPosition, it.gamePosition) }
+                }
+
+

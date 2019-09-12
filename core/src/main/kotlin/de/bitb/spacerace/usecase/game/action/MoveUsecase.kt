@@ -98,5 +98,6 @@ data class ConnectionResult(
         var position: PositionData,
         var stepsLeft: Boolean,
         var previousPosition: PositionData,
-        var phase: Phase
+        var phase: Phase,
+        var targetableFields: MutableList<FieldData> = mutableListOf()
 )

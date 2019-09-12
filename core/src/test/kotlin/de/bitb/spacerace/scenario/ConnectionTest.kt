@@ -3,123 +3,157 @@ package de.bitb.spacerace.scenario
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_2
-import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.space.fields.SpaceConnection
-import junit.framework.Assert.assertTrue
-import org.junit.Assert.fail
 import org.junit.Test
 
 class ConnectionTest : GameTest() {
 
     @Test
     fun startGame_noConnections_bothPlayer_currentPlayerGotInMove() {
-        fail()
-//        SpaceEnvironment()
-//                .apply {
-//                    initGame()
-//
-//                    val connection1 = createConnection(leftBottomField, leftTopField)
-//                    val connection2 = createConnection(leftBottomField, centerTopField)
-//                    val connectionGoal = createConnection(leftBottomField, centerBottomField)
-//                    val connectionBack = createConnection(leftTopField, leftBottomField)
-//
-//                    fun assertConnectionPlayer2(con: SpaceConnection) {
-//                        assertConnection(
-//                                connection = con,
-//                                connectionResult = getConnectionResult(
-//                                        playerColor = TEST_PLAYER_2,
-//                                        stepsLeft = false,
-//                                        previousPosition = NONE_POSITION
-//                                )
-//                        )
-//                    }
-//
-//                    fun assertConnectionPlayer1(con: SpaceConnection, isConnected: Boolean = false) =
-//                            assertConnection(
-//                                    isConnected = isConnected,
-//                                    connection = con,
-//                                    connectionResult = getConnectionResult())
-//
-//                    assertSameField(getPlayerPosition(), leftBottomField)
-//
-//                    assertConnectionPlayer1(connection1)
-//                    assertConnectionPlayer1(connection2)
-//                    assertConnectionPlayer1(connectionGoal)
-//                    assertConnectionPlayer2(connection1)
-//                    assertConnectionPlayer2(connection2)
-//                    assertConnectionPlayer2(connectionGoal)
-//
-//                    setToMovePhase()
-//                    move(target = leftTopField)
-//                    assertConnection(
-//                            isConnected = true,
-//                            connection = connectionBack,
-//                            connectionResult = getConnectionResult())
-//                    assertConnectionAfterMove(
-//                            connection = connectionBack,
-//                            assertSuccess = {
-//                                false
-////                                it.toConnectionResult().let { connectionResult ->
-////                                    checkConnection(
-////                                            isConnected = true,
-////                                            connection = createConnection(leftBottomField, leftTopField),
-////                                            connectionResult = connectionResult)
-////                                            && checkConnection(
-////                                            isConnected = true,
-////                                            connection = createConnection(leftBottomField, centerBottomField),
-////                                            connectionResult = connectionResult)
-////                                }
-//                            }
-//                    )
-//
-//                    assertConnectionPlayer2(connection1)
-//                    assertConnectionPlayer2(connection2)
-//                    assertConnectionPlayer2(connectionGoal)
-//                }
+        SpaceEnvironment()
+                .apply {
+                    initGame()
+
+                    val connection1 = createConnection(leftBottomField, leftTopField)
+                    val connection2 = createConnection(leftBottomField, centerTopField)
+                    val connectionGoal = createConnection(leftBottomField, centerBottomField)
+                    val connectionBack = createConnection(leftTopField, leftBottomField)
+
+                    fun assertConnectionPlayer2(con: SpaceConnection) {
+                        assertConnection(
+                                playerColor = TEST_PLAYER_2,
+                                connection = con)
+                    }
+
+                    fun assertConnectionPlayer1(con: SpaceConnection, isConnected: Boolean = false) =
+                            assertConnection(
+                                    isConnected = isConnected,
+                                    connection = con)
+
+                    assertSameField(getPlayerPosition(), leftBottomField)
+
+                    assertConnectionPlayer1(connection1)
+                    assertConnectionPlayer1(connection2)
+                    assertConnectionPlayer1(connectionGoal)
+                    assertConnectionPlayer2(connection1)
+                    assertConnectionPlayer2(connection2)
+                    assertConnectionPlayer2(connectionGoal)
+
+                    setToMovePhase()
+                    move(target = leftTopField)
+                    assertConnection(
+                            isConnected = true,
+                            connection = connectionBack)
+                    assertConnectionAfterMove(
+                            connection = connectionBack,
+                            assertSuccess = {
+                                checkConnection(
+                                        fields = it.targetableFields,
+                                        isConnected = true,
+                                        connection = createConnection(leftBottomField, leftTopField)
+                                ) && checkConnection(
+                                        fields = it.targetableFields,
+                                        isConnected = true,
+                                        connection = createConnection(leftBottomField, centerBottomField))
+                            }
+                    )
+
+                    assertConnectionPlayer2(connection1)
+                    assertConnectionPlayer2(connection2)
+                    assertConnectionPlayer2(connectionGoal)
+                }
     }
 
 
     @Test
     fun startMove_currentPlayer_allConnected_moveDone_noneConnected() {
-        fail()
         SpaceEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase()
-                    getConnectionResult().also { info ->
-                        assertTrue(checkConnection(
-                                isConnected = true,
-                                connection = createConnection(leftBottomField, leftTopField),
-                                connectionResult = info))
-                        assertTrue(checkConnection(
-                                isConnected = true,
-                                connection = createConnection(leftBottomField, centerBottomField),
-                                connectionResult = info))
-                    }
 
+                    val conLeftBotTop = createConnection(leftBottomField, leftTopField)
+                    val conLeftTopCenter = createConnection(leftTopField, centerTopField)
+                    val conLeftBotCenter = createConnection(leftBottomField, centerBottomField)
+
+                    assertConnection(
+                            isConnected = true,
+                            connection = conLeftBotTop)
+                    assertConnection(
+                            isConnected = true,
+                            connection = conLeftBotCenter)
+                    assertConnection(
+                            connection = conLeftTopCenter)
                     move()
 
-                    getConnectionResult().also { info ->
-                        assertTrue(checkConnection(
-                                isConnected = true,
-                                connection = createConnection(leftTopField, leftBottomField),
-                                connectionResult = info))
-                        assertTrue(checkConnection(
-                                connection = createConnection(leftTopField, centerTopField),
-                                connectionResult = info))
-                    }
+                    assertConnection(
+                            isConnected = true,
+                            connection = conLeftBotTop)
+                    assertConnection(
+                            connection = conLeftBotCenter)
+                    assertConnection(
+                            connection = conLeftTopCenter)
 
                     nextPhase(currentPlayerColor)
 
-                    getConnectionResult().also { info ->
-                        assertTrue(checkConnection(
-                                connection = createConnection(leftTopField, leftBottomField),
-                                connectionResult = info))
-                        assertTrue(checkConnection(
-                                connection = createConnection(leftTopField, centerTopField),
-                                connectionResult = info))
-                    }
+                    assertConnection(
+                            connection = conLeftBotTop)
+                    assertConnection(
+                            connection = conLeftBotCenter)
+                    assertConnection(
+                            connection = conLeftTopCenter)
                 }
     }
 
+
+    @Test
+    fun startMove2Steps_currentPlayer_allConnected_move1Step_stillConnections_moveDone_noneConnected() {
+        SpaceEnvironment()
+                .apply {
+                    initGame()
+                    setToMovePhase(setDice = 2)
+
+                    val conLeftBotTop = createConnection(leftBottomField, leftTopField)
+                    val conLeftTopCenter = createConnection(leftTopField, centerTopField)
+                    val conLeftBotCenter = createConnection(leftBottomField, centerBottomField)
+
+                    assertConnection(
+                            isConnected = true,
+                            connection = conLeftBotTop)
+                    assertConnection(
+                            isConnected = true,
+                            connection = conLeftBotCenter)
+                    assertConnection(
+                            connection = conLeftTopCenter)
+                    move()
+
+                    assertConnection(
+                            isConnected = true,
+                            connection = conLeftBotTop)
+                    assertConnection(
+                            connection = conLeftBotCenter)
+                    assertConnection(
+                            isConnected = true,
+                            connection = conLeftTopCenter)
+
+                    move(target = centerTopField)
+
+                    assertConnection(
+                            connection = conLeftBotTop)
+                    assertConnection(
+                            connection = conLeftBotCenter)
+                    assertConnection(
+                            isConnected = true,
+                            connection = conLeftTopCenter)
+
+                    nextPhase(currentPlayerColor)
+
+                    assertConnection(
+                            connection = conLeftBotTop)
+                    assertConnection(
+                            connection = conLeftBotCenter)
+                    assertConnection(
+                            connection = conLeftTopCenter)
+                }
+    }
 }

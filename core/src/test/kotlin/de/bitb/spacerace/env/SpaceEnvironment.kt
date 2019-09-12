@@ -16,6 +16,7 @@ import de.bitb.spacerace.usecase.game.action.*
 import de.bitb.spacerace.usecase.game.getter.GetFieldUsecase
 import de.bitb.spacerace.usecase.game.getter.GetMapUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
+import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
@@ -48,6 +49,8 @@ class SpaceEnvironment {
     lateinit var getFieldUsecase: GetFieldUsecase
     @Inject
     lateinit var getMapUsecase: GetMapUsecase
+    @Inject
+    lateinit var getTargetableFieldUsecase: GetTargetableFieldUsecase
 
     @Inject
     lateinit var playerController: PlayerController
@@ -120,8 +123,8 @@ class SpaceEnvironment {
         waitForIt()
     }
 
-    fun setToMovePhase(setDice: Int = -1) {
-        dice(setDice = setDice)
+    fun setToMovePhase(setDice: Int = 1) {
+        dice(setDice = -setDice)
         nextPhase()
 
         assertCurrentPhase(Phase.MOVE)
@@ -163,14 +166,6 @@ class SpaceEnvironment {
 
     fun getPlayerPosition(player: PlayerColor = currentPlayerColor) =
             getDBPlayer(player).gamePosition
-
-    fun getConnectionResult(
-            playerColor: PlayerColor = currentPlayerColor,
-            stepsLeft: Boolean = currentPlayer.areStepsLeft(),
-            previousPosition: PositionData = currentPlayer.previousStep,
-            phase: Phase = currentPhase
-    ) = ConnectionResult(getDBPlayer(playerColor).gamePosition, stepsLeft, previousPosition, phase)
-
 
 //    fun getRandomConnectedField(): PositionData {
 //        val currentField = currentPlayer.positionField.target
