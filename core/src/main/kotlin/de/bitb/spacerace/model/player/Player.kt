@@ -19,8 +19,4 @@ class Player(
 
     override fun getGameImage() = playerImage
 
-    fun setFieldPosition(spaceField: SpaceField) {
-        playerImage.setFieldPosition(this, spaceField.gamePosition)
-    }
-
 }

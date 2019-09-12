@@ -36,7 +36,8 @@ class CommandUsecase @Inject constructor(
                 if (command.canExecute()) {
                     Logger.println("Executed handleCommand:\nPlayer: ${command.DONT_USE_THIS_PLAYER_DATA},\nCommand: ${command::class.java.simpleName}")
                     command.execute()
-                } else Logger.println("Not Executed handleCommand:\nPlayer: ${command.DONT_USE_THIS_PLAYER_DATA},\nCommand: ${command::class.java.simpleName}")
+                }
+//                else Logger.println("Not Executed handleCommand:\nPlayer: ${command.DONT_USE_THIS_PLAYER_DATA},\nCommand: ${command::class.java.simpleName}")
             }.toSingleDefault(command).toObservable()
 
 }

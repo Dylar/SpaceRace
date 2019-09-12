@@ -9,6 +9,7 @@ import de.bitb.spacerace.model.items.ItemImage
 import de.bitb.spacerace.model.items.disposable.moving.MovingItem
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
@@ -89,8 +90,10 @@ class GraphicController
 
         playerImage.moveToPoint(playerImage,
                 fieldImage,
-                playerImage.getNONEAction(playerImage, fieldImage))
-        player.gamePosition.setPosition(moveResult.position)
+                playerImage.getNONEAction(playerImage, fieldImage),
+                getRunnableAction(Runnable {
+                    player.gamePosition.setPosition(moveResult.position)
+                }))
     }
 
     fun teleportPlayer(playerColor: PlayerColor, position: PositionData) {
