@@ -1,12 +1,8 @@
 package de.bitb.spacerace.usecase.game.observe
 
-import de.bitb.spacerace.controller.FieldController
-import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.phases.OpenEndRoundMenuCommand
-import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
 import io.reactivex.Observable
 import org.greenrobot.eventbus.EventBus
@@ -14,8 +10,6 @@ import javax.inject.Inject
 
 class ObserveRoundUsecase
 @Inject constructor(
-        private val fieldController: FieldController,
-        private val graphicController: GraphicController,
         private val playerDataSource: PlayerDataSource
 ) : StreamUseCaseNoParams<Boolean> {
 
@@ -36,7 +30,7 @@ class ObserveRoundUsecase
     private fun endRound(player: List<PlayerData>) =
             player.apply {
                 if (isNotEmpty()) {
-                    graphicController.moveMovables()
+//                    graphicController.moveMovables()
 //                    fieldController.fieldsMap[FieldType.MINE] TODO make mines works again
 //                            ?.map { it as MineField }
 //                            ?.forEach { mine ->

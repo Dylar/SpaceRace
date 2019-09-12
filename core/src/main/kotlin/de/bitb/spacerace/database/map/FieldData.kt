@@ -41,4 +41,5 @@ data class FieldData(
     @Backlink(to = "positionField")
     var players: ToMany<PlayerData> = ToMany(this, FieldData_.players)
 
+    infix fun isConnectedTo(fieldData: FieldData) = connections.any { it.gamePosition.isPosition(fieldData.gamePosition) }
 }

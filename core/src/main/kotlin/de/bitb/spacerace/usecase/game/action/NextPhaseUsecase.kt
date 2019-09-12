@@ -2,7 +2,6 @@ package de.bitb.spacerace.usecase.game.action
 
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.config.GOAL_CREDITS
-import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.map.FieldData
@@ -19,10 +18,10 @@ import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.fields.MineField
-import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
+import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.utils.Logger
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -31,10 +30,10 @@ import org.greenrobot.eventbus.EventBus.getDefault
 import javax.inject.Inject
 
 class NextPhaseUsecase @Inject constructor(
+        private val graphicController: GraphicController,
         private val checkCurrentPlayerUsecase: CheckCurrentPlayerUsecase,
         private val checkPlayerPhaseUsecase: CheckPlayerPhaseUsecase,
-        private val graphicController: GraphicController,
-        private val fieldController: FieldController,
+        private val getTargetableFieldUsecase: GetTargetableFieldUsecase,
         private val playerController: PlayerController,
         private val playerDataSource: PlayerDataSource,
         private val mapDataSource: MapDataSource
@@ -101,9 +100,11 @@ class NextPhaseUsecase @Inject constructor(
             }
 
     private fun startMove(playerData: PlayerData): Single<NextPhaseResult> =
-            Single.fromCallable {
-                StartMoveResult(playerData.apply { steps.add(graphicController.getPlayerFieldGraphic(playerColor).gamePosition) })
-            }
+            getTargetableFieldUsecase.buildUseCaseSingle(playerData)
+                    .map {
+                        playerData.apply { steps.add(playerData.gamePosition) }
+                        StartMoveResult(playerData).apply { targetableFields.addAll(it) }
+                    }
 
     private fun startMain2(playerData: PlayerData): Single<out NextPhaseResult> =
             obtainField(playerData)
@@ -225,7 +226,7 @@ class NextPhaseUsecase @Inject constructor(
 
 }
 
-open class NextPhaseResult(var player: PlayerData)
+open class NextPhaseResult(var player: PlayerData, val targetableFields: MutableList<FieldData> = mutableListOf())
 
 open class StartMoveResult(player: PlayerData) : NextPhaseResult(player)
 

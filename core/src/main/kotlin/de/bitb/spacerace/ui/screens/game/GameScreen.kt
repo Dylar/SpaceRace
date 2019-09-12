@@ -3,7 +3,6 @@ package de.bitb.spacerace.ui.screens.game
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.CAMERA_TARGET
-import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
@@ -22,8 +21,6 @@ class GameScreen(
 
     @Inject
     protected lateinit var boxStore: BoxStore
-    @Inject
-    protected lateinit var fieldController: FieldController
     @Inject
     protected lateinit var playerController: PlayerController
     @Inject

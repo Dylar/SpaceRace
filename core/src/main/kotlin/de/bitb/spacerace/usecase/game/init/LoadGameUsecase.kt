@@ -1,6 +1,5 @@
 package de.bitb.spacerace.usecase.game.init
 
-import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
 import de.bitb.spacerace.database.map.MapData
@@ -18,7 +17,6 @@ import javax.inject.Inject
 
 class LoadGameUsecase @Inject constructor(
         private val playerController: PlayerController,
-        private val fieldController: FieldController,
         private val playerColorDispenser: PlayerColorDispenser,
         private val playerDataSource: PlayerDataSource,
         private val mapDataSource: MapDataSource
@@ -45,7 +43,7 @@ class LoadGameUsecase @Inject constructor(
 
     private fun initMap(map: MapData): Single<LoadGameResult> =
             Single.fromCallable {
-                map.fields.forEach { fieldController.addField(it) }
+//                map.fields.forEach { fieldController.addField(it) }
                 map.players.map { it.playerColor }.forEach { playerController.addPlayer(it) }
 
                 map.goal.target = map.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another?

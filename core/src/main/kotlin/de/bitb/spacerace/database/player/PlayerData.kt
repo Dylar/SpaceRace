@@ -87,12 +87,21 @@ data class PlayerData(
     fun areStepsLeft(): Boolean =
             stepsLeft() > 0
 
-    fun canMove(): Boolean =
-            phase.isMoving() && areStepsLeft()
-
     fun getMaxSteps(): Int = diceResults.sum().let { result -> if (diceResults.isNotEmpty() && result <= 0) 1 else result }
 
     fun isPreviousPosition(fieldPosition: PositionData) = steps.size > 1 && previousStep.isPosition(fieldPosition)
+
+    fun canPlayerMoveTo(fieldData: FieldData): Boolean {
+        val isMovePhase = phase == Phase.MOVE
+        val playerField = positionField.target
+        val isConnected = playerField isConnectedTo fieldData
+        val isPreviousField = previousFieldSelected(fieldData.gamePosition)
+
+        return isMovePhase && isConnected && (areStepsLeft() || isPreviousField)
+    }
+
+    infix fun isConnectedTo(fieldPosition: PositionData): Boolean =
+            positionField.target.connections.any { it.gamePosition.isPosition(fieldPosition) }
 
 //            playerController.getPlayerItems(playerColor).getModifierValues(1) //TODO do item shit
 //                    .let { (mod, add) ->

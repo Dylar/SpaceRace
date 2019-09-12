@@ -49,10 +49,6 @@ open class SpaceField(
         disposedItems.remove(disposableItem)
     }
 
-    fun hasConnectionTo(position: PositionData): Boolean {
-        return connections.any { it.isConnection(this.gamePosition, position) }
-    }
-
     override fun toString(): String =
             super.toString()
                     .replace("de.bitb.spacerace.model.space.fields.", "") +

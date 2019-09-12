@@ -1,6 +1,7 @@
 package de.bitb.spacerace.events.commands.player
 
 import de.bitb.spacerace.config.DICE_MAX
+import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand

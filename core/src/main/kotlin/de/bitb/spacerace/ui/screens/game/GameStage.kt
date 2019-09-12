@@ -6,7 +6,6 @@ import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
-import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
@@ -25,8 +24,6 @@ class GameStage(
         val screen: GameScreen
 ) : BaseStage() {
 
-    @Inject
-    protected lateinit var fieldController: FieldController
     @Inject
     protected lateinit var playerController: PlayerController
     @Inject

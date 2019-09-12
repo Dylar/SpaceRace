@@ -35,6 +35,7 @@ class MoveCommand(
 
     private fun setGraphics(moveResult: MoveResult) {
         graphicController.movePlayer(moveResult)
+        graphicController.setConnectionColor(moveResult.player, moveResult.targetableFields)
 //        graphicController.setConnectionColor(moveInfo.toConnectionInfo())
     }
 }

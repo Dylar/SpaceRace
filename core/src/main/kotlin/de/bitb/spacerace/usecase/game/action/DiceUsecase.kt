@@ -1,6 +1,5 @@
 package de.bitb.spacerace.usecase.game.action
 
-import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
@@ -9,6 +8,7 @@ import de.bitb.spacerace.usecase.ExecuteUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import io.reactivex.Completable
+import io.reactivex.CompletableSource
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
@@ -16,7 +16,6 @@ class DiceUsecase @Inject constructor(
         private val getPlayerUsecase: GetPlayerUsecase,
         private val checkCurrentPlayerUsecase: CheckCurrentPlayerUsecase,
         private val playerDataSource: PlayerDataSource,
-        private val fieldController: FieldController,
         private val graphicController: GraphicController
 ) : ExecuteUseCase<Pair<PlayerColor, Int>> {
 
@@ -37,13 +36,6 @@ class DiceUsecase @Inject constructor(
                 playerData.diceResults.add(result)
 
                 playerDataSource.insert(playerData)
-                        .also {
-                            val position = graphicController.getPlayerGraphic(playerData.playerColor).gamePosition
-                            val connectionInfo = ConnectionResult(position, playerData.areStepsLeft(), playerData.previousStep, playerData.phase)
-
-                            fieldController.setConnectionColor(connectionInfo)
-                        }
-
             } else Completable.complete()
 
     private fun canExecute(playerData: PlayerData): Boolean =

@@ -29,9 +29,9 @@ class MapRespository(
     override fun getMap(): Single<MapData> = Single.fromCallable { mapBox.all.first() }
 
     override fun getAllFields(vararg field: FieldData): Single<List<FieldData>> =
-            RxQuery.single(fieldBox.query()
-                    .filter { field.contains(it) }
-                    .build())
+            RxQuery.single(fieldBox.query().apply {
+                if (field.isNotEmpty()) filter { field.contains(it) }
+            }.build())
 
     override fun getField(positionData: PositionData): Single<FieldData> =
             RxQuery.single(fieldBox.query()

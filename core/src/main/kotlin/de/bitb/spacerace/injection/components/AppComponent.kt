@@ -2,7 +2,6 @@ package de.bitb.spacerace.injection.components
 
 import dagger.Component
 import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
@@ -11,8 +10,8 @@ import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.DiceCommand
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
-import de.bitb.spacerace.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.events.commands.start.LoadGameCommand
+import de.bitb.spacerace.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.space.groups.ConnectionList
@@ -46,7 +45,6 @@ interface AppComponent {
     fun inject(game: MainGame)
 
     //CONTROLLER
-    fun inject(fieldController: FieldController)
 //    fun inject(playerController: PlayerController)
 
     //UI

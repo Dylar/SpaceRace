@@ -12,7 +12,6 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROU
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_CREDITS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_MINES
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_VICTORIES
-import de.bitb.spacerace.controller.FieldController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
@@ -25,9 +24,6 @@ class RoundEndDetails(
         endMenu: RoundEndMenu,
         var playerData: PlayerData
 ) : BaseMenu(guiStage, endMenu) {
-
-    @Inject
-    lateinit var fieldController: FieldController
 
     init {
         MainGame.appComponent.inject(this)

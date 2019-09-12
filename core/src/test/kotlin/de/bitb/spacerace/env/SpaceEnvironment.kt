@@ -51,8 +51,6 @@ class SpaceEnvironment {
 
     @Inject
     lateinit var playerController: PlayerController
-    @Inject
-    lateinit var fieldController: FieldController
 
     lateinit var winnerObserver: TestObserver<PlayerData>
 
