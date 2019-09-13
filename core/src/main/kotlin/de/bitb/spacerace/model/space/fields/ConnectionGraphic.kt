@@ -5,9 +5,9 @@ import de.bitb.spacerace.config.COLOR_CONNECTED
 import de.bitb.spacerace.config.COLOR_DISCONNECTED
 import de.bitb.spacerace.model.objecthandling.PositionData
 
-class SpaceConnection(
-        val spaceField1: SpaceField,
-        val spaceField2: SpaceField
+class ConnectionGraphic(
+        val spaceField1: FieldGraphic,
+        val spaceField2: FieldGraphic
 ) {
 
     var currentColor: Color = COLOR_DISCONNECTED
@@ -27,12 +27,12 @@ class SpaceConnection(
                 this.spaceField1.gamePosition.isPosition(spaceField2)
     }
 
-    fun getOpposite(fieldPosition: PositionData): SpaceField {
+    fun getOpposite(fieldPosition: PositionData): FieldGraphic {
         return if (fieldPosition.isPosition(spaceField1.gamePosition)) spaceField2 else spaceField1
     }
 
-    operator fun component1(): SpaceField = spaceField1
-    operator fun component2(): SpaceField = spaceField2
+    operator fun component1(): FieldGraphic = spaceField1
+    operator fun component2(): FieldGraphic = spaceField2
     operator fun component3(): Color = currentColor
 
 }

@@ -9,7 +9,7 @@ import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.SpaceConnection
+import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.usecase.game.action.*
@@ -67,8 +67,6 @@ class SpaceEnvironment {
 //    playerColorDispenser.publisher.test().await().values().first()
     val currentPlayer: PlayerData
         get() = getDBPlayer(currentPlayerColor)
-    val currentPhase: Phase
-        get() = currentPlayer.phase
     val currentPosition: PositionData
         get() = currentPlayer.gamePosition
 
@@ -167,6 +165,10 @@ class SpaceEnvironment {
     fun getPlayerPosition(player: PlayerColor = currentPlayerColor) =
             getDBPlayer(player).gamePosition
 
+    fun getDBPlayer(player: PlayerColor) =
+            getPlayerUsecase.buildUseCaseSingle(player).test().await()
+                    .assertComplete().values().first()
+
 //    fun getRandomConnectedField(): PositionData {
 //        val currentField = currentPlayer.positionField.target
 //        val lastStep = currentPlayer.steps.last()
@@ -231,11 +233,7 @@ class SpaceEnvironment {
         Thread.sleep(time)
     }
 
-    fun getDBPlayer(player: PlayerColor) =
-            getPlayerUsecase.buildUseCaseSingle(player).test().await()
-                    .assertComplete().values().first()
-
-    fun createConnection(field1: PositionData, field2: PositionData): SpaceConnection =
-            SpaceConnection(graphicController.getFieldGraphic(field1), graphicController.getFieldGraphic(field2))
+    fun createConnection(field1: PositionData, field2: PositionData): ConnectionGraphic =
+            ConnectionGraphic(graphicController.getFieldGraphic(field1), graphicController.getFieldGraphic(field2))
 
 }

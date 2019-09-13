@@ -2,8 +2,8 @@ package de.bitb.spacerace.model.space.groups
 
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.enums.ConnectionPoint
-import de.bitb.spacerace.model.space.fields.SpaceConnection
-import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.fields.ConnectionGraphic
+import de.bitb.spacerace.model.space.fields.FieldGraphic
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -13,25 +13,25 @@ open class SpaceGroup(
         val offsetY: Float = 0f
 ) {
 
-    private val connectionPoint: MutableMap<ConnectionPoint, MutableList<SpaceField>> = EnumMap(ConnectionPoint::class.java)
-    val fields: MutableMap<Int, SpaceField> = HashMap()
-    val connections: MutableList<SpaceConnection> = mutableListOf()
+    private val connectionPoint: MutableMap<ConnectionPoint, MutableList<FieldGraphic>> = EnumMap(ConnectionPoint::class.java)
+    val fields: MutableMap<Int, FieldGraphic> = HashMap()
+    val connections: MutableList<ConnectionGraphic> = mutableListOf()
 
     init {
         MainGame.appComponent.inject(this)
     }
 
-    fun getField(id: Int): SpaceField {
+    fun getField(id: Int): FieldGraphic {
         return fields[id]!!
     }
 
-    fun addField(addField: SpaceField, anchorField: SpaceField, horizontalMod: Float = 0f, verticalMod: Float = 0f, connection: ConnectionPoint = ConnectionPoint.NONE) {
+    fun addField(addField: FieldGraphic, anchorField: FieldGraphic, horizontalMod: Float = 0f, verticalMod: Float = 0f, connection: ConnectionPoint = ConnectionPoint.NONE) {
         val posX = anchorField.getGameImage().x - offsetX + addField.getGameImage().width * horizontalMod
         val posY = anchorField.getGameImage().y - offsetY + addField.getGameImage().height * verticalMod
         addField(addField, posX, posY, connection)
     }
 
-    open fun addField(addField: SpaceField,
+    open fun addField(addField: FieldGraphic,
                       posX: Float = addField.getGameImage().x,
                       posY: Float = addField.getGameImage().y,
                       connection: ConnectionPoint = ConnectionPoint.NONE) {
@@ -43,11 +43,11 @@ open class SpaceGroup(
         }
     }
 
-    private fun getConnectionPoint(connection: ConnectionPoint): MutableList<SpaceField> =
+    private fun getConnectionPoint(connection: ConnectionPoint): MutableList<FieldGraphic> =
             connectionPoint[connection]
-                    ?: ArrayList<SpaceField>().also { connectionPoint[connection] = it }
+                    ?: ArrayList<FieldGraphic>().also { connectionPoint[connection] = it }
 
-    fun addConnectionPoint(connection: ConnectionPoint, field: SpaceField) {
+    fun addConnectionPoint(connection: ConnectionPoint, field: FieldGraphic) {
         getConnectionPoint(connection).add(field)
     }
 
@@ -63,8 +63,8 @@ open class SpaceGroup(
         }
     }
 
-    fun connectFields(spaceField1: SpaceField, spaceField2: SpaceField) {
-        val connection = SpaceConnection(spaceField1, spaceField2)
+    fun connectFields(spaceField1: FieldGraphic, spaceField2: FieldGraphic) {
+        val connection = ConnectionGraphic(spaceField1, spaceField2)
         connections.add(connection)
         connection.also { (field1, field2) ->
             field1.connections.add(connection)

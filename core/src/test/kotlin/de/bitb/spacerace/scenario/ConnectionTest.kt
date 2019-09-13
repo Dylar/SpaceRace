@@ -3,7 +3,7 @@ package de.bitb.spacerace.scenario
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_2
-import de.bitb.spacerace.model.space.fields.SpaceConnection
+import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import org.junit.Test
 
 class ConnectionTest : GameTest() {
@@ -19,13 +19,13 @@ class ConnectionTest : GameTest() {
                     val connectionGoal = createConnection(leftBottomField, centerBottomField)
                     val connectionBack = createConnection(leftTopField, leftBottomField)
 
-                    fun assertConnectionPlayer2(con: SpaceConnection) {
+                    fun assertConnectionPlayer2(con: ConnectionGraphic) {
                         assertConnection(
                                 playerColor = TEST_PLAYER_2,
                                 connection = con)
                     }
 
-                    fun assertConnectionPlayer1(con: SpaceConnection, isConnected: Boolean = false) =
+                    fun assertConnectionPlayer1(con: ConnectionGraphic, isConnected: Boolean = false) =
                             assertConnection(
                                     isConnected = isConnected,
                                     connection = con)

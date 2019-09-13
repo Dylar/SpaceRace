@@ -13,7 +13,7 @@ import de.bitb.spacerace.model.player.Player
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
-import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.fields.FieldGraphic
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import de.bitb.spacerace.utils.Logger
@@ -32,7 +32,7 @@ class GraphicController
         get() = playerGraphics.find { playerController.currentColor == it.playerColor }
                 ?: NONE_PLAYER
 
-    var fieldGraphics: MutableMap<PositionData, SpaceField> = mutableMapOf()
+    var fieldGraphics: MutableMap<PositionData, FieldGraphic> = mutableMapOf()
     var connectionGraphics: ConnectionList = ConnectionList()
 
     fun getPlayerGraphic(playerColor: PlayerColor) =
@@ -50,7 +50,7 @@ class GraphicController
     fun getPlayerItems(playerColor: PlayerColor): PlayerItems =
             getPlayerGraphic(playerColor).playerItems
 
-    fun addPlayer(playerColor: PlayerColor, startField: SpaceField) {
+    fun addPlayer(playerColor: PlayerColor, startField: FieldGraphic) {
         val player = Player(playerColor)
 
         player.setPosition(startField.gamePosition)
@@ -62,7 +62,7 @@ class GraphicController
         playerGraphics.add(player)
     }
 
-    fun addField(spaceField: SpaceField) {
+    fun addField(spaceField: FieldGraphic) {
         fieldGraphics[spaceField.gamePosition] = spaceField
         spaceField.getGameImage().addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {

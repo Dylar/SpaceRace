@@ -5,38 +5,38 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_PADDI
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.fields.FieldGraphic
 
 class AsteroidGroup(offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(offsetX, offsetY) {
 
     init {
 
         //BOTTOM
-        val centerBottomField = SpaceField.createField(FieldType.AMBUSH)
+        val centerBottomField = FieldGraphic.createField(FieldType.AMBUSH)
         addField(centerBottomField, SCREEN_WIDTH / 2)
-        val leftBottomCorner = SpaceField.createField(FieldType.AMBUSH)
+        val leftBottomCorner = FieldGraphic.createField(FieldType.AMBUSH)
         addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
-        val rightBottomCorner = SpaceField.createField(FieldType.AMBUSH)
+        val rightBottomCorner = FieldGraphic.createField(FieldType.AMBUSH)
         addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
         connectFields(leftBottomCorner, centerBottomField)
         connectFields(rightBottomCorner, centerBottomField)
 
         //TOP
-        val centerTopField = SpaceField.createField(FieldType.AMBUSH)
+        val centerTopField = FieldGraphic.createField(FieldType.AMBUSH)
         addField(centerTopField, centerBottomField, verticalMod = FIELD_PADDING_XXLARGE)
-        val leftTopCorner = SpaceField.createField(FieldType.AMBUSH)
+        val leftTopCorner = FieldGraphic.createField(FieldType.AMBUSH)
         addField(leftTopCorner, centerTopField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
-        val rightTopCorner = SpaceField.createField(FieldType.AMBUSH)
+        val rightTopCorner = FieldGraphic.createField(FieldType.AMBUSH)
         addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
 
         connectFields(leftTopCorner, centerTopField)
         connectFields(rightTopCorner, centerTopField)
 
         //CENTER
-        val leftCenterField = SpaceField.createField(FieldType.AMBUSH)
+        val leftCenterField = FieldGraphic.createField(FieldType.AMBUSH)
         addField(leftCenterField, centerBottomField, -FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.LEFT)
-        val rightCenterField = SpaceField.createField(FieldType.AMBUSH)
+        val rightCenterField = FieldGraphic.createField(FieldType.AMBUSH)
         addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
 
         connectFields(leftCenterField, rightCenterField)

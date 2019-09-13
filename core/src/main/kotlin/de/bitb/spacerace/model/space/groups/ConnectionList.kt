@@ -5,11 +5,11 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.grafik.LineRenderer
-import de.bitb.spacerace.model.space.fields.SpaceConnection
+import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 
 class ConnectionList(
-        private val mutableList: MutableList<SpaceConnection> = ArrayList()
-) : MutableList<SpaceConnection> by mutableList,
+        private val mutableList: MutableList<ConnectionGraphic> = ArrayList()
+) : MutableList<ConnectionGraphic> by mutableList,
         Actor() {
 
     //    var reverse = false

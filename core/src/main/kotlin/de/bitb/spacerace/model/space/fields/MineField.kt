@@ -5,7 +5,7 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
 
 //TODO do this in field data blubb
-class MineField : SpaceField(FieldType.MINE) {
+class MineField : FieldGraphic(FieldType.MINE) {
 
     var owner: PlayerColor = PlayerColor.NONE
         set(ow) {

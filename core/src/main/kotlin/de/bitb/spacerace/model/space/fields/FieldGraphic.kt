@@ -8,9 +8,9 @@ import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
 
-val NONE_SPACE_FIELD: SpaceField = SpaceField().apply { id = -1 }
+val NONE_SPACE_FIELD: FieldGraphic = FieldGraphic().apply { id = -1 }
 
-open class SpaceField(
+open class FieldGraphic(
         val fieldType: FieldType = FieldType.RANDOM,
         val fieldImage: FieldImage = FieldImage(fieldType)
 ) : GameObject(PositionData()),
@@ -18,17 +18,17 @@ open class SpaceField(
 
     companion object {
 
-        fun createField(fieldType: FieldType): SpaceField {
+        fun createField(fieldType: FieldType): FieldGraphic {
             return when (fieldType) {
 //                FieldType.MINE -> MineField()
                 FieldType.RANDOM
                 -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
-                else -> SpaceField(fieldType)
+                else -> FieldGraphic(fieldType)
             }
         }
     }
 
-    val connections: MutableList<SpaceConnection> = ArrayList()
+    val connections: MutableList<ConnectionGraphic> = ArrayList()
 
     val disposedItems: MutableList<DisposableItem> = ArrayList()
 

@@ -8,7 +8,7 @@ import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.SpaceConnection
+import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers.*
@@ -101,7 +101,7 @@ fun SpaceEnvironment.assertNotGameEnd() {
 
 fun SpaceEnvironment.assertConnectionAfterMove(
         player: PlayerColor = currentPlayerColor,
-        connection: SpaceConnection = createConnection(currentPosition, leftTopField),
+        connection: ConnectionGraphic = createConnection(currentPosition, leftTopField),
         isConnected: Boolean = false,
         assertSuccess: (MoveResult) -> Boolean = { false } // checkConnection(connection, it.toConnectionResult(), isConnected) }
 ) = move(
@@ -112,7 +112,7 @@ fun SpaceEnvironment.assertConnectionAfterMove(
 
 fun SpaceEnvironment.assertConnection(
         playerColor: PlayerColor = currentPlayerColor,
-        connection: SpaceConnection,
+        connection: ConnectionGraphic,
         isConnected: Boolean = false
 ) =
         assertTargetField(playerColor) { fields ->
@@ -122,7 +122,7 @@ fun SpaceEnvironment.assertConnection(
 fun SpaceEnvironment.checkConnection(
         playerColor: PlayerColor = currentPlayerColor,
         fields: List<FieldData>,
-        connection: SpaceConnection,
+        connection: ConnectionGraphic,
         isConnected: Boolean = false
 ) =
         getDBPlayer(playerColor).gamePosition

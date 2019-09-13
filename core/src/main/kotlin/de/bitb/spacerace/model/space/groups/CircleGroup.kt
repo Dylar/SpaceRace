@@ -5,7 +5,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.model.enums.ConnectionPoint
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.space.fields.SpaceField
+import de.bitb.spacerace.model.space.fields.FieldGraphic
 import de.bitb.spacerace.utils.CalculationUtils
 
 
@@ -22,16 +22,16 @@ open class CircleGroup(
         val rotationPoint = Vector2((SCREEN_WIDTH / 2).toFloat() + offsetX, (SCREEN_HEIGHT / 2).toFloat() + offsetY)
 
 
-        val connectionFields = ArrayList<SpaceField>()
-        var firstField: SpaceField? = null
-        var anchorField: SpaceField? = null
-        var addField: SpaceField? = null
+        val connectionFields = ArrayList<FieldGraphic>()
+        var firstField: FieldGraphic? = null
+        var anchorField: FieldGraphic? = null
+        var addField: FieldGraphic? = null
         for (fieldType in fieldTypes.withIndex()) {
 
             val angle = slice * fieldType.index
             val point = CalculationUtils.calculateRotationPoint(rotationPoint, radius, angle)
 
-            addField = SpaceField.createField(fieldType.value)
+            addField = FieldGraphic.createField(fieldType.value)
 
             if (anchorField != null) {
                 connectFields(anchorField, addField)
