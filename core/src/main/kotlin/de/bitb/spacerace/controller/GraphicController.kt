@@ -9,7 +9,7 @@ import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.model.player.NONE_PLAYER
-import de.bitb.spacerace.model.player.Player
+import de.bitb.spacerace.model.player.PlayerGraphics
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
@@ -27,8 +27,8 @@ class GraphicController
         val playerController: PlayerController
 ) {
 
-    var playerGraphics: MutableList<Player> = ArrayList()
-    val currentPlayerGraphic: Player
+    var playerGraphics: MutableList<PlayerGraphics> = ArrayList()
+    val currentPlayerGraphic: PlayerGraphics
         get() = playerGraphics.find { playerController.currentColor == it.playerColor }
                 ?: NONE_PLAYER
 
@@ -51,7 +51,7 @@ class GraphicController
             getPlayerGraphic(playerColor).playerItems
 
     fun addPlayer(playerColor: PlayerColor, startField: FieldGraphic) {
-        val player = Player(playerColor)
+        val player = PlayerGraphics(playerColor)
 
         player.setPosition(startField.gamePosition)
         player.getGameImage().apply {

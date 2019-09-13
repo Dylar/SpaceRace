@@ -9,7 +9,7 @@ import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_TITLE
 import de.bitb.spacerace.events.commands.phases.StartNextRoundCommand
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
-import de.bitb.spacerace.model.player.Player
+import de.bitb.spacerace.model.player.PlayerGraphics
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import org.greenrobot.eventbus.EventBus
@@ -43,7 +43,7 @@ class RoundEndMenu(
         cell.colspan(size)
     }
 
-    private fun addPlayer(players: MutableList<Player>) {
+    private fun addPlayer(players: MutableList<PlayerGraphics>) {
         row()
         for (player in players) {
             val displayImage = player.getDisplayImage(color = player.playerColor.color)

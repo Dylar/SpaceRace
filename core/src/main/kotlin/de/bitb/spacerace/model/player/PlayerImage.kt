@@ -3,8 +3,6 @@ package de.bitb.spacerace.model.player
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
-import de.bitb.spacerace.model.items.ships.RaiderShip
-import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.getRunnableAction
@@ -27,7 +25,7 @@ class PlayerImage
         setOrigin(PLAYER_BORDER / 2, PLAYER_BORDER / 2)
     }
 
-    fun setFieldPosition(player: Player, positionData: PositionData) {
+    fun setFieldPosition(player: PlayerGraphics, positionData: PositionData) {
         addAction(getRunnableAction(Runnable {
             Logger.println("setFieldPosition")
             player.setPosition(positionData)
