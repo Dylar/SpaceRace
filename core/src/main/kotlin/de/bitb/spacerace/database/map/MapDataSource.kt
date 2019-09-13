@@ -3,6 +3,7 @@ package de.bitb.spacerace.database.map
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.model.player.PlayerColor
 import io.objectbox.query.LazyList
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -32,4 +33,5 @@ interface MapDataSource {
 
     fun observeByType(type: FieldType): Observable<List<FieldData>>
 
+//    fun getDBById(vararg id: Long): List<FieldData>
 }

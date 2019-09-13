@@ -162,6 +162,10 @@ class SpaceEnvironment {
 
     private fun getFieldPosition(fieldId: Int, groupId: Int = 0) = testMap.groups[groupId].getField(fieldId).gamePosition
 
+    fun getDBField(position: PositionData) =
+            getFieldUsecase.buildUseCaseSingle(position).test().await()
+                    .assertComplete().values().first()
+
     fun getPlayerPosition(player: PlayerColor = currentPlayerColor) =
             getDBPlayer(player).gamePosition
 
