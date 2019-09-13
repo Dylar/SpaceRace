@@ -92,6 +92,7 @@ class GraphicController
                 }))
     }
 
+    //TODO not working !
     fun teleportPlayer(playerColor: PlayerColor, position: PositionData) {
         val player = getPlayerGraphic(playerColor)
         val playerImage = player.playerImage

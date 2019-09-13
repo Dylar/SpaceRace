@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.grafik.LineRenderer
 import de.bitb.spacerace.model.space.fields.SpaceConnection
 
