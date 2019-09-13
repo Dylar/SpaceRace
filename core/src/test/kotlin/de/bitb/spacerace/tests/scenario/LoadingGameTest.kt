@@ -1,4 +1,4 @@
-package de.bitb.spacerace.scenario
+package de.bitb.spacerace.tests.scenario
 
 import de.bitb.spacerace.core.GameTest
 import de.bitb.spacerace.env.SpaceEnvironment

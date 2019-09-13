@@ -1,4 +1,4 @@
-package de.bitb.spacerace.usecase.observer
+package de.bitb.spacerace.tests.usecase.observer
 
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.core.*
