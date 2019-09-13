@@ -66,10 +66,6 @@ open class SpaceGroup(
     fun connectFields(spaceField1: FieldGraphic, spaceField2: FieldGraphic) {
         val connection = ConnectionGraphic(spaceField1, spaceField2)
         connections.add(connection)
-        connection.also { (field1, field2) ->
-            field1.connections.add(connection)
-            field2.connections.add(connection)
-        }
     }
 
 }

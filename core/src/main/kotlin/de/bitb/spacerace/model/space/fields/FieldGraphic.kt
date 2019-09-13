@@ -28,8 +28,6 @@ open class FieldGraphic(
         }
     }
 
-    val connections: MutableList<ConnectionGraphic> = ArrayList()
-
     val disposedItems: MutableList<DisposableItem> = ArrayList()
 
     override fun getGameImage(): GameImage {
