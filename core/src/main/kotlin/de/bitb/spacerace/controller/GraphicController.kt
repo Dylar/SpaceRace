@@ -137,6 +137,10 @@ class GraphicController
         }
     }
 
+    fun setMineOwner(player: PlayerData) {
+        getFieldGraphic(player.gamePosition).setBlinkColor(player.playerColor.color)
+    }
+
 
 //    fun moveMovables() { //TODO make items moveable again !
 //

@@ -17,7 +17,6 @@ import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.MineField
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
@@ -195,10 +194,9 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun obtainMine(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {
-                playerData.also {
-                    (graphicController.getPlayerFieldGraphic(playerData.playerColor) as MineField)
-                            .apply { owner = playerData.playerColor }
-                }.let { ObtainFieldResult(it) }
+                val mine = playerData.positionField.target
+                mine.owner.target?.mines?.remove(mine)
+                ObtainMineResult(playerData.apply { mines.add(mine) })
             }
 
     private fun obtainGift(playerData: PlayerData): Single<ObtainFieldResult> =
@@ -232,6 +230,10 @@ open class StartMoveResult(player: PlayerData) : NextPhaseResult(player)
 
 open class ObtainFieldResult(player: PlayerData) : NextPhaseResult(player)
 open class ObtainShopResult(player: PlayerData) : ObtainFieldResult(player)
+class ObtainMineResult(
+        player: PlayerData
+) : ObtainFieldResult(player)
+
 class ObtainGoalResult(
         player: PlayerData,
         var newGoal: FieldData

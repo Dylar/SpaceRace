@@ -16,7 +16,6 @@ import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
-import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.model.space.maps.createMap
@@ -28,7 +27,6 @@ import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import de.bitb.spacerace.utils.Logger
-import io.objectbox.Box
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
@@ -230,41 +228,4 @@ open class MainGame : BaseGame() {
                     }
                 }
             }
-
-
-    ///TODO TEEEEST
-
-
-    @Inject
-    lateinit var box: Box<FieldData>
-
-    private fun testFields() {
-        Pair(
-                FieldData(fieldType = FieldType.MINE),
-                FieldData(fieldType = FieldType.MINE,
-                        owner = PlayerColor.NAVY)
-        ).also { (mineNot, mineOwned) ->
-            box.put(listOf(
-                    mineNot.apply {
-                        connections.add(mineOwned)
-                    },
-                    mineOwned.apply {
-                        connections.add(mineNot)
-                    }))
-        }.also { (notLocal, ownLocal) ->
-            val all = box.all
-            val notDb = all[0]
-            val ownDb = all[1]
-            val conOwn = ownLocal.connections[0]
-            val conNot = notLocal.connections[0]
-            val conOwnDb = ownDb.connections[0]
-            val conNotDb = notDb.connections[0]
-            Logger.println("conOwn: ", conOwn)
-            Logger.println("conNot: ", conNot)
-            Logger.println("conOwnDb: ", conOwnDb)
-            Logger.println("conNotDb: ", conNotDb)
-            Logger.println("RESULT: ", all)
-        }
-    }
-
 }

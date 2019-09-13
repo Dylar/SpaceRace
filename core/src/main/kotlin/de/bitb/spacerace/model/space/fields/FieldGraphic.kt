@@ -7,6 +7,7 @@ import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.blink.IBlinkingImage
+import de.bitb.spacerace.model.player.PlayerColor
 
 val NONE_SPACE_FIELD: FieldGraphic = FieldGraphic().apply { id = -1 }
 

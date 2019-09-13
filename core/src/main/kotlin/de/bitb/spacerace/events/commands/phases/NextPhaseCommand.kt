@@ -37,6 +37,7 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
         }
 
         when (nextPhaseResult) {
+            is ObtainMineResult -> graphicController.setMineOwner(player)
             is ObtainGoalResult -> graphicController.setGoal(position, nextPhaseResult.newGoal.gamePosition)
             is ObtainTunnelResult -> graphicController.teleportPlayer(player.playerColor, player.gamePosition)
         }

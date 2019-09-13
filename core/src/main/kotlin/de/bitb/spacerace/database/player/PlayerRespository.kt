@@ -11,6 +11,12 @@ class PlayerRespository(
         private val playerBox: Box<PlayerData>
 ) : PlayerDataSource {
 
+    override fun getDBByColor(vararg color: PlayerColor): List<PlayerData> =
+        playerBox.query()
+                .filter { color.toList().contains(it.playerColor) }
+                .build().find()
+
+
     override fun insert(vararg userData: PlayerData): Completable =
             Completable.fromCallable { playerBox.put(*userData) }
 

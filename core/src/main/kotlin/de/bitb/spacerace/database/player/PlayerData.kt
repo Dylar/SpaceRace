@@ -13,9 +13,11 @@ import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import io.objectbox.BoxStore
+import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
+import io.objectbox.relation.ToMany
 import io.objectbox.relation.ToOne
 
 val NONE_PLAYER_DATA: PlayerData = PlayerData()
@@ -45,6 +47,10 @@ data class PlayerData(
 
     @JvmField
     var positionField: ToOne<FieldData> = ToOne(this, PlayerData_.positionField)
+
+    @JvmField
+    @Backlink(to = "owner")
+    var mines: ToMany<FieldData> = ToMany(this, PlayerData_.mines)
 
     val gamePosition: PositionData
         get() = positionField.target.gamePosition

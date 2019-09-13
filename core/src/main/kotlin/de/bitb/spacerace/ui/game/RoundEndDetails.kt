@@ -13,8 +13,11 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAIL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_MINES
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_VICTORIES
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
+import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import javax.inject.Inject
@@ -22,12 +25,18 @@ import javax.inject.Inject
 class RoundEndDetails(
         guiStage: GameGuiStage,
         endMenu: RoundEndMenu,
-        var playerData: PlayerData
+        var playerColor: PlayerColor
 ) : BaseMenu(guiStage, endMenu) {
+
+    @Inject
+    lateinit var playerDataSource: PlayerDataSource
+
+    val playerData: PlayerData
 
     init {
         MainGame.appComponent.inject(this)
-        addTitle()
+        playerData = playerDataSource.getDBByColor(playerColor).first()
+                addTitle()
         addImage()
         addText()
         addButtons()
@@ -52,15 +61,7 @@ class RoundEndDetails(
     private fun addText() {
         addText("$GAME_ROUND_DETAILS_VICTORIES${playerData.victories}")
         addText("$GAME_ROUND_DETAILS_CREDITS${playerData.credits}")
-
-        var mineAmount = 0
-//        fieldController.fieldsMap[FieldType.MINE]?.forEach { spaceField ->
-//            if ((spaceField as MineField).owner == playerData.playerColor) {
-//                mineAmount++
-//            } //TODO make mines work again
-//        }
-        addText(GAME_ROUND_DETAILS_MINES + mineAmount)
-
+        addText("$GAME_ROUND_DETAILS_MINES${playerData.mines.size}")
     }
 
     private fun addText(text: String) {

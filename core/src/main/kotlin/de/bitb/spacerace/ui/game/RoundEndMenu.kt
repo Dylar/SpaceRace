@@ -49,7 +49,7 @@ class RoundEndMenu(
             val displayImage = player.getDisplayImage(color = player.playerColor.color)
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    val playerDetails = RoundEndDetails(guiStage, this@RoundEndMenu, playerController.currentPlayerData)
+                    val playerDetails = RoundEndDetails(guiStage, this@RoundEndMenu, player.playerColor)
                     playerDetails.openMenu()
                     guiStage.addActor(playerDetails)
                     return true

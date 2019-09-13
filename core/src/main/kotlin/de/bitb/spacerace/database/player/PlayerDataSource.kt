@@ -35,6 +35,7 @@ interface PlayerDataSource {
     //    @Query("SELECT * FROM player WHERE color = :color")
     fun observeByColor(color: PlayerColor): Observable<List<PlayerData>>
 
+    fun getDBByColor(vararg color: PlayerColor): List<PlayerData>
 //    fun observeByVictories(amount: Long): Observable<PlayerData>
 
 //    @Query("SELECT * FROM LessonData")

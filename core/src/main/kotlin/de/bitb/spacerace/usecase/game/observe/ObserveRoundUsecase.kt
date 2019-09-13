@@ -1,5 +1,6 @@
 package de.bitb.spacerace.usecase.game.observe
 
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.phases.OpenEndRoundMenuCommand
@@ -10,43 +11,37 @@ import javax.inject.Inject
 
 class ObserveRoundUsecase
 @Inject constructor(
-        private val playerDataSource: PlayerDataSource
+        private val playerDataSource: PlayerDataSource,
+        private val mapDataSource: MapDataSource
 ) : StreamUseCaseNoParams<Boolean> {
 
     override fun buildUseCaseObservable(): Observable<Boolean> =
             playerDataSource.observeAllObserver()
                     .map(::filterPlayer)
-                    .map(::endRound)
+                    .flatMap(::endRound)
                     .flatMap(::updatePlayer)
 
     private fun filterPlayer(player: List<PlayerData>) =
-            player.filter { it.phase.isEndTurn() }.toMutableList()
-                    .apply {
-                        if (size != player.size) {
-                            clear()
-                        }
-                    }
+            if (player.all { it.phase.isEndTurn() }) player
+            else mutableListOf()
 
-    private fun endRound(player: List<PlayerData>) =
-            player.apply {
-                if (isNotEmpty()) {
-//                    graphicController.moveMovables()
-//                    fieldController.fieldsMap[FieldType.MINE] TODO make mines works again
-//                            ?.map { it as MineField }
-//                            ?.forEach { mine ->
-//                                player.find { mine.owner == it.playerColor }?.addRandomWin()
-//                            }
-                    forEach { it.nextRound() }
+    private fun endRound(players: List<PlayerData>): Observable<List<PlayerData>> =
+            if (players.isEmpty()) Observable.just(players)
+            else Observable.create { emitter ->
+                players.forEach { player ->
+                    player.nextRound()
+                    repeat(player.mines.size) { player.addRandomWin() }
                 }
+                emitter.onNext(players)
             }
 
+
     private fun updatePlayer(player: List<PlayerData>) =
-            playerDataSource
+            if (player.isEmpty()) Observable.just(false)
+            else playerDataSource
                     .insertAllReturnAll(*player.toTypedArray())
                     .map { player.isNotEmpty() }
                     .doOnSuccess { roundEnd ->
-                        if (roundEnd) {
-                            EventBus.getDefault().post(OpenEndRoundMenuCommand())
-                        }
+                        if (roundEnd) EventBus.getDefault().post(OpenEndRoundMenuCommand())
                     }.toObservable()
 }
