@@ -104,8 +104,8 @@ class SpaceEnvironment {
         TestGame.testComponent.inject(this)
 
         testMap = mapToLoad.createMap()
-        val mapData = testGame.initMap(playerColor.toList(), testMap)
-        val config = LoadGameConfig(map = mapData)
+        val mapData = testGame.createNewSaveGame(playerColor.toList(), testGame.initDefaultMap(testMap))
+        val config = LoadGameConfig(saveGame = mapData)
         loadGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()
@@ -236,8 +236,5 @@ class SpaceEnvironment {
     fun waitForIt(time: Long = 5) {
         Thread.sleep(time)
     }
-
-    fun createConnection(field1: PositionData, field2: PositionData): ConnectionGraphic =
-            ConnectionGraphic(graphicController.getFieldGraphic(field1), graphicController.getFieldGraphic(field2))
 
 }

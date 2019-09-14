@@ -1,10 +1,6 @@
 package de.bitb.spacerace.database.map
 
-import de.bitb.spacerace.database.converter.PositionDataConverter
-import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.model.objecthandling.PositionData
 import io.objectbox.BoxStore
-import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
@@ -14,11 +10,8 @@ import io.objectbox.relation.ToOne
 data class MapData(
         val name: String = "",
         @Id
-        var uuid: Long = 0,
-        @Convert(converter = PositionDataConverter::class, dbType = String::class)
-        var startPosition: PositionData = PositionData()
-){
-
+        var uuid: Long = 0
+) {
     @Transient
     @JvmField
     protected var __boxStore: BoxStore? = null
@@ -27,9 +20,6 @@ data class MapData(
     var fields: ToMany<FieldData> = ToMany(this, MapData_.fields)
 
     @JvmField
-    var goal: ToOne<FieldData> = ToOne(this, MapData_.goal)
-
-    @JvmField
-    var players: ToMany<PlayerData> = ToMany(this, MapData_.players)
+    var startField: ToOne<FieldData> = ToOne(this, MapData_.startField)
 
 }

@@ -3,6 +3,7 @@ package de.bitb.spacerace.tests.scenario
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_2
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import org.junit.Test
 
@@ -14,18 +15,18 @@ class ConnectionTest : GameTest() {
                 .apply {
                     initGame()
 
-                    val connection1 = createConnection(leftBottomField, leftTopField)
-                    val connection2 = createConnection(leftBottomField, centerTopField)
-                    val connectionGoal = createConnection(leftBottomField, centerBottomField)
-                    val connectionBack = createConnection(leftTopField, leftBottomField)
+                    val connection1 = listOf(leftBottomField, leftTopField)
+                    val connection2 = listOf(leftBottomField, centerTopField)
+                    val connectionGoal = listOf(leftBottomField, centerBottomField)
+                    val connectionBack = listOf(leftTopField, leftBottomField)
 
-                    fun assertConnectionPlayer2(con: ConnectionGraphic) {
+                    fun assertConnectionPlayer2(con: List<PositionData>) {
                         assertConnection(
                                 playerColor = TEST_PLAYER_2,
                                 connection = con)
                     }
 
-                    fun assertConnectionPlayer1(con: ConnectionGraphic, isConnected: Boolean = false) =
+                    fun assertConnectionPlayer1(con: List<PositionData>, isConnected: Boolean = false) =
                             assertConnection(
                                     isConnected = isConnected,
                                     connection = con)
@@ -45,16 +46,17 @@ class ConnectionTest : GameTest() {
                             isConnected = true,
                             connection = connectionBack)
                     assertConnectionAfterMove(
-                            connection = connectionBack,
+                            isConnected = true,
+                            connection = connection1,
                             assertSuccess = {
                                 checkConnection(
                                         fields = it.targetableFields,
                                         isConnected = true,
-                                        connection = createConnection(leftBottomField, leftTopField)
+                                        connection = listOf(leftBottomField, leftTopField)
                                 ) && checkConnection(
                                         fields = it.targetableFields,
                                         isConnected = true,
-                                        connection = createConnection(leftBottomField, centerBottomField))
+                                        connection = listOf(leftBottomField, centerBottomField))
                             }
                     )
 
@@ -72,9 +74,9 @@ class ConnectionTest : GameTest() {
                     initGame()
                     setToMovePhase()
 
-                    val conLeftBotTop = createConnection(leftBottomField, leftTopField)
-                    val conLeftTopCenter = createConnection(leftTopField, centerTopField)
-                    val conLeftBotCenter = createConnection(leftBottomField, centerBottomField)
+                    val conLeftBotTop = listOf(leftBottomField, leftTopField)
+                    val conLeftTopCenter = listOf(leftTopField, centerTopField)
+                    val conLeftBotCenter = listOf(leftBottomField, centerBottomField)
 
                     assertConnection(
                             isConnected = true,
@@ -113,9 +115,9 @@ class ConnectionTest : GameTest() {
                     initGame()
                     setToMovePhase(setDice = 2)
 
-                    val conLeftBotTop = createConnection(leftBottomField, leftTopField)
-                    val conLeftTopCenter = createConnection(leftTopField, centerTopField)
-                    val conLeftBotCenter = createConnection(leftBottomField, centerBottomField)
+                    val conLeftBotTop = listOf(leftBottomField, leftTopField)
+                    val conLeftTopCenter = listOf(leftTopField, centerTopField)
+                    val conLeftBotCenter = listOf(leftBottomField, centerBottomField)
 
                     assertConnection(
                             isConnected = true,

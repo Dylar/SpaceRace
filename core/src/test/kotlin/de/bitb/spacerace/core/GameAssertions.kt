@@ -1,7 +1,7 @@
 package de.bitb.spacerace.core
 
+import de.bitb.spacerace.database.SaveGame
 import de.bitb.spacerace.database.map.FieldData
-import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.env.SpaceEnvironment
@@ -24,7 +24,7 @@ fun SpaceEnvironment.assertDBField(gamePosition: PositionData, assertField: (Fie
             .assertValue(assertField)
 }
 
-fun SpaceEnvironment.assertDBMap(assertField: (MapData) -> Boolean) {
+fun SpaceEnvironment.assertDBMap(assertField: (SaveGame) -> Boolean) {
     getMapUsecase.buildUseCaseSingle()
             .assertValue(assertField)
 }
@@ -101,18 +101,18 @@ fun SpaceEnvironment.assertNotGameEnd() {
 
 fun SpaceEnvironment.assertConnectionAfterMove(
         player: PlayerColor = currentPlayerColor,
-        connection: ConnectionGraphic = createConnection(currentPosition, leftTopField),
+        connection: List<PositionData> = listOf(currentPosition, leftTopField),
         isConnected: Boolean = false,
-        assertSuccess: (MoveResult) -> Boolean = { false } // checkConnection(connection, it.toConnectionResult(), isConnected) }
+        assertSuccess: (MoveResult) -> Boolean = {  checkConnection(player, it.targetableFields, connection, isConnected) }
 ) = move(
         player = player,
-        target = connection.spaceField2.gamePosition,
+        target = connection[0],
         assertSuccess = assertSuccess
 )
 
 fun SpaceEnvironment.assertConnection(
         playerColor: PlayerColor = currentPlayerColor,
-        connection: ConnectionGraphic,
+        connection: List<PositionData>,
         isConnected: Boolean = false
 ) =
         assertTargetField(playerColor) { fields ->
@@ -122,13 +122,18 @@ fun SpaceEnvironment.assertConnection(
 fun SpaceEnvironment.checkConnection(
         playerColor: PlayerColor = currentPlayerColor,
         fields: List<FieldData>,
-        connection: ConnectionGraphic,
+        connection: List<PositionData>,
         isConnected: Boolean = false
 ) =
         getDBPlayer(playerColor).gamePosition
                 .let { playerPosition ->
-                    if (isConnected) fields.any { connection.isConnection(playerPosition, it.gamePosition) }
-                    else fields.none { connection.isConnection(playerPosition, it.gamePosition) }
+                    val isPlayerField = connection.any { it.isPosition(playerPosition) }
+
+                    fun checkIt(fieldPosition: PositionData) =
+                            isPlayerField && connection.any { it.isPosition(fieldPosition) }
+
+                    if (isConnected) fields.any { checkIt(it.gamePosition) }
+                    else fields.none { checkIt(it.gamePosition) }
                 }
 
 

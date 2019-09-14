@@ -2,7 +2,7 @@ package de.bitb.spacerace.usecase.game.init
 
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
-import de.bitb.spacerace.database.map.MapData
+import de.bitb.spacerace.database.SaveGame
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
@@ -29,7 +29,7 @@ class LoadGameUsecase @Inject constructor(
                         .andThen(playerDataSource.deleteAll()) //TODO put player nt on map (except savegamesa bla bla) player color on multiple palyers ... change that
                         .andThen(initMap(map))
                         .flatMap {
-                            mapDataSource.insertMap(it.map)
+                            mapDataSource.insertMap(it.saveGame)
                                     .andThen(Single.just(it))
                         }
                         .doAfterSuccess { pushCurrentPlayer(it.currentColor) }
@@ -41,7 +41,7 @@ class LoadGameUsecase @Inject constructor(
                 else emitter.onError(SelectMorePlayerException())
             }
 
-    private fun initMap(map: MapData): Single<LoadGameResult> =
+    private fun initMap(map: SaveGame): Single<LoadGameResult> =
             Single.fromCallable {
 //                map.fields.forEach { fieldController.addField(it) }
                 map.players.map { it.playerColor }.forEach { playerController.addPlayer(it) }
@@ -50,7 +50,7 @@ class LoadGameUsecase @Inject constructor(
                         ?: NONE_FIELD_DATA
                 LoadGameResult(
                         currentColor = map.players.first().playerColor,
-                        map = map)
+                        saveGame = map)
 
             }
 
@@ -60,10 +60,10 @@ class LoadGameUsecase @Inject constructor(
 }
 
 data class LoadGameConfig(
-        var map: MapData
+        var saveGame: SaveGame
 )
 
 data class LoadGameResult(
         var currentColor: PlayerColor,
-        var map: MapData
+        var saveGame: SaveGame
 )

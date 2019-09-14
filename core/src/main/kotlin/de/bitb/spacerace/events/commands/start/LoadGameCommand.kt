@@ -6,13 +6,13 @@ import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.map.FieldData
-import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.model.space.fields.ConnectionGraphic
+import de.bitb.spacerace.model.space.fields.FieldGraphic
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
-import io.objectbox.Box
 import javax.inject.Inject
 
 class LoadGameCommand() : BaseCommand() {
@@ -26,15 +26,6 @@ class LoadGameCommand() : BaseCommand() {
     @Inject
     protected lateinit var graphicController: GraphicController
 
-    @Inject
-    lateinit var mapbox: Box<MapData>
-
-    @Inject
-    lateinit var fieldBox: Box<FieldData>
-
-    @Inject
-    lateinit var playerBox: Box<PlayerData>
-
     init {
         MainGame.appComponent.inject(this)
     }
@@ -44,18 +35,53 @@ class LoadGameCommand() : BaseCommand() {
     }
 
     override fun execute() {
-        graphicController.clearGraphics()
-        val map = game.initMap(SELECTED_PLAYER, SELECTED_MAP.name)
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
 
-        val config = LoadGameConfig(map = map)
+        val map = game.initDefaultMap(SELECTED_MAP.createMap())
+        val config = LoadGameConfig(saveGame = game.createNewSaveGame(SELECTED_PLAYER, map))
 
         loadGameUsecase.getResult(
                 params = config,
                 onSuccess = { info ->
-                    graphicController.setGoal(currentGoal = info.map.goal.target.gamePosition)
+                    graphicController.clearGraphics()
+                    val fields = info.saveGame.fields
+                    addGraphicFields(fields)
+                    addGraphicConnections(fields)
+                    addGraphicPlayers(info.saveGame.players)
+
+                    graphicController.setGoal(currentGoal = info.saveGame.goal.target.gamePosition)
                     game.startGameDELETE_ME()
                 })
+    }
+
+    private fun addGraphicPlayers(players: List<PlayerData>) {
+        players.forEach {
+            graphicController.addPlayer(it.playerColor, graphicController.getFieldGraphic(it.gamePosition))
+        }
+    }
+
+    private fun addGraphicConnections(fields: List<FieldData>) {
+        val connections = mutableListOf<ConnectionGraphic>()
+        fields.forEach { thisField ->
+            thisField.connections.forEach { thatField ->
+                if (connections.none { it.isConnection(thisField.gamePosition, thatField.gamePosition) }) {
+                    val connection = ConnectionGraphic(
+                            graphicController.getFieldGraphic(thisField.gamePosition),
+                            graphicController.getFieldGraphic(thatField.gamePosition))
+                    connections.add(connection)
+                }
+            }
+        }
+        graphicController.connectionGraphics.addAll(connections)
+    }
+
+    private fun addGraphicFields(fields: List<FieldData>) {
+        fields.forEach { fieldData ->
+            val fieldGraphic = FieldGraphic
+                    .createField(fieldData.fieldType)
+                    .apply { setPosition(fieldData.gamePosition) }
+            graphicController.addField(fieldGraphic)
+        }
     }
 
 }
