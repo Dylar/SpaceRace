@@ -5,6 +5,7 @@ import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.SaveGame
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -15,7 +16,7 @@ import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
 import javax.inject.Inject
 
-class LoadGameCommand() : BaseCommand() {
+class LoadGameCommand(var saveGame: SaveGame? = null) : BaseCommand() {
 
     @Inject
     protected lateinit var loadGameUsecase: LoadGameUsecase
@@ -28,22 +29,26 @@ class LoadGameCommand() : BaseCommand() {
 
     init {
         MainGame.appComponent.inject(this)
+        saveGame = saveGame ?: run {
+            val map = game.initDefaultMap(SELECTED_MAP.createMap())
+            game.createNewSaveGame(SELECTED_PLAYER, map)
+        }
     }
 
     override fun canExecute(): Boolean {
-        return SELECTED_PLAYER.size > 1
+        return true
     }
 
     override fun execute() {
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
 
-        val map = game.initDefaultMap(SELECTED_MAP.createMap())
-        val config = LoadGameConfig(saveGame = game.createNewSaveGame(SELECTED_PLAYER, map))
+        val config = LoadGameConfig(saveGame = saveGame!!)
 
         loadGameUsecase.getResult(
                 params = config,
                 onSuccess = { info ->
                     graphicController.clearGraphics()
+                    
                     val fields = info.saveGame.fields
                     addGraphicFields(fields)
                     addGraphicConnections(fields)
