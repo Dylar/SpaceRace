@@ -43,19 +43,19 @@ class LoadGameCommand(var saveGame: SaveGame? = null) : BaseCommand() {
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
 
         val config = LoadGameConfig(saveGame = saveGame!!)
-
         loadGameUsecase.getResult(
                 params = config,
                 onSuccess = { info ->
                     graphicController.clearGraphics()
-                    
+
                     val fields = info.saveGame.fields
                     addGraphicFields(fields)
                     addGraphicConnections(fields)
                     addGraphicPlayers(info.saveGame.players)
 
                     graphicController.setGoal(currentGoal = info.saveGame.goal.target.gamePosition)
-                    game.startGameDELETE_ME()
+                    game.addEntities()
+                    game.initGameObserver()
                 })
     }
 

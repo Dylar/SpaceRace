@@ -3,12 +3,9 @@ package de.bitb.spacerace.ui.screens.start
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.start.OpenDebugGuiCommand
-import de.bitb.spacerace.ui.screens.start.control.MapSelectionControl
-import de.bitb.spacerace.ui.screens.start.control.PlayerSelectionControl
-import de.bitb.spacerace.ui.screens.start.control.StartButtonControl
-import de.bitb.spacerace.ui.screens.start.control.TestFieldSelectionControl
+import de.bitb.spacerace.events.commands.start.OpenLoadGameCommand
+import de.bitb.spacerace.ui.screens.start.control.*
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import javax.inject.Inject
 
@@ -19,10 +16,13 @@ class StartGuiStage(
     @Inject
     lateinit var observeCommandUsecase: ObserveCommandUsecase
 
-    private var startButtonControl = StartButtonControl(this)
-    private var playerSelection = PlayerSelectionControl(this)
-    private var mapSelection = MapSelectionControl(this)
-    private var testFieldSelectionControl = TestFieldSelectionControl(this)
+    private var startButtonControl = StartButtonGui(this)
+
+    private var playerSelection = PlayerSelectionGui(this)
+    private var loadGameSelection = PlayerSelectionGui(this)
+
+    private var mapSelection = MapSelectionGui(this)
+    private var fieldSelectionControl = TestFieldSelectionGui(this)
 
     init {
         MainGame.appComponent.inject(this)
@@ -31,29 +31,37 @@ class StartGuiStage(
         startButtonControl.setPosition(Dimensions.SCREEN_WIDTH / 2 - startButtonControl.width / 2, Dimensions.SCREEN_HEIGHT / 1.5f - startButtonControl.height / 2)
         playerSelection.setPosition(0f, Dimensions.SCREEN_HEIGHT / 2f - playerSelection.height / 2)
         mapSelection.setPosition(Dimensions.SCREEN_WIDTH - mapSelection.width, Dimensions.SCREEN_HEIGHT / 2f - mapSelection.height / 2)
-        testFieldSelectionControl.setPosition(Dimensions.SCREEN_WIDTH - testFieldSelectionControl.width, Dimensions.SCREEN_HEIGHT / 2f - testFieldSelectionControl.height / 2)
+        fieldSelectionControl.setPosition(Dimensions.SCREEN_WIDTH - fieldSelectionControl.width, Dimensions.SCREEN_HEIGHT / 2f - fieldSelectionControl.height / 2)
 
         addActor(startButtonControl)
         addActor(playerSelection)
-        addActor(testFieldSelectionControl)
+        addActor(fieldSelectionControl)
     }
 
     private fun initObserver() {
         observeCommandUsecase.observeStream { event ->
             when (event) {
+                is OpenLoadGameCommand -> {
+                    changeMenu(loadGameSelection, "PLAYER", playerSelection, "LOAD")
+                            .also { startButtonControl.updateLoadBtnText(it) }
+                }
                 is OpenDebugGuiCommand -> {
-                    if (mapSelection.stage == null) {
-                        addActor(mapSelection)
-                        testFieldSelectionControl.remove()
-                        startButtonControl.updateDebugBtnText("DEBUG")
-                    } else {
-                        addActor(testFieldSelectionControl)
-                        mapSelection.remove()
-                        startButtonControl.updateDebugBtnText("MAPS")
-                    }
+                    changeMenu(mapSelection, "FIELDS", fieldSelectionControl, "MAPS")
+                            .also { startButtonControl.updateDebugBtnText(it) }
                 }
             }
         }
+    }
+
+    private fun changeMenu(menu1: BaseGuiControl,
+                           menu1Text: String,
+                           menu2: BaseGuiControl,
+                           menu2Text: String): String {
+        val openMenu1 = menu1.stage == null
+        addActor(if (openMenu1) menu1 else menu2)
+        (if (openMenu1) menu2 else menu1).remove()
+        return if (openMenu1) menu2Text else menu1Text
+
     }
 
 }

@@ -19,7 +19,7 @@ import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class StartButtonControl(
+class StartButtonGui(
         guiStage: StartGuiStage
 ) : BaseGuiControl(guiStage) {
 
@@ -31,6 +31,7 @@ class StartButtonControl(
     private lateinit var languageBtn: TextButton
     private lateinit var diceLabel: Label
     private lateinit var debugBtn: TextButton
+    private lateinit var loadBtn: TextButton
 
     private val maxSpan = 7
 
@@ -43,6 +44,7 @@ class StartButtonControl(
         addDiceButtons()
         addLanguageButtons()
         addDebugButton()
+        addLoadButton()
         pack()
     }
 
@@ -138,7 +140,7 @@ class StartButtonControl(
     }
 
     private fun addDebugButton() {
-        debugBtn = createButton(name = "DEBUG", fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+        debugBtn = createButton(name = "MAPS", fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 EventBus.getDefault().post(OpenDebugGuiCommand())
                 return true
@@ -146,6 +148,19 @@ class StartButtonControl(
         })
 
         val cell = addCell(debugBtn)
+        setFont(cell.actor)
+        row()
+    }
+
+    private fun addLoadButton() {
+        loadBtn = createButton(name = "LOAD", fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                EventBus.getDefault().post(OpenLoadGameCommand())
+                return true
+            }
+        })
+
+        val cell = addCell(loadBtn)
         setFont(cell.actor)
     }
 
@@ -167,6 +182,10 @@ class StartButtonControl(
 
     fun updateDebugBtnText(text: String) {
         debugBtn.setText(text)
+    }
+
+    fun updateLoadBtnText(text: String) {
+        loadBtn.setText(text)
     }
 
     private fun updateWinLabelText() {

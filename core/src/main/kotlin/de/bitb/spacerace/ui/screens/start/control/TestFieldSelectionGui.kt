@@ -15,7 +15,7 @@ import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import org.greenrobot.eventbus.EventBus
 
 
-class TestFieldSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
+class TestFieldSelectionGui(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
     init {
 

@@ -144,17 +144,10 @@ open class MainGame : BaseGame() {
         (screen as? BaseScreen)?.clear()
     }
 
-    fun startGameDELETE_ME() {
-
-//        TODO do this as command in "start GameScreen"
-
+    fun addEntities() {
         val gameStage = (screen as BaseScreen).gameStage as GameStage
         gameStage.clear()
         gameStage.addEntitiesToMap()
-
-//        TODO observe somewhere
-
-        initGameObserver()
     }
 
     fun initGameObserver() {

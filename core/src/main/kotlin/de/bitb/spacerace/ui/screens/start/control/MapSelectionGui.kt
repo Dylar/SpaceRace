@@ -20,7 +20,7 @@ import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import org.greenrobot.eventbus.EventBus
 
 
-class MapSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
+class MapSelectionGui(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))

@@ -16,7 +16,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import org.greenrobot.eventbus.EventBus
 
-class PlayerSelectionControl(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
+class LoadGameGui(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))

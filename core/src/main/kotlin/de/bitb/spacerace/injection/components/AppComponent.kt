@@ -26,7 +26,7 @@ import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.game.control.GameControl
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
-import de.bitb.spacerace.ui.screens.start.control.StartButtonControl
+import de.bitb.spacerace.ui.screens.start.control.StartButtonGui
 import javax.inject.Singleton
 
 @Singleton
@@ -59,7 +59,7 @@ interface AppComponent {
     fun inject(gameControl: GameControl)
     fun inject(shopDetails: ShopDetails)
 
-    fun inject(startButtonControl: StartButtonControl)
+    fun inject(startButtonGui: StartButtonGui)
 
     //GAME
     fun inject(gameScreen: GameScreen)
