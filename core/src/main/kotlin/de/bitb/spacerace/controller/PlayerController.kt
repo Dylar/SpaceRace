@@ -19,10 +19,11 @@ class PlayerController
     private var dispo: Disposable? = null
 
     val players: MutableList<PlayerColor> = ArrayList()
+    var currentPlayerIndex = 0
 
     var currentPlayerData = NONE_PLAYER_DATA
     val currentColor: PlayerColor
-        get() = players.firstOrNull() ?: PlayerColor.NONE
+        get() = players[currentPlayerIndex] ?: PlayerColor.NONE
 
     fun initObserver() {
         dispo?.dispose()
@@ -32,13 +33,12 @@ class PlayerController
                 })
     }
 
+    fun getPlayerIndex(playerColor: PlayerColor = currentColor) = players.indexOf(playerColor)
+
     fun changePlayer() {
-        val oldPlayer = currentColor
-        players.removeAt(0)
-        players.add(oldPlayer)
+        currentPlayerIndex = (getPlayerIndex() + 1) % players.size
         Logger.println("newPlayer: $currentColor")
         playerColorDispenser.publishUpdate(currentColor)
-
     }
 
     fun addPlayer(playerColor: PlayerColor) {

@@ -51,7 +51,7 @@ class LoadGameUsecase @Inject constructor(
                 map.goal.target = map.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another? TESTS?
                         ?: NONE_FIELD_DATA
                 LoadGameResult(
-                        currentColor = map.players.first().playerColor,
+                        currentColor = map.currentColor,
                         saveGame = map)
 
             }

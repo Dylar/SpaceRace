@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
-import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDITS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_MODS
@@ -73,7 +72,7 @@ class PlayerStatsGui(
 
         pack()
 
-        x = (SCREEN_WIDTH - width)
+        x = 0f //(SCREEN_WIDTH - width) + (SCREEN_WIDTH - width)/2
         y = (SCREEN_HEIGHT - height)
     }
 
@@ -94,6 +93,7 @@ class PlayerStatsGui(
     }
 
     private fun updateRound(playerColor: PlayerColor) {
+        setFont(playerAmountLabel, fontColor = playerColor.color)
         setFont(diceLabel, fontColor = playerColor.color)
         setFont(diceModLabel, fontColor = playerColor.color)
         setFont(phaseLabel, fontColor = playerColor.color)
@@ -130,7 +130,7 @@ class PlayerStatsGui(
     }
 
     private fun updatePlayerAmount(playerData: PlayerData) {
-        val currentIndex = playerController.players.indexOf(playerData.playerColor) + 1
+        val currentIndex = playerController.getPlayerIndex(playerData.playerColor) + 1
         val maxPlayer = playerController.players.size
         playerAmountLabel.setText("$currentIndex/$maxPlayer")
     }

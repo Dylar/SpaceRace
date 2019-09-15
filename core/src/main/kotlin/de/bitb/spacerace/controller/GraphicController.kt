@@ -9,14 +9,13 @@ import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.model.player.NONE_PLAYER
-import de.bitb.spacerace.model.player.PlayerGraphics
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.player.PlayerGraphics
 import de.bitb.spacerace.model.player.PlayerItems
-import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.model.space.fields.FieldGraphic
+import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.usecase.game.action.MoveResult
-import de.bitb.spacerace.utils.Logger
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -100,19 +99,23 @@ class GraphicController
     }
 
     fun changePlayer() {
-        val oldPlayer = playerGraphics[0]
-        var indexOld = oldPlayer.getGameImage().zIndex
-        playerGraphics.removeAt(0)
-        playerGraphics.add(oldPlayer)
+        var graphicPlainIndex = playerGraphics
+                .map { it.getGameImage().zIndex }
+                .sorted()
+                .let { it.last() }
 
-        playerGraphics
-                .map { it.getGameImage() }
-                .reversed()
-                .forEach { it.zIndex = indexOld++ }
+        val playerIndex = playerController.currentPlayerIndex
+        for (i in playerIndex until playerGraphics.size) {
+            playerGraphics[i].getGameImage().zIndex = graphicPlainIndex--
+        }
 
-        Logger.println("oldPlayer: ${oldPlayer.playerColor}")
-        //TODO items in db
-        oldPlayer.playerItems.removeUsedItems()
+        for (i in 0 until playerIndex) {
+            playerGraphics[i].getGameImage().zIndex = graphicPlainIndex--
+        }
+
+//        Logger.println("oldPlayer: ${oldPlayer.playerColor}")
+//        //TODO items in db
+//        oldPlayer.playerItems.removeUsedItems()
     }
 
     fun setGoal(oldGoal: PositionData = NONE_POSITION, currentGoal: PositionData = NONE_POSITION) {

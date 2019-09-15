@@ -13,7 +13,6 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAIL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_MINES
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_VICTORIES
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
@@ -36,7 +35,7 @@ class RoundEndDetails(
     init {
         MainGame.appComponent.inject(this)
         playerData = playerDataSource.getDBByColor(playerColor).first()
-                addTitle()
+        addTitle()
         addImage()
         addText()
         addButtons()

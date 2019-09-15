@@ -44,45 +44,6 @@ class GameStage(
                 .forEach { addActor(it) }
     }
 
-    override fun addActor(actor: Actor?) {
-        super.addActor(actor)
-        if (actor !is PlayerImage) {
-            rearrangePlayer(actor!!) //TODO <-- still? <-- YES!
-        }
-    }
-
-    private fun rearrangePlayer(actor: Actor) {
-        if (graphicController.playerGraphics.isEmpty() || graphicController.currentPlayerGraphic.getGameImage().zIndex == -1) {
-            return
-        }
-
-        var index = actor.zIndex
-        graphicController.playerGraphics
-                .map { it.getGameImage() }
-                .reversed()
-                .forEach {
-                    index++
-                    it.zIndex = index
-                }
-//        val actorIndex = actor.zIndex + 10
-////        Logger.println("ACTOR INDEX: $actorIndex")
-//
-//        val indices: MutableList<Int> = ArrayList()
-//        graphicController.playerGraphics.forEach {
-//            indices.add(it.getGameImage().zIndex)
-////            Logger.println("PLAYER INDEX PRE ${it.playerData.playerData.name}: ${it.getGameImage().zIndex}")
-//        }
-//        indices.reverse()
-//
-//        actor.zIndex = indices.last()
-//        indices.removeAt(indices.lastIndex)
-//        indices.add(actorIndex)
-//        for (value in indices.withIndex()) {
-//            val player = graphicController.playerGraphics[value.index]
-//            player.getGameImage().zIndex = value.value + 1
-//        }
-    }
-
     private fun addTestActor() {
         val target1 = Rectangle()
         val target2 = Rectangle(SCREEN_HEIGHT_HALF, SCREEN_HEIGHT_HALF, 10f, 10f)

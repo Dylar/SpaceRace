@@ -6,7 +6,7 @@ import de.bitb.spacerace.usecase.ResultUseCaseNoParams
 import io.reactivex.Single
 import javax.inject.Inject
 
-class GetMapUsecase @Inject constructor(
+class GetSaveGameUsecase @Inject constructor(
         private val mapDataSource: MapDataSource
 ) : ResultUseCaseNoParams<SaveGame> {
 

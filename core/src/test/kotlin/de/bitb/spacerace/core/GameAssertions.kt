@@ -8,7 +8,6 @@ import de.bitb.spacerace.env.SpaceEnvironment
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers.*
@@ -25,7 +24,7 @@ fun SpaceEnvironment.assertDBField(gamePosition: PositionData, assertField: (Fie
 }
 
 fun SpaceEnvironment.assertDBMap(assertField: (SaveGame) -> Boolean) {
-    getMapUsecase.buildUseCaseSingle()
+    getSaveGameUsecase.buildUseCaseSingle()
             .assertValue(assertField)
 }
 

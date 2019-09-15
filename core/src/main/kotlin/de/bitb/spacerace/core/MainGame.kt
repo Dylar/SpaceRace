@@ -26,7 +26,6 @@ import de.bitb.spacerace.ui.screens.start.StartScreen
 import de.bitb.spacerace.usecase.game.observe.ObserveRoundUsecase
 import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
-import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import de.bitb.spacerace.utils.Logger
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -215,5 +214,6 @@ open class MainGame : BaseGame() {
                         saveGame.players.add(it)
                     }
                 }
+                saveGame.currentColor = players.first()
             }
 }

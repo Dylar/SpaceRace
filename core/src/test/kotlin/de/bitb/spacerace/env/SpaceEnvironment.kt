@@ -9,12 +9,11 @@ import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.usecase.game.action.*
 import de.bitb.spacerace.usecase.game.getter.GetFieldUsecase
-import de.bitb.spacerace.usecase.game.getter.GetMapUsecase
+import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
@@ -48,7 +47,7 @@ class SpaceEnvironment {
     @Inject
     lateinit var getFieldUsecase: GetFieldUsecase
     @Inject
-    lateinit var getMapUsecase: GetMapUsecase
+    lateinit var getSaveGameUsecase: GetSaveGameUsecase
     @Inject
     lateinit var getTargetableFieldUsecase: GetTargetableFieldUsecase
 
