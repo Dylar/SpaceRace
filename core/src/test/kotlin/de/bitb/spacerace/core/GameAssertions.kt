@@ -1,6 +1,6 @@
 package de.bitb.spacerace.core
 
-import de.bitb.spacerace.database.SaveGame
+import de.bitb.spacerace.database.savegame.SaveGame
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData

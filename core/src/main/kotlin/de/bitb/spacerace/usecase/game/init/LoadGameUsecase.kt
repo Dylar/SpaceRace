@@ -2,7 +2,7 @@ package de.bitb.spacerace.usecase.game.init
 
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
-import de.bitb.spacerace.database.SaveGame
+import de.bitb.spacerace.database.savegame.SaveGame
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData

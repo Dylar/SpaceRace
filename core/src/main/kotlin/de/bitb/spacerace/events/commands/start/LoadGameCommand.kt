@@ -5,7 +5,7 @@ import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.SaveGame
+import de.bitb.spacerace.database.savegame.SaveGame
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand

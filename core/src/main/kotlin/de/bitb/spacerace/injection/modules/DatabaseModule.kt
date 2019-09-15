@@ -3,12 +3,14 @@ package de.bitb.spacerace.injection.modules
 import dagger.Module
 import dagger.Provides
 import de.bitb.spacerace.database.map.FieldData
-import de.bitb.spacerace.database.SaveGame
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.MapRespository
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.player.PlayerRespository
+import de.bitb.spacerace.database.savegame.SaveDataSource
+import de.bitb.spacerace.database.savegame.SaveGame
+import de.bitb.spacerace.database.savegame.SaveRespository
 import de.bitb.spacerace.model.MyObjectBox
 import io.objectbox.Box
 import io.objectbox.BoxStore
@@ -71,8 +73,14 @@ class DatabaseModule(
 
     @Provides
     @Singleton
-    fun provideMapDataSource(fieldBox: Box<FieldData>, mapBox: Box<SaveGame>): MapDataSource {
-        return MapRespository(fieldBox, mapBox)
+    fun provideMapDataSource(fieldBox: Box<FieldData>): MapDataSource {
+        return MapRespository(fieldBox)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSaveDataSource(mapBox: Box<SaveGame>): SaveDataSource {
+        return SaveRespository(mapBox)
     }
 
     @Provides

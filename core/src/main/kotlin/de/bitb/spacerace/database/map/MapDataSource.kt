@@ -1,6 +1,5 @@
 package de.bitb.spacerace.database.map
 
-import de.bitb.spacerace.database.SaveGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -11,15 +10,9 @@ import io.reactivex.Single
 
 interface MapDataSource {
 
-    fun insertSaveGame(mapData: SaveGame): Completable
-
     fun insertAll(vararg field: FieldData): Single<List<FieldData>>
 
     fun deleteField(vararg field: FieldData): Completable
-
-    fun deleteSaveGame(saveGame: SaveGame): Completable
-
-    fun getSaveGame(): Single<SaveGame>
 
     fun getAllFields(vararg field: FieldData): Single<List<FieldData>>
 

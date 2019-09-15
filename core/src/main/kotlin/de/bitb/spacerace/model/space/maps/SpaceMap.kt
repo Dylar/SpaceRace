@@ -7,7 +7,7 @@ import de.bitb.spacerace.model.space.groups.SpaceGroup
 
 abstract class SpaceMap {
 
-    //TODO save maps in db - only graphics make nu meqefnsjkdanbvsbmas
+    //TODO delete me after editor done
 
     var startField: FieldGraphic = NONE_SPACE_FIELD
 

@@ -1,5 +1,6 @@
-package de.bitb.spacerace.database
+package de.bitb.spacerace.database.savegame
 
+import de.bitb.spacerace.database.SaveGame_
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData

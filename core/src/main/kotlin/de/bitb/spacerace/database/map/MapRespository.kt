@@ -1,7 +1,5 @@
 package de.bitb.spacerace.database.map
 
-import de.bitb.spacerace.database.SaveGame
-import de.bitb.spacerace.database.SaveGame_
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -13,22 +11,13 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 class MapRespository(
-        private val fieldBox: Box<FieldData>,
-//        private val posBox: Box<PositionData>
-        private val mapBox: Box<SaveGame>
+        private val fieldBox: Box<FieldData>
 ) : MapDataSource {
-
-    override fun insertSaveGame(mapData: SaveGame): Completable =
-            Completable.fromAction {
-                mapBox.put(mapData)
-            }
 
     override fun insertAll(vararg field: FieldData): Single<List<FieldData>> =
             Completable
                     .fromCallable { fieldBox.put(*field) }
                     .andThen(getAllFields(*field))
-
-    override fun getSaveGame(): Single<SaveGame> = Single.fromCallable { mapBox.all.first() }
 
     override fun getAllFields(vararg field: FieldData): Single<List<FieldData>> =
             RxQuery.single(fieldBox.query().apply {
@@ -46,12 +35,6 @@ class MapRespository(
                         .equal(FieldData_.fieldType, type.name)
                         .build()
                         .findLazy()
-            }
-
-    override fun deleteSaveGame(saveGame: SaveGame): Completable =
-            Completable.fromAction {
-                mapBox.query().equal(SaveGame_.name, saveGame.name).build().remove()
-                fieldBox.removeAll()
             }
 
     override fun deleteField(vararg field: FieldData): Completable =

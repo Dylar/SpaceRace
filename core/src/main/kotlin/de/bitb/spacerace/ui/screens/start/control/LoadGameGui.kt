@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.SaveGame
+import de.bitb.spacerace.database.savegame.SaveGame
 import de.bitb.spacerace.events.commands.start.LoadGameCommand
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
