@@ -10,10 +10,10 @@ import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.SaveGame
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
-import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.events.GameOverEvent
+import de.bitb.spacerace.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.events.commands.gameover.GameOverCommand
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
@@ -48,9 +48,6 @@ open class MainGame : BaseGame() {
     @Inject
     lateinit var observeRoundUsecase: ObserveRoundUsecase
     @Inject
-    lateinit var observeCommandUsecase: ObserveCommandUsecase
-    //TODO dafuq? 2 command usecases
-    @Inject
     protected lateinit var commandUsecase: CommandUsecase
     @Inject
     lateinit var playerController: PlayerController
@@ -69,7 +66,6 @@ open class MainGame : BaseGame() {
         appComponent.inject(this)
 
         initObserver()
-//        testFields()
     }
 
     private fun initObserver() {
@@ -86,6 +82,12 @@ open class MainGame : BaseGame() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun receiveCommand(event: BaseCommand) {
         commandUsecase.commandDispender.publishUpdate(event)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun gameOverEvent(event: GameOverEvent) {
+        clear()
+        changeScreen(GameOverScreen(this))
     }
 
 //
@@ -153,18 +155,6 @@ open class MainGame : BaseGame() {
     fun initGameObserver() {
         initWinnerObserver()
         initPhaseObserver()
-        initGameOverObserver()
-    }
-
-    private fun initGameOverObserver() {
-        observeCommandUsecase.observeStream { event ->
-            when (event) {
-                is GameOverCommand -> {
-                    clear()
-                    changeScreen(GameOverScreen(this))
-                }
-            }
-        }
     }
 
     fun initWinnerObserver() {
@@ -172,12 +162,14 @@ open class MainGame : BaseGame() {
                 params = WIN_AMOUNT,
                 onNext = { winner ->
                     Logger.println("AND THE WINNER IIIIISSS: $winner")
-                    EventBus.getDefault().post(GameOverCommand(winner.playerColor))
+                    EventBus.getDefault().post(GameOverEvent(winner.playerColor))
                 })
     }
 
     fun initPhaseObserver() {
-        compositeDisposable += observeRoundUsecase.observeStream()
+        compositeDisposable += observeRoundUsecase.observeStream { roundEnd ->
+            if (roundEnd) EventBus.getDefault().post(OpenEndRoundMenuEvent())
+        }
     }
 
 

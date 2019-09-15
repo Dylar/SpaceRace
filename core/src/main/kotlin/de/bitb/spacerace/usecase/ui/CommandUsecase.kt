@@ -18,18 +18,18 @@ class CommandUsecase @Inject constructor(
 
     override fun buildUseCaseObservable(): Observable<BaseCommand> {
         return commandDispender.publisher
-                .switchMap(::updatePlayerData)
+//                .switchMap(::updatePlayerData)
                 .switchMap(::handleCommand)
     }
-
-    private fun updatePlayerData(command: BaseCommand) =
-            if (command.DONT_USE_THIS_PLAYER_DATA != NONE_PLAYER_DATA) {
-                playerDataSource
-                        .getByColor(command.DONT_USE_THIS_PLAYER_DATA.playerColor)
-                        .map { command.apply { DONT_USE_THIS_PLAYER_DATA = it.first() } }
-            } else {
-                Single.just(command)
-            }.toObservable()
+//
+//    private fun updatePlayerData(command: BaseCommand) =
+//            if (command.DONT_USE_THIS_PLAYER_DATA != NONE_PLAYER_DATA) {
+//                playerDataSource
+//                        .getByColor(command.DONT_USE_THIS_PLAYER_DATA.playerColor)
+//                        .map { command.apply { DONT_USE_THIS_PLAYER_DATA = it.first() } }
+//            } else {
+//                Single.just(command)
+//            }.toObservable()
 
     private fun handleCommand(command: BaseCommand) =
             Completable.fromCallable {

@@ -12,6 +12,6 @@ class GetMapUsecase @Inject constructor(
 
     override fun buildUseCaseSingle(): Single<SaveGame> {
         return mapDataSource
-                .getMap()
+                .getSaveGame()
     }
 }

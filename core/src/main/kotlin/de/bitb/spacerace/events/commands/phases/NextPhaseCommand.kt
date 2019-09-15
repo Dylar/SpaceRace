@@ -3,9 +3,11 @@ package de.bitb.spacerace.events.commands.phases
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.events.ObtainShopEvent
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.usecase.game.action.*
+import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
@@ -37,6 +39,7 @@ class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
         }
 
         when (nextPhaseResult) {
+            is ObtainShopResult -> EventBus.getDefault().post(ObtainShopEvent(nextPhaseResult.player.playerColor))
             is ObtainMineResult -> graphicController.setMineOwner(player)
             is ObtainGoalResult -> graphicController.setGoal(position, nextPhaseResult.newGoal.gamePosition)
             is ObtainTunnelResult -> graphicController.teleportPlayer(player.playerColor, player.gamePosition)

@@ -3,10 +3,8 @@ package de.bitb.spacerace.usecase.game.observe
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.events.commands.phases.OpenEndRoundMenuCommand
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
 import io.reactivex.Observable
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class ObserveRoundUsecase
@@ -41,7 +39,5 @@ class ObserveRoundUsecase
             else playerDataSource
                     .insertAllReturnAll(*player.toTypedArray())
                     .map { player.isNotEmpty() }
-                    .doOnSuccess { roundEnd ->
-                        if (roundEnd) EventBus.getDefault().post(OpenEndRoundMenuCommand())
-                    }.toObservable()
+                    .toObservable()
 }

@@ -13,6 +13,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Completable
 import io.reactivex.Single
+import java.util.*
 import javax.inject.Inject
 
 class LoadGameUsecase @Inject constructor(
@@ -25,11 +26,13 @@ class LoadGameUsecase @Inject constructor(
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameResult> =
             params.let { (map) ->
                 checkPlayerSize(map.players)
-                        .andThen(mapDataSource.deleteMap())
-                        .andThen(playerDataSource.deleteAll()) //TODO put player nt on map (except savegamesa bla bla) player color on multiple palyers ... change that
+//                        .andThen(mapDataSource.deleteSaveGame(map))
+//                        .andThen(playerDataSource.deleteAll()) //TODO put player nt on map (except savegamesa bla bla) player color on multiple palyers ... change that
                         .andThen(initMap(map))
                         .flatMap {
-                            mapDataSource.insertMap(it.saveGame)
+                            it.saveGame.name = Calendar.getInstance().time.toString()
+
+                            mapDataSource.insertSaveGame(it.saveGame)
                                     .andThen(Single.just(it))
                         }
                         .doAfterSuccess { pushCurrentPlayer(it.currentColor) }
@@ -43,10 +46,9 @@ class LoadGameUsecase @Inject constructor(
 
     private fun initMap(map: SaveGame): Single<LoadGameResult> =
             Single.fromCallable {
-//                map.fields.forEach { fieldController.addField(it) }
                 map.players.map { it.playerColor }.forEach { playerController.addPlayer(it) }
 
-                map.goal.target = map.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another?
+                map.goal.target = map.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another? TESTS?
                         ?: NONE_FIELD_DATA
                 LoadGameResult(
                         currentColor = map.players.first().playerColor,

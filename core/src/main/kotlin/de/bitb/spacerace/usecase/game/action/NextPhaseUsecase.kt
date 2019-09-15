@@ -8,7 +8,6 @@ import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
 import de.bitb.spacerace.exceptions.DiceFirstException
 import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.FieldType
@@ -25,7 +24,6 @@ import de.bitb.spacerace.utils.Logger
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
-import org.greenrobot.eventbus.EventBus.getDefault
 import javax.inject.Inject
 
 class NextPhaseUsecase @Inject constructor(
@@ -110,7 +108,10 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun endTurn(playerData: PlayerData): Single<NextPhaseResult> =
             Single.fromCallable {
-                NextPhaseResult(playerData.also { playerController.changePlayer() })
+                NextPhaseResult(playerData.also {
+                    playerController.changePlayer()
+                    playerController.currentColor
+                })
             }
 
     //TODO clean me
@@ -138,7 +139,6 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun obtainShop(playerData: PlayerData): Single<out ObtainShopResult> =
             Single.fromCallable {
-                getDefault().post(ObtainShopCommand(playerData)) //TODO open shop onSuccess
                 ObtainShopResult(playerData)
             }
 
@@ -153,7 +153,7 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainGoal(playerData: PlayerData): Single<out ObtainGoalResult> =
-            mapDataSource.getMap()
+            mapDataSource.getSaveGame()
                     .map { map -> map to map.fields.filter { field -> field.fieldType == FieldType.GOAL } }
                     .flatMap { (map, goals) ->
                         var goal = map.goal.target
@@ -171,7 +171,7 @@ class NextPhaseUsecase @Inject constructor(
                                     Logger.println("newGoal: $goal")
 
                                     map.goal.target = goal
-                                    mapDataSource.insertMap(map)
+                                    mapDataSource.insertSaveGame(map)
                                 } else Completable.complete()
                         checkGoalPosition.andThen(Single.just(ObtainGoalResult(playerData, goal)))
                     }

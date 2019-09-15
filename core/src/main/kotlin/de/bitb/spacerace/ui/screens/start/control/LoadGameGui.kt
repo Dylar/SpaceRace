@@ -5,62 +5,56 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.config.SELECTED_PLAYER
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
+import de.bitb.spacerace.config.dimensions.Dimensions
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.SaveGame
+import de.bitb.spacerace.events.commands.start.LoadGameCommand
 import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.events.commands.start.SelectPlayerCommand
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
+import io.objectbox.Box
 import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
-class LoadGameGui(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
+class LoadGameGui(
+        guiStage: StartGuiStage
+) : BaseGuiControl(guiStage) {
+
+    @Inject
+    protected lateinit var saveGameBox: Box<SaveGame>
+
+    private val maxSpan = 7
 
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
-        initPlayers()
+        MainGame.appComponent.inject(this)
+
+        saveGameBox.all.forEach {
+            addStartButton(it)
+        }
 
         pack()
     }
 
-    private fun initPlayers() {
-        PlayerColor.values()
-                .forEach { playerColor ->
-                    if (playerColor != PlayerColor.NONE) {
-                        val checkBox = addCheckbox(playerColor)
-                        checkBox.isChecked = SELECTED_PLAYER.contains(playerColor)
-                    }
-                }
-    }
-
-    private fun addCheckbox(color: PlayerColor): CheckBox {
-        val checkBox = createCheckbox(name = color.name,
-                fontSize = GAME_SIZE_FONT_SMALL,
-                fontColor = color.color,
-                listener = object : InputListener() {
-                    override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                        EventBus.getDefault().post(SelectPlayerCommand(color))
-                        return true
-                    }
-                })
-
-        addCell(checkBox)
-        val box = checkBox.cells.get(0)
-        addPaddingRight(box)
-
+    private fun addStartButton(saveGame: SaveGame) {
+        val startBtn = createButton(name = saveGame.name, listener = object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                EventBus.getDefault().post(LoadGameCommand(saveGame))
+                return true
+            }
+        })
+        val cell = addCell(startBtn)
+        setFont(cell.actor)
         row()
-        return checkBox
     }
 
-    private fun <T : Actor> addCell(actor: T): Cell<T> {
+    private fun <T : Actor> addCell(actor: T, colspan: Int = maxSpan): Cell<T> {
         val cell = super.add(actor)
-        addPaddingTopBottom(cell, GAME_LABEL_PADDING / 5)
+        addPaddingTopBottom(cell, Dimensions.GameGuiDimensions.GAME_LABEL_PADDING / 4)
         addPaddingLeftRight(cell)
         cell.fill()
+        cell.colspan(colspan)
         return cell
     }
-
 }

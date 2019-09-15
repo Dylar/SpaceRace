@@ -38,11 +38,15 @@ class PlayerController
         players.add(oldPlayer)
         Logger.println("newPlayer: $currentColor")
         playerColorDispenser.publishUpdate(currentColor)
+
     }
 
     fun addPlayer(playerColor: PlayerColor) {
         players.add(playerColor)
     }
 
-    fun clear() = dispo?.dispose()
+    fun clear() {
+        dispo?.dispose()
+        players.clear()
+    }
 }

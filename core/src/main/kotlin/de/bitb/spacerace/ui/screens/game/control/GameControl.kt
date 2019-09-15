@@ -14,21 +14,19 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORAGE
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.commands.obtain.ObtainShopCommand
+import de.bitb.spacerace.events.ObtainShopEvent
+import de.bitb.spacerace.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
-import de.bitb.spacerace.events.commands.phases.OpenEndRoundMenuCommand
-import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.DiceCommand
-import de.bitb.spacerace.events.commands.player.SellItemCommand
-import de.bitb.spacerace.events.commands.player.UseItemCommand
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
 import de.bitb.spacerace.ui.player.shop.ShopMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
-import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 class GameControl(
@@ -41,12 +39,10 @@ class GameControl(
 
     @Inject
     protected lateinit var playerController: PlayerController
-    @Inject
-    protected lateinit var observeCommandUsecase: ObserveCommandUsecase
 
     init {
         MainGame.appComponent.inject(this)
-        initObserver()
+        EventBus.getDefault().register(this) //TODO unregister?
 
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
@@ -82,15 +78,14 @@ class GameControl(
         setPosition()
     }
 
-    private fun initObserver() {
-        observeCommandUsecase.observeStream { event ->
-            when (event) {
-                is OpenEndRoundMenuCommand -> openEndRoundMenu()
-                is ObtainShopCommand -> openShop()
-//                is UseItemCommand -> itemMenu.update(event)
-//                is BuyItemCommand, is SellItemCommand -> shopMenu.update(event)
-            }
-        }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun openEndRoundMenuEvent(event: OpenEndRoundMenuEvent){
+        openEndRoundMenu()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun openShopEvent(event:ObtainShopEvent){
+        openShop()
     }
 
     private fun setPosition() {

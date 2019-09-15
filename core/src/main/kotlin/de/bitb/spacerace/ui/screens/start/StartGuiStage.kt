@@ -2,31 +2,27 @@ package de.bitb.spacerace.ui.screens.start
 
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.commands.start.OpenDebugGuiCommand
-import de.bitb.spacerace.events.commands.start.OpenLoadGameCommand
+import de.bitb.spacerace.events.OpenDebugGuiEvent
+import de.bitb.spacerace.events.OpenLoadGameEvent
 import de.bitb.spacerace.ui.screens.start.control.*
-import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
-import javax.inject.Inject
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class StartGuiStage(
         screen: StartScreen
 ) : BaseGuiStage(screen) {
 
-    @Inject
-    lateinit var observeCommandUsecase: ObserveCommandUsecase
-
     private var startButtonControl = StartButtonGui(this)
 
     private var playerSelection = PlayerSelectionGui(this)
-    private var loadGameSelection = PlayerSelectionGui(this)
+    private var loadGameSelection = LoadGameGui(this)
 
     private var mapSelection = MapSelectionGui(this)
     private var fieldSelectionControl = TestFieldSelectionGui(this)
 
     init {
-        MainGame.appComponent.inject(this)
-        initObserver()
+        EventBus.getDefault().register(this)
 
         startButtonControl.setPosition(Dimensions.SCREEN_WIDTH / 2 - startButtonControl.width / 2, Dimensions.SCREEN_HEIGHT / 1.5f - startButtonControl.height / 2)
         playerSelection.setPosition(0f, Dimensions.SCREEN_HEIGHT / 2f - playerSelection.height / 2)
@@ -38,19 +34,16 @@ class StartGuiStage(
         addActor(fieldSelectionControl)
     }
 
-    private fun initObserver() {
-        observeCommandUsecase.observeStream { event ->
-            when (event) {
-                is OpenLoadGameCommand -> {
-                    changeMenu(loadGameSelection, "PLAYER", playerSelection, "LOAD")
-                            .also { startButtonControl.updateLoadBtnText(it) }
-                }
-                is OpenDebugGuiCommand -> {
-                    changeMenu(mapSelection, "FIELDS", fieldSelectionControl, "MAPS")
-                            .also { startButtonControl.updateDebugBtnText(it) }
-                }
-            }
-        }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun openLoadGameEvent(event: OpenLoadGameEvent){
+        changeMenu(loadGameSelection, "PLAYER", playerSelection, "LOAD")
+                .also { startButtonControl.updateLoadBtnText(it) }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun openDebugGuiEvent(event: OpenDebugGuiEvent){
+        changeMenu(mapSelection, "FIELDS", fieldSelectionControl, "MAPS")
+                .also { startButtonControl.updateDebugBtnText(it) }
     }
 
     private fun changeMenu(menu1: BaseGuiControl,

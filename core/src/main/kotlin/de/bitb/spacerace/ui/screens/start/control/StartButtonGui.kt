@@ -13,6 +13,8 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LAB
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LANGUAGE
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_START
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.events.OpenDebugGuiEvent
+import de.bitb.spacerace.events.OpenLoadGameEvent
 import de.bitb.spacerace.events.commands.start.*
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
@@ -142,7 +144,7 @@ class StartButtonGui(
     private fun addDebugButton() {
         debugBtn = createButton(name = "MAPS", fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(OpenDebugGuiCommand())
+                EventBus.getDefault().post(OpenDebugGuiEvent())
                 return true
             }
         })
@@ -155,7 +157,7 @@ class StartButtonGui(
     private fun addLoadButton() {
         loadBtn = createButton(name = "LOAD", fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(OpenLoadGameCommand())
+                EventBus.getDefault().post(OpenLoadGameEvent())
                 return true
             }
         })
