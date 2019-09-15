@@ -13,19 +13,19 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CREDI
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_MODS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_LABEL_PLAYER_AMOUNT
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.ui.base.GuiComponent
 import javax.inject.Inject
 
-class PlayerStats(
+class PlayerStatsGui(
         private val guiStage: BaseGuiStage
 ) : Table(TextureCollection.skin),
         GuiComponent by guiStage {
@@ -36,6 +36,7 @@ class PlayerStats(
     @Inject
     protected lateinit var graphicController: GraphicController
 
+    private var playerAmountLabel: Label
     private var creditsLabel: Label
 
     private var diceLabel: Label
@@ -47,12 +48,16 @@ class PlayerStats(
 
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
+        setFont(add(GAME_LABEL_PLAYER_AMOUNT).actor)
         setFont(add(GAME_BUTTON_MODS).actor)
         setFont(add(GAME_BUTTON_DICE).actor)
         setFont(add(GAME_BUTTON_PHASE).actor)
         setFont(add(GAME_BUTTON_CREDITS).actor)
 
         row()
+
+        playerAmountLabel = add("0/10").actor
+        setFont(playerAmountLabel)
 
         diceModLabel = add("0.0 / 0").actor
         setFont(diceModLabel)
@@ -115,12 +120,19 @@ class PlayerStats(
     fun update(playerData: PlayerData) {
         val items = graphicController.getPlayerItems(playerData.playerColor)
 
+        updatePlayerAmount(playerData)
         updateCredits(playerData)
         updateRound(playerData.playerColor)
         updateDice(playerData)
         updateDiceMod(items)
         updatePhase(playerData.phase)
         pack()
+    }
+
+    private fun updatePlayerAmount(playerData: PlayerData) {
+        val currentIndex = playerController.players.indexOf(playerData.playerColor) + 1
+        val maxPlayer = playerController.players.size
+        playerAmountLabel.setText("$currentIndex/$maxPlayer")
     }
 
     fun changePlayerColor(playerData: PlayerData) {

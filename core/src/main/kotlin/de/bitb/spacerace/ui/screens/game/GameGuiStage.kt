@@ -2,10 +2,10 @@ package de.bitb.spacerace.ui.screens.game
 
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.ui.player.PlayerStats
-import de.bitb.spacerace.ui.screens.game.control.DebugControl
-import de.bitb.spacerace.ui.screens.game.control.GameControl
-import de.bitb.spacerace.ui.screens.game.control.ViewControl
+import de.bitb.spacerace.ui.player.PlayerStatsGui
+import de.bitb.spacerace.ui.screens.game.control.DebugGui
+import de.bitb.spacerace.ui.screens.game.control.GameActionGui
+import de.bitb.spacerace.ui.screens.game.control.ViewControlGui
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -19,20 +19,20 @@ class GameGuiStage(
 
     private var dispo: Disposable? = null
 
-    private var playerStats: PlayerStats = PlayerStats(this)
-    private var viewControl: ViewControl = ViewControl(screen)
-    private var gameControl: GameControl = GameControl(this)
-    private var debugControl: DebugControl = DebugControl(screen)
+    private var playerStatsGui: PlayerStatsGui = PlayerStatsGui(this)
+    private var viewControlGui: ViewControlGui = ViewControlGui(screen)
+    private var gameActionGui: GameActionGui = GameActionGui(this)
+    private var debugGui: DebugGui = DebugGui(screen)
 
     init {
         MainGame.appComponent.inject(this)
         listenToUpdate()
 
-        addActor(playerStats)
-        addActor(viewControl)
-        addActor(gameControl)
-        addActor(debugControl)
-        debugControl.x = viewControl.width
+        addActor(playerStatsGui)
+        addActor(viewControlGui)
+        addActor(gameActionGui)
+        addActor(debugGui)
+        debugGui.x = viewControlGui.width
     }
 
     private fun listenToUpdate() {
@@ -40,7 +40,7 @@ class GameGuiStage(
         dispo = observeCurrentPlayerUseCase.observeStream(
                 onNext = {
                     //                    Logger.println("observeCurrentPlayerUseCase NEXT:\n$it")
-                    playerStats.update(it)
+                    playerStatsGui.update(it)
                 })
     }
 

@@ -12,7 +12,7 @@ import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.game.GameScreen
 
-class DebugControl(val screen : GameScreen) : Table(TextureCollection.skin), GuiComponent by object : GuiComponent {} {
+class DebugGui(val screen : GameScreen) : Table(TextureCollection.skin), GuiComponent by object : GuiComponent {} {
 
     private var label: Label
 

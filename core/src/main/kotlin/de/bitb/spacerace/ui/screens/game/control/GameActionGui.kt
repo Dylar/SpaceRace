@@ -29,7 +29,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
-class GameControl(
+class GameActionGui(
         val guiStage: GameGuiStage
 ) : Table(TextureCollection.skin),
         GuiComponent by guiStage {

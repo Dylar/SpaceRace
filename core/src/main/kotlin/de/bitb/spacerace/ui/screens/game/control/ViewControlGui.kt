@@ -17,7 +17,7 @@ import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.game.GameScreen
 
-class ViewControl(
+class ViewControlGui(
         val screen: GameScreen
 ) : Table(TextureCollection.skin),
         GuiComponent {

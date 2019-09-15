@@ -18,7 +18,7 @@ class PlayerController
 
     private var dispo: Disposable? = null
 
-    private val players: MutableList<PlayerColor> = ArrayList()
+    val players: MutableList<PlayerColor> = ArrayList()
 
     var currentPlayerData = NONE_PLAYER_DATA
     val currentColor: PlayerColor

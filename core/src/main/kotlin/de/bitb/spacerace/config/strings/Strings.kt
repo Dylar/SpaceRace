@@ -46,10 +46,16 @@ object Strings {
                 GERMAN -> "Benutzen"
             }
 
-        var GAME_BUTTON_MODS: String = ""
+        val GAME_BUTTON_MODS: String
             get() = when (LANGUAGE) {
                 ENGLISH -> "MOD"
                 GERMAN -> "MOD"
+            }
+
+        var GAME_LABEL_PLAYER_AMOUNT: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Player"
+                GERMAN -> "Spieler"
             }
 
         var GAME_BUTTON_PHASE: String = ""

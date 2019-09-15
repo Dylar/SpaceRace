@@ -18,14 +18,13 @@ import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.game.RoundEndDetails
-import de.bitb.spacerace.ui.player.PlayerStats
+import de.bitb.spacerace.ui.player.PlayerStatsGui
 import de.bitb.spacerace.ui.player.items.ItemDetails
 import de.bitb.spacerace.ui.player.shop.ShopDetails
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
-import de.bitb.spacerace.ui.screens.game.control.GameControl
-import de.bitb.spacerace.ui.screens.start.StartGuiStage
+import de.bitb.spacerace.ui.screens.game.control.GameActionGui
 import de.bitb.spacerace.ui.screens.start.control.LoadGameGui
 import de.bitb.spacerace.ui.screens.start.control.StartButtonGui
 import javax.inject.Singleton
@@ -55,8 +54,8 @@ interface AppComponent {
     fun inject(baseMenu: BaseMenu)
     fun inject(itemDetails: ItemDetails)
     fun inject(baseMenu: RoundEndDetails)
-    fun inject(playerStats: PlayerStats)
-    fun inject(gameControl: GameControl)
+    fun inject(playerStatsGui: PlayerStatsGui)
+    fun inject(gameActionGui: GameActionGui)
     fun inject(shopDetails: ShopDetails)
 
     fun inject(startButtonGui: StartButtonGui)
