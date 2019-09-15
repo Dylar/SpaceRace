@@ -7,7 +7,7 @@ import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.database.savegame.SaveGame
+import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.PlayerData
@@ -202,8 +202,8 @@ open class MainGame : BaseGame() {
 
     }
 
-    fun createNewSaveGame(players: List<PlayerColor>, mapData: MapData): SaveGame =
-            SaveGame().also { saveGame ->
+    fun createNewSaveGame(players: List<PlayerColor>, mapData: MapData): SaveData =
+            SaveData().also { saveGame ->
                 //add fields
                 saveGame.fields.addAll(mapData.fields.apply { forEach { it.uuid = 0 } })
 

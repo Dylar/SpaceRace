@@ -104,7 +104,7 @@ class SpaceEnvironment {
 
         testMap = mapToLoad.createMap()
         val mapData = testGame.createNewSaveGame(playerColor.toList(), testGame.initDefaultMap(testMap))
-        val config = LoadGameConfig(saveGame = mapData)
+        val config = LoadGameConfig(saveData = mapData)
         loadGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()

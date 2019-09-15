@@ -2,7 +2,7 @@ package de.bitb.spacerace.usecase.game.init
 
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
-import de.bitb.spacerace.database.savegame.SaveGame
+import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
@@ -30,9 +30,9 @@ class LoadGameUsecase @Inject constructor(
 //                        .andThen(playerDataSource.deleteAll()) //TODO put player nt on map (except savegamesa bla bla) player color on multiple palyers ... change that
                         .andThen(initMap(map))
                         .flatMap {
-                            it.saveGame.name = Calendar.getInstance().time.toString()
+                            it.saveData.name = Calendar.getInstance().time.toString()
 
-                            mapDataSource.insertSaveGame(it.saveGame)
+                            mapDataSource.insertSaveGame(it.saveData)
                                     .andThen(Single.just(it))
                         }
                         .doAfterSuccess { pushCurrentPlayer(it.currentColor) }
@@ -44,7 +44,7 @@ class LoadGameUsecase @Inject constructor(
                 else emitter.onError(SelectMorePlayerException())
             }
 
-    private fun initMap(map: SaveGame): Single<LoadGameResult> =
+    private fun initMap(map: SaveData): Single<LoadGameResult> =
             Single.fromCallable {
                 map.players.map { it.playerColor }.forEach { playerController.addPlayer(it) }
 
@@ -52,7 +52,7 @@ class LoadGameUsecase @Inject constructor(
                         ?: NONE_FIELD_DATA
                 LoadGameResult(
                         currentColor = map.currentColor,
-                        saveGame = map)
+                        saveData = map)
 
             }
 
@@ -62,10 +62,10 @@ class LoadGameUsecase @Inject constructor(
 }
 
 data class LoadGameConfig(
-        var saveGame: SaveGame
+        var saveData: SaveData
 )
 
 data class LoadGameResult(
         var currentColor: PlayerColor,
-        var saveGame: SaveGame
+        var saveData: SaveData
 )

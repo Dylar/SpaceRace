@@ -1,6 +1,6 @@
 package de.bitb.spacerace.core
 
-import de.bitb.spacerace.database.savegame.SaveGame
+import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
@@ -23,7 +23,7 @@ fun SpaceEnvironment.assertDBField(gamePosition: PositionData, assertField: (Fie
             .assertValue(assertField)
 }
 
-fun SpaceEnvironment.assertDBMap(assertField: (SaveGame) -> Boolean) {
+fun SpaceEnvironment.assertDBMap(assertField: (SaveData) -> Boolean) {
     getSaveGameUsecase.buildUseCaseSingle()
             .assertValue(assertField)
 }

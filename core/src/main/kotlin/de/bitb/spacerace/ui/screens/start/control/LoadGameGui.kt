@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.savegame.SaveGame
+import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.events.commands.start.LoadGameCommand
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
@@ -21,7 +21,7 @@ class LoadGameGui(
 ) : BaseGuiControl(guiStage) {
 
     @Inject
-    protected lateinit var saveGameBox: Box<SaveGame>
+    protected lateinit var saveDataBox: Box<SaveData>
 
     private val maxSpan = 7
 
@@ -30,17 +30,17 @@ class LoadGameGui(
 
         MainGame.appComponent.inject(this)
 
-        saveGameBox.all.forEach {
+        saveDataBox.all.forEach {
             addStartButton(it)
         }
 
         pack()
     }
 
-    private fun addStartButton(saveGame: SaveGame) {
-        val startBtn = createButton(name = saveGame.name, listener = object : InputListener() {
+    private fun addStartButton(saveData: SaveData) {
+        val startBtn = createButton(name = saveData.name, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(LoadGameCommand(saveGame))
+                EventBus.getDefault().post(LoadGameCommand(saveData))
                 return true
             }
         })

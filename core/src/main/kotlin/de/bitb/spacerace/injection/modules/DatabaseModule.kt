@@ -9,7 +9,7 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.database.savegame.SaveDataSource
-import de.bitb.spacerace.database.savegame.SaveGame
+import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.savegame.SaveRespository
 import de.bitb.spacerace.model.MyObjectBox
 import io.objectbox.Box
@@ -55,8 +55,8 @@ class DatabaseModule(
 
     @Provides
     @Singleton
-    fun provideMapDataBox(store: BoxStore): Box<SaveGame> {
-        return store.boxFor(SaveGame::class)
+    fun provideMapDataBox(store: BoxStore): Box<SaveData> {
+        return store.boxFor(SaveData::class)
     }
 
     @Provides
@@ -79,7 +79,7 @@ class DatabaseModule(
 
     @Provides
     @Singleton
-    fun provideSaveDataSource(mapBox: Box<SaveGame>): SaveDataSource {
+    fun provideSaveDataSource(mapBox: Box<SaveData>): SaveDataSource {
         return SaveRespository(mapBox)
     }
 

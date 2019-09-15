@@ -5,7 +5,7 @@ import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.savegame.SaveGame
+import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -16,7 +16,7 @@ import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
 import javax.inject.Inject
 
-class LoadGameCommand(var saveGame: SaveGame? = null) : BaseCommand() {
+class LoadGameCommand(var saveData: SaveData? = null) : BaseCommand() {
 
     @Inject
     protected lateinit var loadGameUsecase: LoadGameUsecase
@@ -29,7 +29,7 @@ class LoadGameCommand(var saveGame: SaveGame? = null) : BaseCommand() {
 
     init {
         MainGame.appComponent.inject(this)
-        saveGame = saveGame ?: run {
+        saveData = saveData ?: run {
             val map = game.initDefaultMap(SELECTED_MAP.createMap())
             game.createNewSaveGame(SELECTED_PLAYER, map)
         }
@@ -42,18 +42,18 @@ class LoadGameCommand(var saveGame: SaveGame? = null) : BaseCommand() {
     override fun execute() {
         game.changeScreen(GameScreen(game, game.screen as BaseScreen))
 
-        val config = LoadGameConfig(saveGame = saveGame!!)
+        val config = LoadGameConfig(saveData = saveData!!)
         loadGameUsecase.getResult(
                 params = config,
                 onSuccess = { info ->
                     graphicController.clearGraphics()
 
-                    val fields = info.saveGame.fields
+                    val fields = info.saveData.fields
                     addGraphicFields(fields)
                     addGraphicConnections(fields)
-                    addGraphicPlayers(info.saveGame.players)
+                    addGraphicPlayers(info.saveData.players)
 
-                    graphicController.setGoal(currentGoal = info.saveGame.goal.target.gamePosition)
+                    graphicController.setGoal(currentGoal = info.saveData.goal.target.gamePosition)
                     game.addEntities()
                     game.initGameObserver()
                 })

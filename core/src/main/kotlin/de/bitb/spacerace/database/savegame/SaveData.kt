@@ -13,7 +13,7 @@ import io.objectbox.relation.ToMany
 import io.objectbox.relation.ToOne
 
 @Entity
-data class SaveGame(
+data class SaveData(
         var name: String = "",
         @Id
         var uuid: Long = 0,
