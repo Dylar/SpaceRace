@@ -20,10 +20,6 @@ class GameScreen(
     }
 
     @Inject
-    protected lateinit var boxStore: BoxStore
-    @Inject
-    protected lateinit var playerController: PlayerController
-    @Inject
     protected lateinit var graphicController:GraphicController
 
     override fun createGuiStage(): BaseStage {

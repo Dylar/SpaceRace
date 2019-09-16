@@ -11,10 +11,12 @@ import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.utils.Logger
-import net.bytebuddy.implementation.bind.annotation.SuperCall
 
 
-open class BaseScreen(val game: MainGame, val previousScreen: BaseScreen?) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
+open class BaseScreen(
+        val game: MainGame,
+        val previousScreen: BaseScreen?
+) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
     companion object {
         var MAIN_DELTA = 0f
     }

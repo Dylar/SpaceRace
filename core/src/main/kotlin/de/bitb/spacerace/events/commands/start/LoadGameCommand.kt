@@ -8,12 +8,14 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
+import de.bitb.spacerace.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.model.space.fields.FieldGraphic
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
+import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class LoadGameCommand(var saveData: SaveData? = null) : BaseCommand() {
@@ -36,8 +38,6 @@ class LoadGameCommand(var saveData: SaveData? = null) : BaseCommand() {
     }
 
     override fun execute() {
-        game.changeScreen(GameScreen(game, game.screen as BaseScreen))
-
         saveData?.let {
             Thread.sleep(300)
             setGraphics(it)
@@ -51,6 +51,7 @@ class LoadGameCommand(var saveData: SaveData? = null) : BaseCommand() {
     }
 
     private fun setGraphics(saveData: SaveData) {
+        game.changeScreen(GameScreen(game, game.screen as BaseScreen))
         graphicController.clearGraphics()
 
         val fields = saveData.fields
