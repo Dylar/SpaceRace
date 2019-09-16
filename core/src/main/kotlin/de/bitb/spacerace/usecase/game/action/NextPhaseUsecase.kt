@@ -8,6 +8,7 @@ import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
+import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.exceptions.DiceFirstException
 import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.FieldType
@@ -33,6 +34,7 @@ class NextPhaseUsecase @Inject constructor(
         private val getTargetableFieldUsecase: GetTargetableFieldUsecase,
         private val playerController: PlayerController,
         private val playerDataSource: PlayerDataSource,
+        private val saveDataSource: SaveDataSource,
         private val mapDataSource: MapDataSource
 ) : ResultUseCase<NextPhaseResult, PlayerColor> {
 
@@ -153,7 +155,7 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainGoal(playerData: PlayerData): Single<out ObtainGoalResult> =
-            mapDataSource.getSaveGame()
+            saveDataSource.getSaveGame()
                     .map { map -> map to map.fields.filter { field -> field.fieldType == FieldType.GOAL } }
                     .flatMap { (map, goals) ->
                         var goal = map.goal.target
@@ -171,7 +173,7 @@ class NextPhaseUsecase @Inject constructor(
                                     Logger.println("newGoal: $goal")
 
                                     map.goal.target = goal
-                                    mapDataSource.insertSaveGame(map)
+                                    saveDataSource.insertSaveData(map)
                                 } else Completable.complete()
                         checkGoalPosition.andThen(Single.just(ObtainGoalResult(playerData, goal)))
                     }

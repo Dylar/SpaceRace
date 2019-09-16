@@ -1,6 +1,12 @@
 package de.bitb.spacerace.database.map
 
+import de.bitb.spacerace.database.converter.FieldTypeConverter
+import de.bitb.spacerace.database.converter.PositionDataConverter
+import de.bitb.spacerace.database.converter.PositionListConverter
+import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.objecthandling.PositionData
 import io.objectbox.BoxStore
+import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
@@ -10,16 +16,29 @@ import io.objectbox.relation.ToOne
 data class MapData(
         val name: String = "",
         @Id
-        var uuid: Long = 0
+        var uuid: Long = 0,
+        @Convert(converter = PositionDataConverter::class, dbType = String::class)
+        val startPosition: PositionData = PositionData()
 ) {
+
     @Transient
     @JvmField
     protected var __boxStore: BoxStore? = null
 
     @JvmField
-    var fields: ToMany<FieldData> = ToMany(this, MapData_.fields)
-
-    @JvmField
-    var startField: ToOne<FieldData> = ToOne(this, MapData_.startField)
+    var fields: ToMany<FieldConfigData> = ToMany(this, MapData_.fields)
 
 }
+
+@Entity
+data class FieldConfigData(
+        @Id
+        var uuid: Long = 0,
+        @Convert(converter = PositionDataConverter::class, dbType = String::class)
+        val gamePosition: PositionData = PositionData(),
+        @Convert(converter = PositionListConverter::class, dbType = String::class)
+        val connections: MutableList<PositionData> = mutableListOf(),
+        @Convert(converter = FieldTypeConverter::class, dbType = String::class)
+        val fieldType: FieldType = FieldType.RANDOM
+)
+

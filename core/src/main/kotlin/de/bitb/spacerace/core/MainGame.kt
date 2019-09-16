@@ -7,10 +7,11 @@ import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.database.savegame.SaveData
+import de.bitb.spacerace.database.map.FieldConfigData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.events.GameOverEvent
 import de.bitb.spacerace.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -179,12 +180,12 @@ open class MainGame : BaseGame() {
         defaultMap.groups.forEach { spaceGroup ->
             spaceGroup.fields.entries.forEach { field ->
                 val spaceField = field.value
-                val fieldData = FieldData(
+                val fieldData = FieldConfigData(
                         fieldType = spaceField.fieldType,
                         gamePosition = spaceField.gamePosition)
                 fields.add(fieldData)
                 if (spaceField.gamePosition.isPosition(defaultMap.startField.gamePosition))
-                    startField.target = fieldData
+                    startPosition.setPosition(fieldData.gamePosition)
             }
         }
 
@@ -195,25 +196,11 @@ open class MainGame : BaseGame() {
                         val opposite = connection.getOpposite(fieldData.gamePosition)
                         val oppositeData = fields.find { field -> field.gamePosition.isPosition(opposite.gamePosition) }
                         oppositeData?.also {
-                            fieldData.connections.add(it)
+                            fieldData.connections.add(it.gamePosition)
                         }
                     }
         }
 
     }
 
-    fun createNewSaveGame(players: List<PlayerColor>, mapData: MapData): SaveData =
-            SaveData().also { saveGame ->
-                //add fields
-                saveGame.fields.addAll(mapData.fields.apply { forEach { it.uuid = 0 } })
-
-                val startFieldData: FieldData = saveGame.fields.find { it.gamePosition.isPosition(mapData.startField.target.gamePosition) }!!
-                players.forEach { color ->
-                    PlayerData(playerColor = color).also {
-                        it.positionField.target = startFieldData
-                        saveGame.players.add(it)
-                    }
-                }
-                saveGame.currentColor = players.first()
-            }
 }

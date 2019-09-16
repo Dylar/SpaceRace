@@ -1,7 +1,8 @@
 package de.bitb.spacerace.env
 
 import de.bitb.spacerace.config.WIN_AMOUNT
-import de.bitb.spacerace.controller.*
+import de.bitb.spacerace.controller.GraphicController
+import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
@@ -13,8 +14,8 @@ import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.usecase.game.action.*
 import de.bitb.spacerace.usecase.game.getter.GetFieldUsecase
-import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
+import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
@@ -63,7 +64,7 @@ class SpaceEnvironment {
 
     val currentPlayerColor: PlayerColor
         get() = playerController.currentColor
-//    playerColorDispenser.publisher.test().await().values().first()
+    //    playerColorDispenser.publisher.test().await().values().first()
     val currentPlayer: PlayerData
         get() = getDBPlayer(currentPlayerColor)
     val currentPosition: PositionData
@@ -103,8 +104,8 @@ class SpaceEnvironment {
         TestGame.testComponent.inject(this)
 
         testMap = mapToLoad.createMap()
-        val mapData = testGame.createNewSaveGame(playerColor.toList(), testGame.initDefaultMap(testMap))
-        val config = LoadGameConfig(saveData = mapData)
+        val map = testGame.initDefaultMap(testMap)
+        val config = LoadGameConfig(playerColor.toList(), map)
         loadGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()
@@ -191,7 +192,9 @@ class SpaceEnvironment {
     //
     fun nextPhase(color: PlayerColor = currentPlayerColor,
                   error: GameException? = null,
-                  assertError: (Throwable) -> Boolean = { error?.assertNextPhaseException(it) ?: false },
+                  assertError: (Throwable) -> Boolean = {
+                      error?.assertNextPhaseException(it) ?: false
+                  },
                   assertSuccess: ((NextPhaseResult) -> Boolean) = { true }) {
         nextPhaseUseCase.buildUseCaseSingle(color)
                 .test()

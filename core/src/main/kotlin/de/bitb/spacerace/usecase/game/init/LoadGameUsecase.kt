@@ -2,58 +2,85 @@ package de.bitb.spacerace.usecase.game.init
 
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
-import de.bitb.spacerace.database.savegame.SaveData
-import de.bitb.spacerace.database.map.MapDataSource
+import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.database.player.PlayerDataSource
+import de.bitb.spacerace.database.savegame.SaveData
+import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.exceptions.SelectMorePlayerException
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.util.*
 import javax.inject.Inject
 
 class LoadGameUsecase @Inject constructor(
         private val playerController: PlayerController,
         private val playerColorDispenser: PlayerColorDispenser,
-        private val playerDataSource: PlayerDataSource,
-        private val mapDataSource: MapDataSource
+        private val saveDataSource: SaveDataSource
 ) : ResultUseCase<LoadGameResult, LoadGameConfig> {
 
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameResult> =
-            params.let { (map) ->
-                checkPlayerSize(map.players)
-//                        .andThen(mapDataSource.deleteSaveGame(map))
-//                        .andThen(playerDataSource.deleteAll()) //TODO put player nt on map (except savegamesa bla bla) player color on multiple palyers ... change that
-                        .andThen(initMap(map))
-                        .flatMap {
-                            it.saveData.name = Calendar.getInstance().time.toString()
-
-                            mapDataSource.insertSaveGame(it.saveData)
-                                    .andThen(Single.just(it))
-                        }
-                        .doAfterSuccess { pushCurrentPlayer(it.currentColor) }
+            params.let { (players, map) ->
+                checkPlayerSize(players)
+                        .andThen(initPlayers(players))
+                        .flatMap { initMap(it, map) }
+                        .flatMap { saveDataSource.insertAndReturnSaveData(it) }
+                        .map { LoadGameResult(it) }
+                        .doAfterSuccess { pushCurrentPlayer(it.saveData.currentColor) }
             }
 
-    private fun checkPlayerSize(players: List<PlayerData>): Completable =
+    private fun initPlayers(players: List<PlayerColor>): Single<SaveData> =
+            Single.fromCallable {
+                SaveData().also { saveGame ->
+                    players.forEach { color ->
+                        playerController.addPlayer(color)
+                        saveGame.players.add(PlayerData(playerColor = color))
+                    }
+                    saveGame.currentColor = players.first()
+                }
+
+            }
+
+
+    private fun checkPlayerSize(players: List<PlayerColor>): Completable =
             Completable.create { emitter ->
                 if (players.size > 1) emitter.onComplete()
                 else emitter.onError(SelectMorePlayerException())
             }
 
-    private fun initMap(map: SaveData): Single<LoadGameResult> =
+    private fun initMap(saveData: SaveData, map: MapData): Single<SaveData> =
             Single.fromCallable {
-                map.players.map { it.playerColor }.forEach { playerController.addPlayer(it) }
+                val connections = mutableMapOf<PositionData, FieldData>()
+                //add fields
+                map.fields.forEach { config ->
+                    val fieldData = FieldData(
+                            fieldType = config.fieldType,
+                            gamePosition = config.gamePosition)
+                    saveData.fields.add(fieldData)
+                }
 
-                map.goal.target = map.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another? TESTS?
+                //add connections
+                map.fields.forEach { config ->
+                    val field = saveData.fields.find { it.gamePosition.isPosition(config.gamePosition) }!!
+                    config.connections.forEach { conPos ->
+                        val con = saveData.fields.find { it.gamePosition.isPosition(conPos) }!!
+                        field.connections.add(con)
+                    }
+                }
+
+                //set goal
+                saveData.goal.target = saveData.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another? TESTS?
                         ?: NONE_FIELD_DATA
-                LoadGameResult(
-                        currentColor = map.currentColor,
-                        saveData = map)
 
+                //set player startfield
+                val startField = saveData.fields.find { map.startPosition.isPosition(it.gamePosition) }
+                saveData.players.forEach { it.positionField.target = startField }
+
+                saveData
             }
 
     private fun pushCurrentPlayer(currentColor: PlayerColor) =
@@ -62,10 +89,10 @@ class LoadGameUsecase @Inject constructor(
 }
 
 data class LoadGameConfig(
-        var saveData: SaveData
+        val players: List<PlayerColor>,
+        val mapData: MapData
 )
 
 data class LoadGameResult(
-        var currentColor: PlayerColor,
         var saveData: SaveData
 )

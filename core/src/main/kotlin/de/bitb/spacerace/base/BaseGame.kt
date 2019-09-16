@@ -16,9 +16,7 @@ abstract class BaseGame : Game() {
     abstract fun initScreen()
 
     fun changeScreen(screen: BaseScreen) {
-        Gdx.app.postRunnable {
-            setScreen(screen)
-        }
+        setScreen(screen)
     }
 
     fun clearScreen(red: Float = 0f, green: Float = 0f, blue: Float = 0f, alpha: Float = 1f) {

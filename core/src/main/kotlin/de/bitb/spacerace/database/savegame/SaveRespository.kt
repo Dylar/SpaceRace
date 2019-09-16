@@ -1,6 +1,5 @@
 package de.bitb.spacerace.database.savegame
 
-import de.bitb.spacerace.database.SaveGame_
 import io.objectbox.Box
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -8,8 +7,11 @@ import io.reactivex.Single
 class SaveRespository(
         private val mapBox: Box<SaveData>
 ) : SaveDataSource {
+    override fun insertAndReturnSaveData(mapData: SaveData): Single<SaveData> =
+            insertSaveData(mapData)
+                    .andThen(Single.fromCallable { mapBox.all.last() })
 
-    override fun insertSaveGame(mapData: SaveData): Completable =
+    override fun insertSaveData(mapData: SaveData): Completable =
             Completable.fromAction {
                 mapBox.put(mapData)
             }
@@ -19,7 +21,7 @@ class SaveRespository(
     override fun deleteSaveGame(saveData: SaveData): Completable =
             Completable.fromAction {
                 mapBox.query()
-                        .equal(SaveGame_.name, saveData.name).build()
+                        .equal(SaveData_.name, saveData.name).build()
                         .remove()
             }
 }
