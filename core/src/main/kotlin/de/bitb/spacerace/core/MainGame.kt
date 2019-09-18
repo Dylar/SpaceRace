@@ -8,10 +8,7 @@ import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.map.FieldConfigData
-import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapData
-import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.events.GameOverEvent
 import de.bitb.spacerace.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -19,7 +16,6 @@ import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
-import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
@@ -105,17 +101,13 @@ open class MainGame : BaseGame() {
     }
 
     private fun handleSystemInput() {
-        if (isCloseGameTipped()) {
-            Gdx.app.exit()
-        } else if (isBackTipped()) {
+        if (isCloseGameTipped()) Gdx.app.exit()
+        else if (isBackTipped()) {
             val previousScreen = (screen as BaseScreen).previousScreen
             (screen as BaseScreen).clear()
 
-            if (previousScreen == null) {
-                Gdx.app.exit()
-            } else {
-                changeScreen(previousScreen)
-            }
+            if (previousScreen == null) Gdx.app.exit()
+            else changeScreen(previousScreen)
         }
     }
 

@@ -8,17 +8,22 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
-import de.bitb.spacerace.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.model.space.fields.FieldGraphic
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class LoadGameCommand(var saveData: SaveData? = null) : BaseCommand() {
+class LoadGameCommand : BaseCommand() {
+
+    companion object {
+        fun get(saveData: SaveData? = null) =
+                getCommand(LoadGameCommand::class)
+                        .also { it.saveData = saveData }
+    }
 
     @Inject
     protected lateinit var loadGameUsecase: LoadGameUsecase
@@ -28,6 +33,8 @@ class LoadGameCommand(var saveData: SaveData? = null) : BaseCommand() {
 
     @Inject
     protected lateinit var graphicController: GraphicController
+
+    private var saveData: SaveData? = null
 
     init {
         MainGame.appComponent.inject(this)
@@ -39,14 +46,18 @@ class LoadGameCommand(var saveData: SaveData? = null) : BaseCommand() {
 
     override fun execute() {
         saveData?.let {
-            Thread.sleep(300)
             setGraphics(it)
+            reset()
         } ?: kotlin.run {
             val map = game.initDefaultMap(SELECTED_MAP.createMap())
             val config = LoadGameConfig(SELECTED_PLAYER, map)
             loadGameUsecase.getResult(
                     params = config,
-                    onSuccess = { setGraphics(it.saveData) })
+                    onSuccess = {
+                        setGraphics(it.saveData)
+                        reset()
+                    },
+                    onError = { reset() })
         }
     }
 

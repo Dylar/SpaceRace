@@ -40,7 +40,7 @@ class LoadGameGui(
     private fun addStartButton(saveData: SaveData) {
         val startBtn = createButton(name = saveData.name, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(LoadGameCommand(saveData))
+                EventBus.getDefault().post(LoadGameCommand.get(saveData))
                 return true
             }
         })

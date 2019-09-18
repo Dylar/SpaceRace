@@ -1,20 +1,30 @@
 package de.bitb.spacerace.events.commands.player
 
 import de.bitb.spacerace.config.DICE_MAX
-import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
+import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
-class DiceCommand(
-        playerData: PlayerData,
-        val maxResult: Int = DICE_MAX
-) : BaseCommand(playerData) {
+class DiceCommand : BaseCommand() {
+
+    companion object {
+        fun get(playerData: PlayerData,
+                maxResult: Int = DICE_MAX
+        ) = getCommand(DiceCommand::class)
+                .also {
+                    it.maxResult = maxResult
+                    it.DONT_USE_THIS_PLAYER_DATA = playerData
+                }
+    }
 
     @Inject
     protected lateinit var diceUsecase: DiceUsecase
+
+    var maxResult: Int = DICE_MAX
 
     init {
         MainGame.appComponent.inject(this)
@@ -25,7 +35,10 @@ class DiceCommand(
     }
 
     override fun execute() {
-        diceUsecase.execute(DONT_USE_THIS_PLAYER_DATA.playerColor to maxResult)
+        compositDisposable += diceUsecase.execute(
+                params = DONT_USE_THIS_PLAYER_DATA.playerColor to maxResult,
+                onComplete = ::reset,
+                onError = { reset() })
     }
 
 }

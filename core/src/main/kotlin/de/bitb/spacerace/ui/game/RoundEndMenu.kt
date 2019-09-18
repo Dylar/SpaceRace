@@ -65,7 +65,7 @@ class RoundEndMenu(
 
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 closeMenu()
-                EventBus.getDefault().post(StartNextRoundCommand())
+                EventBus.getDefault().post(StartNextRoundCommand.get())
                 return true
             }
         })

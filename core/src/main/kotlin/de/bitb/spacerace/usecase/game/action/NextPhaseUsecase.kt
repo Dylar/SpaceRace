@@ -9,6 +9,8 @@ import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.savegame.SaveDataSource
+import de.bitb.spacerace.events.commands.CommandPool
+import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.exceptions.DiceFirstException
 import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.FieldType
@@ -16,6 +18,7 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
@@ -52,7 +55,7 @@ class NextPhaseUsecase @Inject constructor(
                 Phase.MOVE -> canEndMove(playerData)
                 Phase.MAIN2 -> canEndMain2(playerData)
                 Phase.END_TURN -> canEndTurn(playerData)
-                Phase.END_ROUND -> Single.error(UnsupportedOperationException())
+                Phase.END_ROUND -> Single.just(playerData)
             }
 
     private fun checkPhase(playerColor: PlayerColor, phase: Phase) =

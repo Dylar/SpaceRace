@@ -44,7 +44,7 @@ class PlayerSelectionGui(
                 fontColor = color.color,
                 listener = object : InputListener() {
                     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                        EventBus.getDefault().post(SelectPlayerCommand(color))
+                        EventBus.getDefault().post(SelectPlayerCommand.get(color))
                         return true
                     }
                 })

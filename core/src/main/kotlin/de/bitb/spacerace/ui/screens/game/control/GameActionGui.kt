@@ -48,14 +48,14 @@ class GameActionGui(
 
         val diceBtn = createButton(name = GAME_BUTTON_DICE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(DiceCommand(playerController.currentPlayerData))
+                EventBus.getDefault().post(DiceCommand.get(playerController.currentPlayerData))
                 return true
             }
         })
 
         val continueBtn = createButton(name = GAME_BUTTON_CONTINUE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(NextPhaseCommand(playerController.currentPlayerData))
+                EventBus.getDefault().post(NextPhaseCommand.get(playerController.currentPlayerData))
                 return true
             }
         })

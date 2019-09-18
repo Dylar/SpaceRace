@@ -12,6 +12,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LANGUAGE
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_START
+import de.bitb.spacerace.controller.SettingsController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.OpenDebugGuiEvent
 import de.bitb.spacerace.events.OpenLoadGameEvent
@@ -27,6 +28,9 @@ class StartButtonGui(
 
     @Inject
     lateinit var observeCommandUsecase: ObserveCommandUsecase
+
+    @Inject
+    lateinit var settingsController: SettingsController
 
     private lateinit var startBtn: TextButton
     private lateinit var winLabel: Label
@@ -69,7 +73,7 @@ class StartButtonGui(
     private fun addStartButton() {
         startBtn = createButton(name = START_BUTTON_START, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(LoadGameCommand())
+                EventBus.getDefault().post(LoadGameCommand.get())
                 return true
             }
         })
@@ -81,7 +85,7 @@ class StartButtonGui(
     private fun addWinButtons() {
         val lessWinBtn = createButton(name = "-", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(ChangeWinAmountCommand(-1))
+                EventBus.getDefault().post(ChangeWinAmountCommand.get(-1))
                 return true
             }
         })
@@ -90,7 +94,7 @@ class StartButtonGui(
 
         val moreWinBtn = createButton(name = "+", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(ChangeWinAmountCommand(1))
+                EventBus.getDefault().post(ChangeWinAmountCommand.get(1))
                 return true
             }
         })
@@ -111,7 +115,7 @@ class StartButtonGui(
     private fun addDiceButtons() {
         val lessDiceBtn = createButton(name = "-", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(ChangeDiceAmountCommand(-1))
+                EventBus.getDefault().post(ChangeDiceAmountCommand.get(-1))
                 return true
             }
         })
@@ -120,7 +124,7 @@ class StartButtonGui(
 
         val moreDiceBtn = createButton(name = "+", listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(ChangeDiceAmountCommand(1))
+                EventBus.getDefault().post(ChangeDiceAmountCommand.get(1))
                 return true
             }
         })
@@ -131,7 +135,7 @@ class StartButtonGui(
     private fun addLanguageButtons() {
         languageBtn = createButton(name = START_BUTTON_LANGUAGE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(ChangeLanguageCommand())
+                EventBus.getDefault().post(ChangeLanguageCommand.get())
                 return true
             }
         })

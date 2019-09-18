@@ -1,35 +1,32 @@
 package de.bitb.spacerace.events.commands
 
-import de.bitb.spacerace.events.commands.start.ChangeDiceAmountCommand
+import java.util.*
+import kotlin.reflect.KClass
 
 object CommandPool {
-    val pool = mutableMapOf<String, BaseCommand>()
+    private val pool = mutableMapOf<String, Queue<BaseCommand>>()
 
-    fun getCommand(commandType: String) {
-        when (commandType) {
-            ChangeDiceAmountCommand::class.toString() -> {
-            }
-            else -> {
-            }
-        }
+    fun <T : BaseCommand> getCommand(commandClass: KClass<T>): T =
+            (pool[commandClass.simpleName]?.poll() as? T?)
+                    ?: commandClass.java.newInstance()
+
+    fun <T : BaseCommand> addPool(command: T) {
+        val commandClass = command::class.simpleName!!
+        val poolList = pool[commandClass]
+                ?: LinkedList<BaseCommand>().also { pool[commandClass] = it }
+        poolList.add(command)
     }
-
-    fun addPool(baseCommand: BaseCommand) {
-    }
-
 
 }
+
+//interface Pool<OBJECT> {
+//    val pool: Queue<OBJECT>
+//    fun create(): OBJECT
+//    fun get(): OBJECT = pool.poll() ?: create()
 //
-//sealed class Command() {
+//    fun reset(obj: OBJECT) = pool.add()
 //
-//    open fun reset() {
-//
-//    }
 //}
-//
-//sealed class ChangeDiceAmountCommand() : Command() {
+//interface Poolable{
+//    reset
 //}
-//
-//sealed class DeliveriesOnDeviceError : Command()
-//sealed class PrintDeliveryError : Command()
-//sealed class CannotDeleteFinsishedDelivery : Command()

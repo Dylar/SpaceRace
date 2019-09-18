@@ -5,27 +5,39 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.ObtainShopEvent
 import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.usecase.game.action.*
+import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class NextPhaseCommand(playerData: PlayerData) : BaseCommand(playerData) {
+class NextPhaseCommand : BaseCommand() {
+
+    companion object {
+        fun get(player: PlayerData) =
+                getCommand(NextPhaseCommand::class)
+                        .also { it.DONT_USE_THIS_PLAYER_DATA = player }
+    }
 
     @Inject
     protected lateinit var nextPhaseUsecase: NextPhaseUsecase
 
     @Inject
-    lateinit var graphicController: GraphicController
+    protected lateinit var graphicController: GraphicController
 
     init {
         MainGame.appComponent.inject(this)
     }
 
     override fun execute() {
-        nextPhaseUsecase.getResult(
+        compositDisposable += nextPhaseUsecase.getResult(
                 params = DONT_USE_THIS_PLAYER_DATA.playerColor,
-                onSuccess = ::setGraphics)
+                onSuccess = {
+                    setGraphics(it)
+                    reset()
+                },
+                onError = { reset() })
     }
 
     private fun setGraphics(nextPhaseResult: NextPhaseResult) {

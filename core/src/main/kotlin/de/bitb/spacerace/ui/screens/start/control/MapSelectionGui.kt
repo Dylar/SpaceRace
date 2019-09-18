@@ -35,7 +35,7 @@ class MapSelectionGui(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
             buttonGroup.add(checkBox)
             if (value == SELECTED_MAP) {
                 checkBox.isChecked = true
-                EventBus.getDefault().post(SelectMapCommand(value))
+                EventBus.getDefault().post(SelectMapCommand.get(value))
             }
         }
 
@@ -47,7 +47,7 @@ class MapSelectionGui(guiStage: StartGuiStage) : BaseGuiControl(guiStage) {
     private fun addCheckbox(mapCreator: MapCreator): CheckBox {
         val checkBox = createCheckbox(name = mapCreator.name, fontSize = GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SelectMapCommand(mapCreator))
+                EventBus.getDefault().post(SelectMapCommand.get(mapCreator))
                 return true
             }
         })

@@ -34,7 +34,7 @@ class TestFieldSelectionGui(guiStage: StartGuiStage) : BaseGuiControl(guiStage) 
     private fun addCheckbox(fieldType: FieldType): CheckBox {
         val checkBox = createCheckbox(name = fieldType.name, fontSize = GAME_SIZE_FONT_SMALL, fontColor = Color.BLACK, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SelectTestFieldCommand(fieldType))
+                EventBus.getDefault().post(SelectTestFieldCommand.get(fieldType))
                 return true
             }
         })
