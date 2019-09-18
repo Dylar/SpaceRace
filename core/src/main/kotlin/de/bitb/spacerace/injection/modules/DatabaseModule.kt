@@ -8,8 +8,8 @@ import de.bitb.spacerace.database.map.MapRespository
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.player.PlayerRespository
-import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.database.savegame.SaveData
+import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.database.savegame.SaveRespository
 import de.bitb.spacerace.model.MyObjectBox
 import io.objectbox.Box
@@ -49,21 +49,16 @@ class DatabaseModule(
 
     @Provides
     @Singleton
-    fun providePlayerBox(store: BoxStore): Box<PlayerData> {
-        return store.boxFor(PlayerData::class)
-    }
+    fun providePlayerBox(store: BoxStore): Box<PlayerData> = store.boxFor(PlayerData::class)
 
     @Provides
     @Singleton
-    fun provideMapDataBox(store: BoxStore): Box<SaveData> {
-        return store.boxFor(SaveData::class)
-    }
+    fun provideMapDataBox(store: BoxStore): Box<SaveData> = store.boxFor(SaveData::class)
 
     @Provides
     @Singleton
-    fun provideFieldDataBox(store: BoxStore): Box<FieldData> {
-        return store.boxFor(FieldData::class)
-    }
+    fun provideFieldDataBox(store: BoxStore): Box<FieldData> =
+            store.boxFor(FieldData::class)
 
 //    @Provides
 //    @Singleton
@@ -73,22 +68,18 @@ class DatabaseModule(
 
     @Provides
     @Singleton
-    fun provideMapDataSource(fieldBox: Box<FieldData>): MapDataSource {
-        return MapRespository(fieldBox)
-    }
+    fun provideMapDataSource(fieldBox: Box<FieldData>): MapDataSource =
+            MapRespository(fieldBox)
 
     @Provides
     @Singleton
-    fun provideSaveDataSource(mapBox: Box<SaveData>): SaveDataSource {
-        return SaveRespository(mapBox)
-    }
+    fun provideSaveDataSource(mapBox: Box<SaveData>): SaveDataSource =
+            SaveRespository(mapBox)
 
     @Provides
     @Singleton
-    fun providePlayerDataSource(box: Box<PlayerData>): PlayerDataSource {
-        return PlayerRespository(box)
-    }
-
+    fun providePlayerDataSource(playerBox: Box<PlayerData>, saveBox: Box<SaveData>): PlayerDataSource =
+            PlayerRespository(saveBox, playerBox)
 
 //    @Provides
 //    @Singleton

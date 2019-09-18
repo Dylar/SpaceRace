@@ -105,6 +105,7 @@ open class MainGame : BaseGame() {
         else if (isBackTipped()) {
             val previousScreen = (screen as BaseScreen).previousScreen
             (screen as BaseScreen).clear()
+//            clear()
 
             if (previousScreen == null) Gdx.app.exit()
             else changeScreen(previousScreen)

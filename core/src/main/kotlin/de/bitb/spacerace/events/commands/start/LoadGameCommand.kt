@@ -14,7 +14,9 @@ import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.model.space.fields.FieldGraphic
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
+import de.bitb.spacerace.usecase.game.init.LoadGameResult
 import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
+import de.bitb.spacerace.usecase.game.init.LoadNewGameUsecase
 import javax.inject.Inject
 
 class LoadGameCommand : BaseCommand() {
@@ -24,6 +26,9 @@ class LoadGameCommand : BaseCommand() {
                 getCommand(LoadGameCommand::class)
                         .also { it.saveData = saveData }
     }
+
+    @Inject
+    protected lateinit var loadNewGameUsecase: LoadNewGameUsecase
 
     @Inject
     protected lateinit var loadGameUsecase: LoadGameUsecase
@@ -45,20 +50,28 @@ class LoadGameCommand : BaseCommand() {
     }
 
     override fun execute() {
-        saveData?.let {
-            setGraphics(it)
-            reset()
+        saveData?.let { saveGame ->
+            loadGameUsecase.getResult(
+                    params = saveGame,
+                    onSuccess = ::onSuccess,
+                    onError = ::onError)
         } ?: kotlin.run {
             val map = game.initDefaultMap(SELECTED_MAP.createMap())
             val config = LoadGameConfig(SELECTED_PLAYER, map)
-            loadGameUsecase.getResult(
+            loadNewGameUsecase.getResult(
                     params = config,
-                    onSuccess = {
-                        setGraphics(it.saveData)
-                        reset()
-                    },
-                    onError = { reset() })
+                    onSuccess = ::onSuccess,
+                    onError = ::onError)
         }
+    }
+
+    private fun onError(throwable: Throwable) {
+        reset()
+    }
+
+    private fun onSuccess(result: LoadGameResult) {
+        setGraphics(result.saveData)
+        reset()
     }
 
     private fun setGraphics(saveData: SaveData) {

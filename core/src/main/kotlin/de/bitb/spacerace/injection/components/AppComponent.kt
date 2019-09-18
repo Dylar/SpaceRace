@@ -53,7 +53,7 @@ interface AppComponent {
 
     fun inject(baseMenu: BaseMenu)
     fun inject(itemDetails: ItemDetails)
-    fun inject(baseMenu: RoundEndDetails)
+    fun inject(roundEndDetails: RoundEndDetails)
     fun inject(playerStatsGui: PlayerStatsGui)
     fun inject(gameActionGui: GameActionGui)
     fun inject(shopDetails: ShopDetails)

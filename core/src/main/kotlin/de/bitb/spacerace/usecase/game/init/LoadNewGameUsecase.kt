@@ -17,10 +17,10 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class LoadGameUsecase @Inject constructor(
+class LoadNewGameUsecase @Inject constructor(
+        private val loadGameUsecase: LoadGameUsecase,
         private val playerController: PlayerController,
-        private val playerColorDispenser: PlayerColorDispenser,
-        private val saveDataSource: SaveDataSource
+        private val playerColorDispenser: PlayerColorDispenser
 ) : ResultUseCase<LoadGameResult, LoadGameConfig> {
 
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameResult> =
@@ -28,8 +28,7 @@ class LoadGameUsecase @Inject constructor(
                 checkPlayerSize(players)
                         .andThen(initPlayers(players))
                         .flatMap { initMap(it, map) }
-                        .flatMap { saveDataSource.insertAndReturnSaveData(it) }
-                        .map { LoadGameResult(it) }
+                        .flatMap { loadGameUsecase.buildUseCaseSingle(it) }
                         .doAfterSuccess { pushCurrentPlayer(it.saveData.currentColor) }
             }
 
@@ -86,6 +85,16 @@ class LoadGameUsecase @Inject constructor(
     private fun pushCurrentPlayer(currentColor: PlayerColor) =
             playerColorDispenser.publisher.onNext(currentColor)
 
+}
+
+class LoadGameUsecase
+@Inject constructor(
+        private val saveDataSource: SaveDataSource
+) : ResultUseCase<LoadGameResult, SaveData> {
+
+    override fun buildUseCaseSingle(params: SaveData): Single<LoadGameResult> =
+            saveDataSource.insertAndReturnSaveData(params.apply { loaded = true })
+                    .flatMap { Single.fromCallable { LoadGameResult(it) } }
 }
 
 data class LoadGameConfig(

@@ -1,33 +1,42 @@
 package de.bitb.spacerace.database.player
 
+import de.bitb.spacerace.database.savegame.SaveData
+import de.bitb.spacerace.database.savegame.SaveData_
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.model.player.toName
 import io.objectbox.Box
+import io.objectbox.kotlin.inValues
 import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
 class PlayerRespository(
+        private val saveBox: Box<SaveData>,
         private val playerBox: Box<PlayerData>
 ) : PlayerDataSource {
 
+    private fun getSaveData() = saveBox.query().equal(SaveData_.loaded, true).build().find().first()
+    private fun getCurrentPlayers() = getSaveData().players
+    private fun getCurrentPlayerIds() = getCurrentPlayers().map { it.uuid }.toLongArray()
+    private fun getPlayerId(color: PlayerColor): Long = getCurrentPlayers().find { it.playerColor == color }?.uuid
+            ?: error("ColorNotSelected")
+
     override fun getDBByColor(vararg color: PlayerColor): List<PlayerData> =
-        playerBox.query()
-                .filter { color.toList().contains(it.playerColor) }
-                .build().find()
+            getSaveData().players.filter { it.playerColor in color }
+//        playerBox.query()
+//                .filter { color.toList().contains(it.playerColor) }
+//                .build().find()
 
 
     override fun insert(vararg userData: PlayerData): Completable =
             Completable.fromCallable { playerBox.put(*userData) }
 
     override fun insertAllReturnAll(vararg userData: PlayerData): Single<List<PlayerData>> =
-            insert(*userData).andThen(getAllBy(*userData))
+            insert(*userData).andThen(getAll())
 
     override fun replaceAll(vararg userData: PlayerData): Single<List<PlayerData>> =
             delete(*userData).andThen(insertAllReturnAll(*userData))
-
-    private fun getAllBy(vararg playerData: PlayerData): Single<List<PlayerData>>? =
-            getByColor(*playerData.map { it.playerColor }.toTypedArray())
 
     override fun delete(vararg userData: PlayerData): Completable =
             Completable.fromAction { playerBox.remove(*userData) }
@@ -36,37 +45,34 @@ class PlayerRespository(
             Completable.fromAction { playerBox.removeAll() }
 
     override fun getAll(): Single<List<PlayerData>> =
-            RxQuery.single(playerBox.query().build())
+            Single.fromCallable { getCurrentPlayers() }
 
     override fun getById(vararg userIds: Long): Single<List<PlayerData>> {
         val query = playerBox.query()
-                .filter { userIds.toList().contains(it.uuid) }
-                .build()
-        return RxQuery.single(query)
+                .inValues(PlayerData_.uuid, userIds)
+        return RxQuery.single(query.build())
     }
 
     override fun getByColor(vararg color: PlayerColor): Single<List<PlayerData>> {
+        val playerIds = getCurrentPlayerIds()
         val query = playerBox.query()
-                .filter { color.toList().contains(it.playerColor) }
-                .build()
-        return RxQuery.single(query)
+                .inValues(PlayerData_.uuid, playerIds)
+                .inValues(PlayerData_.playerColor, color.toName())
+        return RxQuery.single(query.build())
     }
 
     override fun observeAllObserver(): Observable<List<PlayerData>> {
-        return RxQuery.observable(playerBox.query().build())
+        val playerIds = getCurrentPlayerIds()
+        val query = playerBox.query()
+                .inValues(PlayerData_.uuid, playerIds)
+        return RxQuery.observable(query.build())
     }
 
     override fun observeByColor(color: PlayerColor): Observable<List<PlayerData>> {
+        val playerId = getPlayerId(color)
         val query = playerBox.query()
-                .equal(PlayerData_.playerColor, color.toString())
-                .build()
-        return RxQuery.observable(query)
+                .equal(PlayerData_.uuid, playerId)
+        return RxQuery.observable(query.build())
     }
 
-//    override fun observeByVictories(amount: Long): Observable<PlayerData> {
-//        val query = playerBox.query()
-//                .equal(PlayerData_.victories, amount)
-//                .build()
-//        return RxQuery.observable(query).map { it.first() }
-//    }
 }

@@ -38,3 +38,5 @@ enum class PlayerColor(val color: Color) {
     }
 
 }
+
+fun Array<out PlayerColor>.toName(): Array<String> = this.map { it.name }.toTypedArray()

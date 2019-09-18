@@ -19,7 +19,7 @@ import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
-import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
+import de.bitb.spacerace.usecase.game.init.LoadNewGameUsecase
 import io.reactivex.observers.TestObserver
 import javax.inject.Inject
 
@@ -34,7 +34,7 @@ class SpaceEnvironment {
     lateinit var graphicController: GraphicController
 
     @Inject
-    lateinit var loadGameUsecase: LoadGameUsecase
+    lateinit var loadNewGameUsecase: LoadNewGameUsecase
 
     @Inject
     lateinit var nextPhaseUseCase: NextPhaseUsecase
@@ -106,7 +106,7 @@ class SpaceEnvironment {
         testMap = mapToLoad.createMap()
         val map = testGame.initDefaultMap(testMap)
         val config = LoadGameConfig(playerColor.toList(), map)
-        loadGameUsecase.buildUseCaseSingle(config)
+        loadNewGameUsecase.buildUseCaseSingle(config)
                 .test()
                 .await()
                 .apply { assertObserver(error, assertError, assertSuccess) }
