@@ -1,0 +1,210 @@
+format_version: "4"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: android
+app:
+  envs:
+    - APP_MODULE: thmapp
+    - GRADLE_BUILD_FILE_PATH: thmapp
+      opts:
+        is_expand: false
+    - GRADLEW_PATH: ./gradlew
+      opts:
+        is_expand: false
+    - THMAPP_OUTPUT_APK: thmapp/build/outputs/apk
+    - BETA_RELEASE_NOTES: "Bitrise workflow **$BITRISE_TRIGGERED_WORKFLOW_TITLE** succeeded!\n||
+      Branch: $BITRISE_GIT_BRANCH \n|| Commit: $GIT_CLONE_COMMIT_MESSAGE_SUBJECT\n||
+      Committer: $GIT_CLONE_COMMIT_COMMITER_NAME"
+trigger_map:
+  - push_branch: '*'
+    workflow: dev
+  - pull_request_source_branch: '*'
+    workflow: dev
+workflows:
+  dev:
+    envs:
+      - BETA_GROUP_ALIASES: thm-app
+        opts:
+          is_expand: false
+    steps:
+      - activate-ssh-key:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone: {}
+      - cache-pull: {}
+      - script:
+          title: Do anything with Script step
+      - install-missing-android-tools: {}
+      - android-unit-test:
+          inputs:
+            - variant: devDebug
+            - module: thmapp
+      - gradle-runner:
+          inputs:
+            - gradle_file: ""
+            - gradle_task: :$APP_MODULE:assembleDevDebug
+            - gradlew_path: $GRADLEW_PATH
+      - gradle-runner:
+          title: Gradle Crashlytics Beta
+          run_if: '{{enveq "BITRISE_IO" "true"}}'
+          inputs:
+            - gradle_file: ""
+            - gradle_task: :$APP_MODULE:crashlyticsUploadDistributionDevDebug
+      - slack:
+          run_if: '{{enveq "BITRISE_IO" "true"}}'
+          inputs:
+            - webhook_url: https://hooks.slack.com/services/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
+            - text: $BETA_RELEASE_NOTES
+            - text_on_error: "Bitrise workflow **$BITRISE_TRIGGERED_WORKFLOW_TITLE** failed!
+            \n|| Branch: $BITRISE_GIT_BRANCH \n|| Commit: $GIT_CLONE_COMMIT_MESSAGE_SUBJECT
+            \n|| Committer: $GIT_CLONE_COMMIT_COMMITER_NAME "
+            - title_link: ""
+            - buttons: |
+                View App|${BITRISE_APP_URL}
+                View Build|${BITRISE_BUILD_URL}
+                Install Page|${BITRISE_PUBLIC_INSTALL_PAGE_URL}
+                Join Beta Tester|https://betas.to/amySqySy
+            - channel: '#mobile-cicd'
+      - deploy-to-bitrise-io: {}
+      - cache-push: {}
+  live:
+    envs:
+      - BETA_GROUP_ALIASES: thm-app
+        opts:
+          is_expand: false
+    steps:
+      - activate-ssh-key@3.1.1:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.10: {}
+      - cache-pull@2.0.1: {}
+      - script@1.1.5:
+          title: Do anything with Script step
+      - install-missing-android-tools@2.1.1: {}
+      - android-unit-test@0.9.2:
+          inputs:
+            - variant: devDebug
+            - module: thmapp
+      - gradle-runner@1.8.3:
+          inputs:
+            - gradle_file: $GRADLE_BUILD_FILE_PATH
+            - gradle_task: :$APP_MODULE:assembleLiveDebug :$APP_MODULE:assembleLiveRelease
+            - gradlew_path: $GRADLEW_PATH
+      - gradle-runner:
+          title: Gradle Crashlytics Beta
+          run_if: '{{enveq "BITRISE_IO" "true"}}'
+          inputs:
+            - gradle_file: ""
+            - gradle_task: :$APP_MODULE:crashlyticsUploadDistributionLiveDebug
+      - slack@2.7.2:
+          inputs:
+            - webhook_url: https://hooks.slack.com/services/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
+            - text: $BETA_RELEASE_NOTES
+            - text_on_error: "Bitrise workflow **$BITRISE_TRIGGERED_WORKFLOW_TITLE** failed!
+            \n|| Branch: $BITRISE_GIT_BRANCH \n|| Commit: $GIT_CLONE_COMMIT_MESSAGE_SUBJECT
+            \n|| Committer: $GIT_CLONE_COMMIT_COMMITER_NAME "
+            - title_link: ""
+            - channel: '#mobile-cicd'
+      - deploy-to-bitrise-io@1.3.10: {}
+      - cache-push@2.0.5: {}
+  post-build-in-progress:
+    steps:
+      - script@1.1.5:
+          title: Post puild in progress
+          is_always_run: true
+          inputs:
+            - content: "#!/usr/bin/env bash\n# send build status to bitbucket\n# get commit
+            hash\ncommit_hash=$( git log --pretty=format:'%H' -n 1 )\ncommit_message=$(
+            git log --format=%b -n 1 )\n# send API request to bitbucket\ncurl -i -H
+            'Authorization:Basic Qml0cmlzZSBCb3Q6cWF0ZXN0MTIzNA==' -H \"Content-Type:
+            application/json\" -X POST https://werkbank.edeka/bitbucket/rest/build-status/1.0/commits/$commit_hash
+            -d '{\n\t\"state\": \"INPROGRESS\",\n\t\"key\": \"REPO-MASTER-'\"$BITRISE_BUILD_NUMBER\"'\",\n\t\"name\":
+            \"Bitrise Build status: THM App\",\n\t\"url\": \"https://app.bitrise.io/app/0758ffbf7512e5c7#\",\n\t\"description\":
+            \"'\"$commit_message\"'\"\n}'"
+  post-build-status:
+    steps:
+      - script@1.1.5:
+          title: Post Build status
+          is_always_run: true
+          inputs:
+            - content: "#!/usr/bin/env bash\n# send build status to bitbucket\nBUILD_STATUS=\"INPROGRESS\"
+            \  \nif [ \"$BITRISE_BUILD_STATUS\" == \"0\" ] ; then\n  BUILD_STATUS=\"SUCCESSFUL\"\nelse
+            \n  BUILD_STATUS=\"FAILED\"\nfi\necho \"Build status: $BUILD_STATUS\"\n#
+            get commit hash\ncommit_hash=$( git log --pretty=format:'%H' -n 1 )\ncommit_message=$(
+            git log --format=%b -n 1 )\n# send API request to bitbucket\ncurl -i -H
+            'Authorization:Basic Qml0cmlzZSBCb3Q6cWF0ZXN0MTIzNA==' -H \"Content-Type:
+            application/json\" -X POST https://werkbank.edeka/bitbucket/rest/build-status/1.0/commits/$commit_hash
+            -d '{\n\t\"state\": \"'\"$BUILD_STATUS\"'\",\n\t\"key\": \"REPO-MASTER-'\"$BITRISE_BUILD_NUMBER\"'\",\n\t\"name\":
+            \"Bitrise Build status: THM App\",\n\t\"url\": \"https://app.bitrise.io/app/0758ffbf7512e5c7#\",\n\t\"description\":
+            \"'\"$commit_message\"'\"\n}'"
+  test:
+    steps:
+      - avd-manager:
+          is_always_run: true
+          run_if: .IsCI
+          inputs:
+            - resolution: 1080x1920
+            - density: "420"
+            - profile: pixel
+            - custom_command_flags: -no-window -no-audio -debug-init -wipe-data
+      - activate-ssh-key:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone: {}
+      - cache-pull: {}
+      - install-missing-android-tools: {}
+      - gradle-unit-test:
+          inputs:
+            - unit_test_task: :$APP_MODULE:testDevDebugUnitTest
+            - gradle_file: ""
+      - deploy-to-bitrise-io:
+          title: Deploy Reports
+          inputs:
+            - is_compress: "true"
+            - zip_name: $APP_MODULE_reports
+            - deploy_path: /bitrise/src/thmapp/build/reports/
+      - script:
+          title: Terminate all emulators
+          is_always_run: true
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
+      - cache-push: {}
+  test-vd:
+    before_run:
+      - post-build-in-progress
+    after_run:
+      - post-build-status
+    steps:
+      - activate-ssh-key:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone: {}
+      - cache-pull: {}
+      - install-missing-android-tools: {}
+      - android-unit-test:
+          inputs:
+            - variant: mockDebug
+            - module: thmapp
+      - gradle-runner:
+          inputs:
+            - gradle_file: ""
+            - gradle_task: :$APP_MODULE:assembleMockDebug :$APP_MODULE:assembleMockDebugAndroidTest
+            - test_apk_file_include_filter: '*/thmapp-mock-debug-androidTest.apk'
+            - gradlew_path: $GRADLEW_PATH
+      - flank:
+          inputs:
+            - config_path: ./thmapp/flank.yml
+            - google_service_account_json: $GOOGLE_SERVICE_ACCOUNT
+      - deploy-to-bitrise-io@1.7.0: {}
+      - slack:
+          run_if: '{{enveq "BITRISE_IO" "true"}}'
+          inputs:
+            - webhook_url: https://hooks.slack.com/services/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
+            - text_on_error: "@channel Bitrise Test workflow **$BITRISE_TRIGGERED_WORKFLOW_TITLE**
+            failed! \n|| Branch: $BITRISE_GIT_BRANCH \n|| Commit: $GIT_CLONE_COMMIT_MESSAGE_SUBJECT
+            \n|| Committer: $GIT_CLONE_COMMIT_COMMITER_NAME "
+            - title_link: ""
+            - buttons: |
+                View App|${BITRISE_APP_URL}
+                View Build|${BITRISE_BUILD_URL}
+                Install Page|${BITRISE_PUBLIC_INSTALL_PAGE_URL}
+                Join Beta Tester|https://betas.to/amySqySy
+            - channel: '#mobile-cicd'
+      - cache-push: {}
