@@ -3,14 +3,14 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 app:
   envs:
-    - APP_MODULE: thmapp
-    - GRADLE_BUILD_FILE_PATH: thmapp
+    - APP_MODULE: android
+    - GRADLE_BUILD_FILE_PATH: android
       opts:
         is_expand: false
     - GRADLEW_PATH: ./gradlew
       opts:
         is_expand: false
-    - THMAPP_OUTPUT_APK: thmapp/build/outputs/apk
+    - SPACERACE_OUTPUT_APK: android/build/outputs/apk
     - BETA_RELEASE_NOTES: "Bitrise workflow **$BITRISE_TRIGGERED_WORKFLOW_TITLE** succeeded!\n||
       Branch: $BITRISE_GIT_BRANCH \n|| Commit: $GIT_CLONE_COMMIT_MESSAGE_SUBJECT\n||
       Committer: $GIT_CLONE_COMMIT_COMMITER_NAME"
@@ -22,7 +22,7 @@ trigger_map:
 workflows:
   dev:
     envs:
-      - BETA_GROUP_ALIASES: thm-app
+      - BETA_GROUP_ALIASES: SpaceRace
         opts:
           is_expand: false
     steps:
@@ -35,8 +35,8 @@ workflows:
       - install-missing-android-tools: {}
       - android-unit-test:
           inputs:
-            - variant: devDebug
-            - module: thmapp
+            - variant: debug
+            - module: android
       - gradle-runner:
           inputs:
             - gradle_file: ""
@@ -67,7 +67,7 @@ workflows:
       - cache-push: {}
   live:
     envs:
-      - BETA_GROUP_ALIASES: thm-app
+      - BETA_GROUP_ALIASES: SpaceRace
         opts:
           is_expand: false
     steps:
@@ -81,7 +81,7 @@ workflows:
       - android-unit-test@0.9.2:
           inputs:
             - variant: devDebug
-            - module: thmapp
+            - module: android
       - gradle-runner@1.8.3:
           inputs:
             - gradle_file: $GRADLE_BUILD_FILE_PATH
@@ -107,7 +107,7 @@ workflows:
   post-build-in-progress:
     steps:
       - script@1.1.5:
-          title: Post puild in progress
+          title: Post build in progress
           is_always_run: true
           inputs:
             - content: "#!/usr/bin/env bash\n# send build status to bitbucket\n# get commit
