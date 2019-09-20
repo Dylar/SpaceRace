@@ -1,6 +1,7 @@
 package de.bitb.spacerace.env
 
 import de.bitb.spacerace.config.WIN_AMOUNT
+import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.*
@@ -12,6 +13,7 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.SpaceMap
+import de.bitb.spacerace.model.space.maps.initDefaultMap
 import de.bitb.spacerace.usecase.game.action.*
 import de.bitb.spacerace.usecase.game.getter.GetFieldUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
@@ -32,6 +34,8 @@ class SpaceEnvironment {
 
     @Inject
     lateinit var graphicController: GraphicController
+    @Inject
+    lateinit var gameController:GameController
 
     @Inject
     lateinit var loadNewGameUsecase: LoadNewGameUsecase
@@ -104,7 +108,7 @@ class SpaceEnvironment {
         TestGame.testComponent.inject(this)
 
         testMap = mapToLoad.createMap()
-        val map = testGame.initDefaultMap(testMap)
+        val map = testMap.initDefaultMap()
         val config = LoadGameConfig(playerColor.toList(), map)
         loadNewGameUsecase.buildUseCaseSingle(config)
                 .test()
@@ -112,8 +116,8 @@ class SpaceEnvironment {
                 .apply { assertObserver(error, assertError, assertSuccess) }
 
 //        testGame.initGameObserver()
-        testGame.initPhaseObserver() //Only phase observer -> so winner is as test observer
-        winnerObserver = testGame
+        gameController.initPhaseObserver() //Only phase observer -> so winner is as test observer
+        winnerObserver = gameController
                 .observeWinnerUsecase
                 .buildUseCaseObservable(winAmount)
                 .test()

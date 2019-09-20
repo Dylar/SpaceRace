@@ -15,14 +15,18 @@ abstract class BaseGame : Game() {
     abstract fun initGame()
     abstract fun initScreen()
 
-    fun changeScreen(screen: BaseScreen) {
-        setScreen(screen)
-    }
-
     fun clearScreen(red: Float = 0f, green: Float = 0f, blue: Float = 0f, alpha: Float = 1f) {
         Gdx.gl.glClearColor(red, green, blue, alpha)
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT and GL20.GL_DEPTH_BUFFER_BIT)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }
 
+    fun changeScreen(screen: BaseScreen) {
+        clear() //TODO CLEAR HERE NUT WENN ka ...
+        setScreen(screen)
+    }
+
+    open fun clear() {
+        (screen as BaseScreen).clear()
+    }
 }

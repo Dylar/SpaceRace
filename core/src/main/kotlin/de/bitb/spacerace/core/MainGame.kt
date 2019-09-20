@@ -4,28 +4,15 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.config.WIN_AMOUNT
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.database.map.FieldConfigData
-import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.events.GameOverEvent
-import de.bitb.spacerace.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
-import de.bitb.spacerace.model.space.maps.SpaceMap
 import de.bitb.spacerace.ui.screens.GameOverScreen
-import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.start.StartScreen
-import de.bitb.spacerace.usecase.game.observe.ObserveRoundUsecase
-import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
-import de.bitb.spacerace.utils.Logger
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -37,18 +24,8 @@ open class MainGame : BaseGame() {
         lateinit var appComponent: AppComponent
     }
 
-    private val compositeDisposable = CompositeDisposable()
-
-    @Inject
-    lateinit var observeWinnerUsecase: ObserveWinnerUsecase
-    @Inject
-    lateinit var observeRoundUsecase: ObserveRoundUsecase
     @Inject
     protected lateinit var commandUsecase: CommandUsecase
-    @Inject
-    lateinit var playerController: PlayerController
-    @Inject
-    lateinit var graphicController: GraphicController
 
     open fun initComponent(): AppComponent =
             DaggerAppComponent.builder()
@@ -61,11 +38,6 @@ open class MainGame : BaseGame() {
         appComponent = initComponent()
         appComponent.inject(this)
 
-        initObserver()
-    }
-
-    private fun initObserver() {
-        playerController.initObserver()
         commandUsecase.observeStream()
     }
 
@@ -82,7 +54,6 @@ open class MainGame : BaseGame() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun gameOverEvent(event: GameOverEvent) {
-        clear()
         changeScreen(GameOverScreen(this))
     }
 
@@ -101,14 +72,14 @@ open class MainGame : BaseGame() {
     }
 
     private fun handleSystemInput() {
-        if (isCloseGameTipped()) Gdx.app.exit()
-        else if (isBackTipped()) {
-            val previousScreen = (screen as BaseScreen).previousScreen
-            (screen as BaseScreen).clear()
-//            clear()
-
-            if (previousScreen == null) Gdx.app.exit()
-            else changeScreen(previousScreen)
+        when {
+            isCloseGameTipped() -> Gdx.app.exit()
+            isBackTipped() -> {
+                (screen as BaseScreen)
+                        .previousScreen
+                        ?.also { changeScreen(it) }
+                        ?: Gdx.app.exit()
+            }
         }
     }
 
@@ -131,69 +102,4 @@ open class MainGame : BaseGame() {
     private fun isBackTipped(): Boolean {
         return checkCombi(Input.Keys.ALT_LEFT, Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)
     }
-
-    //TODO clear on
-    fun clear() {
-        playerController.clear()
-        compositeDisposable.clear()
-        (screen as? BaseScreen)?.clear()
-    }
-
-    fun addEntities() {
-        val gameStage = (screen as BaseScreen).gameStage as GameStage
-        gameStage.clear()
-        gameStage.addEntitiesToMap()
-    }
-
-    fun initGameObserver() {
-        initWinnerObserver()
-        initPhaseObserver()
-    }
-
-    fun initWinnerObserver() {
-        compositeDisposable += observeWinnerUsecase.observeStream(
-                params = WIN_AMOUNT,
-                onNext = { winner ->
-                    Logger.println("AND THE WINNER IIIIISSS: $winner")
-                    EventBus.getDefault().post(GameOverEvent(winner.playerColor))
-                })
-    }
-
-    fun initPhaseObserver() {
-        compositeDisposable += observeRoundUsecase.observeStream { roundEnd ->
-            if (roundEnd) EventBus.getDefault().post(OpenEndRoundMenuEvent())
-        }
-    }
-
-
-    //TODO RETURN MAPDATA
-
-    fun initDefaultMap(defaultMap: SpaceMap): MapData = MapData().apply {
-        //create fields
-        defaultMap.groups.forEach { spaceGroup ->
-            spaceGroup.fields.entries.forEach { field ->
-                val spaceField = field.value
-                val fieldData = FieldConfigData(
-                        fieldType = spaceField.fieldType,
-                        gamePosition = spaceField.gamePosition)
-                fields.add(fieldData)
-                if (spaceField.gamePosition.isPosition(defaultMap.startField.gamePosition))
-                    startPosition.setPosition(fieldData.gamePosition)
-            }
-        }
-
-        fields.forEach { fieldData ->
-            defaultMap.connections
-                    .filter { it.isConnected(fieldData.gamePosition) }
-                    .forEach { connection ->
-                        val opposite = connection.getOpposite(fieldData.gamePosition)
-                        val oppositeData = fields.find { field -> field.gamePosition.isPosition(opposite.gamePosition) }
-                        oppositeData?.also {
-                            fieldData.connections.add(it.gamePosition)
-                        }
-                    }
-        }
-
-    }
-
 }

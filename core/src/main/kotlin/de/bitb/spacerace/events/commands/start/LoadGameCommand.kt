@@ -3,6 +3,7 @@ package de.bitb.spacerace.events.commands.start
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.SELECTED_PLAYER
+import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.map.FieldData
@@ -12,6 +13,7 @@ import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.model.space.fields.FieldGraphic
+import de.bitb.spacerace.model.space.maps.initDefaultMap
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
@@ -34,6 +36,9 @@ class LoadGameCommand : BaseCommand() {
     protected lateinit var loadGameUsecase: LoadGameUsecase
 
     @Inject
+    protected lateinit var gameController: GameController
+
+    @Inject
     protected lateinit var game: MainGame
 
     @Inject
@@ -45,10 +50,6 @@ class LoadGameCommand : BaseCommand() {
         MainGame.appComponent.inject(this)
     }
 
-    override fun canExecute(): Boolean {
-        return true
-    }
-
     override fun execute() {
         saveData?.let { saveGame ->
             loadGameUsecase.getResult(
@@ -56,7 +57,7 @@ class LoadGameCommand : BaseCommand() {
                     onSuccess = ::onSuccess,
                     onError = ::onError)
         } ?: kotlin.run {
-            val map = game.initDefaultMap(SELECTED_MAP.createMap())
+            val map = SELECTED_MAP.createMap().initDefaultMap() //TODO delete or save somewhere
             val config = LoadGameConfig(SELECTED_PLAYER, map)
             loadNewGameUsecase.getResult(
                     params = config,
@@ -66,6 +67,7 @@ class LoadGameCommand : BaseCommand() {
     }
 
     private fun onError(throwable: Throwable) {
+        throwable.printStackTrace()
         reset()
     }
 
@@ -75,17 +77,17 @@ class LoadGameCommand : BaseCommand() {
     }
 
     private fun setGraphics(saveData: SaveData) {
-        game.changeScreen(GameScreen(game, game.screen as BaseScreen))
+        val screen = GameScreen(game, game.screen as BaseScreen)
         graphicController.clearGraphics()
 
         val fields = saveData.fields
         addGraphicFields(fields)
         addGraphicConnections(fields)
         addGraphicPlayers(saveData.players)
-
         graphicController.setGoal(currentGoal = saveData.goal.target.gamePosition)
-        game.addEntities()
-        game.initGameObserver()
+
+        gameController.initGameObserver()
+        game.changeScreen(screen)
     }
 
     private fun addGraphicPlayers(players: List<PlayerData>) {

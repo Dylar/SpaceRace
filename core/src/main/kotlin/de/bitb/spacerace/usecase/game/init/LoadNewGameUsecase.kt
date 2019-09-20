@@ -104,4 +104,5 @@ data class LoadGameConfig(
 
 data class LoadGameResult(
         var saveData: SaveData
+
 )

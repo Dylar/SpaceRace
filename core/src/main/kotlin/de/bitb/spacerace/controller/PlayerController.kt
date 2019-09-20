@@ -26,7 +26,7 @@ class PlayerController
 
     var currentPlayerData = NONE_PLAYER_DATA
     val currentColor: PlayerColor
-        get() = players[currentPlayerIndex] ?: PlayerColor.NONE
+        get() = players[currentPlayerIndex]
 
     fun initObserver() {
         dispo?.dispose()

@@ -16,18 +16,14 @@ class PlayerRespository(
         private val playerBox: Box<PlayerData>
 ) : PlayerDataSource {
 
-    private fun getSaveData() = saveBox.query().equal(SaveData_.loaded, true).build().find().first()
-    private fun getCurrentPlayers() = getSaveData().players
+    private fun getSaveData() = saveBox.query().equal(SaveData_.loaded, true).build().find().firstOrNull()
+    private fun getCurrentPlayers() = getSaveData()?.players ?: listOf<PlayerData>()
     private fun getCurrentPlayerIds() = getCurrentPlayers().map { it.uuid }.toLongArray()
     private fun getPlayerId(color: PlayerColor): Long = getCurrentPlayers().find { it.playerColor == color }?.uuid
             ?: error("ColorNotSelected")
 
     override fun getDBByColor(vararg color: PlayerColor): List<PlayerData> =
-            getSaveData().players.filter { it.playerColor in color }
-//        playerBox.query()
-//                .filter { color.toList().contains(it.playerColor) }
-//                .build().find()
-
+            getCurrentPlayers().filter { it.playerColor in color }
 
     override fun insert(vararg userData: PlayerData): Completable =
             Completable.fromCallable { playerBox.put(*userData) }

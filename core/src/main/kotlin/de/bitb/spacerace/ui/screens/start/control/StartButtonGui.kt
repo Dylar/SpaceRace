@@ -12,7 +12,6 @@ import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LANGUAGE
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_START
-import de.bitb.spacerace.controller.SettingsController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.OpenDebugGuiEvent
 import de.bitb.spacerace.events.OpenLoadGameEvent
@@ -28,9 +27,6 @@ class StartButtonGui(
 
     @Inject
     lateinit var observeCommandUsecase: ObserveCommandUsecase
-
-    @Inject
-    lateinit var settingsController: SettingsController
 
     private lateinit var startBtn: TextButton
     private lateinit var winLabel: Label

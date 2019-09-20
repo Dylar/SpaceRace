@@ -3,6 +3,7 @@ package de.bitb.spacerace.ui.screens.game
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.CAMERA_TARGET
+import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
@@ -21,6 +22,9 @@ class GameScreen(
 
     @Inject
     protected lateinit var graphicController:GraphicController
+
+    @Inject
+    protected lateinit var gameController: GameController
 
     override fun createGuiStage(): BaseStage {
         return GameGuiStage(this)
@@ -48,9 +52,22 @@ class GameScreen(
         zoom()
     }
 
+    override fun show() {
+        super.show()
+        addEntities()
+    }
+
     override fun clear() {
         super.clear()
+        gameController.clear()
+
 //        boxStore.close()
 //        BoxStore.deleteAllFiles(File(BoxStoreBuilder.DEFAULT_NAME))
+    }
+
+    fun addEntities() {
+        val gameStage = gameStage as GameStage
+        gameStage.clear()
+        gameStage.addEntitiesToMap()
     }
 }
