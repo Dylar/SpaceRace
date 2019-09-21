@@ -71,11 +71,9 @@ abstract class GameImage(
 
     override fun act(delta: Float) {
         super.act(delta)
+        //TODO mit usecase? -> on main thread
         animation.actAnimation(this, delta)
-        if (isIdling()
-                && actionQueue.isNotEmpty()
-                && movingState == MovingState.NONE
-        ) {
+        if (isIdling() && actionQueue.isNotEmpty()) {
             val seq = Actions.sequence(*actionQueue.toTypedArray())
             actionQueue.clear()
             super.addAction(seq)

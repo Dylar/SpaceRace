@@ -11,6 +11,8 @@ import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.getRunnableAction
 
+
+//TODO als usecase -> on main thread
 class MovingImage : IMovingImage {
 
     private var flightTime = 1f
