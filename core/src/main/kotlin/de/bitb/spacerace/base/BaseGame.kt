@@ -22,11 +22,7 @@ abstract class BaseGame : Game() {
     }
 
     fun changeScreen(screen: BaseScreen) {
-        clear() //TODO CLEAR HERE NUT WENN ka ...
         setScreen(screen)
     }
 
-    open fun clear() {
-        (screen as BaseScreen).clear()
-    }
 }

@@ -26,6 +26,7 @@ class GameController
     fun clear() {
         compositeDisposable.clear()
         playerController.clear()
+        graphicController.clearGraphics()
     }
     fun initGameObserver() {
         initWinnerObserver()

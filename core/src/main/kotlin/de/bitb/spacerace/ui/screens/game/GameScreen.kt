@@ -57,12 +57,9 @@ class GameScreen(
         addEntities()
     }
 
-    override fun clear() {
-        super.clear()
+    override fun hide() {
+        super.hide()
         gameController.clear()
-
-//        boxStore.close()
-//        BoxStore.deleteAllFiles(File(BoxStoreBuilder.DEFAULT_NAME))
     }
 
     fun addEntities() {

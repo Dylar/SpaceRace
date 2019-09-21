@@ -4,6 +4,7 @@ import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.utils.getDate
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
@@ -14,7 +15,7 @@ import java.util.*
 
 @Entity
 data class SaveData(
-        var name: String = Calendar.getInstance().time.toString(),
+        var name: String = Calendar.getInstance().getDate(),
         @Id
         var uuid: Long = 0,
         @Convert(converter = PlayerColorConverter::class, dbType = String::class)

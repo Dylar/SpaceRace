@@ -19,7 +19,6 @@ import javax.inject.Inject
 
 class LoadNewGameUsecase @Inject constructor(
         private val loadGameUsecase: LoadGameUsecase,
-        private val playerController: PlayerController,
         private val playerColorDispenser: PlayerColorDispenser
 ) : ResultUseCase<LoadGameResult, LoadGameConfig> {
 
@@ -36,12 +35,10 @@ class LoadNewGameUsecase @Inject constructor(
             Single.fromCallable {
                 SaveData().also { saveGame ->
                     players.forEach { color ->
-                        playerController.addPlayer(color)
                         saveGame.players.add(PlayerData(playerColor = color))
                     }
                     saveGame.currentColor = players.first()
                 }
-
             }
 
 
@@ -89,12 +86,20 @@ class LoadNewGameUsecase @Inject constructor(
 
 class LoadGameUsecase
 @Inject constructor(
+        private val playerController: PlayerController,
         private val saveDataSource: SaveDataSource
 ) : ResultUseCase<LoadGameResult, SaveData> {
 
     override fun buildUseCaseSingle(params: SaveData): Single<LoadGameResult> =
-            saveDataSource.insertAndReturnSaveData(params.apply { loaded = true })
-                    .flatMap { Single.fromCallable { LoadGameResult(it) } }
+            saveDataSource.loadGame(params)
+                    .doOnSuccess { initPlayer(it) }
+                    .map { LoadGameResult(it) }
+
+    private fun initPlayer(saveData: SaveData) {
+        saveData.players
+                .map { player -> player.playerColor }
+                .forEach { color -> playerController.addPlayer(color) }
+    }
 }
 
 data class LoadGameConfig(

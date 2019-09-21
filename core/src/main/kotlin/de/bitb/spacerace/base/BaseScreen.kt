@@ -152,6 +152,9 @@ open class BaseScreen(
     }
 
     override fun hide() {
+        backgroundStage.compositDisposable.clear()
+        gameStage.compositDisposable.clear()
+        guiStage.compositDisposable.clear()
     }
 
     override fun dispose() {
@@ -190,12 +193,6 @@ open class BaseScreen(
 
     fun centerCamera(lock: Boolean = cameraStatus == CAMERA_FREE) {
         cameraStatus = if (lock) CAMERA_LOCKED else CAMERA_FREE
-    }
-
-    open fun clear() {
-        backgroundStage.compositDisposable.clear()
-        gameStage.compositDisposable.clear()
-        guiStage.compositDisposable.clear()
     }
 
 }
