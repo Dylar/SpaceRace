@@ -27,6 +27,7 @@ import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
 import de.bitb.spacerace.usecase.ui.CommandUsecase
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import de.bitb.spacerace.utils.Logger
+import io.objectbox.BoxStore
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
@@ -34,7 +35,9 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
-open class MainGame : BaseGame() {
+open class MainGame(
+        protected val objBox: BoxStore? = null
+) : BaseGame() {
 
     companion object {
         lateinit var appComponent: AppComponent
@@ -59,7 +62,7 @@ open class MainGame : BaseGame() {
     open fun initComponent(): AppComponent =
             DaggerAppComponent.builder()
                     .applicationModule(ApplicationModule(this))
-                    .databaseModule(DatabaseModule())
+                    .databaseModule(DatabaseModule(objBox))
                     .build()
 
     override fun initGame() {

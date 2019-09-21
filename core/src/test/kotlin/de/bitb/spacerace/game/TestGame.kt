@@ -9,7 +9,7 @@ import de.bitb.spacerace.injection.components.TestComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
 
-class TestGame : MainGame() {
+class TestGame : MainGame(Setup.createMockBoxStore()) {
 
     companion object {
         lateinit var testComponent: TestComponent
@@ -26,7 +26,7 @@ class TestGame : MainGame() {
             .builder()
             .applicationModule(ApplicationModule(this))
             .databaseModule(DatabaseModule(
-                    mockDb = Setup.createMockBoxStore()
+                    boxStore = objBox
             ))
             .build()
 
