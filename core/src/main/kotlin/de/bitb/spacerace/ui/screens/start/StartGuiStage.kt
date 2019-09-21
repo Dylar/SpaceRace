@@ -35,13 +35,13 @@ class StartGuiStage(
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun openLoadGameEvent(event: OpenLoadGameEvent){
+    fun openLoadGameEvent(event: OpenLoadGameEvent) {
         changeMenu(loadGameSelection, "PLAYER", playerSelection, "LOAD")
                 .also { startButtonControl.updateLoadBtnText(it) }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun openDebugGuiEvent(event: OpenDebugGuiEvent){
+    fun openDebugGuiEvent(event: OpenDebugGuiEvent) {
         changeMenu(mapSelection, "FIELDS", fieldSelectionControl, "MAPS")
                 .also { startButtonControl.updateDebugBtnText(it) }
     }
@@ -57,4 +57,8 @@ class StartGuiStage(
 
     }
 
+    override fun clear() {
+        EventBus.getDefault().unregister(this)
+        super.clear()
+    }
 }

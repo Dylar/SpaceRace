@@ -42,7 +42,7 @@ class GameActionGui(
 
     init {
         MainGame.appComponent.inject(this)
-        EventBus.getDefault().register(this) //TODO unregister?
+        EventBus.getDefault().register(this)
 
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
@@ -126,4 +126,8 @@ class GameActionGui(
         guiStage.addActor(endMenu)
     }
 
+    override fun clear() {
+        EventBus.getDefault().unregister(this)
+        super.clear()
+    }
 }
