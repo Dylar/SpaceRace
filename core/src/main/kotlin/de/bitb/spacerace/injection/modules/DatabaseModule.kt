@@ -21,21 +21,18 @@ import javax.inject.Singleton
 
 @Module
 class DatabaseModule(
-        private val mockDb: BoxStore? = null
+        private var boxStore: BoxStore? = null
 ) {
-
-    private lateinit var boxStore: BoxStore
 
     @Provides
     @Singleton
-    fun provideDatabase(): BoxStore =
-            mockDb ?: run {
-                if (!::boxStore.isInitialized || boxStore.isClosed) {
-                    BoxStore.deleteAllFiles(File(DEFAULT_NAME))
-                    boxStore = MyObjectBox.builder().build()
-                }
-
-                boxStore
+    fun provideDatabase(): BoxStore {
+        if (boxStore == null || boxStore?.isClosed == true) {
+            BoxStore.deleteAllFiles(File(DEFAULT_NAME))
+            boxStore = MyObjectBox.builder().build()
+        }
+        return boxStore!!
+    }
 
 //        val boxStore = MyObjectBox.builder().build()
 //        if (BuildConfig.DEBUG) {
@@ -43,8 +40,6 @@ class DatabaseModule(
 //        }
 //        return boxStore
 //        return BoxStore.getDefault();
-
-            }
 
 
     @Provides

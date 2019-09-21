@@ -15,7 +15,8 @@ project.ext {
     ]
 
     rx = [
-            java  : '3.0.0-RC1',
+            java  : '2.2.12',
+//            java  : '3.0.0-RC1',
             kotlin: '2.4.0'
     ]
 
