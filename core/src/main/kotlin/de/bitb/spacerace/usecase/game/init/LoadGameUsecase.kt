@@ -18,8 +18,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class LoadNewGameUsecase @Inject constructor(
-        private val loadGameUsecase: LoadGameUsecase,
-        private val playerColorDispenser: PlayerColorDispenser
+        private val loadGameUsecase: LoadGameUsecase
 ) : ResultUseCase<LoadGameResult, LoadGameConfig> {
 
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameResult> =
@@ -28,7 +27,6 @@ class LoadNewGameUsecase @Inject constructor(
                         .andThen(initPlayers(players))
                         .flatMap { initMap(it, map) }
                         .flatMap { loadGameUsecase.buildUseCaseSingle(it) }
-                        .doAfterSuccess { pushCurrentPlayer(it.saveData.currentColor) }
             }
 
     private fun initPlayers(players: List<PlayerColor>): Single<SaveData> =
@@ -79,27 +77,29 @@ class LoadNewGameUsecase @Inject constructor(
                 saveData
             }
 
-    private fun pushCurrentPlayer(currentColor: PlayerColor) =
-            playerColorDispenser.publisher.onNext(currentColor)
-
 }
 
 class LoadGameUsecase
 @Inject constructor(
         private val playerController: PlayerController,
-        private val saveDataSource: SaveDataSource
+        private val saveDataSource: SaveDataSource,
+        private val playerColorDispenser: PlayerColorDispenser
 ) : ResultUseCase<LoadGameResult, SaveData> {
 
     override fun buildUseCaseSingle(params: SaveData): Single<LoadGameResult> =
             saveDataSource.loadGame(params)
                     .doOnSuccess { initPlayer(it) }
                     .map { LoadGameResult(it) }
+                    .doAfterSuccess { pushCurrentPlayer(it.saveData.currentColor) }
 
     private fun initPlayer(saveData: SaveData) {
         saveData.players
                 .map { player -> player.playerColor }
                 .forEach { color -> playerController.addPlayer(color) }
     }
+
+    private fun pushCurrentPlayer(currentColor: PlayerColor) =
+            playerColorDispenser.publisher.onNext(currentColor)
 }
 
 data class LoadGameConfig(
