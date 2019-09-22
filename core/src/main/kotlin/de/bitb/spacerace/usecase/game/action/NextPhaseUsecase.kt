@@ -9,8 +9,6 @@ import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.savegame.SaveDataSource
-import de.bitb.spacerace.events.commands.CommandPool
-import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.exceptions.DiceFirstException
 import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.FieldType
@@ -18,7 +16,6 @@ import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.items.disposable.DisposableItem
-import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
@@ -158,7 +155,7 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainGoal(playerData: PlayerData): Single<out ObtainGoalResult> =
-            saveDataSource.getSaveGame()
+            saveDataSource.getLoadedGame()
                     .map { map -> map to map.fields.filter { field -> field.fieldType == FieldType.GOAL } }
                     .flatMap { (map, goals) ->
                         var goal = map.goal.target

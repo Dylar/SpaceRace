@@ -23,7 +23,7 @@ class Setup(
                     // add directory flag to change where ObjectBox puts its database files
                     .directory(TEST_DIRECTORY)
                     // optional: add debug flags for more detailed ObjectBox log output
-                    .debugFlags(DebugFlags.LOG_QUERIES or DebugFlags.LOG_QUERY_PARAMETERS)
+//                    .debugFlags(DebugFlags.LOG_QUERIES or DebugFlags.LOG_QUERY_PARAMETERS)
                     .build()
 
             return boxStore!!

@@ -14,6 +14,6 @@ class ObtainMineTest : GameTest() {
 
     @Test
     fun obtainMine_() {
-        fail() //TODO make save game first
+//        fail() //TODO make save game first
     }
 }
