@@ -5,10 +5,8 @@ import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.CAMERA_TARGET
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.GameImage
-import io.objectbox.BoxStore
 import javax.inject.Inject
 
 class GameScreen(
