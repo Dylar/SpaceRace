@@ -35,7 +35,7 @@ class SpaceEnvironment {
     @Inject
     lateinit var graphicController: GraphicController
     @Inject
-    lateinit var gameController:GameController
+    lateinit var gameController: GameController
 
     @Inject
     lateinit var loadNewGameUsecase: LoadNewGameUsecase
@@ -115,12 +115,13 @@ class SpaceEnvironment {
                 .await()
                 .apply { assertObserver(error, assertError, assertSuccess) }
 
-//        testGame.initGameObserver()
-        gameController.initPhaseObserver() //Only phase observer -> so winner is as test observer
         winnerObserver = gameController
                 .observeWinnerUsecase
                 .buildUseCaseObservable(winAmount)
                 .test()
+
+        gameController.initPhaseObserver() //Only phase observer -> so winner is as test observer
+        playerController.initObserver()
 
         waitForIt()
     }
