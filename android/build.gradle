@@ -1,3 +1,7 @@
+static def getDate() {
+    return new Date().format('yyyyMMddHHmmss')
+}
+
 android {
     buildToolsVersion "28.0.3"
     compileSdkVersion 28
@@ -20,27 +24,28 @@ android {
         applicationId "de.bitb.spacerace"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
+        versionCode System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: getDate()
         versionName project.version
 
         multiDexEnabled true
     }
 
-    signingConfigs {
+//    signingConfigs {
 //        debug {
 //            storeFile file('keystores/SpaceRace-Debug.keystore')
 //            storePassword System.getenv("KEY_DEBUG_PASSWORD")
 //            keyAlias System.getenv("KEY_DEBUG_ALIAS")
 //            keyPassword System.getenv("KEY_DEBUG_PASSWORD")
 //        }
-
-        debug {
-            storeFile file('keystores/SpaceRace-Debug.keystore')
-            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
-            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
-        }
-    }
+//
+//        debug {
+//            v2SigningEnabled false
+//            storeFile System.getenv("BITRISEIO_ANDROID_KEYSTORE_URL")
+//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
+//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+//        }
+//    }
 
     buildTypes {
         release {
