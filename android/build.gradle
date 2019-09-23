@@ -1,5 +1,5 @@
 static def getDate() {
-    return new Date().format('yyyyMMddHHmmss')
+    return Integer.valueOf(new Date().format('yyyyMMddHH'))
 }
 
 android {
@@ -24,6 +24,7 @@ android {
         applicationId "de.bitb.spacerace"
         minSdkVersion 21
         targetSdkVersion 28
+//        versionCode 1
         versionCode System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: getDate()
         versionName project.version
 
