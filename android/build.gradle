@@ -1,3 +1,7 @@
+static def getDate() {
+    return Integer.valueOf(new Date().format('yyyyMMddHH'))
+}
+
 android {
     buildToolsVersion "28.0.3"
     compileSdkVersion 28
@@ -20,11 +24,28 @@ android {
         applicationId "de.bitb.spacerace"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
+//        versionCode 1
+        versionCode System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: getDate()
         versionName project.version
 
         multiDexEnabled true
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("../android/keystores/spacerace.keystore")
+            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
+            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+        }
+//        release {
+//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
+//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+//            storeFile file("../keystore/lunar.keystore")
+//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+//        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

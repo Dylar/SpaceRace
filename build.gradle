@@ -24,10 +24,16 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '0.6.0-ALPHA'
     ext {
         appName = "SpaceRace"
+
+        majorVersion = "0"
+        midVersion = "6"
+        patchVersion = "0"
+        versionSuffix = "-ALPHA"
     }
+
+    version = "$project.ext.majorVersion.$project.ext.midVersion.$project.ext.patchVersion$project.ext.versionSuffix"
 
     repositories {
         jcenter()
