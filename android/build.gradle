@@ -32,7 +32,7 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("../android/keystores/SpaceRace-Debug.keystore")
+            storeFile file("../android/keystores/spacerace.keystore")
             keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
             keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
             storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
