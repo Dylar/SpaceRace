@@ -30,22 +30,20 @@ android {
         multiDexEnabled true
     }
 
-//    signingConfigs {
-//        debug {
-//            storeFile file('keystores/SpaceRace-Debug.keystore')
-//            storePassword System.getenv("KEY_DEBUG_PASSWORD")
-//            keyAlias System.getenv("KEY_DEBUG_ALIAS")
-//            keyPassword System.getenv("KEY_DEBUG_PASSWORD")
-//        }
-//
-//        debug {
-//            v2SigningEnabled false
-//            storeFile System.getenv("BITRISEIO_ANDROID_KEYSTORE_URL")
-//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+    signingConfigs {
+        debug {
+            storeFile file("../android/keystores/SpaceRace-Debug.keystore")
+            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
+            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+        }
+//        release {
 //            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
 //            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+//            storeFile file("../keystore/lunar.keystore")
+//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
 //        }
-//    }
+    }
 
     buildTypes {
         release {
