@@ -13,6 +13,6 @@ class TestTest : GameTest() {
     @Test
     fun objectBox_relation_test() {
 
-//        fail() //TODO make this
+        fail() //TODO make this
     }
 }
