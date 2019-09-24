@@ -3,8 +3,8 @@ static def getDate() {
 }
 
 android {
-    buildToolsVersion "28.0.3"
-    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
+    compileSdkVersion 29
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -23,7 +23,7 @@ android {
     defaultConfig {
         applicationId "de.bitb.spacerace"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
 //        versionCode 1
         versionCode System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: getDate()
         versionName project.version
@@ -34,9 +34,9 @@ android {
     signingConfigs {
         debug {
             storeFile file("../android/keystores/spacerace.keystore")
-            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
-            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
-            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: "spacerace"
+            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: "1Herzreicht!"
+            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: "1Herzreicht!"
         }
 //        release {
 //            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
