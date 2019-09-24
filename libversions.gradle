@@ -9,8 +9,8 @@ project.ext {
     dbVersion = '2.3.4'
 
     gdx = [
-            version           : '1.9.9',
-            roboVMVersion     : '2.3.5',
+            version           : '1.9.10',
+            roboVMVersion     : '2.3.7',
             box2DLightsVersion: '1.4',
             aiVersion         : '1.8.0'
     ]
