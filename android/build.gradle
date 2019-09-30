@@ -15,48 +15,126 @@ android {
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
         }
-
     }
+
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
-    defaultConfig {
-        applicationId "de.bitb.spacerace"
-        minSdkVersion 21
-        targetSdkVersion 28
-//        versionCode 1
-        versionCode System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: getDate()
-        versionName project.version
 
-        multiDexEnabled true
-    }
-
-    signingConfigs {
-        debug {
-            storeFile file("../android/keystores/spacerace.keystore")
-            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
-            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
-            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
-        }
-//        release {
-//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
-//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
-//            storeFile file("../keystore/lunar.keystore")
-//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
-//        }
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    signingConfigs {
+        devFreeDebug {
+            Properties props = new Properties()
+            def propFile = file('../android/signing.prop')
+            if (propFile.canRead()) {
+                props.load(new FileInputStream(propFile))
+            }
+
+            storeFile file("../android/keystores/spacerace.keystore")
+            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: "!Herzreicht!"
+            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: "spacerace"
+            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: "!Herzreicht!"
+        }
+//        debug {
+//            Properties props = new Properties()
+//            def propFile = file('../android/signing.prop')
+//            if (propFile.canRead()) {
+//                props.load(new FileInputStream(propFile))
+//            }
+//
+//            storeFile file("../android/keystores/spacerace.keystore")
+//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: props[storePassword]
+//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: props[keyAlias]
+//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: props[keyPassword]
+//        }
+        release {
+            storeFile file("../keystore/lunar.keystore")
+            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
+            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+        }
+
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def flavor = variant.name
+            def versionName = variant.versionName
+            outputFileName = "SR_${flavor}_${versionName}.apk"
+        }
+    }
+
+    defaultConfig {
+        applicationId appId
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 1
+//        versionCode 1
+        versionName project.version
+
+        multiDexEnabled true
+        multiDexKeepProguard file('multidex-config.pro')
+    }
+
+    flavorDimensions 'server', 'client'
+    productFlavors {
+        prod {
+            dimension = 'server'
+            applicationIdSuffix = ".prod"
+        }
+
+        stage {
+            dimension = 'server'
+            applicationIdSuffix = ".test"
+        }
+
+        dev {
+            dimension = 'server'
+            applicationIdSuffix = ".dev"
+        }
+
+        paid {
+            dimension = 'client'
+            applicationIdSuffix = ".paid"
+        }
+
+        free {
+            dimension = 'client'
+            applicationIdSuffix = ".free"
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig null
+            debuggable true
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+//    applicationVariants.all { variant ->
+//        if (variant.name.contains("Release")) {
+//            variant.mergedFlavor.setSigningConfig(signingConfigs.release)
+//        } else {
+//            variant.mergedFlavor.setSigningConfig(signingConfigs.debug)
+//        }
+//    }
 }
+
+dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.play:core:1.6.3'
+    implementation 'com.getkeepsafe.relinker:relinker:1.3.1'
+}
+
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
 // so they get packed with the APK.
@@ -67,7 +145,7 @@ task copyAndroidNatives() {
         file("libs/arm64-v8a/").mkdirs()
         file("libs/x86_64/").mkdirs()
         file("libs/x86/").mkdirs()
-        
+
         configurations.natives.files.each { jar ->
             def outputDir = null
             if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
@@ -162,7 +240,4 @@ idea {
             }
         }
     }
-}
-dependencies {
-    implementation 'com.google.android.play:core:1.6.3'
 }

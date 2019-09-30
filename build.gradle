@@ -25,6 +25,7 @@ allprojects {
     apply plugin: "idea"
 
     ext {
+        appId = "de.bitb.spacerace"
         appName = "SpaceRace"
 
         majorVersion = "0"
@@ -196,6 +197,8 @@ project(":core") {
         implementation "io.objectbox:objectbox-macos:$dbVersion"
 //        debugImplementation "io.objectbox:objectbox-android-objectbrowser:$dbVersion"
         implementation "io.objectbox:objectbox-rxjava:$dbVersion"
+
+        implementation 'com.getkeepsafe.relinker:relinker:1.3.1'
 
 
 //         ████████╗███████╗███████╗████████╗
