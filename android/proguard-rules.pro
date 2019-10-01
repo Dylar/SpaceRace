@@ -43,3 +43,5 @@
    boolean reportFixture(long);
    float   reportRayFixture(long, float, float, float, float, float);
 }
+#OBJECTBOX BUG
+#-keep class com.getkeepsafe.relinker.** { *; }
