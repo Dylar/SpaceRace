@@ -128,11 +128,10 @@ android {
         }
         prod {
             dimension = 'server'
-            applicationIdSuffix = ".prod"
         }
         stage {
             dimension = 'server'
-            applicationIdSuffix = ".test"
+            applicationIdSuffix = ".stage"
         }
         dev {
             dimension = 'server'
