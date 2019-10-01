@@ -118,29 +118,25 @@ android {
 
     flavorDimensions 'server', 'client'
     productFlavors {
-        prod {
-            dimension = 'server'
-            applicationIdSuffix = ".prod"
-        }
-
-        stage {
-            dimension = 'server'
-            applicationIdSuffix = ".test"
-        }
-
-        dev {
-            dimension = 'server'
-            applicationIdSuffix = ".dev"
-        }
-
         paid {
             dimension = 'client'
             applicationIdSuffix = ".paid"
         }
-
         free {
             dimension = 'client'
             applicationIdSuffix = ".free"
+        }
+        prod {
+            dimension = 'server'
+            applicationIdSuffix = ".prod"
+        }
+        stage {
+            dimension = 'server'
+            applicationIdSuffix = ".test"
+        }
+        dev {
+            dimension = 'server'
+            applicationIdSuffix = ".dev"
         }
     }
 
