@@ -116,7 +116,7 @@ android {
         multiDexEnabled true
     }
 
-    flavorDimensions 'server', 'client'
+    flavorDimensions 'client', 'server'
     productFlavors {
         paid {
             dimension = 'client'
