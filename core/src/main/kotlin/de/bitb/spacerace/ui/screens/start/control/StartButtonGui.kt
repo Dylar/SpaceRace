@@ -159,7 +159,7 @@ class StartButtonGui(
     }
 
     private fun addLoadButton() {
-        loadBtn = createButton(name = "PLAYER", fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+        loadBtn = createButton(name = START_BUTTON_LOAD, fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 EventBus.getDefault().post(OpenLoadGameEvent())
                 return true

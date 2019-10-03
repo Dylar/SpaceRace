@@ -40,25 +40,6 @@ android {
             props.load(propFile.newReader())
         }
 
-//        devFreeRelease {
-//            storeFile file("../android/keystores/spacerace.keystore")
-//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: props["storePassword"]
-//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: props["keyAlias"]
-//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: props["keyPassword"]
-//        }
-//        devFreeDebug {
-//            storeFile file("../android/keystores/spacerace.keystore")
-//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: props["storePassword"]
-//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: props["keyAlias"]
-//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: props["keyPassword"]
-//        }
-//        prodPaidRelease {
-//            storeFile file("../android/keystores/spacerace.keystore")
-//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: props["storePassword"]
-//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: props["keyAlias"]
-//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: props["keyPassword"]
-//        }
-
         debug {
             storeFile file("../android/keystores/spacerace.keystore")
             storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: props["storePassword"]
@@ -74,44 +55,6 @@ android {
         }
 
     }
-
-//    def applicationDefinitions = [
-//            ['name': 'devFreeDebug', 'suffix': '.devFree',],
-//            ['name': 'stageFreeDebug', 'suffix': '.stageFree',],
-//            ['name': 'prodFreeDebug', 'suffix': '.prodFree',],
-//            ['name': 'prodFreeDebug', 'suffix': '.prodFree',],
-//    ]
-//
-//    Properties props = new Properties()
-//    def propFile = file('../android/signing.prop')
-//    if (propFile.canRead()) {
-//        props.load(propFile.newReader())
-//    }
-
-//    applicationDefinitions.each { applicationDefinition ->
-////        def signingConfig = signingConfigsMap[applicationDefinition['name']]
-//        android.productFlavors.applicationSuffixId = applicationDefinition['suffix']
-//        android.productFlavors.create(applicationDefinition['name'], { flavor ->
-//            flavor.signingConfig = android.signingConfigs.create(applicationDefinition['name'])
-//            flavor.signingConfig.storeFile = file(signingConfig.storeFile)
-//            flavor.signingConfig.storePassword = signingConfig.storePassword
-//            flavor.signingConfig.keyAlias = signingConfig.keyAlias
-//            flavor.signingConfig.keyPassword = signingConfig.keyPassword
-
-//            flavor.signingConfig.storeFile = file(signingConfig.storeFile)
-//            flavor.signingConfig.storePassword = signingConfig.storePassword
-//            flavor.signingConfig.keyAlias = signingConfig.keyAlias
-//            flavor.signingConfig.keyPassword = signingConfig.keyPassword
-//        })
-//    }
-//
-//    applicationVariants.all { variant ->
-//        if (variant.name.contains("Release")) {
-//            variant.mergedFlavor.setSigningConfig(signingConfigs.release)
-//        } else {
-//            variant.mergedFlavor.setSigningConfig(signingConfigs.debug)
-//        }
-//    }
 
     defaultConfig {
         applicationId appId
@@ -182,19 +125,6 @@ android {
             outputFileName = "SR_${versionName}_${flavor}.apk"
         }
     }
-
-//    applicationVariants.all { variant ->
-////        if (variant.name.contains("Release")) {
-////            variant.mergedFlavor.setSigningConfig(signingConfigs.release)
-////        } else {
-////            variant.mergedFlavor.setSigningConfig(signingConfigs.debug)
-////        }
-////    }
-//// override default for single custom flavor
-//    applicationVariants.all { variant ->
-//        variant.
-////        productFlavors.release.signingConfig signingConfigs.release
-//    }
 }
 
 dependencies {

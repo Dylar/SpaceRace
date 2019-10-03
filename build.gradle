@@ -60,10 +60,6 @@ project(":desktop") {
     apply plugin: "idea"
     apply plugin: "application"
 
-    application {
-        mainClassName = 'de.bitb.spacerace.desktop.DesktopLauncher'
-    }
-
     dependencies {
         implementation project(":core")
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"

@@ -2,7 +2,6 @@ package de.bitb.spacerace.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
 import de.bitb.spacerace.core.MainGame;
 
