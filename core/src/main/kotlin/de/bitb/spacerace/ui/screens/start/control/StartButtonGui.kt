@@ -17,11 +17,13 @@ import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_STA
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.events.OpenDebugGuiEvent
 import de.bitb.spacerace.events.OpenLoadGameEvent
-import de.bitb.spacerace.events.commands.start.*
+import de.bitb.spacerace.events.commands.start.ChangeDiceAmountCommand
+import de.bitb.spacerace.events.commands.start.ChangeLanguageCommand
+import de.bitb.spacerace.events.commands.start.ChangeWinAmountCommand
+import de.bitb.spacerace.events.commands.start.LoadGameCommand
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
-import java.io.FileInputStream
 import javax.inject.Inject
 
 class StartButtonGui(
@@ -172,9 +174,6 @@ class StartButtonGui(
     }
 
     private fun addVersionLabel() {
-
-//        val bal = FileInputStream("../resources/main/version.properties")
-//        val label = createLabel(System.getProperty("version"))
         val label = createLabel(VERSION)
 
         val cell = addCell(label)

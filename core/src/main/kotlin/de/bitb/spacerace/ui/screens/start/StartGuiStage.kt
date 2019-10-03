@@ -37,13 +37,13 @@ class StartGuiStage(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun openLoadGameEvent(event: OpenLoadGameEvent) {
-        changeMenu(loadGameSelection, "PLAYER", playerSelection, START_BUTTON_LOAD)
+        changeMenu(loadGameSelection, START_BUTTON_LOAD, playerSelection, "PLAYER")
                 .also { startButtonControl.updateLoadBtnText(it) }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun openDebugGuiEvent(event: OpenDebugGuiEvent) {
-        changeMenu(mapSelection, "FIELDS", fieldSelectionControl, "MAPS")
+        changeMenu(mapSelection, "MAPS", fieldSelectionControl, "FIELDS")
                 .also { startButtonControl.updateDebugBtnText(it) }
     }
 
