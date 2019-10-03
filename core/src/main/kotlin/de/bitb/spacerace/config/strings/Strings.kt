@@ -9,8 +9,14 @@ object Strings {
 
         var START_BUTTON_START: String = ""
             get() = when (LANGUAGE) {
-                ENGLISH -> "Start"
-                GERMAN -> "Start"
+                ENGLISH -> "New game"
+                GERMAN -> "Neues Spiel"
+            }
+
+        var START_BUTTON_LOAD: String = ""
+            get() = when (LANGUAGE) {
+                ENGLISH -> "Load menu"
+                GERMAN -> "Lade Menu"
             }
 
         var START_BUTTON_LANGUAGE: String = ""

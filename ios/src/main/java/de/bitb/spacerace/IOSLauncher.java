@@ -1,6 +1,5 @@
 package de.bitb.spacerace;
 
-import de.bitb.spacerace.core.MainGame;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 

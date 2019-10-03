@@ -1,7 +1,7 @@
 package de.bitb.spacerace.usecase
 
 import com.badlogic.gdx.Gdx
-import de.bitb.spacerace.config.dimensions.Dimensions.IS_TEST
+import de.bitb.spacerace.config.IS_TEST
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

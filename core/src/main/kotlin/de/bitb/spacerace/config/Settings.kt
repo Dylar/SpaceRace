@@ -6,13 +6,15 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORD
 import de.bitb.spacerace.config.enums.GameSpeed
 import de.bitb.spacerace.config.enums.GameType
 import de.bitb.spacerace.config.enums.Language
+import de.bitb.spacerace.game.VERSION_TEST
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemCollection
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.maps.MapCreator
 
-
+var VERSION = "007"
+val IS_TEST get() = VERSION == VERSION_TEST
 const val MOVE_TIME: Double = 15.0
 const val MOVING_SPS: Float = FIELD_BORDER
 const val ROTATION_SPS = PLAYER_BORDER
@@ -53,7 +55,7 @@ var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL)
 var DEBUG_ITEM = arrayListOf(ItemCollection.NONE)
 const val DEBUG_ITEMS = 0 //Hint: destroys tests
 
- var DEBUG_WIN_FIELD = true
+var DEBUG_WIN_FIELD = true
 const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false
 var CAMERA_TARGET: GameImage? = null

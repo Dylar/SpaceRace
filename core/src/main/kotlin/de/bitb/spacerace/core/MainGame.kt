@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
+import de.bitb.spacerace.config.VERSION
 import de.bitb.spacerace.events.GameOverEvent
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.injection.components.AppComponent
@@ -20,6 +21,7 @@ import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 open class MainGame(
+        version: String = "007",
         protected val objBox: BoxStore? = null
 ) : BaseGame() {
 
@@ -29,6 +31,10 @@ open class MainGame(
 
     @Inject
     protected lateinit var commandUsecase: CommandUsecase
+
+    init {
+        VERSION = version
+    }
 
     open fun initComponent(): AppComponent =
             DaggerAppComponent.builder()

@@ -1,13 +1,12 @@
 package de.bitb.spacerace.config.dimensions
 
 import com.badlogic.gdx.Gdx
+import de.bitb.spacerace.config.IS_TEST
 import de.bitb.spacerace.config.LANGUAGE
 import de.bitb.spacerace.config.enums.Language.*
 
 
 object Dimensions {
-
-    var IS_TEST = false
 
     val SCREEN_WIDTH
         get() = if(IS_TEST) 200f else Gdx.graphics.width.toFloat()

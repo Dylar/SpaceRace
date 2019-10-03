@@ -2,6 +2,7 @@ package de.bitb.spacerace.ui.screens.start
 
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.config.dimensions.Dimensions
+import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LOAD
 import de.bitb.spacerace.events.OpenDebugGuiEvent
 import de.bitb.spacerace.events.OpenLoadGameEvent
 import de.bitb.spacerace.ui.screens.start.control.*
@@ -36,7 +37,7 @@ class StartGuiStage(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun openLoadGameEvent(event: OpenLoadGameEvent) {
-        changeMenu(loadGameSelection, "PLAYER", playerSelection, "LOAD")
+        changeMenu(loadGameSelection, "PLAYER", playerSelection, START_BUTTON_LOAD)
                 .also { startButtonControl.updateLoadBtnText(it) }
     }
 

@@ -24,6 +24,14 @@ android {
         }
     }
 
+//    Properties versionProp = new Properties()
+//    def versionPropFile = file('../core/version.prop')
+//    if (versionPropFile.canWrite()) {
+//        versionProp.load(versionPropFile.newReader())
+//        versionProp["version"] = project.version
+//        versionPropFile.withWriter { versionProp.store(it, null) }
+//    }
+
     signingConfigs {
 
         Properties props = new Properties()
