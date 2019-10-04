@@ -58,6 +58,7 @@ project(":desktop") {
     apply plugin: "kotlin"
     apply plugin: "net.ltgt.apt"
     apply plugin: "idea"
+    apply plugin: "application"
 
     dependencies {
         implementation project(":core")
@@ -154,6 +155,20 @@ project(":core") {
 //            arg('dagger.gradle.incremental', 'enabled')
         }
     }
+
+//    task createProperties(dependsOn: processResources) {
+//        doLast {
+//            new File("../core/src/main/res/version.properties").withWriter { w ->
+//                Properties p = new Properties()
+//                p['version'] = project.version.toString()
+//                p.store w, null
+//            }
+//        }
+//    }
+//
+//    classes {
+//        dependsOn createProperties
+//    }
 
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
