@@ -24,7 +24,7 @@ abstract class Item(
     @Inject
     protected lateinit var playerController: PlayerController
 
-    abstract val itemType: ItemCollection
+    abstract val itemType: ItemType
     abstract var text: String
     open var charges: Int = 1
 

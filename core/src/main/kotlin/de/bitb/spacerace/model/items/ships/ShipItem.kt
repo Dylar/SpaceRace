@@ -6,7 +6,6 @@ import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.getPlayerImage
-import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class ShipItem(

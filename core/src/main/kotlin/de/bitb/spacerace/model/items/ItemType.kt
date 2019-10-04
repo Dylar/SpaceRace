@@ -1,5 +1,6 @@
 package de.bitb.spacerace.model.items
 
+import de.bitb.spacerace.database.items.DiceAddition
 import de.bitb.spacerace.model.items.disposable.SlowMine
 import de.bitb.spacerace.model.items.disposable.moving.MovingMine
 import de.bitb.spacerace.model.items.equip.IonEngine
@@ -7,33 +8,35 @@ import de.bitb.spacerace.model.items.ships.BumperShip
 import de.bitb.spacerace.model.items.ships.RaiderShip
 import de.bitb.spacerace.model.items.ships.SpeederShip
 import de.bitb.spacerace.model.items.usable.ExtraFuel
-import de.bitb.spacerace.model.items.usable.clean.CleanDroid
 import de.bitb.spacerace.model.items.usable.SpecialFuel
 import de.bitb.spacerace.model.items.usable.SpeedBoost
+import de.bitb.spacerace.model.items.usable.clean.CleanDroid
 import de.bitb.spacerace.model.player.PlayerColor
-import javax.naming.OperationNotSupportedException
+import java.time.chrono.JapaneseEra.values
 
-enum class ItemCollection {
+
+sealed class ItemType(val price: Int) {
 
     //USABLE
-    EXTRA_FUEL,
-    SPECIAL_FUEL,
-    SPEED_BOOST,
-    CLEAN_DROID,
+    class EXTRA_FUEL : ItemType(2000), DiceAddition
+
+    class SPECIAL_FUEL : ItemType(1000)
+    class SPEED_BOOST : ItemType(3000)
+    class CLEAN_DROID : ItemType(2000)
 
     //DISPOSABLE
-    SLOW_MINE,
-    MOVING_MINE,
+    class SLOW_MINE : ItemType(3000)
+
+    class MOVING_MINE : ItemType(4000)
 
     //EQUIP
-    ION_ENGINE,
+    class ION_ENGINE : ItemType(5000)
 
     //SHIP
-    SHIP_SPEEDER,
-    SHIP_RAIDER,
-    SHIP_BUMPER,
+    class SHIP_SPEEDER : ItemType(15000)
 
-    NONE;
+    class SHIP_RAIDER : ItemType(65000)
+    class SHIP_BUMPER : ItemType(40000)
 
     companion object {
         fun getAllItems(): MutableList<Item> {
@@ -53,21 +56,19 @@ enum class ItemCollection {
 
     fun create(playerColor: PlayerColor = PlayerColor.NONE): Item {
         return when (this) {
-            EXTRA_FUEL -> ExtraFuel(playerColor, 2000)
-            SPECIAL_FUEL -> SpecialFuel(playerColor, 1000)
-            SPEED_BOOST -> SpeedBoost(playerColor, 3000, 1)
-            CLEAN_DROID -> CleanDroid(playerColor, 2000)
+            is EXTRA_FUEL -> ExtraFuel(playerColor, 2000)
+            is SPECIAL_FUEL -> SpecialFuel(playerColor, 1000)
+            is SPEED_BOOST -> SpeedBoost(playerColor, 3000, 1)
+            is CLEAN_DROID -> CleanDroid(playerColor, 2000)
 
-            SLOW_MINE -> SlowMine(playerColor, 3000)
-            MOVING_MINE -> MovingMine(playerColor, 4000)
+            is SLOW_MINE -> SlowMine(playerColor, 3000)
+            is MOVING_MINE -> MovingMine(playerColor, 4000)
 
-            ION_ENGINE -> IonEngine(playerColor, 5000)
+            is ION_ENGINE -> IonEngine(playerColor, 5000)
 
-            SHIP_SPEEDER -> SpeederShip(playerColor, 15000)
-            SHIP_RAIDER -> RaiderShip(playerColor, 65000)
-            SHIP_BUMPER -> BumperShip(playerColor, 40000)
-
-            NONE -> throw OperationNotSupportedException()
+            is SHIP_SPEEDER -> SpeederShip(playerColor, 15000)
+            is SHIP_RAIDER -> RaiderShip(playerColor, 65000)
+            is SHIP_BUMPER -> BumperShip(playerColor, 40000)
         }
     }
 

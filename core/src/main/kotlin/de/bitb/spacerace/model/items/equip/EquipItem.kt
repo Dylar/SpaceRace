@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
-import de.bitb.spacerace.model.objecthandling.getPlayerItems
 import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class EquipItem(

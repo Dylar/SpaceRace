@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.MoveCommand
+import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemState
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.getRunnableAction
@@ -142,6 +145,21 @@ class GraphicController
 
     fun setMineOwner(player: PlayerData) {
         getFieldGraphic(player.gamePosition).setBlinkColor(player.playerColor.color)
+    }
+
+    fun getItemsTypeMap(playerData: PlayerData): MutableMap<ItemType, MutableList<Item>> {
+        val map = HashMap<ItemType, MutableList<Item>>()
+        fun addToMap(type: ItemType, item: Item) {
+            (map[type] ?: mutableListOf())
+                    .also {
+                        it.add(item)
+                        map[type] = it
+                    }
+        }
+        playerData.items
+                .map { it.itemType }
+                .forEach { addToMap(it, it.create(playerData.playerColor)) }
+        return map
     }
 
 

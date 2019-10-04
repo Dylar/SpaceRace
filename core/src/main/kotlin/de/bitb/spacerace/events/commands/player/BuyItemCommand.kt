@@ -24,10 +24,11 @@ class BuyItemCommand(
     }
 
     override fun execute() {
-        graphicController
-                .getPlayerItems(DONT_USE_THIS_PLAYER_DATA.playerColor)
-                .addItem(item.itemType.create(DONT_USE_THIS_PLAYER_DATA.playerColor))
-        DONT_USE_THIS_PLAYER_DATA.credits -= item.price
+        //TODO items
+//        graphicController
+//                .getPlayerItems(DONT_USE_THIS_PLAYER_DATA.playerColor)
+//                .addItem(item.itemType.create(DONT_USE_THIS_PLAYER_DATA.playerColor))
+//        DONT_USE_THIS_PLAYER_DATA.credits -= item.price
     }
 
 }

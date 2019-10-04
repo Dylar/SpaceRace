@@ -46,7 +46,20 @@
           "name": "positionFieldId"
         }
       ],
-      "relations": []
+      "relations": [
+        {
+          "id": "18:8453854514273369907",
+          "name": "items"
+        },
+        {
+          "id": "19:7153438248446442389",
+          "name": "attachedItems"
+        },
+        {
+          "id": "20:3285485952044033183",
+          "name": "equippedItems"
+        }
+      ]
     },
     {
       "id": "5:2659980530038130210",
@@ -164,11 +177,40 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "12:4178074141703209318",
+      "lastPropertyId": "5:2730028445607018279",
+      "name": "ItemData",
+      "properties": [
+        {
+          "id": "1:2612932323126028301",
+          "name": "id"
+        },
+        {
+          "id": "2:6514449372657812872",
+          "name": "price"
+        },
+        {
+          "id": "3:2264195806652992762",
+          "name": "maxCharges"
+        },
+        {
+          "id": "4:4181817667354566362",
+          "name": "itemType"
+        },
+        {
+          "id": "5:2730028445607018279",
+          "indexId": "13:3275950728397175016",
+          "name": "ownerId"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "11:980879495217607547",
-  "lastIndexId": "12:4440866989698828120",
-  "lastRelationId": "17:4681366167407077919",
+  "lastEntityId": "12:4178074141703209318",
+  "lastIndexId": "13:3275950728397175016",
+  "lastRelationId": "20:3285485952044033183",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,

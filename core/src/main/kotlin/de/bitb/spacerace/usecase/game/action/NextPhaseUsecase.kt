@@ -14,7 +14,7 @@ import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemCollection
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
@@ -210,7 +210,7 @@ class NextPhaseUsecase @Inject constructor(
             Single.fromCallable {
                 playerData.also {
                     graphicController.getPlayerItems(it.playerColor)
-                            .attachItem(ItemCollection.SLOW_MINE.create(it.playerColor) as DisposableItem)
+                            .attachItem(ItemType.SLOW_MINE.create(it.playerColor) as DisposableItem)
                 }.let { ObtainFieldResult(it) }
             }
 

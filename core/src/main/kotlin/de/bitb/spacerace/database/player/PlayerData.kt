@@ -7,6 +7,7 @@ import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionListConverter
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
@@ -51,6 +52,15 @@ data class PlayerData(
     @JvmField
     @Backlink(to = "owner")
     var mines: ToMany<FieldData> = ToMany(this, PlayerData_.mines)
+
+    @JvmField
+    var items: ToMany<ItemData> = ToMany(this, PlayerData_.items)
+
+    @JvmField
+    var attachedItems: ToMany<ItemData> = ToMany(this, PlayerData_.attachedItems)
+
+    @JvmField
+    var equippedItems: ToMany<ItemData> = ToMany(this, PlayerData_.equippedItems)
 
     val gamePosition: PositionData
         get() = positionField.target.gamePosition
