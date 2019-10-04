@@ -6,7 +6,6 @@ import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -158,7 +157,7 @@ class GraphicController
         }
         playerData.items
                 .map { it.itemType }
-                .forEach { addToMap(it, it.create(playerData.playerColor)) }
+                .forEach { addToMap(it, it.createGraphic(playerData.playerColor)) }
         return map
     }
 

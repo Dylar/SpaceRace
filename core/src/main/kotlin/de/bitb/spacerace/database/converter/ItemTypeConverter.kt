@@ -6,9 +6,12 @@ import io.objectbox.converter.PropertyConverter
 class ItemTypeConverter : PropertyConverter<ItemType, String> {
 
     override fun convertToDatabaseValue(entityProperty: ItemType?) =
-            entityProperty?.name
+            entityProperty?.let {
+                
+                it::class.objectInstance.toString()
+            }
 
     override fun convertToEntityProperty(databaseValue: String?) =
-            databaseValue?.let { ItemType.values().find { it.name == databaseValue } }
+            databaseValue?.let { ItemType.getAll().find { it.name == databaseValue } }
 
 }

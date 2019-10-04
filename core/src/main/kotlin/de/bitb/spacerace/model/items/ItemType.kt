@@ -12,7 +12,6 @@ import de.bitb.spacerace.model.items.usable.SpecialFuel
 import de.bitb.spacerace.model.items.usable.SpeedBoost
 import de.bitb.spacerace.model.items.usable.clean.CleanDroid
 import de.bitb.spacerace.model.player.PlayerColor
-import java.time.chrono.JapaneseEra.values
 
 
 sealed class ItemType(val price: Int) {
@@ -39,22 +38,14 @@ sealed class ItemType(val price: Int) {
     class SHIP_BUMPER : ItemType(40000)
 
     companion object {
-        fun getAllItems(): MutableList<Item> {
-            val result = ArrayList<Item>()
-            for (value in values()) {
-                if (value != NONE) {
-                    result.add(value.create())
-                }
-            }
-            return result
-        }
-
-        fun getRandomItem(playerColor: PlayerColor, index: Int = (Math.random() * (values().size - 1)).toInt()): Item {
-            return values()[index].create(playerColor)
-        }
+        fun getAllItems(): MutableList<Item> = getAll().map { it.createGraphic() }.toMutableList()
+        fun getAll() = ItemType::class.sealedSubclasses.mapNotNull { it.objectInstance }
+        fun getRandomItem(playerColor: PlayerColor,
+                          index: Int = (Math.random() * (getAll().size - 1)).toInt()
+        ): Item = getAll()[index].createGraphic(playerColor)
     }
 
-    fun create(playerColor: PlayerColor = PlayerColor.NONE): Item {
+    fun createGraphic(playerColor: PlayerColor = PlayerColor.NONE): Item {
         return when (this) {
             is EXTRA_FUEL -> ExtraFuel(playerColor, 2000)
             is SPECIAL_FUEL -> SpecialFuel(playerColor, 1000)
