@@ -192,4 +192,47 @@ class ObjBoxRelationTest : GameTest() {
         assertTrue(fieldData2.players.any { it == playerData })
     }
 
+    @Test //RESULT:
+    fun ManyToManyTest() {
+        val playerData = PlayerData()
+        val fieldData = FieldData().apply { players.add(playerData) }
+
+        fieldBox.put(fieldData)
+        val dbFieldData = fieldBox.get(fieldData.uuid)
+        val dbPlayerData = playerBox.get(playerData.uuid)
+
+        assertTrue(dbFieldData.players.any { it == dbPlayerData })
+
+        val fieldPlayerStep1 = dbFieldData.players.find { it.uuid == dbPlayerData.uuid }!!
+        val fieldPlayerFieldStep1 = fieldPlayerStep1.positionField.target!!
+        val fieldPlayerStep2 = fieldPlayerFieldStep1.players.find { it.uuid == dbPlayerData.uuid }!!
+        val fieldPlayerFieldStep2 = fieldPlayerStep2.positionField.target!!
+        assertTrue(fieldPlayerFieldStep1 == dbFieldData)
+        assertTrue(fieldPlayerStep1 == dbPlayerData)
+        assertTrue(fieldPlayerFieldStep2 == dbFieldData)
+        assertTrue(fieldPlayerStep2 == dbPlayerData)
+
+        assertTrue(fieldPlayerStep1.positionField.target!! == dbPlayerData.positionField.target!!)
+        assertTrue(fieldPlayerStep2.positionField.target!! == dbPlayerData.positionField.target!!)
+
+        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData})
+        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData})
+        assertTrue(dbFieldData.players.any { it == dbPlayerData})
+
+        dbFieldData.players.clear()
+
+        assertTrue(fieldPlayerStep1.positionField.target!! == dbPlayerData.positionField.target!!)
+        assertTrue(fieldPlayerStep2.positionField.target!! == dbPlayerData.positionField.target!!)
+
+        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData})
+        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData})
+        assertTrue(dbFieldData.players.none { it == dbPlayerData})
+
+        fieldBox.put(dbFieldData)
+
+        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData})
+        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData})
+        assertTrue(dbFieldData.players.none { it == dbPlayerData})
+    }
+
 }
