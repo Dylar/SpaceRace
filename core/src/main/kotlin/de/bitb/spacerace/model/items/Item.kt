@@ -11,7 +11,6 @@ import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.player.PlayerColor
 import javax.inject.Inject
 
-
 abstract class Item(
         var owner: PlayerColor,
         val price: Int,
@@ -21,9 +20,6 @@ abstract class Item(
     @Inject
     protected lateinit var graphicController: GraphicController
     
-    @Inject
-    protected lateinit var playerController: PlayerController
-
     abstract val itemType: ItemType
     abstract var text: String
     open var charges: Int = 1

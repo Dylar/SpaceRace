@@ -15,9 +15,9 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.UseItemCommand
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemState
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.items.equip.EquipItem
 import de.bitb.spacerace.model.items.usable.UsableItem
@@ -31,7 +31,8 @@ import javax.inject.Inject
 class ItemDetails(
         guiStage: GameGuiStage,
         itemMenu: ItemMenu,
-        val items: MutableList<Item>
+        private val itemType: ItemType,
+        private val playerData: PlayerData
 ) : BaseMenu(guiStage, itemMenu) {
 
     @Inject
@@ -40,6 +41,8 @@ class ItemDetails(
     private lateinit var useBtn: TextButton
     private lateinit var unuseBtn: TextButton
     private lateinit var usedTitle: Cell<Label>
+
+    private val itemGraphic = itemType.createGraphic()
 
     init {
         MainGame.appComponent.inject(this)
@@ -76,14 +79,14 @@ class ItemDetails(
     }
 
     private fun addImage() {
-        val cell = add(items[0].getDisplayImage())
+        val cell = add(itemGraphic.getDisplayImage())
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }
 
     private fun addText() {
         row()
-        val cell = add(items[0].text)
+        val cell = add(itemGraphic.text)
         addPaddingTopBottom(cell, GAME_MENU_PADDING_SPACE)
         setFont(cell.actor, GAME_SIZE_FONT_SMALL)
     }
@@ -100,12 +103,11 @@ class ItemDetails(
         val cell = add(container)
         cell.expandX()
 
-        if (items[0] is EquipItem) {
+        if (itemGraphic is EquipItem) {
             unuseBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    val item = getByState(ItemState.EQUIPPED)
-                    if (item.isNotEmpty()) {
-                        EventBus.getDefault().post(UseItemCommand(item[0], playerController.currentPlayerData))
+                    if (playerData.equippedItems.isNotEmpty()) {
+                        EventBus.getDefault().post(UseItemCommand(itemType, playerController.currentPlayerData))
                     }
                     return true
                 }
@@ -115,9 +117,8 @@ class ItemDetails(
 
         useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                val item = getByState(ItemState.STORAGE)
-                if (item.isNotEmpty()) {
-                    EventBus.getDefault().post(UseItemCommand(item[0], playerController.currentPlayerData))
+                if (playerData.storageItems.isNotEmpty()) {
+                    EventBus.getDefault().post(UseItemCommand(itemType, playerController.currentPlayerData))
                 }
                 return true
             }
@@ -143,26 +144,20 @@ class ItemDetails(
         setFont(cellBtn.actor)
     }
 
-    private fun getStateCount(itemState: ItemState): Int {
-        return getByState(itemState).size
-    }
-
-    private fun getByState(itemState: ItemState): MutableList<Item> {
-        val list = ArrayList<Item>()
-        items.forEach { if (it.state == itemState) list.add(it) }
-        return list
-    }
-
     private fun setUsedTitle() {
-        val text = when (items[0]) {
-            is EquipItem -> "EQUIPPED (${getStateCount(ItemState.EQUIPPED)}/${items.size})"
-            else -> "STORAGE (${getStateCount(ItemState.STORAGE)})"
+        val inStorage = playerData.storageItems.count { it::class == itemType::class }
+        val text = when (itemGraphic) {
+            is EquipItem -> {
+                val equipped = playerData.equippedItems.count { it::class == itemType::class }
+                "EQUIPPED ($equipped/$inStorage)"
+            }
+            else -> "STORAGE ($inStorage)"
         }
         usedTitle.actor.setText(text)
     }
 
     private fun setUseButton() {
-        val text = when (items[0]) {
+        val text = when (itemGraphic) {
             is EquipItem -> "EQUIP"
             is DisposableItem -> "DISPOSE"
             is UsableItem -> "USE"
@@ -174,7 +169,7 @@ class ItemDetails(
 
     private fun setUnuseButton() {
         if (::unuseBtn.isInitialized) {
-            val text = when (items[0]) {
+            val text = when (itemGraphic) {
                 is EquipItem -> "UNEQUIP"
                 else -> "-"
             }

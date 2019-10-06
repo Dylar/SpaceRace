@@ -7,12 +7,12 @@ import de.bitb.spacerace.model.player.PlayerColor
 
 class CleanDroid(playerColor: PlayerColor, price: Int) : CleanItem(playerColor, price, TextureCollection.unknownPlanet) {
 
-    override val itemType: ItemType = ItemType.CLEAN_DROID
+    override val itemType: ItemType = ItemType.CLEAN_DROID()
     override var text: String = ""
         get() = GameStrings.ItemStrings.ITEM_CLEAN_DROID_TEXT
 
     init {
-        cleanable.add(ItemType.SLOW_MINE)
+        cleanable.add(ItemType.SLOW_MINE())
     }
 
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemState
-import de.bitb.spacerace.model.objecthandling.getPlayerImage
 import de.bitb.spacerace.model.player.PlayerColor
 
 abstract class DisposableItem(
@@ -37,7 +36,7 @@ abstract class DisposableItem(
             }
             ItemState.DISPOSED -> {
                 attachedTo = playerColor
-                val playerImage = graphicController.getPlayerImage(playerColor)
+                val playerImage = graphicController.getPlayerGraphic(playerColor).playerImage
                 graphicController.getPlayerItems(playerColor).attachItem(this)
                 graphicController.getPlayerFieldGraphic(playerColor)
 //                fieldController.getField(graphicController.getPlayerPosition(playerColor)).attachItem(this)

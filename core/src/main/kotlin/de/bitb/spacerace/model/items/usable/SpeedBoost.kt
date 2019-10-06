@@ -4,23 +4,16 @@ import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.config.strings.GameStrings
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.items.itemtype.MultiDice
 import de.bitb.spacerace.model.player.PlayerColor
 
 class SpeedBoost(
         playerColor: PlayerColor,
         price: Int,
-        val value: Int,
         img: Texture = TextureCollection.fallingStar
-) : UsableItem(playerColor, price, img),
-        MultiDice {
+) : UsableItem(playerColor, price, img) {
 
-    override val itemType: ItemType = ItemType.SPEED_BOOST
+    override val itemType: ItemType = ItemType.SPEED_BOOST()
     override var text: String = ""
         get() = GameStrings.ItemStrings.ITEM_SPEED_BOOST_TEXT
-
-    override fun getAmount(): Int {
-        return value
-    }
 
 }

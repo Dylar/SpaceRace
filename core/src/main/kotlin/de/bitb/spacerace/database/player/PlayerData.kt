@@ -54,7 +54,7 @@ data class PlayerData(
     var mines: ToMany<FieldData> = ToMany(this, PlayerData_.mines)
 
     @JvmField
-    var items: ToMany<ItemData> = ToMany(this, PlayerData_.items)
+    var storageItems: ToMany<ItemData> = ToMany(this, PlayerData_.storageItems)
 
     @JvmField
     var attachedItems: ToMany<ItemData> = ToMany(this, PlayerData_.attachedItems)

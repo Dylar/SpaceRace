@@ -209,8 +209,9 @@ class NextPhaseUsecase @Inject constructor(
     private fun obtainAmbush(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {
                 playerData.also {
-                    graphicController.getPlayerItems(it.playerColor)
-                            .attachItem(ItemType.SLOW_MINE.create(it.playerColor) as DisposableItem)
+                    //TODO
+//                    graphicController.getPlayerItems(it.playerColor)
+//                            .attachItem(ItemType.SLOW_MINE.create(it.playerColor) as DisposableItem)
                 }.let { ObtainFieldResult(it) }
             }
 

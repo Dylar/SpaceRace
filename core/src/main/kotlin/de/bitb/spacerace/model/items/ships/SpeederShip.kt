@@ -35,7 +35,7 @@ class SpeederShip(owner: PlayerColor, price: Int) : ShipItem(owner, price, Textu
         return MOVING_SPS * 1.3f
     }
 
-    override val itemType: ItemType = ItemType.SHIP_RAIDER
+    override val itemType: ItemType = ItemType.SHIP_RAIDER()
     override var text: String = ""
         get() = GameStrings.ItemStrings.SHIP_SPEEDER_TEXT
 

@@ -6,17 +6,15 @@ import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.strings.GameStrings
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.items.itemtype.DiceAddition
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.player.PlayerAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
 class RaiderShip(
         owner: PlayerColor, price: Int
-) : ShipItem(owner, price, TextureCollection.raiderShipLanding2),
-        DiceAddition {
+) : ShipItem(owner, price, TextureCollection.raiderShipLanding2) {
 
-    override val itemType: ItemType = ItemType.SHIP_RAIDER
+    override val itemType: ItemType = ItemType.SHIP_RAIDER()
     override var text: String = ""
         get() = GameStrings.ItemStrings.SHIP_RAIDER_TEXT
 
@@ -37,10 +35,6 @@ class RaiderShip(
 
     override fun getAnimation(): BaseAnimation {
         return animation
-    }
-
-    override fun getAddition(): Int {
-        return 3
     }
 
     override fun getSpeed(): Float {

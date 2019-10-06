@@ -2,40 +2,38 @@ package de.bitb.spacerace.events.commands.player
 
 import de.bitb.spacerace.config.ITEM_SELL_MOD
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemType
 import javax.inject.Inject
 
-class SellItemCommand(val item: Item, seller: PlayerData) : BaseCommand(seller) {
+class SellItemCommand(
+        private val itemType: ItemType,
+        seller: PlayerData
+) : BaseCommand(seller) {
 
     @Inject
     protected lateinit var graphicController: GraphicController
 
     @Inject
-    protected lateinit var playerController: PlayerController
+    protected lateinit var playerDataSource: PlayerDataSource
+
+    private val item = DONT_USE_THIS_PLAYER_DATA.storageItems.find { it::class == itemType::class }
 
     init {
         MainGame.appComponent.inject(this)
     }
 
     override fun canExecute(): Boolean {
-        return graphicController
-                .getPlayerItems(DONT_USE_THIS_PLAYER_DATA.playerColor)
-                .getSaleableItems(item.itemType)
-                .isNotEmpty()
+        return item != null
     }
 
     override fun execute() {
-        graphicController.getPlayerItems(DONT_USE_THIS_PLAYER_DATA.playerColor)
-                .apply {
-                    val item = getItems(item.itemType)[0]
-                    sellItem(item)
-                    DONT_USE_THIS_PLAYER_DATA.credits += (item.price * ITEM_SELL_MOD).toInt()
-                }
-
+        DONT_USE_THIS_PLAYER_DATA.storageItems.remove(item!!)
+        DONT_USE_THIS_PLAYER_DATA.credits += (itemType.price * ITEM_SELL_MOD).toInt()
+        playerDataSource.insert(DONT_USE_THIS_PLAYER_DATA)
     }
 
 }

@@ -12,9 +12,7 @@ import io.objectbox.relation.ToOne
 
 @Entity
 data class ItemData(
-        @Id var id: Long,
-        val price: Int,
-        var maxCharges: Int = 1,
+        @Id var id: Long = 0,
         @Convert(converter = ItemTypeConverter::class, dbType = String::class)
         val itemType: ItemType
 ) {

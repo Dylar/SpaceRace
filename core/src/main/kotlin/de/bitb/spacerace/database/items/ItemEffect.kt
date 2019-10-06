@@ -1,8 +1,14 @@
 package de.bitb.spacerace.database.items
 
 
-interface DiceAddition
+interface DiceAddition {
+    val diceAddition: Int
+}
 
-interface DiceModification
+interface DiceModification {
+    val diceModifier: Double
+}
 
-interface MultiDice
+interface MultiDice {
+    val diceAmount: Int
+}

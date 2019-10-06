@@ -6,14 +6,16 @@ import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.strings.GameStrings
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.items.itemtype.DiceModification
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.player.PlayerAnimation
 import de.bitb.spacerace.model.player.PlayerColor
 
-class BumperShip(owner: PlayerColor, price: Int) : ShipItem(owner, price, TextureCollection.bumperShipLanding2), DiceModification {
+class BumperShip(
+        owner: PlayerColor,
+        price: Int
+) : ShipItem(owner, price, TextureCollection.bumperShipLanding2) {
 
-    override val itemType: ItemType = ItemType.SHIP_BUMPER
+    override val itemType: ItemType = ItemType.SHIP_BUMPER()
     override var text: String = ""
         get() = GameStrings.ItemStrings.SHIP_BUMPER_TEXT
 
@@ -38,10 +40,6 @@ class BumperShip(owner: PlayerColor, price: Int) : ShipItem(owner, price, Textur
 
     override fun getSpeed(): Float {
         return MOVING_SPS * 0.7f
-    }
-
-    override fun getModification(): Float {
-        return -0.1f
     }
 
 }

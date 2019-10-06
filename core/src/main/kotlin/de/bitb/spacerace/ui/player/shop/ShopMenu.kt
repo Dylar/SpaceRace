@@ -37,19 +37,22 @@ class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
     }
 
     private fun addTitle(size: Int) {
-
         val cell = add(GAME_SHOP_TITLE)
         setFont(cell.actor)
         cell.colspan(size)
     }
 
-    private fun addItems(items: List<Item>) {
+    private fun addItems(items: MutableList<Item>) {
         row()
         for (item in items) {
             val displayImage = item.getDisplayImage()
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    shopDetails = ShopDetails(guiStage, this@ShopMenu, item)
+                    shopDetails = ShopDetails(
+                            guiStage,
+                            this@ShopMenu,
+                            item.itemType,
+                            playerController.currentPlayerData)
                     shopDetails.openMenu()
                     return true
                 }

@@ -12,7 +12,6 @@ import de.bitb.spacerace.model.items.ships.ShipItem
 import de.bitb.spacerace.model.items.usable.UsableItem
 
 data class PlayerItems(val playerColor: PlayerColor) {
-    private var currentShip: ShipItem? = null
 
     var items: MutableMap<ItemState, MutableList<Item>> = HashMap()
 
@@ -66,18 +65,6 @@ data class PlayerItems(val playerColor: PlayerColor) {
             removeModification(it)
         }
         usedItems.clear()
-    }
-
-    fun getItemsTypeMap(): MutableMap<ItemType, MutableList<Item>> {
-        val map = HashMap<ItemType, MutableList<Item>>()
-        ItemType.values().forEach { map[it] = ArrayList() }
-        val list = ArrayList<Item>()
-        list.addAll(items[ItemState.EQUIPPED]!!)
-        list.addAll(items[ItemState.STORAGE]!!)
-        list.forEach {
-            map[it.itemType]!!.add(it)
-        }
-        return map
     }
 
     fun getItems(itemType: ItemType): List<Item> {
@@ -161,14 +148,6 @@ data class PlayerItems(val playerColor: PlayerColor) {
         val item = ItemType.getRandomItem(playerColor)
         addItem(item)
         return item
-    }
-
-    fun changeShip(shipItem: ShipItem) {
-        currentShip?.state = ItemState.STORAGE
-        currentShip?.let { removeModification(currentShip as Item) }
-        currentShip = shipItem
-        currentShip?.state = ItemState.EQUIPPED
-        currentShip?.let { addModification(currentShip as Item) }
     }
 
 }

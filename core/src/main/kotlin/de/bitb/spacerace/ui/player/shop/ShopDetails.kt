@@ -16,9 +16,11 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_BUY
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_SELL
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -29,7 +31,9 @@ import javax.inject.Inject
 class ShopDetails(
         guiStage: GameGuiStage,
         shopMenu: ShopMenu,
-        val item: Item
+        private val itemType: ItemType,
+        private val playerData: PlayerData,
+        private val item: Item = itemType.createGraphic()
 ) : BaseMenu(guiStage, shopMenu) {
 
     @Inject
@@ -53,7 +57,8 @@ class ShopDetails(
 
     private fun addTitle() {
         creditsTitle = add("-")
-        setCreditsTitle(graphicController.getPlayerItems(graphicController.currentPlayerGraphic.playerColor).getItems(item.itemType).size)
+        val amount = playerData.storageItems.filter { it::class == itemType::class }.size
+        setCreditsTitle(amount)
         addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()
@@ -86,7 +91,7 @@ class ShopDetails(
 
         buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(BuyItemCommand(item, playerController.currentPlayerData))
+                EventBus.getDefault().post(BuyItemCommand(itemType, playerController.currentPlayerData))
                 return true
             }
         })
@@ -98,7 +103,7 @@ class ShopDetails(
 
         sellBtn = createButton(name = GAME_BUTTON_SELL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SellItemCommand(item, playerController.currentPlayerData))
+                EventBus.getDefault().post(SellItemCommand(itemType, playerController.currentPlayerData))
                 return true
             }
         })
