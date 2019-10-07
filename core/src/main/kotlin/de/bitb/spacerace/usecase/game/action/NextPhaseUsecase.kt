@@ -4,6 +4,7 @@ import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
@@ -15,7 +16,6 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.Item
 import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.items.disposable.DisposableItem
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
@@ -203,16 +203,16 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun obtainGift(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {
-                ObtainFieldResult(playerData.also { graphicController.getPlayerItems(playerData.playerColor).addRandomGift() })
+                val gift = ItemData(itemType = ItemType.getRandomItem())
+                gift.owner.target = playerData
+                playerData.storageItems.add(gift)
+                ObtainFieldResult(playerData)
             }
 
     private fun obtainAmbush(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {
-                playerData.also {
-                    //TODO
-//                    graphicController.getPlayerItems(it.playerColor)
-//                            .attachItem(ItemType.SLOW_MINE.create(it.playerColor) as DisposableItem)
-                }.let { ObtainFieldResult(it) }
+                playerData.attachedItems.add(ItemData(itemType = ItemType.SLOW_MINE()))
+                ObtainFieldResult(playerData)
             }
 
     private fun obtainLose(playerData: PlayerData): Single<ObtainFieldResult> =

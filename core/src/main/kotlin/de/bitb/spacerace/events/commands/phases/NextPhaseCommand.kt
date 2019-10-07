@@ -37,7 +37,10 @@ class NextPhaseCommand : BaseCommand() {
                     setGraphics(it)
                     reset()
                 },
-                onError = { reset() })
+                onError = {
+                    it.printStackTrace()
+                    reset()
+                })
     }
 
     private fun setGraphics(nextPhaseResult: NextPhaseResult) {

@@ -14,7 +14,6 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORAGE
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.events.ObtainShopEvent
 import de.bitb.spacerace.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
@@ -35,8 +34,8 @@ class GameActionGui(
 ) : Table(TextureCollection.skin),
         GuiComponent by guiStage {
 
-    private var itemMenu = ItemMenu(guiStage, NONE_PLAYER_DATA)
-    private var shopMenu = ShopMenu(guiStage)
+    private lateinit var itemMenu: ItemMenu //= ItemMenu(guiStage, NONE_PLAYER_DATA)
+    private lateinit var shopMenu: ShopMenu //= ShopMenu(guiStage)
 
     @Inject
     protected lateinit var playerController: PlayerController
@@ -102,6 +101,9 @@ class GameActionGui(
     }
 
     private fun openItemMenu() {
+        if (!::itemMenu.isInitialized) {
+            itemMenu = ItemMenu(guiStage, playerController.currentPlayerData)
+        }
         if (itemMenu.isOpen) {
             itemMenu.closeMenu()
         } else {
@@ -112,6 +114,9 @@ class GameActionGui(
     }
 
     private fun openShop() {
+        if (!::shopMenu.isInitialized) {
+            shopMenu = ShopMenu(guiStage)
+        }
         if (shopMenu.isOpen) {
             shopMenu.closeMenu()
         } else {

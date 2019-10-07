@@ -55,27 +55,11 @@ data class PlayerItems(val playerColor: PlayerColor) {
         }
     }
 
-    fun removeUsedItems() {
-        val usedItems = items[ItemState.USED]!!
-        usedItems.forEach {
-            if (it.charges > 1) {
-                it.charges--
-                addItem(it)
-            }
-            removeModification(it)
-        }
-        usedItems.clear()
-    }
-
     fun getItems(itemType: ItemType): List<Item> {
         val list = ArrayList<Item>()
         list.addAll(getItems(items[ItemState.EQUIPPED]!!, itemType))
         list.addAll(getItems(items[ItemState.STORAGE]!!, itemType))
         return list
-    }
-
-    fun getSaleableItems(itemType: ItemType): MutableList<Item> {
-        return getItems(items[ItemState.STORAGE]!!, itemType)
     }
 
     private fun <T : Item> getItems(items: MutableList<T>, itemType: ItemType): MutableList<Item> {
@@ -91,11 +75,6 @@ data class PlayerItems(val playerColor: PlayerColor) {
     fun addItem(item: Item) {
         item.state = ItemState.STORAGE
         items[ItemState.STORAGE]!!.add(item)
-    }
-
-    fun sellItem(item: Item) {
-        item.state = ItemState.NONE
-        items[ItemState.STORAGE]!!.remove(item)
     }
 
     fun disposeItem(item: DisposableItem) {
@@ -142,12 +121,6 @@ data class PlayerItems(val playerColor: PlayerColor) {
 
     fun removeUsedItem(usableItem: UsableItem) {
         throw UnsupportedOperationException()
-    }
-
-    fun addRandomGift(): Item {
-        val item = ItemType.getRandomItem(playerColor)
-        addItem(item)
-        return item
     }
 
 }

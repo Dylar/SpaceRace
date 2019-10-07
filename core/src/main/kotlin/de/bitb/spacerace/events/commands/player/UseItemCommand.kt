@@ -9,7 +9,7 @@ class UseItemCommand(
         playerData: PlayerData
 ) : BaseCommand(playerData) {
 
-    //TODO
+    //TODO make usecase
 
     override fun canExecute(): Boolean {
         return true

@@ -157,7 +157,9 @@ class GraphicController
         }
         playerData.storageItems
                 .map { it.itemType }
-                .forEach { addToMap(it, it.createGraphic(playerData.playerColor)) }
+                .forEach {
+                    addToMap(it, it.createGraphic(playerData.playerColor))
+                }
         return map
     }
 
