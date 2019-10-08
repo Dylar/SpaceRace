@@ -1,10 +1,12 @@
 package de.bitb.spacerace.tests
 
 import de.bitb.spacerace.core.GameTest
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.game.TestGame
+import de.bitb.spacerace.model.items.ItemType
 import io.objectbox.Box
 import junit.framework.Assert.*
 import org.hamcrest.CoreMatchers.`is`
@@ -24,6 +26,8 @@ class ObjBoxRelationTest : GameTest() {
     protected lateinit var fieldBox: Box<FieldData>
     @Inject
     protected lateinit var playerBox: Box<PlayerData>
+    @Inject
+    protected lateinit var itemBox: Box<ItemData>
 
     protected lateinit var players: List<PlayerData>
     protected lateinit var fields: List<FieldData>
@@ -193,7 +197,7 @@ class ObjBoxRelationTest : GameTest() {
     }
 
     @Test //RESULT:
-    fun ManyToManyTest() {
+    fun manyToManyTest() {
         val playerData = PlayerData()
         val fieldData = FieldData().apply { players.add(playerData) }
 
@@ -215,24 +219,45 @@ class ObjBoxRelationTest : GameTest() {
         assertTrue(fieldPlayerStep1.positionField.target!! == dbPlayerData.positionField.target!!)
         assertTrue(fieldPlayerStep2.positionField.target!! == dbPlayerData.positionField.target!!)
 
-        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData})
-        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData})
-        assertTrue(dbFieldData.players.any { it == dbPlayerData})
+        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData })
+        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData })
+        assertTrue(dbFieldData.players.any { it == dbPlayerData })
 
         dbFieldData.players.clear()
 
         assertTrue(fieldPlayerStep1.positionField.target!! == dbPlayerData.positionField.target!!)
         assertTrue(fieldPlayerStep2.positionField.target!! == dbPlayerData.positionField.target!!)
 
-        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData})
-        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData})
-        assertTrue(dbFieldData.players.none { it == dbPlayerData})
+        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData })
+        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData })
+        assertTrue(dbFieldData.players.none { it == dbPlayerData })
 
         fieldBox.put(dbFieldData)
 
-        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData})
-        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData})
-        assertTrue(dbFieldData.players.none { it == dbPlayerData})
+        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData })
+        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData })
+        assertTrue(dbFieldData.players.none { it == dbPlayerData })
     }
 
+    @Test
+    fun delete_item_check_toMany() {
+        val itemData = ItemData(itemType = ItemType.EXTRA_FUEL())
+        val playerData = PlayerData().apply {
+            storageItems.add(itemData)
+            equippedItems.add(itemData)
+        }
+        playerBox.put(playerData)
+        val dbItem = itemBox.get(itemData.id)
+        var dbPlayer = playerBox.get(playerData.uuid)
+
+        assertTrue(dbPlayer.storageItems.any { it.id == dbItem.id })
+        assertTrue(dbPlayer.equippedItems.any { it.id == dbItem.id })
+
+        itemBox.remove(dbItem)
+
+        dbPlayer = playerBox.get(playerData.uuid)
+        assertTrue(dbPlayer.storageItems.none { it.id == dbItem.id })
+        assertTrue(dbPlayer.equippedItems.none { it.id == dbItem.id })
+
+    }
 }

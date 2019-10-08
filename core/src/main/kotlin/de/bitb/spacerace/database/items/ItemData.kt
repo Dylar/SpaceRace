@@ -1,6 +1,7 @@
 package de.bitb.spacerace.database.items
 
 import de.bitb.spacerace.database.converter.ItemTypeConverter
+import de.bitb.spacerace.database.converter.PhaseListConverter
 import de.bitb.spacerace.database.converter.PositionListConverter
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.Phase
@@ -17,7 +18,7 @@ data class ItemData(
         @Id var id: Long = 0,
         @Convert(converter = ItemTypeConverter::class, dbType = String::class)
         val itemType: ItemType = NONE_ITEMTYPE(),
-        @Convert(converter = PositionListConverter::class, dbType = String::class)
+        @Convert(converter = PhaseListConverter::class, dbType = String::class)
         val usablePhase: List<Phase> = listOf()
 ) {
 
