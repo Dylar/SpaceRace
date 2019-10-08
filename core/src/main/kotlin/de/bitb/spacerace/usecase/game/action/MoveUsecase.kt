@@ -11,6 +11,7 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
+import de.bitb.spacerace.usecase.game.check.CheckPlayerConfig
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.utils.Logger
@@ -46,7 +47,7 @@ class MoveUsecase @Inject constructor(
             checkCurrentPlayerUsecase.buildUseCaseCompletable(playerColor)
 
     private fun checkMovePhase(playerColor: PlayerColor) =
-            checkPlayerPhaseUsecase.buildUseCaseSingle(playerColor to Phase.MOVE)
+            checkPlayerPhaseUsecase.buildUseCaseSingle(CheckPlayerConfig(playerColor, listOf(Phase.MOVE)))
 
     private fun checkMoveable(playerData: PlayerData, target: FieldData): Single<Pair<PlayerData, FieldData>> =
             Single.create { emitter ->

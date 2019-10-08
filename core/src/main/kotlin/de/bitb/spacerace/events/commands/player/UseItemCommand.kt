@@ -11,11 +11,6 @@ class UseItemCommand(
 
     //TODO make usecase
 
-    override fun canExecute(): Boolean {
-        return true
-//        return item.canUse(DONT_USE_THIS_PLAYER_DATA)
-    }
-
     override fun execute() {
 //        item.use(DONT_USE_THIS_PLAYER_DATA)
     }

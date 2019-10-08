@@ -13,28 +13,33 @@ import javax.inject.Inject
 
 class CheckPlayerPhaseUsecase @Inject constructor(
         private val getPlayerUsecase: GetPlayerUsecase
-) : ResultUseCase<PlayerData, Pair<PlayerColor, Phase>>,
-        ExecuteUseCase<Pair<PlayerColor, Phase>> {
+) : ResultUseCase<PlayerData, CheckPlayerConfig>,
+        ExecuteUseCase<CheckPlayerConfig> {
 
-    override fun buildUseCaseSingle(params: Pair<PlayerColor, Phase>): Single<PlayerData> =
+    override fun buildUseCaseSingle(params: CheckPlayerConfig): Single<PlayerData> =
             params.let { (playerColor, phase) ->
                 getPlayerUsecase.buildUseCaseSingle(playerColor)
                         .flatMap { player ->
-                            Single.create<PlayerData> {
-                                if (player.phase == phase) it.onSuccess(player)
-                                else it.onError(WrongPhaseException(playerColor, phase))
+                            Single.create<PlayerData> { emitter ->
+                                if (phase.any { it == player.phase }) emitter.onSuccess(player)
+                                else emitter.onError(WrongPhaseException(playerColor, phase))
                             }
                         }
             }
 
-    override fun buildUseCaseCompletable(params: Pair<PlayerColor, Phase>): Completable =
+    override fun buildUseCaseCompletable(params: CheckPlayerConfig): Completable =
             params.let { (playerColor, phase) ->
                 getPlayerUsecase.buildUseCaseSingle(playerColor)
                         .flatMapCompletable { player ->
-                            Completable.create {
-                                if (player.phase == phase) it.onComplete()
-                                else it.onError(WrongPhaseException(playerColor, phase))
+                            Completable.create { emitter ->
+                                if (phase.any { it == player.phase }) emitter.onComplete()
+                                else emitter.onError(WrongPhaseException(playerColor, phase))
                             }
                         }
             }
 }
+
+data class CheckPlayerConfig(
+        val playerData: PlayerColor,
+        val list: List<Phase>
+)

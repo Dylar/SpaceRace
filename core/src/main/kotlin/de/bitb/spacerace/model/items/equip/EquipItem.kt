@@ -22,6 +22,7 @@ abstract class EquipItem(
     }
 
     override fun use(playerData: PlayerData): Boolean {
+        //TODO make usecase
         return when (state) {
             ItemState.STORAGE -> {
                 graphicController.getPlayerItems(playerData.playerColor).equipItem(this)

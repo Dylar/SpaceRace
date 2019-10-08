@@ -2,6 +2,9 @@ package de.bitb.spacerace.injection.modules
 
 import dagger.Module
 import dagger.Provides
+import de.bitb.spacerace.database.items.ItemData
+import de.bitb.spacerace.database.items.ItemDataSource
+import de.bitb.spacerace.database.items.ItemRespository
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.MapRespository
@@ -12,6 +15,7 @@ import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.database.savegame.SaveRespository
 import de.bitb.spacerace.model.MyObjectBox
+import de.bitb.spacerace.model.items.Item
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.BoxStoreBuilder.DEFAULT_NAME
@@ -76,16 +80,12 @@ class DatabaseModule(
     fun providePlayerDataSource(playerBox: Box<PlayerData>, saveBox: Box<SaveData>): PlayerDataSource =
             PlayerRespository(saveBox, playerBox)
 
-//    @Provides
-//    @Singleton
-//    fun provideItemBox(store: BoxStore): Box<Item> {
-//        return store.boxFor(Item::class.java)
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun provideItemDataSource(box: Box<Item>): ItemDataSource {
-//        return ItemRespository(box)
-//    }
+    @Provides
+    @Singleton
+    fun provideItemBox(store: BoxStore): Box<ItemData> = store.boxFor(ItemData::class.java)
+
+    @Provides
+    @Singleton
+    fun provideItemDataSource(box: Box<ItemData>): ItemDataSource = ItemRespository(box)
 
 }

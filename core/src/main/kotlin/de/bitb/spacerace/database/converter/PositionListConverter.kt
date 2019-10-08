@@ -4,8 +4,8 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.utils.doForEachExceptLast
 import io.objectbox.converter.PropertyConverter
 
-private const val SEPERATOR = ","
-private const val SEPERATOR_GROUP = ";"
+const val SEPERATOR = ","
+const val SEPERATOR_GROUP = ";"
 
 class PositionListConverter : PropertyConverter<MutableList<PositionData>, String> {
 

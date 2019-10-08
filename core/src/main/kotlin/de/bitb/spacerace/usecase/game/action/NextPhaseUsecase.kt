@@ -19,6 +19,7 @@ import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
+import de.bitb.spacerace.usecase.game.check.CheckPlayerConfig
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.utils.Logger
@@ -56,7 +57,7 @@ class NextPhaseUsecase @Inject constructor(
             }
 
     private fun checkPhase(playerColor: PlayerColor, phase: Phase) =
-            checkPlayerPhaseUsecase.buildUseCaseSingle(playerColor to phase)
+            checkPlayerPhaseUsecase.buildUseCaseSingle(CheckPlayerConfig(playerColor, listOf(phase)))
 
     private fun canEndMain1(playerData: PlayerData): Single<PlayerData> =
             checkPhase(playerData.playerColor, Phase.MAIN1)

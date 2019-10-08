@@ -16,8 +16,8 @@ class NotCurrentPlayerException(
 
 class WrongPhaseException(
         val player: PlayerColor,
-        val phase: Phase
-) : GameException("$player not in phase $phase")
+        val phase: List<Phase>
+) : GameException("$player not in any phase $phase")
 
 
 sealed class NotMovableException(
