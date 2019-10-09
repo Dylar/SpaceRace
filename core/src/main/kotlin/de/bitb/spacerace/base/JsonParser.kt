@@ -4,13 +4,13 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.items.ItemType.*
+import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemInfo.*
 
 object JsonParser {
 
     val moshi: Moshi = Moshi.Builder()
-            .add(PolymorphicJsonAdapterFactory.of(ItemType::class.java, "name")
+            .add(PolymorphicJsonAdapterFactory.of(ItemInfo::class.java, "name")
                     .withSubtype(SHIP_BUMPER::class.java, SHIP_BUMPER::class.simpleName)
                     .withSubtype(SHIP_RAIDER::class.java, SHIP_RAIDER::class.simpleName)
                     .withSubtype(SHIP_SPEEDER::class.java, SHIP_SPEEDER::class.simpleName)
@@ -22,6 +22,6 @@ object JsonParser {
                     .withSubtype(EXTRA_FUEL::class.java, EXTRA_FUEL::class.simpleName))
             .add(KotlinJsonAdapterFactory())
             .build()
-    val itemTypeParser: JsonAdapter<ItemType> = moshi.adapter(ItemType::class.java)
+    val ITEM_INFO_PARSER: JsonAdapter<ItemInfo> = moshi.adapter(ItemInfo::class.java)
 
 }

@@ -2,15 +2,15 @@ package de.bitb.spacerace.model.items.usable
 
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemGraphic
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.player.PlayerColor
 
-abstract class UsableItem(
+abstract class UsableItemGraphic(
         owner: PlayerColor,
         price: Int,
         img: Texture
-) : Item(owner, price, img) {
+) : ItemGraphic(owner, price, img) {
 
     override fun canUse(playerData: PlayerData): Boolean {
         return when (state) {

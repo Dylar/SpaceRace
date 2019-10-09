@@ -8,8 +8,8 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.ItemGraphic
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -46,7 +46,7 @@ class ItemMenu(
         cell.colspan(size)
     }
 
-    private fun addItems(items: MutableMap<ItemType, MutableList<Item>>) {
+    private fun addItems(items: MutableMap<ItemInfo, MutableList<ItemGraphic>>) {
         row()
         for (typeList in items) {
             if (typeList.value.isNotEmpty()) {

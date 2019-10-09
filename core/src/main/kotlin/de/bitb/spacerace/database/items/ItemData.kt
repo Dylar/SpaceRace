@@ -2,10 +2,9 @@ package de.bitb.spacerace.database.items
 
 import de.bitb.spacerace.database.converter.ItemTypeConverter
 import de.bitb.spacerace.database.converter.PhaseListConverter
-import de.bitb.spacerace.database.converter.PositionListConverter
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.items.NONE_ITEMTYPE
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
@@ -17,7 +16,7 @@ import io.objectbox.relation.ToOne
 data class ItemData(
         @Id var id: Long = 0,
         @Convert(converter = ItemTypeConverter::class, dbType = String::class)
-        val itemType: ItemType = NONE_ITEMTYPE(),
+        val itemInfo: ItemInfo = NONE_ITEMTYPE(),
         @Convert(converter = PhaseListConverter::class, dbType = String::class)
         val usablePhase: List<Phase> = listOf()
 ) {

@@ -2,15 +2,15 @@ package de.bitb.spacerace.model.items.disposable
 
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemGraphic
 import de.bitb.spacerace.model.items.ItemState
 import de.bitb.spacerace.model.player.PlayerColor
 
-abstract class DisposableItem(
+abstract class DisposableItemGraphic(
         owner: PlayerColor,
         price: Int,
         img: Texture
-) : Item(owner, price, img) {
+) : ItemGraphic(owner, price, img) {
 
     val speed = Math.random()
     var attachedTo = PlayerColor.NONE

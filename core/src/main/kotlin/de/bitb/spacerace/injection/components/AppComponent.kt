@@ -6,14 +6,11 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.events.commands.phases.StartNextRoundCommand
-import de.bitb.spacerace.events.commands.player.BuyItemCommand
-import de.bitb.spacerace.events.commands.player.DiceCommand
-import de.bitb.spacerace.events.commands.player.MoveCommand
-import de.bitb.spacerace.events.commands.player.SellItemCommand
+import de.bitb.spacerace.events.commands.player.*
 import de.bitb.spacerace.events.commands.start.LoadGameCommand
 import de.bitb.spacerace.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.injection.modules.*
-import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.ItemGraphic
 import de.bitb.spacerace.model.space.groups.ConnectionList
 import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.BaseMenu
@@ -73,6 +70,7 @@ interface AppComponent {
 
     //COMMAND
     fun inject(loadGameCommand: LoadGameCommand)
+    fun inject(useItemCommand: UseItemCommand)
 
     fun inject(nextPhaseCommand: NextPhaseCommand)
     fun inject(startNextRoundCommand: StartNextRoundCommand)
@@ -88,5 +86,6 @@ interface AppComponent {
     fun inject(playerRespository: PlayerRespository)
 
 
-    fun inject(item: Item)
+    fun inject(itemGraphic: ItemGraphic)
+
 }

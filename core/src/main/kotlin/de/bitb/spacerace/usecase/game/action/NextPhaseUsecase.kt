@@ -14,8 +14,8 @@ import de.bitb.spacerace.exceptions.DiceFirstException
 import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.ItemGraphic
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
@@ -147,7 +147,7 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun triggerItems(playerData: PlayerData) {
         //TODO old code change that
-        mutableListOf<Item>()
+        mutableListOf<ItemGraphic>()
                 .apply {
                     val field = graphicController.getPlayerFieldGraphic(playerData.playerColor)
                     addAll(field.disposedItems)
@@ -204,7 +204,7 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun obtainGift(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {
-                val gift = ItemData(itemType = ItemType.getRandomItem())
+                val gift = ItemData(itemInfo = ItemInfo.getRandomItem())
                 gift.owner.target = playerData
                 playerData.storageItems.add(gift)
                 ObtainFieldResult(playerData)
@@ -212,7 +212,7 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun obtainAmbush(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {
-                playerData.attachedItems.add(ItemData(itemType = ItemType.SLOW_MINE()))
+                playerData.attachedItems.add(ItemData(itemInfo = ItemInfo.SLOW_MINE()))
                 ObtainFieldResult(playerData)
             }
 

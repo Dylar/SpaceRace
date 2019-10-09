@@ -39,7 +39,7 @@ class DiceUsecase @Inject constructor(
     private fun canExecute(playerData: PlayerData): Boolean =
             if (playerData.phase.isMain1()) {
                 val items : List<MultiDice> = playerData.storageItems
-                        .map { it.itemType }
+                        .map { it.itemInfo }
                         .filterIsInstance<MultiDice>()
                 val diceCharges = 1 + items.sumBy { it.diceAmount }
                 playerData.diceResults.size < diceCharges

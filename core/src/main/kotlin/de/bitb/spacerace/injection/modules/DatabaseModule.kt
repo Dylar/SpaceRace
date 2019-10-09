@@ -15,7 +15,6 @@ import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.database.savegame.SaveRespository
 import de.bitb.spacerace.model.MyObjectBox
-import de.bitb.spacerace.model.items.Item
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.BoxStoreBuilder.DEFAULT_NAME

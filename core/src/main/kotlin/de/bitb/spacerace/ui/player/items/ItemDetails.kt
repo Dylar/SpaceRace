@@ -15,12 +15,12 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.items.ActivableItem
+import de.bitb.spacerace.database.items.DisposableItem
+import de.bitb.spacerace.database.items.EquipItem
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.UseItemCommand
-import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.items.disposable.DisposableItem
-import de.bitb.spacerace.model.items.equip.EquipItem
-import de.bitb.spacerace.model.items.usable.UsableItem
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -31,7 +31,7 @@ import javax.inject.Inject
 class ItemDetails(
         guiStage: GameGuiStage,
         itemMenu: ItemMenu,
-        private val itemType: ItemType,
+        private val itemInfo: ItemInfo,
         private val playerData: PlayerData
 ) : BaseMenu(guiStage, itemMenu) {
 
@@ -42,7 +42,7 @@ class ItemDetails(
     private lateinit var unuseBtn: TextButton
     private lateinit var usedTitle: Cell<Label>
 
-    private val itemGraphic = itemType.createGraphic()
+    private val itemGraphic = itemInfo.createGraphic()
 
     init {
         MainGame.appComponent.inject(this)
@@ -103,12 +103,11 @@ class ItemDetails(
         val cell = add(container)
         cell.expandX()
 
-        if (itemGraphic is EquipItem) {
+        if (itemInfo is EquipItem) {
             unuseBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    if (playerData.equippedItems.isNotEmpty()) {
-                        EventBus.getDefault().post(UseItemCommand(itemType, playerController.currentPlayerData))
-                    }
+                    //TODO unequip command
+                    EventBus.getDefault().post(UseItemCommand(itemInfo, playerController.currentPlayerData))
                     return true
                 }
             })
@@ -117,9 +116,7 @@ class ItemDetails(
 
         useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                if (playerData.storageItems.isNotEmpty()) {
-                    EventBus.getDefault().post(UseItemCommand(itemType, playerController.currentPlayerData))
-                }
+                EventBus.getDefault().post(UseItemCommand(itemInfo, playerController.currentPlayerData))
                 return true
             }
         })
@@ -145,10 +142,10 @@ class ItemDetails(
     }
 
     private fun setUsedTitle() {
-        val inStorage = playerData.storageItems.count { it::class == itemType::class }
-        val text = when (itemGraphic) {
+        val inStorage = playerData.storageItems.count { it::class == itemInfo::class }
+        val text = when (itemInfo) {
             is EquipItem -> {
-                val equipped = playerData.equippedItems.count { it::class == itemType::class }
+                val equipped = playerData.equippedItems.count { it::class == itemInfo::class }
                 "EQUIPPED ($equipped/$inStorage)"
             }
             else -> "STORAGE ($inStorage)"
@@ -157,10 +154,10 @@ class ItemDetails(
     }
 
     private fun setUseButton() {
-        val text = when (itemGraphic) {
+        val text = when (itemInfo) {
             is EquipItem -> "EQUIP"
             is DisposableItem -> "DISPOSE"
-            is UsableItem -> "USE"
+            is ActivableItem -> "USE"
             else -> "-"
         }
         useBtn.setText(text)
@@ -169,7 +166,7 @@ class ItemDetails(
 
     private fun setUnuseButton() {
         if (::unuseBtn.isInitialized) {
-            val text = when (itemGraphic) {
+            val text = when (itemInfo) {
                 is EquipItem -> "UNEQUIP"
                 else -> "-"
             }

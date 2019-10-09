@@ -7,8 +7,8 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_SHOP_TITLE
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.ItemGraphic
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -18,7 +18,7 @@ class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
     private lateinit var shopDetails: ShopDetails
 
     init {
-        val items = ItemType.getAllItems()
+        val items = ItemInfo.getAllItems()
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
@@ -42,16 +42,16 @@ class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
         cell.colspan(size)
     }
 
-    private fun addItems(items: MutableList<Item>) {
+    private fun addItems(itemGraphics: MutableList<ItemGraphic>) {
         row()
-        for (item in items) {
+        for (item in itemGraphics) {
             val displayImage = item.getDisplayImage()
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                     shopDetails = ShopDetails(
                             guiStage,
                             this@ShopMenu,
-                            item.itemType,
+                            item.itemInfo,
                             playerController.currentPlayerData)
                     shopDetails.openMenu()
                     return true

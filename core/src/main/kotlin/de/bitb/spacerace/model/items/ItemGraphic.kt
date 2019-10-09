@@ -3,7 +3,6 @@ package de.bitb.spacerace.model.items
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.ITEM_BORDER
 import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.objecthandling.GameImage
@@ -11,7 +10,7 @@ import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.player.PlayerColor
 import javax.inject.Inject
 
-abstract class Item(
+abstract class ItemGraphic(
         var owner: PlayerColor,
         val price: Int,
         val img: Texture
@@ -20,7 +19,7 @@ abstract class Item(
     @Inject
     protected lateinit var graphicController: GraphicController
     
-    abstract val itemType: ItemType
+    abstract val itemInfo: ItemInfo
     abstract var text: String
     open var charges: Int = 1
 

@@ -9,7 +9,6 @@ abstract class BaseCommand(
 ) {
 
     protected val compositDisposable: CompositeDisposable = CompositeDisposable()
-
     open fun canExecute(): Boolean {
         return true
     }

@@ -19,8 +19,8 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.ItemGraphic
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -31,9 +31,9 @@ import javax.inject.Inject
 class ShopDetails(
         guiStage: GameGuiStage,
         shopMenu: ShopMenu,
-        private val itemType: ItemType,
+        private val itemInfo: ItemInfo,
         private val playerData: PlayerData,
-        private val item: Item = itemType.createGraphic()
+        private val itemGraphic: ItemGraphic = itemInfo.createGraphic()
 ) : BaseMenu(guiStage, shopMenu) {
 
     @Inject
@@ -57,7 +57,7 @@ class ShopDetails(
 
     private fun addTitle() {
         creditsTitle = add("-")
-        val amount = playerData.storageItems.filter { it::class == itemType::class }.size
+        val amount = playerData.storageItems.filter { it::class == itemInfo::class }.size
         setCreditsTitle(amount)
         addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
@@ -65,14 +65,14 @@ class ShopDetails(
     }
 
     private fun addImage() {
-        val cell = add(item.getDisplayImage())
+        val cell = add(itemGraphic.getDisplayImage())
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }
 
     private fun addText() {
         row()
-        val cell = add(item.text)
+        val cell = add(itemGraphic.text)
         addPaddingTopBottom(cell, GAME_MENU_PADDING_SPACE)
         setFont(cell.actor, GAME_SIZE_FONT_SMALL)
     }
@@ -91,7 +91,7 @@ class ShopDetails(
 
         buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(BuyItemCommand(itemType, playerController.currentPlayerData))
+                EventBus.getDefault().post(BuyItemCommand(itemInfo, playerController.currentPlayerData))
                 return true
             }
         })
@@ -103,7 +103,7 @@ class ShopDetails(
 
         sellBtn = createButton(name = GAME_BUTTON_SELL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SellItemCommand(itemType, playerController.currentPlayerData))
+                EventBus.getDefault().post(SellItemCommand(itemInfo, playerController.currentPlayerData))
                 return true
             }
         })
@@ -126,7 +126,7 @@ class ShopDetails(
     }
 
     private fun setCreditsTitle(items: Int) {
-        creditsTitle.actor.setText("${item.price} ($items)")
+        creditsTitle.actor.setText("${itemGraphic.price} ($items)")
     }
 
     fun initObserver() {
@@ -134,7 +134,7 @@ class ShopDetails(
             when (event) {
                 is BuyItemCommand,
                 is SellItemCommand
-                -> setCreditsTitle(graphicController.getPlayerItems(event.DONT_USE_THIS_PLAYER_DATA.playerColor).getItems(item.itemType).size)
+                -> setCreditsTitle(graphicController.getPlayerItems(event.DONT_USE_THIS_PLAYER_DATA.playerColor).getItems(itemGraphic.itemInfo).size)
             }
         }
 
