@@ -62,6 +62,9 @@ data class PlayerData(
     @JvmField
     var equippedItems: ToMany<ItemData> = ToMany(this, PlayerData_.equippedItems)
 
+    @JvmField
+    var activeItems: ToMany<ItemData> = ToMany(this, PlayerData_.equippedItems)
+
     val gamePosition: PositionData
         get() = positionField.target.gamePosition
 

@@ -1,7 +1,9 @@
 package de.bitb.spacerace.exceptions
 
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.player.PlayerColor
 
 sealed class GameException(
@@ -51,3 +53,6 @@ class StepsLeftException(
         steps: Int
 ) : NextPhaseException(player, "$steps steps left")
 
+class ItemNotImplemented(
+        val itemType: ItemType
+) : GameException("$itemType is not implemented")

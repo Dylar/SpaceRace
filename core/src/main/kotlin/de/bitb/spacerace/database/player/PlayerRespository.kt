@@ -28,11 +28,11 @@ class PlayerRespository(
     override fun insert(vararg userData: PlayerData): Completable =
             Completable.fromCallable { playerBox.put(*userData) }
 
-    override fun insertAllReturnAll(vararg userData: PlayerData): Single<List<PlayerData>> =
+    override fun insertAndReturn(vararg userData: PlayerData): Single<List<PlayerData>> =
             insert(*userData).andThen(getAll())
 
     override fun replaceAll(vararg userData: PlayerData): Single<List<PlayerData>> =
-            delete(*userData).andThen(insertAllReturnAll(*userData))
+            delete(*userData).andThen(insertAndReturn(*userData))
 
     override fun delete(vararg userData: PlayerData): Completable =
             Completable.fromAction { playerBox.remove(*userData) }

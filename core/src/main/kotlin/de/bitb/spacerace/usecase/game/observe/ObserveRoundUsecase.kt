@@ -37,7 +37,7 @@ class ObserveRoundUsecase
     private fun updatePlayer(player: List<PlayerData>) =
             if (player.isEmpty()) Observable.just(false)
             else playerDataSource
-                    .insertAllReturnAll(*player.toTypedArray())
+                    .insertAndReturn(*player.toTypedArray())
                     .map { player.isNotEmpty() }
                     .toObservable()
 }

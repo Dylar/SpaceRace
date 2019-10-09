@@ -10,7 +10,7 @@ interface PlayerDataSource {
     //    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg userData: PlayerData): Completable
 
-    fun insertAllReturnAll(vararg userData: PlayerData): Single<List<PlayerData>>
+    fun insertAndReturn(vararg userData: PlayerData): Single<List<PlayerData>>
 
     fun replaceAll(vararg userData: PlayerData): Single<List<PlayerData>>
 

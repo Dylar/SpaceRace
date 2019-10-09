@@ -44,7 +44,7 @@ class NextPhaseUsecase @Inject constructor(
                     .flatMap { checkEndable(it) }
                     .flatMap { doPhase(it) }
                     .flatMap { result ->
-                        playerDataSource.insertAllReturnAll(result.player).map { result }
+                        playerDataSource.insertAndReturn(result.player).map { result }
                     }
 
     private fun checkEndable(playerData: PlayerData) =

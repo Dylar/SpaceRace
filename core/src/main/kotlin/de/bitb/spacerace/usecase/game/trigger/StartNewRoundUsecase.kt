@@ -21,6 +21,6 @@ class StartNewRoundUsecase @Inject constructor(
             Single.just(player.apply { forEach { it.phase = Phase.MAIN1 } })
 
     private fun updatePlayer(player: List<PlayerData>) =
-            playerDataSource.insertAllReturnAll(*player.toTypedArray())
+            playerDataSource.insertAndReturn(*player.toTypedArray())
 
 }
