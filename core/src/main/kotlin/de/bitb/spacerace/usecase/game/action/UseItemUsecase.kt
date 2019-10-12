@@ -47,7 +47,7 @@ class UseItemUsecase @Inject constructor(
 
     private fun checkItemUsable(playerData: PlayerData, itemInfo: ItemInfo): Single<Pair<PlayerData, ItemData>> =
             Single.create { emitter ->
-                when (val item = playerData.storageItems.find { it.itemInfo == itemInfo }) {
+                when (val item = playerData.storageItems.find { it.itemInfo.name == itemInfo.name }) {
                     null -> emitter.onError(ItemNotFoundException(itemInfo))
                     //TODO make item conditions -> also phase
                     else -> emitter.onSuccess(playerData to item)

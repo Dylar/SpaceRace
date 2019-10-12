@@ -3,6 +3,7 @@ package de.bitb.spacerace.controller
 import de.bitb.spacerace.core.PlayerColorDispenser
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.utils.Logger
@@ -16,7 +17,7 @@ class PlayerController
 @Inject constructor(
         private val playerColorDispenser: PlayerColorDispenser,
         private val observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase,
-        val box: Box<PlayerData>
+        private val playerDataSource: PlayerDataSource
 ) {
 
     private var dispo: Disposable? = null
@@ -24,15 +25,16 @@ class PlayerController
     val players: MutableList<PlayerColor> = ArrayList()
     var currentPlayerIndex = 0
 
-    var currentPlayerData = NONE_PLAYER_DATA
     val currentColor: PlayerColor
         get() = players[currentPlayerIndex]
+    val currentPlayerData
+        get() = playerDataSource.getDBByColor(currentColor).first()
 
     fun initObserver() {
         dispo?.dispose()
         dispo = observeCurrentPlayerUseCase.observeStream(
                 onNext = {
-                    currentPlayerData = it
+//                    currentPlayerData = it //TODO ??
                 })
     }
 

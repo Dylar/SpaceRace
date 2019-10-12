@@ -30,10 +30,10 @@ sealed class ItemInfo(
                         .map { it.createInstance() as ItemInfo }
                         .toList()
 
-        fun getRandomItem() =
-                getAll().let {
-                    it[(Math.random() * (it.size - 1)).toInt()]
-                }
+        fun getRandomItem() = ION_ENGINE() //TODO
+//                getAll().let {
+//                    it[(Math.random() * (it.size - 1)).toInt()]
+//                }
     }
 
     //USABLE

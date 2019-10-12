@@ -28,7 +28,7 @@ import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class ItemDetails(
+class ItemDetailsMenu(
         guiStage: GameGuiStage,
         itemMenu: ItemMenu,
         private val itemInfo: ItemInfo,
@@ -142,10 +142,10 @@ class ItemDetails(
     }
 
     private fun setUsedTitle() {
-        val inStorage = playerData.storageItems.count { it::class == itemInfo::class }
+        val inStorage = playerData.storageItems.count { it.itemInfo == itemInfo }
         val text = when (itemInfo) {
             is EquipItem -> {
-                val equipped = playerData.equippedItems.count { it::class == itemInfo::class }
+                val equipped = playerData.equippedItems.count { it.itemInfo == itemInfo }
                 "EQUIPPED ($equipped/$inStorage)"
             }
             else -> "STORAGE ($inStorage)"

@@ -19,7 +19,7 @@ class ItemMenu(
         private val playerData: PlayerData
 ) : BaseMenu(guiStage) {
 
-    private lateinit var itemDetails: ItemDetails
+    private lateinit var itemDetailsMenu: ItemDetailsMenu
 
     init {
         val items = graphicController.getItemsTypeMap(playerData)
@@ -53,8 +53,8 @@ class ItemMenu(
                 val displayImage = typeList.value[0].getDisplayImage()
                 displayImage.addListener(object : InputListener() {
                     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                        itemDetails = ItemDetails(guiStage, this@ItemMenu, typeList.key, playerData)
-                        itemDetails.openMenu()
+                        itemDetailsMenu = ItemDetailsMenu(guiStage, this@ItemMenu, typeList.key, playerData)
+                        itemDetailsMenu.openMenu()
                         return true
                     }
                 })

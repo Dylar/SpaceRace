@@ -7,6 +7,7 @@ import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.usecase.game.action.UseItemConfig
 import de.bitb.spacerace.usecase.game.action.UseItemUsecase
 import de.bitb.spacerace.utils.Logger
+import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
 class UseItemCommand(
@@ -23,10 +24,16 @@ class UseItemCommand(
 
     override fun execute() {
         val config = UseItemConfig(DONT_USE_THIS_PLAYER_DATA.playerColor, item)
-        useItemUsecase.getResult(
+        compositDisposable += useItemUsecase.getResult(
                 params = config,
-                onSuccess = { Logger.println("ITEM USED: $it") },
-                onError = { reset() }
+                onSuccess = {
+                    Logger.println("ITEM USED: $it")
+                    reset()
+                },
+                onError = {
+                    it.printStackTrace()
+                    reset()
+                }
         )
     }
 

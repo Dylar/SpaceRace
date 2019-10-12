@@ -9,7 +9,7 @@ import de.bitb.spacerace.model.items.ItemInfo.*
 
 object JsonParser {
 
-    val moshi: Moshi = Moshi.Builder()
+    private val moshi: Moshi = Moshi.Builder()
             .add(PolymorphicJsonAdapterFactory.of(ItemInfo::class.java, "name")
                     .withSubtype(SHIP_BUMPER::class.java, SHIP_BUMPER::class.simpleName)
                     .withSubtype(SHIP_RAIDER::class.java, SHIP_RAIDER::class.simpleName)
@@ -19,7 +19,9 @@ object JsonParser {
                     .withSubtype(CLEAN_DROID::class.java, CLEAN_DROID::class.simpleName)
                     .withSubtype(SPEED_BOOST::class.java, SPEED_BOOST::class.simpleName)
                     .withSubtype(SPECIAL_FUEL::class.java, SPECIAL_FUEL::class.simpleName)
-                    .withSubtype(EXTRA_FUEL::class.java, EXTRA_FUEL::class.simpleName))
+                    .withSubtype(EXTRA_FUEL::class.java, EXTRA_FUEL::class.simpleName)
+                    .withSubtype(ION_ENGINE::class.java, ION_ENGINE::class.simpleName)
+            )
             .add(KotlinJsonAdapterFactory())
             .build()
     val ITEM_INFO_PARSER: JsonAdapter<ItemInfo> = moshi.adapter(ItemInfo::class.java)

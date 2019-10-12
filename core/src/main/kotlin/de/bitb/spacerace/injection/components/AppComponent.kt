@@ -16,7 +16,7 @@ import de.bitb.spacerace.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.game.RoundEndDetails
 import de.bitb.spacerace.ui.player.PlayerStatsGui
-import de.bitb.spacerace.ui.player.items.ItemDetails
+import de.bitb.spacerace.ui.player.items.ItemDetailsMenu
 import de.bitb.spacerace.ui.player.shop.ShopDetails
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.screens.game.GameScreen
@@ -49,7 +49,7 @@ interface AppComponent {
     fun inject(gameGuiStage: GameGuiStage)
 
     fun inject(baseMenu: BaseMenu)
-    fun inject(itemDetails: ItemDetails)
+    fun inject(itemDetailsMenu: ItemDetailsMenu)
     fun inject(roundEndDetails: RoundEndDetails)
     fun inject(playerStatsGui: PlayerStatsGui)
     fun inject(gameActionGui: GameActionGui)
