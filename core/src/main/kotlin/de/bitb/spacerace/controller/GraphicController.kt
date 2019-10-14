@@ -146,21 +146,10 @@ class GraphicController
         getFieldGraphic(player.gamePosition).setBlinkColor(player.playerColor.color)
     }
 
-    fun getItemsTypeMap(playerData: PlayerData): MutableMap<ItemInfo, MutableList<ItemGraphic>> {
-        val map = HashMap<ItemInfo, MutableList<ItemGraphic>>()
-        fun addToMap(info: ItemInfo, itemGraphic: ItemGraphic) {
-            (map[info] ?: mutableListOf())
-                    .also {
-                        it.add(itemGraphic)
-                        map[info] = it
-                    }
-        }
-        playerData.storageItems
-                .map { it.itemInfo }
-                .forEach {
-                    addToMap(it, it.createGraphic(playerData.playerColor))
-                }
-        return map
+    fun getStorageItemMap(playerData: PlayerData): Map<ItemInfo, ItemGraphic> {
+        return playerData.storageItems
+                .map { it.itemInfo.createGraphic(playerData.playerColor) }
+                .associateBy { it.itemInfo }
     }
 
 

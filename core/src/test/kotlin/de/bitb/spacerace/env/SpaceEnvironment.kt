@@ -99,7 +99,7 @@ class SpaceEnvironment {
             error: GameException? = null,
             assertError: (Throwable) -> Boolean = { false },
             assertSuccess: (LoadGameResult) -> Boolean = { true }
-    ) {
+    ) = this.apply {
         WIN_AMOUNT = winAmount
 
         testGame = TestGame()
@@ -126,14 +126,14 @@ class SpaceEnvironment {
         waitForIt()
     }
 
-    fun setToMovePhase(setDice: Int = 1) {
+    fun setToMovePhase(setDice: Int = 1) = this.apply {
         dice(setDice = -setDice)
         nextPhase()
 
         assertCurrentPhase(Phase.MOVE)
     }
 
-    fun setToMain2Phase() {
+    fun setToMain2Phase() = this.apply {
         setToMovePhase()
 
         move()
@@ -142,15 +142,14 @@ class SpaceEnvironment {
         assertCurrentPhase(Phase.MAIN2)
     }
 
-    fun changePlayerTo(player: PlayerColor) {
-        if (player != currentPlayerColor) {
+    fun changePlayerTo(player: PlayerColor) = this.apply {
+        while (player != currentPlayerColor) {
             setToMain2Phase()
             nextPhase()
-            changePlayerTo(player)
         }
     }
 
-    fun moveToGoal() {
+    fun moveToGoal() = this.apply {
         setToMovePhase()
         move(target = centerBottomField)
         assertSameField(getPlayerPosition(), centerBottomField)
@@ -200,7 +199,8 @@ class SpaceEnvironment {
                   assertError: (Throwable) -> Boolean = {
                       error?.assertNextPhaseException(it) ?: false
                   },
-                  assertSuccess: ((NextPhaseResult) -> Boolean) = { true }) {
+                  assertSuccess: ((NextPhaseResult) -> Boolean) = { true }
+    ) = this.apply {
         nextPhaseUseCase.buildUseCaseSingle(color)
                 .test()
                 .await()
@@ -209,7 +209,8 @@ class SpaceEnvironment {
 
     fun dice(player: PlayerColor = currentPlayerColor,
              setDice: Int = -1,
-             error: GameException? = null) {
+             error: GameException? = null
+    ) = this.apply {
         diceUsecase.buildUseCaseCompletable(player to setDice)
                 .test()
                 .await()
@@ -224,7 +225,8 @@ class SpaceEnvironment {
              target: PositionData = leftTopField,
              error: GameException? = null,
              assertError: (Throwable) -> Boolean = { error?.assertMoveException(it) ?: false },
-             assertSuccess: (MoveResult) -> Boolean = { true }) {
+             assertSuccess: (MoveResult) -> Boolean = { true }
+    ) = this.apply {
         moveUsecase.buildUseCaseSingle(player to target)
                 .test()
                 .await()

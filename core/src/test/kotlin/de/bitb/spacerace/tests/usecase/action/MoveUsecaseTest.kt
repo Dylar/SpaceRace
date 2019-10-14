@@ -76,7 +76,7 @@ class MoveUsecaseTest : GameTest() {
                         move(TEST_PLAYER_2, target, NotCurrentPlayerException(TEST_PLAYER_2))
                         check()
                         //move player 1 -> failed
-                        move(TEST_PLAYER_1, target, WrongPhaseException(TEST_PLAYER_1, listOf(Phase.MOVE)))
+                        move(TEST_PLAYER_1, target, WrongPhaseException(TEST_PLAYER_1, setOf(Phase.MOVE)))
                         check()
                     }
 
@@ -116,7 +116,7 @@ class MoveUsecaseTest : GameTest() {
                         move(TEST_PLAYER_2, target, NotCurrentPlayerException(TEST_PLAYER_2))
                         check()
                         //move player 1 -> failed
-                        move(TEST_PLAYER_1, target, WrongPhaseException(TEST_PLAYER_1, listOf(Phase.MOVE)))
+                        move(TEST_PLAYER_1, target, WrongPhaseException(TEST_PLAYER_1, setOf(Phase.MOVE)))
                         check()
                     }
 

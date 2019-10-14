@@ -16,14 +16,7 @@ import io.objectbox.relation.ToOne
 data class ItemData(
         @Id var id: Long = 0,
         @Convert(converter = ItemTypeConverter::class, dbType = String::class)
-        val itemInfo: ItemInfo = NONE_ITEMTYPE(),
-
-
-
-
-
-        @Convert(converter = PhaseListConverter::class, dbType = String::class)
-        val usablePhase: List<Phase> = listOf()
+        val itemInfo: ItemInfo = NONE_ITEMTYPE()
 ) {
 
     @Transient

@@ -7,7 +7,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 
 class IonEngine(owner: PlayerColor, price: Int) : EquipItemGraphic(owner, price, TextureCollection.blackhole) {
 
-    override val itemInfo: ItemInfo = ItemInfo.ION_ENGINE()
+    override var itemInfo: ItemInfo = ItemInfo.ION_ENGINE()
     override var text: String = ""
         get() = GameStrings.ItemStrings.ITEM_ION_ENGINE_TEXT
 

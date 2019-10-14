@@ -57,7 +57,7 @@ class NextPhaseUsecase @Inject constructor(
             }
 
     private fun checkPhase(playerColor: PlayerColor, phase: Phase) =
-            checkPlayerPhaseUsecase.buildUseCaseSingle(CheckPlayerConfig(playerColor, listOf(phase)))
+            checkPlayerPhaseUsecase.buildUseCaseSingle(CheckPlayerConfig(playerColor, setOf(phase)))
 
     private fun canEndMain1(playerData: PlayerData): Single<PlayerData> =
             checkPhase(playerData.playerColor, Phase.MAIN1)

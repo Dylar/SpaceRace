@@ -10,7 +10,7 @@ class SpecialFuel(
         price: Int
 ) : UsableItemGraphic(playerColor, price, TextureCollection.speederShipMoving2) {
 
-    override   val itemInfo: ItemInfo = ItemInfo.SPECIAL_FUEL()
+    override var itemInfo: ItemInfo = ItemInfo.SPECIAL_FUEL()
     override var text: String = ""
         get() = ITEM_SPECIAL_FUEL_TEXT
 

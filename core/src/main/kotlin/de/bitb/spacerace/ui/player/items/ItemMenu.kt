@@ -22,7 +22,7 @@ class ItemMenu(
     private lateinit var itemDetailsMenu: ItemDetailsMenu
 
     init {
-        val items = graphicController.getItemsTypeMap(playerData)
+        val items = graphicController.getStorageItemMap(playerData)
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
@@ -46,20 +46,19 @@ class ItemMenu(
         cell.colspan(size)
     }
 
-    private fun addItems(items: MutableMap<ItemInfo, MutableList<ItemGraphic>>) {
+    private fun addItems(items: Map<ItemInfo, ItemGraphic>) {
         row()
         for (typeList in items) {
-            if (typeList.value.isNotEmpty()) {
-                val displayImage = typeList.value[0].getDisplayImage()
-                displayImage.addListener(object : InputListener() {
-                    override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                        itemDetailsMenu = ItemDetailsMenu(guiStage, this@ItemMenu, typeList.key, playerData)
-                        itemDetailsMenu.openMenu()
-                        return true
-                    }
-                })
-                add(displayImage)
-            }
+            val itemType = typeList.key
+            val displayImage = typeList.value.getDisplayImage()
+            displayImage.addListener(object : InputListener() {
+                override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                    itemDetailsMenu = ItemDetailsMenu(guiStage, this@ItemMenu, itemType, playerData)
+                    itemDetailsMenu.openMenu()
+                    return true
+                }
+            })
+            add(displayImage)
         }
     }
 

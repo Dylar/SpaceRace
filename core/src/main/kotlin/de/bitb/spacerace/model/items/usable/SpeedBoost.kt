@@ -12,7 +12,7 @@ class SpeedBoost(
         img: Texture = TextureCollection.fallingStar
 ) : UsableItemGraphic(playerColor, price, img) {
 
-    override  val itemInfo: ItemInfo = ItemInfo.SPEED_BOOST()
+    override var itemInfo: ItemInfo = ItemInfo.SPEED_BOOST()
     override var text: String = ""
         get() = GameStrings.ItemStrings.ITEM_SPEED_BOOST_TEXT
 

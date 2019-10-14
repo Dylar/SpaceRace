@@ -15,7 +15,7 @@ class BumperShip(
         price: Int
 ) : ShipItemGraphic(owner, price, TextureCollection.bumperShipLanding2) {
 
-    override val itemInfo: ItemInfo = ItemInfo.SHIP_BUMPER()
+    override var itemInfo: ItemInfo = ItemInfo.SHIP_BUMPER()
     override var text: String = ""
         get() = GameStrings.ItemStrings.SHIP_BUMPER_TEXT
 

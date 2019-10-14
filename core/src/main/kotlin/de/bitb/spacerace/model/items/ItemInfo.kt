@@ -2,6 +2,7 @@ package de.bitb.spacerace.model.items
 
 import com.squareup.moshi.JsonClass
 import de.bitb.spacerace.database.items.*
+import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.disposable.SlowMine
 import de.bitb.spacerace.model.items.disposable.moving.MovingMine
 import de.bitb.spacerace.model.items.equip.IonEngine
@@ -16,10 +17,13 @@ import de.bitb.spacerace.model.player.PlayerColor
 import kotlin.reflect.full.createInstance
 
 class NONE_ITEMTYPE() : ItemInfo(NONE_ITEMTYPE::class.simpleName!!, 0)
+const val UNLIMITED_CHARGES = -1
 
 sealed class ItemInfo(
         val name: String,
-        val price: Int = 0
+        val price: Int = 0,
+        val charges:Int = UNLIMITED_CHARGES,
+        val usablePhase: Set<Phase> = setOf(Phase.MAIN1, Phase.MAIN2)
 ) {
     companion object {
         fun getAllItems(): MutableList<ItemGraphic> = getAll().map { it.createGraphic() }.toMutableList()
@@ -71,24 +75,25 @@ sealed class ItemInfo(
     //EQUIP
     @JsonClass(generateAdapter = true)
     class ION_ENGINE(
-            override val diceModifier: Double = 0.1
+            override val diceModifier: Double = 0.1,
+            override var equipped: Boolean = false
     ) : ItemInfo(ION_ENGINE::class.simpleName!!, 5000), EquipItem, DiceModification
 
     //SHIP
     @JsonClass(generateAdapter = true)
     class SHIP_SPEEDER(
             override val diceModifier: Double = -0.1
-    ) : ItemInfo(SHIP_SPEEDER::class.simpleName!!, 15000), EquipItem, DiceModification
+    ) : ItemInfo(SHIP_SPEEDER::class.simpleName!!, 15000), DiceModification
 
     @JsonClass(generateAdapter = true)
     class SHIP_RAIDER(
             override val diceAddition: Int = 3
-    ) : ItemInfo(SHIP_RAIDER::class.simpleName!!, 65000), EquipItem, DiceAddition
+    ) : ItemInfo(SHIP_RAIDER::class.simpleName!!, 65000), DiceAddition
 
     @JsonClass(generateAdapter = true)
     class SHIP_BUMPER(
             override val diceModifier: Double = -0.1
-    ) : ItemInfo(SHIP_BUMPER::class.simpleName!!, 40000), EquipItem, DiceModification
+    ) : ItemInfo(SHIP_BUMPER::class.simpleName!!, 40000), DiceModification
 
     fun createGraphic(playerColor: PlayerColor = PlayerColor.NONE): ItemGraphic {
         return when (this) {
@@ -106,7 +111,7 @@ sealed class ItemInfo(
             is SHIP_RAIDER -> RaiderShip(playerColor, 65000)
             is SHIP_BUMPER -> BumperShip(playerColor, 40000)
             is NONE_ITEMTYPE -> throw UnsupportedOperationException("NONE ITEM TYPE!!")
-        }
+        }.also { it.itemInfo = this }
     }
 
 }

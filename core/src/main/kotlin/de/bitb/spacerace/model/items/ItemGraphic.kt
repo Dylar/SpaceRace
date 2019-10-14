@@ -19,7 +19,7 @@ abstract class ItemGraphic(
     @Inject
     protected lateinit var graphicController: GraphicController
     
-    abstract val itemInfo: ItemInfo
+    abstract var itemInfo: ItemInfo
     abstract var text: String
     open var charges: Int = 1
 

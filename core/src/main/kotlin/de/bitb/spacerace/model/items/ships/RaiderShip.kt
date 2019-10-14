@@ -14,7 +14,7 @@ class RaiderShip(
         owner: PlayerColor, price: Int
 ) : ShipItemGraphic(owner, price, TextureCollection.raiderShipLanding2) {
 
-    override  val itemInfo: ItemInfo = ItemInfo.SHIP_RAIDER()
+    override var itemInfo: ItemInfo = ItemInfo.SHIP_RAIDER()
     override var text: String = ""
         get() = GameStrings.ItemStrings.SHIP_RAIDER_TEXT
 

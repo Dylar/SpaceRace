@@ -7,7 +7,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 
 class MovingMine(owner: PlayerColor, price: Int) : MovingItemGraphic(owner, price, TextureCollection.slowMine) {
 
-   override val itemInfo: ItemInfo = ItemInfo.MOVING_MINE()
+   override var itemInfo: ItemInfo = ItemInfo.MOVING_MINE()
     override var text: String = ""
         get() = GameStrings.ItemStrings.ITEM_MOVING_MINE_TEXT
 

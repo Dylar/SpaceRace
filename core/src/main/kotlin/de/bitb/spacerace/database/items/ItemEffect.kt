@@ -1,10 +1,15 @@
 package de.bitb.spacerace.database.items
 
 
-interface EquipItem
+interface EquipItem {
+    var equipped: Boolean
+}
+
 interface ActivableItem
 interface AttachableItem
 interface DisposableItem
+
+
 
 
 interface RemoveEffect

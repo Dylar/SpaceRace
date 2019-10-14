@@ -47,7 +47,7 @@ class MoveUsecase @Inject constructor(
             checkCurrentPlayerUsecase.buildUseCaseCompletable(playerColor)
 
     private fun checkMovePhase(playerColor: PlayerColor) =
-            checkPlayerPhaseUsecase.buildUseCaseSingle(CheckPlayerConfig(playerColor, listOf(Phase.MOVE)))
+            checkPlayerPhaseUsecase.buildUseCaseSingle(CheckPlayerConfig(playerColor, setOf(Phase.MOVE)))
 
     private fun checkMoveable(playerData: PlayerData, target: FieldData): Single<Pair<PlayerData, FieldData>> =
             Single.create { emitter ->

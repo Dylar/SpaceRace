@@ -40,6 +40,6 @@ class CheckPlayerPhaseUsecase @Inject constructor(
 }
 
 data class CheckPlayerConfig(
-        val playerData: PlayerColor,
-        val list: List<Phase>
+        val player: PlayerColor,
+        val phaseToCheck: Set<Phase>
 )
