@@ -67,7 +67,7 @@ class LoadNewGameUsecase @Inject constructor(
                 }
 
                 //set goal
-                saveData.goal.target = saveData.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another? TESTS?
+                saveData.goal.target = saveData.fields.find { it.fieldType == FieldType.GOAL }
                         ?: NONE_FIELD_DATA
 
                 //set player startfield

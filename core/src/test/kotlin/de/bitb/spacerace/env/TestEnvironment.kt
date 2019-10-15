@@ -3,21 +3,20 @@ package de.bitb.spacerace.env
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.core.assertDiceException
-import de.bitb.spacerace.core.assertMoveException
-import de.bitb.spacerace.core.assertNextPhaseException
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
+import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.maps.SpaceMap
-import de.bitb.spacerace.usecase.game.action.*
+import de.bitb.spacerace.model.space.maps.newField
+import de.bitb.spacerace.usecase.game.action.DiceUsecase
+import de.bitb.spacerace.usecase.game.action.MoveUsecase
+import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetFieldUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
-import de.bitb.spacerace.usecase.game.init.LoadGameUsecase
 import de.bitb.spacerace.usecase.game.init.LoadNewGameUsecase
 import io.reactivex.observers.TestObserver
 import javax.inject.Inject
@@ -59,7 +58,6 @@ class TestEnvironment {
     lateinit var winnerObserver: TestObserver<PlayerData>
 
     lateinit var testGame: TestGame
-    lateinit var testMap: SpaceMap
 
     val setup = TestSystemSetup()
 
@@ -71,14 +69,10 @@ class TestEnvironment {
     val currentPosition: PositionData
         get() = currentPlayer.gamePosition
 
-    val centerBottomField: PositionData
-        get() = getFieldPosition(0)
-    val leftBottomField: PositionData
-        get() = getFieldPosition(1)
-    val leftTopField: PositionData
-        get() = getFieldPosition(4)
-    val centerTopField: PositionData
-        get() = getFieldPosition(3)
+    lateinit var leftBottomField: PositionData
+    lateinit var leftTopField: PositionData
+    lateinit var centerTopField: PositionData
+    lateinit var centerBottomField: PositionData
 
     //
 //    ██████╗ ███████╗████████╗████████╗███████╗██████╗
@@ -88,8 +82,6 @@ class TestEnvironment {
 //    ╚██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
 //    ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
 //
-
-    private fun getFieldPosition(fieldId: Int, groupId: Int = 0) = testMap.groups[groupId].getField(fieldId).gamePosition
 
     fun getDBField(position: PositionData) =
             getFieldUsecase.buildUseCaseSingle(position).test().await()

@@ -3,18 +3,17 @@ package de.bitb.spacerace.env
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.core.assertCurrentPhase
 import de.bitb.spacerace.core.assertSameField
+import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.maps.MapCreator
-import de.bitb.spacerace.model.space.maps.initDefaultMap
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
 
 fun TestEnvironment.initGame(
         vararg playerColor: PlayerColor = DEFAULT_TEST_PLAYER.toTypedArray(),
-        mapToLoad: MapCreator = MapCreator.TEST_MAP,
+        mapToLoad: MapData = createTestMap(),
         winAmount: Long = 1,
         error: GameException? = null,
         assertError: (Throwable) -> Boolean = { false },
@@ -27,9 +26,12 @@ fun TestEnvironment.initGame(
 
     TestGame.testComponent.inject(this)
 
-    testMap = mapToLoad.createMap()
-    val map = testMap.initDefaultMap()
-    val config = LoadGameConfig(playerColor.toList(), map)
+    leftBottomField = mapToLoad.fields[0].gamePosition
+    leftTopField = mapToLoad.fields[1].gamePosition
+    centerBottomField = mapToLoad.fields[2].gamePosition
+    centerTopField = mapToLoad.fields[3].gamePosition
+
+    val config = LoadGameConfig(playerColor.toList(), mapToLoad)
     loadNewGameUsecase.buildUseCaseSingle(config)
             .test()
             .await()
