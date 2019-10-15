@@ -87,7 +87,7 @@ class MovingImage : IMovingImage {
     }
 
     override fun actMovingTo(delta: Float, movingImage: GameImage, targetPosition1: GameImage) {
-        if (targetPosition1 != GameImage.NONE) {
+        if (targetPosition1 != GameImage.NONE_GAMEIMAGE) {
             actMovingTo(delta, movingImage, targetPosition1.boundingRectangle)
         }
     }
@@ -130,7 +130,7 @@ class MovingImage : IMovingImage {
         if (ninjaRectangle.overlaps(shurikenRectangle)) {
             flightTime = 4f
             movingImage.movingState = MovingState.NONE
-            movingImage.followImage = GameImage.NONE
+            movingImage.followImage = GameImage.NONE_GAMEIMAGE
             movingImage.targetPoint = null
             movingImage.addAction(*doAfter.toTypedArray())
             doAfter.clear()

@@ -1,9 +1,7 @@
 package de.bitb.spacerace.tests.usecase.action
 
 import de.bitb.spacerace.core.*
-import de.bitb.spacerace.env.SpaceEnvironment
-import de.bitb.spacerace.env.TEST_PLAYER_1
-import de.bitb.spacerace.env.TEST_PLAYER_2
+import de.bitb.spacerace.env.*
 import de.bitb.spacerace.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.exceptions.WrongPhaseException
 import de.bitb.spacerace.model.enums.Phase
@@ -13,11 +11,11 @@ class MoveUsecaseTest : GameTest() {
 
     @Test
     fun onlyCurrentPlayerCanMove_inMovePhase() {
-        SpaceEnvironment()
+        TestEnvironment()
+                .initGame()
+                .setToMovePhase()
+                .dice()
                 .apply {
-                    initGame()
-                    setToMovePhase()
-                    dice()
 
                     val target = leftTopField
                     var position = currentPosition
@@ -50,7 +48,7 @@ class MoveUsecaseTest : GameTest() {
 
     @Test
     fun nobodyCanMove_InMain1Phase() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
 
@@ -89,7 +87,7 @@ class MoveUsecaseTest : GameTest() {
 
     @Test
     fun nobodyCanMove_InMain2Phase() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMain2Phase()

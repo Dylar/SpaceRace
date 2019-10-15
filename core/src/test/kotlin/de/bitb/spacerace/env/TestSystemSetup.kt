@@ -2,11 +2,10 @@ package de.bitb.spacerace.env
 
 import de.bitb.spacerace.model.MyObjectBox
 import io.objectbox.BoxStore
-import io.objectbox.DebugFlags
 import java.io.File
 
 
-class Setup(
+class TestSystemSetup(
 ) {
 
     companion object {
@@ -34,7 +33,7 @@ class Setup(
         mockWifi()
     }
 
-    fun mockWifi(wifiEnabled: Boolean = true): Setup {
+    fun mockWifi(wifiEnabled: Boolean = true): TestSystemSetup {
 //        every { networkUtils.isNetworkAvailable } returns wifiEnabled
         return this
     }

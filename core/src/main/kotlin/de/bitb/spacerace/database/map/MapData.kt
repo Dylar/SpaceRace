@@ -10,7 +10,6 @@ import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
-import io.objectbox.relation.ToOne
 
 @Entity
 data class MapData(
@@ -18,7 +17,7 @@ data class MapData(
         @Id
         var uuid: Long = 0,
         @Convert(converter = PositionDataConverter::class, dbType = String::class)
-        val startPosition: PositionData = PositionData()
+        var startPosition: PositionData = PositionData()
 ) {
 
     @Transient
@@ -34,11 +33,13 @@ data class MapData(
 data class FieldConfigData(
         @Id
         var uuid: Long = 0,
+        @Convert(converter = FieldTypeConverter::class, dbType = String::class)
+        val fieldType: FieldType = FieldType.RANDOM,
         @Convert(converter = PositionDataConverter::class, dbType = String::class)
         val gamePosition: PositionData = PositionData(),
         @Convert(converter = PositionListConverter::class, dbType = String::class)
         val connections: MutableList<PositionData> = mutableListOf(),
-        @Convert(converter = FieldTypeConverter::class, dbType = String::class)
-        val fieldType: FieldType = FieldType.RANDOM
+        @Convert(converter = PositionDataConverter::class, dbType = String::class)
+        var rotateAround: PositionData? = null //TODO do me
 )
 

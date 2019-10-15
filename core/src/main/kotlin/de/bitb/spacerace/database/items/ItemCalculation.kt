@@ -3,7 +3,7 @@ package de.bitb.spacerace.database.items
 import de.bitb.spacerace.database.player.PlayerData
 
 
-fun PlayerData.getModifierValues(modModifier: Int = 0): Pair<Double, Int> {
+fun PlayerData.getModifierValues(modModifier: Int = 1): Pair<Double, Int> {
     var modifierValue = 0.0
     var additionValue = 0
     fun addValues(storageItems: List<ItemData>) {

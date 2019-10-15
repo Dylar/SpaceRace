@@ -20,7 +20,8 @@ data class SaveData(
         var uuid: Long = 0,
         @Convert(converter = PlayerColorConverter::class, dbType = String::class)
         var currentColor: PlayerColor = PlayerColor.NONE,
-        var loaded: Boolean = false
+        var loaded: Boolean = false,
+        var winAmount: Int = 1 //TODO use me
 ) {
 
     @Transient

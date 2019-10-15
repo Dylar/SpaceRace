@@ -1,10 +1,7 @@
 package de.bitb.spacerace.tests.usecase.action
 
 import de.bitb.spacerace.core.*
-import de.bitb.spacerace.env.SpaceEnvironment
-import de.bitb.spacerace.env.TEST_PLAYER_1
-import de.bitb.spacerace.env.TEST_PLAYER_2
-import de.bitb.spacerace.env.TEST_PLAYER_3
+import de.bitb.spacerace.env.*
 import de.bitb.spacerace.exceptions.DiceFirstException
 import de.bitb.spacerace.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.exceptions.StepsLeftException
@@ -23,7 +20,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun onlyCurrentPlayerCanChangePhase_Main1ToMove() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     dice()
@@ -48,7 +45,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun onlyCurrentPlayerCanChangePhase_MoveToMain2() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase()
@@ -74,7 +71,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun onlyCurrentPlayerCanChangePhase_Main2ToMain1_playerChanged() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMain2Phase()
@@ -103,7 +100,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun noDice_nextPhaseClicked_failure_stillMainPhase() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     //assert start
@@ -120,7 +117,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun dice_nextPhaseClicked_success_movePhase() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     //assert start
@@ -141,7 +138,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun movePhase_nextPhaseClicked_failure_movePhase_stepsLeft() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase()
@@ -155,7 +152,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun movePhase_move_nextPhaseClicked_success_main2Phase() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase()
@@ -173,7 +170,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun movePhase_move1_nextPhaseClicked_failure_movePhase_stepsLeft_move1_nextPhaseSuccess() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase(2)
@@ -204,7 +201,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun movePhase_move2_nextPhaseClicked_success_main2Phase() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase(2)
@@ -227,7 +224,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun main2Phase_nextPhaseClicked_success_currentPlayerChanged() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMain2Phase()
@@ -244,7 +241,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun changePlayer1_toPlayer2() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
 
@@ -259,7 +256,7 @@ class NextPhaseUsecaseTest : GameTest() {
 
     @Test
     fun changePlayer1_skipPlayer2_toPlayer3() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame(TEST_PLAYER_1, TEST_PLAYER_2, TEST_PLAYER_3)
 

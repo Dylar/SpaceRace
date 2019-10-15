@@ -1,17 +1,15 @@
 package de.bitb.spacerace.tests.scenario
 
 import de.bitb.spacerace.core.*
-import de.bitb.spacerace.env.SpaceEnvironment
-import de.bitb.spacerace.env.TEST_PLAYER_2
+import de.bitb.spacerace.env.*
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import org.junit.Test
 
 class ConnectionTest : GameTest() {
 
     @Test
     fun startGame_noConnections_bothPlayer_currentPlayerGotInMove() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
 
@@ -69,7 +67,7 @@ class ConnectionTest : GameTest() {
 
     @Test
     fun startMove_currentPlayer_allConnected_moveDone_noneConnected() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase()
@@ -110,7 +108,7 @@ class ConnectionTest : GameTest() {
 
     @Test
     fun startMove2Steps_currentPlayer_allConnected_move1Step_stillConnections_moveDone_noneConnected() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase(setDice = 2)

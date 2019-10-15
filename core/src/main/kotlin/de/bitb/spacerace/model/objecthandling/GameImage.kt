@@ -13,7 +13,7 @@ abstract class GameImage(
 ) : Image() {
 
     companion object {
-        val NONE: GameImage = object : GameImage() {
+        val NONE_GAMEIMAGE: GameImage = object : GameImage() {
             override var movingSpeed: Float = (MOVING_SPS * Math.random()).toFloat()
         }
     }
@@ -30,7 +30,7 @@ abstract class GameImage(
     var movingState: MovingState = MovingState.NONE
 
     var targetPoint: Rectangle? = null
-    var followImage: GameImage = NONE
+    var followImage: GameImage = NONE_GAMEIMAGE
 
     abstract var movingSpeed: Float
     var idlingCount = 0

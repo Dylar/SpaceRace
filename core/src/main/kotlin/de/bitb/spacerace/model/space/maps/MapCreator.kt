@@ -32,9 +32,12 @@ fun SpaceMap.initDefaultMap(): MapData = MapData().apply {
     groups.forEach { spaceGroup ->
         spaceGroup.fields.entries.forEach { field ->
             val spaceField = field.value
+
+            val rotateAround = null //spaceField.getGameImage().let { if (it.followImage != GameImage.NONE_GAMEIMAGE) it.p } TODO spin me around
             val fieldData = FieldConfigData(
                     fieldType = spaceField.fieldType,
-                    gamePosition = spaceField.gamePosition)
+                    gamePosition = spaceField.gamePosition,
+                    rotateAround = rotateAround)
             fields.add(fieldData)
             if (spaceField.gamePosition.isPosition(startField.gamePosition))
                 startPosition.setPosition(fieldData.gamePosition)

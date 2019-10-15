@@ -4,7 +4,8 @@ import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.env.SpaceEnvironment
+import de.bitb.spacerace.env.TestEnvironment
+import de.bitb.spacerace.env.move
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
@@ -13,22 +14,22 @@ import io.reactivex.Single
 import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.*
 
-fun SpaceEnvironment.assertDBPlayer(player: PlayerColor, assertPlayer: (PlayerData) -> Boolean) {
+fun TestEnvironment.assertDBPlayer(player: PlayerColor, assertPlayer: (PlayerData) -> Boolean) {
     getPlayerUsecase.buildUseCaseSingle(player)
             .assertValue(assertPlayer)
 }
 
-fun SpaceEnvironment.assertDBField(gamePosition: PositionData, assertField: (FieldData) -> Boolean) {
+fun TestEnvironment.assertDBField(gamePosition: PositionData, assertField: (FieldData) -> Boolean) {
     getFieldUsecase.buildUseCaseSingle(gamePosition)
             .assertValue(assertField)
 }
 
-fun SpaceEnvironment.assertDBMap(assertField: (SaveData) -> Boolean) {
+fun TestEnvironment.assertDBMap(assertField: (SaveData) -> Boolean) {
     getSaveGameUsecase.buildUseCaseSingle()
             .assertValue(assertField)
 }
 
-fun SpaceEnvironment.assertTargetField(playerColor: PlayerColor, assertField: (List<FieldData>) -> Boolean) {
+fun TestEnvironment.assertTargetField(playerColor: PlayerColor, assertField: (List<FieldData>) -> Boolean) {
     getPlayerUsecase
             .buildUseCaseSingle(playerColor)
             .flatMap { player ->
@@ -43,62 +44,62 @@ private fun <T> Single<T>.assertValue(assertIt: (T) -> Boolean) {
             .assertValue { assertIt(it) }
 }
 
-fun SpaceEnvironment.assertCurrentPlayer(testPlayer: PlayerColor) =
+fun TestEnvironment.assertCurrentPlayer(testPlayer: PlayerColor) =
         assertThat(currentPlayerColor, `is`(testPlayer))
 
-fun SpaceEnvironment.assertNotCurrentPlayer(testPlayer: PlayerColor) =
+fun TestEnvironment.assertNotCurrentPlayer(testPlayer: PlayerColor) =
         assertThat(currentPlayerColor, `is`(not(testPlayer)))
 
-fun SpaceEnvironment.assertCurrentPhase(phase: Phase) =
+fun TestEnvironment.assertCurrentPhase(phase: Phase) =
         assertDBPlayer(currentPlayerColor) { it.phase == phase }
 
-fun SpaceEnvironment.assertDiceResult(
+fun TestEnvironment.assertDiceResult(
         diceResult: Int,
         player: PlayerColor = currentPlayerColor
 ) = assertDBPlayer(player) { it.stepsLeft() == diceResult }
 
-fun SpaceEnvironment.assertSameField(field1: PositionData, field2: PositionData) =
+fun TestEnvironment.assertSameField(field1: PositionData, field2: PositionData) =
         assertTrue(field1.isPosition(field2))
 
-fun SpaceEnvironment.assertNotSameField(field1: PositionData, field2: PositionData) =
+fun TestEnvironment.assertNotSameField(field1: PositionData, field2: PositionData) =
         assertFalse(field1.isPosition(field2))
 
-fun SpaceEnvironment.assertGoalField(positionData: PositionData) =
+fun TestEnvironment.assertGoalField(positionData: PositionData) =
         assertDBMap { it.goal.target.gamePosition.isPosition(positionData) }
 
-fun SpaceEnvironment.assertNotGoalField(positionData: PositionData) =
+fun TestEnvironment.assertNotGoalField(positionData: PositionData) =
         assertDBMap { !it.goal.target.gamePosition.isPosition(positionData) }
 
-fun SpaceEnvironment.assertPlayerOnField(player: PlayerColor, field: PositionData) =
+fun TestEnvironment.assertPlayerOnField(player: PlayerColor, field: PositionData) =
         assertDBPlayer(player) { it.gamePosition.isPosition(field) }
 
-fun SpaceEnvironment.assertPlayerNotOnField(player: PlayerColor, fieldPosition: PositionData) =
+fun TestEnvironment.assertPlayerNotOnField(player: PlayerColor, fieldPosition: PositionData) =
         assertDBPlayer(player) { !it.positionField.target.gamePosition.isPosition(fieldPosition) }
 
-fun SpaceEnvironment.assertPlayerVictories(player: PlayerColor, amount: Long = 1) =
+fun TestEnvironment.assertPlayerVictories(player: PlayerColor, amount: Long = 1) =
         assertDBPlayer(player) { it.victories == amount }
 
-fun SpaceEnvironment.assertWinner(player: PlayerColor) {
+fun TestEnvironment.assertWinner(player: PlayerColor) {
     val winner = winnerObserver.values().lastOrNull() ?: NONE_PLAYER_DATA
     assertThat(winner.playerColor, `is`(player))
 }
 
-fun SpaceEnvironment.assertNotWinner(player: PlayerColor) {
+fun TestEnvironment.assertNotWinner(player: PlayerColor) {
     val winner = winnerObserver.values().lastOrNull() ?: NONE_PLAYER_DATA
     assertThat(winner.playerColor, `is`(not(player)))
 }
 
-fun SpaceEnvironment.assertGameEnd() {
+fun TestEnvironment.assertGameEnd() {
     val winner = winnerObserver.values()
     assertThat(winner, `is`(notNullValue()))
 }
 
-fun SpaceEnvironment.assertNotGameEnd() {
+fun TestEnvironment.assertNotGameEnd() {
     val winner = winnerObserver.values().lastOrNull()
     assertThat(winner, `is`(nullValue()))
 }
 
-fun SpaceEnvironment.assertConnectionAfterMove(
+fun TestEnvironment.assertConnectionAfterMove(
         player: PlayerColor = currentPlayerColor,
         connection: List<PositionData> = listOf(currentPosition, leftTopField),
         isConnected: Boolean = false,
@@ -109,7 +110,7 @@ fun SpaceEnvironment.assertConnectionAfterMove(
         assertSuccess = assertSuccess
 )
 
-fun SpaceEnvironment.assertConnection(
+fun TestEnvironment.assertConnection(
         playerColor: PlayerColor = currentPlayerColor,
         connection: List<PositionData>,
         isConnected: Boolean = false
@@ -118,7 +119,7 @@ fun SpaceEnvironment.assertConnection(
             checkConnection(playerColor, fields, connection, isConnected)
         }
 
-fun SpaceEnvironment.checkConnection(
+fun TestEnvironment.checkConnection(
         playerColor: PlayerColor = currentPlayerColor,
         fields: List<FieldData>,
         connection: List<PositionData>,

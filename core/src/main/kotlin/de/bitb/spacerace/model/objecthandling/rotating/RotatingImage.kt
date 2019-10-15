@@ -8,7 +8,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.NINETY_DEGREE
 import de.bitb.spacerace.config.dimensions.Dimensions.ONE_EIGHTY_DEGREE
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.GameImage.Companion.NONE
+import de.bitb.spacerace.model.objecthandling.GameImage.Companion.NONE_GAMEIMAGE
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.getRunnableAction
@@ -59,7 +59,7 @@ class RotatingImage : IRotatingImage {
     }
 
     override fun actRotation(rotatingImage: GameImage, rotationPosition: GameImage, delta: Float) {
-        if (rotationPosition != NONE) {
+        if (rotationPosition != NONE_GAMEIMAGE) {
             actRotation(rotatingImage, rotationPosition.boundingRectangle, delta, rotationPosition.rotation)
         }
     }

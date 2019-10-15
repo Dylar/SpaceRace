@@ -10,15 +10,14 @@ class SaveRespository(
 ) : SaveDataSource {
     override fun loadGame(saveData: SaveData): Single<SaveData> =
             Single.create<SaveData> { emitter ->
-                val allSaveData = saveBox.all
-                allSaveData.forEach { it.loaded = false }
+                val allSaveData =
+                        saveBox.all.onEach { it.loaded = false }
                 saveBox.put(*allSaveData.toTypedArray())
 
                 saveData.loaded = true
                 saveBox.put(saveData)
-                emitter.onSuccess(saveData)
+                emitter.onSuccess(saveBox.get(saveData.uuid))
             }
-
 
     override fun insertAndReturnSaveData(mapData: SaveData): Single<SaveData> =
             insertSaveData(mapData)

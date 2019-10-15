@@ -2,16 +2,14 @@ package de.bitb.spacerace.tests.usecase.observer
 
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.core.*
-import de.bitb.spacerace.env.SpaceEnvironment
-import de.bitb.spacerace.env.TEST_PLAYER_1
-import de.bitb.spacerace.env.TEST_PLAYER_2
+import de.bitb.spacerace.env.*
 import org.junit.Test
 
 class WinnerUsecaseTest : GameTest() {
 
     @Test
     fun moveToAnyField_DontWinGame() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase()
@@ -44,7 +42,7 @@ class WinnerUsecaseTest : GameTest() {
 
     @Test
     fun goals2_moveOnGoal_DontWinGame_checkNewGoal() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     DEBUG_WIN_FIELD = false
                     initGame(winAmount = 2)

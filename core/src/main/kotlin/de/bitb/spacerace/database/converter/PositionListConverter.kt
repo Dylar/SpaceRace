@@ -31,18 +31,18 @@ class PositionListConverter : PropertyConverter<MutableList<PositionData>, Strin
 
 }
 
-class PositionDataConverter : PropertyConverter<PositionData, String> {
+class PositionDataConverter : PropertyConverter<PositionData?, String?> {
 
     override fun convertToDatabaseValue(entityProperty: PositionData?): String? {
         return entityProperty?.let {
             parsePositionData(it)
-        } ?: ""
+        }
     }
 
     override fun convertToEntityProperty(databaseValue: String?): PositionData? {
         return databaseValue?.let {
             parseString(it)
-        } ?: PositionData()
+        }
     }
 
 }

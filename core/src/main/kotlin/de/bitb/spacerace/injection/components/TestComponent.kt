@@ -1,7 +1,7 @@
 package de.bitb.spacerace.injection.components
 
 import dagger.Component
-import de.bitb.spacerace.env.SpaceEnvironment
+import de.bitb.spacerace.env.TestEnvironment
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.injection.modules.*
 import de.bitb.spacerace.tests.ObjBoxRelationTest
@@ -22,7 +22,7 @@ import javax.inject.Singleton
 )
 interface TestComponent : AppComponent {
 
-    fun inject(spaceEnvironment: SpaceEnvironment)
+    fun inject(testEnvironment: TestEnvironment)
     fun inject(game: TestGame)
 
     fun inject(nextPhaseUsecaseTest: NextPhaseUsecaseTest)
