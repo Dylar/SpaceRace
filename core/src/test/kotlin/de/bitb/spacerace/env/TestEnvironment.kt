@@ -3,17 +3,15 @@ package de.bitb.spacerace.env
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
-import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.maps.newField
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
-import de.bitb.spacerace.usecase.game.getter.GetFieldUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
@@ -35,6 +33,8 @@ class TestEnvironment {
 
     @Inject
     lateinit var loadNewGameUsecase: LoadNewGameUsecase
+    @Inject
+    lateinit var mapDataSource: MapDataSource
 
     @Inject
     lateinit var nextPhaseUseCase: NextPhaseUsecase
@@ -45,8 +45,6 @@ class TestEnvironment {
 
     @Inject
     lateinit var getPlayerUsecase: GetPlayerUsecase
-    @Inject
-    lateinit var getFieldUsecase: GetFieldUsecase
     @Inject
     lateinit var getSaveGameUsecase: GetSaveGameUsecase
     @Inject
@@ -82,10 +80,6 @@ class TestEnvironment {
 //    ╚██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
 //    ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
 //
-
-    fun getDBField(position: PositionData) =
-            getFieldUsecase.buildUseCaseSingle(position).test().await()
-                    .assertComplete().values().first()
 
     fun getPlayerPosition(player: PlayerColor = currentPlayerColor) =
             getDBPlayer(player).gamePosition

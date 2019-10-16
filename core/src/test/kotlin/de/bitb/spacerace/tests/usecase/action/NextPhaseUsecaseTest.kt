@@ -173,7 +173,7 @@ class NextPhaseUsecaseTest : GameTest() {
         TestEnvironment()
                 .apply {
                     initGame()
-                    setToMovePhase(2)
+                    setToMovePhase(setDice = 2)
 
                     val target1 = leftTopField
                     val target2 = centerTopField
@@ -204,7 +204,7 @@ class NextPhaseUsecaseTest : GameTest() {
         TestEnvironment()
                 .apply {
                     initGame()
-                    setToMovePhase(2)
+                    setToMovePhase(setDice = 2)
 
                     //move action
                     val target1 = leftTopField

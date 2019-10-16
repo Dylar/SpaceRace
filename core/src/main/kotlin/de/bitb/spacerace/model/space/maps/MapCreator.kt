@@ -3,6 +3,8 @@ package de.bitb.spacerace.model.space.maps
 import de.bitb.spacerace.config.DEBUG_TEST_FIELD
 import de.bitb.spacerace.database.map.FieldConfigData
 import de.bitb.spacerace.database.map.MapData
+import de.bitb.spacerace.model.enums.FieldType
+import kotlin.random.Random
 
 enum class MapCreator {
 
@@ -17,7 +19,15 @@ enum class MapCreator {
         CROSSROAD -> CrossRoadMap()
         SOLARROAD -> SolarsystemMap(*DEBUG_TEST_FIELD.toTypedArray())
         TEST_MAP -> TestMap(*DEBUG_TEST_FIELD.toTypedArray())
-        RANDOM -> TestMap()
+        RANDOM -> {
+            val fieldTypes = FieldType.values()
+            val selectedTypes = mutableListOf<FieldType>()
+            repeat(10){
+                val index = Random.nextInt(fieldTypes.size - 1)
+                selectedTypes.add(FieldType.values().first { it.ordinal == index })
+            }
+            TestMap(*selectedTypes.toTypedArray())
+        }
     }
 
 }
@@ -25,9 +35,9 @@ enum class MapCreator {
 fun String.createMap() =
         (MapCreator.values()
                 .find { it.name == this }
-                ?: MapCreator.RANDOM).createMap()
+                ?: MapCreator.TEST_MAP).createMap()
 
-fun SpaceMap.initDefaultMap(): MapData = MapData().apply {
+fun SpaceMap.initDefaultMap(name: String): MapData = MapData(name).apply {
     //create fields
     groups.forEach { spaceGroup ->
         spaceGroup.fields.entries.forEach { field ->

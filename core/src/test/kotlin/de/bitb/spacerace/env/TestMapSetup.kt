@@ -6,24 +6,30 @@ import de.bitb.spacerace.model.space.maps.connectTo
 import de.bitb.spacerace.model.space.maps.newField
 import de.bitb.spacerace.model.space.maps.newMap
 
-fun TestEnvironment.createTestMap() =
-        newMap("TEST MAP NAME")
-                .apply {
-                    startPosition = PositionData(posX = 1f, posY = 1f)
 
-                    val leftBottomField = newField(FieldType.RANDOM, startPosition)
-                    val leftTopField = newField(FieldType.GIFT, startPosition.copy(posX = 2f))
-                    val centerBottomField = newField(FieldType.GOAL, startPosition.copy(posY = 2f))
-                    val centerTopField = newField(FieldType.GOAL, startPosition.copy(posX = 2f, posY = 2f))
+const val TEST_MAP_NAME = "UNIT TEST"
+const val TEST_POSX = 500f
+const val TEST_POSY = 500f
 
-                    leftBottomField connectTo centerBottomField
-                    leftBottomField connectTo leftTopField
-                    leftTopField connectTo centerTopField
+fun TestEnvironment.createTestMap(
+) = createMap()
 
-                    fields.addAll(listOf(leftBottomField, leftTopField, centerBottomField, centerTopField))
-                }
+fun createMap(name: String = TEST_MAP_NAME,
+              startFieldType: FieldType = FieldType.RANDOM,
+              leftTopFieldType: FieldType = FieldType.GIFT,
+              centerBottomFieldType: FieldType = FieldType.GOAL,
+              centerTopFieldType: FieldType = FieldType.GOAL
+) = newMap(name).apply {
+    startPosition = PositionData(posX = TEST_POSX, posY = TEST_POSY)
 
+    val leftBottomField = newField(startFieldType, startPosition)
+    val leftTopField = newField(leftTopFieldType, startPosition.copy(posY = TEST_POSY * 2))
+    val centerBottomField = newField(centerBottomFieldType, startPosition.copy(posX = TEST_POSX * 2))
+    val centerTopField = newField(centerTopFieldType, startPosition.copy(posX = TEST_POSX * 2f, posY = TEST_POSY * 2f))
 
-fun TestEnvironment.getField() {
+    leftBottomField connectTo centerBottomField
+    leftBottomField connectTo leftTopField
+    leftTopField connectTo centerTopField
 
+    fields.addAll(listOf(leftBottomField, leftTopField, centerBottomField, centerTopField))
 }

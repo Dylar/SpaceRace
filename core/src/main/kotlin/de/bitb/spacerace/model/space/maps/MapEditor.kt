@@ -6,7 +6,7 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
 
 fun newMap(
-        name: String = "DEFAULT TEST MAP NAME"
+        name: String
 ) = MapData(name).apply {
 
 }

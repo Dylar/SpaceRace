@@ -7,6 +7,8 @@ import de.bitb.spacerace.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.space.maps.MapCreator
+import de.bitb.spacerace.model.space.maps.createMap
+import de.bitb.spacerace.model.space.maps.initDefaultMap
 
 class ChangeLanguageCommand : BaseCommand() {
     companion object {
@@ -52,13 +54,13 @@ class ChangeWinAmountCommand : BaseCommand() {
 
 class SelectMapCommand : BaseCommand() {
     companion object {
-        fun get(mapCreator: MapCreator) = getCommand(SelectMapCommand::class)
-                .also { it.mapCreator = mapCreator }
+        fun get(mapName: String) = getCommand(SelectMapCommand::class)
+                .also { it.mapName = mapName }
     }
 
-    private var mapCreator: MapCreator = MapCreator.RANDOM
+    private var mapName: String = MapCreator.TEST_MAP.name
     override fun execute() {
-        SELECTED_MAP = mapCreator
+        SELECTED_MAP = mapName
         reset()
     }
 }

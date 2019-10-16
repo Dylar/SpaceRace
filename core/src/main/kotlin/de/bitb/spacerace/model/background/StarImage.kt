@@ -19,6 +19,7 @@ import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.player.PlayerColor
+import kotlin.math.atan2
 
 class StarImage(img: Texture,
                 var gameScreen: BaseScreen,
@@ -71,7 +72,7 @@ class StarImage(img: Texture,
         startY = (Math.random() * SCREEN_HEIGHT).toFloat()
         endY = (Math.random() * SCREEN_HEIGHT).toFloat()
 
-        val degrees = Math.atan2(
+        val degrees = atan2(
                 (endY - startY).toDouble(),
                 (endX - startX).toDouble()
         ) * ONE_EIGHTY_DEGREE / Math.PI

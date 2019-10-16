@@ -158,42 +158,47 @@ class NextPhaseUsecase @Inject constructor(
     private fun obtainGoal(playerData: PlayerData): Single<out ObtainGoalResult> =
             saveDataSource.getLoadedGame()
                     .map { map -> map to map.fields.filter { field -> field.fieldType == FieldType.GOAL } }
-                    .flatMap { (map, goals) ->
-                        var goal = map.goal.target
-                        val checkGoalPosition =
-                                if (goal.gamePosition.isPosition(playerData.gamePosition)) {
-                                    Logger.println("oldGoal: $goal")
-                                    playerData.apply {
-                                        credits += GOAL_CREDITS
-                                        victories++
-                                    }
+                    .flatMap { (saveData, goals) ->
+                        val goal = saveData.goal.target
+                        var newGoal = goal
+                        val checkGoalPosition = if (goal.gamePosition.isPosition(playerData.gamePosition)) {
+                            Single.fromCallable {
+                                Logger.println("oldGoal: $goal")
+                                playerData.apply {
+                                    credits += GOAL_CREDITS
+                                    victories++
+                                }
 
-                                    goal = if (DEBUG_WIN_FIELD) goals.first()
-                                    else goals[(Math.random() * goals.size).toInt()]
+                                if (DEBUG_WIN_FIELD) newGoal = goals.first()
+                                else while (newGoal.gamePosition.isPosition(goal.gamePosition)) {
+                                    newGoal = goals[(Math.random() * goals.size).toInt()]
+                                }
 
-                                    Logger.println("newGoal: $goal")
+                                Logger.println("newGoal: $newGoal")
 
-                                    map.goal.target = goal
-                                    saveDataSource.insertSaveData(map)
-                                } else Completable.complete()
-                        checkGoalPosition.andThen(Single.just(ObtainGoalResult(playerData, goal)))
+                                saveData.goal.target = newGoal
+                                saveData
+                            }.flatMapCompletable { saveDataSource.insertSaveData(it) }
+                        } else Completable.complete()
+                        checkGoalPosition.andThen(Single.just(ObtainGoalResult(playerData, newGoal)))
                     }
 
     private fun obtainTunnel(playerData: PlayerData): Single<out ObtainTunnelResult> =
-            mapDataSource.getFieldsLazy(FieldType.TUNNEL).map { fields ->
-                val playerPosition = playerData.gamePosition
-                var tunnelPosition = fields.random()
-                while (tunnelPosition.gamePosition.isPosition(playerPosition)) {
-                    tunnelPosition = fields.random()
-                }
+            mapDataSource.getFieldByType(FieldType.TUNNEL)
+                    .map { fields ->
+                        val playerPosition = playerData.gamePosition
+                        var tunnelPosition = fields.random()
+                        while (tunnelPosition.gamePosition.isPosition(playerPosition)) {
+                            tunnelPosition = fields.random()
+                        }
 
-                //TODO klappt das? Nö :P grafik muss neu gesetzt werden.............
+                        //TODO klappt das? Nö :P grafik muss neu gesetzt werden.............
 //                val field = graphicController.fieldGraphics[tunnelPosition]
 //                        ?: NONE_SPACE_FIELD
 //                graphicController.getPlayerGraphic(playerData.playerColor).setFieldPosition(field)
-                playerData.positionField.target = tunnelPosition
-                ObtainTunnelResult(playerData)
-            }
+                        playerData.positionField.target = tunnelPosition
+                        ObtainTunnelResult(playerData)
+                    }
 
     private fun obtainMine(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {

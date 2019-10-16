@@ -3,7 +3,7 @@ package de.bitb.spacerace.usecase.game.init
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
 import de.bitb.spacerace.database.map.FieldData
-import de.bitb.spacerace.database.map.MapData
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
@@ -18,14 +18,15 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class LoadNewGameUsecase @Inject constructor(
-        private val loadGameUsecase: LoadGameUsecase
+        private val loadGameUsecase: LoadGameUsecase,
+        private val mapDataSource: MapDataSource
 ) : ResultUseCase<LoadGameResult, LoadGameConfig> {
 
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameResult> =
-            params.let { (players, map) ->
+            params.let { (players, mapName) ->
                 checkPlayerSize(players)
                         .andThen(initPlayers(players))
-                        .flatMap { initMap(it, map) }
+                        .flatMap { initMap(it, mapName) }
                         .flatMap { loadGameUsecase.buildUseCaseSingle(it) }
             }
 
@@ -46,8 +47,9 @@ class LoadNewGameUsecase @Inject constructor(
                 else emitter.onError(SelectMorePlayerException())
             }
 
-    private fun initMap(saveData: SaveData, map: MapData): Single<SaveData> =
+    private fun initMap(saveData: SaveData, mapName: String): Single<SaveData> =
             Single.fromCallable {
+                val map = mapDataSource.getDBMaps(mapName).first()
                 val connections = mutableMapOf<PositionData, FieldData>()
                 //add fields
                 map.fields.forEach { config ->
@@ -104,7 +106,7 @@ class LoadGameUsecase
 
 data class LoadGameConfig(
         val players: List<PlayerColor>,
-        val mapData: MapData
+        val mapName: String
 )
 
 data class LoadGameResult(

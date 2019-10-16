@@ -31,7 +31,8 @@ fun TestEnvironment.initGame(
     centerBottomField = mapToLoad.fields[2].gamePosition
     centerTopField = mapToLoad.fields[3].gamePosition
 
-    val config = LoadGameConfig(playerColor.toList(), mapToLoad)
+    mapDataSource.insertMaps(mapToLoad)
+    val config = LoadGameConfig(playerColor.toList(), mapToLoad.name)
     loadNewGameUsecase.buildUseCaseSingle(config)
             .test()
             .await()

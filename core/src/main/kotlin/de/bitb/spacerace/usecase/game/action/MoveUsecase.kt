@@ -41,7 +41,7 @@ class MoveUsecase @Inject constructor(
             }
 
     private fun getField(positionData: PositionData): Single<FieldData> =
-            mapDataSource.getField(positionData)
+            mapDataSource.getFieldByPosition(positionData).map { it.first() }
 
     private fun checkCurrentPlayer(playerColor: PlayerColor) =
             checkCurrentPlayerUsecase.buildUseCaseCompletable(playerColor)

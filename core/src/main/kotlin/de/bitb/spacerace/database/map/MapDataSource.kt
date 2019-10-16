@@ -1,30 +1,21 @@
 package de.bitb.spacerace.database.map
 
-import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
-import io.objectbox.query.LazyList
-import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.Single
 
 interface MapDataSource {
 
-    fun insertAll(vararg field: FieldData): Single<List<FieldData>>
+    fun getAllMaps(): List<MapData>
 
-    fun deleteField(vararg field: FieldData): Completable
+    fun getDBMaps(vararg name: String): List<MapData>
 
     fun getAllFields(vararg field: FieldData): Single<List<FieldData>>
 
-    fun getField(positionData: PositionData): Single<FieldData>
+    fun getFieldByPosition(vararg positionData: PositionData): Single<List<FieldData>>
 
-    fun getFieldsLazy(type: FieldType): Single<LazyList<FieldData>>
+    fun getFieldByType(type: FieldType): Single<List<FieldData>>
 
-    fun getPlayerField(vararg player: PlayerData): Single<List<FieldData>>
+    fun insertMaps(vararg maps: MapData)
 
-    fun observeAllFields(): Observable<List<FieldData>>
-
-    fun observeByType(type: FieldType): Observable<List<FieldData>>
-
-//    fun getDBById(vararg id: Long): List<FieldData>
 }

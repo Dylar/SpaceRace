@@ -6,6 +6,7 @@ import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.items.ItemDataSource
 import de.bitb.spacerace.database.items.ItemRespository
 import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.MapRespository
 import de.bitb.spacerace.database.player.PlayerData
@@ -15,6 +16,7 @@ import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.database.savegame.SaveRespository
 import de.bitb.spacerace.model.MyObjectBox
+import de.bitb.spacerace.model.objecthandling.PositionData
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.BoxStoreBuilder.DEFAULT_NAME
@@ -58,16 +60,15 @@ class DatabaseModule(
     fun provideFieldDataBox(store: BoxStore): Box<FieldData> =
             store.boxFor(FieldData::class)
 
-//    @Provides
-//    @Singleton
-//    fun providePositionBox(store: BoxStore): Box<PositionData> {
-//        return store.boxFor(PositionData::class)
-//    }
+    @Provides
+    @Singleton
+    fun provideMapBox(store: BoxStore): Box<MapData> =
+         store.boxFor(MapData::class)
 
     @Provides
     @Singleton
-    fun provideMapDataSource(fieldBox: Box<FieldData>): MapDataSource =
-            MapRespository(fieldBox)
+    fun provideMapDataSource(fieldBox: Box<FieldData>,mapBox: Box<MapData>): MapDataSource =
+            MapRespository(fieldBox, mapBox)
 
     @Provides
     @Singleton

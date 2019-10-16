@@ -5,12 +5,16 @@ import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.VERSION
+import de.bitb.spacerace.database.map.MapDataSource
+import de.bitb.spacerace.env.createMap
 import de.bitb.spacerace.events.GameOverEvent
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
+import de.bitb.spacerace.model.space.maps.MapCreator
+import de.bitb.spacerace.model.space.maps.initDefaultMap
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.start.StartScreen
 import de.bitb.spacerace.usecase.ui.CommandUsecase
@@ -32,6 +36,9 @@ open class MainGame(
     @Inject
     protected lateinit var commandUsecase: CommandUsecase
 
+    @Inject
+    protected lateinit var mapDataSource: MapDataSource
+
     init {
         VERSION = version
     }
@@ -47,7 +54,17 @@ open class MainGame(
         appComponent = initComponent()
         appComponent.inject(this)
 
+        initDefaultMaps()
+
         commandUsecase.observeStream()
+    }
+
+    private fun initDefaultMaps() {
+        val maps = MapCreator.values()
+                .map { it.createMap().initDefaultMap(it.name) }
+                .toMutableList()
+        maps.add(createMap())
+        mapDataSource.insertMaps(*maps.toTypedArray())
     }
 
     override fun initScreen() {

@@ -19,11 +19,6 @@ fun TestEnvironment.assertDBPlayer(player: PlayerColor, assertPlayer: (PlayerDat
             .assertValue(assertPlayer)
 }
 
-fun TestEnvironment.assertDBField(gamePosition: PositionData, assertField: (FieldData) -> Boolean) {
-    getFieldUsecase.buildUseCaseSingle(gamePosition)
-            .assertValue(assertField)
-}
-
 fun TestEnvironment.assertDBMap(assertField: (SaveData) -> Boolean) {
     getSaveGameUsecase.buildUseCaseSingle()
             .assertValue(assertField)
