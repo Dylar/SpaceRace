@@ -1,5 +1,6 @@
 package de.bitb.spacerace.env
 
+import de.bitb.spacerace.config.DEBUG_ITEM
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.core.assertCurrentPhase
 import de.bitb.spacerace.core.assertSameField
@@ -7,9 +8,15 @@ import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
+
+fun TestEnvironment.setGiftFieldItems(createItems: () -> List<ItemInfo>) =
+        this.also {
+            DEBUG_ITEM = createItems()
+        }
 
 fun TestEnvironment.initMap(
         mapToLoad: MapData = createTestMap()

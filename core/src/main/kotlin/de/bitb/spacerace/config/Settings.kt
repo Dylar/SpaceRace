@@ -10,6 +10,7 @@ import de.bitb.spacerace.env.TEST_MAP_NAME
 import de.bitb.spacerace.game.VERSION_TEST
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemInfo.*
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.player.PlayerColor
 
@@ -52,7 +53,7 @@ val COLOR_DISCONNECTED = Color(Color.RED).apply { a = 0.7f }
 //DEBUG
 //var PRESELECTED_PLAYER = arrayListOf()
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL, FieldType.GIFT)
-var DEBUG_ITEM: List<ItemInfo> = arrayListOf()
+var DEBUG_ITEM: List<ItemInfo> =  listOf(ION_ENGINE(), EXTRA_FUEL(), SPECIAL_FUEL())
 const val DEBUG_ITEMS = 0 //Hint: destroys tests
 
 var DEBUG_WIN_FIELD = true

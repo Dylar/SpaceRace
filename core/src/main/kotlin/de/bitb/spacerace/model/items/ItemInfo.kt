@@ -40,7 +40,7 @@ sealed class ItemInfo(
             val items =
                     if (DEBUG_ITEM.isEmpty()) getAll()
                     else DEBUG_ITEM
-            return items[(Math.random() * (items.size - 1)).toInt()]
+            return items[(Math.random() * (items.size)).toInt()]
         }
     }
 

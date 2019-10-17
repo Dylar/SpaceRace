@@ -1,10 +1,13 @@
 package de.bitb.spacerace.tests.fields
 
-import de.bitb.spacerace.config.DEBUG_ITEM
 import de.bitb.spacerace.core.GameTest
 import de.bitb.spacerace.env.*
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemInfo.EXTRA_FUEL
 import de.bitb.spacerace.model.items.ItemInfo.ION_ENGINE
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import org.junit.Test
 
 class ObtainGiftTest : GameTest() {
@@ -29,7 +32,7 @@ class ObtainGiftTest : GameTest() {
     fun setItem_obtainGift_receiveSetItemIntoStorage() {
         val item = ION_ENGINE()
         TestEnvironment()
-                .also { DEBUG_ITEM = arrayListOf(item) }
+                .setGiftFieldItems { listOf(item) }
                 .initGame(
                         map = createMap(firstStep = FieldType.GIFT)
                 ).setToMovePhase()
@@ -40,5 +43,28 @@ class ObtainGiftTest : GameTest() {
 
                     storageItem.itemInfo.name == item.name
                 }
+    }
+
+    @Test //FLAKY
+    fun setItemMultipleItems_obtainGift_receiveSetItemIntoStorage() {
+        val items = listOf(ION_ENGINE(), EXTRA_FUEL())
+        val giftedItems = mutableListOf<ItemInfo>()
+        repeat (10) {
+            TestEnvironment()
+                    .setGiftFieldItems { items }
+                    .initGame(
+                            map = createMap(firstStep = FieldType.GIFT)
+                    ).setToMovePhase()
+                    .move()
+                    .nextPhase {
+                        val player = it.player
+                        val storageItem = player.storageItems.first()
+                        giftedItems.add(storageItem.itemInfo)
+                        true
+                    }
+        }
+
+        assertTrue(giftedItems.any { it.name == items[0].name })
+        assertTrue(giftedItems.any { it.name == items[1].name })
     }
 }
