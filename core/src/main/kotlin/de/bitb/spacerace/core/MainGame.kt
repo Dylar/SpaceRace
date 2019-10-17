@@ -6,7 +6,7 @@ import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.VERSION
 import de.bitb.spacerace.database.map.MapDataSource
-import de.bitb.spacerace.env.createMap
+import de.bitb.spacerace.env.createTestMap
 import de.bitb.spacerace.events.GameOverEvent
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.injection.components.AppComponent
@@ -63,7 +63,7 @@ open class MainGame(
         val maps = MapCreator.values()
                 .map { it.createMap().initDefaultMap(it.name) }
                 .toMutableList()
-        maps.add(createMap())
+        maps.add(createTestMap())
         mapDataSource.insertMaps(*maps.toTypedArray())
     }
 

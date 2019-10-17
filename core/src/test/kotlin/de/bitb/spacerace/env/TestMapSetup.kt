@@ -11,13 +11,11 @@ const val TEST_MAP_NAME = "UNIT TEST"
 const val TEST_POSX = 500f
 const val TEST_POSY = 500f
 
-fun TestEnvironment.createTestMap(
-) = createMap()
-
-fun createMap(firstStep: FieldType = FieldType.GIFT,
-              bottomGoal: FieldType = FieldType.GOAL,
-              topGoal: FieldType = FieldType.GOAL,
-              startField: FieldType = FieldType.RANDOM
+fun createTestMap(
+        firstStep: FieldType = FieldType.GIFT,
+        bottomGoal: FieldType = FieldType.GOAL,
+        topGoal: FieldType = FieldType.GOAL,
+        startField: FieldType = FieldType.GIFT
 ) =
         newMap(TEST_MAP_NAME).apply {
             startPosition = PositionData(posX = TEST_POSX, posY = TEST_POSY)

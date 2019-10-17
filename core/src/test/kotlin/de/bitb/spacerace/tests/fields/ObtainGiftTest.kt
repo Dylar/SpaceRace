@@ -6,7 +6,6 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.items.ItemInfo.EXTRA_FUEL
 import de.bitb.spacerace.model.items.ItemInfo.ION_ENGINE
-import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 
@@ -16,7 +15,7 @@ class ObtainGiftTest : GameTest() {
     fun obtainGift_receiveItemIntoStorage() {
         TestEnvironment()
                 .initGame(
-                        map = createMap(firstStep = FieldType.GIFT)
+                        map = createTestMap(firstStep = FieldType.GIFT)
                 ).setToMovePhase()
                 .move()
                 .nextPhase {
@@ -34,7 +33,7 @@ class ObtainGiftTest : GameTest() {
         TestEnvironment()
                 .setGiftFieldItems { listOf(item) }
                 .initGame(
-                        map = createMap(firstStep = FieldType.GIFT)
+                        map = createTestMap(firstStep = FieldType.GIFT)
                 ).setToMovePhase()
                 .move()
                 .nextPhase {
@@ -45,7 +44,7 @@ class ObtainGiftTest : GameTest() {
                 }
     }
 
-    @Test //FLAKY
+    @Test //maybe FLAKY
     fun setItemMultipleItems_obtainGift_receiveSetItemIntoStorage() {
         val items = listOf(ION_ENGINE(), EXTRA_FUEL())
         val giftedItems = mutableListOf<ItemInfo>()
@@ -53,7 +52,7 @@ class ObtainGiftTest : GameTest() {
             TestEnvironment()
                     .setGiftFieldItems { items }
                     .initGame(
-                            map = createMap(firstStep = FieldType.GIFT)
+                            map = createTestMap(firstStep = FieldType.GIFT)
                     ).setToMovePhase()
                     .move()
                     .nextPhase {
