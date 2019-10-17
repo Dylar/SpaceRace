@@ -169,7 +169,7 @@ class NextPhaseUsecase @Inject constructor(
                                     victories++
                                 }
 
-                                if (DEBUG_WIN_FIELD) newGoal = goals.first()
+                                if (DEBUG_WIN_FIELD) newGoal = goals.first() //TODO settings: same goal again?
                                 else while (newGoal.gamePosition.isPosition(goal.gamePosition)) {
                                     newGoal = goals[(Math.random() * goals.size).toInt()]
                                 }

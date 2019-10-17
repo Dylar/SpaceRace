@@ -14,22 +14,22 @@ const val TEST_POSY = 500f
 fun TestEnvironment.createTestMap(
 ) = createMap()
 
-fun createMap(name: String = TEST_MAP_NAME,
-              startFieldType: FieldType = FieldType.RANDOM,
-              leftTopFieldType: FieldType = FieldType.GIFT,
-              centerBottomFieldType: FieldType = FieldType.GOAL,
-              centerTopFieldType: FieldType = FieldType.GOAL
-) = newMap(name).apply {
-    startPosition = PositionData(posX = TEST_POSX, posY = TEST_POSY)
+fun createMap(firstStep: FieldType = FieldType.GIFT,
+              bottomGoal: FieldType = FieldType.GOAL,
+              topGoal: FieldType = FieldType.GOAL,
+              startField: FieldType = FieldType.RANDOM
+) =
+        newMap(TEST_MAP_NAME).apply {
+            startPosition = PositionData(posX = TEST_POSX, posY = TEST_POSY)
 
-    val leftBottomField = newField(startFieldType, startPosition)
-    val leftTopField = newField(leftTopFieldType, startPosition.copy(posY = TEST_POSY * 2))
-    val centerBottomField = newField(centerBottomFieldType, startPosition.copy(posX = TEST_POSX * 2))
-    val centerTopField = newField(centerTopFieldType, startPosition.copy(posX = TEST_POSX * 2f, posY = TEST_POSY * 2f))
+            val leftBottomField = newField(startField, startPosition)
+            val leftTopField = newField(firstStep, startPosition.copy(posY = TEST_POSY * 2))
+            val centerBottomField = newField(bottomGoal, startPosition.copy(posX = TEST_POSX * 2))
+            val centerTopField = newField(topGoal, startPosition.copy(posX = TEST_POSX * 2f, posY = TEST_POSY * 2f))
 
-    leftBottomField connectTo centerBottomField
-    leftBottomField connectTo leftTopField
-    leftTopField connectTo centerTopField
+            leftBottomField connectTo centerBottomField
+            leftBottomField connectTo leftTopField
+            leftTopField connectTo centerTopField
 
-    fields.addAll(listOf(leftBottomField, leftTopField, centerBottomField, centerTopField))
-}
+            fields.addAll(listOf(leftBottomField, leftTopField, centerBottomField, centerTopField))
+        }

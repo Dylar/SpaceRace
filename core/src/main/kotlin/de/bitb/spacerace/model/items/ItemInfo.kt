@@ -1,6 +1,7 @@
 package de.bitb.spacerace.model.items
 
 import com.squareup.moshi.JsonClass
+import de.bitb.spacerace.config.DEBUG_ITEM
 import de.bitb.spacerace.database.items.*
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.disposable.SlowMine
@@ -17,12 +18,13 @@ import de.bitb.spacerace.model.player.PlayerColor
 import kotlin.reflect.full.createInstance
 
 class NONE_ITEMTYPE() : ItemInfo(NONE_ITEMTYPE::class.simpleName!!, 0)
+
 const val UNLIMITED_CHARGES = -1
 
 sealed class ItemInfo(
         val name: String,
         val price: Int = 0,
-        val charges:Int = UNLIMITED_CHARGES,
+        val charges: Int = UNLIMITED_CHARGES,
         val usablePhase: Set<Phase> = setOf(Phase.MAIN1, Phase.MAIN2)
 ) {
     companion object {
@@ -34,10 +36,12 @@ sealed class ItemInfo(
                         .map { it.createInstance() as ItemInfo }
                         .toList()
 
-        fun getRandomItem() = ION_ENGINE() //TODO
-//                getAll().let {
-//                    it[(Math.random() * (it.size - 1)).toInt()]
-//                }
+        fun getRandomItem(): ItemInfo {
+            val items =
+                    if (DEBUG_ITEM.isEmpty()) getAll()
+                    else DEBUG_ITEM
+            return items[(Math.random() * (items.size - 1)).toInt()]
+        }
     }
 
     //USABLE

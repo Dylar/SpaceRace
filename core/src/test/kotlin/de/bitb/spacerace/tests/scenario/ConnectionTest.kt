@@ -10,8 +10,8 @@ class ConnectionTest : GameTest() {
     @Test
     fun startGame_noConnections_bothPlayer_currentPlayerGotInMove() {
         TestEnvironment()
+                .initGame()
                 .apply {
-                    initGame()
 
                     val connection1 = listOf(leftBottomField, leftTopField)
                     val connection2 = listOf(leftBottomField, centerTopField)
@@ -109,8 +109,8 @@ class ConnectionTest : GameTest() {
     @Test
     fun startMove2Steps_currentPlayer_allConnected_move1Step_stillConnections_moveDone_noneConnected() {
         TestEnvironment()
+                .initGame()
                 .apply {
-                    initGame()
                     setToMovePhase(setDice = 2)
 
                     val conLeftBotTop = listOf(leftBottomField, leftTopField)

@@ -110,7 +110,7 @@ data class PlayerData(
             stepsLeft() > 0
 
     fun getMaxSteps(): Int {
-        val (multiValue, addValue) = getModifierValues()
+        val (multiValue, addValue) = getModifierValues(1)
         val result: Int = (diceResults.sum() * multiValue + addValue).roundToInt()
         return if (diceResults.isNotEmpty() && result <= 0) 1
         else result
@@ -122,7 +122,7 @@ data class PlayerData(
         val isMovePhase = phase == Phase.MOVE
         val isConnected = this isConnectedTo fieldData
         val isPreviousField = previousFieldSelected(fieldData.gamePosition)
-
+//TODO path finding
         return isMovePhase && isConnected && (areStepsLeft() || isPreviousField)
     }
 

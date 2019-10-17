@@ -75,13 +75,25 @@ class MoveUsecase @Inject constructor(
         playerData.setSteps(targetField.gamePosition)
         playerData.positionField.target = targetField
         Logger.println(
-                "Player: $playerData",
-                "Field: ${targetField.fieldType.name}, ${targetField.uuid}"
+                "\n",
+                "$playerData",
+                "\n",
+                "$targetField"
         )
         val moveInfo = MoveResult(playerData, targetField.gamePosition, playerData.areStepsLeft(), playerData.previousStep)
         return playerDataSource.insert(playerData)
                 .andThen(getTargetableFieldUsecase.buildUseCaseSingle(playerData))
-                .map { moveInfo.apply { targetableFields.addAll(it) } }
+                .flatMap { fields ->
+                    playerDataSource.getById(playerData.uuid)
+                            .map { it.first() }
+                            .map { player ->
+                                moveInfo.also {
+                                    it.targetableFields.addAll(fields)
+                                    it.player = player
+                                }
+                            }
+                }
+
     }
 
 }

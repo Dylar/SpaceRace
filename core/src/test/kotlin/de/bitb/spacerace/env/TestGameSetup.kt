@@ -11,9 +11,20 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
 
+fun TestEnvironment.initMap(
+        mapToLoad: MapData = createTestMap()
+) {
+    mapDataSource.insertMaps(mapToLoad)
+
+    leftBottomField = mapToLoad.fields[0].gamePosition
+    leftTopField = mapToLoad.fields[1].gamePosition
+    centerBottomField = mapToLoad.fields[2].gamePosition
+    centerTopField = mapToLoad.fields[3].gamePosition
+}
+
 fun TestEnvironment.initGame(
         vararg playerColor: PlayerColor = DEFAULT_TEST_PLAYER.toTypedArray(),
-        mapToLoad: MapData = createTestMap(),
+        map: MapData = createTestMap(),
         winAmount: Long = 1,
         error: GameException? = null,
         assertError: (Throwable) -> Boolean = { false },
@@ -26,17 +37,12 @@ fun TestEnvironment.initGame(
 
     TestGame.testComponent.inject(this)
 
-    leftBottomField = mapToLoad.fields[0].gamePosition
-    leftTopField = mapToLoad.fields[1].gamePosition
-    centerBottomField = mapToLoad.fields[2].gamePosition
-    centerTopField = mapToLoad.fields[3].gamePosition
-
-    mapDataSource.insertMaps(mapToLoad)
-    val config = LoadGameConfig(playerColor.toList(), mapToLoad.name)
+    initMap(map)
+    val config = LoadGameConfig(playerColor.toList(), map.name)
     loadNewGameUsecase.buildUseCaseSingle(config)
             .test()
             .await()
-            .apply { assertObserver(error, assertError, assertSuccess) }
+            .assertObserver(error, assertError, assertSuccess)
 
     winnerObserver = gameController
             .observeWinnerUsecase

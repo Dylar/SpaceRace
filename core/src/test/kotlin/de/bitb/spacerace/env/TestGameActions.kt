@@ -18,7 +18,7 @@ fun TestEnvironment.nextPhase(
     nextPhaseUseCase.buildUseCaseSingle(color)
             .test()
             .await()
-            .apply { assertObserver(error, assertError, assertSuccess) }
+            .assertObserver(error, assertError, assertSuccess)
 }
 
 fun TestEnvironment.dice(
@@ -46,6 +46,6 @@ fun TestEnvironment.move(
     moveUsecase.buildUseCaseSingle(player to target)
             .test()
             .await()
-            .apply { assertObserver(error, assertError, assertSuccess) }
+            .assertObserver(error, assertError, assertSuccess)
     waitForIt()
 }

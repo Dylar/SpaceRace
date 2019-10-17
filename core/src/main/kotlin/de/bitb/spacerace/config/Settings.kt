@@ -6,13 +6,12 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORD
 import de.bitb.spacerace.config.enums.GameSpeed
 import de.bitb.spacerace.config.enums.GameType
 import de.bitb.spacerace.config.enums.Language
+import de.bitb.spacerace.env.TEST_MAP_NAME
 import de.bitb.spacerace.game.VERSION_TEST
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.maps.MapCreator
-import de.bitb.spacerace.model.space.maps.initDefaultMap
 
 var VERSION = "007"
 val IS_TEST get() = VERSION == VERSION_TEST
@@ -24,7 +23,7 @@ var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
 var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 
-var SELECTED_MAP = MapCreator.TEST_MAP.name
+var SELECTED_MAP = TEST_MAP_NAME
 val SELECTED_PLAYER: MutableList<PlayerColor> = mutableListOf(PlayerColor.ORANGE, PlayerColor.GREEN)
 var WIN_AMOUNT = 1L
 var DICE_MAX = 1
@@ -53,7 +52,7 @@ val COLOR_DISCONNECTED = Color(Color.RED).apply { a = 0.7f }
 //DEBUG
 //var PRESELECTED_PLAYER = arrayListOf()
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL, FieldType.GIFT)
-var DEBUG_ITEM = arrayListOf<ItemInfo>()
+var DEBUG_ITEM: List<ItemInfo> = arrayListOf()
 const val DEBUG_ITEMS = 0 //Hint: destroys tests
 
 var DEBUG_WIN_FIELD = true
