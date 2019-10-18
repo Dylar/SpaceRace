@@ -269,4 +269,20 @@ class NextPhaseUsecaseTest : GameTest() {
                 }
     }
 
+    @Test
+    fun threePlayer_changePlayer1_toPlayer2_endRound_player1EqualsCurrent() {
+        TestEnvironment()
+                .initGame(TEST_PLAYER_1, TEST_PLAYER_2, TEST_PLAYER_3)
+                .assertCurrentPlayer(TEST_PLAYER_1)
+                .assertCurrentPhase(Phase.MAIN1)
+
+                .changePlayerTo(TEST_PLAYER_2)
+                .assertCurrentPlayer(TEST_PLAYER_2)
+                .assertCurrentPhase(Phase.MAIN1)
+
+                .endRound()
+                .assertCurrentPlayer(TEST_PLAYER_1)
+                .assertCurrentPhase(Phase.MAIN1)
+    }
+
 }

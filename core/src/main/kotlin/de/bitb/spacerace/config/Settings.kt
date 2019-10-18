@@ -24,7 +24,7 @@ var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
 var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 
-var SELECTED_MAP = TEST_MAP_NAME
+var SELECTED_MAP = "Unit Test"
 val SELECTED_PLAYER: MutableList<PlayerColor> = mutableListOf(PlayerColor.ORANGE, PlayerColor.GREEN)
 var WIN_AMOUNT = 1L
 var DICE_MAX = 1

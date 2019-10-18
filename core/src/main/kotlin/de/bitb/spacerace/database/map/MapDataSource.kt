@@ -12,6 +12,8 @@ interface MapDataSource {
 
     fun getAllFields(vararg field: FieldData): Single<List<FieldData>>
 
+    fun getDBFields(vararg ids: Long): List<FieldData>
+
     fun getFieldByPosition(vararg positionData: PositionData): Single<List<FieldData>>
 
     fun getFieldByType(type: FieldType): Single<List<FieldData>>

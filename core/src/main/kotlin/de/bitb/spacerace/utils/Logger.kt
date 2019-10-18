@@ -1,93 +1,114 @@
 package de.bitb.spacerace.utils
 
 import com.badlogic.gdx.Gdx
-import java.util.*
 
-const val PACKAGE_NAME = "bitb"
+const val PACKAGE_NAME = "de.bitb."
+const val LOG_BORDER_TOP: String = "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+const val LOG_BORDER_BOT: String = "--------------------------------------------------------------------------------------"
 
 object Logger {
-    private const val isAllowedToLog: Boolean = true
+    val isAllowedToLog: Boolean = true
 
     private fun appClass(): (StackTraceElement) -> Boolean = { it.className.contains(PACKAGE_NAME) }
 
     private var time: Long = 0
+
     fun startTimer() {
         time = System.currentTimeMillis()
     }
 
     fun printTimer(msg: String) {
         val inMillis = (System.currentTimeMillis() - time).toDouble()
-        println("$msg (TIME: $inMillis)")
+        printLog("$msg (TIME: $inMillis)")
     }
 
-    fun <TYPE : Any> println(vararg params: TYPE) {
+    fun <TYPE : Any> printLog(vararg params: TYPE) {
         if (isAllowedToLog) {
-            log(params)
+            val log = createLog(params)
+            printMessage(LOG_BORDER_TOP +
+                    "\n${log.timeStamp}" +
+                    "\n${log.params}",
+                    "\n${log.callerClass}" +
+                            "\n${log.thread}" +
+                            "\n${log.callerStack}" +
+                            "\n$LOG_BORDER_BOT")
         }
     }
 
-    private fun createMessage(message: String, printTime: Boolean = false, printThread: Boolean = true): String {
-        val timeString = if (printTime) {
-            val inMillis = (System.currentTimeMillis() - time).toDouble()
-            "(TIME: $inMillis) "
-        } else ""
-        val threadString = if (printThread) " (THREAD: ${Thread.currentThread().name}" else ""
-        return "$timeString<-- $message --> $threadString)"
+    fun print(message: String) {
+        val log = createLog(message)
+        val tag = LOG_BORDER_TOP +
+                "\n${log.timeStamp}" +
+                "\nDEBUG:"
+        val msg = "\n${log.params}" +
+                "\n${log.callerClass}" +
+                "\n$LOG_BORDER_BOT"
+        printMessage(tag, msg)
     }
 
-    private fun <TYPE : Any> log(vararg params: TYPE) {
-        Pair(Thread.currentThread(), appClass())
-                .also { (thread, filterClass) ->
-                    val callerStack = thread
-                            .stackTrace
-                            .filter(filterClass)
-                            .drop(3)
-                            .map { "$it" }
-                            .map { it.filterPackage() }
-                            .map {
-                                "\n$it"
-                            }
+    private fun <TYPE : Any> createLog(vararg params: TYPE): LogData {
+        val paramsString = params
+                .contentDeepToString()
+                .removeArrayBrackets()
+                .let { "PARAMS: $it" }
 
-                    val last = thread
-                            .stackTrace
-                            .filter(filterClass)
-                            .drop(2)
-                            .first()
-                            .let { "$it" }
-                            .filterPackage()
-                            .filterArrays()
+        val thread = Thread.currentThread()
+        val threadString = thread.name
+                .removeArrayBrackets()
+                .let { "THREAD: $it" }
 
-                    val threadString = "Thread: ${thread.name}\n"
+        val filterClass = appClass()
+        val stackList = thread
+                .stackTrace
+                .filter(filterClass)
+                .asSequence()
 
-                    val paramsString = params
-                            .let { Arrays.deepToString(it) }
-                            .let { "Params: $it" }
+        val callerClass = stackList
+                .drop(2)
+                .first()
+                .let { "$it" }
+                .removePackage()
+                .removeArrayBrackets()
+                .let { "CALLER: $it" }
 
-                    val border = "--------------------------------------------------------------------------------------\n"
-                    val tag = "$border$threadString$paramsString"
-                            .filterArrays()
-                            .filterArrays()
-                    val message = "\nCaller: $last\nStack: $callerStack\n$border"
-                            .filterArrays()
-                            .filterArrays()
+        val callerStack = stackList
+                .drop(3)
+                .map { "\n${it.toString().removePackage()}" }
+                .toList()
+                .toTypedArray()
+                .contentDeepToString()
+                .removePackage()
+                .removeArrayBrackets()
+                .let { "STACK:$it" }
 
-                    Gdx.app?.let {
-                        Gdx.app.log(tag, message)
-                    } ?: kotlin.io.println("$tag $message")
-
-                }
+        return LogData(threadString, paramsString, callerClass, callerStack)
     }
 
-    private fun String.filterArrays(): String =
-            replace("[", "")
-                    .replace("]", "")
+    private fun printMessage(tag: String, message: String) {
+        Gdx.app?.let {
+            Gdx.app.log(tag, message)
+        } ?: kotlin.io.println("$tag $message")
+    }
 }
 
-fun String.filterPackage(): String {
-    return replaceBefore(".", "")
-            .substring(1)
-            .replaceBefore(".", "")
-            .substring(1)
-            .replaceBefore(".", "")
-            .substring(1)
+data class LogData(
+        val thread: String,
+        val params: String,
+        val callerClass: String,
+        val callerStack: String,
+        val timeStamp: String = "TIME: ${timestampNow()}"
+)
+
+fun String.removePackage(): String = replace(PACKAGE_NAME, "")
+fun String.removeArrayBrackets(): String {
+    val startBracket = "["
+    val endBracket = "]"
+    var result = this
+    while (result.contains(startBracket) && result.contains(endBracket)) {
+        result = result
+                .replace(startBracket, "")
+                .replace(endBracket, "")
+    }
+
+    return result
 }

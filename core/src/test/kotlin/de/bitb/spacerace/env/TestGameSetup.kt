@@ -9,14 +9,13 @@ import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
 
 fun TestEnvironment.setGiftFieldItems(createItems: () -> List<ItemInfo>) =
-        this.also {
-            DEBUG_ITEM = createItems()
-        }
+        this.also { DEBUG_ITEM = createItems() }
 
 fun TestEnvironment.initMap(
         mapToLoad: MapData = createTestMap()
@@ -27,6 +26,7 @@ fun TestEnvironment.initMap(
     leftTopField = mapToLoad.fields[1].gamePosition
     centerBottomField = mapToLoad.fields[2].gamePosition
     centerTopField = mapToLoad.fields[3].gamePosition
+    leftSideField = mapToLoad.fields[4].gamePosition
 }
 
 fun TestEnvironment.initGame(
@@ -72,22 +72,43 @@ fun TestEnvironment.setToMovePhase(
 }
 
 fun TestEnvironment.setToMain2Phase(
+        moveTo: PositionData = leftTopField
 ) = this.apply {
     setToMovePhase()
 
-    move()
+    move(target = moveTo)
     nextPhase()
 
     assertCurrentPhase(Phase.MAIN2)
 }
 
 fun TestEnvironment.changePlayerTo(
-        player: PlayerColor
+        player: PlayerColor,
+        moveTo: PositionData = leftTopField
 ) = this.apply {
     while (player != currentPlayerColor) {
-        setToMain2Phase()
+        setToMain2Phase(moveTo = moveTo)
         nextPhase()
     }
+}
+
+fun TestEnvironment.endTurn(
+        moveTo: PositionData = leftSideField
+) = this.apply {
+    if (currentPlayer.phase == Phase.MAIN1) setToMain2Phase(moveTo)
+    if (currentPlayer.phase == Phase.MAIN2) nextPhase()
+}
+
+fun TestEnvironment.endRound(
+        moveTo: PositionData = leftSideField
+) = this.apply {
+    endTurn(moveTo)
+
+    changePlayerTo(
+            player = playerController.players.first(),
+            moveTo = moveTo)
+
+    startNewRoundUsecase.buildUseCaseSingle().test().await().assertComplete()
 }
 
 fun TestEnvironment.moveToGoal(

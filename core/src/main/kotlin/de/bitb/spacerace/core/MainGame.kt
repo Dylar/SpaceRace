@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
+import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.VERSION
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.env.createTestMap
@@ -60,10 +61,12 @@ open class MainGame(
     }
 
     private fun initDefaultMaps() {
+        //TODO delete this some day
         val maps = MapCreator.values()
                 .map { it.createMap().initDefaultMap(it.name) }
                 .toMutableList()
-        maps.add(createTestMap())
+
+        maps.add(createTestMap(SELECTED_MAP))
         mapDataSource.insertMaps(*maps.toTypedArray())
     }
 

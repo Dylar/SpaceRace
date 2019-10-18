@@ -5,8 +5,8 @@ import io.reactivex.Single
 
 interface SaveDataSource {
 
-    fun insertSaveData(mapData: SaveData): Completable
-    fun insertAndReturnSaveData(mapData: SaveData): Single<SaveData>
+    fun insertSaveData(saveData: SaveData): Completable
+    fun insertAndReturnSaveData(saveData: SaveData): Single<SaveData>
 
     fun deleteSaveGame(saveData: SaveData): Completable
 

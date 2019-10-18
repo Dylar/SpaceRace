@@ -27,7 +27,7 @@ class PlayerImage
 
     fun setFieldPosition(player: PlayerGraphics, positionData: PositionData) {
         addAction(getRunnableAction(Runnable {
-            Logger.println("setFieldPosition")
+            Logger.printLog("setFieldPosition")
             player.setPosition(positionData)
             x = positionData.posX
             y = positionData.posY

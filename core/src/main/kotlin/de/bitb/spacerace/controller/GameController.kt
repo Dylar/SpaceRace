@@ -5,7 +5,6 @@ import de.bitb.spacerace.events.GameOverEvent
 import de.bitb.spacerace.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.usecase.game.observe.ObserveRoundUsecase
 import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
-import de.bitb.spacerace.usecase.ui.CommandUsecase
 import de.bitb.spacerace.utils.Logger
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -38,7 +37,7 @@ class GameController
         compositeDisposable += observeWinnerUsecase.observeStream(
                 params = WIN_AMOUNT,
                 onNext = { winner ->
-                    Logger.println("AND THE WINNER IIIIISSS: $winner")
+                    Logger.printLog("AND THE WINNER IIIIISSS: $winner")
                     EventBus.getDefault().post(GameOverEvent(winner.playerColor))
                 })
     }

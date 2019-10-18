@@ -44,7 +44,8 @@ class NextPhaseUsecase @Inject constructor(
                     .flatMap { checkEndable(it) }
                     .flatMap { doPhase(it) }
                     .flatMap { result ->
-                        playerDataSource.insertAndReturn(result.player).map { result }
+                        playerDataSource.insertAndReturn(result.player)
+                                .map { result.apply { player = it.first() } }
                     }
 
     private fun checkEndable(playerData: PlayerData) =
@@ -123,7 +124,7 @@ class NextPhaseUsecase @Inject constructor(
                 triggerItems(playerData)
                 playerData.positionField.target
             }.flatMap { fieldData ->
-                Logger.println("Field ${fieldData.fieldType.name}: $playerData")
+                Logger.printLog("Field ${fieldData.fieldType.name}: $playerData")
                 val restult: Single<out ObtainFieldResult> = when (fieldData.fieldType) {
                     FieldType.WIN -> obtainWin(playerData)
                     FieldType.LOSE -> obtainLose(playerData)
@@ -163,7 +164,7 @@ class NextPhaseUsecase @Inject constructor(
                         var newGoal = goal
                         val checkGoalPosition = if (goal.gamePosition.isPosition(playerData.gamePosition)) {
                             Single.fromCallable {
-                                Logger.println("oldGoal: $goal")
+                                Logger.printLog("oldGoal: $goal")
                                 playerData.apply {
                                     credits += GOAL_CREDITS
                                     victories++
@@ -174,7 +175,7 @@ class NextPhaseUsecase @Inject constructor(
                                     newGoal = goals[(Math.random() * goals.size).toInt()]
                                 }
 
-                                Logger.println("newGoal: $newGoal")
+                                Logger.printLog("newGoal: $newGoal")
 
                                 saveData.goal.target = newGoal
                                 saveData

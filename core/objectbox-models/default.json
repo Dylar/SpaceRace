@@ -122,7 +122,7 @@
     },
     {
       "id": "10:6609053040518524022",
-      "lastPropertyId": "6:5673668997060847030",
+      "lastPropertyId": "7:8119494403871578361",
       "name": "SaveData",
       "properties": [
         {
@@ -149,6 +149,10 @@
         {
           "id": "6:5673668997060847030",
           "name": "winAmount"
+        },
+        {
+          "id": "7:8119494403871578361",
+          "name": "roundCount"
         }
       ],
       "relations": [

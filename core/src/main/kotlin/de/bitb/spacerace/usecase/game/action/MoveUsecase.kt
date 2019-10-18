@@ -74,12 +74,6 @@ class MoveUsecase @Inject constructor(
     ): Single<MoveResult> {
         playerData.setSteps(targetField.gamePosition)
         playerData.positionField.target = targetField
-        Logger.println(
-                "\n",
-                "$playerData",
-                "\n",
-                "$targetField"
-        )
         val moveInfo = MoveResult(playerData, targetField.gamePosition, playerData.areStepsLeft(), playerData.previousStep)
         return playerDataSource.insert(playerData)
                 .andThen(getTargetableFieldUsecase.buildUseCaseSingle(playerData))

@@ -110,8 +110,8 @@ data class PlayerData(
             stepsLeft() > 0
 
     fun getMaxSteps(): Int {
-        val (multiValue, addValue) = getModifierValues(1)
-        val result: Int = (diceResults.sum() * multiValue + addValue).roundToInt()
+        val (multiValue, addValue) = getModifierValues()
+        val result: Int = (diceResults.sum() * (multiValue + 1) + addValue).roundToInt()
         return if (diceResults.isNotEmpty() && result <= 0) 1
         else result
     }

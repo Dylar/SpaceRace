@@ -16,6 +16,7 @@ import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.usecase.game.init.LoadNewGameUsecase
+import de.bitb.spacerace.usecase.game.trigger.StartNewRoundUsecase
 import io.reactivex.observers.TestObserver
 import javax.inject.Inject
 
@@ -36,6 +37,9 @@ class TestEnvironment {
     @Inject
     lateinit var mapDataSource: MapDataSource
 
+
+    @Inject
+    lateinit var startNewRoundUsecase: StartNewRoundUsecase
     @Inject
     lateinit var nextPhaseUseCase: NextPhaseUsecase
     @Inject
@@ -71,6 +75,7 @@ class TestEnvironment {
     lateinit var leftTopField: PositionData
     lateinit var centerTopField: PositionData
     lateinit var centerBottomField: PositionData
+    lateinit var leftSideField: PositionData
 
     //
 //    ██████╗ ███████╗████████╗████████╗███████╗██████╗
@@ -88,6 +93,9 @@ class TestEnvironment {
             getPlayerUsecase.buildUseCaseSingle(player).test().await()
                     .assertComplete().values().first()
 
+    fun getDBField(fieldId: Long) =
+            mapDataSource.getDBFields(fieldId).first()
+
 //    fun getRandomConnectedField(): PositionData {
 //        val currentField = currentPlayer.positionField.target
 //        val lastStep = currentPlayer.steps.last()
@@ -101,7 +109,8 @@ class TestEnvironment {
     fun <T> TestObserver<T>.assertObserver(
             error: GameException?,
             assertError: (Throwable) -> Boolean,
-            assertSuccess: (T) -> Boolean) {
+            assertSuccess: (T) -> Boolean
+    ) {
         if (error == null) assertComplete().assertValue { assertSuccess(it) }
         else assertError { assertError(it) }
     }

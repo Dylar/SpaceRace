@@ -23,6 +23,11 @@ class MapRespository(
                     .inValues(MapData_.name, arrayOf(*name))
                     .build().find()
 
+    override fun getDBFields(vararg ids: Long): List<FieldData> =
+            fieldBox.query()
+                    .inValues(FieldData_.uuid, longArrayOf(*ids))
+                    .build().find()
+
     override fun getAllFields(vararg field: FieldData): Single<List<FieldData>> =
             RxQuery.single(fieldBox.query().apply {
                 if (field.isNotEmpty()) filter { field.contains(it) }

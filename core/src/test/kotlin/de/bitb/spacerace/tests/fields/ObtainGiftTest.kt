@@ -1,6 +1,5 @@
 package de.bitb.spacerace.tests.fields
 
-import de.bitb.spacerace.core.GameTest
 import de.bitb.spacerace.env.*
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemInfo
@@ -9,16 +8,12 @@ import de.bitb.spacerace.model.items.ItemInfo.ION_ENGINE
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 
-class ObtainGiftTest : GameTest() {
+class ObtainGiftTest : ObtainFieldTest() {
 
     @Test
     fun obtainGift_receiveItemIntoStorage() {
         TestEnvironment()
-                .initGame(
-                        map = createTestMap(firstStep = FieldType.GIFT)
-                ).setToMovePhase()
-                .move()
-                .nextPhase {
+                .obtainField(FieldType.GIFT) {
                     val player = it.player
                     val field = player.positionField.target
 
@@ -32,11 +27,7 @@ class ObtainGiftTest : GameTest() {
         val item = ION_ENGINE()
         TestEnvironment()
                 .setGiftFieldItems { listOf(item) }
-                .initGame(
-                        map = createTestMap(firstStep = FieldType.GIFT)
-                ).setToMovePhase()
-                .move()
-                .nextPhase {
+                .obtainField(FieldType.GIFT) {
                     val player = it.player
                     val storageItem = player.storageItems.first()
 
@@ -48,14 +39,10 @@ class ObtainGiftTest : GameTest() {
     fun setItemMultipleItems_obtainGift_receiveSetItemIntoStorage() {
         val items = listOf(ION_ENGINE(), EXTRA_FUEL())
         val giftedItems = mutableListOf<ItemInfo>()
-        repeat (10) {
+        repeat(10) {
             TestEnvironment()
                     .setGiftFieldItems { items }
-                    .initGame(
-                            map = createTestMap(firstStep = FieldType.GIFT)
-                    ).setToMovePhase()
-                    .move()
-                    .nextPhase {
+                    .obtainField(FieldType.GIFT) {
                         val player = it.player
                         val storageItem = player.storageItems.first()
                         giftedItems.add(storageItem.itemInfo)

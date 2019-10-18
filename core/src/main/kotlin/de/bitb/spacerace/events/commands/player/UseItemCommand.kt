@@ -27,7 +27,7 @@ class UseItemCommand(
         compositDisposable += equipItemUsecase.getResult(
                 params = config,
                 onSuccess = {
-                    Logger.println("ITEM USED: $it")
+                    Logger.printLog("ITEM USED: $it")
                     reset()
                 },
                 onError = {
