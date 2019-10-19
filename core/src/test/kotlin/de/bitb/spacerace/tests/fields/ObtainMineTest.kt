@@ -36,17 +36,23 @@ class ObtainMineTest : ObtainFieldTest() {
 
     @Test
     fun obtainMine_endRound_GotMoney_stealMine() {
-        var credits1: Int = START_CREDITS
-        var credits2: Int = START_CREDITS
-        var mine: FieldData? = null
-assertTrue(true)
+//BLAA remove
+        TestEnvironment()
+                .obtainField(FieldType.MINE)
+                .assertCredits()
+                .endRound()
+                .assertCreditsNot(credits = START_CREDITS)
+
+//        var credits1: Int = START_CREDITS
+//        var credits2: Int = START_CREDITS
+//        var mine: FieldData? = null
 //        TestEnvironment()
 //                .obtainField(FieldType.MINE)
-////                .also {
-////                    mine = it.currentPlayer.mines.firstOrNull()
-////                    assertTrue(mine != null)
-////                    assertTrue(mine?.owner?.target?.playerColor == TEST_PLAYER_1)
-////                }
+//                .also {
+//                    mine = it.currentPlayer.mines.firstOrNull()
+//                    assertTrue(mine != null)
+//                    assertTrue(mine?.owner?.target?.playerColor == TEST_PLAYER_1)
+//                }
 //                .assertRoundCount(1)
 //                .assertCredits(TEST_PLAYER_1, credits1)
 //                .assertCredits(TEST_PLAYER_2, credits2)
