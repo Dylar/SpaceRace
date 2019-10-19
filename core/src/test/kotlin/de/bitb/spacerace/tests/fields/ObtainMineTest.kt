@@ -39,6 +39,7 @@ class ObtainMineTest : ObtainFieldTest() {
         var credits1: Int = START_CREDITS
         var credits2: Int = START_CREDITS
         var mine: FieldData? = null
+
         TestEnvironment()
                 .obtainField(FieldType.MINE)
                 .also {
