@@ -36,17 +36,17 @@ class WinnerUsecaseTest : GameTest() {
 
     @Test
     fun goals1_moveOnGoal_WinGame() {
-        assertTrue(true) //TODO bitrise bug...
-//        TestEnvironment()
-//                .initGame()
-//                .moveToGoal()
-//
-//                .nextPhase()
-//                .assertCurrentPlayer(TEST_PLAYER_1)
-//                .assertPlayerVictories(TEST_PLAYER_1)
-//                .assertGameEnd()
-//                .assertWinner(TEST_PLAYER_1)
-//                .assertNotWinner(TEST_PLAYER_2)
+//        assertTrue(true) //TODO bitrise bug...
+        TestEnvironment()
+                .initGame()
+                .moveToGoal()
+
+                .nextPhase()
+                .assertCurrentPlayer(TEST_PLAYER_1)
+                .assertPlayerVictories(TEST_PLAYER_1)
+                .assertGameEnd()
+                .assertWinner(TEST_PLAYER_1)
+                .assertNotWinner(TEST_PLAYER_2)
     }
 
     @Test
