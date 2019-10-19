@@ -8,10 +8,10 @@ import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.model.items.ItemInfo
 import io.objectbox.Box
-import junit.framework.Assert.*
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import javax.inject.Inject

@@ -5,7 +5,7 @@ import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.items.ItemInfo.EXTRA_FUEL
 import de.bitb.spacerace.model.items.ItemInfo.ION_ENGINE
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ObtainGiftTest : ObtainFieldTest() {

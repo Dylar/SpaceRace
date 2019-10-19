@@ -6,7 +6,7 @@ import de.bitb.spacerace.env.equipItem
 import de.bitb.spacerace.env.initGame
 import de.bitb.spacerace.env.setPlayerItems
 import de.bitb.spacerace.model.items.ItemInfo
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class EquipItemTest : GameTest() {

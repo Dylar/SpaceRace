@@ -6,7 +6,7 @@ import de.bitb.spacerace.exceptions.DiceFirstException
 import de.bitb.spacerace.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.Phase
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class NextPhaseUsecaseTest : GameTest() {
