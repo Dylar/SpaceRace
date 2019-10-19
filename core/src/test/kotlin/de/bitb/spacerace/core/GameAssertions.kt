@@ -1,6 +1,7 @@
 package de.bitb.spacerace.core
 
 import de.bitb.spacerace.config.START_CREDITS
+import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
@@ -66,6 +67,13 @@ fun TestEnvironment.assertCreditsNot(
     assertDBPlayer(player) { it.credits != credits }
 }
 
+fun TestEnvironment.assertPlayerModi(assertMod: Double = 0.0, assertAdd: Int = 0) =
+        this.apply {
+            val player = getDBPlayer(currentPlayerColor)
+            val (modifierValue, addValue) = player.getModifierValues()
+            assertEquals(assertMod, modifierValue, 0.0)
+            assertEquals(assertAdd, addValue)
+        }
 
 fun TestEnvironment.assertDiceResult(
         diceResult: Int,
