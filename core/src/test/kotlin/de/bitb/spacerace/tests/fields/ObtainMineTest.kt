@@ -52,12 +52,12 @@ class ObtainMineTest : ObtainFieldTest() {
                 .assertCredits(TEST_PLAYER_2, credits2)
                 .endRound()
                 .assertRoundCount(2)
-//
-//                //check credits -> player1 got credits
-//                .assertCreditsNot(TEST_PLAYER_1, credits = credits1)
-//                .also { credits1 = it.getDBPlayer(TEST_PLAYER_1).credits }
-//                .assertCredits(TEST_PLAYER_1, credits = credits1)
-//                .assertCredits(TEST_PLAYER_2, credits = credits2)
+
+                //check credits -> player1 got credits
+                .assertCreditsNot(TEST_PLAYER_1, credits = credits1)
+                .also { credits1 = it.getDBPlayer(TEST_PLAYER_1).credits }
+                .assertCredits(TEST_PLAYER_1, credits = credits1)
+                .assertCredits(TEST_PLAYER_2, credits = credits2)
 //
 //                //step between
 //                .apply { endTurn(moveTo = leftBottomField) }
