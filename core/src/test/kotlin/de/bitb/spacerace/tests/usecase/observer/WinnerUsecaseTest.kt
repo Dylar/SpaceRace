@@ -1,5 +1,6 @@
 package de.bitb.spacerace.tests.usecase.observer
 
+import de.bitb.spacerace.config.BITRISE_BORG
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.config.START_CREDITS
@@ -37,16 +38,20 @@ class WinnerUsecaseTest : GameTest() {
     @Test
     fun goals1_moveOnGoal_WinGame() {
         assertTrue(true) //TODO bitrise bug...
-//        TestEnvironment()
-//                .initGame()
-//                .moveToGoal()
-//
-//                .nextPhase()
-//                .assertCurrentPlayer(TEST_PLAYER_1)
-//                .assertPlayerVictories(TEST_PLAYER_1)
-//                .assertGameEnd()
-//                .assertWinner(TEST_PLAYER_1)
-//                .assertNotWinner(TEST_PLAYER_2)
+
+        if (BITRISE_BORG) {
+            TestEnvironment()
+                    .initGame()
+                    .moveToGoal()
+
+                    .nextPhase()
+                    .assertCurrentPlayer(TEST_PLAYER_1)
+                    .assertPlayerVictories(TEST_PLAYER_1)
+                    .assertGameEnd()
+                    .assertWinner(TEST_PLAYER_1)
+                    .assertNotWinner(TEST_PLAYER_2)
+
+        }
     }
 
     @Test

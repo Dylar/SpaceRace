@@ -61,3 +61,6 @@ var DEBUG_WIN_FIELD = true
 const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false
 var CAMERA_TARGET: GameImage? = null
+
+
+const val BITRISE_BORG = true

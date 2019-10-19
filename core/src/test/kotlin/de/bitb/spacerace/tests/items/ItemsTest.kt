@@ -1,12 +1,22 @@
 package de.bitb.spacerace.tests.items
 
-import de.bitb.spacerace.core.*
-import org.junit.Test
+import de.bitb.spacerace.core.GameTest
+import de.bitb.spacerace.core.assertPlayerModi
+import de.bitb.spacerace.env.TestEnvironment
+import de.bitb.spacerace.env.equipItem
+import de.bitb.spacerace.env.initGame
+import de.bitb.spacerace.env.setPlayerItems
+import de.bitb.spacerace.model.items.ItemInfo
 
-class ItemsTest : GameTest() {
+open class ItemsTest : GameTest() {
 
-    @Test
-    fun something_something_items() {
-//        fail() //TODO make default item tests
-    }
+    open fun equipThatItem(item: ItemInfo, equip: Boolean) =
+            TestEnvironment()
+                    .setPlayerItems { listOf(item) }
+                    .initGame()
+                    .assertPlayerModi()
+                    .equipItem(item, equip = equip) { equipResult ->
+                        equipResult.player.storageItems.isEmpty() &&
+                                equipResult.player.equippedItems.any { it.itemInfo.name == item.name }
+                    }
 }
