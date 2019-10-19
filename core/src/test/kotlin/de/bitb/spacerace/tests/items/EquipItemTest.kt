@@ -18,8 +18,9 @@ class EquipItemTest : GameTest() {
                 .setPlayerItems { listOf(item) }
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
-                .equipItem(item) {
-                    it.player.storageItems.isEmpty()
+                .equipItem(item) { equipResult ->
+                    equipResult.player.storageItems.isEmpty() &&
+                            equipResult.player.equippedItems.any { it.itemInfo.name == item.name }
                 }
     }
 }

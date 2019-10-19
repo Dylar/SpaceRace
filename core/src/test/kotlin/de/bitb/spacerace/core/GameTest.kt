@@ -1,6 +1,8 @@
 package de.bitb.spacerace.core
 
 import com.badlogic.gdx.Application
+import de.bitb.spacerace.config.DEBUG_GIFT_ITEMS
+import de.bitb.spacerace.config.DEBUG_PLAYER_ITEMS
 import org.junit.After
 import org.junit.Before
 
@@ -62,6 +64,8 @@ open class GameTest {
     // After we are done, clean up the application
     @After
     open fun teardown() {
+        DEBUG_PLAYER_ITEMS = listOf()
+        DEBUG_GIFT_ITEMS = listOf()
         // Exit the application first
         application?.exit()
         application = null
