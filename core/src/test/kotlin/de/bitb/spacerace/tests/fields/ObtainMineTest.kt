@@ -27,12 +27,12 @@ class ObtainMineTest : ObtainFieldTest() {
 
     @Test
     fun obtainMine_endRound_GotMoney() {
-        assertTrue(true) //TODO bitrise bug...
-//        TestEnvironment()
-//                .obtainField(FieldType.MINE)
-//                .assertCredits()
-//                .endRound()
-//                .assertCreditsNot(credits = START_CREDITS)
+//        assertTrue(true) //TODO bitrise bug...
+        TestEnvironment()
+                .obtainField(FieldType.MINE)
+                .assertCredits()
+                .endRound()
+                .assertCreditsNot(credits = START_CREDITS)
     }
 
     @Test
