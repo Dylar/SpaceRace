@@ -1,14 +1,25 @@
 package de.bitb.spacerace.tests.items
 
-import de.bitb.spacerace.core.*
+import de.bitb.spacerace.core.GameTest
+import de.bitb.spacerace.env.TestEnvironment
+import de.bitb.spacerace.env.equipItem
+import de.bitb.spacerace.env.initGame
+import de.bitb.spacerace.env.setPlayerItems
+import de.bitb.spacerace.model.items.ItemInfo
+import junit.framework.Assert.assertTrue
 import org.junit.Test
 
 class EquipItemTest : GameTest() {
-    //TODO make more tests
+
     @Test
-    fun something_something_items() {
-//        SpaceEnvironment()
-//                .initGame()
-//                .
+    fun equipItem_receiveSetItemIntoStorage() {
+        val item = ItemInfo.ION_ENGINE()
+        TestEnvironment()
+                .setPlayerItems { listOf(item) }
+                .initGame()
+                .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
+                .equipItem(item) {
+                    it.player.storageItems.isEmpty()
+                }
     }
 }

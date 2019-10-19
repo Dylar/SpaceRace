@@ -10,7 +10,8 @@ interface SaveDataSource {
 
     fun deleteSaveGame(saveData: SaveData): Completable
 
-    fun getLoadedGame(): Single<SaveData>
+    fun getLoadedGame(): SaveData
+    fun getRXLoadedGame(): Single<SaveData>
     fun loadGame(saveData: SaveData): Single<SaveData>
 
 }

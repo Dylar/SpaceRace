@@ -12,6 +12,6 @@ class GetSaveGameUsecase @Inject constructor(
 
     override fun buildUseCaseSingle(): Single<SaveData> {
         return saveDataSource
-                .getLoadedGame()
+                .getRXLoadedGame()
     }
 }

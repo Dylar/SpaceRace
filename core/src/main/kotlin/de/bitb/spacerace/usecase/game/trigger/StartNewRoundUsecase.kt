@@ -14,7 +14,7 @@ class StartNewRoundUsecase @Inject constructor(
 ) : ResultUseCaseNoParams<List<PlayerData>> {
 
     override fun buildUseCaseSingle(): Single<List<PlayerData>> =
-            saveDataSource.getLoadedGame()
+            saveDataSource.getRXLoadedGame()
                     .flatMap { saveDataSource.insertAndReturnSaveData(it.apply { roundCount++ }) }
                     .map { it.players }
                     .flatMap(::resetPlayer)

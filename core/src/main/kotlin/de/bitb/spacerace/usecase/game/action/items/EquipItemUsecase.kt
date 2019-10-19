@@ -27,7 +27,7 @@ class EquipItemUsecase @Inject constructor(
                                 playerColor = params.playerColor,
                                 itemData = it))
                     }
-                    .flatMap { checkItemUsable(it.playerData, it.itemData, params.itemInfo) }
+                    .flatMap { checkItemUsable(it.playerData, it.itemData, it.itemData.itemInfo) }
                     .flatMap { equipItem(it.first, it.second, params.equip) }
                     .flatMap { (playerData, itemData) ->
                         Single.zip(
@@ -40,9 +40,8 @@ class EquipItemUsecase @Inject constructor(
 
     private fun checkItemUsable(playerData: PlayerData, itemData: ItemData?, itemInfo: ItemInfo): Single<Pair<PlayerData, ItemData>> =
             Single.create { emitter ->
-                itemData?.let {
-                    emitter.onSuccess(playerData to it)
-                } ?: kotlin.run { emitter.onError(ItemNotFoundException(itemInfo)) }
+                itemData?.let { emitter.onSuccess(playerData to it) }
+                        ?: kotlin.run { emitter.onError(ItemNotFoundException(itemInfo)) }
             }
 
     private fun equipItem(playerData: PlayerData, itemData: ItemData, equip: Boolean): Single<Pair<PlayerData, ItemData>> =
@@ -79,6 +78,6 @@ data class EquipItemConfig(
 )
 
 data class EquipItemResult(
-        val playerColor: PlayerData,
+        val player: PlayerData,
         val itemData: ItemData
 )

@@ -1,6 +1,7 @@
 package de.bitb.spacerace.env
 
-import de.bitb.spacerace.config.DEBUG_ITEM
+import de.bitb.spacerace.config.DEBUG_GIFT_ITEMS
+import de.bitb.spacerace.config.DEBUG_PLAYER_ITEMS
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.core.assertCurrentPhase
 import de.bitb.spacerace.core.assertSameField
@@ -15,9 +16,12 @@ import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
 
 fun TestEnvironment.setGiftFieldItems(createItems: () -> List<ItemInfo>) =
-        this.also { DEBUG_ITEM = createItems() }
+        this.also { DEBUG_GIFT_ITEMS = createItems() }
 
-fun TestEnvironment.initMap(
+fun TestEnvironment.setPlayerItems(createItems: () -> List<ItemInfo>) =
+        this.also { DEBUG_PLAYER_ITEMS = createItems() }
+
+private fun TestEnvironment.initMap(
         mapToLoad: MapData = createTestMap()
 ) {
     mapDataSource.insertMaps(mapToLoad)
@@ -50,6 +54,10 @@ fun TestEnvironment.initGame(
             .test()
             .await()
             .assertObserver(error, assertError, assertSuccess)
+
+    if (DEBUG_PLAYER_ITEMS.isNotEmpty()) {
+        testGame.initPlayerItems(DEBUG_PLAYER_ITEMS)
+    }
 
     winnerObserver = gameController
             .observeWinnerUsecase

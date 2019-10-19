@@ -8,6 +8,7 @@ import io.reactivex.Single
 class SaveRespository(
         private val saveBox: Box<SaveData>
 ) : SaveDataSource {
+
     override fun loadGame(saveData: SaveData): Single<SaveData> =
             Single.create<SaveData> { emitter ->
                 val allSaveData =
@@ -28,9 +29,13 @@ class SaveRespository(
                 saveBox.put(mapData)
             }
 
-    override fun getLoadedGame(): Single<SaveData> = RxQuery.single(
-            saveBox.query().equal(SaveData_.loaded, true).build())
-            .map { it.first() }
+    override fun getRXLoadedGame(): Single<SaveData> =
+            RxQuery.single(saveBox.query()
+                    .equal(SaveData_.loaded, true).build())
+                    .map { it.first() }
+
+    override fun getLoadedGame(): SaveData =
+            saveBox.query().equal(SaveData_.loaded, true).build().find().first()
 
     override fun deleteSaveGame(saveData: SaveData): Completable =
             Completable.fromAction {

@@ -1,7 +1,7 @@
 package de.bitb.spacerace.model.items
 
 import com.squareup.moshi.JsonClass
-import de.bitb.spacerace.config.DEBUG_ITEM
+import de.bitb.spacerace.config.DEBUG_GIFT_ITEMS
 import de.bitb.spacerace.database.items.*
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.disposable.SlowMine
@@ -38,8 +38,8 @@ sealed class ItemInfo(
 
         fun getRandomItem(): ItemInfo {
             val items =
-                    if (DEBUG_ITEM.isEmpty()) getAll()
-                    else DEBUG_ITEM
+                    if (DEBUG_GIFT_ITEMS.isEmpty()) getAll()
+                    else DEBUG_GIFT_ITEMS
             return items[(Math.random() * (items.size)).toInt()]
         }
     }

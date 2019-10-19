@@ -157,7 +157,7 @@ class NextPhaseUsecase @Inject constructor(
     }
 
     private fun obtainGoal(playerData: PlayerData): Single<out ObtainGoalResult> =
-            saveDataSource.getLoadedGame()
+            saveDataSource.getRXLoadedGame()
                     .map { map -> map to map.fields.filter { field -> field.fieldType == FieldType.GOAL } }
                     .flatMap { (saveData, goals) ->
                         val goal = saveData.goal.target

@@ -6,7 +6,10 @@ import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.VERSION
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.MapDataSource
+import de.bitb.spacerace.database.player.PlayerDataSource
+import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.env.createTestMap
 import de.bitb.spacerace.events.GameOverEvent
 import de.bitb.spacerace.events.commands.BaseCommand
@@ -14,6 +17,7 @@ import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.initDefaultMap
 import de.bitb.spacerace.ui.screens.GameOverScreen
@@ -39,6 +43,10 @@ open class MainGame(
 
     @Inject
     protected lateinit var mapDataSource: MapDataSource
+    @Inject
+    protected lateinit var saveDataSource: SaveDataSource
+    @Inject
+    protected lateinit var playerDataSource: PlayerDataSource
 
     init {
         VERSION = version
@@ -68,6 +76,20 @@ open class MainGame(
 
         maps.add(createTestMap(SELECTED_MAP))
         mapDataSource.insertMaps(*maps.toTypedArray())
+    }
+
+    fun initPlayerItems(items: List<ItemInfo>) {
+        saveDataSource.getLoadedGame()
+                .players
+                .onEach { player ->
+                    items.map {
+                        val item = ItemData(itemInfo = it)
+                        player.storageItems.add(item)
+                    }
+                }
+                .toTypedArray()
+                .let { playerDataSource.insert(*it) }
+                .subscribe()
     }
 
     override fun initScreen() {
@@ -131,4 +153,5 @@ open class MainGame(
     private fun isBackTipped(): Boolean {
         return checkCombi(Input.Keys.ALT_LEFT, Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)
     }
+
 }
