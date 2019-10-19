@@ -1,15 +1,19 @@
 package de.bitb.spacerace.usecase.game.init
 
+import de.bitb.spacerace.config.DEBUG_PLAYER_ITEMS
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.exceptions.SelectMorePlayerException
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
@@ -19,7 +23,9 @@ import javax.inject.Inject
 
 class LoadNewGameUsecase @Inject constructor(
         private val loadGameUsecase: LoadGameUsecase,
-        private val mapDataSource: MapDataSource
+        private val mapDataSource: MapDataSource,
+        private val saveDataSource: SaveDataSource,
+        private val playerDataSource: PlayerDataSource
 ) : ResultUseCase<LoadGameResult, LoadGameConfig> {
 
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameResult> =
@@ -27,6 +33,12 @@ class LoadNewGameUsecase @Inject constructor(
                 checkPlayerSize(players)
                         .andThen(initPlayers(players))
                         .flatMap { initMap(it, mapName) }
+                        .doOnSuccess {
+                            //DEBUG items
+                            if (DEBUG_PLAYER_ITEMS.isNotEmpty()) {
+                                initPlayerItems(it, DEBUG_PLAYER_ITEMS)
+                            }
+                        }
                         .flatMap { loadGameUsecase.buildUseCaseSingle(it) }
             }
 
@@ -113,3 +125,16 @@ data class LoadGameResult(
         var saveData: SaveData
 
 )
+
+
+private fun initPlayerItems(saveData: SaveData,
+                            items: List<ItemInfo>
+) {
+    saveData.players
+            .onEach { player ->
+                items.map {
+                    val item = ItemData(itemInfo = it)
+                    player.storageItems.add(item)
+                }
+            }
+}

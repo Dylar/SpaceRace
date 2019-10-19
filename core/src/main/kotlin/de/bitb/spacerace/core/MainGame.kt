@@ -78,20 +78,6 @@ open class MainGame(
         mapDataSource.insertMaps(*maps.toTypedArray())
     }
 
-    fun initPlayerItems(items: List<ItemInfo>) {
-        saveDataSource.getLoadedGame()
-                .players
-                .onEach { player ->
-                    items.map {
-                        val item = ItemData(itemInfo = it)
-                        player.storageItems.add(item)
-                    }
-                }
-                .toTypedArray()
-                .let { playerDataSource.insert(*it) }
-                .subscribe()
-    }
-
     override fun initScreen() {
         setScreen(StartScreen(this))
 //        setScreen(GameScreen(this))

@@ -55,10 +55,6 @@ fun TestEnvironment.initGame(
             .await()
             .assertObserver(error, assertError, assertSuccess)
 
-    if (DEBUG_PLAYER_ITEMS.isNotEmpty()) {
-        testGame.initPlayerItems(DEBUG_PLAYER_ITEMS)
-    }
-
     winnerObserver = gameController
             .observeWinnerUsecase
             .buildUseCaseObservable(winAmount)
