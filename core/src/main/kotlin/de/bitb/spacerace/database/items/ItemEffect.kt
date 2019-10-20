@@ -5,7 +5,7 @@ interface EquipItem {
     var equipped: Boolean
 }
 
-interface ActivableItem
+interface ActivatableItem
 interface AttachableItem
 interface DisposableItem
 

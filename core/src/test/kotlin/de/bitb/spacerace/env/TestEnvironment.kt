@@ -12,6 +12,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
+import de.bitb.spacerace.usecase.game.action.items.ActivateItemUsecase
 import de.bitb.spacerace.usecase.game.action.items.EquipItemUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
@@ -47,8 +48,11 @@ class TestEnvironment {
     lateinit var diceUsecase: DiceUsecase
     @Inject
     lateinit var moveUsecase: MoveUsecase
+
     @Inject
     lateinit var equipItemUsecase: EquipItemUsecase
+    @Inject
+    lateinit var activateItemUsecase: ActivateItemUsecase
 
     @Inject
     lateinit var getPlayerUsecase: GetPlayerUsecase

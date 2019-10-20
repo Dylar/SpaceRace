@@ -15,7 +15,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.items.ActivableItem
+import de.bitb.spacerace.database.items.ActivatableItem
 import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.EquipItem
 import de.bitb.spacerace.database.player.PlayerData
@@ -157,7 +157,7 @@ class ItemDetailsMenu(
         val text = when (itemInfo) {
             is EquipItem -> "EQUIP"
             is DisposableItem -> "DISPOSE"
-            is ActivableItem -> "USE"
+            is ActivatableItem -> "USE"
             else -> "-"
         }
         useBtn.setText(text)

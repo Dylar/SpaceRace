@@ -41,5 +41,13 @@ fun GameException.assertEquipException(error: Throwable) =
             -> this::class == error::class
         }
 
+fun GameException.assertActivateException(error: Throwable) =
+        checkBasic(error) || when {
+            this is ItemNotFoundException && error is ItemNotFoundException
+            -> this.itemInfo.name == error.itemInfo.name
+            else
+            -> this::class == error::class
+        }
+
 
 

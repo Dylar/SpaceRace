@@ -1,15 +1,14 @@
 package de.bitb.spacerace.env
 
-import de.bitb.spacerace.core.assertDiceException
-import de.bitb.spacerace.core.assertEquipException
-import de.bitb.spacerace.core.assertMoveException
-import de.bitb.spacerace.core.assertNextPhaseException
+import de.bitb.spacerace.core.*
 import de.bitb.spacerace.exceptions.GameException
 import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import de.bitb.spacerace.usecase.game.action.NextPhaseResult
+import de.bitb.spacerace.usecase.game.action.items.ActivateItemConfig
+import de.bitb.spacerace.usecase.game.action.items.ActivateItemResult
 import de.bitb.spacerace.usecase.game.action.items.EquipItemConfig
 import de.bitb.spacerace.usecase.game.action.items.EquipItemResult
 
@@ -64,6 +63,21 @@ fun TestEnvironment.equipItem(
 ) = this.apply {
     val config = EquipItemConfig(player, itemInfo, equip)
     equipItemUsecase.buildUseCaseSingle(config)
+            .test()
+            .await()
+            .assertObserver(error, assertError, assertSuccess)
+    waitForIt()
+}
+
+fun TestEnvironment.activateItem(
+        itemInfo: ItemInfo,
+        player: PlayerColor = currentPlayerColor,
+        error: GameException? = null,
+        assertError: (Throwable) -> Boolean = { error?.assertActivateException(it) ?: false },
+        assertSuccess: (ActivateItemResult) -> Boolean = { true }
+) = this.apply {
+    val config = ActivateItemConfig(player, itemInfo)
+    activateItemUsecase.buildUseCaseSingle(config)
             .test()
             .await()
             .assertObserver(error, assertError, assertSuccess)

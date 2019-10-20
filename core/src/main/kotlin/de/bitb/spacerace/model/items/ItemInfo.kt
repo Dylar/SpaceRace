@@ -47,23 +47,23 @@ sealed class ItemInfo(
     //USABLE
     @JsonClass(generateAdapter = true)
     class EXTRA_FUEL(
-            override val diceAddition: Int = 2
-    ) : ItemInfo(EXTRA_FUEL::class.simpleName!!, 2000), ActivableItem, DiceAddition
+            override val diceAddition: Int = 1
+    ) : ItemInfo(EXTRA_FUEL::class.simpleName!!, 2000), ActivatableItem, DiceAddition
 
     @JsonClass(generateAdapter = true)
     class SPECIAL_FUEL(
             override val diceModifier: Double = 0.3
-    ) : ItemInfo(SPECIAL_FUEL::class.simpleName!!, 1000), ActivableItem, DiceModification
+    ) : ItemInfo(SPECIAL_FUEL::class.simpleName!!, 1000), ActivatableItem, DiceModification
 
     @JsonClass(generateAdapter = true)
     class SPEED_BOOST(
             override val diceAmount: Int = 1
-    ) : ItemInfo(SPEED_BOOST::class.simpleName!!, 3000), ActivableItem, MultiDice
+    ) : ItemInfo(SPEED_BOOST::class.simpleName!!, 3000), ActivatableItem, MultiDice
 
     @JsonClass(generateAdapter = true)
     class CLEAN_DROID(
 
-    ) : ItemInfo(CLEAN_DROID::class.simpleName!!, 2000), ActivableItem, RemoveEffect
+    ) : ItemInfo(CLEAN_DROID::class.simpleName!!, 2000), ActivatableItem, RemoveEffect
 
     //DISPOSABLE
     @JsonClass(generateAdapter = true)
