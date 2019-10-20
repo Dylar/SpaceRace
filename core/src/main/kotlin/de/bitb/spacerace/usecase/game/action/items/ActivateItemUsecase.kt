@@ -16,10 +16,14 @@ class ActivateItemUsecase @Inject constructor(
             useItemUsecase.buildUseCaseSingle(UseItemConfig(
                     playerColor = params.playerColor,
                     itemInfo = params.itemInfo,
-                    getItem = { it.storageItems.firstOrNull { item -> item.itemInfo.name == params.itemInfo.name } },
+                    getItem = { getitem(params, it) },
                     checkItemUsable = { _, _ -> true },
                     useItem = { playerData, itemData -> activateItem(playerData, itemData) }
             ))
+
+    private fun getitem(params: ActivateItemConfig, playerData: PlayerData): ItemData? =
+            playerData.storageItems.firstOrNull { item -> item.itemInfo.name == params.itemInfo.name }
+
 
     private fun activateItem(playerData: PlayerData, itemData: ItemData): Pair<PlayerData, ItemData> =
             playerData.apply {

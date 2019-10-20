@@ -9,8 +9,7 @@ import javax.inject.Inject
 
 class ObserveRoundUsecase
 @Inject constructor(
-        private val playerDataSource: PlayerDataSource,
-        private val mapDataSource: MapDataSource
+        private val playerDataSource: PlayerDataSource
 ) : StreamUseCaseNoParams<Boolean> {
 
     override fun buildUseCaseObservable(): Observable<Boolean> =
