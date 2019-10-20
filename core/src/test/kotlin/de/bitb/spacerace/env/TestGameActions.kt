@@ -8,9 +8,8 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import de.bitb.spacerace.usecase.game.action.NextPhaseResult
 import de.bitb.spacerace.usecase.game.action.items.ActivateItemConfig
-import de.bitb.spacerace.usecase.game.action.items.ActivateItemResult
 import de.bitb.spacerace.usecase.game.action.items.EquipItemConfig
-import de.bitb.spacerace.usecase.game.action.items.EquipItemResult
+import de.bitb.spacerace.usecase.game.action.items.UseItemResult
 
 fun TestEnvironment.nextPhase(
         color: PlayerColor = currentPlayerColor,
@@ -59,7 +58,7 @@ fun TestEnvironment.equipItem(
         equip: Boolean = true,
         error: GameException? = null,
         assertError: (Throwable) -> Boolean = { error?.assertEquipException(it) ?: false },
-        assertSuccess: (EquipItemResult) -> Boolean = { true }
+        assertSuccess: (UseItemResult) -> Boolean = { true }
 ) = this.apply {
     val config = EquipItemConfig(player, itemInfo, equip)
     equipItemUsecase.buildUseCaseSingle(config)
@@ -74,7 +73,7 @@ fun TestEnvironment.activateItem(
         player: PlayerColor = currentPlayerColor,
         error: GameException? = null,
         assertError: (Throwable) -> Boolean = { error?.assertActivateException(it) ?: false },
-        assertSuccess: (ActivateItemResult) -> Boolean = { true }
+        assertSuccess: (UseItemResult) -> Boolean = { true }
 ) = this.apply {
     val config = ActivateItemConfig(player, itemInfo)
     activateItemUsecase.buildUseCaseSingle(config)

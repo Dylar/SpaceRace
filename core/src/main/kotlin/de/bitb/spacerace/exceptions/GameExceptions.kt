@@ -64,3 +64,7 @@ class ItemNotImplementedException(
 class ItemNotFoundException(
         itemInfo: ItemInfo
 ) : ItemException(itemInfo, "$itemInfo is not found")
+
+class ItemNotUsableException(
+        itemInfo: ItemInfo
+) : ItemException(itemInfo, "$itemInfo is not usable")

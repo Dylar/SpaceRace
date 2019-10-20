@@ -19,8 +19,8 @@ class ActivateItemTest : ItemsTest() {
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
                 .activateItem(item) { equipResult ->
-                    equipResult.player.storageItems.isEmpty() &&
-                            equipResult.player.activeItems.any { it.itemInfo.name == item.name }
+                    equipResult.playerData.storageItems.isEmpty() &&
+                            equipResult.playerData.activeItems.any { it.itemInfo.name == item.name }
                 }
     }
 
@@ -32,8 +32,8 @@ class ActivateItemTest : ItemsTest() {
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
                 .activateItem(item) { equipResult ->
-                    equipResult.player.storageItems.isEmpty() &&
-                            equipResult.player.activeItems.any { it.itemInfo.name == item.name }
+                    equipResult.playerData.storageItems.isEmpty() &&
+                            equipResult.playerData.activeItems.any { it.itemInfo.name == item.name }
                 }.activateItem(item, error = ItemNotFoundException(item))
     }
 }

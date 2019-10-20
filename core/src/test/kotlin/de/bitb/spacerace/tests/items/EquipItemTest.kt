@@ -19,8 +19,8 @@ class EquipItemTest : ItemsTest() {
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
                 .equipItem(item) { equipResult ->
-                    equipResult.player.storageItems.isEmpty() &&
-                            equipResult.player.equippedItems.any { it.itemInfo.name == item.name }
+                    equipResult.playerData.storageItems.isEmpty() &&
+                            equipResult.playerData.equippedItems.any { it.itemInfo.name == item.name }
                 }.equipItem(item, error = ItemNotFoundException(item))
     }
 
@@ -32,11 +32,11 @@ class EquipItemTest : ItemsTest() {
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
                 .equipItem(item) { equipResult ->
-                    equipResult.player.storageItems.isEmpty() &&
-                            equipResult.player.equippedItems.any { it.itemInfo.name == item.name }
+                    equipResult.playerData.storageItems.isEmpty() &&
+                            equipResult.playerData.equippedItems.any { it.itemInfo.name == item.name }
                 }.equipItem(item, equip = false) { equipResult ->
-                    equipResult.player.equippedItems.isEmpty() &&
-                            equipResult.player.storageItems.any { it.itemInfo.name == item.name }
+                    equipResult.playerData.equippedItems.isEmpty() &&
+                            equipResult.playerData.storageItems.any { it.itemInfo.name == item.name }
                 }
     }
 }

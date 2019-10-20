@@ -16,7 +16,7 @@ open class ItemsTest : GameTest() {
                     .initGame()
                     .assertPlayerModi()
                     .equipItem(item, equip = equip) { equipResult ->
-                        equipResult.player.storageItems.isEmpty() &&
-                                equipResult.player.equippedItems.any { it.itemInfo.name == item.name }
+                        equipResult.playerData.storageItems.isEmpty() &&
+                                equipResult.playerData.equippedItems.any { it.itemInfo.name == item.name }
                     }
 }
