@@ -45,11 +45,6 @@ open class FieldGraphic(
 
     fun attachItem(disposableItem: DisposableItemGraphic) {
         disposedItems.remove(disposableItem)
+        disposableItem.getGameImage().remove()
     }
-
-    override fun toString(): String =
-            super.toString()
-                    .replace("de.bitb.spacerace.model.space.fields.", "") +
-                    ", Type: ${fieldType.name}" +
-                    ", ID: $id"
 }

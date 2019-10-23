@@ -4,6 +4,7 @@ import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
@@ -14,7 +15,6 @@ import de.bitb.spacerace.exceptions.DiceFirstException
 import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.items.ItemGraphic
 import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
@@ -121,9 +121,8 @@ class NextPhaseUsecase @Inject constructor(
     //TODO clean me
     private fun obtainField(playerData: PlayerData): Single<out ObtainFieldResult> =
             Single.fromCallable {
-                triggerItems(playerData)
-                playerData.positionField.target
-            }.flatMap { fieldData ->
+                triggerItems(playerData) to playerData.positionField.target
+            }.flatMap { (items, fieldData) ->
                 Logger.printLog("Field ${fieldData.fieldType.name}: $playerData")
                 val restult: Single<out ObtainFieldResult> = when (fieldData.fieldType) {
                     FieldType.WIN -> obtainWin(playerData)
@@ -138,7 +137,7 @@ class NextPhaseUsecase @Inject constructor(
                     FieldType.RANDOM,
                     FieldType.UNKNOWN -> Single.just(ObtainFieldResult(playerData))
                 }
-                restult
+                restult.map { it.apply { triggeredItems.addAll(items) } }
             }
 
     private fun obtainShop(playerData: PlayerData): Single<out ObtainShopResult> =
@@ -146,14 +145,21 @@ class NextPhaseUsecase @Inject constructor(
                 ObtainShopResult(playerData)
             }
 
-    private fun triggerItems(playerData: PlayerData) {
-        //TODO old code change that
-        mutableListOf<ItemGraphic>()
-                .apply {
-                    val field = graphicController.getPlayerFieldGraphic(playerData.playerColor)
-                    addAll(field.disposedItems)
-                }
-                .forEach { it.use(playerData) }
+    private fun triggerItems(playerData: PlayerData): List<ItemData> {
+        val field = playerData.positionField.target
+        return field.disposedItems
+                .asSequence()
+                .filter { it.itemInfo is DisposableItem }
+                .onEach { playerData.attachedItems.add(it) }
+                .toList()
+                .also { field.disposedItems.removeAll(it) }
+//        //TODO old code change that
+//        mutableListOf<ItemGraphic>()
+//                .apply {
+//                    val field = graphicController.getPlayerFieldGraphic(playerData.playerColor)
+//                    addAll(field.disposedItems)
+//                }
+//                .forEach { it.use(playerData) }
     }
 
     private fun obtainGoal(playerData: PlayerData): Single<out ObtainGoalResult> =
@@ -234,7 +240,9 @@ class NextPhaseUsecase @Inject constructor(
 
 }
 
-open class NextPhaseResult(var player: PlayerData, val targetableFields: MutableList<FieldData> = mutableListOf())
+open class NextPhaseResult(var player: PlayerData,
+                           var triggeredItems: MutableList<ItemData> = mutableListOf(),
+                           val targetableFields: MutableList<FieldData> = mutableListOf())
 
 open class StartMoveResult(player: PlayerData) : NextPhaseResult(player)
 

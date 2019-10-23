@@ -8,11 +8,11 @@ import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-class ActivateItemUsecase @Inject constructor(
+class DisposeItemUsecase @Inject constructor(
         private val useItemUsecase: UseItemUsecase
-) : ResultUseCase<UseItemResult, ActivateItemConfig> {
+) : ResultUseCase<UseItemResult, DisposeItemConfig> {
 
-    override fun buildUseCaseSingle(params: ActivateItemConfig): Single<UseItemResult> =
+    override fun buildUseCaseSingle(params: DisposeItemConfig): Single<UseItemResult> =
             useItemUsecase.buildUseCaseSingle(UseItemConfig(
                     playerColor = params.playerColor,
                     itemInfo = params.itemInfo,
@@ -21,11 +21,8 @@ class ActivateItemUsecase @Inject constructor(
                     useItem = { playerData, itemData -> useItem(playerData, itemData) }
             ))
 
-    private fun getItem(params: ActivateItemConfig, playerData: PlayerData): ItemData? =
-            playerData.storageItems.asSequence()
-                    .filter { it.itemInfo.name == params.itemInfo.name }
-                    .maxBy { it.itemInfo.charges }
-
+    private fun getItem(params: DisposeItemConfig, playerData: PlayerData): ItemData? =
+            playerData.storageItems.firstOrNull { it.itemInfo.name == params.itemInfo.name }
 
     private fun useItem(playerData: PlayerData, itemData: ItemData): Pair<PlayerData, ItemData> =
             playerData.apply {
@@ -35,7 +32,7 @@ class ActivateItemUsecase @Inject constructor(
 
 }
 
-data class ActivateItemConfig(
+data class DisposeItemConfig(
         val playerColor: PlayerColor,
         val itemInfo: ItemInfo
 )
