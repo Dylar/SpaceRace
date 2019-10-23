@@ -60,10 +60,10 @@ class UseItemUsecase @Inject constructor(
                     })
 
     private fun savePlayer(playerData: PlayerData): Single<PlayerData> =
-            playerDataSource.insertAndReturn(playerData).map { it.first() }
+            playerDataSource.insertAndReturnRXPlayer(playerData).map { it.first() }
 
     private fun getItem(itemId: Long): Single<ItemData> =
-            itemDataSource.getItems(itemId).map { it.first() }
+            itemDataSource.getRXItems(itemId).map { it.first() }
 }
 
 data class UseItemConfig(

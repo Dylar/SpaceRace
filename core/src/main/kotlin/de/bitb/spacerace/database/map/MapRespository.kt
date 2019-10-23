@@ -11,11 +11,12 @@ class MapRespository(
         private val fieldBox: Box<FieldData>,
         private val mapBox: Box<MapData>
 ) : MapDataSource {
-    override fun insertMaps(vararg maps: MapData) {
+
+    override fun insertDBMaps(vararg maps: MapData) {
         mapBox.put(*maps)
     }
 
-    override fun getAllMaps(): List<MapData> =
+    override fun getDBAllMaps(): List<MapData> =
             mapBox.all
 
     override fun getDBMaps(vararg name: String): List<MapData> =
@@ -28,16 +29,16 @@ class MapRespository(
                     .inValues(FieldData_.uuid, longArrayOf(*ids))
                     .build().find()
 
-    override fun getAllFields(vararg field: FieldData): Single<List<FieldData>> =
+    override fun getRXAllFields(vararg field: FieldData): Single<List<FieldData>> =
             RxQuery.single(fieldBox.query().apply {
                 if (field.isNotEmpty()) filter { field.contains(it) }
             }.build())
 
-    override fun getFieldByPosition(vararg positionData: PositionData) =
+    override fun getRXFieldByPosition(vararg positionData: PositionData) =
             RxQuery.single(fieldBox.query()
                     .filter { field -> positionData.any { it.isPosition(field.gamePosition) } }.build())
 
-    override fun getFieldByType(type: FieldType): Single<List<FieldData>> =
+    override fun getRXFieldByType(type: FieldType): Single<List<FieldData>> =
             RxQuery.single(fieldBox.query()
                     .equal(FieldData_.fieldType, type.name)
                     .build())

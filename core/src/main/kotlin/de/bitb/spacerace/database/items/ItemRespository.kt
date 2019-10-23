@@ -10,16 +10,16 @@ class ItemRespository(
         private val itemBox: Box<ItemData>
 ) : ItemDataSource {
 
-    override fun insertAll(vararg items: ItemData): Single<List<ItemData>> =
+    override fun insertRXItems(vararg items: ItemData): Single<List<ItemData>> =
             Completable
                     .fromCallable { itemBox.put(*items) }
-                    .andThen(getItems(*items.map { it.id }.toLongArray()))
+                    .andThen(getRXItems(*items.map { it.id }.toLongArray()))
 
-    override fun deleteItems(vararg items: ItemData): Completable =
+    override fun deleteRXItems(vararg items: ItemData): Completable =
             Completable
                     .fromCallable { itemBox.remove(*items) }
 
-    override fun getItems(vararg items: Long): Single<List<ItemData>> =
+    override fun getRXItems(vararg items: Long): Single<List<ItemData>> =
             RxQuery.single(itemBox.query()
                     .inValues(ItemData_.id, items).build())
 

@@ -34,7 +34,7 @@ class RoundEndDetails(
 
     init {
         MainGame.appComponent.inject(this)
-        playerData = playerDataSource.getDBByColor(playerColor).first()
+        playerData = playerDataSource.getDBPlayerByColor(playerColor).first()
         addTitle()
         addImage()
         addText()

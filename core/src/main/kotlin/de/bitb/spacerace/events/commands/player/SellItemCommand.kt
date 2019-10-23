@@ -34,7 +34,7 @@ class SellItemCommand(
         //TODO make usecase
         DONT_USE_THIS_PLAYER_DATA.storageItems.remove(item!!)
         DONT_USE_THIS_PLAYER_DATA.credits += (itemInfo.price * ITEM_SELL_MOD).toInt()
-        playerDataSource.insert(DONT_USE_THIS_PLAYER_DATA)
+        playerDataSource.insertRXPlayer(DONT_USE_THIS_PLAYER_DATA)
     }
 
 }

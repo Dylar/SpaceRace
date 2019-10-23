@@ -44,7 +44,7 @@ class NextPhaseUsecase @Inject constructor(
                     .flatMap { checkEndable(it) }
                     .flatMap { doPhase(it) }
                     .flatMap { result ->
-                        playerDataSource.insertAndReturn(result.player)
+                        playerDataSource.insertAndReturnRXPlayer(result.player)
                                 .map { result.apply { player = it.first() } }
                     }
 
@@ -179,13 +179,13 @@ class NextPhaseUsecase @Inject constructor(
 
                                 saveData.goal.target = newGoal
                                 saveData
-                            }.flatMapCompletable { saveDataSource.insertSaveData(it) }
+                            }.flatMapCompletable { saveDataSource.insertRXSaveData(it) }
                         } else Completable.complete()
                         checkGoalPosition.andThen(Single.just(ObtainGoalResult(playerData, newGoal)))
                     }
 
     private fun obtainTunnel(playerData: PlayerData): Single<out ObtainTunnelResult> =
-            mapDataSource.getFieldByType(FieldType.TUNNEL)
+            mapDataSource.getRXFieldByType(FieldType.TUNNEL)
                     .map { fields ->
                         val playerPosition = playerData.gamePosition
                         var tunnelPosition = fields.random()

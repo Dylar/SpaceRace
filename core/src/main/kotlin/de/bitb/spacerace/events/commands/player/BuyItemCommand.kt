@@ -33,7 +33,7 @@ class BuyItemCommand(
         val itemData = ItemData(itemInfo = itemInfo)
         DONT_USE_THIS_PLAYER_DATA.storageItems.add(itemData)
         DONT_USE_THIS_PLAYER_DATA.credits -= itemInfo.price
-        playerDataSource.insert(DONT_USE_THIS_PLAYER_DATA)
+        playerDataSource.insertRXPlayer(DONT_USE_THIS_PLAYER_DATA)
     }
 
 }

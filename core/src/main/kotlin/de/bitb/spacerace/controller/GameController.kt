@@ -22,11 +22,6 @@ class GameController
 ) {
     private val compositeDisposable = CompositeDisposable()
 
-    fun clear() {
-        compositeDisposable.clear()
-        playerController.clear()
-        graphicController.clearGraphics()
-    }
     fun initGameObserver() {
         initWinnerObserver()
         initPhaseObserver()
@@ -48,4 +43,9 @@ class GameController
         }
     }
 
+    fun clear() {
+        compositeDisposable.clear()
+        playerController.clear()
+        graphicController.clearGraphics()
+    }
 }

@@ -6,18 +6,14 @@ import io.reactivex.Single
 
 interface MapDataSource {
 
-    fun getAllMaps(): List<MapData>
-
+    fun insertDBMaps(vararg maps: MapData)
+    fun getDBAllMaps(): List<MapData>
     fun getDBMaps(vararg name: String): List<MapData>
 
-    fun getAllFields(vararg field: FieldData): Single<List<FieldData>>
-
     fun getDBFields(vararg ids: Long): List<FieldData>
+    fun getRXAllFields(vararg field: FieldData): Single<List<FieldData>>
+    fun getRXFieldByPosition(vararg positionData: PositionData): Single<List<FieldData>>
+    fun getRXFieldByType(type: FieldType): Single<List<FieldData>>
 
-    fun getFieldByPosition(vararg positionData: PositionData): Single<List<FieldData>>
-
-    fun getFieldByType(type: FieldType): Single<List<FieldData>>
-
-    fun insertMaps(vararg maps: MapData)
 
 }

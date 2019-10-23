@@ -24,7 +24,7 @@ fun TestEnvironment.setPlayerItems(createItems: () -> List<ItemInfo>) =
 private fun TestEnvironment.initMap(
         mapToLoad: MapData = createTestMap()
 ) {
-    mapDataSource.insertMaps(mapToLoad)
+    mapDataSource.insertDBMaps(mapToLoad)
 
     leftBottomField = mapToLoad.fields[0].gamePosition
     leftTopField = mapToLoad.fields[1].gamePosition

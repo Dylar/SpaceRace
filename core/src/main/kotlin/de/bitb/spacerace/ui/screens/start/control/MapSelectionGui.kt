@@ -38,7 +38,7 @@ class MapSelectionGui(
         buttonGroup.setMinCheckCount(1)
         buttonGroup.setUncheckLast(true)
 
-        for (value in mapDataSource.getAllMaps()) {
+        for (value in mapDataSource.getDBAllMaps()) {
             val checkBox = addCheckbox(value.name)
             buttonGroup.add(checkBox)
             if (value.name == SELECTED_MAP) {

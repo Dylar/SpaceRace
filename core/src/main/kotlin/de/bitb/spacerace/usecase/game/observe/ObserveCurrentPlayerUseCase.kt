@@ -14,7 +14,7 @@ class ObserveCurrentPlayerUseCase @Inject constructor(
 
     override fun buildUseCaseObservable(): Observable<PlayerData> {
         return playerColorDispenser.publisher
-                .switchMap { playerDataSource.observeByColor(it) }
+                .switchMap { playerDataSource.observePlayerByColor(it) }
                 .map { it.first() }
     }
 

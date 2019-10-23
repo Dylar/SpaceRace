@@ -6,7 +6,6 @@ import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.VERSION
-import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.savegame.SaveDataSource
@@ -17,7 +16,6 @@ import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
-import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.space.maps.MapCreator
 import de.bitb.spacerace.model.space.maps.initDefaultMap
 import de.bitb.spacerace.ui.screens.GameOverScreen
@@ -75,7 +73,7 @@ open class MainGame(
                 .toMutableList()
 
         maps.add(createTestMap(SELECTED_MAP))
-        mapDataSource.insertMaps(*maps.toTypedArray())
+        mapDataSource.insertDBMaps(*maps.toTypedArray())
     }
 
     override fun initScreen() {

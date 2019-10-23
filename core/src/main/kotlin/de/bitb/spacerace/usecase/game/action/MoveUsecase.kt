@@ -14,7 +14,6 @@ import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.check.CheckPlayerConfig
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
-import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.utils.RXFunctions.zipParallel
 import io.reactivex.Single
 import javax.inject.Inject
@@ -41,7 +40,7 @@ class MoveUsecase @Inject constructor(
             }
 
     private fun getField(positionData: PositionData): Single<FieldData> =
-            mapDataSource.getFieldByPosition(positionData).map { it.first() }
+            mapDataSource.getRXFieldByPosition(positionData).map { it.first() }
 
     private fun checkCurrentPlayer(playerColor: PlayerColor) =
             checkCurrentPlayerUsecase.buildUseCaseCompletable(playerColor)
@@ -75,10 +74,10 @@ class MoveUsecase @Inject constructor(
         playerData.setSteps(targetField.gamePosition)
         playerData.positionField.target = targetField
         val moveInfo = MoveResult(playerData, targetField.gamePosition, playerData.areStepsLeft(), playerData.previousStep)
-        return playerDataSource.insert(playerData)
+        return playerDataSource.insertRXPlayer(playerData)
                 .andThen(getTargetableFieldUsecase.buildUseCaseSingle(playerData))
                 .flatMap { fields ->
-                    playerDataSource.getById(playerData.uuid)
+                    playerDataSource.getRXPlayerById(playerData.uuid)
                             .map { it.first() }
                             .map { player ->
                                 moveInfo.also {

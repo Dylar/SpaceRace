@@ -5,10 +5,10 @@ import io.reactivex.Single
 
 interface ItemDataSource {
 
-    fun insertAll(vararg items: ItemData): Single<List<ItemData>>
+    fun insertRXItems(vararg items: ItemData): Single<List<ItemData>>
 
-    fun deleteItems(vararg items: ItemData): Completable
+    fun deleteRXItems(vararg items: ItemData): Completable
 
-    fun getItems(vararg items: Long): Single<List<ItemData>>
+    fun getRXItems(vararg items: Long): Single<List<ItemData>>
 
 }

@@ -33,7 +33,7 @@ class DiceUsecase @Inject constructor(
 
                 playerData.diceResults.add(result)
 
-                playerDataSource.insert(playerData)
+                playerDataSource.insertRXPlayer(playerData)
             } else Completable.complete()
 
     private fun canExecute(playerData: PlayerData): Boolean =

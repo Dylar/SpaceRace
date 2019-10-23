@@ -15,8 +15,9 @@ class StartNewRoundUsecase @Inject constructor(
 
     override fun buildUseCaseSingle(): Single<List<PlayerData>> =
             saveDataSource.getRXLoadedGame()
-                    .flatMap { saveDataSource.insertAndReturnSaveData(it.apply { roundCount++ }) }
-                    .map { it.players }
+                    .map { it.apply { roundCount++ } }
+                    .flatMap { saveDataSource.insertAndReturnRXSaveData(it) }
+                    .map { it.first().players }
                     .flatMap(::resetPlayer)
                     .flatMap(::updatePlayer)
 
@@ -24,6 +25,6 @@ class StartNewRoundUsecase @Inject constructor(
             Single.just(player.onEach { it.phase = Phase.MAIN1 })
 
     private fun updatePlayer(player: List<PlayerData>) =
-            playerDataSource.insertAndReturn(*player.toTypedArray())
+            playerDataSource.insertAndReturnRXPlayer(*player.toTypedArray())
 
 }
