@@ -8,6 +8,7 @@ import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import de.bitb.spacerace.usecase.game.action.NextPhaseResult
 import de.bitb.spacerace.usecase.game.action.items.ActivateItemConfig
+import de.bitb.spacerace.usecase.game.action.items.DisposeItemConfig
 import de.bitb.spacerace.usecase.game.action.items.EquipItemConfig
 import de.bitb.spacerace.usecase.game.action.items.UseItemResult
 
@@ -17,9 +18,7 @@ fun TestEnvironment.nextPhase(
         assertError: (Throwable) -> Boolean = { error?.assertNextPhaseException(it) ?: false },
         assertSuccess: ((NextPhaseResult) -> Boolean) = { true }
 ) = this.apply {
-    nextPhaseUseCase.buildUseCaseSingle(color)
-            .test()
-            .await()
+    nextPhaseUseCase.buildUseCaseSingle(color).test().await()
             .assertObserver(error, assertError, assertSuccess)
 }
 
@@ -28,9 +27,7 @@ fun TestEnvironment.dice(
         setDice: Int = -1,
         error: GameException? = null
 ) = this.apply {
-    diceUsecase.buildUseCaseCompletable(player to setDice)
-            .test()
-            .await()
+    diceUsecase.buildUseCaseCompletable(player to setDice).test().await()
             .apply {
                 if (error == null) assertComplete()
                 else assertError { error.assertDiceException(it) }
@@ -45,9 +42,7 @@ fun TestEnvironment.move(
         assertError: (Throwable) -> Boolean = { error?.assertMoveException(it) ?: false },
         assertSuccess: (MoveResult) -> Boolean = { true }
 ) = this.apply {
-    moveUsecase.buildUseCaseSingle(player to target)
-            .test()
-            .await()
+    moveUsecase.buildUseCaseSingle(player to target).test().await()
             .assertObserver(error, assertError, assertSuccess)
     waitForIt()
 }
@@ -61,9 +56,7 @@ fun TestEnvironment.equipItem(
         assertSuccess: (UseItemResult) -> Boolean = { true }
 ) = this.apply {
     val config = EquipItemConfig(player, itemInfo, equip)
-    equipItemUsecase.buildUseCaseSingle(config)
-            .test()
-            .await()
+    equipItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
     waitForIt()
 }
@@ -76,9 +69,20 @@ fun TestEnvironment.activateItem(
         assertSuccess: (UseItemResult) -> Boolean = { true }
 ) = this.apply {
     val config = ActivateItemConfig(player, itemInfo)
-    activateItemUsecase.buildUseCaseSingle(config)
-            .test()
-            .await()
+    activateItemUsecase.buildUseCaseSingle(config).test().await()
+            .assertObserver(error, assertError, assertSuccess)
+    waitForIt()
+}
+
+fun TestEnvironment.disposeItem(
+        itemInfo: ItemInfo,
+        player: PlayerColor = currentPlayerColor,
+        error: GameException? = null,
+        assertError: (Throwable) -> Boolean = { error?.assertActivateException(it) ?: false },
+        assertSuccess: (UseItemResult) -> Boolean = { true }
+) = this.apply {
+    val config = DisposeItemConfig(player, itemInfo)
+    disposeItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
     waitForIt()
 }

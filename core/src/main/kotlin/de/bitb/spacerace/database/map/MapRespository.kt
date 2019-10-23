@@ -11,18 +11,20 @@ class MapRespository(
         private val fieldBox: Box<FieldData>,
         private val mapBox: Box<MapData>
 ) : MapDataSource {
-
     override fun insertDBMaps(vararg maps: MapData) {
         mapBox.put(*maps)
     }
 
-    override fun getDBAllMaps(): List<MapData> =
-            mapBox.all
+    override fun getDBAllMaps(): List<MapData> = mapBox.all
 
     override fun getDBMaps(vararg name: String): List<MapData> =
             mapBox.query()
                     .inValues(MapData_.name, arrayOf(*name))
                     .build().find()
+
+    override fun insertDBField(vararg maps: FieldData) {
+        fieldBox.put(*maps)
+    }
 
     override fun getDBFields(vararg ids: Long): List<FieldData> =
             fieldBox.query()

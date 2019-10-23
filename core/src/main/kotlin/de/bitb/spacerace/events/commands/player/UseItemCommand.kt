@@ -63,12 +63,22 @@ class UseItemCommand(
         compositDisposable += disposeItemUsecase.getResult(
                 params = config,
                 onSuccess = {
-                    val fieldGraphic = graphicController.getFieldGraphic(it.playerData.positionField.target.gamePosition)
-                    fieldGraphic.disposeItem(it.itemData.itemInfo.createGraphic() as DisposableItemGraphic)
+                    updateFieldItems(it)
                     reset()
                 },
                 onError = resetOnError()
         )
+    }
+
+    private fun updateFieldItems(result: UseItemResult) {
+        val fieldGraphic = graphicController.getFieldGraphic(result.playerData.positionField.target.gamePosition)
+        val itemGraphic = result.itemData.itemInfo.createGraphic()
+        fieldGraphic.disposeItem(itemGraphic as DisposableItemGraphic)
+        itemGraphic.itemImage.setRotating(itemGraphic, fieldGraphic.fieldImage, fieldGraphic.fieldImage.width * 0.7)
+
+//       TODO ON PLAYER
+//        val playerImage = graphicController.getPlayerGraphic(result.playerData.playerColor).playerImage
+//        itemGraphic.itemImage.setRotating(itemGraphic, playerImage, playerImage.width * 0.7)
     }
 
 }

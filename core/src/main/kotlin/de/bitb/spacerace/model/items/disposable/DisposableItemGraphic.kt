@@ -24,6 +24,7 @@ abstract class DisposableItemGraphic(
     }
 
     override fun use(playerData: PlayerData): Boolean {
+        //TODO delete me
         val playerColor = playerData.playerColor
         return when (state) {
             ItemState.STORAGE -> {

@@ -260,4 +260,41 @@ class ObjBoxRelationTest : GameTest() {
         assertTrue(dbPlayer.equippedItems.none { it.id == dbItem.id })
 
     }
+
+    @Test
+    fun addItemToField_onlySavePlayer_itemsNotOnField() {
+        var itemData = ItemData(itemInfo = ItemInfo.EXTRA_FUEL())
+        var field = FieldData()
+        var playerData = PlayerData().apply { positionField.target = field }
+        itemBox.put(itemData)
+        playerBox.put(playerData)
+
+        itemData = itemBox.get(itemData.id)
+        playerData = playerBox.get(playerData.uuid)
+
+        //add item to field
+        field = playerData.positionField.target
+        field.disposedItems.add(itemData)
+
+        //save player
+        playerBox.put(playerData)
+        playerData = playerBox.get(playerData.uuid)
+
+        //field still empty
+        field = playerData.positionField.target
+        assertTrue(field.disposedItems.isEmpty())
+
+        //add item to field
+        field = playerData.positionField.target
+        field.disposedItems.add(itemData)
+
+        //save field
+        fieldBox.put(field)
+
+        //field not empty
+        playerData = playerBox.get(playerData.uuid)
+        field = playerData.positionField.target
+        assertTrue(field.disposedItems.isNotEmpty())
+
+    }
 }

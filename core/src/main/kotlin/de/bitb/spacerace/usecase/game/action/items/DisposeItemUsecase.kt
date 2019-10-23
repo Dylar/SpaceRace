@@ -1,6 +1,7 @@
 package de.bitb.spacerace.usecase.game.action.items
 
 import de.bitb.spacerace.database.items.ItemData
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.player.PlayerColor
@@ -9,7 +10,8 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class DisposeItemUsecase @Inject constructor(
-        private val useItemUsecase: UseItemUsecase
+        private val useItemUsecase: UseItemUsecase,
+        private val mapDataSource: MapDataSource
 ) : ResultUseCase<UseItemResult, DisposeItemConfig> {
 
     override fun buildUseCaseSingle(params: DisposeItemConfig): Single<UseItemResult> =
@@ -27,7 +29,9 @@ class DisposeItemUsecase @Inject constructor(
     private fun useItem(playerData: PlayerData, itemData: ItemData): Pair<PlayerData, ItemData> =
             playerData.apply {
                 storageItems.remove(itemData)
-                activeItems.add(itemData)
+                val field = playerData.positionField.target
+                field.disposedItems.add(itemData)
+                mapDataSource.insertDBField(field)
             } to itemData
 
 }
