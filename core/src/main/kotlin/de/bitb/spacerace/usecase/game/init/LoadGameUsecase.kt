@@ -108,9 +108,7 @@ class LoadGameUsecase
             saveDataSource.getRXAllGames()
                     .map { it.onEach { save -> save.loaded = false } }
                     .flatMapCompletable { saveDataSource.insertRXSaveData(*it.toTypedArray()) }
-                    .andThen(Single.fromCallable {
-                        saveData.also { it.loaded = true }
-                    })
+                    .andThen(Single.fromCallable { saveData.also { it.loaded = true } })
                     .flatMap { saveDataSource.insertAndReturnRXSaveData(it).map { it.first() } }
 
     private fun initPlayer(saveData: SaveData) {

@@ -83,6 +83,10 @@ class TestEnvironment {
     lateinit var centerTopField: PositionData
     lateinit var centerBottomField: PositionData
     lateinit var leftSideField: PositionData
+    lateinit var sideStepField: PositionData
+    lateinit var circleStep1Field: PositionData
+    lateinit var circleStep2Field: PositionData
+    lateinit var bridgeField: PositionData
 
     //
 //    ██████╗ ███████╗████████╗████████╗███████╗██████╗

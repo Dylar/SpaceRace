@@ -85,12 +85,6 @@ data class PlayerData(
         return steps.size > 1 && previousStep.isPosition(gamePosition)
     }
 
-    fun nextRound() {
-        steps.clear()
-        diceResults.clear()
-        phase = Phase.END_ROUND
-    }
-
     fun addRandomWin(): Int {
         val win = (Math.random() * CREDITS_WIN_AMOUNT).toInt() + 1
         credits += win

@@ -24,7 +24,7 @@ const val UNLIMITED_CHARGES = -1
 sealed class ItemInfo(
         val name: String,
         val price: Int = 0,
-        val charges: Int = UNLIMITED_CHARGES,
+        var charges: Int = UNLIMITED_CHARGES,
         val usablePhase: Set<Phase> = setOf(Phase.MAIN1, Phase.MAIN2)
 ) {
     companion object {
@@ -48,22 +48,22 @@ sealed class ItemInfo(
     @JsonClass(generateAdapter = true)
     class EXTRA_FUEL(
             override val diceAddition: Int = 1
-    ) : ItemInfo(EXTRA_FUEL::class.simpleName!!, 2000), ActivatableItem, DiceAddition
+    ) : ItemInfo(EXTRA_FUEL::class.simpleName!!, 2000, 1), ActivatableItem, DiceAddition
 
     @JsonClass(generateAdapter = true)
     class SPECIAL_FUEL(
             override val diceModifier: Double = 0.3
-    ) : ItemInfo(SPECIAL_FUEL::class.simpleName!!, 1000), ActivatableItem, DiceModification
+    ) : ItemInfo(SPECIAL_FUEL::class.simpleName!!, 1000, 1), ActivatableItem, DiceModification
 
     @JsonClass(generateAdapter = true)
     class SPEED_BOOST(
             override val diceAmount: Int = 1
-    ) : ItemInfo(SPEED_BOOST::class.simpleName!!, 3000), ActivatableItem, MultiDice
+    ) : ItemInfo(SPEED_BOOST::class.simpleName!!, 3000, 1), ActivatableItem, MultiDice
 
     @JsonClass(generateAdapter = true)
     class CLEAN_DROID(
 
-    ) : ItemInfo(CLEAN_DROID::class.simpleName!!, 2000), ActivatableItem, RemoveEffect
+    ) : ItemInfo(CLEAN_DROID::class.simpleName!!, 2000, 1), ActivatableItem, RemoveEffect
 
     //DISPOSABLE
     @JsonClass(generateAdapter = true)
