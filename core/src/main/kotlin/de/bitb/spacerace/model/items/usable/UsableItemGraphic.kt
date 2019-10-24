@@ -21,17 +21,7 @@ abstract class UsableItemGraphic(
     }
 
     override fun use(playerData: PlayerData): Boolean {
-        return when (state) {
-            ItemState.STORAGE -> {
-                graphicController.getPlayerItems(playerData.playerColor).useItem(this)
-                true
-            }
-            ItemState.USED -> {
-                graphicController.getPlayerItems(playerData.playerColor).removeUsedItem(this)
-                true
-            }
-            else -> true
-        }
+        return true //TODO delete me
     }
 
 }

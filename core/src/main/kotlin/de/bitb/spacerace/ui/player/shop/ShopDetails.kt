@@ -134,7 +134,11 @@ class ShopDetails(
             when (event) {
                 is BuyItemCommand,
                 is SellItemCommand
-                -> setCreditsTitle(graphicController.getPlayerItems(event.DONT_USE_THIS_PLAYER_DATA.playerColor).getItems(itemGraphic.itemInfo).size)
+                -> {
+                    val itemCount = event.DONT_USE_THIS_PLAYER_DATA.storageItems
+                            .filter { it.itemInfo.name == itemGraphic.itemInfo.name }.size
+                    setCreditsTitle(itemCount)
+                }
             }
         }
 

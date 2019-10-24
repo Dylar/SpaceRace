@@ -8,7 +8,6 @@ val NONE_PLAYER = PlayerGraphics(PlayerColor.NONE)
 
 class PlayerGraphics(
         var playerColor: PlayerColor,
-        val playerItems: PlayerItems = PlayerItems(playerColor),
         var playerImage: PlayerImage = PlayerImage()
 ) : GameObject(PositionData()) {
 

@@ -14,8 +14,8 @@ abstract class CleanItemGraphic(playerColor: PlayerColor,
     val cleanable = ArrayList<ItemInfo>()
 
     override fun use(playerData: PlayerData): Boolean {
-        if (state.isStorage()) {
-            graphicController.getPlayerItems(playerData.playerColor).detachItems(cleanable)
+        if (state.isStorage()) {//TODO delete this
+//            graphicController.getPlayerItems(playerData.playerColor).detachItems(cleanable)
         }
         return super.use(playerData)
     }

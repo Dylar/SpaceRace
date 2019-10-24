@@ -5,10 +5,12 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.items.ActivatableItem
 import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.EquipItem
+import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.items.disposable.DisposableItemGraphic
+import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.usecase.game.action.items.*
 import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
@@ -73,10 +75,11 @@ class UseItemCommand(
     private fun updateFieldItems(result: UseItemResult) {
         val fieldGraphic = graphicController.getFieldGraphic(result.playerData.positionField.target.gamePosition)
         val itemGraphic = result.itemData.itemInfo.createGraphic()
-        fieldGraphic.disposeItem(itemGraphic as DisposableItemGraphic)
         itemGraphic.itemImage.setRotating(itemGraphic, fieldGraphic.fieldImage, fieldGraphic.fieldImage.width * 0.7)
+        fieldGraphic.addItem(itemGraphic as DisposableItemGraphic)
 
 //       TODO ON PLAYER
+
 //        val playerImage = graphicController.getPlayerGraphic(result.playerData.playerColor).playerImage
 //        itemGraphic.itemImage.setRotating(itemGraphic, playerImage, playerImage.width * 0.7)
     }

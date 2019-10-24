@@ -25,27 +25,28 @@ abstract class DisposableItemGraphic(
 
     override fun use(playerData: PlayerData): Boolean {
         //TODO delete me
-        val playerColor = playerData.playerColor
-        return when (state) {
-            ItemState.STORAGE -> {
-                val field = graphicController.getPlayerFieldGraphic( playerColor)
-                val fieldImage = field.getGameImage()
-                this.itemImage.setRotating(this, fieldImage, fieldImage.width * 0.7)
-                field.disposeItem(this)
-                graphicController.getPlayerItems(playerColor).disposeItem(this)
-                true
-            }
-            ItemState.DISPOSED -> {
-                attachedTo = playerColor
-                val playerImage = graphicController.getPlayerGraphic(playerColor).playerImage
-                graphicController.getPlayerItems(playerColor).attachItem(this)
-                graphicController.getPlayerFieldGraphic(playerColor)
-//                fieldController.getField(graphicController.getPlayerPosition(playerColor)).attachItem(this)
-                this.itemImage.setRotating(this, playerImage, playerImage.width * 0.7)
-                true
-            }
-            else -> true
-        }
+//        val playerColor = playerData.playerColor
+//        return when (state) {
+//            ItemState.STORAGE -> {
+//                val field = graphicController.getPlayerFieldGraphic( playerColor)
+//                val fieldImage = field.getGameImage()
+//                this.itemImage.setRotating(this, fieldImage, fieldImage.width * 0.7)
+//                field.disposeItem(this)
+//                graphicController.getPlayerItems(playerColor).disposeItem(this)
+//                true
+//            }
+//            ItemState.DISPOSED -> {
+//                attachedTo = playerColor
+//                val playerImage = graphicController.getPlayerGraphic(playerColor).playerImage
+//                graphicController.getPlayerItems(playerColor).attachItem(this)
+//                graphicController.getPlayerFieldGraphic(playerColor)
+////                fieldController.getField(graphicController.getPlayerPosition(playerColor)).attachItem(this)
+//                this.itemImage.setRotating(this, playerImage, playerImage.width * 0.7)
+//                true
+//            }
+//            else -> true
+//        }
+        return true
     }
 
 }

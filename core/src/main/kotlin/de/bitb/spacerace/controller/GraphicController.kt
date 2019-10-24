@@ -13,7 +13,6 @@ import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerGraphics
-import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.model.space.fields.FieldGraphic
 import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.model.space.groups.ConnectionList
@@ -46,10 +45,6 @@ class GraphicController
 
     fun getPlayerFieldGraphic(playerColor: PlayerColor) =
             getFieldGraphic(getPlayerGraphic(playerColor).gamePosition)
-
-    @Deprecated("")
-    fun getPlayerItems(playerColor: PlayerColor): PlayerItems =
-            getPlayerGraphic(playerColor).playerItems
 
     fun addPlayer(playerColor: PlayerColor, startField: FieldGraphic) {
         val player = PlayerGraphics(playerColor)

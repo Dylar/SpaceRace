@@ -118,8 +118,6 @@ class PlayerStatsGui(
     }
 
     fun update(playerData: PlayerData) {
-        val items = graphicController.getPlayerItems(playerData.playerColor)
-
         updatePlayerAmount(playerData)
         updateCredits(playerData)
         updateRound(playerData.playerColor)

@@ -22,18 +22,8 @@ abstract class EquipItemGraphic(
     }
 
     override fun use(playerData: PlayerData): Boolean {
-        //TODO make usecase
-        return when (state) {
-            ItemState.STORAGE -> {
-                graphicController.getPlayerItems(playerData.playerColor).equipItem(this)
-                return true
-            }
-            ItemState.EQUIPPED -> {
-                graphicController.getPlayerItems(playerData.playerColor).unequipItem(this)
-                return true
-            }
-            else -> false
-        }
+        //TODO delete me
+        return true
     }
 
 }

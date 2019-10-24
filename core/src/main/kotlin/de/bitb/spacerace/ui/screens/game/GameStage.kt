@@ -1,7 +1,6 @@
 package de.bitb.spacerace.ui.screens.game
 
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.scenes.scene2d.Actor
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
@@ -10,6 +9,8 @@ import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.TextureCollection
+import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.disposable.DisposableItemGraphic
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.TextureAnimation
@@ -17,7 +18,6 @@ import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
-import de.bitb.spacerace.model.player.PlayerImage
 import javax.inject.Inject
 
 class GameStage(
@@ -42,6 +42,13 @@ class GameStage(
                 .map { it.getGameImage() }
                 .reversed()
                 .forEach { addActor(it) }
+
+
+        val fieldGraphic = graphicController.getFieldGraphic(graphicController.playerGraphics.first().gamePosition)
+        val itemGraphic = ItemInfo.SLOW_MINE().createGraphic()
+        itemGraphic.itemImage.setRotating(itemGraphic, fieldGraphic.fieldImage, fieldGraphic.fieldImage.width * 0.7)
+//        fieldGraphic.addItem(itemGraphic as DisposableItemGraphic)
+        addActor(itemGraphic.itemImage)
     }
 
     private fun addTestActor() {

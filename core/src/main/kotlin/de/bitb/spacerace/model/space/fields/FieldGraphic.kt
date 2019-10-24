@@ -38,12 +38,12 @@ open class FieldGraphic(
         setBounds(gamePosition.posX, gamePosition.posY, FIELD_BORDER, FIELD_BORDER)
     }
 
-    fun disposeItem(disposableItem: DisposableItemGraphic) {
+    fun addItem(disposableItem: DisposableItemGraphic) {
         disposedItems.add(disposableItem)
         getGameImage().stage.addActor(disposableItem.getGameImage())
     }
 
-    fun attachItem(disposableItem: DisposableItemGraphic) {
+    fun removeItem(disposableItem: DisposableItemGraphic) {
         disposedItems.remove(disposableItem)
         disposableItem.getGameImage().remove()
     }
