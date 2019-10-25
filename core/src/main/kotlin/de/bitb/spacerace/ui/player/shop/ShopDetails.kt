@@ -17,6 +17,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_SELL
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
 import de.bitb.spacerace.model.items.*
@@ -31,9 +32,12 @@ class ShopDetails(
         guiStage: GameGuiStage,
         shopMenu: ShopMenu,
         private val itemType: ItemType,
-        private val playerData: PlayerData,
+        private var playerData: PlayerData,
         private val itemGraphic: ItemGraphic = itemType.createGraphic()
 ) : BaseMenu(guiStage, shopMenu) {
+
+    @Inject
+    lateinit var playerDataSource: PlayerDataSource
 
     @Inject
     protected lateinit var observeCommandUsecase: ObserveCommandUsecase
@@ -53,7 +57,9 @@ class ShopDetails(
         pack()
         setPosition()
     }
-
+    override fun loadData() {
+        playerData = playerDataSource.getDBPlayerByColor(playerData.playerColor).first()
+    }
     private fun addTitle() {
         creditsTitle = add("-")
         val amount = playerData.storageItems.filter { it::class == itemType::class }.size

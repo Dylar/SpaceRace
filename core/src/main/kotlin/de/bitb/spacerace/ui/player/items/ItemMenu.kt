@@ -7,22 +7,29 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.model.items.ItemGraphic
-import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
+import javax.inject.Inject
 
 class ItemMenu(
         guiStage: GameGuiStage,
-        private val playerData: PlayerData
+        private var playerData: PlayerData
 ) : BaseMenu(guiStage) {
+
+    @Inject
+    lateinit var playerDataSource: PlayerDataSource
 
     private lateinit var itemDetailsMenu: ItemDetailsMenu
 
     init {
+        MainGame.appComponent.inject(this)
+
         val items = graphicController.getStorageItemMap(playerData)
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
@@ -34,6 +41,10 @@ class ItemMenu(
         pack()
 
         setPosition()
+    }
+
+    override fun loadData() {
+        playerData = playerDataSource.getDBPlayerByColor(playerData.playerColor).first()
     }
 
     private fun setPosition() {

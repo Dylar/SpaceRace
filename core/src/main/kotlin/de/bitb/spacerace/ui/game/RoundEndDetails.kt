@@ -30,11 +30,12 @@ class RoundEndDetails(
     @Inject
     lateinit var playerDataSource: PlayerDataSource
 
-    val playerData: PlayerData
+    lateinit var playerData: PlayerData
 
     init {
         MainGame.appComponent.inject(this)
-        playerData = playerDataSource.getDBPlayerByColor(playerColor).first()
+        loadData()
+
         addTitle()
         addImage()
         addText()
@@ -42,6 +43,10 @@ class RoundEndDetails(
         pack()
         setPosition()
         endMenu.closeMenu()
+    }
+
+    override fun loadData() {
+        playerData = playerDataSource.getDBPlayerByColor(playerColor).first()
     }
 
     private fun addTitle() {

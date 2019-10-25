@@ -46,8 +46,11 @@ abstract class BaseMenu(
     open fun openMenu() {
         isOpen = true
         previousMenu?.closeMenu()
+        loadData()
         guiStage.addActor(this)
     }
+
+    abstract fun loadData()
 
     open fun closeMenu() {
         isOpen = false
@@ -57,4 +60,5 @@ abstract class BaseMenu(
         closeMenu()
         previousMenu?.openMenu()
     }
+
 }

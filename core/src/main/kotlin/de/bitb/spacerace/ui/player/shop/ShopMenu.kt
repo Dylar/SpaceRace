@@ -30,7 +30,9 @@ class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
         setPosition()
     }
-
+    override fun loadData() {
+//nothing
+    }
     private fun setPosition() {
         x = (SCREEN_WIDTH - (SCREEN_WIDTH / 2) - width / 2)
         y = (SCREEN_HEIGHT - (SCREEN_HEIGHT / 2) - height / 2)

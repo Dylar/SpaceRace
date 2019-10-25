@@ -20,7 +20,7 @@ class PlayerAnimation(
         region = getDefaultImage()
     }
 
-    fun getDefaultImage(): TextureRegion? = landingAnimation.keyFrames.last()
+    fun getDefaultImage(): TextureRegion? = movingAnimation.keyFrames.last()
 
     override fun actAnimation(gameImage: GameImage, delta: Float) {
         val draw = when (gameImage.movingState) {

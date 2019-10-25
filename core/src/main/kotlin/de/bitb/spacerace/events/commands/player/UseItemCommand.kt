@@ -5,19 +5,21 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.items.ActivatableItem
 import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.EquipItem
+import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.CommandPool
 import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.items.createGraphic
+import de.bitb.spacerace.model.items.getDefaultInfo
 import de.bitb.spacerace.usecase.game.action.items.*
 import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
 class UseItemCommand(
-        private var itemType: ItemType,
-        playerData: PlayerData,
-        private var disable: Boolean
+        private var itemType: ItemType = ItemType.NONE_ITEM,
+        playerData: PlayerData = NONE_PLAYER_DATA,
+        private var disable: Boolean = false
 ) : BaseCommand(playerData) {
 
     companion object {
@@ -47,7 +49,7 @@ class UseItemCommand(
     }
 
     override fun execute() {
-        when (itemType) {
+        when (itemType.getDefaultInfo()) {
             is EquipItem -> equipItem()
             is ActivatableItem -> activateItem()
             is DisposableItem -> disposeItem()

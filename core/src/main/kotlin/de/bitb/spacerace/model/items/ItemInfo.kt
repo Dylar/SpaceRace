@@ -116,11 +116,6 @@ enum class ItemType {
     SHIP_RAIDER,
     SHIP_BUMPER;
 
-    fun isEquipItem(): Boolean = when (this) {
-        ENGINE_ION -> true
-        else -> false
-    }
-
 }
 
 fun ItemType.getDefaultInfo(): ItemInfo =
@@ -144,16 +139,16 @@ fun ItemInfo.createGraphic(playerColor: PlayerColor = PlayerColor.NONE): ItemGra
 fun ItemType.createGraphic(playerColor: PlayerColor = PlayerColor.NONE): ItemGraphic {
     return when (this) {
         NONE_ITEM -> throw UnsupportedOperationException("NONE ITEM TYPE!!")
-        FUEL_EXTRA -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
-        FUEL_SPECIAL -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
-        BOOST_SPEED -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
-        DROID_CLEAN -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
-        MINE_SLOW -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
-        MINE_MOVING -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
-        ENGINE_ION -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
-        SHIP_SPEEDER -> ItemGraphic(playerColor, this, this.getAnimation()!!.getDefaultImage()!!.texture)
-        SHIP_RAIDER -> ItemGraphic(playerColor, this, this.getAnimation()!!.getDefaultImage()!!.texture)
-        SHIP_BUMPER -> ItemGraphic(playerColor, this, this.getAnimation()!!.getDefaultImage()!!.texture)
+        FUEL_EXTRA -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving3)
+        FUEL_SPECIAL -> ItemGraphic(playerColor, this, TextureCollection.bumperShipMoving3)
+        BOOST_SPEED -> ItemGraphic(playerColor, this, TextureCollection.raiderShipMoving3)
+        DROID_CLEAN -> ItemGraphic(playerColor, this, TextureCollection.unknownPlanet)
+        MINE_SLOW -> ItemGraphic(playerColor, this, TextureCollection.slowMine)
+        MINE_MOVING -> ItemGraphic(playerColor, this, TextureCollection.slowMine)
+        ENGINE_ION -> ItemGraphic(playerColor, this, TextureCollection.blackhole)
+        SHIP_SPEEDER -> ItemGraphic(playerColor, this, this.getAnimation().getDefaultImage()!!.texture)
+        SHIP_RAIDER -> ItemGraphic(playerColor, this, this.getAnimation().getDefaultImage()!!.texture)
+        SHIP_BUMPER -> ItemGraphic(playerColor, this, this.getAnimation().getDefaultImage()!!.texture)
     }
 }
 
