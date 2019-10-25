@@ -10,6 +10,7 @@ import de.bitb.spacerace.game.VERSION_TEST
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.items.ItemInfo.*
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.player.PlayerColor
 
@@ -38,6 +39,7 @@ var LANGUAGE = Language.ENGLISH
 
 const val BLINKING_INTERVAL = 2f
 const val ITEM_SELL_MOD = 0.7
+val DEFAULT_SHIP = ItemType.SHIP_RAIDER
 
 //GAME UI
 const val MAX_ZOOM = 5.0

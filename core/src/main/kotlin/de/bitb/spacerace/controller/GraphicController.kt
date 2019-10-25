@@ -2,6 +2,7 @@ package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import de.bitb.spacerace.config.DEFAULT_SHIP
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.MoveCommand
@@ -46,7 +47,7 @@ class GraphicController
                     ?: NONE_SPACE_FIELD
 
     fun addPlayer(playerColor: PlayerColor, startField: FieldGraphic) {
-        val playerImage = PlayerImage(playerColor, ItemType.SHIP_SPEEDER)
+        val playerImage = PlayerImage(playerColor, DEFAULT_SHIP)
         val player = PlayerGraphics(playerColor, playerImage)
 
         player.setPosition(startField.gamePosition)

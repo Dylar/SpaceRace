@@ -194,56 +194,46 @@ object TextureCollection {
     }
 
 
-    val bumperAnimation: PlayerAnimation by lazy {
-        val landingFrame1 = TextureRegion(bumperShipMoving1)
-        val landingFrame2 = TextureRegion(bumperShipLanding1)
-        val landingFrame3 = TextureRegion(bumperShipLanding2)
-        val animationFrame1 = TextureRegion(bumperShipMoving1)
-        val animationFrame2 = TextureRegion(bumperShipMoving2)
-        val animationFrame3 = TextureRegion(bumperShipMoving3)
-        val animationFrame4 = TextureRegion(bumperShipMoving2)
-        val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
-        val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2, landingFrame3)
-        PlayerAnimation(movingAnimation, landingAnimation)
-    }
+    val bumperAnimation: PlayerAnimation
+        get() {
+            val landingFrame1 = TextureRegion(bumperShipMoving1)
+            val landingFrame2 = TextureRegion(bumperShipLanding1)
+            val landingFrame3 = TextureRegion(bumperShipLanding2)
+            val animationFrame1 = TextureRegion(bumperShipMoving1)
+            val animationFrame2 = TextureRegion(bumperShipMoving2)
+            val animationFrame3 = TextureRegion(bumperShipMoving3)
+            val animationFrame4 = TextureRegion(bumperShipMoving2)
+            val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
+            val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2, landingFrame3)
+            return PlayerAnimation(movingAnimation, landingAnimation)
+        }
 
-    val raiderAnimation: PlayerAnimation by lazy {
-        val landingFrame1 = TextureRegion(raiderShipMoving1)
-        val landingFrame2 = TextureRegion(raiderShipLanding1)
-        val landingFrame3 = TextureRegion(raiderShipLanding2)
-        val animationFrame1 = TextureRegion(raiderShipMoving1)
-        val animationFrame2 = TextureRegion(raiderShipMoving2)
-        val animationFrame3 = TextureRegion(raiderShipMoving3)
-        val animationFrame4 = TextureRegion(raiderShipMoving2)
-        val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
-        val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2, landingFrame3)
-        PlayerAnimation(movingAnimation, landingAnimation)
-    }
+    val raiderAnimation: PlayerAnimation
+        get() {
+            val landingFrame1 = TextureRegion(raiderShipMoving1)
+            val landingFrame2 = TextureRegion(raiderShipLanding1)
+            val landingFrame3 = TextureRegion(raiderShipLanding2)
+            val animationFrame1 = TextureRegion(raiderShipMoving1)
+            val animationFrame2 = TextureRegion(raiderShipMoving2)
+            val animationFrame3 = TextureRegion(raiderShipMoving3)
+            val animationFrame4 = TextureRegion(raiderShipMoving2)
+            val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
+            val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2, landingFrame3)
+            return PlayerAnimation(movingAnimation, landingAnimation)
+        }
 
+    val speederAnimation: PlayerAnimation
+        get() {
+            val landingFrame1 = TextureRegion(speederShipMoving1)
+            val landingFrame2 = TextureRegion(speederShipLanding1)
+            val landingFrame3 = TextureRegion(speederShipLanding2)
+            val animationFrame1 = TextureRegion(speederShipMoving1)
+            val animationFrame2 = TextureRegion(speederShipMoving2)
+            val animationFrame3 = TextureRegion(speederShipMoving3)
+            val animationFrame4 = TextureRegion(speederShipMoving2)
+            val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
+            val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2, landingFrame3)
+            return PlayerAnimation(movingAnimation, landingAnimation)
+        }
 
-    val speederAnimation: PlayerAnimation by lazy {
-        val landingFrame1 = TextureRegion(speederShipMoving1)
-        val landingFrame2 = TextureRegion(speederShipLanding1)
-        val landingFrame3 = TextureRegion(speederShipLanding2)
-        val animationFrame1 = TextureRegion(raiderShipMoving1)
-        val animationFrame2 = TextureRegion(bumperShipMoving2)
-        val animationFrame3 = TextureRegion(speederShipMoving3)
-        val animationFrame4 = TextureRegion(bumperShipMoving2)
-        val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
-        val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2, landingFrame3)
-        PlayerAnimation(movingAnimation, landingAnimation)
-    }
-
-//    val speederAnimation: PlayerAnimation by lazy {
-//        val landingFrame1 = TextureRegion(speederShipMoving1)
-//        val landingFrame2 = TextureRegion(speederShipLanding1)
-//        val landingFrame3 = TextureRegion(speederShipLanding2)
-//        val animationFrame1 = TextureRegion(speederShipMoving1)
-//        val animationFrame2 = TextureRegion(speederShipMoving2)
-//        val animationFrame3 = TextureRegion(speederShipMoving3)
-//        val animationFrame4 = TextureRegion(speederShipMoving2)
-//        val movingAnimation = Animation(0.1f, animationFrame1, animationFrame2, animationFrame3, animationFrame4)
-//        val landingAnimation = Animation(0.3f, landingFrame1, landingFrame2, landingFrame3)
-//        PlayerAnimation(movingAnimation, landingAnimation)
-//    }
 }

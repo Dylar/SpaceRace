@@ -7,8 +7,10 @@ import de.bitb.spacerace.model.space.maps.newField
 import de.bitb.spacerace.model.space.maps.newMap
 
 const val TEST_MAP_NAME = "UNIT TEST MAP"
-const val TEST_POSX = 350f
-const val TEST_POSY = 350f
+const val TEST_POSX = 500f
+const val TEST_POSY = 500f
+//const val TEST_POSX = 350f
+//const val TEST_POSY = 350f
 
 fun createTestMap(
         name: String = TEST_MAP_NAME,

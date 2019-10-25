@@ -17,7 +17,7 @@ import de.bitb.spacerace.utils.Logger
 
 
 class PlayerImage(
-        playerColor: PlayerColor,
+        val playerColor: PlayerColor,
         val itemType: ItemType
 ) : GameImage(),
         IMovingImage by MovingImage(),

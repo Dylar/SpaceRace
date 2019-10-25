@@ -35,7 +35,7 @@ object Logger {
         }
     }
 
-    fun print(message: String) {
+    fun simplePrint(message: String) {
         val log = createLog(message)
         val tag = LOG_BORDER_TOP +
                 "\n${log.timeStamp}" +
@@ -44,6 +44,16 @@ object Logger {
                 "\n${log.callerClass}" +
                 "\n$LOG_BORDER_BOT"
         printMessage(tag, msg)
+    }
+
+    fun justPrint(msg: String) {
+        printMessage("JUST PRINT", msg)
+    }
+
+    private fun printMessage(tag: String, message: String) {
+        Gdx.app?.let {
+            Gdx.app.log(tag, message)
+        } ?: kotlin.io.println("$tag $message")
     }
 
     private fun <TYPE : Any> createLog(vararg params: TYPE): LogData {
@@ -82,12 +92,6 @@ object Logger {
                 .let { "STACK:$it" }
 
         return LogData(threadString, paramsString, callerClass, callerStack)
-    }
-
-    private fun printMessage(tag: String, message: String) {
-        Gdx.app?.let {
-            Gdx.app.log(tag, message)
-        } ?: kotlin.io.println("$tag $message")
     }
 }
 

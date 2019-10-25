@@ -158,10 +158,9 @@ fun ItemType.createGraphic(playerColor: PlayerColor = PlayerColor.NONE): ItemGra
 }
 
 fun ItemType.getAnimation() = when (this) {
-    SHIP_SPEEDER -> TextureCollection.speederAnimation
     SHIP_RAIDER -> TextureCollection.raiderAnimation
     SHIP_BUMPER -> TextureCollection.bumperAnimation
-    else -> null
+    else -> TextureCollection.speederAnimation
 }
 
 fun ItemType.getText(): String {
