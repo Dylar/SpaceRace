@@ -6,7 +6,6 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORD
 import de.bitb.spacerace.config.enums.GameSpeed
 import de.bitb.spacerace.config.enums.GameType
 import de.bitb.spacerace.config.enums.Language
-import de.bitb.spacerace.env.TEST_MAP_NAME
 import de.bitb.spacerace.game.VERSION_TEST
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.items.ItemInfo
@@ -53,12 +52,12 @@ val COLOR_DISCONNECTED = Color(Color.RED).apply { a = 0.7f }
 //DEBUG
 //var PRESELECTED_PLAYER = arrayListOf()
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL, FieldType.GIFT)
-var DEBUG_GIFT_ITEMS: List<ItemInfo> =  listOf(SLOW_MINE())
-var DEBUG_PLAYER_ITEMS: List<ItemInfo> =  listOf(SLOW_MINE())
+var DEBUG_GIFT_ITEMS: List<ItemInfo> =  listOf(MineSlowInfo())
+var DEBUG_PLAYER_ITEMS: List<ItemInfo> =  listOf(MineSlowInfo())
 
 var DEBUG_WIN_FIELD = true
 const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false
-var CAMERA_TARGET: GameImage? = null
+var DEBUG_CAMERA_TARGET: GameImage? = null
 
 const val BITRISE_BORG = false

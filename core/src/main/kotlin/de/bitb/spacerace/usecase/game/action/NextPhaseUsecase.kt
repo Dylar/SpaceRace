@@ -11,8 +11,7 @@ import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.savegame.SaveDataSource
-import de.bitb.spacerace.exceptions.DiceFirstException
-import de.bitb.spacerace.exceptions.StepsLeftException
+import de.bitb.spacerace.exceptions.*
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.ItemInfo
@@ -29,7 +28,6 @@ import io.reactivex.SingleEmitter
 import javax.inject.Inject
 
 class NextPhaseUsecase @Inject constructor(
-        private val graphicController: GraphicController,
         private val checkCurrentPlayerUsecase: CheckCurrentPlayerUsecase,
         private val checkPlayerPhaseUsecase: CheckPlayerPhaseUsecase,
         private val getTargetableFieldUsecase: GetTargetableFieldUsecase,
@@ -54,7 +52,7 @@ class NextPhaseUsecase @Inject constructor(
                 Phase.MOVE -> canEndMove(playerData)
                 Phase.MAIN2 -> canEndMain2(playerData)
                 Phase.END_TURN -> canEndTurn(playerData)
-                Phase.END_ROUND -> Single.just(playerData)
+                Phase.END_ROUND -> throw RoundIsEndingException()
             }
 
     private fun checkPhase(playerColor: PlayerColor, phase: Phase) =
@@ -224,7 +222,7 @@ class NextPhaseUsecase @Inject constructor(
 
     private fun obtainAmbush(playerData: PlayerData): Single<ObtainFieldResult> =
             Single.fromCallable {
-                playerData.attachedItems.add(ItemData(itemInfo = ItemInfo.SLOW_MINE()))
+                playerData.attachedItems.add(ItemData(itemInfo = ItemInfo.MineSlowInfo()))
                 ObtainFieldResult(playerData)
             }
 

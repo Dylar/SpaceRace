@@ -10,6 +10,7 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TIT
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.ItemGraphic
 import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -46,7 +47,7 @@ class ItemMenu(
         cell.colspan(size)
     }
 
-    private fun addItems(items: Map<ItemInfo, ItemGraphic>) {
+    private fun addItems(items: Map<ItemType, ItemGraphic>) {
         row()
         for (typeList in items) {
             val itemType = typeList.key

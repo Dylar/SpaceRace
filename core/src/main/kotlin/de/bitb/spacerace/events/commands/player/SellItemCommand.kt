@@ -6,11 +6,12 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.getDefaultInfo
 import javax.inject.Inject
 
 class SellItemCommand(
-        private val itemInfo: ItemInfo,
+        private val itemInfo: ItemType,
         seller: PlayerData
 ) : BaseCommand(seller) {
 
@@ -33,8 +34,8 @@ class SellItemCommand(
     override fun execute() {
         //TODO make usecase
         DONT_USE_THIS_PLAYER_DATA.storageItems.remove(item!!)
-        DONT_USE_THIS_PLAYER_DATA.credits += (itemInfo.price * ITEM_SELL_MOD).toInt()
-        playerDataSource.insertRXPlayer(DONT_USE_THIS_PLAYER_DATA)
+        DONT_USE_THIS_PLAYER_DATA.credits += (itemInfo.getDefaultInfo().price * ITEM_SELL_MOD).toInt()
+        playerDataSource.insertRXPlayer(DONT_USE_THIS_PLAYER_DATA).subscribe()
     }
 
 }

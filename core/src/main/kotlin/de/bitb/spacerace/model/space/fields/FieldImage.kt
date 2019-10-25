@@ -14,13 +14,14 @@ import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 
 class FieldImage(
         var fieldType: FieldType
-) : GameImage(fieldType.getAnimation()),
+) : GameImage(),
         IBlinkingImage by BlinkingImage(),
         IRotatingImage by RotatingImage() {
 
     override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
 
     init {
+        animation = fieldType.getAnimation()
         setOrigin(FIELD_BORDER / 2, FIELD_BORDER / 2)
 
         if (FIELD_ROTATION) {

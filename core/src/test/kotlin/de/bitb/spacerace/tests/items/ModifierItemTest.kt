@@ -8,7 +8,7 @@ class ModifierItemTest : ItemsTest() {
 
     @Test
     fun equipItem_addMods_ION_ENGINE() {
-        val item = ItemInfo.ION_ENGINE()
+        val item = ItemInfo.EngineIonInfo()
         equipThatItem(item, true).assertPlayerModi(assertMod = item.diceModifier)
     }
 

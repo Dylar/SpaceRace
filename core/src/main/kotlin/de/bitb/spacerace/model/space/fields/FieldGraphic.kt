@@ -2,7 +2,7 @@ package de.bitb.spacerace.model.space.fields
 
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.items.disposable.DisposableItemGraphic
+import de.bitb.spacerace.model.items.ItemGraphic
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -28,7 +28,7 @@ open class FieldGraphic(
         }
     }
 
-    val disposedItems: MutableList<DisposableItemGraphic> = ArrayList()
+    val disposedItems: MutableList<ItemGraphic> = ArrayList()
 
     override fun getGameImage(): GameImage {
         return fieldImage
@@ -38,12 +38,12 @@ open class FieldGraphic(
         setBounds(gamePosition.posX, gamePosition.posY, FIELD_BORDER, FIELD_BORDER)
     }
 
-    fun addItem(disposableItem: DisposableItemGraphic) {
+    fun addItem(disposableItem: ItemGraphic) {
         disposedItems.add(disposableItem)
         getGameImage().stage.addActor(disposableItem.getGameImage())
     }
 
-    fun removeItem(disposableItem: DisposableItemGraphic) {
+    fun removeItem(disposableItem: ItemGraphic) {
         disposedItems.remove(disposableItem)
         disposableItem.getGameImage().remove()
     }

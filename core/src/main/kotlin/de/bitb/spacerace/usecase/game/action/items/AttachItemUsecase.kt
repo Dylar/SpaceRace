@@ -9,12 +9,12 @@ import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-class DisposeItemUsecase @Inject constructor(
+class AttachItemUsecase @Inject constructor(
         private val useItemUsecase: UseItemUsecase,
         private val mapDataSource: MapDataSource
-) : ResultUseCase<UseItemResult, DisposeItemConfig> {
+) : ResultUseCase<UseItemResult, UseItemConfig> {
 
-    override fun buildUseCaseSingle(params: DisposeItemConfig): Single<UseItemResult> =
+    override fun buildUseCaseSingle(params: UseItemConfig): Single<UseItemResult> =
             useItemUsecase.buildUseCaseSingle(UseItemConfig(
                     playerColor = params.playerColor,
                     itemType = params.itemType,
@@ -23,7 +23,7 @@ class DisposeItemUsecase @Inject constructor(
                     useItem = { playerData, itemData -> useItem(playerData, itemData) }
             ))
 
-    private fun getItem(params: DisposeItemConfig, playerData: PlayerData): ItemData? =
+    private fun getItem(params: UseItemConfig, playerData: PlayerData): ItemData? =
             playerData.storageItems.firstOrNull { it.itemInfo.type == params.itemType }
 
     private fun useItem(playerData: PlayerData, itemData: ItemData): Pair<PlayerData, ItemData> =
@@ -36,7 +36,7 @@ class DisposeItemUsecase @Inject constructor(
 
 }
 
-data class DisposeItemConfig(
+data class AttachItemConfig(
         val playerColor: PlayerColor,
-        val itemType: ItemType
+        val itemInfo: ItemType
 )

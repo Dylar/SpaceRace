@@ -6,7 +6,7 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.exceptions.ItemNotFoundException
 import de.bitb.spacerace.exceptions.ItemNotUsableException
-import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
@@ -32,7 +32,7 @@ class UseItemUsecase @Inject constructor(
 
     private fun getItem(params: UseItemConfig, playerData: PlayerData) =
             playerData to (params.getItem(playerData)
-                    ?: throw ItemNotFoundException(params.itemInfo))
+                    ?: throw ItemNotFoundException(params.itemType))
 
     private fun checkPhase(playerData: PlayerData, itemData: ItemData) =
             checkPlayerPhaseUsecase.buildUseCaseSingle(CheckPlayerConfig(
@@ -46,7 +46,7 @@ class UseItemUsecase @Inject constructor(
             itemData: ItemData
     ) =
             if (params.checkItemUsable(playerData, itemData)) playerData to itemData
-            else throw ItemNotUsableException(params.itemInfo)
+            else throw ItemNotUsableException(itemData.itemInfo)
 
     private fun useItem(params: UseItemConfig, playerData: PlayerData, itemData: ItemData) =
             params.useItem(playerData, itemData)
@@ -68,7 +68,7 @@ class UseItemUsecase @Inject constructor(
 
 data class UseItemConfig(
         val playerColor: PlayerColor,
-        val itemInfo: ItemInfo,
+        val itemType: ItemType,
         val getItem: (PlayerData) -> ItemData?,
         val checkItemUsable: (PlayerData, ItemData) -> Boolean,
         val useItem: (PlayerData, ItemData) -> Pair<PlayerData, ItemData>

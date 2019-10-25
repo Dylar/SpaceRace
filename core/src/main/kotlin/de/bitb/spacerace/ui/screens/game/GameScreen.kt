@@ -2,7 +2,7 @@ package de.bitb.spacerace.ui.screens.game
 
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
-import de.bitb.spacerace.config.CAMERA_TARGET
+import de.bitb.spacerace.config.DEBUG_CAMERA_TARGET
 import de.bitb.spacerace.controller.GameController
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
@@ -37,7 +37,7 @@ class GameScreen(
     }
 
     override fun getCameraTarget(): GameImage? {
-        return CAMERA_TARGET ?: graphicController.currentPlayerGraphic.getGameImage()
+        return DEBUG_CAMERA_TARGET ?: graphicController.currentPlayerGraphic.getGameImage()
     }
 
     fun onZoomPlusClicked() {

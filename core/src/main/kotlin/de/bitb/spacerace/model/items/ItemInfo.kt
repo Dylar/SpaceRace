@@ -2,27 +2,22 @@ package de.bitb.spacerace.model.items
 
 import com.squareup.moshi.JsonClass
 import de.bitb.spacerace.config.DEBUG_GIFT_ITEMS
+import de.bitb.spacerace.config.MOVING_SPS
+import de.bitb.spacerace.config.strings.GameStrings.ItemStrings
 import de.bitb.spacerace.database.items.*
+import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.items.disposable.SlowMine
-import de.bitb.spacerace.model.items.disposable.moving.MovingMine
-import de.bitb.spacerace.model.items.equip.IonEngine
-import de.bitb.spacerace.model.items.ships.BumperShip
-import de.bitb.spacerace.model.items.ships.RaiderShip
-import de.bitb.spacerace.model.items.ships.SpeederShip
-import de.bitb.spacerace.model.items.usable.ExtraFuel
-import de.bitb.spacerace.model.items.usable.SpecialFuel
-import de.bitb.spacerace.model.items.usable.SpeedBoost
-import de.bitb.spacerace.model.items.usable.clean.CleanDroid
+import de.bitb.spacerace.model.items.ItemType.*
+import de.bitb.spacerace.model.objecthandling.GameObject
 import de.bitb.spacerace.model.player.PlayerColor
 import kotlin.reflect.full.createInstance
 
-class NONE_ITEMTYPE() : ItemInfo(NONE_ITEMTYPE::class.simpleName!!, 0)
+class NoneItem : ItemInfo(NONE_ITEM)
 
 const val UNLIMITED_CHARGES = -1
 
 sealed class ItemInfo(
-        val name: String,
+        val type: ItemType,
         val price: Int = 0,
         var charges: Int = UNLIMITED_CHARGES,
         val usablePhase: Set<Phase> = setOf(Phase.MAIN1, Phase.MAIN2)
@@ -46,76 +41,143 @@ sealed class ItemInfo(
 
     //USABLE
     @JsonClass(generateAdapter = true)
-    class EXTRA_FUEL(
+    class FuelExtraInfo(
             override val diceAddition: Int = 1
-    ) : ItemInfo(EXTRA_FUEL::class.simpleName!!, 2000, 1), ActivatableItem, DiceAddition
+    ) : ItemInfo(FUEL_EXTRA, 2000, 1), ActivatableItem, DiceAddition
 
     @JsonClass(generateAdapter = true)
-    class SPECIAL_FUEL(
+    class FuelSpecialInfo(
             override val diceModifier: Double = 0.3
-    ) : ItemInfo(SPECIAL_FUEL::class.simpleName!!, 1000, 1), ActivatableItem, DiceModification
+    ) : ItemInfo(FUEL_SPECIAL, 1000, 1), ActivatableItem, DiceModification
 
     @JsonClass(generateAdapter = true)
-    class SPEED_BOOST(
+    class BoostSpeedInfo(
             override val diceAmount: Int = 1
-    ) : ItemInfo(SPEED_BOOST::class.simpleName!!, 3000, 1), ActivatableItem, MultiDice
+    ) : ItemInfo(BOOST_SPEED, 3000, 1), ActivatableItem, MultiDice
 
     @JsonClass(generateAdapter = true)
-    class CLEAN_DROID(
+    class DroidCleanInfo(
 
-    ) : ItemInfo(CLEAN_DROID::class.simpleName!!, 2000, 1), ActivatableItem, RemoveEffect
+    ) : ItemInfo(DROID_CLEAN, 2000, 1), ActivatableItem, RemoveEffect
 
     //DISPOSABLE
     @JsonClass(generateAdapter = true)
-    class SLOW_MINE(
+    class MineSlowInfo(
             override val diceModifier: Double = -0.1
-    ) : ItemInfo(SLOW_MINE::class.simpleName!!, 3000), DisposableItem, DiceModification
+    ) : ItemInfo(MINE_SLOW, 3000), DisposableItem, DiceModification
 
     @JsonClass(generateAdapter = true)
-    class MOVING_MINE(
+    class MineMovingInfo(
             override val diceAddition: Int = -1
-    ) : ItemInfo(MOVING_MINE::class.simpleName!!, 4000), DisposableItem, DiceAddition
+    ) : ItemInfo(MINE_MOVING, 4000), DisposableItem, DiceAddition
 
     //EQUIP
     @JsonClass(generateAdapter = true)
-    class ION_ENGINE(
+    class EngineIonInfo(
             override val diceModifier: Double = 0.1,
             override var equipped: Boolean = false
-    ) : ItemInfo(ION_ENGINE::class.simpleName!!, 5000), EquipItem, DiceModification
+    ) : ItemInfo(ENGINE_ION, 5000), EquipItem, DiceModification
 
     //SHIP
     @JsonClass(generateAdapter = true)
-    class SHIP_SPEEDER(
-            override val diceModifier: Double = -0.1
-    ) : ItemInfo(SHIP_SPEEDER::class.simpleName!!, 15000), DiceModification
+    class ShipSpeederInfo(
+            override val diceModifier: Double = -0.1,
+            override var speed: Float = MOVING_SPS * 1.4f
+    ) : ItemInfo(SHIP_SPEEDER, 15000), DiceModification, Ship
 
     @JsonClass(generateAdapter = true)
-    class SHIP_RAIDER(
-            override val diceAddition: Int = 3
-    ) : ItemInfo(SHIP_RAIDER::class.simpleName!!, 65000), DiceAddition
+    class ShipRaiderInfo(
+            override val diceAddition: Int = 3,
+            override var speed: Float = MOVING_SPS * 2.8f
+    ) : ItemInfo(SHIP_RAIDER, 65000), DiceAddition, Ship
 
     @JsonClass(generateAdapter = true)
-    class SHIP_BUMPER(
-            override val diceModifier: Double = -0.1
-    ) : ItemInfo(SHIP_BUMPER::class.simpleName!!, 40000), DiceModification
+    class ShipBumperInfo(
+            override val diceModifier: Double = -0.1,
+            override var speed: Float = MOVING_SPS * 0.7f
+    ) : ItemInfo(SHIP_BUMPER, 40000), DiceModification, Ship
+}
 
-    fun createGraphic(playerColor: PlayerColor = PlayerColor.NONE): ItemGraphic {
-        return when (this) {
-            is EXTRA_FUEL -> ExtraFuel(playerColor, 2000)
-            is SPECIAL_FUEL -> SpecialFuel(playerColor, 1000)
-            is SPEED_BOOST -> SpeedBoost(playerColor, 3000)
-            is CLEAN_DROID -> CleanDroid(playerColor, 2000)
+enum class ItemType {
+    NONE_ITEM,
 
-            is SLOW_MINE -> SlowMine(playerColor, 3000)
-            is MOVING_MINE -> MovingMine(playerColor, 4000)
+    FUEL_EXTRA,
+    FUEL_SPECIAL,
+    BOOST_SPEED,
 
-            is ION_ENGINE -> IonEngine(playerColor, 5000)
+    DROID_CLEAN,
 
-            is SHIP_SPEEDER -> SpeederShip(playerColor, 15000)
-            is SHIP_RAIDER -> RaiderShip(playerColor, 65000)
-            is SHIP_BUMPER -> BumperShip(playerColor, 40000)
-            is NONE_ITEMTYPE -> throw UnsupportedOperationException("NONE ITEM TYPE!!")
-        }.also { it.itemInfo = this }
+    MINE_SLOW,
+    MINE_MOVING,
+
+    ENGINE_ION,
+
+    SHIP_SPEEDER,
+    SHIP_RAIDER,
+    SHIP_BUMPER;
+
+    fun isEquipItem(): Boolean = when (this) {
+        ENGINE_ION -> true
+        else -> false
     }
 
 }
+
+fun ItemType.getDefaultInfo(): ItemInfo =
+        when (this) {
+            NONE_ITEM -> NoneItem()
+            FUEL_EXTRA -> ItemInfo.FuelExtraInfo()
+            FUEL_SPECIAL -> ItemInfo.FuelSpecialInfo()
+            BOOST_SPEED -> ItemInfo.BoostSpeedInfo()
+            DROID_CLEAN -> ItemInfo.DroidCleanInfo()
+            MINE_SLOW -> ItemInfo.MineSlowInfo()
+            MINE_MOVING -> ItemInfo.MineMovingInfo()
+            ENGINE_ION -> ItemInfo.EngineIonInfo()
+            SHIP_SPEEDER -> ItemInfo.ShipSpeederInfo()
+            SHIP_RAIDER -> ItemInfo.ShipRaiderInfo()
+            SHIP_BUMPER -> ItemInfo.ShipBumperInfo()
+        }
+
+fun ItemInfo.createGraphic(playerColor: PlayerColor = PlayerColor.NONE): ItemGraphic =
+        type.createGraphic(playerColor)
+
+fun ItemType.createGraphic(playerColor: PlayerColor = PlayerColor.NONE): ItemGraphic {
+    return when (this) {
+        NONE_ITEM -> throw UnsupportedOperationException("NONE ITEM TYPE!!")
+        FUEL_EXTRA -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
+        FUEL_SPECIAL -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
+        BOOST_SPEED -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
+        DROID_CLEAN -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
+        MINE_SLOW -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
+        MINE_MOVING -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
+        ENGINE_ION -> ItemGraphic(playerColor, this, TextureCollection.speederShipMoving1)
+        SHIP_SPEEDER -> ItemGraphic(playerColor, this, this.getAnimation()!!.getDefaultImage()!!.texture)
+        SHIP_RAIDER -> ItemGraphic(playerColor, this, this.getAnimation()!!.getDefaultImage()!!.texture)
+        SHIP_BUMPER -> ItemGraphic(playerColor, this, this.getAnimation()!!.getDefaultImage()!!.texture)
+    }
+}
+
+fun ItemType.getAnimation() = when (this) {
+    SHIP_SPEEDER -> TextureCollection.speederAnimation
+    SHIP_RAIDER -> TextureCollection.raiderAnimation
+    SHIP_BUMPER -> TextureCollection.bumperAnimation
+    else -> null
+}
+
+fun ItemType.getText(): String {
+    return when (this) {
+        NONE_ITEM -> throw UnsupportedOperationException("NONE ITEM TYPE!!")
+        FUEL_EXTRA -> ItemStrings.ITEM_EXTRA_FUEL_TEXT
+        FUEL_SPECIAL -> ItemStrings.ITEM_SPECIAL_FUEL_TEXT
+        BOOST_SPEED -> ItemStrings.ITEM_SPEED_BOOST_TEXT
+        DROID_CLEAN -> ItemStrings.ITEM_CLEAN_DROID_TEXT
+        MINE_SLOW -> ItemStrings.ITEM_SLOW_MINE_TEXT
+        MINE_MOVING -> ItemStrings.ITEM_MOVING_MINE_TEXT
+        ENGINE_ION -> ItemStrings.ITEM_ION_ENGINE_TEXT
+        SHIP_SPEEDER -> ItemStrings.SHIP_SPEEDER_TEXT
+        SHIP_RAIDER -> ItemStrings.SHIP_RAIDER_TEXT
+        SHIP_BUMPER -> ItemStrings.SHIP_BUMPER_TEXT
+    }
+}
+
+

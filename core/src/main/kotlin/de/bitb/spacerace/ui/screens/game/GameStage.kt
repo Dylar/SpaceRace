@@ -9,8 +9,6 @@ import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.model.items.ItemInfo
-import de.bitb.spacerace.model.items.disposable.DisposableItemGraphic
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.TextureAnimation
@@ -44,11 +42,13 @@ class GameStage(
                 .forEach { addActor(it) }
 
 
-        val fieldGraphic = graphicController.getFieldGraphic(graphicController.playerGraphics.first().gamePosition)
-        val itemGraphic = ItemInfo.SLOW_MINE().createGraphic()
-        itemGraphic.itemImage.setRotating(itemGraphic, fieldGraphic.fieldImage, fieldGraphic.fieldImage.width * 0.7)
-//        fieldGraphic.addItem(itemGraphic as DisposableItemGraphic)
-        addActor(itemGraphic.itemImage)
+//        val fieldGraphic = graphicController.getFieldGraphic(graphicController.playerGraphics.first().gamePosition)
+//        val itemGraphic = ItemInfo.MineSlowInfo().createGraphic()
+//                .also { it.setPosition(100f, 100f) }
+//        itemGraphic.itemImage.setRotating(itemGraphic, fieldGraphic.fieldImage, fieldGraphic.fieldImage.width * 0.7)
+//        DEBUG_CAMERA_TARGET = itemGraphic.itemImage
+////        fieldGraphic.addItem(itemGraphic as DisposableItemGraphic)
+//        addActor(itemGraphic.itemImage)
     }
 
     private fun addTestActor() {
@@ -73,14 +73,14 @@ class GameStage(
     }
 
     private fun createTestActor(animation: BaseAnimation, targetPosition1: Rectangle = Rectangle(), targetPosition2: Rectangle = targetPosition1): GameImage {
-        var img = object : GameImage(animation),
+        var img = object : GameImage(),
                 IRotatingImage by RotatingImage(),
                 IMovingImage by MovingImage() {
             override var movingSpeed: Float = (MOVING_SPS * Math.random()).toFloat()
 
             init {
                 setBounds(0f, 0f, FIELD_BORDER, FIELD_BORDER)
-
+                this.animation = animation
                 patrollingBetweenPoints(this, targetPosition1, targetPosition2)
 //                movingState = MovingState.ROTATE_POINT
 //                setRotationRadius(width * 0.7)

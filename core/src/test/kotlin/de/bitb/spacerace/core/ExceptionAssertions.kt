@@ -36,7 +36,7 @@ fun GameException.assertNextPhaseException(error: Throwable) =
 fun GameException.assertEquipException(error: Throwable) =
         checkBasic(error) || when {
             this is ItemNotFoundException && error is ItemNotFoundException
-            -> this.itemInfo.name == error.itemInfo.name
+            -> this.itemType == error.itemType
             else
             -> this::class == error::class
         }
@@ -44,7 +44,7 @@ fun GameException.assertEquipException(error: Throwable) =
 fun GameException.assertActivateException(error: Throwable) =
         checkBasic(error) || when {
             this is ItemNotFoundException && error is ItemNotFoundException
-            -> this.itemInfo.name == error.itemInfo.name
+            -> this.itemType == error.itemType
             else
             -> this::class == error::class
         }

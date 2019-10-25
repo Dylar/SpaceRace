@@ -3,6 +3,9 @@ package de.bitb.spacerace.model.player
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORDER
+import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.getAnimation
+import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.getRunnableAction
@@ -13,14 +16,17 @@ import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 import de.bitb.spacerace.utils.Logger
 
 
-class PlayerImage
-    : GameImage(),//TODO mach das anders //RaiderShip(PlayerColor.TEAL, 0).getAnimation()
+class PlayerImage(
+        playerColor: PlayerColor,
+        val itemType: ItemType
+) : GameImage(),
         IMovingImage by MovingImage(),
         IRotatingImage by RotatingImage() {
 
     override var movingSpeed: Float = MOVING_SPS
 
     init {
+        animation = itemType.getAnimation()
         touchable = Touchable.disabled
         setOrigin(PLAYER_BORDER / 2, PLAYER_BORDER / 2)
     }

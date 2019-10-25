@@ -51,7 +51,7 @@ class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
                     shopDetails = ShopDetails(
                             guiStage,
                             this@ShopMenu,
-                            item.itemInfo,
+                            item.itemType,
                             playerController.currentPlayerData)
                     shopDetails.openMenu()
                     return true

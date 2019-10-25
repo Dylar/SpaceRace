@@ -1,5 +1,8 @@
 package de.bitb.spacerace.database.items
 
+interface Ship{
+    var speed: Float
+}
 
 interface EquipItem {
     var equipped: Boolean

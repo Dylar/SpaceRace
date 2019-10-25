@@ -6,13 +6,15 @@ import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.MoveCommand
 import de.bitb.spacerace.model.items.ItemGraphic
-import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.createGraphic
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerGraphics
+import de.bitb.spacerace.model.player.PlayerImage
 import de.bitb.spacerace.model.space.fields.FieldGraphic
 import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.model.space.groups.ConnectionList
@@ -43,11 +45,9 @@ class GraphicController
                     ?.let { fieldGraphics[it] }
                     ?: NONE_SPACE_FIELD
 
-    fun getPlayerFieldGraphic(playerColor: PlayerColor) =
-            getFieldGraphic(getPlayerGraphic(playerColor).gamePosition)
-
     fun addPlayer(playerColor: PlayerColor, startField: FieldGraphic) {
-        val player = PlayerGraphics(playerColor)
+        val playerImage = PlayerImage(playerColor, ItemType.SHIP_SPEEDER)
+        val player = PlayerGraphics(playerColor, playerImage)
 
         player.setPosition(startField.gamePosition)
         player.getGameImage().apply {
@@ -141,11 +141,10 @@ class GraphicController
         getFieldGraphic(player.gamePosition).setBlinkColor(player.playerColor.color)
     }
 
-    fun getStorageItemMap(playerData: PlayerData): Map<ItemInfo, ItemGraphic> {
-        return playerData.storageItems
-                .map { it.itemInfo.createGraphic(playerData.playerColor) }
-                .associateBy { it.itemInfo }
-    }
+    fun getStorageItemMap(playerData: PlayerData): Map<ItemType, ItemGraphic> =
+            playerData.storageItems
+                    .map { it.itemInfo.createGraphic(playerData.playerColor) }
+                    .associateBy { it.itemType }
 
 
 //    fun moveMovables() { //TODO make items moveable again !

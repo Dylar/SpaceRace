@@ -3,7 +3,7 @@ package de.bitb.spacerace.database.items
 import de.bitb.spacerace.database.converter.ItemTypeConverter
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.model.items.ItemInfo
-import de.bitb.spacerace.model.items.NONE_ITEMTYPE
+import de.bitb.spacerace.model.items.NoneItem
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
@@ -14,7 +14,7 @@ import io.objectbox.relation.ToOne
 class ItemData(
         @Id var id: Long = 0,
         @Convert(converter = ItemTypeConverter::class, dbType = String::class)
-        val itemInfo: ItemInfo = NONE_ITEMTYPE()
+        val itemInfo: ItemInfo = NoneItem()
 ) {
 
     @Transient
@@ -28,7 +28,7 @@ class ItemData(
 
     override fun equals(other: Any?): Boolean =
             when (other) {
-                is ItemData -> itemInfo.name == other.itemInfo.name
+                is ItemData -> itemInfo.type == other.itemInfo.type
                 else -> false
             }
 

@@ -2,7 +2,7 @@ package de.bitb.spacerace.usecase.game.action.items
 
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Single
@@ -15,7 +15,7 @@ class ActivateItemUsecase @Inject constructor(
     override fun buildUseCaseSingle(params: ActivateItemConfig): Single<UseItemResult> =
             useItemUsecase.buildUseCaseSingle(UseItemConfig(
                     playerColor = params.playerColor,
-                    itemInfo = params.itemInfo,
+                    itemType = params.itemType,
                     getItem = { getItem(params, it) },
                     checkItemUsable = { _, _ -> true },
                     useItem = { playerData, itemData -> useItem(playerData, itemData) }
@@ -23,7 +23,7 @@ class ActivateItemUsecase @Inject constructor(
 
     private fun getItem(params: ActivateItemConfig, playerData: PlayerData): ItemData? =
             playerData.storageItems.asSequence()
-                    .filter { it.itemInfo.name == params.itemInfo.name }
+                    .filter { it.itemInfo.type == params.itemType }
                     .maxBy { it.itemInfo.charges }
 
 
@@ -37,5 +37,5 @@ class ActivateItemUsecase @Inject constructor(
 
 data class ActivateItemConfig(
         val playerColor: PlayerColor,
-        val itemInfo: ItemInfo
+        val itemType: ItemType
 )

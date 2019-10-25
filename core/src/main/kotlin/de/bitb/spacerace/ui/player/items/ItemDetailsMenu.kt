@@ -18,9 +18,13 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.items.ActivatableItem
 import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.EquipItem
+import de.bitb.spacerace.database.items.ItemData_.itemInfo
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.UseItemCommand
 import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.createGraphic
+import de.bitb.spacerace.model.items.getText
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -31,7 +35,7 @@ import javax.inject.Inject
 class ItemDetailsMenu(
         guiStage: GameGuiStage,
         itemMenu: ItemMenu,
-        private val itemInfo: ItemInfo,
+        private val itemType: ItemType,
         private val playerData: PlayerData
 ) : BaseMenu(guiStage, itemMenu) {
 
@@ -42,7 +46,7 @@ class ItemDetailsMenu(
     private lateinit var unuseBtn: TextButton
     private lateinit var usedTitle: Cell<Label>
 
-    private val itemGraphic = itemInfo.createGraphic()
+    private val itemGraphic = itemType.createGraphic()
 
     init {
         MainGame.appComponent.inject(this)
@@ -86,7 +90,7 @@ class ItemDetailsMenu(
 
     private fun addText() {
         row()
-        val cell = add(itemGraphic.text)
+        val cell = add(itemType.getText())
         addPaddingTopBottom(cell, GAME_MENU_PADDING_SPACE)
         setFont(cell.actor, GAME_SIZE_FONT_SMALL)
     }
@@ -103,11 +107,10 @@ class ItemDetailsMenu(
         val cell = add(container)
         cell.expandX()
 
-        if (itemInfo is EquipItem) {
+        if (itemType.isEquipItem()) {
             unuseBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    //TODO unequip command
-                    EventBus.getDefault().post(UseItemCommand(itemInfo, playerController.currentPlayerData))
+                    EventBus.getDefault().post(UseItemCommand.get(itemType, playerController.currentPlayerData, true))
                     return true
                 }
             })
@@ -116,7 +119,7 @@ class ItemDetailsMenu(
 
         useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(UseItemCommand(itemInfo, playerController.currentPlayerData))
+                EventBus.getDefault().post(UseItemCommand.get(itemType, playerController.currentPlayerData))
                 return true
             }
         })

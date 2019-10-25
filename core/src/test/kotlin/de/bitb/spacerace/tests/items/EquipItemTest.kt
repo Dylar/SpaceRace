@@ -13,30 +13,30 @@ class EquipItemTest : ItemsTest() {
 
     @Test
     fun equipItem_storageEmpty_itemEquipped_canOnlyEquipOnce() {
-        val item = ItemInfo.ION_ENGINE()
+        val item = ItemInfo.EngineIonInfo()
         TestEnvironment()
                 .setPlayerItems { listOf(item) }
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
                 .equipItem(item) { equipResult ->
                     equipResult.playerData.storageItems.isEmpty() &&
-                            equipResult.playerData.equippedItems.any { it.itemInfo.name == item.name }
-                }.equipItem(item, error = ItemNotFoundException(item))
+                            equipResult.playerData.equippedItems.any { it.itemInfo.type == item.type }
+                }.equipItem(item, error = ItemNotFoundException(item.type))
     }
 
     @Test
     fun equipItem_removeIt_itemInStorage() {
-        val item = ItemInfo.ION_ENGINE()
+        val item = ItemInfo.EngineIonInfo()
         TestEnvironment()
                 .setPlayerItems { listOf(item) }
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
                 .equipItem(item) { equipResult ->
                     equipResult.playerData.storageItems.isEmpty() &&
-                            equipResult.playerData.equippedItems.any { it.itemInfo.name == item.name }
+                            equipResult.playerData.equippedItems.any { it.itemInfo.type == item.type }
                 }.equipItem(item, equip = false) { equipResult ->
                     equipResult.playerData.equippedItems.isEmpty() &&
-                            equipResult.playerData.storageItems.any { it.itemInfo.name == item.name }
+                            equipResult.playerData.storageItems.any { it.itemInfo.type == item.type }
                 }
     }
 }

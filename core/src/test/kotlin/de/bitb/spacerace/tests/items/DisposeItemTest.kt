@@ -12,14 +12,14 @@ class DisposeItemTest : ItemsTest() {
 
     @Test
     fun disposeItem_storageEmpty_itemOnField() {
-        val item = ItemInfo.SLOW_MINE()
+        val item = ItemInfo.MineSlowInfo()
         TestEnvironment()
                 .setPlayerItems { listOf(item) }
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
                 .disposeItem(item) { disposeResult ->
                     disposeResult.playerData.storageItems.isEmpty() &&
-                            disposeResult.playerData.positionField.target.disposedItems.any { it.itemInfo.name == item.name }
+                            disposeResult.playerData.positionField.target.disposedItems.any { it.itemInfo.type == item.type }
                 }
     }
 

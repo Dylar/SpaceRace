@@ -55,7 +55,7 @@ fun TestEnvironment.equipItem(
         assertError: (Throwable) -> Boolean = { error?.assertEquipException(it) ?: false },
         assertSuccess: (UseItemResult) -> Boolean = { true }
 ) = this.apply {
-    val config = EquipItemConfig(player, itemInfo, equip)
+    val config = EquipItemConfig(player, itemInfo.type, equip)
     equipItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
     waitForIt()
@@ -68,7 +68,7 @@ fun TestEnvironment.activateItem(
         assertError: (Throwable) -> Boolean = { error?.assertActivateException(it) ?: false },
         assertSuccess: (UseItemResult) -> Boolean = { true }
 ) = this.apply {
-    val config = ActivateItemConfig(player, itemInfo)
+    val config = ActivateItemConfig(player, itemInfo.type)
     activateItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
     waitForIt()
@@ -81,7 +81,7 @@ fun TestEnvironment.disposeItem(
         assertError: (Throwable) -> Boolean = { error?.assertActivateException(it) ?: false },
         assertSuccess: (UseItemResult) -> Boolean = { true }
 ) = this.apply {
-    val config = DisposeItemConfig(player, itemInfo)
+    val config = DisposeItemConfig(player, itemInfo.type)
     disposeItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
     waitForIt()

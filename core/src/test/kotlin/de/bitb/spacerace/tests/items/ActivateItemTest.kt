@@ -10,33 +10,33 @@ class ActivateItemTest : ItemsTest() {
 
     @Test
     fun activateItem_storageEmpty_itemEquipped() {
-        val item = ItemInfo.EXTRA_FUEL()
+        val item = ItemInfo.FuelExtraInfo()
         TestEnvironment()
                 .setPlayerItems { listOf(item) }
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
                 .activateItem(item) { equipResult ->
                     equipResult.playerData.storageItems.isEmpty() &&
-                            equipResult.playerData.activeItems.any { it.itemInfo.name == item.name }
+                            equipResult.playerData.activeItems.any { it.itemInfo.type == item.type }
                 }
     }
 
     @Test
     fun activateItem_removeIt_itemInStorage_onlyEquipOnce() {
-        val item = ItemInfo.EXTRA_FUEL()
+        val item = ItemInfo.FuelExtraInfo()
         TestEnvironment()
                 .setPlayerItems { listOf(item) }
                 .initGame()
                 .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
                 .activateItem(item) { equipResult ->
                     equipResult.playerData.storageItems.isEmpty() &&
-                            equipResult.playerData.activeItems.any { it.itemInfo.name == item.name }
-                }.activateItem(item, error = ItemNotFoundException(item))
+                            equipResult.playerData.activeItems.any { it.itemInfo.type == item.type }
+                }.activateItem(item, error = ItemNotFoundException(item.type))
     }
 
     @Test
     fun activateItem_onRoundEnd_removeIt() {
-        val item = ItemInfo.EXTRA_FUEL()
+        val item = ItemInfo.FuelExtraInfo()
         TestEnvironment()
                 .setPlayerItems { listOf(item) }
                 .initGame()

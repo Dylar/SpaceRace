@@ -241,7 +241,7 @@ class ObjBoxRelationTest : GameTest() {
 
     @Test
     fun delete_item_check_toMany() {
-        val itemData = ItemData(itemInfo = ItemInfo.EXTRA_FUEL())
+        val itemData = ItemData(itemInfo = ItemInfo.FuelExtraInfo())
         val playerData = PlayerData().apply {
             storageItems.add(itemData)
             equippedItems.add(itemData)
@@ -262,8 +262,8 @@ class ObjBoxRelationTest : GameTest() {
     }
 
     @Test
-    fun addItemToField_onlySavePlayer_itemsNotOnField() {
-        var itemData = ItemData(itemInfo = ItemInfo.EXTRA_FUEL())
+    fun addItemToField_onlySavePlayer_itemsNotOnField_saveField_itemsField() {
+        var itemData = ItemData(itemInfo = ItemInfo.FuelExtraInfo())
         var field = FieldData()
         var playerData = PlayerData().apply { positionField.target = field }
         itemBox.put(itemData)
@@ -297,4 +297,30 @@ class ObjBoxRelationTest : GameTest() {
         assertTrue(field.disposedItems.isNotEmpty())
 
     }
+
+    @Test
+    fun playerItem_reduceCharges_savePlayer_itemChargesChanged() {
+        var itemInfo: ItemInfo = ItemInfo.FuelExtraInfo()
+        var itemData = ItemData(itemInfo = itemInfo)
+        var playerData = PlayerData().apply { activeItems.add(itemData) }
+        itemBox.put(itemData)
+        playerBox.put(playerData)
+
+        itemData = itemBox.get(itemData.id)
+        playerData = playerBox.get(playerData.uuid)
+
+        //player item reduce charges
+        itemInfo = playerData.activeItems.first().itemInfo
+        itemInfo.charges--
+        assertTrue(itemData.itemInfo.charges != itemInfo.charges)
+
+        //save player
+        playerBox.put(playerData)
+        itemData = itemBox.get(itemData.id)
+        playerData = playerBox.get(playerData.uuid)
+        itemInfo = playerData.activeItems.first().itemInfo
+
+        assertTrue(itemData.itemInfo.charges == itemInfo.charges)
+    }
+
 }

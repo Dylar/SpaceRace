@@ -8,9 +8,12 @@ import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 
-abstract class GameImage(
-        var animation: BaseAnimation = TextureAnimation()
-) : Image() {
+abstract class GameImage() : Image() {
+    var animation: BaseAnimation = TextureAnimation()
+        set(value) {
+            drawable = value
+            field = value
+        }
 
     companion object {
         val NONE_GAMEIMAGE: GameImage = object : GameImage() {
@@ -41,7 +44,6 @@ abstract class GameImage(
 
 
     init {
-        drawable = animation
         debug = DEBUG_LAYOUT
     }
 

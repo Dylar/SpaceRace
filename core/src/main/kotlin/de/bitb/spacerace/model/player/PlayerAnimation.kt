@@ -16,8 +16,10 @@ class PlayerAnimation(
     private var landingTime = 0f
 
     init {
-        region = landingAnimation.keyFrames.last()
+        region = getDefaultImage()
     }
+
+    fun getDefaultImage(): TextureRegion? = landingAnimation.keyFrames.last()
 
     override fun actAnimation(gameImage: GameImage, delta: Float) {
         val draw = when (gameImage.movingState) {

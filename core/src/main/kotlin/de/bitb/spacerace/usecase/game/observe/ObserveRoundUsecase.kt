@@ -51,12 +51,12 @@ class ObserveRoundUsecase
     private fun saveData(player: List<PlayerData>, usedItems: List<ItemData>) =
             Observable.zip(
                     savePlayer(player),
-                    saveItems(usedItems),
-                    BiFunction<Boolean, Boolean, Boolean> { playerFinished, itemFinished ->
-                        playerFinished && itemFinished
+                    deleteItems(usedItems),
+                    BiFunction<Boolean, Boolean, Boolean> { playerFinished, _ ->
+                        playerFinished
                     })
 
-    private fun saveItems(usedItems: List<ItemData>): Observable<Boolean> =
+    private fun deleteItems(usedItems: List<ItemData>): Observable<Boolean> =
             if (usedItems.isEmpty()) Observable.just(false)
             else itemDataSource.deleteRXItems(*usedItems.toTypedArray())
                     .andThen(Observable.just(true))

@@ -13,7 +13,7 @@ enum class PlayerColor(val color: Color) {
     NAVY(Color.NAVY),
     WHITE(Color.WHITE),
 
-    NONE(Color.CLEAR);
+    NONE(Color.RED);
 
     fun next(): PlayerColor {
         return when (this) {
