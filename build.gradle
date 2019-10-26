@@ -29,8 +29,8 @@ allprojects {
         appName = "SpaceRace"
 
         majorVersion = "0"
-        midVersion = "6"
-        patchVersion = "1"
+        midVersion = "7"
+        patchVersion = "0"
         versionSuffix = "-ALPHA"
     }
 
