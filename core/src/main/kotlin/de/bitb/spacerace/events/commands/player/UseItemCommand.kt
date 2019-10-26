@@ -91,11 +91,6 @@ class UseItemCommand(
         val itemGraphic = result.itemData.itemInfo.createGraphic(result.playerData.playerColor)
         itemGraphic.itemImage.setRotating(itemGraphic, fieldGraphic.fieldImage, fieldGraphic.fieldImage.width * 0.7)
         fieldGraphic.addItem(itemGraphic)
-
-//       TODO ON PLAYER
-
-//        val playerImage = graphicController.getPlayerGraphic(result.playerData.playerColor).playerImage
-//        itemGraphic.itemImage.setRotating(itemGraphic, playerImage, playerImage.width * 0.7)
     }
 
 }

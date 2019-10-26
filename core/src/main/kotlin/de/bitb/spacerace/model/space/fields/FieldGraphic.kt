@@ -45,6 +45,6 @@ open class FieldGraphic(
 
     fun removeItem(disposableItem: ItemGraphic) {
         disposedItems.remove(disposableItem)
-        disposableItem.getGameImage().remove()
+//        disposableItem.getGameImage().remove()
     }
 }

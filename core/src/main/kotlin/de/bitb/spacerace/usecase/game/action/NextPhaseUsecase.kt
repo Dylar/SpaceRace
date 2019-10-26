@@ -2,7 +2,6 @@ package de.bitb.spacerace.usecase.game.action
 
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.config.GOAL_CREDITS
-import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.ItemData
@@ -11,7 +10,9 @@ import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.savegame.SaveDataSource
-import de.bitb.spacerace.exceptions.*
+import de.bitb.spacerace.exceptions.DiceFirstException
+import de.bitb.spacerace.exceptions.RoundIsEndingException
+import de.bitb.spacerace.exceptions.StepsLeftException
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.items.ItemInfo
@@ -151,13 +152,6 @@ class NextPhaseUsecase @Inject constructor(
                 .onEach { playerData.attachedItems.add(it) }
                 .toList()
                 .also { field.disposedItems.removeAll(it) }
-//        //TODO old code change that
-//        mutableListOf<ItemGraphic>()
-//                .apply {
-//                    val field = graphicController.getPlayerFieldGraphic(playerData.playerColor)
-//                    addAll(field.disposedItems)
-//                }
-//                .forEach { it.use(playerData) }
     }
 
     private fun obtainGoal(playerData: PlayerData): Single<out ObtainGoalResult> =

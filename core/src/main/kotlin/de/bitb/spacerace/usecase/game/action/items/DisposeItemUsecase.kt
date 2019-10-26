@@ -29,7 +29,7 @@ class DisposeItemUsecase @Inject constructor(
     private fun useItem(playerData: PlayerData, itemData: ItemData): Pair<PlayerData, ItemData> =
             playerData.apply {
                 storageItems.remove(itemData)
-                val field = playerData.positionField.target
+                val field = positionField.target
                 field.disposedItems.add(itemData)
                 mapDataSource.insertDBField(field)
             } to itemData

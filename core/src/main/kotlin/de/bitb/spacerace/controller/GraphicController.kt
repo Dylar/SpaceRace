@@ -99,8 +99,7 @@ class GraphicController
     fun changePlayer() {
         var graphicPlainIndex = playerGraphics
                 .map { it.getGameImage().zIndex }
-                .sorted()
-                .let { it.last() }
+                .max()!!
 
         val playerIndex = playerController.currentPlayerIndex
         for (i in playerIndex until playerGraphics.size) {
@@ -110,10 +109,6 @@ class GraphicController
         for (i in 0 until playerIndex) {
             playerGraphics[i].getGameImage().zIndex = graphicPlainIndex--
         }
-
-//        Logger.println("oldPlayer: ${oldPlayer.playerColor}")
-//        //TODO items in db
-//        oldPlayer.playerItems.removeUsedItems()
     }
 
     fun setGoal(oldGoal: PositionData = NONE_POSITION, currentGoal: PositionData = NONE_POSITION) {
@@ -125,7 +120,7 @@ class GraphicController
 
     fun setConnectionColor(player: PlayerData, fields: MutableList<FieldData>) {
         connectionGraphics.forEach { connection ->
-            connection.let { (field1, field2) ->
+            connection.also { (field1, field2) ->
                 val playerPosition = player.gamePosition
                 val field1Position = field1.gamePosition
                 val field2Position = field2.gamePosition

@@ -29,7 +29,8 @@ class PlayerRespository(
             Completable.fromCallable { playerBox.put(*userData) }
 
     override fun insertAndReturnRXPlayer(vararg userData: PlayerData): Single<List<PlayerData>> =
-            insertRXPlayer(*userData).andThen(getRXAllPlayer())
+            insertRXPlayer(*userData)
+                    .andThen(getRXPlayerById(*userData.map { it.uuid }.toLongArray()))
 
     override fun replaceRXAllPlayer(vararg userData: PlayerData): Single<List<PlayerData>> =
             deleteRXPlayer(*userData).andThen(insertAndReturnRXPlayer(*userData))
