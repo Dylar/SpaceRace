@@ -3,6 +3,8 @@ package de.bitb.spacerace.usecase.game.action
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.AttachItemConfig
+import de.bitb.spacerace.core.AttachItemDispenser
 import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
@@ -32,6 +34,7 @@ class NextPhaseUsecase @Inject constructor(
         private val checkCurrentPlayerUsecase: CheckCurrentPlayerUsecase,
         private val checkPlayerPhaseUsecase: CheckPlayerPhaseUsecase,
         private val getTargetableFieldUsecase: GetTargetableFieldUsecase,
+        private val attachItemDispenser: AttachItemDispenser,
         private val playerController: PlayerController,
         private val playerDataSource: PlayerDataSource,
         private val saveDataSource: SaveDataSource,
@@ -120,10 +123,11 @@ class NextPhaseUsecase @Inject constructor(
     //TODO clean me
     private fun obtainField(playerData: PlayerData): Single<out ObtainFieldResult> =
             Single.fromCallable {
-                triggerItems(playerData) to playerData.positionField.target
-            }.flatMap { (items, fieldData) ->
+                triggerItems(playerData)
+                playerData.positionField.target
+            }.flatMap { fieldData ->
                 Logger.printLog("Field ${fieldData.fieldType.name}: $playerData")
-                val restult: Single<out ObtainFieldResult> = when (fieldData.fieldType) {
+                val result: Single<out ObtainFieldResult> = when (fieldData.fieldType) {
                     FieldType.WIN -> obtainWin(playerData)
                     FieldType.LOSE -> obtainLose(playerData)
                     FieldType.AMBUSH -> obtainAmbush(playerData)
@@ -136,7 +140,7 @@ class NextPhaseUsecase @Inject constructor(
                     FieldType.RANDOM,
                     FieldType.UNKNOWN -> Single.just(ObtainFieldResult(playerData))
                 }
-                restult.map { it.apply { triggeredItems.addAll(items) } }
+                result
             }
 
     private fun obtainShop(playerData: PlayerData): Single<out ObtainShopResult> =
@@ -144,14 +148,17 @@ class NextPhaseUsecase @Inject constructor(
                 ObtainShopResult(playerData)
             }
 
-    private fun triggerItems(playerData: PlayerData): List<ItemData> {
+    private fun triggerItems(playerData: PlayerData) {
         val field = playerData.positionField.target
-        return field.disposedItems
+        val items = field.disposedItems
                 .asSequence()
                 .filter { it.itemInfo is DisposableItem }
                 .onEach { playerData.attachedItems.add(it) }
                 .toList()
                 .also { field.disposedItems.removeAll(it) }
+        if (items.isNotEmpty()) {
+            attachItemDispenser.publishUpdate(AttachItemConfig(playerData, items))
+        }
     }
 
     private fun obtainGoal(playerData: PlayerData): Single<out ObtainGoalResult> =
@@ -233,7 +240,6 @@ class NextPhaseUsecase @Inject constructor(
 }
 
 open class NextPhaseResult(var player: PlayerData,
-                           var triggeredItems: MutableList<ItemData> = mutableListOf(),
                            val targetableFields: MutableList<FieldData> = mutableListOf())
 
 open class StartMoveResult(player: PlayerData) : NextPhaseResult(player)

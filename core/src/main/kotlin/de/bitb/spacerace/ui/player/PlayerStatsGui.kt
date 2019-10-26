@@ -102,7 +102,7 @@ class PlayerStatsGui(
 
     private fun updateDice(playerData: PlayerData) {
         val maxSteps = playerData.getMaxSteps()
-        val diceResult = "${(maxSteps - playerData.stepsLeft())}/$maxSteps"
+        val diceResult = "${playerData.stepsLeft()}/$maxSteps"
         diceLabel.setText(diceResult)
     }
 

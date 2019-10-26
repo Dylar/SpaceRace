@@ -60,21 +60,11 @@ class NextPhaseCommand : BaseCommand() {
             is ObtainTunnelResult -> graphicController.teleportPlayer(player.playerColor, player.gamePosition)
         }
 
-        if (nextPhaseResult.triggeredItems.isNotEmpty()) attachToPlayer(nextPhaseResult)
-
         when (phase) {
             Phase.END_TURN -> graphicController.changePlayer()
             else -> {
             }
         }
-    }
-
-    private fun attachToPlayer(result: NextPhaseResult) {
-        val fieldGraphic = graphicController.getFieldGraphic(result.player.positionField.target.gamePosition)
-        val itemGraphic = fieldGraphic.disposedItems.first { it.itemType == result.triggeredItems.first().itemInfo.type }
-        val playerGraphic = graphicController.getPlayerGraphic(result.player.playerColor)
-        fieldGraphic.removeItem(itemGraphic)
-        itemGraphic.itemImage.setRotating(itemGraphic, playerGraphic.playerImage, playerGraphic.playerImage.width * 0.7)
     }
 
 }
