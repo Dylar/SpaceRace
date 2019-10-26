@@ -1,5 +1,6 @@
 package de.bitb.spacerace;
 
+import de.bitb.spacerace.core.MainGame;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 
@@ -12,7 +13,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new MainGame(), config);
+        return new IOSApplication(new MainGame("iOS", null), config);
     }
 
     public static void main(String[] argv) {
