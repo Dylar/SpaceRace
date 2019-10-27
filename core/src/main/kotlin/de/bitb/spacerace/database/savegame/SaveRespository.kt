@@ -1,6 +1,7 @@
 package de.bitb.spacerace.database.savegame
 
 import io.objectbox.Box
+import io.objectbox.kotlin.inValues
 import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -8,32 +9,32 @@ import io.reactivex.Single
 class SaveRespository(
         private val saveBox: Box<SaveData>
 ) : SaveDataSource {
-    override fun loadGame(saveData: SaveData): Single<SaveData> =
-            Single.create<SaveData> { emitter ->
-                val allSaveData = saveBox.all
-                allSaveData.forEach { it.loaded = false }
-                saveBox.put(*allSaveData.toTypedArray())
 
-                saveData.loaded = true
-                saveBox.put(saveData)
-                emitter.onSuccess(saveData)
-            }
+    override fun getRXAllGames(): Single<List<SaveData>> = Single.fromCallable { saveBox.all }
 
+    override fun insertAndReturnRXSaveData(vararg saveData: SaveData): Single<List<SaveData>> =
+            insertRXSaveData(*saveData)
+                    .andThen(Single.fromCallable {
+                        val ids = saveData.map { it.uuid }.toLongArray()
+                        saveBox.query()
+                                .inValues(SaveData_.uuid, ids)
+                                .build().find()
+                    })
 
-    override fun insertAndReturnSaveData(mapData: SaveData): Single<SaveData> =
-            insertSaveData(mapData)
-                    .andThen(Single.fromCallable { saveBox.all.last() })
+    override fun insertRXSaveData(vararg saveData: SaveData): Completable =
+            Completable.fromAction { saveBox.put(*saveData) }
 
-    override fun insertSaveData(mapData: SaveData): Completable =
-            Completable.fromAction {
-                saveBox.put(mapData)
-            }
+    override fun getRXLoadedGame(): Single<SaveData> =
+            RxQuery.single(saveBox.query()
+                    .equal(SaveData_.loaded, true).build())
+                    .map { it.first() }
 
-    override fun getLoadedGame(): Single<SaveData> = RxQuery.single(
-            saveBox.query().equal(SaveData_.loaded, true).build())
-            .map { it.first() }
+    override fun getDBLoadedGame(): SaveData =
+            saveBox.query()
+                    .equal(SaveData_.loaded, true).build().find()
+                    .first()
 
-    override fun deleteSaveGame(saveData: SaveData): Completable =
+    override fun deleteRXSaveGame(saveData: SaveData): Completable =
             Completable.fromAction {
                 saveBox.query()
                         .equal(SaveData_.name, saveData.name).build()

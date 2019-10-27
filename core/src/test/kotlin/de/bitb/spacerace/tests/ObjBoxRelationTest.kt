@@ -1,15 +1,17 @@
 package de.bitb.spacerace.tests
 
 import de.bitb.spacerace.core.GameTest
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.game.TestGame
+import de.bitb.spacerace.model.items.ItemInfo
 import io.objectbox.Box
-import junit.framework.Assert.*
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import javax.inject.Inject
@@ -24,6 +26,8 @@ class ObjBoxRelationTest : GameTest() {
     protected lateinit var fieldBox: Box<FieldData>
     @Inject
     protected lateinit var playerBox: Box<PlayerData>
+    @Inject
+    protected lateinit var itemBox: Box<ItemData>
 
     protected lateinit var players: List<PlayerData>
     protected lateinit var fields: List<FieldData>
@@ -193,7 +197,7 @@ class ObjBoxRelationTest : GameTest() {
     }
 
     @Test //RESULT:
-    fun ManyToManyTest() {
+    fun manyToManyTest() {
         val playerData = PlayerData()
         val fieldData = FieldData().apply { players.add(playerData) }
 
@@ -215,24 +219,108 @@ class ObjBoxRelationTest : GameTest() {
         assertTrue(fieldPlayerStep1.positionField.target!! == dbPlayerData.positionField.target!!)
         assertTrue(fieldPlayerStep2.positionField.target!! == dbPlayerData.positionField.target!!)
 
-        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData})
-        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData})
-        assertTrue(dbFieldData.players.any { it == dbPlayerData})
+        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData })
+        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData })
+        assertTrue(dbFieldData.players.any { it == dbPlayerData })
 
         dbFieldData.players.clear()
 
         assertTrue(fieldPlayerStep1.positionField.target!! == dbPlayerData.positionField.target!!)
         assertTrue(fieldPlayerStep2.positionField.target!! == dbPlayerData.positionField.target!!)
 
-        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData})
-        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData})
-        assertTrue(dbFieldData.players.none { it == dbPlayerData})
+        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData })
+        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData })
+        assertTrue(dbFieldData.players.none { it == dbPlayerData })
 
         fieldBox.put(dbFieldData)
 
-        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData})
-        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData})
-        assertTrue(dbFieldData.players.none { it == dbPlayerData})
+        assertTrue(fieldPlayerFieldStep1.players.any { it == dbPlayerData })
+        assertTrue(fieldPlayerFieldStep2.players.any { it == dbPlayerData })
+        assertTrue(dbFieldData.players.none { it == dbPlayerData })
+    }
+
+    @Test
+    fun delete_item_check_toMany() {
+        val itemData = ItemData(itemInfo = ItemInfo.FuelExtraInfo())
+        val playerData = PlayerData().apply {
+            storageItems.add(itemData)
+            equippedItems.add(itemData)
+        }
+        playerBox.put(playerData)
+        val dbItem = itemBox.get(itemData.id)
+        var dbPlayer = playerBox.get(playerData.uuid)
+
+        assertTrue(dbPlayer.storageItems.any { it.id == dbItem.id })
+        assertTrue(dbPlayer.equippedItems.any { it.id == dbItem.id })
+
+        itemBox.remove(dbItem)
+
+        dbPlayer = playerBox.get(playerData.uuid)
+        assertTrue(dbPlayer.storageItems.none { it.id == dbItem.id })
+        assertTrue(dbPlayer.equippedItems.none { it.id == dbItem.id })
+
+    }
+
+    @Test
+    fun addItemToField_onlySavePlayer_itemsNotOnField_saveField_itemsField() {
+        var itemData = ItemData(itemInfo = ItemInfo.FuelExtraInfo())
+        var field = FieldData()
+        var playerData = PlayerData().apply { positionField.target = field }
+        itemBox.put(itemData)
+        playerBox.put(playerData)
+
+        itemData = itemBox.get(itemData.id)
+        playerData = playerBox.get(playerData.uuid)
+
+        //add item to field
+        field = playerData.positionField.target
+        field.disposedItems.add(itemData)
+
+        //save player
+        playerBox.put(playerData)
+        playerData = playerBox.get(playerData.uuid)
+
+        //field still empty
+        field = playerData.positionField.target
+        assertTrue(field.disposedItems.isEmpty())
+
+        //add item to field
+        field = playerData.positionField.target
+        field.disposedItems.add(itemData)
+
+        //save field
+        fieldBox.put(field)
+
+        //field not empty
+        playerData = playerBox.get(playerData.uuid)
+        field = playerData.positionField.target
+        assertTrue(field.disposedItems.isNotEmpty())
+
+    }
+
+    @Test
+    fun playerItem_reduceCharges_savePlayer_itemChargesChanged() {
+        var itemInfo: ItemInfo = ItemInfo.FuelExtraInfo()
+        var itemData = ItemData(itemInfo = itemInfo)
+        var playerData = PlayerData().apply { activeItems.add(itemData) }
+        itemBox.put(itemData)
+        playerBox.put(playerData)
+
+        itemData = itemBox.get(itemData.id)
+        playerData = playerBox.get(playerData.uuid)
+
+        //player item reduce charges
+        itemInfo = playerData.activeItems.first().itemInfo
+        itemInfo.charges--
+        assertTrue(itemData.itemInfo.charges != itemInfo.charges)
+
+        //save player
+        playerBox.put(playerData)
+        itemData = itemBox.get(itemData.id)
+        playerData = playerBox.get(playerData.uuid)
+        itemInfo = playerData.activeItems.first().itemInfo
+
+        assertTrue(itemData.itemInfo.charges == itemInfo.charges)
     }
 
 }

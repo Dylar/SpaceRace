@@ -7,38 +7,20 @@ import io.reactivex.Single
 
 interface PlayerDataSource {
 
-    //    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg userData: PlayerData): Completable
+    fun insertRXPlayer(vararg userData: PlayerData): Completable
+    fun insertAndReturnRXPlayer(vararg userData: PlayerData): Single<List<PlayerData>>
+    fun replaceRXAllPlayer(vararg userData: PlayerData): Single<List<PlayerData>>
 
-    fun insertAllReturnAll(vararg userData: PlayerData): Single<List<PlayerData>>
+    fun deleteRXPlayer(vararg userData: PlayerData): Completable
+    fun deleteRXAllPlayer(): Completable
 
-    fun replaceAll(vararg userData: PlayerData): Single<List<PlayerData>>
+    fun getDBPlayerByColor(vararg color: PlayerColor): List<PlayerData>
+    fun getRXAllPlayer(): Single<List<PlayerData>>
+    fun getRXPlayerById(vararg userIds: Long): Single<List<PlayerData>>
+    fun getRXPlayerByColor(vararg color: PlayerColor): Single<List<PlayerData>>
 
-    //    @Delete
-    fun delete(vararg userData: PlayerData): Completable
-    fun deleteAll(): Completable
+    fun observeAllPlayer(): Observable<List<PlayerData>>
+    fun observePlayerByColor(color: PlayerColor): Observable<List<PlayerData>>
 
-//    @Query("DELETE FROM player WHERE color = :firstName AND last_name = :lastName")
-//    fun deleteByName(firstName: PlayerColor, lastName: String): Int
-
-    //    @Query("SELECT * FROM player")
-    fun getAll(): Single<List<PlayerData>>
-
-    //    @Query("SELECT * FROM player WHERE uuid IN (:userIds)")
-    fun getById(vararg userIds: Long): Single<List<PlayerData>>
-
-    fun getByColor(vararg color: PlayerColor): Single<List<PlayerData>>
-
-    //    @Query("SELECT * FROM player")
-    fun observeAllObserver(): Observable<List<PlayerData>>
-
-    //    @Query("SELECT * FROM player WHERE color = :color")
-    fun observeByColor(color: PlayerColor): Observable<List<PlayerData>>
-
-    fun getDBByColor(vararg color: PlayerColor): List<PlayerData>
-//    fun observeByVictories(amount: Long): Observable<PlayerData>
-
-//    @Query("SELECT * FROM LessonData")
-//    fun lessons(): Flowable<List<Player>>
 
 }

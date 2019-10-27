@@ -7,13 +7,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
+import de.bitb.spacerace.utils.Logger
 
-abstract class GameImage(
-        var animation: BaseAnimation = TextureAnimation()
-) : Image() {
+abstract class GameImage() : Image() {
+    var animation: BaseAnimation = TextureAnimation()
+        set(value) {
+            drawable = value
+            field = value
+        }
 
     companion object {
-        val NONE: GameImage = object : GameImage() {
+        val NONE_GAMEIMAGE: GameImage = object : GameImage() {
             override var movingSpeed: Float = (MOVING_SPS * Math.random()).toFloat()
         }
     }
@@ -30,7 +34,7 @@ abstract class GameImage(
     var movingState: MovingState = MovingState.NONE
 
     var targetPoint: Rectangle? = null
-    var followImage: GameImage = NONE
+    var followImage: GameImage = NONE_GAMEIMAGE
 
     abstract var movingSpeed: Float
     var idlingCount = 0
@@ -41,7 +45,6 @@ abstract class GameImage(
 
 
     init {
-        drawable = animation
         debug = DEBUG_LAYOUT
     }
 

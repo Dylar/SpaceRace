@@ -16,9 +16,11 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_BUY
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_SELL
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.events.commands.player.SellItemCommand
-import de.bitb.spacerace.model.items.Item
+import de.bitb.spacerace.model.items.*
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -29,8 +31,13 @@ import javax.inject.Inject
 class ShopDetails(
         guiStage: GameGuiStage,
         shopMenu: ShopMenu,
-        val item: Item
+        private val itemType: ItemType,
+        private var playerData: PlayerData,
+        private val itemGraphic: ItemGraphic = itemType.createGraphic()
 ) : BaseMenu(guiStage, shopMenu) {
+
+    @Inject
+    lateinit var playerDataSource: PlayerDataSource
 
     @Inject
     protected lateinit var observeCommandUsecase: ObserveCommandUsecase
@@ -50,24 +57,27 @@ class ShopDetails(
         pack()
         setPosition()
     }
-
+    override fun loadData() {
+        playerData = playerDataSource.getDBPlayerByColor(playerData.playerColor).first()
+    }
     private fun addTitle() {
         creditsTitle = add("-")
-        setCreditsTitle(graphicController.getPlayerItems(graphicController.currentPlayerGraphic.playerColor).getItems(item.itemType).size)
+        val amount = playerData.storageItems.filter { it::class == itemType::class }.size
+        setCreditsTitle(amount)
         addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()
     }
 
     private fun addImage() {
-        val cell = add(item.getDisplayImage())
+        val cell = add(itemGraphic.getDisplayImage())
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }
 
     private fun addText() {
         row()
-        val cell = add(item.text)
+        val cell = add(itemType.getText())
         addPaddingTopBottom(cell, GAME_MENU_PADDING_SPACE)
         setFont(cell.actor, GAME_SIZE_FONT_SMALL)
     }
@@ -86,7 +96,7 @@ class ShopDetails(
 
         buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(BuyItemCommand(item, playerController.currentPlayerData))
+                EventBus.getDefault().post(BuyItemCommand(itemType, playerController.currentPlayerData))
                 return true
             }
         })
@@ -98,7 +108,7 @@ class ShopDetails(
 
         sellBtn = createButton(name = GAME_BUTTON_SELL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SellItemCommand(item, playerController.currentPlayerData))
+                EventBus.getDefault().post(SellItemCommand(itemType, playerController.currentPlayerData))
                 return true
             }
         })
@@ -121,15 +131,18 @@ class ShopDetails(
     }
 
     private fun setCreditsTitle(items: Int) {
-        creditsTitle.actor.setText("${item.price} ($items)")
+        creditsTitle.actor.setText("${itemType.getDefaultInfo().price} ($items)")
     }
 
     fun initObserver() {
         observeCommandUsecase.observeStream { event ->
             when (event) {
                 is BuyItemCommand,
-                is SellItemCommand
-                -> setCreditsTitle(graphicController.getPlayerItems(event.DONT_USE_THIS_PLAYER_DATA.playerColor).getItems(item.itemType).size)
+                is SellItemCommand -> {
+                    val itemCount = event.DONT_USE_THIS_PLAYER_DATA.storageItems
+                            .filter { it.itemInfo.type == itemGraphic.itemType }.size
+                    setCreditsTitle(itemCount)
+                }
             }
         }
 

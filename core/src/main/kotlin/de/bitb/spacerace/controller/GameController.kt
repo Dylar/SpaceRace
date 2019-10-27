@@ -1,11 +1,13 @@
 package de.bitb.spacerace.controller
 
 import de.bitb.spacerace.config.WIN_AMOUNT
+import de.bitb.spacerace.database.items.ItemData
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.GameOverEvent
 import de.bitb.spacerace.events.OpenEndRoundMenuEvent
+import de.bitb.spacerace.usecase.game.observe.ObserveAttachItemUseCase
 import de.bitb.spacerace.usecase.game.observe.ObserveRoundUsecase
 import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
-import de.bitb.spacerace.usecase.ui.CommandUsecase
 import de.bitb.spacerace.utils.Logger
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -18,6 +20,7 @@ class GameController
 @Inject constructor(
         var observeWinnerUsecase: ObserveWinnerUsecase,
         var observeRoundUsecase: ObserveRoundUsecase,
+        var observeAttachItemUseCase: ObserveAttachItemUseCase,
         var playerController: PlayerController,
         var graphicController: GraphicController
 ) {
@@ -28,17 +31,20 @@ class GameController
         playerController.clear()
         graphicController.clearGraphics()
     }
+
     fun initGameObserver() {
         initWinnerObserver()
         initPhaseObserver()
         playerController.initObserver()
+
+        initAttachPlayerObserver()
     }
 
     fun initWinnerObserver() {
         compositeDisposable += observeWinnerUsecase.observeStream(
                 params = WIN_AMOUNT,
                 onNext = { winner ->
-                    Logger.println("AND THE WINNER IIIIISSS: $winner")
+                    Logger.printLog("AND THE WINNER IIIIISSS: $winner")
                     EventBus.getDefault().post(GameOverEvent(winner.playerColor))
                 })
     }
@@ -47,6 +53,20 @@ class GameController
         compositeDisposable += observeRoundUsecase.observeStream { roundEnd ->
             if (roundEnd) EventBus.getDefault().post(OpenEndRoundMenuEvent())
         }
+    }
+
+    fun initAttachPlayerObserver() {
+        compositeDisposable += observeAttachItemUseCase.observeStream { (player, items) ->
+            attachToPlayer(player, items)
+        }
+    }
+
+    private fun attachToPlayer(player: PlayerData, items: List<ItemData>) {
+        val fieldGraphic = graphicController.getFieldGraphic(player.positionField.target.gamePosition)
+        val itemGraphic = fieldGraphic.disposedItems.first { it.itemType == items.first().itemInfo.type }
+        val playerGraphic = graphicController.getPlayerGraphic(player.playerColor)
+        fieldGraphic.removeItem(itemGraphic)
+        itemGraphic.itemImage.setRotating(itemGraphic, playerGraphic.playerImage, playerGraphic.playerImage.width * 0.7)
     }
 
 }

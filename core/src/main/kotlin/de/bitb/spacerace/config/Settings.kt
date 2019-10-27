@@ -8,10 +8,11 @@ import de.bitb.spacerace.config.enums.GameType
 import de.bitb.spacerace.config.enums.Language
 import de.bitb.spacerace.game.VERSION_TEST
 import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.items.ItemCollection
+import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.model.items.ItemInfo.*
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.objecthandling.GameImage
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.space.maps.MapCreator
 
 var VERSION = "007"
 val IS_TEST get() = VERSION == VERSION_TEST
@@ -23,7 +24,7 @@ var GAME_SPEED: GameSpeed = GameSpeed.GAME_SPEED_NORMAL
 
 var GAME_TYPE: GameType = GameType.GAME_TYPE_ROUND
 
-var SELECTED_MAP = MapCreator.TEST_MAP
+var SELECTED_MAP = "Unit Test"
 val SELECTED_PLAYER: MutableList<PlayerColor> = mutableListOf(PlayerColor.ORANGE, PlayerColor.GREEN)
 var WIN_AMOUNT = 1L
 var DICE_MAX = 1
@@ -38,6 +39,7 @@ var LANGUAGE = Language.ENGLISH
 
 const val BLINKING_INTERVAL = 2f
 const val ITEM_SELL_MOD = 0.7
+val DEFAULT_SHIP = ItemType.SHIP_RAIDER
 
 //GAME UI
 const val MAX_ZOOM = 5.0
@@ -51,11 +53,13 @@ val COLOR_DISCONNECTED = Color(Color.RED).apply { a = 0.7f }
 
 //DEBUG
 //var PRESELECTED_PLAYER = arrayListOf()
-var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL)
-var DEBUG_ITEM = arrayListOf(ItemCollection.NONE)
-const val DEBUG_ITEMS = 0 //Hint: destroys tests
+var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL, FieldType.GIFT)
+var DEBUG_GIFT_ITEMS: List<ItemInfo> =  listOf(MineSlowInfo())
+var DEBUG_PLAYER_ITEMS: List<ItemInfo> =  listOf(MineSlowInfo())
 
 var DEBUG_WIN_FIELD = true
 const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false
-var CAMERA_TARGET: GameImage? = null
+var DEBUG_CAMERA_TARGET: GameImage? = null
+
+const val BITRISE_BORG = false

@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.0-alpha12'
+        classpath 'com.android.tools.build:gradle:3.6.0-beta01'
         classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$gdx.roboVMVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.20"
@@ -29,8 +29,8 @@ allprojects {
         appName = "SpaceRace"
 
         majorVersion = "0"
-        midVersion = "6"
-        patchVersion = "1"
+        midVersion = "7"
+        patchVersion = "0"
         versionSuffix = "-ALPHA"
     }
 
@@ -172,7 +172,12 @@ project(":core") {
 
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
         implementation "com.google.code.gson:gson:$gsonVersion"
+        implementation 'com.squareup.moshi:moshi:1.8.0'
+        implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
+        implementation("com.squareup.moshi:moshi-adapters:1.8.0")
+        kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.8.0'
 
         implementation 'org.greenrobot:eventbus:3.1.1'
 

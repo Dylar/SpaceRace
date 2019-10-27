@@ -11,9 +11,9 @@ import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
+import de.bitb.spacerace.usecase.game.check.CheckPlayerConfig
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
-import de.bitb.spacerace.utils.Logger
 import de.bitb.spacerace.utils.RXFunctions.zipParallel
 import io.reactivex.Single
 import javax.inject.Inject
@@ -40,13 +40,13 @@ class MoveUsecase @Inject constructor(
             }
 
     private fun getField(positionData: PositionData): Single<FieldData> =
-            mapDataSource.getField(positionData)
+            mapDataSource.getRXFieldByPosition(positionData).map { it.first() }
 
     private fun checkCurrentPlayer(playerColor: PlayerColor) =
             checkCurrentPlayerUsecase.buildUseCaseCompletable(playerColor)
 
     private fun checkMovePhase(playerColor: PlayerColor) =
-            checkPlayerPhaseUsecase.buildUseCaseSingle(playerColor to Phase.MOVE)
+            checkPlayerPhaseUsecase.buildUseCaseSingle(CheckPlayerConfig(playerColor, setOf(Phase.MOVE)))
 
     private fun checkMoveable(playerData: PlayerData, target: FieldData): Single<Pair<PlayerData, FieldData>> =
             Single.create { emitter ->
@@ -73,14 +73,20 @@ class MoveUsecase @Inject constructor(
     ): Single<MoveResult> {
         playerData.setSteps(targetField.gamePosition)
         playerData.positionField.target = targetField
-        Logger.println(
-                "Player: $playerData",
-                "Field: ${targetField.fieldType.name}, ${targetField.uuid}"
-        )
         val moveInfo = MoveResult(playerData, targetField.gamePosition, playerData.areStepsLeft(), playerData.previousStep)
-        return playerDataSource.insert(playerData)
+        return playerDataSource.insertRXPlayer(playerData)
                 .andThen(getTargetableFieldUsecase.buildUseCaseSingle(playerData))
-                .map { moveInfo.apply { targetableFields.addAll(it) } }
+                .flatMap { fields ->
+                    playerDataSource.getRXPlayerById(playerData.uuid)
+                            .map { it.first() }
+                            .map { player ->
+                                moveInfo.also {
+                                    it.targetableFields.addAll(fields)
+                                    it.player = player
+                                }
+                            }
+                }
+
     }
 
 }

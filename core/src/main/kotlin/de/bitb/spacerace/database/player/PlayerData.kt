@@ -7,7 +7,10 @@ import de.bitb.spacerace.database.converter.IntListConverter
 import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionListConverter
+import de.bitb.spacerace.database.items.ItemData
+import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.database.map.isConnectedTo
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
@@ -19,6 +22,7 @@ import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
 import io.objectbox.relation.ToOne
+import kotlin.math.roundToInt
 
 val NONE_PLAYER_DATA: PlayerData = PlayerData()
 
@@ -52,6 +56,18 @@ data class PlayerData(
     @Backlink(to = "owner")
     var mines: ToMany<FieldData> = ToMany(this, PlayerData_.mines)
 
+    @JvmField
+    var storageItems: ToMany<ItemData> = ToMany(this, PlayerData_.storageItems)
+
+    @JvmField
+    var attachedItems: ToMany<ItemData> = ToMany(this, PlayerData_.attachedItems)
+
+    @JvmField
+    var equippedItems: ToMany<ItemData> = ToMany(this, PlayerData_.equippedItems)
+
+    @JvmField
+    var activeItems: ToMany<ItemData> = ToMany(this, PlayerData_.equippedItems)
+
     val gamePosition: PositionData
         get() = positionField.target.gamePosition
 
@@ -67,12 +83,6 @@ data class PlayerData(
 
     private fun previousFieldSelected(gamePosition: PositionData): Boolean {
         return steps.size > 1 && previousStep.isPosition(gamePosition)
-    }
-
-    fun nextRound() {
-        steps.clear()
-        diceResults.clear()
-        phase = Phase.END_ROUND
     }
 
     fun addRandomWin(): Int {
@@ -93,7 +103,12 @@ data class PlayerData(
     fun areStepsLeft(): Boolean =
             stepsLeft() > 0
 
-    fun getMaxSteps(): Int = diceResults.sum().let { result -> if (diceResults.isNotEmpty() && result <= 0) 1 else result }
+    fun getMaxSteps(): Int {
+        val (multiValue, addValue) = getModifierValues()
+        val result: Int = (diceResults.sum() * (multiValue + 1) + addValue).roundToInt()
+        return if (diceResults.isNotEmpty() && result <= 0) 1
+        else result
+    }
 
     fun isPreviousPosition(fieldPosition: PositionData) = steps.size > 1 && previousStep.isPosition(fieldPosition)
 
@@ -101,12 +116,9 @@ data class PlayerData(
         val isMovePhase = phase == Phase.MOVE
         val isConnected = this isConnectedTo fieldData
         val isPreviousField = previousFieldSelected(fieldData.gamePosition)
-
+//TODO path finding
         return isMovePhase && isConnected && (areStepsLeft() || isPreviousField)
     }
-
-    infix fun isConnectedTo(fieldData: FieldData): Boolean =
-            fieldData isConnectedTo positionField.target
 
 //            playerController.getPlayerItems(playerColor).getModifierValues(1) //TODO do item shit
 //                    .let { (mod, add) ->
@@ -116,3 +128,6 @@ data class PlayerData(
 //                        if (diceResults.isNotEmpty() && result <= 0) 1 else result
 //                    }
 }
+
+infix fun PlayerData.isConnectedTo(fieldData: FieldData): Boolean =
+        fieldData isConnectedTo positionField.target

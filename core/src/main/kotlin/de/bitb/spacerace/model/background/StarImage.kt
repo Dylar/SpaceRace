@@ -19,19 +19,22 @@ import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
 import de.bitb.spacerace.model.objecthandling.moving.MovingImage
 import de.bitb.spacerace.model.player.PlayerColor
+import kotlin.math.atan2
 
-class StarImage(img: Texture,
-                var gameScreen: BaseScreen,
-                var startX: Float = 0f,
-                var startY: Float = 0f,
-                var endX: Float = Dimensions.SCREEN_WIDTH,
-                var endY: Float = SCREEN_HEIGHT)
-    : GameImage(TextureAnimation(img))
-        , IMovingImage by MovingImage() {
+class StarImage(
+        img: Texture,
+        var gameScreen: BaseScreen,
+        var startX: Float = 0f,
+        var startY: Float = 0f,
+        var endX: Float = Dimensions.SCREEN_WIDTH,
+        var endY: Float = SCREEN_HEIGHT
+) : GameImage(),
+        IMovingImage by MovingImage() {
 
     override var movingSpeed: Float = (ROTATION_SPS * Math.random()).toFloat()
 
     init {
+        animation = TextureAnimation(img)
         setBounds(0f, 0f, ITEM_BORDER, ITEM_BORDER)
         touchable = Touchable.disabled
         movingState = MovingState.NONE
@@ -71,7 +74,7 @@ class StarImage(img: Texture,
         startY = (Math.random() * SCREEN_HEIGHT).toFloat()
         endY = (Math.random() * SCREEN_HEIGHT).toFloat()
 
-        val degrees = Math.atan2(
+        val degrees = atan2(
                 (endY - startY).toDouble(),
                 (endX - startX).toDouble()
         ) * ONE_EIGHTY_DEGREE / Math.PI

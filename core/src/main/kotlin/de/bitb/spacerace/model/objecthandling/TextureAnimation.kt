@@ -10,8 +10,8 @@ class TextureAnimation(
 ) : BaseAnimation() {
 
     var texture: TextureRegion? = null
-    private val defaultTexture: TextureRegion by lazy { TextureRegion(TextureCollection.raiderShipMoving2) }
-
+    private val defaultTexture: TextureRegion by lazy { TextureRegion(TextureCollection.unknownPlanet) }
+//What is happening :D
     init {
         img?.also {
             texture = TextureRegion(it)
@@ -22,6 +22,7 @@ class TextureAnimation(
     }
 
     override fun actAnimation(gameImage: GameImage, delta: Float) {
+//        (gameImage.drawable as TextureRegionDrawable).region = TextureRegion(TextureCollection.raiderShipMoving2)
         (gameImage.drawable as TextureRegionDrawable).region = texture?.let { it } ?: defaultTexture
     }
 }

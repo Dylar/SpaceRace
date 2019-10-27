@@ -34,8 +34,8 @@ class GameActionGui(
 ) : Table(TextureCollection.skin),
         GuiComponent by guiStage {
 
-    private var itemMenu = ItemMenu(guiStage)
-    private var shopMenu = ShopMenu(guiStage)
+    private lateinit var itemMenu: ItemMenu //= ItemMenu(guiStage, NONE_PLAYER_DATA)
+    private lateinit var shopMenu: ShopMenu //= ShopMenu(guiStage)
 
     @Inject
     protected lateinit var playerController: PlayerController
@@ -79,12 +79,12 @@ class GameActionGui(
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun openEndRoundMenuEvent(event: OpenEndRoundMenuEvent){
+    fun openEndRoundMenuEvent(event: OpenEndRoundMenuEvent) {
         openEndRoundMenu()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun openShopEvent(event:ObtainShopEvent){
+    fun openShopEvent(event: ObtainShopEvent) {
         openShop()
     }
 
@@ -101,16 +101,22 @@ class GameActionGui(
     }
 
     private fun openItemMenu() {
+        if (!::itemMenu.isInitialized) {
+            itemMenu = ItemMenu(guiStage, playerController.currentPlayerData)
+        }
         if (itemMenu.isOpen) {
             itemMenu.closeMenu()
         } else {
-            itemMenu = ItemMenu(guiStage)
+            itemMenu = ItemMenu(guiStage, playerController.currentPlayerData)
             itemMenu.openMenu()
             guiStage.addActor(itemMenu)
         }
     }
 
     private fun openShop() {
+        if (!::shopMenu.isInitialized) {
+            shopMenu = ShopMenu(guiStage)
+        }
         if (shopMenu.isOpen) {
             shopMenu.closeMenu()
         } else {

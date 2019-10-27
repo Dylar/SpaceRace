@@ -8,7 +8,7 @@ import io.reactivex.rxkotlin.subscribeBy
 val defaultWorkerThread = GdxSchedulers.workerThread
 val defaultSubscriberThread = GdxSchedulers.mainThread
 val defaultOnError: (Throwable) -> Unit = {
-    Logger.println("Default onError: ${it::class.simpleName}")
+    Logger.printLog("Default onError: ${it::class.simpleName}")
     it.printStackTrace()
 }
 

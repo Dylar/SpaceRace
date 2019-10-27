@@ -16,11 +16,11 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_LABEL_PLAYER
 import de.bitb.spacerace.controller.GraphicController
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.model.enums.Phase
 import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.PlayerItems
 import de.bitb.spacerace.ui.base.GuiComponent
 import javax.inject.Inject
 
@@ -102,12 +102,12 @@ class PlayerStatsGui(
 
     private fun updateDice(playerData: PlayerData) {
         val maxSteps = playerData.getMaxSteps()
-        val diceResult = "${(maxSteps - playerData.stepsLeft())}/$maxSteps"
+        val diceResult = "${playerData.stepsLeft()}/$maxSteps"
         diceLabel.setText(diceResult)
     }
 
-    private fun updateDiceMod(playerItems: PlayerItems) {
-        playerItems.getModifierValues()
+    private fun updateDiceMod(playerData: PlayerData) {
+        playerData.getModifierValues()
                 .also { (mod, add) ->
                     diceModLabel.setText("${"%.1f".format(mod)} / $add")
                 }
@@ -118,13 +118,11 @@ class PlayerStatsGui(
     }
 
     fun update(playerData: PlayerData) {
-        val items = graphicController.getPlayerItems(playerData.playerColor)
-
         updatePlayerAmount(playerData)
         updateCredits(playerData)
         updateRound(playerData.playerColor)
         updateDice(playerData)
-        updateDiceMod(items)
+        updateDiceMod(playerData)
         updatePhase(playerData.phase)
         pack()
     }

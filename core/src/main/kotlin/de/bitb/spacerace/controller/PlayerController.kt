@@ -40,7 +40,7 @@ class PlayerController
 
     fun changePlayer() {
         currentPlayerIndex = (getPlayerIndex() + 1) % players.size
-        Logger.println("newPlayer: $currentColor")
+        Logger.printLog("newPlayer: $currentColor")
         playerColorDispenser.publishUpdate(currentColor)
     }
 

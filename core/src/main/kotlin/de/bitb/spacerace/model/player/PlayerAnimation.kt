@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.model.items.disposable.moving.MovingState
 import de.bitb.spacerace.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.utils.Logger
 
 class PlayerAnimation(
         private var movingAnimation: Animation<TextureRegion>,
@@ -16,8 +17,10 @@ class PlayerAnimation(
     private var landingTime = 0f
 
     init {
-        region = landingAnimation.keyFrames.last()
+        region = getDefaultImage()
     }
+
+    fun getDefaultImage(): TextureRegion? = movingAnimation.keyFrames.last()
 
     override fun actAnimation(gameImage: GameImage, delta: Float) {
         val draw = when (gameImage.movingState) {

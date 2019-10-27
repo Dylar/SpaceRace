@@ -20,36 +20,37 @@ class PlayerRespository(
     private fun getCurrentPlayers() = getSaveData()?.players ?: listOf<PlayerData>()
     private fun getCurrentPlayerIds() = getCurrentPlayers().map { it.uuid }.toLongArray()
     private fun getPlayerId(color: PlayerColor): Long = getCurrentPlayers().find { it.playerColor == color }?.uuid
-            ?: error("ColorNotSelected")
+            ?: error("Color $color not selected")
 
-    override fun getDBByColor(vararg color: PlayerColor): List<PlayerData> =
+    override fun getDBPlayerByColor(vararg color: PlayerColor): List<PlayerData> =
             getCurrentPlayers().filter { it.playerColor in color }
 
-    override fun insert(vararg userData: PlayerData): Completable =
+    override fun insertRXPlayer(vararg userData: PlayerData): Completable =
             Completable.fromCallable { playerBox.put(*userData) }
 
-    override fun insertAllReturnAll(vararg userData: PlayerData): Single<List<PlayerData>> =
-            insert(*userData).andThen(getAll())
+    override fun insertAndReturnRXPlayer(vararg userData: PlayerData): Single<List<PlayerData>> =
+            insertRXPlayer(*userData)
+                    .andThen(getRXPlayerById(*userData.map { it.uuid }.toLongArray()))
 
-    override fun replaceAll(vararg userData: PlayerData): Single<List<PlayerData>> =
-            delete(*userData).andThen(insertAllReturnAll(*userData))
+    override fun replaceRXAllPlayer(vararg userData: PlayerData): Single<List<PlayerData>> =
+            deleteRXPlayer(*userData).andThen(insertAndReturnRXPlayer(*userData))
 
-    override fun delete(vararg userData: PlayerData): Completable =
+    override fun deleteRXPlayer(vararg userData: PlayerData): Completable =
             Completable.fromAction { playerBox.remove(*userData) }
 
-    override fun deleteAll(): Completable =
+    override fun deleteRXAllPlayer(): Completable =
             Completable.fromAction { playerBox.removeAll() }
 
-    override fun getAll(): Single<List<PlayerData>> =
+    override fun getRXAllPlayer(): Single<List<PlayerData>> =
             Single.fromCallable { getCurrentPlayers() }
 
-    override fun getById(vararg userIds: Long): Single<List<PlayerData>> {
+    override fun getRXPlayerById(vararg userIds: Long): Single<List<PlayerData>> {
         val query = playerBox.query()
                 .inValues(PlayerData_.uuid, userIds)
         return RxQuery.single(query.build())
     }
 
-    override fun getByColor(vararg color: PlayerColor): Single<List<PlayerData>> {
+    override fun getRXPlayerByColor(vararg color: PlayerColor): Single<List<PlayerData>> {
         val playerIds = getCurrentPlayerIds()
         val query = playerBox.query()
                 .inValues(PlayerData_.uuid, playerIds)
@@ -57,14 +58,14 @@ class PlayerRespository(
         return RxQuery.single(query.build())
     }
 
-    override fun observeAllObserver(): Observable<List<PlayerData>> {
+    override fun observeAllPlayer(): Observable<List<PlayerData>> {
         val playerIds = getCurrentPlayerIds()
         val query = playerBox.query()
                 .inValues(PlayerData_.uuid, playerIds)
         return RxQuery.observable(query.build())
     }
 
-    override fun observeByColor(color: PlayerColor): Observable<List<PlayerData>> {
+    override fun observePlayerByColor(color: PlayerColor): Observable<List<PlayerData>> {
         val playerId = getPlayerId(color)
         val query = playerBox.query()
                 .equal(PlayerData_.uuid, playerId)

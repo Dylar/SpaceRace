@@ -1,17 +1,26 @@
 package de.bitb.spacerace.tests.usecase.observer
 
+import de.bitb.spacerace.config.BITRISE_BORG
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
+import de.bitb.spacerace.config.GOAL_CREDITS
+import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.core.*
-import de.bitb.spacerace.env.SpaceEnvironment
-import de.bitb.spacerace.env.TEST_PLAYER_1
-import de.bitb.spacerace.env.TEST_PLAYER_2
+import de.bitb.spacerace.env.*
+import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class WinnerUsecaseTest : GameTest() {
 
+    @After
+    override fun teardown() {
+        super.teardown()
+        DEBUG_WIN_FIELD = true
+    }
+
     @Test
     fun moveToAnyField_DontWinGame() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase()
@@ -26,25 +35,27 @@ class WinnerUsecaseTest : GameTest() {
                 }
     }
 
-//    @Test //TODO BROKEN ON BITRISE
-//    fun goals1_moveOnGoal_WinGame() {
-//        SpaceEnvironment()
-//                .apply {
-//                    initGame()
-//                    moveToGoal()
-//
-//                    nextPhase()
-//                    assertCurrentPlayer(TEST_PLAYER_1)
-//                    assertPlayerVictories(TEST_PLAYER_1)
-//                    assertGameEnd()
-//                    assertWinner(TEST_PLAYER_1)
-//                    assertNotWinner(TEST_PLAYER_2)
-//                }
-//    }
+    @Test
+    fun goals1_moveOnGoal_WinGame() {
+//        assertTrue(true) //TODO bitrise bug...
+        if (BITRISE_BORG) {
+            TestEnvironment()
+                    .initGame()
+                    .moveToGoal()
+
+                    .nextPhase()
+                    .assertCurrentPlayer(TEST_PLAYER_1)
+                    .assertPlayerVictories(TEST_PLAYER_1)
+                    .assertGameEnd()
+                    .assertWinner(TEST_PLAYER_1)
+                    .assertNotWinner(TEST_PLAYER_2)
+
+        }
+    }
 
     @Test
     fun goals2_moveOnGoal_DontWinGame_checkNewGoal() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     DEBUG_WIN_FIELD = false
                     initGame(winAmount = 2)
@@ -62,8 +73,18 @@ class WinnerUsecaseTest : GameTest() {
                     assertNotWinner(TEST_PLAYER_2)
 
                     assertNotGoalField(goalPosition)
-                    DEBUG_WIN_FIELD = true
                 }
+    }
+
+    @Test
+    fun goals2_moveOnGoal_DontWinGame_playerMoneyIncreased() {
+        TestEnvironment()
+                .also { DEBUG_WIN_FIELD = false }
+                .initGame(winAmount = 2)
+                .moveToGoal()
+                .nextPhase { it.player.credits == START_CREDITS + GOAL_CREDITS }
+                .assertPlayerVictories(TEST_PLAYER_1)
+                .assertNotGameEnd()
     }
 
 }

@@ -2,16 +2,20 @@ package de.bitb.spacerace.controller
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import de.bitb.spacerace.config.DEFAULT_SHIP
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.events.commands.player.MoveCommand
+import de.bitb.spacerace.model.items.ItemGraphic
+import de.bitb.spacerace.model.items.ItemType
+import de.bitb.spacerace.model.items.createGraphic
 import de.bitb.spacerace.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.objecthandling.getRunnableAction
 import de.bitb.spacerace.model.player.NONE_PLAYER
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.model.player.PlayerGraphics
-import de.bitb.spacerace.model.player.PlayerItems
+import de.bitb.spacerace.model.player.PlayerImage
 import de.bitb.spacerace.model.space.fields.FieldGraphic
 import de.bitb.spacerace.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.model.space.groups.ConnectionList
@@ -42,15 +46,9 @@ class GraphicController
                     ?.let { fieldGraphics[it] }
                     ?: NONE_SPACE_FIELD
 
-    fun getPlayerFieldGraphic(playerColor: PlayerColor) =
-            getFieldGraphic(getPlayerGraphic(playerColor).gamePosition)
-
-    @Deprecated("")
-    fun getPlayerItems(playerColor: PlayerColor): PlayerItems =
-            getPlayerGraphic(playerColor).playerItems
-
     fun addPlayer(playerColor: PlayerColor, startField: FieldGraphic) {
-        val player = PlayerGraphics(playerColor)
+        val playerImage = PlayerImage(playerColor, DEFAULT_SHIP)
+        val player = PlayerGraphics(playerColor, playerImage)
 
         player.setPosition(startField.gamePosition)
         player.getGameImage().apply {
@@ -101,8 +99,7 @@ class GraphicController
     fun changePlayer() {
         var graphicPlainIndex = playerGraphics
                 .map { it.getGameImage().zIndex }
-                .sorted()
-                .let { it.last() }
+                .max()!!
 
         val playerIndex = playerController.currentPlayerIndex
         for (i in playerIndex until playerGraphics.size) {
@@ -112,10 +109,6 @@ class GraphicController
         for (i in 0 until playerIndex) {
             playerGraphics[i].getGameImage().zIndex = graphicPlainIndex--
         }
-
-//        Logger.println("oldPlayer: ${oldPlayer.playerColor}")
-//        //TODO items in db
-//        oldPlayer.playerItems.removeUsedItems()
     }
 
     fun setGoal(oldGoal: PositionData = NONE_POSITION, currentGoal: PositionData = NONE_POSITION) {
@@ -127,7 +120,7 @@ class GraphicController
 
     fun setConnectionColor(player: PlayerData, fields: MutableList<FieldData>) {
         connectionGraphics.forEach { connection ->
-            connection.let { (field1, field2) ->
+            connection.also { (field1, field2) ->
                 val playerPosition = player.gamePosition
                 val field1Position = field1.gamePosition
                 val field2Position = field2.gamePosition
@@ -143,6 +136,11 @@ class GraphicController
     fun setMineOwner(player: PlayerData) {
         getFieldGraphic(player.gamePosition).setBlinkColor(player.playerColor.color)
     }
+
+    fun getStorageItemMap(playerData: PlayerData): Map<ItemType, ItemGraphic> =
+            playerData.storageItems
+                    .map { it.itemInfo.createGraphic(playerData.playerColor) }
+                    .associateBy { it.itemType }
 
 
 //    fun moveMovables() { //TODO make items moveable again !

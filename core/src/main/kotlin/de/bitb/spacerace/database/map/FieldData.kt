@@ -1,12 +1,12 @@
 package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.database.converter.FieldTypeConverter
-import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionDataConverter
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerData_
 import de.bitb.spacerace.model.enums.FieldType
 import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Convert
@@ -43,5 +43,9 @@ data class FieldData(
     @JvmField
     var owner: ToOne<PlayerData> = ToOne(this, FieldData_.owner)
 
-    infix fun isConnectedTo(fieldData: FieldData) = connections.any { it.gamePosition.isPosition(fieldData.gamePosition) }
+    @JvmField
+    var disposedItems: ToMany<ItemData> = ToMany(this, FieldData_.disposedItems)
+
 }
+
+infix fun FieldData.isConnectedTo(fieldData: FieldData) = connections.any { it.gamePosition.isPosition(fieldData.gamePosition) }

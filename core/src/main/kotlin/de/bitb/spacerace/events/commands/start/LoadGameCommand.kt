@@ -13,7 +13,6 @@ import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.model.space.fields.FieldGraphic
-import de.bitb.spacerace.model.space.maps.initDefaultMap
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
@@ -57,8 +56,8 @@ class LoadGameCommand : BaseCommand() {
                     onSuccess = ::onSuccess,
                     onError = ::onError)
         } ?: kotlin.run {
-            val map = SELECTED_MAP.createMap().initDefaultMap() //TODO delete or save somewhere
-            val config = LoadGameConfig(SELECTED_PLAYER, map)
+            val mapName = SELECTED_MAP //TODO delete or save somewhere
+            val config = LoadGameConfig(SELECTED_PLAYER, mapName)
             loadNewGameUsecase.getResult(
                     params = config,
                     onSuccess = ::onSuccess,

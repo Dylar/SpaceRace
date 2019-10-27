@@ -1,15 +1,18 @@
 package de.bitb.spacerace.usecase.game.init
 
+import de.bitb.spacerace.config.DEBUG_PLAYER_ITEMS
 import de.bitb.spacerace.controller.PlayerController
 import de.bitb.spacerace.core.PlayerColorDispenser
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
-import de.bitb.spacerace.database.map.MapData
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.exceptions.SelectMorePlayerException
 import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.model.items.ItemInfo
 import de.bitb.spacerace.model.objecthandling.PositionData
 import de.bitb.spacerace.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
@@ -18,16 +21,25 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class LoadNewGameUsecase @Inject constructor(
-        private val loadGameUsecase: LoadGameUsecase
+        private val loadGameUsecase: LoadGameUsecase,
+        private val mapDataSource: MapDataSource
 ) : ResultUseCase<LoadGameResult, LoadGameConfig> {
 
     override fun buildUseCaseSingle(params: LoadGameConfig): Single<LoadGameResult> =
-            params.let { (players, map) ->
+            params.let { (players, mapName) ->
                 checkPlayerSize(players)
                         .andThen(initPlayers(players))
-                        .flatMap { initMap(it, map) }
+                        .flatMap { initMap(it, mapName) }
+                        .doOnSuccess { initDebugItem(it) }
                         .flatMap { loadGameUsecase.buildUseCaseSingle(it) }
             }
+
+    private fun initDebugItem(saveData: SaveData) {
+        //DEBUG items
+        if (DEBUG_PLAYER_ITEMS.isNotEmpty()) {
+            initPlayerItems(saveData, DEBUG_PLAYER_ITEMS)
+        }
+    }
 
     private fun initPlayers(players: List<PlayerColor>): Single<SaveData> =
             Single.fromCallable {
@@ -39,15 +51,15 @@ class LoadNewGameUsecase @Inject constructor(
                 }
             }
 
-
     private fun checkPlayerSize(players: List<PlayerColor>): Completable =
             Completable.create { emitter ->
                 if (players.size > 1) emitter.onComplete()
                 else emitter.onError(SelectMorePlayerException())
             }
 
-    private fun initMap(saveData: SaveData, map: MapData): Single<SaveData> =
+    private fun initMap(saveData: SaveData, mapName: String): Single<SaveData> =
             Single.fromCallable {
+                val map = mapDataSource.getDBMaps(mapName).first()
                 val connections = mutableMapOf<PositionData, FieldData>()
                 //add fields
                 map.fields.forEach { config ->
@@ -67,7 +79,7 @@ class LoadNewGameUsecase @Inject constructor(
                 }
 
                 //set goal
-                saveData.goal.target = saveData.fields.find { it.fieldType == FieldType.GOAL } //TODO maybe another? TESTS?
+                saveData.goal.target = saveData.fields.find { it.fieldType == FieldType.GOAL }
                         ?: NONE_FIELD_DATA
 
                 //set player startfield
@@ -87,15 +99,22 @@ class LoadGameUsecase
 ) : ResultUseCase<LoadGameResult, SaveData> {
 
     override fun buildUseCaseSingle(params: SaveData): Single<LoadGameResult> =
-            saveDataSource.loadGame(params)
+            loadGame(params)
                     .doOnSuccess { initPlayer(it) }
                     .map { LoadGameResult(it) }
                     .doAfterSuccess { pushCurrentPlayer(it.saveData.currentColor) }
 
+    private fun loadGame(saveData: SaveData): Single<SaveData> =
+            saveDataSource.getRXAllGames()
+                    .map { it.onEach { save -> save.loaded = false } }
+                    .flatMapCompletable { saveDataSource.insertRXSaveData(*it.toTypedArray()) }
+                    .andThen(Single.fromCallable { saveData.also { it.loaded = true } })
+                    .flatMap { saveDataSource.insertAndReturnRXSaveData(it).map { it.first() } }
+
     private fun initPlayer(saveData: SaveData) {
         saveData.players
-                .map { player -> player.playerColor }
-                .forEach { color -> playerController.addPlayer(color) }
+                .map { it.playerColor }
+                .forEach { playerController.addPlayer(it) }
     }
 
     private fun pushCurrentPlayer(currentColor: PlayerColor) =
@@ -104,10 +123,23 @@ class LoadGameUsecase
 
 data class LoadGameConfig(
         val players: List<PlayerColor>,
-        val mapData: MapData
+        val mapName: String
 )
 
 data class LoadGameResult(
         var saveData: SaveData
-
 )
+
+
+private fun initPlayerItems(
+        saveData: SaveData,
+        items: List<ItemInfo>
+) {
+    saveData.players
+            .onEach { player ->
+                items.map {
+                    val item = ItemData(itemInfo = it)
+                    player.storageItems.add(item)
+                }
+            }
+}

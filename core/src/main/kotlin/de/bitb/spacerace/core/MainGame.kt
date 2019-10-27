@@ -4,13 +4,20 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
+import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.VERSION
+import de.bitb.spacerace.database.map.MapDataSource
+import de.bitb.spacerace.database.player.PlayerDataSource
+import de.bitb.spacerace.database.savegame.SaveDataSource
+import de.bitb.spacerace.env.createTestMap
 import de.bitb.spacerace.events.GameOverEvent
 import de.bitb.spacerace.events.commands.BaseCommand
 import de.bitb.spacerace.injection.components.AppComponent
 import de.bitb.spacerace.injection.components.DaggerAppComponent
 import de.bitb.spacerace.injection.modules.ApplicationModule
 import de.bitb.spacerace.injection.modules.DatabaseModule
+import de.bitb.spacerace.model.space.maps.MapCreator
+import de.bitb.spacerace.model.space.maps.initDefaultMap
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.start.StartScreen
 import de.bitb.spacerace.usecase.ui.CommandUsecase
@@ -32,6 +39,13 @@ open class MainGame(
     @Inject
     protected lateinit var commandUsecase: CommandUsecase
 
+    @Inject
+    protected lateinit var mapDataSource: MapDataSource
+    @Inject
+    protected lateinit var saveDataSource: SaveDataSource
+    @Inject
+    protected lateinit var playerDataSource: PlayerDataSource
+
     init {
         VERSION = version
     }
@@ -47,7 +61,19 @@ open class MainGame(
         appComponent = initComponent()
         appComponent.inject(this)
 
+        initDefaultMaps()
+
         commandUsecase.observeStream()
+    }
+
+    private fun initDefaultMaps() {
+        //TODO delete this some day
+        val maps = MapCreator.values()
+                .map { it.createMap().initDefaultMap(it.name) }
+                .toMutableList()
+
+        maps.add(createTestMap(SELECTED_MAP))
+        mapDataSource.insertDBMaps(*maps.toTypedArray())
     }
 
     override fun initScreen() {
@@ -111,4 +137,5 @@ open class MainGame(
     private fun isBackTipped(): Boolean {
         return checkCombi(Input.Keys.ALT_LEFT, Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)
     }
+
 }

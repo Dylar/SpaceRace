@@ -13,7 +13,7 @@ class GetTargetableFieldUsecase @Inject constructor(
 
     override fun buildUseCaseSingle(params: PlayerData): Single<List<FieldData>> =
             mapDataSource
-                    .getAllFields()
+                    .getRXAllFields()
                     .map { fields ->
                         fields.filter { params.canPlayerMoveTo(it) }
                     }

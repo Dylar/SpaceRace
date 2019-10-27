@@ -3,8 +3,6 @@ package de.bitb.spacerace.database.converter
 import de.bitb.spacerace.utils.doForEachExceptLast
 import io.objectbox.converter.PropertyConverter
 
-private const val SEPERATOR = ","
-
 class IntListConverter : PropertyConverter<MutableList<Int>, String> {
 
     override fun convertToDatabaseValue(entityProperty: MutableList<Int>?): String? {

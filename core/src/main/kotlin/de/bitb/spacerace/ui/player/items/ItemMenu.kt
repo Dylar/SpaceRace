@@ -7,20 +7,30 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
-import de.bitb.spacerace.model.items.Item
-import de.bitb.spacerace.model.items.ItemCollection
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
+import de.bitb.spacerace.model.items.ItemGraphic
+import de.bitb.spacerace.model.items.ItemType
 import de.bitb.spacerace.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
+import javax.inject.Inject
 
 class ItemMenu(
-        guiStage: GameGuiStage
+        guiStage: GameGuiStage,
+        private var playerData: PlayerData
 ) : BaseMenu(guiStage) {
 
-    private lateinit var itemDetails: ItemDetails
+    @Inject
+    lateinit var playerDataSource: PlayerDataSource
+
+    private lateinit var itemDetailsMenu: ItemDetailsMenu
 
     init {
-        val items = graphicController.currentPlayerGraphic.playerItems.getItemsTypeMap()
+        MainGame.appComponent.inject(this)
+
+        val items = graphicController.getStorageItemMap(playerData)
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
@@ -31,6 +41,10 @@ class ItemMenu(
         pack()
 
         setPosition()
+    }
+
+    override fun loadData() {
+        playerData = playerDataSource.getDBPlayerByColor(playerData.playerColor).first()
     }
 
     private fun setPosition() {
@@ -44,20 +58,19 @@ class ItemMenu(
         cell.colspan(size)
     }
 
-    private fun addItems(items: MutableMap<ItemCollection, MutableList<Item>>) {
+    private fun addItems(items: Map<ItemType, ItemGraphic>) {
         row()
         for (typeList in items) {
-            if (typeList.value.isNotEmpty()) {
-                val displayImage = typeList.value[0].getDisplayImage()
-                displayImage.addListener(object : InputListener() {
-                    override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                        itemDetails = ItemDetails(guiStage, this@ItemMenu, typeList.value)
-                        itemDetails.openMenu()
-                        return true
-                    }
-                })
-                add(displayImage)
-            }
+            val itemType = typeList.key
+            val displayImage = typeList.value.getDisplayImage()
+            displayImage.addListener(object : InputListener() {
+                override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                    itemDetailsMenu = ItemDetailsMenu(guiStage, this@ItemMenu, itemType, playerData)
+                    itemDetailsMenu.openMenu()
+                    return true
+                }
+            })
+            add(displayImage)
         }
     }
 

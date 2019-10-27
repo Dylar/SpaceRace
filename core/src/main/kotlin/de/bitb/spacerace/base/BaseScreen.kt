@@ -8,8 +8,10 @@ import de.bitb.spacerace.CameraActions.CAMERA_LOCKED
 import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
+import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.utils.Logger
 
 
@@ -63,7 +65,7 @@ open class BaseScreen(
             }
 
             override fun keyDown(keycode: Int): Boolean {
-                Logger.println("KEY DOWN: ${Input.Keys.toString(keycode)}", "KEY CODE: $keycode")
+                Logger.printLog("KEY DOWN: ${Input.Keys.toString(keycode)}", "KEY CODE: $keycode")
                 return true
             }
 

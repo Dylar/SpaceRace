@@ -13,7 +13,7 @@ class GetPlayerUsecase @Inject constructor(
 
     override fun buildUseCaseSingle(params: PlayerColor): Single<PlayerData> {
         return playerDataSource
-                .getByColor(params)
+                .getRXPlayerByColor(params)
                 .map { it.first() }
     }
 }

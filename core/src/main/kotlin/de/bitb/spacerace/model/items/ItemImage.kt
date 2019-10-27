@@ -11,9 +11,10 @@ import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
 import de.bitb.spacerace.model.player.PlayerColor
 
-class ItemImage(val img: Texture,
-                var owner: PlayerColor)
-    : GameImage(TextureAnimation(img)),
+class ItemImage(
+        img: Texture,
+        var owner: PlayerColor)
+    : GameImage(),
         IRotatingImage by RotatingImage(),
         IMovingImage by MovingImage() {
 
@@ -21,6 +22,7 @@ class ItemImage(val img: Texture,
 
     init {
         setOrigin(ITEM_BORDER / 2, ITEM_BORDER / 2)
+        animation = TextureAnimation(img)
     }
 
     override fun act(delta: Float) {
