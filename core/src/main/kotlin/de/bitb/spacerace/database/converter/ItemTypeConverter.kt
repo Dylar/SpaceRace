@@ -1,7 +1,7 @@
 package de.bitb.spacerace.database.converter
 
 import de.bitb.spacerace.base.JsonParser
-import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.grafik.model.items.ItemInfo
 import io.objectbox.converter.PropertyConverter
 
 class ItemTypeConverter : PropertyConverter<ItemInfo, String> {

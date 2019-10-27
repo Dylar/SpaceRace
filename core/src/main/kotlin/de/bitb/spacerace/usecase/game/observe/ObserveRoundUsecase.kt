@@ -4,7 +4,7 @@ import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.items.ItemDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction

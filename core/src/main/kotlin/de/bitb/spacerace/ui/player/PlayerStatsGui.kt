@@ -13,14 +13,14 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_MODS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_LABEL_PLAYER_AMOUNT
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.controller.GraphicController
+import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.enums.Phase
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.GuiComponent
 import javax.inject.Inject
 

@@ -8,11 +8,9 @@ import de.bitb.spacerace.CameraActions.CAMERA_LOCKED
 import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
-import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.ui.screens.game.GameStage
-import de.bitb.spacerace.utils.Logger
+import de.bitb.spacerace.grafik.model.objecthandling.GameImage
+import de.bitb.spacerace.core.utils.Logger
 
 
 open class BaseScreen(

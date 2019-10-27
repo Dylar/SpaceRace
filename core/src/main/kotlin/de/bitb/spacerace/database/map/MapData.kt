@@ -3,8 +3,8 @@ package de.bitb.spacerace.database.map
 import de.bitb.spacerace.database.converter.FieldTypeConverter
 import de.bitb.spacerace.database.converter.PositionDataConverter
 import de.bitb.spacerace.database.converter.PositionListConverter
-import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.enums.FieldType
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity

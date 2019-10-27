@@ -4,17 +4,17 @@ import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.exceptions.FieldsNotConnectedException
-import de.bitb.spacerace.exceptions.NoStepsLeftException
-import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.core.exceptions.FieldsNotConnectedException
+import de.bitb.spacerace.core.exceptions.NoStepsLeftException
+import de.bitb.spacerace.grafik.model.enums.Phase
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.check.CheckPlayerConfig
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
-import de.bitb.spacerace.utils.RXFunctions.zipParallel
+import de.bitb.spacerace.core.utils.RXFunctions.zipParallel
 import io.reactivex.Single
 import javax.inject.Inject
 

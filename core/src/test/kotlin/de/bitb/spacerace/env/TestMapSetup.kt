@@ -1,10 +1,10 @@
 package de.bitb.spacerace.env
 
-import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.space.maps.connectTo
-import de.bitb.spacerace.model.space.maps.newField
-import de.bitb.spacerace.model.space.maps.newMap
+import de.bitb.spacerace.grafik.model.enums.FieldType
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.space.maps.connectTo
+import de.bitb.spacerace.grafik.model.space.maps.newField
+import de.bitb.spacerace.grafik.model.space.maps.newMap
 
 const val TEST_MAP_NAME = "UNIT TEST MAP"
 const val TEST_POSX = 500f

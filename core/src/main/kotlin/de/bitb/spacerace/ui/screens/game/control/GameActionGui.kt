@@ -12,12 +12,12 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CONTINUE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORAGE
-import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.events.ObtainShopEvent
-import de.bitb.spacerace.events.OpenEndRoundMenuEvent
-import de.bitb.spacerace.events.commands.phases.NextPhaseCommand
-import de.bitb.spacerace.events.commands.player.DiceCommand
+import de.bitb.spacerace.core.events.ObtainShopEvent
+import de.bitb.spacerace.core.events.OpenEndRoundMenuEvent
+import de.bitb.spacerace.core.events.commands.phases.NextPhaseCommand
+import de.bitb.spacerace.core.events.commands.player.DiceCommand
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.game.RoundEndMenu

@@ -1,9 +1,9 @@
 package de.bitb.spacerace.usecase.ui
 
-import de.bitb.spacerace.utils.Logger
-import de.bitb.spacerace.events.commands.CommandDispender
+import de.bitb.spacerace.core.utils.Logger
+import de.bitb.spacerace.core.events.commands.CommandDispender
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.events.commands.BaseCommand
+import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
 import io.reactivex.Completable
 import io.reactivex.Observable

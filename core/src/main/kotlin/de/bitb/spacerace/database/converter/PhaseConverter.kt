@@ -1,7 +1,7 @@
 package de.bitb.spacerace.database.converter
 
-import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.utils.doForEachExceptLast
+import de.bitb.spacerace.grafik.model.enums.Phase
+import de.bitb.spacerace.core.utils.doForEachExceptLast
 import io.objectbox.converter.PropertyConverter
 
 class PhaseListConverter : PropertyConverter<MutableList<Phase>, String> {

@@ -1,10 +1,10 @@
 package de.bitb.spacerace.env
 
 import de.bitb.spacerace.core.*
-import de.bitb.spacerace.exceptions.GameException
-import de.bitb.spacerace.model.items.ItemInfo
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.core.exceptions.GameException
+import de.bitb.spacerace.grafik.model.items.ItemInfo
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import de.bitb.spacerace.usecase.game.action.NextPhaseResult
 import de.bitb.spacerace.usecase.game.action.items.ActivateItemConfig

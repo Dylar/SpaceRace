@@ -11,8 +11,8 @@ import de.bitb.spacerace.config.SELECTED_PLAYER
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.events.commands.start.SelectPlayerCommand
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.core.events.commands.start.SelectPlayerCommand
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import org.greenrobot.eventbus.EventBus
 

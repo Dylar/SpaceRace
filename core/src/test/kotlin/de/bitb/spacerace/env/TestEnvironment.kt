@@ -1,14 +1,14 @@
 package de.bitb.spacerace.env
 
-import de.bitb.spacerace.controller.GameController
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.controller.GameController
+import de.bitb.spacerace.core.controller.GraphicController
+import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.exceptions.GameException
+import de.bitb.spacerace.core.exceptions.GameException
 import de.bitb.spacerace.game.TestGame
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import de.bitb.spacerace.usecase.game.action.MoveUsecase
 import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase

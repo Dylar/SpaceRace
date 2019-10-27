@@ -5,17 +5,17 @@ import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.controller.GraphicController
+import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.model.objecthandling.BaseAnimation
-import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.objecthandling.TextureAnimation
-import de.bitb.spacerace.model.objecthandling.moving.IMovingImage
-import de.bitb.spacerace.model.objecthandling.moving.MovingImage
-import de.bitb.spacerace.model.objecthandling.rotating.IRotatingImage
-import de.bitb.spacerace.model.objecthandling.rotating.RotatingImage
+import de.bitb.spacerace.grafik.model.objecthandling.BaseAnimation
+import de.bitb.spacerace.grafik.model.objecthandling.GameImage
+import de.bitb.spacerace.grafik.model.objecthandling.TextureAnimation
+import de.bitb.spacerace.grafik.model.objecthandling.moving.IMovingImage
+import de.bitb.spacerace.grafik.model.objecthandling.moving.MovingImage
+import de.bitb.spacerace.grafik.model.objecthandling.rotating.IRotatingImage
+import de.bitb.spacerace.grafik.model.objecthandling.rotating.RotatingImage
 import javax.inject.Inject
 
 class GameStage(

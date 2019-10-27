@@ -7,9 +7,9 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_TITLE
-import de.bitb.spacerace.events.commands.phases.StartNextRoundCommand
-import de.bitb.spacerace.model.objecthandling.getDisplayImage
-import de.bitb.spacerace.model.player.PlayerGraphics
+import de.bitb.spacerace.core.events.commands.phases.StartNextRoundCommand
+import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
+import de.bitb.spacerace.grafik.model.player.PlayerGraphics
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import org.greenrobot.eventbus.EventBus

@@ -1,6 +1,6 @@
 package de.bitb.spacerace.database.player
 
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

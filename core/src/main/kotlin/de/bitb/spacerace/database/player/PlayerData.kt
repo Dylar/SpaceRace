@@ -11,10 +11,10 @@ import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.isConnectedTo
-import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.objecthandling.NONE_POSITION
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.enums.Phase
+import de.bitb.spacerace.grafik.model.objecthandling.NONE_POSITION
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Convert
