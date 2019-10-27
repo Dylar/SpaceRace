@@ -37,8 +37,7 @@ class WinnerUsecaseTest : GameTest() {
 
     @Test
     fun goals1_moveOnGoal_WinGame() {
-        assertTrue(true) //TODO bitrise bug...
-
+//        assertTrue(true) //TODO bitrise bug...
         if (BITRISE_BORG) {
             TestEnvironment()
                     .initGame()
