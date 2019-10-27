@@ -6,7 +6,7 @@ import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.game.TestGame
-import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.grafik.model.items.ItemInfo
 import io.objectbox.Box
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.not

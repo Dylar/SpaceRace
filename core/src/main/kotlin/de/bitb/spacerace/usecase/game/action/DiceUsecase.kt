@@ -3,7 +3,7 @@ package de.bitb.spacerace.usecase.game.action
 import de.bitb.spacerace.database.items.MultiDice
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ExecuteUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase

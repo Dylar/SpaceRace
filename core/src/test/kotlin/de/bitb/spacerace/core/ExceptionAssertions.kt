@@ -1,6 +1,6 @@
 package de.bitb.spacerace.core
 
-import de.bitb.spacerace.exceptions.*
+import de.bitb.spacerace.core.exceptions.*
 
 fun GameException.checkBasic(error: Throwable): Boolean =
         when {

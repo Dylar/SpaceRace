@@ -1,7 +1,7 @@
 package de.bitb.spacerace.database.map
 
-import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.enums.FieldType
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import io.objectbox.Box
 import io.objectbox.kotlin.inValues
 import io.objectbox.rx.RxQuery

@@ -1,9 +1,9 @@
 package de.bitb.spacerace.usecase.game.check
 
-import de.bitb.spacerace.core.PlayerColorDispenser
+import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.exceptions.NotCurrentPlayerException
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.core.exceptions.NotCurrentPlayerException
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ExecuteUseCase
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase

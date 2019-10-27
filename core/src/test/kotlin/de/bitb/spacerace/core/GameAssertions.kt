@@ -8,9 +8,9 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.env.TestEnvironment
 import de.bitb.spacerace.env.move
-import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.enums.Phase
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers.*

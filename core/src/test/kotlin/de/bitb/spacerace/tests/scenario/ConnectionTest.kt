@@ -2,7 +2,7 @@ package de.bitb.spacerace.tests.scenario
 
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.*
-import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import org.junit.Test
 
 class ConnectionTest : GameTest() {

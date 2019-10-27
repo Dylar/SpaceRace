@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 import de.bitb.spacerace.config.DEBUG_TEST_FIELD
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
-import de.bitb.spacerace.events.commands.start.SelectTestFieldCommand
-import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.core.events.commands.start.SelectTestFieldCommand
+import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import org.greenrobot.eventbus.EventBus
 

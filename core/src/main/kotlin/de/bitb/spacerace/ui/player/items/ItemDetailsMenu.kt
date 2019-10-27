@@ -20,12 +20,13 @@ import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.EquipItem
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.events.commands.player.UseItemCommand
-import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.items.createGraphic
-import de.bitb.spacerace.model.items.getDefaultInfo
-import de.bitb.spacerace.model.items.getText
-import de.bitb.spacerace.model.objecthandling.getDisplayImage
+import de.bitb.spacerace.core.events.commands.player.UseItemCommand
+import de.bitb.spacerace.grafik.model.items.ItemType
+import de.bitb.spacerace.grafik.model.items.createGraphic
+import de.bitb.spacerace.grafik.model.items.getDefaultInfo
+import de.bitb.spacerace.grafik.model.items.getText
+import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
@@ -72,7 +73,8 @@ class ItemDetailsMenu(
         observeCommandUsecase.observeStream { event ->
             when (event) {
                 is UseItemCommand -> {
-                    setUsedTitle(event.DONT_USE_THIS_PLAYER_DATA)
+                    loadData() //TODO make result dispender
+                    setUsedTitle()
                     setUseButton()
                     setUnuseButton()
                 }
@@ -116,7 +118,7 @@ class ItemDetailsMenu(
         if (itemType.getDefaultInfo() is EquipItem) {
             unuseBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    EventBus.getDefault().post(UseItemCommand.get(itemType, playerController.currentPlayerData, true))
+                    EventBus.getDefault().post(UseItemCommand.get(itemType, playerController.currentColor, true))
                     return true
                 }
             })
@@ -125,7 +127,7 @@ class ItemDetailsMenu(
 
         useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(UseItemCommand.get(itemType, playerController.currentPlayerData))
+                EventBus.getDefault().post(UseItemCommand.get(itemType, playerController.currentColor))
                 return true
             }
         })
@@ -150,7 +152,7 @@ class ItemDetailsMenu(
         setFont(cellBtn.actor)
     }
 
-    private fun setUsedTitle(playerData: PlayerData = this.playerData) {
+    private fun setUsedTitle() {
         val inStorage = playerData.storageItems.count { it.itemInfo.type == itemType }
         val text = when (itemType.getDefaultInfo()) {
             is EquipItem -> {

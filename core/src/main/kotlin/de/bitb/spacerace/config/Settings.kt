@@ -7,12 +7,12 @@ import de.bitb.spacerace.config.enums.GameSpeed
 import de.bitb.spacerace.config.enums.GameType
 import de.bitb.spacerace.config.enums.Language
 import de.bitb.spacerace.game.VERSION_TEST
-import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.items.ItemInfo
-import de.bitb.spacerace.model.items.ItemInfo.*
-import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.enums.FieldType
+import de.bitb.spacerace.grafik.model.items.ItemInfo
+import de.bitb.spacerace.grafik.model.items.ItemInfo.*
+import de.bitb.spacerace.grafik.model.items.ItemType
+import de.bitb.spacerace.grafik.model.objecthandling.GameImage
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 
 var VERSION = "007"
 val IS_TEST get() = VERSION == VERSION_TEST

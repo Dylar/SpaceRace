@@ -3,8 +3,8 @@ package de.bitb.spacerace.database.savegame
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.utils.timestampNowDate
+import de.bitb.spacerace.grafik.model.player.PlayerColor
+import de.bitb.spacerace.core.utils.timestampNowDate
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity

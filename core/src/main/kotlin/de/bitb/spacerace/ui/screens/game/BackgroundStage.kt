@@ -8,8 +8,8 @@ import de.bitb.spacerace.config.STAR_COUNT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.model.background.FallingStar
-import de.bitb.spacerace.model.objecthandling.GameImage
+import de.bitb.spacerace.grafik.model.background.FallingStar
+import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 
 
 class BackgroundStage(val screen: BaseScreen, private var texture: Texture = TextureCollection.gameBackground) : BaseStage() {

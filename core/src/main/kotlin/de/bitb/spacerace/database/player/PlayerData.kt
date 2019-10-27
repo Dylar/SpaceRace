@@ -11,10 +11,10 @@ import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.isConnectedTo
-import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.objecthandling.NONE_POSITION
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.enums.Phase
+import de.bitb.spacerace.grafik.model.objecthandling.NONE_POSITION
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Convert
@@ -119,14 +119,6 @@ data class PlayerData(
 //TODO path finding
         return isMovePhase && isConnected && (areStepsLeft() || isPreviousField)
     }
-
-//            playerController.getPlayerItems(playerColor).getModifierValues(1) //TODO do item shit
-//                    .let { (mod, add) ->
-//                        val diceResult = diceResults.sum()
-//                        val result = (diceResult * mod + add).toInt()
-//
-//                        if (diceResults.isNotEmpty() && result <= 0) 1 else result
-//                    }
 }
 
 infix fun PlayerData.isConnectedTo(fieldData: FieldData): Boolean =

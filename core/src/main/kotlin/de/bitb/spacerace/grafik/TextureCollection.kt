@@ -9,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.DEFAULT_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.SMALL_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.TINY_BORDER
-import de.bitb.spacerace.model.effects.SimpleAnimation
-import de.bitb.spacerace.model.objecthandling.BaseAnimation
-import de.bitb.spacerace.model.player.PlayerAnimation
+import de.bitb.spacerace.grafik.model.effects.SimpleAnimation
+import de.bitb.spacerace.grafik.model.objecthandling.BaseAnimation
+import de.bitb.spacerace.grafik.model.player.PlayerAnimation
 
 
 object TextureCollection {

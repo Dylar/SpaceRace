@@ -2,8 +2,8 @@ package de.bitb.spacerace.database.player
 
 import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.savegame.SaveData_
-import de.bitb.spacerace.model.player.PlayerColor
-import de.bitb.spacerace.model.player.toName
+import de.bitb.spacerace.grafik.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.player.toName
 import io.objectbox.Box
 import io.objectbox.kotlin.inValues
 import io.objectbox.rx.RxQuery

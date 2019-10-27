@@ -4,10 +4,10 @@ import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.items.ItemDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.exceptions.ItemNotFoundException
-import de.bitb.spacerace.exceptions.ItemNotUsableException
-import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.core.exceptions.ItemNotFoundException
+import de.bitb.spacerace.core.exceptions.ItemNotUsableException
+import de.bitb.spacerace.grafik.model.items.ItemType
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.check.CheckPlayerConfig

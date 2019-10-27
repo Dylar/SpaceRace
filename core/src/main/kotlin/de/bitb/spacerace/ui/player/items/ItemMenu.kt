@@ -10,9 +10,9 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TIT
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.model.items.ItemGraphic
-import de.bitb.spacerace.model.items.ItemType
-import de.bitb.spacerace.model.objecthandling.getDisplayImage
+import de.bitb.spacerace.grafik.model.items.ItemGraphic
+import de.bitb.spacerace.grafik.model.items.ItemType
+import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import javax.inject.Inject

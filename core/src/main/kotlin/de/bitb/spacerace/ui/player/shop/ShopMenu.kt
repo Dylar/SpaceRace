@@ -7,9 +7,9 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_SHOP_TITLE
-import de.bitb.spacerace.model.items.ItemGraphic
-import de.bitb.spacerace.model.items.ItemInfo
-import de.bitb.spacerace.model.objecthandling.getDisplayImage
+import de.bitb.spacerace.grafik.model.items.ItemGraphic
+import de.bitb.spacerace.grafik.model.items.ItemInfo
+import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 

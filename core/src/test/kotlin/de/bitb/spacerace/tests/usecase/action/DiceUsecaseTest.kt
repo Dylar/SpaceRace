@@ -2,8 +2,8 @@ package de.bitb.spacerace.tests.usecase.action
 
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.*
-import de.bitb.spacerace.exceptions.NotCurrentPlayerException
-import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.core.exceptions.NotCurrentPlayerException
+import de.bitb.spacerace.grafik.model.enums.Phase
 import org.junit.Test
 
 class DiceUsecaseTest : GameTest() {

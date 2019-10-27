@@ -7,7 +7,7 @@ import de.bitb.spacerace.core.assertCreditsNot
 import de.bitb.spacerace.core.assertRoundCount
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.env.*
-import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.grafik.model.enums.FieldType
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Test

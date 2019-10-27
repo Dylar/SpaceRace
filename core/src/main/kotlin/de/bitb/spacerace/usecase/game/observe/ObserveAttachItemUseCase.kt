@@ -1,7 +1,7 @@
 package de.bitb.spacerace.usecase.game.observe
 
-import de.bitb.spacerace.core.AttachItemConfig
-import de.bitb.spacerace.core.AttachItemDispenser
+import de.bitb.spacerace.usecase.dispender.AttachItemConfig
+import de.bitb.spacerace.usecase.dispender.AttachItemDispenser
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
 import io.reactivex.Observable
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package de.bitb.spacerace.database.converter
 
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.utils.doForEachExceptLast
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.core.utils.doForEachExceptLast
 import io.objectbox.converter.PropertyConverter
 
 const val SEPERATOR = ","

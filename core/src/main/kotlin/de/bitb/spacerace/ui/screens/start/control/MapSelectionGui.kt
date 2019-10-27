@@ -15,7 +15,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.map.MapDataSource
-import de.bitb.spacerace.events.commands.start.SelectMapCommand
+import de.bitb.spacerace.core.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import org.greenrobot.eventbus.EventBus

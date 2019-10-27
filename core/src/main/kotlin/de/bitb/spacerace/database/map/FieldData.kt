@@ -5,8 +5,8 @@ import de.bitb.spacerace.database.converter.PositionDataConverter
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerData_
-import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.enums.FieldType
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Convert

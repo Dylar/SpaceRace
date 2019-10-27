@@ -2,8 +2,8 @@ package de.bitb.spacerace.database.items
 
 import de.bitb.spacerace.database.converter.ItemTypeConverter
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.model.items.ItemInfo
-import de.bitb.spacerace.model.items.NoneItem
+import de.bitb.spacerace.grafik.model.items.ItemInfo
+import de.bitb.spacerace.grafik.model.items.NoneItem
 import io.objectbox.BoxStore
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity

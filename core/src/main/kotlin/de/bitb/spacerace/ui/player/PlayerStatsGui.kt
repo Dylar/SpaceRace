@@ -13,14 +13,14 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_MODS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_LABEL_PLAYER_AMOUNT
-import de.bitb.spacerace.controller.GraphicController
-import de.bitb.spacerace.controller.PlayerController
+import de.bitb.spacerace.core.controller.GraphicController
+import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.TextureCollection
-import de.bitb.spacerace.model.enums.Phase
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.enums.Phase
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.GuiComponent
 import javax.inject.Inject
 
@@ -131,27 +131,6 @@ class PlayerStatsGui(
         val currentIndex = playerController.getPlayerIndex(playerData.playerColor) + 1
         val maxPlayer = playerController.players.size
         playerAmountLabel.setText("$currentIndex/$maxPlayer")
-    }
-
-    fun changePlayerColor(playerData: PlayerData) {
-        update(playerData)
-
-//        disposable.add(userDao.observeAllObserver()
-//                .subscribeOn(Schedulers.io()) TODO OLD
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnDispose { Logger.error("ON DISPOSE: OBSERVER") }
-//                .doOnNext { Logger.error("ON NEXT: OBSERVER") }
-//                .doOnTerminate { Logger.error("ON TERMINATE: OBSERVER") }
-//                .doFinally { Logger.error("ON FINALLY: OBSERVER") }
-//                .doOnComplete { Logger.error("ON COMPLETE: OBSERVER") }
-//                .subscribe({ list ->
-//                    Logger.error("EACH UPDATE: OBSERVER")
-//                    Logger.error("USER COUNT: ${list.size}")
-////                    updateList(list.reversed())
-//                }, {
-//                    Logger.error("Unable to check DB")
-//                    it.printStackTrace()
-//                }))
     }
 
 }

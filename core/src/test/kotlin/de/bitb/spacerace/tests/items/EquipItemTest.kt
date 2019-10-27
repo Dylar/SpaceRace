@@ -4,8 +4,8 @@ import de.bitb.spacerace.env.TestEnvironment
 import de.bitb.spacerace.env.equipItem
 import de.bitb.spacerace.env.initGame
 import de.bitb.spacerace.env.setPlayerItems
-import de.bitb.spacerace.exceptions.ItemNotFoundException
-import de.bitb.spacerace.model.items.ItemInfo
+import de.bitb.spacerace.core.exceptions.ItemNotFoundException
+import de.bitb.spacerace.grafik.model.items.ItemInfo
 import org.junit.Assert.assertTrue
 import org.junit.Test
 

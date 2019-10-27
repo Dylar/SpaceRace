@@ -1,8 +1,8 @@
 package de.bitb.spacerace.usecase.game.init
 
 import de.bitb.spacerace.config.DEBUG_PLAYER_ITEMS
-import de.bitb.spacerace.controller.PlayerController
-import de.bitb.spacerace.core.PlayerColorDispenser
+import de.bitb.spacerace.core.controller.PlayerController
+import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
@@ -10,11 +10,11 @@ import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.savegame.SaveDataSource
-import de.bitb.spacerace.exceptions.SelectMorePlayerException
-import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.items.ItemInfo
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.core.exceptions.SelectMorePlayerException
+import de.bitb.spacerace.grafik.model.enums.FieldType
+import de.bitb.spacerace.grafik.model.items.ItemInfo
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Completable
 import io.reactivex.Single

@@ -1,10 +1,10 @@
 package de.bitb.spacerace.tests.fields
 
 import de.bitb.spacerace.env.*
-import de.bitb.spacerace.model.enums.FieldType
-import de.bitb.spacerace.model.items.ItemInfo
-import de.bitb.spacerace.model.items.ItemInfo.FuelExtraInfo
-import de.bitb.spacerace.model.items.ItemInfo.EngineIonInfo
+import de.bitb.spacerace.grafik.model.enums.FieldType
+import de.bitb.spacerace.grafik.model.items.ItemInfo
+import de.bitb.spacerace.grafik.model.items.ItemInfo.FuelExtraInfo
+import de.bitb.spacerace.grafik.model.items.ItemInfo.EngineIonInfo
 import org.junit.Assert.assertTrue
 import org.junit.Test
 

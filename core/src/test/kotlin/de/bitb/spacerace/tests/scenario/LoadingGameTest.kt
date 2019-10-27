@@ -4,7 +4,7 @@ import de.bitb.spacerace.core.GameTest
 import de.bitb.spacerace.env.TestEnvironment
 import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.initGame
-import de.bitb.spacerace.exceptions.SelectMorePlayerException
+import de.bitb.spacerace.core.exceptions.SelectMorePlayerException
 import org.junit.Test
 
 class LoadingGameTest : GameTest() {
