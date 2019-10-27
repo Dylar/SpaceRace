@@ -20,7 +20,7 @@ import de.bitb.spacerace.grafik.model.space.maps.MapCreator
 import de.bitb.spacerace.grafik.model.space.maps.initDefaultMap
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.start.StartScreen
-import de.bitb.spacerace.usecase.ui.CommandUsecase
+import de.bitb.spacerace.usecase.game.CommandUsecase
 import io.objectbox.BoxStore
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

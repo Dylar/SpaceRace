@@ -119,14 +119,6 @@ data class PlayerData(
 //TODO path finding
         return isMovePhase && isConnected && (areStepsLeft() || isPreviousField)
     }
-
-//            playerController.getPlayerItems(playerColor).getModifierValues(1) //TODO do item shit
-//                    .let { (mod, add) ->
-//                        val diceResult = diceResults.sum()
-//                        val result = (diceResult * mod + add).toInt()
-//
-//                        if (diceResults.isNotEmpty() && result <= 0) 1 else result
-//                    }
 }
 
 infix fun PlayerData.isConnectedTo(fieldData: FieldData): Boolean =

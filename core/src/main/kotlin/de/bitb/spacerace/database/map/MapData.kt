@@ -40,6 +40,6 @@ data class FieldConfigData(
         @Convert(converter = PositionListConverter::class, dbType = String::class)
         val connections: MutableList<PositionData> = mutableListOf(),
         @Convert(converter = PositionDataConverter::class, dbType = String::class)
-        var rotateAround: PositionData? = null //TODO do me
+        var rotateAround: PositionData? = null //TODO make me on editor
 )
 

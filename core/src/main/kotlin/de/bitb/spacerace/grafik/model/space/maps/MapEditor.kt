@@ -25,5 +25,5 @@ infix fun FieldConfigData.connectTo(field: FieldConfigData) {
 }
 
 infix fun FieldConfigData.rotateAround(point: PositionData?) {
-    rotateAround = point //TODO do me
+    rotateAround = point //TODO make when editor
 }

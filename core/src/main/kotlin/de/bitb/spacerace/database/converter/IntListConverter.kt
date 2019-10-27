@@ -16,17 +16,10 @@ class IntListConverter : PropertyConverter<MutableList<Int>, String> {
     }
 
     override fun convertToEntityProperty(databaseValue: String?): MutableList<Int>? {
-        return databaseValue?.let { value ->
-            mutableListOf<Int>()
-                    .also { list ->
-                        try {
-                            //TODO
-                            value.split(SEPERATOR).forEach { list.add(it.toInt()) }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-        } ?: mutableListOf()
+        return databaseValue?.split(SEPERATOR)
+                ?.map { it.toInt() }
+                ?.toMutableList()
+                ?: mutableListOf()
     }
 
 }

@@ -21,7 +21,7 @@ class ConnectionList(
 
 //        index += if (reverse) {
 //            -1
-//        } else {//TODO haha
+//        } else {//TODO pulsar lines
 //            +1
 //        }
 //        reverse = if (index == 0) false else if (index > 50) true else reverse

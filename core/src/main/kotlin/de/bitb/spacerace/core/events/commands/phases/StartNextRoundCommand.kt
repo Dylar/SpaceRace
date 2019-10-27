@@ -21,12 +21,8 @@ class StartNextRoundCommand : BaseCommand() {
         MainGame.appComponent.inject(this)
     }
 
-    override fun canExecute(): Boolean {
-        return true
-    }
-
     override fun execute() {
-        compositDisposable += startNewRoundUsecase.getResult(
+        compositeDisposable += startNewRoundUsecase.getResult(
                 onSuccess = { reset() },
                 onError = { reset() })
     }

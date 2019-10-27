@@ -1,35 +1,34 @@
 package de.bitb.spacerace.core.events.commands.player
 
-import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.core.controller.GraphicController
+import de.bitb.spacerace.core.events.commands.BaseCommand
+import de.bitb.spacerace.core.events.commands.CommandPool
 import de.bitb.spacerace.database.items.ActivatableItem
 import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.EquipItem
-import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
-import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.core.events.commands.BaseCommand
-import de.bitb.spacerace.core.events.commands.CommandPool
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.items.createGraphic
 import de.bitb.spacerace.grafik.model.items.getDefaultInfo
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.items.*
 import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
 class UseItemCommand(
         private var itemType: ItemType = ItemType.NONE_ITEM,
-        playerData: PlayerData = NONE_PLAYER_DATA,
+        player: PlayerColor = PlayerColor.NONE,
         private var disable: Boolean = false
-) : BaseCommand(playerData) {
+) : BaseCommand(player) {
 
     companion object {
         fun get(itemType: ItemType,
-                playerData: PlayerData,
+                player: PlayerColor,
                 disable: Boolean = false
         ) = CommandPool.getCommand(UseItemCommand::class)
                 .also {
                     it.itemType = itemType
-                    it.DONT_USE_THIS_PLAYER_DATA = playerData
+                    it.player = player
                     it.disable = disable
                 }
     }
@@ -57,8 +56,8 @@ class UseItemCommand(
     }
 
     private fun equipItem() {
-        val config = EquipItemConfig(DONT_USE_THIS_PLAYER_DATA.playerColor, itemType, disable)
-        compositDisposable += equipItemUsecase.getResult(
+        val config = EquipItemConfig(player, itemType, disable)
+        compositeDisposable += equipItemUsecase.getResult(
                 params = config,
                 onSuccess = resetOnSuccess(),
                 onError = resetOnError()
@@ -66,8 +65,8 @@ class UseItemCommand(
     }
 
     private fun activateItem() {
-        val config = ActivateItemConfig(DONT_USE_THIS_PLAYER_DATA.playerColor, itemType)
-        compositDisposable += activateUsecase.getResult(
+        val config = ActivateItemConfig(player, itemType)
+        compositeDisposable += activateUsecase.getResult(
                 params = config,
                 onSuccess = resetOnSuccess(),
                 onError = resetOnError()
@@ -75,8 +74,8 @@ class UseItemCommand(
     }
 
     private fun disposeItem() {
-        val config = DisposeItemConfig(DONT_USE_THIS_PLAYER_DATA.playerColor, itemType)
-        compositDisposable += disposeItemUsecase.getResult(
+        val config = DisposeItemConfig(player, itemType)
+        compositeDisposable += disposeItemUsecase.getResult(
                 params = config,
                 onSuccess = {
                     addItemsToField(it)

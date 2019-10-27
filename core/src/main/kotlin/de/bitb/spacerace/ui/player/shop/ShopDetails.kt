@@ -16,10 +16,10 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_BUY
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_SELL
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.core.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.core.events.commands.player.SellItemCommand
+import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.items.*
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
@@ -57,9 +57,11 @@ class ShopDetails(
         pack()
         setPosition()
     }
+
     override fun loadData() {
         playerData = playerDataSource.getDBPlayerByColor(playerData.playerColor).first()
     }
+
     private fun addTitle() {
         creditsTitle = add("-")
         val amount = playerData.storageItems.filter { it::class == itemType::class }.size
@@ -96,7 +98,7 @@ class ShopDetails(
 
         buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(BuyItemCommand(itemType, playerController.currentPlayerData))
+                EventBus.getDefault().post(BuyItemCommand(itemType, playerController.currentColor))
                 return true
             }
         })
@@ -108,7 +110,7 @@ class ShopDetails(
 
         sellBtn = createButton(name = GAME_BUTTON_SELL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SellItemCommand(itemType, playerController.currentPlayerData))
+                EventBus.getDefault().post(SellItemCommand(itemType, playerController.currentColor))
                 return true
             }
         })
@@ -139,7 +141,8 @@ class ShopDetails(
             when (event) {
                 is BuyItemCommand,
                 is SellItemCommand -> {
-                    val itemCount = event.DONT_USE_THIS_PLAYER_DATA.storageItems
+                    loadData() //TODO make result dispender ?
+                    val itemCount = playerData.storageItems
                             .filter { it.itemInfo.type == itemGraphic.itemType }.size
                     setCreditsTitle(itemCount)
                 }

@@ -133,25 +133,4 @@ class PlayerStatsGui(
         playerAmountLabel.setText("$currentIndex/$maxPlayer")
     }
 
-    fun changePlayerColor(playerData: PlayerData) {
-        update(playerData)
-
-//        disposable.add(userDao.observeAllObserver()
-//                .subscribeOn(Schedulers.io()) TODO OLD
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnDispose { Logger.error("ON DISPOSE: OBSERVER") }
-//                .doOnNext { Logger.error("ON NEXT: OBSERVER") }
-//                .doOnTerminate { Logger.error("ON TERMINATE: OBSERVER") }
-//                .doFinally { Logger.error("ON FINALLY: OBSERVER") }
-//                .doOnComplete { Logger.error("ON COMPLETE: OBSERVER") }
-//                .subscribe({ list ->
-//                    Logger.error("EACH UPDATE: OBSERVER")
-//                    Logger.error("USER COUNT: ${list.size}")
-////                    updateList(list.reversed())
-//                }, {
-//                    Logger.error("Unable to check DB")
-//                    it.printStackTrace()
-//                }))
-    }
-
 }
