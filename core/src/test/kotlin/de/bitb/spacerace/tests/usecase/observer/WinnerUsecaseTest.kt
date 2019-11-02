@@ -7,7 +7,6 @@ import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.env.*
 import org.junit.After
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class WinnerUsecaseTest : GameTest() {
@@ -37,7 +36,7 @@ class WinnerUsecaseTest : GameTest() {
 
     @Test
     fun goals1_moveOnGoal_WinGame() {
-//        assertTrue(true) //TODO bitrise bug...
+//        assertTrue(true) //TODO bitrise bug... maybe wait for round observer
         if (BITRISE_BORG) {
             TestEnvironment()
                     .initGame()
