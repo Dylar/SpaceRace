@@ -32,7 +32,6 @@ fun TestEnvironment.dice(
                 if (error == null) assertComplete()
                 else assertError { error.assertDiceException(it) }
             }
-    waitForIt()
 }
 
 fun TestEnvironment.move(
@@ -44,7 +43,6 @@ fun TestEnvironment.move(
 ) = this.apply {
     moveUsecase.buildUseCaseSingle(player to target).test().await()
             .assertObserver(error, assertError, assertSuccess)
-    waitForIt()
 }
 
 fun TestEnvironment.equipItem(
@@ -58,7 +56,6 @@ fun TestEnvironment.equipItem(
     val config = EquipItemConfig(player, itemInfo.type, equip)
     equipItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
-    waitForIt()
 }
 
 fun TestEnvironment.activateItem(
@@ -71,7 +68,6 @@ fun TestEnvironment.activateItem(
     val config = ActivateItemConfig(player, itemInfo.type)
     activateItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
-    waitForIt()
 }
 
 fun TestEnvironment.disposeItem(
@@ -84,5 +80,4 @@ fun TestEnvironment.disposeItem(
     val config = DisposeItemConfig(player, itemInfo.type)
     disposeItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
-    waitForIt()
 }

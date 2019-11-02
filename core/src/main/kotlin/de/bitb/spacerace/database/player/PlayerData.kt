@@ -119,6 +119,11 @@ data class PlayerData(
 //TODO path finding
         return isMovePhase && isConnected && (areStepsLeft() || isPreviousField)
     }
+
+    fun clearTurn() {
+        steps.clear()
+        diceResults.clear()
+    }
 }
 
 infix fun PlayerData.isConnectedTo(fieldData: FieldData): Boolean =

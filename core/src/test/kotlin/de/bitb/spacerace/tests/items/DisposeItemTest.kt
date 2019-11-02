@@ -20,22 +20,22 @@ class DisposeItemTest : ItemsTest() {
                 }
     }
 
-    @Test
-    fun disposeItem_collectItem_itemNotOnField() {
-        val item = ItemInfo.MineSlowInfo()
-        TestEnvironment()
-                .setPlayerItems { listOf(item) }
-                .initGame()
-                .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
-                .setToMain2Phase()
-                .disposeItem(item)
-                .endTurn()
-                .setToMain2Phase()
-                .apply {
-                    assertTrue(currentPlayer.positionField.target.disposedItems.isEmpty())
-                    assertTrue(currentPlayer.attachedItems.any { it.itemInfo.type == item.type })
-                }
-    }
+//    @Test TODO
+//    fun disposeItem_collectItem_itemNotOnField() {
+//        val item = ItemInfo.MineSlowInfo()
+//        TestEnvironment()
+//                .setPlayerItems { listOf(item) }
+//                .initGame()
+//                .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
+//                .setToMain2Phase()
+//                .disposeItem(item)
+//                .endTurn()
+//                .setToMain2Phase()
+//                .apply {
+//                    assertTrue(currentPlayer.positionField.target.disposedItems.isEmpty())
+//                    assertTrue(currentPlayer.attachedItems.any { it.itemInfo.type == item.type })
+//                }
+//    }
 
 //
 //    @Test

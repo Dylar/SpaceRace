@@ -57,8 +57,7 @@ class ObserveRoundUsecase
     private fun endPlayerRound(players: List<PlayerData>): List<PlayerData> =
             players.onEach { player ->
                 player.apply {
-                    steps.clear()
-                    diceResults.clear()
+                    clearTurn()
                     phase = Phase.END_ROUND
                     repeat(mines.size) { addRandomWin() }
                 }

@@ -12,7 +12,6 @@ class TestSystemSetup(
         var boxStore: BoxStore? = null
 
         fun createMockBoxStore(): BoxStore {
-
             boxStore?.close()
             boxStore?.deleteAllFiles()
             val file = File("objectboxTest")
@@ -23,7 +22,6 @@ class TestSystemSetup(
                     // optional: add debug flags for more detailed ObjectBox log output
 //                    .debugFlags(DebugFlags.LOG_QUERIES or DebugFlags.LOG_QUERY_PARAMETERS)
                     .build()
-
             return boxStore!!
         }
     }

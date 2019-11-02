@@ -22,7 +22,10 @@ class StartNewRoundUsecase @Inject constructor(
                     .flatMap(::updatePlayer)
 
     private fun resetPlayer(player: List<PlayerData>) =
-            player.onEach { it.phase = Phase.MAIN1 }
+            player.onEach {
+                it.clearTurn()
+                it.phase = Phase.MAIN1
+            }
 
     private fun updatePlayer(player: List<PlayerData>) =
             playerDataSource.insertAndReturnRXPlayer(*player.toTypedArray())
