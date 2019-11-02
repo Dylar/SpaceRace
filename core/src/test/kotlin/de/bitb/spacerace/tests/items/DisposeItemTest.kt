@@ -20,23 +20,34 @@ class DisposeItemTest : ItemsTest() {
                 }
     }
 
-//    @Test
-//    fun disposeItem_collectItem_itemNotOnField() {
-//        val item = ItemInfo.MineSlowInfo()
-//        TestEnvironment()
-//                .setPlayerItems { listOf(item) }
-//                .initGame()
-//                .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
-//                .setToMain2Phase()
-//                .disposeItem(item)
-//                .endTurn()
-//                .setToMain2Phase()
-//                .apply {
-//                   waitForIt()
-//                    assertTrue(currentPlayer.positionField.target.disposedItems.isEmpty())
-//                    assertTrue(currentPlayer.attachedItems.any { it.itemInfo.type == item.type })
-//                }
-//    }
+    @Test
+    fun disposeItem_collectItem_itemNotOnField() {
+        val item = ItemInfo.MineSlowInfo()
+        TestEnvironment()
+                .setPlayerItems { listOf(item) }
+                .initGame()
+                .setToMain2Phase()
+                .apply {
+                    assertTrue(currentPlayer.positionField.target.disposedItems.isEmpty())
+                    assertTrue(currentPlayer.storageItems.filter { it.itemInfo.type == item.type }.size == 2)
+                }
+                .disposeItem(item)
+                .apply {
+                    assertTrue(currentPlayer.positionField.target.disposedItems.any { it.itemInfo.type == item.type })
+                    assertTrue(currentPlayer.storageItems.filter { it.itemInfo.type == item.type }.size == 1)
+                }
+                .endTurn()
+                .apply { assertTrue(currentPlayer.attachedItems.isEmpty()) }
+                .setToMain2Phase()
+                .apply {
+                    assertTrue(currentPlayer.attachedItems.any { it.itemInfo.type == item.type })
+
+                    val dbField = getDBField(currentPlayer.positionField.target.uuid)
+                    assertTrue(dbField.disposedItems.isEmpty())
+                    val playerfield = currentPlayer.positionField.target
+                    assertTrue(playerfield.disposedItems.isEmpty())
+                }
+    }
 
 //
 //    @Test

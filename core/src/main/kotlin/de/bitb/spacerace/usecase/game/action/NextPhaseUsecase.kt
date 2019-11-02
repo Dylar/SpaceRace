@@ -159,7 +159,7 @@ class NextPhaseUsecase @Inject constructor(
                 .also { field.disposedItems.removeAll(it) }
         if (items.isNotEmpty()) {
             attachItemDispenser.publishUpdate(AttachItemConfig(playerData, items))
-            field.disposedItems.removeAll(items)
+            mapDataSource.insertDBField(field)
         }
     }
 
