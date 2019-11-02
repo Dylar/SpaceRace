@@ -10,58 +10,76 @@
       "properties": [
         {
           "id": "1:5001122016373460892",
-          "name": "steps"
+          "name": "steps",
+          "type": 9
         },
         {
           "id": "2:6058430732622313599",
-          "name": "uuid"
+          "name": "uuid",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "3:3178370679722997717",
-          "name": "playerColor"
+          "name": "playerColor",
+          "type": 9
         },
         {
           "id": "4:8287459722553395782",
-          "name": "diceResults"
+          "name": "diceResults",
+          "type": 9
         },
         {
           "id": "5:2882816323787225204",
-          "name": "phase"
+          "name": "phase",
+          "type": 9
         },
         {
           "id": "6:7984083078994889575",
-          "name": "credits"
+          "name": "credits",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "7:6886862441016618362",
-          "name": "victories"
+          "name": "victories",
+          "type": 6,
+          "flags": 4
         },
         {
           "id": "8:3153324912933925502",
-          "name": "controlToken"
+          "name": "controlToken",
+          "type": 9
         },
         {
           "id": "11:8736215821112508128",
+          "name": "positionFieldId",
           "indexId": "5:2972435713819421456",
-          "name": "positionFieldId"
+          "type": 11,
+          "flags": 1548,
+          "relationTarget": "FieldData"
         }
       ],
       "relations": [
         {
           "id": "19:7153438248446442389",
-          "name": "attachedItems"
+          "name": "attachedItems",
+          "targetId": "12:4178074141703209318"
         },
         {
           "id": "20:3285485952044033183",
-          "name": "equippedItems"
+          "name": "equippedItems",
+          "targetId": "12:4178074141703209318"
         },
         {
           "id": "21:1641373037394151832",
-          "name": "storageItems"
+          "name": "storageItems",
+          "targetId": "12:4178074141703209318"
         },
         {
           "id": "22:6393751396495252059",
-          "name": "activeItems"
+          "name": "activeItems",
+          "targetId": "12:4178074141703209318"
         }
       ]
     },
@@ -72,30 +90,39 @@
       "properties": [
         {
           "id": "2:5091366334156384274",
-          "name": "fieldType"
+          "name": "fieldType",
+          "type": 9
         },
         {
           "id": "6:5740577243042785885",
-          "name": "uuid"
+          "name": "uuid",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "7:1645916009992264889",
-          "name": "gamePosition"
+          "name": "gamePosition",
+          "type": 9
         },
         {
           "id": "9:5034976983222480186",
+          "name": "ownerId",
           "indexId": "9:3356405734976852923",
-          "name": "ownerId"
+          "type": 11,
+          "flags": 1548,
+          "relationTarget": "PlayerData"
         }
       ],
       "relations": [
         {
           "id": "5:8637712091742453953",
-          "name": "connections"
+          "name": "connections",
+          "targetId": "5:2659980530038130210"
         },
         {
           "id": "23:8475138259663862992",
-          "name": "disposedItems"
+          "name": "disposedItems",
+          "targetId": "12:4178074141703209318"
         }
       ]
     },
@@ -106,21 +133,26 @@
       "properties": [
         {
           "id": "1:7764361648526359428",
-          "name": "name"
+          "name": "name",
+          "type": 9
         },
         {
           "id": "2:5493828680313698765",
-          "name": "uuid"
+          "name": "uuid",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "6:8669919396648265827",
-          "name": "startPosition"
+          "name": "startPosition",
+          "type": 9
         }
       ],
       "relations": [
         {
           "id": "11:4333913010888357400",
-          "name": "fields"
+          "name": "fields",
+          "targetId": "11:980879495217607547"
         }
       ]
     },
@@ -131,42 +163,57 @@
       "properties": [
         {
           "id": "1:2186385296107053260",
-          "name": "name"
+          "name": "name",
+          "type": 9
         },
         {
           "id": "2:1116524740704710694",
-          "name": "uuid"
+          "name": "uuid",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "3:3115795732412559233",
-          "name": "currentColor"
+          "name": "currentColor",
+          "type": 9
         },
         {
           "id": "4:9092540120229629373",
+          "name": "goalId",
           "indexId": "12:4440866989698828120",
-          "name": "goalId"
+          "type": 11,
+          "flags": 1548,
+          "relationTarget": "FieldData"
         },
         {
           "id": "5:825804018374499018",
-          "name": "loaded"
+          "name": "loaded",
+          "type": 1,
+          "flags": 4
         },
         {
           "id": "6:5673668997060847030",
-          "name": "winAmount"
+          "name": "winAmount",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "7:8119494403871578361",
-          "name": "roundCount"
+          "name": "roundCount",
+          "type": 5,
+          "flags": 4
         }
       ],
       "relations": [
         {
           "id": "16:3005365316097129922",
-          "name": "fields"
+          "name": "fields",
+          "targetId": "5:2659980530038130210"
         },
         {
           "id": "17:4681366167407077919",
-          "name": "players"
+          "name": "players",
+          "targetId": "2:5385849612203896751"
         }
       ]
     },
@@ -177,23 +224,29 @@
       "properties": [
         {
           "id": "1:8377354180310123629",
-          "name": "uuid"
+          "name": "uuid",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "2:5347741129143951241",
-          "name": "gamePosition"
+          "name": "gamePosition",
+          "type": 9
         },
         {
           "id": "3:8860007404724029348",
-          "name": "connections"
+          "name": "connections",
+          "type": 9
         },
         {
           "id": "4:7128176428690757022",
-          "name": "fieldType"
+          "name": "fieldType",
+          "type": 9
         },
         {
           "id": "5:5634101933436604934",
-          "name": "rotateAround"
+          "name": "rotateAround",
+          "type": 9
         }
       ],
       "relations": []
@@ -205,16 +258,22 @@
       "properties": [
         {
           "id": "1:2612932323126028301",
-          "name": "id"
+          "name": "id",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "5:2730028445607018279",
+          "name": "ownerId",
           "indexId": "13:3275950728397175016",
-          "name": "ownerId"
+          "type": 11,
+          "flags": 1548,
+          "relationTarget": "PlayerData"
         },
         {
           "id": "7:1384869782144375675",
-          "name": "itemInfo"
+          "name": "itemInfo",
+          "type": 9
         }
       ],
       "relations": []
@@ -224,8 +283,8 @@
   "lastIndexId": "13:3275950728397175016",
   "lastRelationId": "23:8475138259663862992",
   "lastSequenceId": "0:0",
-  "modelVersion": 4,
-  "modelVersionParserMinimum": 4,
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
   "retiredEntityUids": [
     5536279082146213663,
     5643178333162232230,

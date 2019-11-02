@@ -14,5 +14,5 @@ class AttachItemDispenser : Dispenser<AttachItemConfig> {
 
 data class AttachItemConfig(
         var playerData: PlayerData,
-        var list: List<ItemData>
+        var items: List<ItemData>
 )

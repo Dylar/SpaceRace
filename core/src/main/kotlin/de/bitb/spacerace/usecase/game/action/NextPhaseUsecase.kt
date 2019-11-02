@@ -3,8 +3,10 @@ package de.bitb.spacerace.usecase.game.action
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.core.controller.PlayerController
-import de.bitb.spacerace.usecase.dispender.AttachItemConfig
-import de.bitb.spacerace.usecase.dispender.AttachItemDispenser
+import de.bitb.spacerace.core.exceptions.DiceFirstException
+import de.bitb.spacerace.core.exceptions.RoundIsEndingException
+import de.bitb.spacerace.core.exceptions.StepsLeftException
+import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
@@ -12,19 +14,17 @@ import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.savegame.SaveDataSource
-import de.bitb.spacerace.core.exceptions.DiceFirstException
-import de.bitb.spacerace.core.exceptions.RoundIsEndingException
-import de.bitb.spacerace.core.exceptions.StepsLeftException
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.grafik.model.items.ItemInfo
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
+import de.bitb.spacerace.usecase.dispender.AttachItemConfig
+import de.bitb.spacerace.usecase.dispender.AttachItemDispenser
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.check.CheckPlayerConfig
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
-import de.bitb.spacerace.core.utils.Logger
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
@@ -152,12 +152,14 @@ class NextPhaseUsecase @Inject constructor(
         val field = playerData.positionField.target
         val items = field.disposedItems
                 .asSequence()
+                .filter { it.owner.target.playerColor != playerData.playerColor }
                 .filter { it.itemInfo is DisposableItem }
                 .onEach { playerData.attachedItems.add(it) }
                 .toList()
                 .also { field.disposedItems.removeAll(it) }
         if (items.isNotEmpty()) {
             attachItemDispenser.publishUpdate(AttachItemConfig(playerData, items))
+            field.disposedItems.removeAll(items)
         }
     }
 

@@ -1,8 +1,9 @@
 package de.bitb.spacerace.usecase.game.init
 
 import de.bitb.spacerace.config.DEBUG_PLAYER_ITEMS
+import de.bitb.spacerace.config.DEBUG_PLAYER_ITEMS_COUNT
 import de.bitb.spacerace.core.controller.PlayerController
-import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
+import de.bitb.spacerace.core.exceptions.SelectMorePlayerException
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.MapDataSource
@@ -10,12 +11,12 @@ import de.bitb.spacerace.database.map.NONE_FIELD_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.savegame.SaveData
 import de.bitb.spacerace.database.savegame.SaveDataSource
-import de.bitb.spacerace.core.exceptions.SelectMorePlayerException
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.items.ItemInfo
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
+import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -137,9 +138,12 @@ private fun initPlayerItems(
 ) {
     saveData.players
             .onEach { player ->
-                items.map {
-                    val item = ItemData(itemInfo = it)
-                    player.storageItems.add(item)
+                items.map { itemInfo ->
+                    repeat(DEBUG_PLAYER_ITEMS_COUNT) {
+                        val item = ItemData(itemInfo = itemInfo)
+                        item.owner.target = player
+                        player.storageItems.add(item)
+                    }
                 }
             }
 }

@@ -128,7 +128,7 @@ class TestEnvironment {
         else assertError { assertError(it) }
     }
 
-    fun waitForIt(time: Long = 5) {
+    fun waitForIt(time: Long = 10) {
         Thread.sleep(time)
     }
 

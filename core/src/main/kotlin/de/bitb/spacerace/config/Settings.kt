@@ -56,10 +56,11 @@ val COLOR_DISCONNECTED = Color(Color.RED).apply { a = 0.7f }
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL, FieldType.GIFT)
 var DEBUG_GIFT_ITEMS: List<ItemInfo> =  listOf(MineSlowInfo())
 var DEBUG_PLAYER_ITEMS: List<ItemInfo> =  listOf(MineSlowInfo())
+var DEBUG_PLAYER_ITEMS_COUNT = 2
 
 var DEBUG_WIN_FIELD = true
 const val DEBUG_FIELDS = false
 const val DEBUG_LAYOUT = false
 var DEBUG_CAMERA_TARGET: GameImage? = null
 
-const val BITRISE_BORG = false
+const val BITRISE_BORG = true

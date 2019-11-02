@@ -1,9 +1,6 @@
 package de.bitb.spacerace.tests.items
 
-import de.bitb.spacerace.env.TestEnvironment
-import de.bitb.spacerace.env.disposeItem
-import de.bitb.spacerace.env.initGame
-import de.bitb.spacerace.env.setPlayerItems
+import de.bitb.spacerace.env.*
 import de.bitb.spacerace.grafik.model.items.ItemInfo
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -20,6 +17,23 @@ class DisposeItemTest : ItemsTest() {
                 .disposeItem(item) { disposeResult ->
                     disposeResult.playerData.storageItems.isEmpty() &&
                             disposeResult.playerData.positionField.target.disposedItems.any { it.itemInfo.type == item.type }
+                }
+    }
+
+    @Test
+    fun disposeItem_collectItem_itemNotOnField() {
+        val item = ItemInfo.MineSlowInfo()
+        TestEnvironment()
+                .setPlayerItems { listOf(item) }
+                .initGame()
+                .apply { assertTrue(getDBPlayer(currentPlayerColor).storageItems.isNotEmpty()) }
+                .setToMain2Phase()
+                .disposeItem(item)
+                .endTurn()
+                .setToMain2Phase()
+                .apply {
+                    assertTrue(currentPlayer.positionField.target.disposedItems.isEmpty())
+                    assertTrue(currentPlayer.attachedItems.any { it.itemInfo.type == item.type })
                 }
     }
 

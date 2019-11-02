@@ -6,6 +6,8 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
+import de.bitb.spacerace.usecase.dispender.RemoveItemConfig
+import de.bitb.spacerace.usecase.dispender.RemoveItemDispenser
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
@@ -13,7 +15,8 @@ import javax.inject.Inject
 class ObserveRoundUsecase
 @Inject constructor(
         private val playerDataSource: PlayerDataSource,
-        private val itemDataSource: ItemDataSource
+        private val itemDataSource: ItemDataSource,
+        private val removeItemDispenser: RemoveItemDispenser
 ) : StreamUseCaseNoParams<Boolean> {
 
     override fun buildUseCaseObservable(): Observable<Boolean> =
@@ -29,13 +32,26 @@ class ObserveRoundUsecase
 
     private fun triggerItems(players: List<PlayerData>): Pair<List<PlayerData>, List<ItemData>> {
         val usedItems =
-                players.map { it.activeItems }
+                players.asSequence()
+                        .map { it.activeItems }
                         .flatten()
-                        .asSequence()
                         .onEach { it.itemInfo.charges-- }
-                        .filter { it.itemInfo.charges < 1 }
+                        .filter { it.itemInfo.charges < 1 }.toMutableList()
 
-        return players to usedItems.toList()
+        players.forEach { player ->
+            val expiredItems = player.attachedItems.asSequence()
+                    .onEach { it.itemInfo.charges-- }
+                    .filter { it.itemInfo.charges < 1 }.toList()
+
+            if (expiredItems.isNotEmpty()) {
+                removeItemDispenser.publishUpdate(RemoveItemConfig(playerData = player, items = expiredItems))
+                usedItems.addAll(expiredItems)
+            }
+        }
+
+        players.forEach { it.activeItems.removeAll(usedItems) }
+
+        return players to usedItems
     }
 
     private fun endPlayerRound(players: List<PlayerData>): List<PlayerData> =
@@ -52,19 +68,21 @@ class ObserveRoundUsecase
             Observable.zip(
                     savePlayer(player),
                     deleteItems(usedItems),
-                    BiFunction<Boolean, Boolean, Boolean> { playerFinished, _ ->
-                        playerFinished
+                    BiFunction<List<PlayerData>, List<ItemData>, Boolean> { finishPlayer, finishItems ->
+                        if (finishPlayer.isEmpty() && finishItems.isEmpty()) false
+                        else {
+                            true
+                        }
                     })
 
-    private fun deleteItems(usedItems: List<ItemData>): Observable<Boolean> =
-            if (usedItems.isEmpty()) Observable.just(false)
+    private fun deleteItems(usedItems: List<ItemData>): Observable<List<ItemData>> =
+            if (usedItems.isEmpty()) Observable.just(usedItems)
             else itemDataSource.deleteRXItems(*usedItems.toTypedArray())
-                    .andThen(Observable.just(true))
+                    .andThen(Observable.just(usedItems))
 
-    private fun savePlayer(player: List<PlayerData>): Observable<Boolean> =
-            if (player.isEmpty()) Observable.just(false)
+    private fun savePlayer(player: List<PlayerData>): Observable<List<PlayerData>>? =
+            if (player.isEmpty()) Observable.just(player)
             else playerDataSource
                     .insertAndReturnRXPlayer(*player.toTypedArray())
-                    .map { player.isNotEmpty() }
                     .toObservable()
 }

@@ -2,9 +2,10 @@ package de.bitb.spacerace.core.injection.modules
 
 import dagger.Module
 import dagger.Provides
+import de.bitb.spacerace.core.events.commands.CommandDispender
 import de.bitb.spacerace.usecase.dispender.AttachItemDispenser
 import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
-import de.bitb.spacerace.core.events.commands.CommandDispender
+import de.bitb.spacerace.usecase.dispender.RemoveItemDispenser
 import javax.inject.Singleton
 
 @Module
@@ -21,6 +22,10 @@ class GameModule {
     @Provides
     @Singleton
     fun provideAttachItemDispender(): AttachItemDispenser = AttachItemDispenser()
+
+    @Provides
+    @Singleton
+    fun provideRemoveItemDispender(): RemoveItemDispenser = RemoveItemDispenser()
 
 
 }

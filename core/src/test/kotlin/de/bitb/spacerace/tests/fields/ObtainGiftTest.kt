@@ -1,10 +1,12 @@
 package de.bitb.spacerace.tests.fields
 
-import de.bitb.spacerace.env.*
+import de.bitb.spacerace.env.TestEnvironment
+import de.bitb.spacerace.env.setGiftFieldItems
+import de.bitb.spacerace.env.setPlayerItems
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.items.ItemInfo
-import de.bitb.spacerace.grafik.model.items.ItemInfo.FuelExtraInfo
 import de.bitb.spacerace.grafik.model.items.ItemInfo.EngineIonInfo
+import de.bitb.spacerace.grafik.model.items.ItemInfo.FuelExtraInfo
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -13,12 +15,14 @@ class ObtainGiftTest : ObtainFieldTest() {
     @Test
     fun obtainGift_receiveItemIntoStorage() {
         TestEnvironment()
+                .setPlayerItems { listOf() }
                 .obtainField(FieldType.GIFT) {
                     val player = it.player
                     val field = player.positionField.target
 
                     field.fieldType == FieldType.GIFT &&
-                            player.storageItems.isNotEmpty()
+                            player.storageItems.isNotEmpty() &&
+                            player.storageItems.size == 1
                 }
     }
 
@@ -27,11 +31,9 @@ class ObtainGiftTest : ObtainFieldTest() {
         val item = EngineIonInfo()
         TestEnvironment()
                 .setGiftFieldItems { listOf(item) }
-                .obtainField(FieldType.GIFT) {
-                    val player = it.player
-                    val storageItem = player.storageItems.first()
-
-                    storageItem.itemInfo.type == item.type
+                .setPlayerItems { listOf() }
+                .obtainField(FieldType.GIFT) { result ->
+                    result.player.storageItems.first().itemInfo.type == item.type
                 }
     }
 

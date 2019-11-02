@@ -87,7 +87,7 @@ data class PlayerData(
 
     fun addRandomWin(): Int {
         val win = (Math.random() * CREDITS_WIN_AMOUNT).toInt() + 1
-        credits += win
+        credits += win + 1
         return win
     }
 
