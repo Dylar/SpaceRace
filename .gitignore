@@ -123,6 +123,7 @@ Thumbs.db
 
 
 #ObjxBox
+/android/assets/objectbox
 /core/objectbox
 /core/objectbox-models
 
