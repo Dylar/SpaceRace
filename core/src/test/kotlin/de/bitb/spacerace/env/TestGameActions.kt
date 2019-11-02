@@ -20,6 +20,7 @@ fun TestEnvironment.nextPhase(
 ) = this.apply {
     nextPhaseUseCase.buildUseCaseSingle(color).test().await()
             .assertObserver(error, assertError, assertSuccess)
+    waitForIt()
 }
 
 fun TestEnvironment.dice(

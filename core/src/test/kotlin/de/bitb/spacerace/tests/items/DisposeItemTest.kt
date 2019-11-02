@@ -20,7 +20,7 @@ class DisposeItemTest : ItemsTest() {
                 }
     }
 
-//    @Test TODO
+//    @Test
 //    fun disposeItem_collectItem_itemNotOnField() {
 //        val item = ItemInfo.MineSlowInfo()
 //        TestEnvironment()
@@ -32,6 +32,7 @@ class DisposeItemTest : ItemsTest() {
 //                .endTurn()
 //                .setToMain2Phase()
 //                .apply {
+//                   waitForIt()
 //                    assertTrue(currentPlayer.positionField.target.disposedItems.isEmpty())
 //                    assertTrue(currentPlayer.attachedItems.any { it.itemInfo.type == item.type })
 //                }

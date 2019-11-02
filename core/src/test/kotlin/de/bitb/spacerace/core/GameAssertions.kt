@@ -123,7 +123,6 @@ fun TestEnvironment.assertNotWinner(player: PlayerColor) = this.apply {
 }
 
 fun TestEnvironment.assertGameEnd() = this.apply {
-    waitForIt()
     val winner = winnerObserver.values()
     assertThat(winner, `is`(notNullValue()))
 }

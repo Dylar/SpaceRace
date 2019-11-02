@@ -36,13 +36,13 @@ class WinnerUsecaseTest : GameTest() {
 
     @Test
     fun goals1_moveOnGoal_WinGame() {
-//        assertTrue(true) //TODO bitrise bug... maybe wait for round observer
+//        assertTrue(true) //TODO bitrise bug... maybe wait for win or whatever observer
         if (BITRISE_BORG) {
             TestEnvironment()
                     .initGame()
                     .moveToGoal()
-
                     .nextPhase()
+                    .apply { waitForIt(100) }
                     .assertCurrentPlayer(TEST_PLAYER_1)
                     .assertPlayerVictories(TEST_PLAYER_1)
                     .assertGameEnd()
