@@ -105,13 +105,6 @@ nb-configuration.xml
 /local.properties
 .gradle/
 gradle-app.setting
-/build/
-/android/build/
-/core/build/
-/desktop/build/
-/html/build/
-/ios/build/
-/ios-moe/build/
 
 ## OS Specific
 .DS_Store
@@ -129,45 +122,7 @@ Thumbs.db
 /ios-moe/xcode/native/
 
 
+#ObjxBox
+/core/objectbox
+/core/objectbox-models
 
-
-#OBJ BOX
-
-# IntelliJ Idea
-.idea/
-
-# Gradle & Java build
-.gradle
-build/
-bin/
-gen/
-target/
-out/
-classes/
-gradle.properties
-
-# Local build properties
-build.properties
-local.properties
-
-# Native libs
-objectbox*.dll
-libobjectbox*.so
-libobjectbox*.dylib
-
-### Test DB files
-data.mdb
-lock.mdb
-test-db/
-jni-unit-test-db/
-test-db64/
-perf-test-db/
-perf-test-db64/
-
-## Backups
-.gitignore~
-*.txt~
-default.json.bak
-
-# Java crash reports
-hs_err_pid*.log

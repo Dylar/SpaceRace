@@ -15,7 +15,7 @@ class TestSystemSetup(
 
             boxStore?.close()
             boxStore?.deleteAllFiles()
-            val file = File("object-store-test")
+            val file = File("objectboxTest")
             BoxStore.deleteAllFiles(file)
             boxStore = MyObjectBox.builder()
                     // add directory flag to change where ObjectBox puts its database files
