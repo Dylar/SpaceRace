@@ -12,7 +12,7 @@ interface ActivatableItem
 interface AttachableItem
 interface DisposableItem
 
-
+interface MovableItem
 
 
 interface RemoveEffect

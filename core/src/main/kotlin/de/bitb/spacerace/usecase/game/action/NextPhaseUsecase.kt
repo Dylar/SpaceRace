@@ -156,8 +156,8 @@ class NextPhaseUsecase @Inject constructor(
                 .filter { it.itemInfo is DisposableItem }
                 .onEach { playerData.attachedItems.add(it) }
                 .toList()
-                .also { field.disposedItems.removeAll(it) }
         if (items.isNotEmpty()) {
+            field.disposedItems.removeAll(items)
             attachItemDispenser.publishUpdate(AttachItemConfig(playerData, items))
             mapDataSource.insertDBField(field)
         }

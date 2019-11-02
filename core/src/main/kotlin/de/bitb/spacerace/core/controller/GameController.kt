@@ -53,8 +53,8 @@ class GameController
     }
 
     fun initPhaseObserver() {
-        compositeDisposable += observeRoundUsecase.observeStream { roundEnd ->
-            if (roundEnd) EventBus.getDefault().post(OpenEndRoundMenuEvent())
+        compositeDisposable += observeRoundUsecase.observeStream { result ->
+            if (result.roundEnding) EventBus.getDefault().post(OpenEndRoundMenuEvent())
         }
     }
 

@@ -17,20 +17,46 @@ class ObserveRoundUsecase
         private val playerDataSource: PlayerDataSource,
         private val itemDataSource: ItemDataSource,
         private val removeItemDispenser: RemoveItemDispenser
-) : StreamUseCaseNoParams<Boolean> {
+//        private val moveItemDispenser: MoveItemDispenser
+) : StreamUseCaseNoParams<ObserveRoundResult> {
 
-    override fun buildUseCaseObservable(): Observable<Boolean> =
+    override fun buildUseCaseObservable(): Observable<ObserveRoundResult> =
             playerDataSource.observeAllPlayer()
-                    .map(::filterPlayer)
-                    .map(::endPlayerRound)
-                    .map(::triggerItems)
-                    .flatMap { saveData(it.first, it.second) }
+                    .flatMap { player ->
+                        val result = ObserveRoundResult(player)
+                                .apply { roundEnding = player.all { it.phase.isEndTurn() } }
+                        if (result.roundEnding) endRound(result)
+                        else Observable.fromCallable { result }
+                    }
 
-    private fun filterPlayer(player: List<PlayerData>) =
-            if (player.all { it.phase.isEndTurn() }) player
-            else listOf()
+    private fun endRound(result: ObserveRoundResult): Observable<ObserveRoundResult> =
+            Observable.fromCallable {
+                moveItems()
+                result.apply {
+                    endPlayerRound(player)
+                    usedItems = decayItems(player)
+                }
+            }.flatMap { saveData(it) }
+//                    .map(::endPlayerRound)
+//                    .map(::decayItems)
+//                    .flatMap { saveData(it.first, it.second) }
+//                    .map(::moveItems)
+//                    .onErrorReturn { it !is RoundNotEnding }
 
-    private fun triggerItems(players: List<PlayerData>): Pair<List<PlayerData>, List<ItemData>> {
+    private fun moveItems() {
+
+    }
+
+    private fun endPlayerRound(players: List<PlayerData>) =
+            players.forEach { player ->
+                player.apply {
+                    clearTurn()
+                    phase = Phase.END_ROUND
+                    repeat(mines.size) { addRandomWin() }
+                }
+            }
+
+    private fun decayItems(players: List<PlayerData>): MutableList<ItemData> {
         val usedItems =
                 players.asSequence()
                         .map { it.activeItems }
@@ -51,26 +77,17 @@ class ObserveRoundUsecase
 
         players.forEach { it.activeItems.removeAll(usedItems) }
 
-        return players to usedItems
+        return usedItems
     }
 
-    private fun endPlayerRound(players: List<PlayerData>): List<PlayerData> =
-            players.onEach { player ->
-                player.apply {
-                    clearTurn()
-                    phase = Phase.END_ROUND
-                    repeat(mines.size) { addRandomWin() }
-                }
-            }
-
-    private fun saveData(player: List<PlayerData>, usedItems: List<ItemData>) =
+    private fun saveData(result: ObserveRoundResult) =
             Observable.zip(
-                    savePlayer(player),
-                    deleteItems(usedItems),
-                    BiFunction<List<PlayerData>, List<ItemData>, Boolean> { finishPlayer, finishItems ->
-                        if (finishPlayer.isEmpty() && finishItems.isEmpty()) false
-                        else {
-                            true
+                    savePlayer(result.player),
+                    deleteItems(result.usedItems),
+                    BiFunction<List<PlayerData>, List<ItemData>, ObserveRoundResult> { finishPlayer, finishItems ->
+                        result.apply {
+                            player = finishPlayer
+                            usedItems = finishItems
                         }
                     })
 
@@ -79,9 +96,15 @@ class ObserveRoundUsecase
             else itemDataSource.deleteRXItems(*usedItems.toTypedArray())
                     .andThen(Observable.just(usedItems))
 
-    private fun savePlayer(player: List<PlayerData>): Observable<List<PlayerData>>? =
-            if (player.isEmpty()) Observable.just(player)
-            else playerDataSource
+    private fun savePlayer(player: List<PlayerData>): Observable<List<PlayerData>> =
+            playerDataSource
                     .insertAndReturnRXPlayer(*player.toTypedArray())
                     .toObservable()
+}
+
+data class ObserveRoundResult(
+        var player: List<PlayerData> = emptyList(),
+        var usedItems: List<ItemData> = emptyList()
+) {
+    var roundEnding: Boolean = false
 }
