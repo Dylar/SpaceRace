@@ -6,10 +6,7 @@ import de.bitb.spacerace.core.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.usecase.game.observe.ObserveAttachItemUseCase
-import de.bitb.spacerace.usecase.game.observe.ObserveRemoveItemUseCase
-import de.bitb.spacerace.usecase.game.observe.ObserveRoundUsecase
-import de.bitb.spacerace.usecase.game.observe.ObserveWinnerUsecase
+import de.bitb.spacerace.usecase.game.observe.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
@@ -23,6 +20,7 @@ class GameController
         var observeRoundUsecase: ObserveRoundUsecase,
         var observeAttachItemUseCase: ObserveAttachItemUseCase,
         var observeRemoveItemUseCase: ObserveRemoveItemUseCase,
+        var observeMoveItemUseCase: ObserveMoveItemUseCase,
         var playerController: PlayerController,
         var graphicController: GraphicController
 ) {
@@ -41,13 +39,14 @@ class GameController
 
         initAttachPlayerObserver()
         initRemoveItemObserver()
+        initMovingItemObserver()
     }
 
     fun initWinnerObserver() {
         compositeDisposable += observeWinnerUsecase.observeStream(
                 params = WIN_AMOUNT,
                 onNext = { winner ->
-                    Logger.printLog("AND THE WINNER IIIIISSS: $winner")
+                    Logger.justPrint("AND THE WINNER IIIIISSS: $winner")
                     EventBus.getDefault().post(GameOverEvent(winner.playerColor))
                 })
     }
@@ -72,6 +71,14 @@ class GameController
 //            else if (field != null) { TODO
 //                removeItemFromField(field, items)
 //            }
+        }
+    }
+
+    fun initMovingItemObserver() {
+        compositeDisposable += observeMoveItemUseCase.observeStream { movingItems ->
+            movingItems.forEach {
+                graphicController.moveItems(it.fromField, it.toField, it.item)
+            }
         }
     }
 

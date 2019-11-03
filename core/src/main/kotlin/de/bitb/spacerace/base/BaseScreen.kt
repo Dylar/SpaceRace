@@ -63,7 +63,7 @@ open class BaseScreen(
             }
 
             override fun keyDown(keycode: Int): Boolean {
-                Logger.printLog("KEY DOWN: ${Input.Keys.toString(keycode)}", "KEY CODE: $keycode")
+                Logger.justPrint("KEY DOWN: ${Input.Keys.toString(keycode)}, KEY CODE: $keycode")
                 return true
             }
 

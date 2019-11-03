@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import de.bitb.spacerace.core.events.commands.CommandDispender
 import de.bitb.spacerace.usecase.dispender.AttachItemDispenser
+import de.bitb.spacerace.usecase.dispender.MoveItemDispenser
 import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
 import de.bitb.spacerace.usecase.dispender.RemoveItemDispenser
 import javax.inject.Singleton
@@ -26,6 +27,10 @@ class GameModule {
     @Provides
     @Singleton
     fun provideRemoveItemDispender(): RemoveItemDispenser = RemoveItemDispenser()
+
+    @Provides
+    @Singleton
+    fun provideMoveItemDispender(): MoveItemDispenser = MoveItemDispenser()
 
 
 }

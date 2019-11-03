@@ -98,7 +98,7 @@ class NextPhaseUsecase @Inject constructor(
                     Phase.MOVE -> startMove(player)
                     Phase.MAIN2 -> startMain2(player)
                     Phase.END_TURN -> endTurn(player)
-                    else -> Single.just(NextPhaseResult(player))
+                    else -> throw RoundIsEndingException()
                 }
             }
 
@@ -126,7 +126,7 @@ class NextPhaseUsecase @Inject constructor(
                 triggerItems(playerData)
                 playerData.positionField.target
             }.flatMap { fieldData ->
-                Logger.printLog("Field ${fieldData.fieldType.name}: $playerData")
+                Logger.justPrint("Field ${fieldData.fieldType.name}: $playerData")
                 val result: Single<out ObtainFieldResult> = when (fieldData.fieldType) {
                     FieldType.WIN -> obtainWin(playerData)
                     FieldType.LOSE -> obtainLose(playerData)
@@ -171,7 +171,7 @@ class NextPhaseUsecase @Inject constructor(
                         var newGoal = goal
                         val checkGoalPosition = if (goal.gamePosition.isPosition(playerData.gamePosition)) {
                             Single.fromCallable {
-                                Logger.printLog("oldGoal: $goal")
+                                Logger.justPrint("oldGoal: $goal")
                                 playerData.apply {
                                     credits += GOAL_CREDITS
                                     victories++
@@ -182,7 +182,7 @@ class NextPhaseUsecase @Inject constructor(
                                     newGoal = goals[(Math.random() * goals.size).toInt()]
                                 }
 
-                                Logger.printLog("newGoal: $newGoal")
+                                Logger.justPrint("newGoal: $newGoal")
 
                                 saveData.goal.target = newGoal
                                 saveData

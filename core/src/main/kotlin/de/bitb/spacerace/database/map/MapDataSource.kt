@@ -15,6 +15,6 @@ interface MapDataSource {
     fun getRXAllFields(vararg field: FieldData): Single<List<FieldData>>
     fun getRXFieldByPosition(vararg positionData: PositionData): Single<List<FieldData>>
     fun getRXFieldByType(type: FieldType): Single<List<FieldData>>
-
+    fun getRXFieldWithMovableItems(): Single<List<FieldData>>
 
 }

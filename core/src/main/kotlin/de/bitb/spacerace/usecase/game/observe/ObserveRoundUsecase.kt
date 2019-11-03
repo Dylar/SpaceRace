@@ -2,10 +2,15 @@ package de.bitb.spacerace.usecase.game.observe
 
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.items.ItemDataSource
+import de.bitb.spacerace.database.items.MovableItem
+import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
+import de.bitb.spacerace.usecase.dispender.MoveItemConfig
+import de.bitb.spacerace.usecase.dispender.MoveItemDispenser
 import de.bitb.spacerace.usecase.dispender.RemoveItemConfig
 import de.bitb.spacerace.usecase.dispender.RemoveItemDispenser
 import io.reactivex.Observable
@@ -16,10 +21,12 @@ class ObserveRoundUsecase
 @Inject constructor(
         private val playerDataSource: PlayerDataSource,
         private val itemDataSource: ItemDataSource,
-        private val removeItemDispenser: RemoveItemDispenser
-//        private val moveItemDispenser: MoveItemDispenser
+        private val mapDataSource: MapDataSource,
+        private val removeItemDispenser: RemoveItemDispenser,
+        private val moveItemDispenser: MoveItemDispenser
 ) : StreamUseCaseNoParams<ObserveRoundResult> {
 
+    //I am not beautiful but still lovable
     override fun buildUseCaseObservable(): Observable<ObserveRoundResult> =
             playerDataSource.observeAllPlayer()
                     .flatMap { player ->
@@ -30,21 +37,34 @@ class ObserveRoundUsecase
                     }
 
     private fun endRound(result: ObserveRoundResult): Observable<ObserveRoundResult> =
-            Observable.fromCallable {
-                moveItems()
-                result.apply {
-                    endPlayerRound(player)
-                    usedItems = decayItems(player)
-                }
-            }.flatMap { saveData(it) }
-//                    .map(::endPlayerRound)
-//                    .map(::decayItems)
-//                    .flatMap { saveData(it.first, it.second) }
-//                    .map(::moveItems)
-//                    .onErrorReturn { it !is RoundNotEnding }
+            mapDataSource.getRXFieldWithMovableItems()
+                    .map { fields ->
+                        moveItems(fields)
+                        result.apply {
+                            endPlayerRound(player)
+                            usedItems = decayItems(player)
+                        }
+                    }.toObservable()
+                    .flatMap { saveData(it) }
 
-    private fun moveItems() {
+    private fun moveItems(fields: List<FieldData>) {
+        val moveInfos = mutableListOf<MoveItemConfig>()
+        fields.forEach { fromField ->
+            fromField.disposedItems.asSequence()
+                    .filter { it.itemInfo is MovableItem }
+                    .forEach { item ->
+                        val toField = fromField.connections.random() //TODO do this in settings
+                        moveInfos.add(MoveItemConfig(fromField, toField, item))
+                    }
+        }
 
+        moveInfos.forEach {
+            it.fromField.disposedItems.remove(it.item)
+            it.toField.disposedItems.add(it.item)
+            mapDataSource.insertDBField(it.fromField, it.toField)
+        }
+
+        moveItemDispenser.publishUpdate(moveInfos)
     }
 
     private fun endPlayerRound(players: List<PlayerData>) =

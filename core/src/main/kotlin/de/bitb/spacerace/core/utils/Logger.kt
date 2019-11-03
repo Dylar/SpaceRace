@@ -35,19 +35,25 @@ object Logger {
         }
     }
 
-    fun simplePrint(message: String) {
+//    fun simplePrint(message: String) {
+//        val log = createLog(message)
+//        val tag = LOG_BORDER_TOP +
+//                "\n${log.timeStamp}" +
+//                "\nDEBUG:"
+//        val msg = "\n${log.params}" +
+//                "\n${log.callerClass}" +
+//                "\n$LOG_BORDER_BOT"
+//        printMessage(tag, msg)
+//    }
+
+    fun justPrint(message: String) {
         val log = createLog(message)
         val tag = LOG_BORDER_TOP +
-                "\n${log.timeStamp}" +
-                "\nDEBUG:"
+                "\n${log.timeStamp}"
         val msg = "\n${log.params}" +
                 "\n${log.callerClass}" +
                 "\n$LOG_BORDER_BOT"
         printMessage(tag, msg)
-    }
-
-    fun justPrint(msg: String) {
-        printMessage("JUST PRINT", msg)
     }
 
     private fun printMessage(tag: String, message: String) {

@@ -4,10 +4,10 @@ import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import io.reactivex.subjects.BehaviorSubject
 
-class MoveItemDispenser : Dispenser<MoveItemConfig> {
-    override val publisher: BehaviorSubject<MoveItemConfig> = BehaviorSubject.create()
+class MoveItemDispenser : Dispenser<List<MoveItemConfig>> {
+    override val publisher: BehaviorSubject<List<MoveItemConfig>> = BehaviorSubject.create()
 
-    override fun publishUpdate(entity: MoveItemConfig) {
+    override fun publishUpdate(entity: List<MoveItemConfig>) {
         publisher.onNext(entity)
     }
 }
@@ -15,5 +15,5 @@ class MoveItemDispenser : Dispenser<MoveItemConfig> {
 data class MoveItemConfig(
         var fromField: FieldData,
         var toField: FieldData,
-        var items: ItemData
+        var item: ItemData
 )

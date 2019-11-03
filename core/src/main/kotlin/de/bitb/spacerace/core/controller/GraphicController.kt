@@ -4,10 +4,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.config.DEFAULT_SHIP
 import de.bitb.spacerace.core.events.commands.player.MoveCommand
-import de.bitb.spacerace.database.items.MovableItem
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.grafik.model.items.*
+import de.bitb.spacerace.grafik.model.items.ItemGraphic
+import de.bitb.spacerace.grafik.model.items.ItemImage
+import de.bitb.spacerace.grafik.model.items.ItemType
+import de.bitb.spacerace.grafik.model.items.createGraphic
 import de.bitb.spacerace.grafik.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import de.bitb.spacerace.grafik.model.objecthandling.getRunnableAction
@@ -142,8 +145,10 @@ class GraphicController
                     .associateBy { it.itemType }
 
 
-    fun moveMovables(fromField: FieldGraphic, toField: FieldGraphic, itemType: ItemType) { //TODO make items moveable again !
-        val item = fromField.disposedItems.first { it.itemType == itemType }
+    fun moveItems(fromFieldData: FieldData, toFieldData: FieldData, itemData: ItemData) { //TODO make items moveable again !
+        val fromField = getFieldGraphic(fromFieldData.gamePosition)
+        val toField = getFieldGraphic(toFieldData.gamePosition)
+        val item = fromField.disposedItems.first { it.itemType == itemData.itemInfo.type }
         val itemImage = item.getGameImage() as ItemImage
         val point = itemImage.getRotationPosition(itemImage, toField.getGameImage())
 
