@@ -97,8 +97,13 @@ data class PlayerData(
         return lose
     }
 
-    fun stepsLeft(): Int =
-            getMaxSteps() - (if (steps.isEmpty()) 0 else steps.size - 1)
+    fun stepsLeft(): Int {
+        val steps = when {
+            steps.isEmpty() -> 0
+            else -> steps.size - 1
+        }
+        return getMaxSteps() - steps
+    }
 
     fun areStepsLeft(): Boolean =
             stepsLeft() > 0
@@ -106,8 +111,11 @@ data class PlayerData(
     fun getMaxSteps(): Int {
         val (multiValue, addValue) = getModifierValues()
         val result: Int = (diceResults.sum() * (multiValue + 1) + addValue).roundToInt()
-        return if (diceResults.isNotEmpty() && result <= 0) 1
-        else result
+        return when {
+            result <= 0 && diceResults.isEmpty() -> 0
+            result <= 0 && diceResults.isNotEmpty() -> 1
+            else -> result
+        }
     }
 
     fun isPreviousPosition(fieldPosition: PositionData) = steps.size > 1 && previousStep.isPosition(fieldPosition)
