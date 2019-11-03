@@ -122,8 +122,9 @@ Thumbs.db
 /ios-moe/xcode/native/
 
 
-#ObjxBox
-/android/assets/objectbox/
+#ObjBox
+/android/assets/objectbox/data.mdb
+/android/assets/objectbox/lock.mdb
 /core/objectbox/
 /core/objectboxTest/
 /core/objectbox-models/
