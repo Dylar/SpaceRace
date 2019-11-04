@@ -14,7 +14,7 @@ import de.bitb.spacerace.usecase.dispender.MoveItemDispenser
 import de.bitb.spacerace.usecase.dispender.RemoveItemConfig
 import de.bitb.spacerace.usecase.dispender.RemoveItemDispenser
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import javax.inject.Inject
 
 class ObserveRoundUsecase
@@ -40,10 +40,8 @@ class ObserveRoundUsecase
             mapDataSource.getRXFieldWithMovableItems()
                     .map { fields ->
                         moveItems(fields)
-                        result.apply {
-                            endPlayerRound(player)
-                            usedItems = decayItems(player)
-                        }
+                        endPlayerRound(result)
+                        decayItems(result)
                     }.toObservable()
                     .flatMap { saveData(it) }
 
@@ -67,49 +65,67 @@ class ObserveRoundUsecase
         moveItemDispenser.publishUpdate(moveInfos)
     }
 
-    private fun endPlayerRound(players: List<PlayerData>) =
-            players.forEach { player ->
-                player.apply {
-                    clearTurn()
-                    phase = Phase.END_ROUND
-                    repeat(mines.size) { addRandomWin() }
+    private fun endPlayerRound(result: ObserveRoundResult) =
+            result.apply {
+                players.forEach { player ->
+                    player.apply {
+                        clearTurn()
+                        phase = Phase.END_ROUND
+                        repeat(mines.size) { addRandomWin() }
+                    }
                 }
             }
 
-    private fun decayItems(players: List<PlayerData>): MutableList<ItemData> {
-        val usedItems =
-                players.asSequence()
+    private fun decayItems(result: ObserveRoundResult): ObserveRoundResult {
+        result.removedItems =
+                result.players.asSequence()
                         .map { it.activeItems }
                         .flatten()
-                        .onEach { it.itemInfo.charges-- }
+                        .onEach {
+                            it.itemInfo.charges--
+                            result.updatedItems.add(it)
+                        }
                         .filter { it.itemInfo.charges < 1 }.toMutableList()
+        result.players.forEach { it.activeItems.removeAll(result.removedItems) }
 
-        players.forEach { player ->
-            val expiredItems = player.attachedItems.asSequence()
-                    .onEach { it.itemInfo.charges-- }
-                    .filter { it.itemInfo.charges < 1 }.toList()
+        val expiredItems = result.players
+                .asSequence()
+                .map { player ->
+                    player.attachedItems.asSequence()
+                            .onEach {
+                                it.itemInfo.charges--
+                                result.updatedItems.add(it)
+                            }
+                            .filter { it.itemInfo.charges < 1 }
+                            .toList()
+                            .also { items ->
+                                if (items.isNotEmpty()) {
+                                    removeItemDispenser.publishUpdate(RemoveItemConfig(playerData = player, items = items))
+                                }
+                            }
+                }.flatten().toList()
+        result.players.forEach { it.attachedItems.removeAll(expiredItems) }
 
-            if (expiredItems.isNotEmpty()) {
-                removeItemDispenser.publishUpdate(RemoveItemConfig(playerData = player, items = expiredItems))
-                usedItems.addAll(expiredItems)
-            }
-        }
-
-        players.forEach { it.activeItems.removeAll(usedItems) }
-
-        return usedItems
+        result.removedItems.addAll(expiredItems)
+        return result
     }
 
     private fun saveData(result: ObserveRoundResult) =
             Observable.zip(
-                    savePlayer(result.player),
-                    deleteItems(result.usedItems),
-                    BiFunction<List<PlayerData>, List<ItemData>, ObserveRoundResult> { finishPlayer, finishItems ->
-                        result.apply {
-                            player = finishPlayer
-                            usedItems = finishItems
+                    savePlayer(result.players),
+                    saveItems(result.updatedItems),
+                    deleteItems(result.removedItems),
+                    Function3<List<PlayerData>, List<ItemData>, List<ItemData>, ObserveRoundResult> { finishPlayer, removedItems, updatedItems ->
+                        result.also {
+                            it.players = finishPlayer
+                            it.removedItems = removedItems.toMutableList()
+                            it.updatedItems = updatedItems.toMutableList()
                         }
                     })
+
+    private fun saveItems(usedItems: List<ItemData>): Observable<List<ItemData>> =
+            if (usedItems.isEmpty()) Observable.just(usedItems)
+            else itemDataSource.insertRXItems(*usedItems.toTypedArray()).toObservable()
 
     private fun deleteItems(usedItems: List<ItemData>): Observable<List<ItemData>> =
             if (usedItems.isEmpty()) Observable.just(usedItems)
@@ -123,8 +139,9 @@ class ObserveRoundUsecase
 }
 
 data class ObserveRoundResult(
-        var player: List<PlayerData> = emptyList(),
-        var usedItems: List<ItemData> = emptyList()
+        var players: List<PlayerData> = emptyList(),
+        var removedItems: MutableList<ItemData> = mutableListOf(),
+        var updatedItems: MutableList<ItemData> = mutableListOf()
 ) {
     var roundEnding: Boolean = false
 }

@@ -24,8 +24,7 @@ class ActivateItemUsecase @Inject constructor(
     private fun getItem(params: ActivateItemConfig, playerData: PlayerData): ItemData? =
             playerData.storageItems.asSequence()
                     .filter { it.itemInfo.type == params.itemType }
-                    .maxBy { it.itemInfo.charges }
-
+                    .minBy { it.itemInfo.charges }
 
     private fun useItem(playerData: PlayerData, itemData: ItemData): Pair<PlayerData, ItemData> =
             playerData.apply {
