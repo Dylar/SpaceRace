@@ -18,7 +18,7 @@ class CommandUsecase @Inject constructor(
 
     private fun handleCommand(command: BaseCommand) =
             Observable.fromCallable {
-                Logger.printLog("Executed handleCommand:\nPlayer: ${command.player},\nCommand: ${command::class.java.simpleName}")
+                Logger.justPrint("Executed handleCommand:\nPlayer: ${command.player},\nCommand: ${command::class.java.simpleName}")
                 command.apply { execute() }
             }
 }

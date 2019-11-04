@@ -5,8 +5,8 @@ import de.bitb.spacerace.config.DEBUG_PLAYER_ITEMS
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.core.assertCurrentPhase
 import de.bitb.spacerace.core.assertSameField
-import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.core.exceptions.GameException
+import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.grafik.model.items.ItemInfo
@@ -66,7 +66,6 @@ fun TestEnvironment.initGame(
     gameController.initPhaseObserver() //Only phase observer -> so winner is as test observer
     playerController.initObserver()
 
-    waitForIt()
 }
 
 fun TestEnvironment.setToMovePhase(
@@ -115,6 +114,7 @@ fun TestEnvironment.endRound(
             player = playerController.players.first(),
             moveTo = moveTo)
 
+    waitForIt()
     startNewRoundUsecase.buildUseCaseSingle().test().await().assertComplete()
 }
 

@@ -3,9 +3,10 @@ package de.bitb.spacerace.env
 import de.bitb.spacerace.core.controller.GameController
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.controller.PlayerController
+import de.bitb.spacerace.core.exceptions.GameException
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.core.exceptions.GameException
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import de.bitb.spacerace.grafik.model.player.PlayerColor
@@ -15,7 +16,6 @@ import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
 import de.bitb.spacerace.usecase.game.action.items.ActivateItemUsecase
 import de.bitb.spacerace.usecase.game.action.items.DisposeItemUsecase
 import de.bitb.spacerace.usecase.game.action.items.EquipItemUsecase
-import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.usecase.game.init.LoadNewGameUsecase
@@ -58,7 +58,7 @@ class TestEnvironment {
     lateinit var disposeItemUsecase: DisposeItemUsecase
 
     @Inject
-    lateinit var getPlayerUsecase: GetPlayerUsecase
+    lateinit var playerDataSource: PlayerDataSource
     @Inject
     lateinit var getSaveGameUsecase: GetSaveGameUsecase
     @Inject
@@ -102,9 +102,7 @@ class TestEnvironment {
     fun getPlayerPosition(player: PlayerColor = currentPlayerColor) =
             getDBPlayer(player).gamePosition
 
-    fun getDBPlayer(player: PlayerColor) =
-            getPlayerUsecase.buildUseCaseSingle(player).test().await()
-                    .assertComplete().values().first()
+    fun getDBPlayer(player: PlayerColor) = playerDataSource.getDBPlayerByColor(player).first()
 
     fun getDBField(fieldId: Long) =
             mapDataSource.getDBFields(fieldId).first()
@@ -128,7 +126,7 @@ class TestEnvironment {
         else assertError { assertError(it) }
     }
 
-    fun waitForIt(time: Long = 5) {
+    fun waitForIt(time: Long = 10) {
         Thread.sleep(time)
     }
 

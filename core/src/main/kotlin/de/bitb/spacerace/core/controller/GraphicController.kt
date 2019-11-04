@@ -3,10 +3,12 @@ package de.bitb.spacerace.core.controller
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.config.DEFAULT_SHIP
+import de.bitb.spacerace.core.events.commands.player.MoveCommand
+import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.core.events.commands.player.MoveCommand
 import de.bitb.spacerace.grafik.model.items.ItemGraphic
+import de.bitb.spacerace.grafik.model.items.ItemImage
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.items.createGraphic
 import de.bitb.spacerace.grafik.model.objecthandling.NONE_POSITION
@@ -143,15 +145,24 @@ class GraphicController
                     .associateBy { it.itemType }
 
 
-//    fun moveMovables() { //TODO make items moveable again !
+    fun moveItems(fromFieldData: FieldData, toFieldData: FieldData, itemData: ItemData) { //TODO make items moveable again !
+        val fromField = getFieldGraphic(fromFieldData.gamePosition)
+        val toField = getFieldGraphic(toFieldData.gamePosition)
+        val item = fromField.disposedItems.first { it.itemType == itemData.itemInfo.type }
+        val itemImage = item.getGameImage() as ItemImage
+        val point = itemImage.getRotationPosition(itemImage, toField.getGameImage())
+
+        item.gamePosition.setPosition(toField.gamePosition)
+        itemImage.moveTo(item.getGameImage(), point, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, toField.getGameImage())))
+
+        fromField.disposedItems.remove(item)
+        toField.disposedItems.add(item)
+
+//        fun getField(item: ItemGraphic): FieldGraphic = fieldGraphics.values
+//                .firstOrNull { it.disposedItems.contains(item) }
+//                ?: NONE_SPACE_FIELD
 //
-//        fun getField(item: Item): SpaceField {
-//            return fieldGraphics.values
-//                    .filter { it.disposedItems.contains(item) }
-//                    .firstOrNull() ?: NONE_SPACE_FIELD
-//        }
-//
-//        val moveItem = { item: MovingItem, toRemove: MutableList<Item> ->
+//        val moveItem = { item: ItemGraphic, toRemove: MutableList<ItemGraphic> ->
 //            val field = getField(item)
 //            val list = field.connections
 //            val con = list[(Math.random() * list.size).toInt()]
@@ -166,20 +177,20 @@ class GraphicController
 //            toRemove.add(item)
 //        }
 //
-//        val fieldList: MutableList<SpaceField> = ArrayList()
+//        val fieldList: MutableList<FieldGraphic> = ArrayList()
 //        fieldGraphics.values
 //                .filter { it.disposedItems.isNotEmpty() }
 //                .forEach { fieldList.add(it) }
 //
-//        fieldList.forEach { field: SpaceField ->
-//            val toRemove: MutableList<Item> = ArrayList()
+//        fieldList.forEach { field: FieldGraphic ->
+//            val toRemove: MutableList<ItemGraphic> = ArrayList()
 //            field.disposedItems.forEach {
-//                if (it is MovingItem && it.getGameImage().isIdling()) {
+//                if (it.itemType.getDefaultInfo() is MovableItem && it.getGameImage().isIdling()) {
 //                    moveItem(it, toRemove)
 //                }
 //            }
 //            field.disposedItems.removeAll(toRemove)
 //        }
-//
-//    }
+
+    }
 }

@@ -1,8 +1,9 @@
 package de.bitb.spacerace.tests.items
 
 import de.bitb.spacerace.config.BITRISE_BORG
-import de.bitb.spacerace.env.*
+import de.bitb.spacerace.core.assertDBPlayer
 import de.bitb.spacerace.core.exceptions.ItemNotFoundException
+import de.bitb.spacerace.env.*
 import de.bitb.spacerace.grafik.model.items.ItemInfo
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -51,11 +52,9 @@ class ActivateItemTest : ItemsTest() {
                     .move()
                     .apply { move(target = circleStep1Field) }
                     .nextPhase()
+                    .assertDBPlayer(TEST_PLAYER_1) { it.activeItems.first().itemInfo.charges == 1 }
                     .endRound()
-                    .apply {
-                        assertTrue(currentPlayer.storageItems.isEmpty())
-                        assertTrue(currentPlayer.activeItems.isEmpty())
-                    }
+                    .assertDBPlayer(TEST_PLAYER_1) { it.activeItems.isEmpty() }
         }
     }
 }

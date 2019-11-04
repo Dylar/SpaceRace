@@ -17,8 +17,7 @@ import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.*
 
 fun TestEnvironment.assertDBPlayer(player: PlayerColor, assertPlayer: (PlayerData) -> Boolean) = this.apply {
-    getPlayerUsecase.buildUseCaseSingle(player)
-            .assertValue(assertPlayer)
+    assertTrue(assertPlayer(getDBPlayer(player)))
 }
 
 fun TestEnvironment.assertDBSaveData(assertField: (SaveData) -> Boolean) = this.apply {
@@ -27,11 +26,8 @@ fun TestEnvironment.assertDBSaveData(assertField: (SaveData) -> Boolean) = this.
 }
 
 fun TestEnvironment.assertTargetField(playerColor: PlayerColor, assertField: (List<FieldData>) -> Boolean) = this.apply {
-    getPlayerUsecase
-            .buildUseCaseSingle(playerColor)
-            .flatMap { player ->
-                getTargetableFieldUsecase.buildUseCaseSingle(player)
-            }
+    playerDataSource.getRXPlayerByColor(playerColor)
+            .flatMap { getTargetableFieldUsecase.buildUseCaseSingle(it.first()) }
             .assertValue(assertField)
 }
 
@@ -64,7 +60,11 @@ fun TestEnvironment.assertCreditsNot(
         player: PlayerColor = currentPlayerColor,
         credits: Int = 0
 ) = this.apply {
-    assertDBPlayer(player) { it.credits != credits }
+    assertDBPlayer(player) {
+        assertThat(it.mines.size, `is`(1))
+        assertThat(it.credits, `is`(not(credits)))
+        it.credits != credits
+    }
 }
 
 fun TestEnvironment.assertPlayerModi(assertMod: Double = 0.0, assertAdd: Int = 0) =

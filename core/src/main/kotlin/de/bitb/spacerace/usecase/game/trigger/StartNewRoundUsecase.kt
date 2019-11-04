@@ -18,11 +18,14 @@ class StartNewRoundUsecase @Inject constructor(
                     .map { it.apply { roundCount++ } }
                     .flatMap { saveDataSource.insertAndReturnRXSaveData(it) }
                     .map { it.first().players }
-                    .flatMap(::resetPlayer)
+                    .map(::resetPlayer)
                     .flatMap(::updatePlayer)
 
     private fun resetPlayer(player: List<PlayerData>) =
-            Single.just(player.onEach { it.phase = Phase.MAIN1 })
+            player.onEach {
+                it.clearTurn()
+                it.phase = Phase.MAIN1
+            }
 
     private fun updatePlayer(player: List<PlayerData>) =
             playerDataSource.insertAndReturnRXPlayer(*player.toTypedArray())

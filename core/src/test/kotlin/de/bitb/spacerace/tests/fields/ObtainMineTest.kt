@@ -38,7 +38,7 @@ class ObtainMineTest : ObtainFieldTest() {
         }
     }
 
-    @Test
+    @Test //TODO FLAKY :( ?
     fun obtainMine_endRound_GotMoney_stealMine() {
 //        assertTrue(true) //TODO bitrise bug...
         if (BITRISE_BORG) {
@@ -57,7 +57,6 @@ class ObtainMineTest : ObtainFieldTest() {
                     .assertCredits(TEST_PLAYER_2, credits2)
                     .endRound()
                     .assertRoundCount(2)
-
                     //check credits -> player1 got credits
                     .assertCreditsNot(TEST_PLAYER_1, credits = credits1)
                     .also { credits1 = it.getDBPlayer(TEST_PLAYER_1).credits }

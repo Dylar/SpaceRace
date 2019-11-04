@@ -2,7 +2,11 @@ package de.bitb.spacerace.env
 
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.core.exceptions.GameException
+import de.bitb.spacerace.database.items.ItemData
+import de.bitb.spacerace.database.items.ItemData_.itemInfo
 import de.bitb.spacerace.grafik.model.items.ItemInfo
+import de.bitb.spacerace.grafik.model.items.ItemType
+import de.bitb.spacerace.grafik.model.items.getDefaultInfo
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.MoveResult
@@ -11,6 +15,7 @@ import de.bitb.spacerace.usecase.game.action.items.ActivateItemConfig
 import de.bitb.spacerace.usecase.game.action.items.DisposeItemConfig
 import de.bitb.spacerace.usecase.game.action.items.EquipItemConfig
 import de.bitb.spacerace.usecase.game.action.items.UseItemResult
+import sun.audio.AudioPlayer.player
 
 fun TestEnvironment.nextPhase(
         color: PlayerColor = currentPlayerColor,
@@ -20,6 +25,7 @@ fun TestEnvironment.nextPhase(
 ) = this.apply {
     nextPhaseUseCase.buildUseCaseSingle(color).test().await()
             .assertObserver(error, assertError, assertSuccess)
+    waitForIt()
 }
 
 fun TestEnvironment.dice(
@@ -32,7 +38,6 @@ fun TestEnvironment.dice(
                 if (error == null) assertComplete()
                 else assertError { error.assertDiceException(it) }
             }
-    waitForIt()
 }
 
 fun TestEnvironment.move(
@@ -44,7 +49,6 @@ fun TestEnvironment.move(
 ) = this.apply {
     moveUsecase.buildUseCaseSingle(player to target).test().await()
             .assertObserver(error, assertError, assertSuccess)
-    waitForIt()
 }
 
 fun TestEnvironment.equipItem(
@@ -58,7 +62,6 @@ fun TestEnvironment.equipItem(
     val config = EquipItemConfig(player, itemInfo.type, equip)
     equipItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
-    waitForIt()
 }
 
 fun TestEnvironment.activateItem(
@@ -71,7 +74,6 @@ fun TestEnvironment.activateItem(
     val config = ActivateItemConfig(player, itemInfo.type)
     activateItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
-    waitForIt()
 }
 
 fun TestEnvironment.disposeItem(
@@ -84,5 +86,17 @@ fun TestEnvironment.disposeItem(
     val config = DisposeItemConfig(player, itemInfo.type)
     disposeItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
+}
+
+fun TestEnvironment.attachItem( //FAKE!
+        fromPlayer: PlayerColor,
+        itemInfo: ItemInfo,
+        toPlayer: PlayerColor = currentPlayerColor
+) = this.apply {
+    val fromPlayerData = getDBPlayer(fromPlayer)
+    val toPlayerData = getDBPlayer(toPlayer)
+    val item = ItemData(itemInfo = itemInfo).apply { owner.target = fromPlayerData }
+    toPlayerData.attachedItems.add(item)
+    playerDataSource.insertRXPlayer(toPlayerData).subscribe()
     waitForIt()
 }

@@ -1,5 +1,6 @@
 package de.bitb.spacerace.database.map
 
+import de.bitb.spacerace.database.items.MovableItem
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import io.objectbox.Box
@@ -11,6 +12,7 @@ class MapRespository(
         private val fieldBox: Box<FieldData>,
         private val mapBox: Box<MapData>
 ) : MapDataSource {
+
     override fun insertDBMaps(vararg maps: MapData) {
         mapBox.put(*maps)
     }
@@ -45,4 +47,7 @@ class MapRespository(
                     .equal(FieldData_.fieldType, type.name)
                     .build())
 
+    override fun getRXFieldWithMovableItems(): Single<List<FieldData>> =
+            RxQuery.single(fieldBox.query()
+                    .filter { field -> field.disposedItems.any { it.itemInfo is MovableItem } }.build())
 }

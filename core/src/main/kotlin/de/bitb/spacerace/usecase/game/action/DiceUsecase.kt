@@ -6,21 +6,18 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ExecuteUseCase
 import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
-import de.bitb.spacerace.usecase.game.getter.GetPlayerUsecase
 import io.reactivex.Completable
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
 class DiceUsecase @Inject constructor(
-        private val getPlayerUsecase: GetPlayerUsecase,
         private val checkCurrentPlayerUsecase: CheckCurrentPlayerUsecase,
         private val playerDataSource: PlayerDataSource
 ) : ExecuteUseCase<Pair<PlayerColor, Int>> {
 
     override fun buildUseCaseCompletable(params: Pair<PlayerColor, Int>) =
             params.let { (playerColor, maxResult) ->
-                checkCurrentPlayerUsecase.buildUseCaseCompletable(playerColor)
-                        .andThen(getPlayerUsecase.buildUseCaseSingle(playerColor))
+                checkCurrentPlayerUsecase.buildUseCaseSingle(playerColor)
                         .flatMapCompletable { dice(it, maxResult) }
             }
 
@@ -38,7 +35,7 @@ class DiceUsecase @Inject constructor(
 
     private fun canExecute(playerData: PlayerData): Boolean =
             if (playerData.phase.isMain1()) {
-                val items : List<MultiDice> = playerData.storageItems
+                val items: List<MultiDice> = playerData.storageItems
                         .map { it.itemInfo }
                         .filterIsInstance<MultiDice>()
                 val diceCharges = 1 + items.sumBy { it.diceAmount }

@@ -63,12 +63,12 @@ sealed class ItemInfo(
     @JsonClass(generateAdapter = true)
     class MineSlowInfo(
             override val diceModifier: Double = -0.1
-    ) : ItemInfo(MINE_SLOW, 3000), DisposableItem, DiceModification
+    ) : ItemInfo(MINE_SLOW, 3000, 2), DisposableItem, DiceModification
 
     @JsonClass(generateAdapter = true)
     class MineMovingInfo(
             override val diceAddition: Int = -1
-    ) : ItemInfo(MINE_MOVING, 4000), DisposableItem, DiceAddition
+    ) : ItemInfo(MINE_MOVING, 4000, 3), DisposableItem, DiceAddition, MovableItem
 
     //EQUIP
     @JsonClass(generateAdapter = true)
