@@ -4,9 +4,9 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.core.events.commands.CommandPool
-import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.player.PlayerColor
+import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemConfig
 import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemUsecase
 import javax.inject.Inject
 
@@ -36,9 +36,12 @@ class BuyItemCommand(
     }
 
     override fun execute() {
-//        DONT_USE_THIS_PLAYER_DATA.storageItems.add(itemData)
-//        DONT_USE_THIS_PLAYER_DATA.credits -= itemInfo.getDefaultInfo().price
-//        playerDataSource.insertRXPlayer(DONT_USE_THIS_PLAYER_DATA).subscribe()
+        val buyItemConfig = BuyItemConfig(player, itemType)
+        buyItemUsecase.getResult(
+                params = buyItemConfig,
+                onSuccess = resetOnSuccess(),
+                onError = resetOnError()
+        )
     }
 
 }
