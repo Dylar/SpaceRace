@@ -1,6 +1,7 @@
 package de.bitb.spacerace.core.exceptions
 
 import de.bitb.spacerace.database.map.FieldData
+import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.grafik.model.items.ItemInfo
 import de.bitb.spacerace.grafik.model.items.ItemType
@@ -71,3 +72,13 @@ class ItemNotFoundException(
 class ItemNotUsableException(
         itemInfo: ItemInfo
 ) : ItemException(itemInfo.type, "$itemInfo is not usable")
+
+class BuyItemLowCreditException(
+        playerData: PlayerData,
+        itemInfo: ItemInfo
+) : ItemException(itemInfo.type, "${playerData.playerColor} has ${playerData.credits} credits, item cost: ${itemInfo.price}")
+
+class PlayerNotOnShopException(
+        playerData: PlayerData,
+        itemInfo: ItemInfo
+) : ItemException(itemInfo.type, "${playerData.playerColor} is not on field: ${playerData.positionField.target.fieldType}")

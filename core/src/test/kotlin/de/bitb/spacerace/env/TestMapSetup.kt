@@ -37,6 +37,9 @@ fun createTestMap(
 
             val bridgeField = newField(bridge, startPosition.copy(posX = TEST_POSX * 3, posY = TEST_POSY * 1.5f))
 
+            val shopField = newField(FieldType.SHOP, startPosition.copy(posX = TEST_POSX * 1.5f, posY = TEST_POSY * 1.5f))
+
+            leftBottomField connectTo shopField
             leftBottomField connectTo sideStepField
             leftBottomField connectTo centerBottomField
             leftBottomField connectTo leftTopField
@@ -49,5 +52,5 @@ fun createTestMap(
             circleStep1Field connectTo circleStep2Field
             circleStep2Field connectTo sideStepField
 
-            fields.addAll(listOf(leftBottomField, leftTopField, centerBottomField, centerTopField, sideStepField, circleStep1Field, circleStep2Field, bridgeField))
+            fields.addAll(listOf(leftBottomField, leftTopField, centerBottomField, centerTopField, sideStepField, circleStep1Field, circleStep2Field, bridgeField, shopField))
         }

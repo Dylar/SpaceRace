@@ -30,7 +30,7 @@ allprojects {
 
         majorVersion = "0"
         midVersion = "7"
-        patchVersion = "1"
+        patchVersion = "2"
         versionSuffix = "-ALPHA"
     }
 

@@ -140,8 +140,7 @@ private fun initPlayerItems(
             .onEach { player ->
                 items.map { itemInfo ->
                     repeat(DEBUG_PLAYER_ITEMS_COUNT) {
-                        val item = ItemData(itemInfo = itemInfo)
-                        item.owner.target = player
+                        val item = ItemData.createItem(player, itemInfo)
                         player.storageItems.add(item)
                     }
                 }

@@ -98,7 +98,7 @@ class ShopDetails(
 
         buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(BuyItemCommand(itemType, playerController.currentColor))
+                EventBus.getDefault().post(BuyItemCommand.get(itemType, playerController.currentColor))
                 return true
             }
         })

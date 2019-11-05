@@ -3,7 +3,6 @@ package de.bitb.spacerace.env
 import de.bitb.spacerace.core.*
 import de.bitb.spacerace.core.exceptions.GameException
 import de.bitb.spacerace.database.items.ItemData
-import de.bitb.spacerace.database.items.ItemData_.itemInfo
 import de.bitb.spacerace.grafik.model.items.ItemInfo
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.items.getDefaultInfo
@@ -15,6 +14,8 @@ import de.bitb.spacerace.usecase.game.action.items.ActivateItemConfig
 import de.bitb.spacerace.usecase.game.action.items.DisposeItemConfig
 import de.bitb.spacerace.usecase.game.action.items.EquipItemConfig
 import de.bitb.spacerace.usecase.game.action.items.UseItemResult
+import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemConfig
+import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemResult
 import sun.audio.AudioPlayer.player
 
 fun TestEnvironment.nextPhase(
@@ -99,4 +100,16 @@ fun TestEnvironment.attachItem( //FAKE!
     toPlayerData.attachedItems.add(item)
     playerDataSource.insertRXPlayer(toPlayerData).subscribe()
     waitForIt()
+}
+
+fun TestEnvironment.buyItem(
+        itemInfo: ItemInfo,
+        player: PlayerColor = currentPlayerColor,
+        error: GameException? = null,
+        assertError: (Throwable) -> Boolean = { error?.assertActivateException(it) ?: false },
+        assertSuccess: (BuyItemResult) -> Boolean = { true }
+) = this.apply {
+    val config = BuyItemConfig(player, itemInfo.type)
+    buyItemUsecase.buildUseCaseSingle(config).test().await()
+            .assertObserver(error, assertError, assertSuccess)
 }
