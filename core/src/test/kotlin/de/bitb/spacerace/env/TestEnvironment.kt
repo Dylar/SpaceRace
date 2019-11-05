@@ -17,6 +17,7 @@ import de.bitb.spacerace.usecase.game.action.items.ActivateItemUsecase
 import de.bitb.spacerace.usecase.game.action.items.DisposeItemUsecase
 import de.bitb.spacerace.usecase.game.action.items.EquipItemUsecase
 import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemUsecase
+import de.bitb.spacerace.usecase.game.action.items.shop.SellItemUsecase
 import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.usecase.game.init.LoadNewGameUsecase
@@ -59,6 +60,8 @@ class TestEnvironment {
     lateinit var disposeItemUsecase: DisposeItemUsecase
     @Inject
     lateinit var buyItemUsecase: BuyItemUsecase
+    @Inject
+    lateinit var sellItemUsecase: SellItemUsecase
 
     @Inject
     lateinit var playerDataSource: PlayerDataSource

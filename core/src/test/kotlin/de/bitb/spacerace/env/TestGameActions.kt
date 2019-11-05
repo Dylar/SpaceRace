@@ -4,8 +4,6 @@ import de.bitb.spacerace.core.*
 import de.bitb.spacerace.core.exceptions.GameException
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.grafik.model.items.ItemInfo
-import de.bitb.spacerace.grafik.model.items.ItemType
-import de.bitb.spacerace.grafik.model.items.getDefaultInfo
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.MoveResult
@@ -16,7 +14,8 @@ import de.bitb.spacerace.usecase.game.action.items.EquipItemConfig
 import de.bitb.spacerace.usecase.game.action.items.UseItemResult
 import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemConfig
 import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemResult
-import sun.audio.AudioPlayer.player
+import de.bitb.spacerace.usecase.game.action.items.shop.SellItemConfig
+import de.bitb.spacerace.usecase.game.action.items.shop.SellItemResult
 
 fun TestEnvironment.nextPhase(
         color: PlayerColor = currentPlayerColor,
@@ -111,5 +110,17 @@ fun TestEnvironment.buyItem(
 ) = this.apply {
     val config = BuyItemConfig(player, itemInfo.type)
     buyItemUsecase.buildUseCaseSingle(config).test().await()
+            .assertObserver(error, assertError, assertSuccess)
+}
+
+fun TestEnvironment.sellItem(
+        itemInfo: ItemInfo,
+        player: PlayerColor = currentPlayerColor,
+        error: GameException? = null,
+        assertError: (Throwable) -> Boolean = { error?.assertActivateException(it) ?: false },
+        assertSuccess: (SellItemResult) -> Boolean = { true }
+) = this.apply {
+    val config = SellItemConfig(player, itemInfo.type)
+    sellItemUsecase.buildUseCaseSingle(config).test().await()
             .assertObserver(error, assertError, assertSuccess)
 }

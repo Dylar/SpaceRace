@@ -3,36 +3,45 @@ package de.bitb.spacerace.core.events.commands.player
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.events.commands.BaseCommand
-import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.core.events.commands.CommandPool
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.player.PlayerColor
+import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemConfig
+import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemUsecase
+import de.bitb.spacerace.usecase.game.action.items.shop.SellItemConfig
+import de.bitb.spacerace.usecase.game.action.items.shop.SellItemUsecase
 import javax.inject.Inject
 
 class SellItemCommand(
-        private val itemInfo: ItemType,
+        private var itemType: ItemType,
         seller: PlayerColor
 ) : BaseCommand(seller) {
 
-    //TODO make pool getter
+    companion object {
+        fun get(itemType: ItemType,
+                buyer: PlayerColor
+        ) = CommandPool.getCommand(SellItemCommand::class)
+                .also {
+                    it.itemType = itemType
+                    it.player = buyer
+                }
+    }
 
     @Inject
-    protected lateinit var graphicController: GraphicController
-
-    @Inject
-    protected lateinit var playerDataSource: PlayerDataSource
-
-//    private val item = DONT_USE_THIS_PLAYER_DATA.storageItems.find { it::class == itemInfo::class }
+    protected lateinit var sellItemUsecase: SellItemUsecase
 
     init {
         MainGame.appComponent.inject(this)
     }
 
     override fun execute() {
-        //TODO make usecase
-//        DONT_USE_THIS_PLAYER_DATA.storageItems.remove(item!!)
-//        DONT_USE_THIS_PLAYER_DATA.credits += (itemInfo.getDefaultInfo().price * ITEM_SELL_MOD).toInt()
-//        playerDataSource.insertRXPlayer(DONT_USE_THIS_PLAYER_DATA).subscribe()
+        val sellItemConfig = SellItemConfig(player, itemType)
+        sellItemUsecase.getResult(
+                params = sellItemConfig,
+                onSuccess = resetOnSuccess(),
+                onError = resetOnError()
+        )
     }
 
 }

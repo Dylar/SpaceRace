@@ -26,9 +26,6 @@ class BuyItemCommand(
     }
 
     @Inject
-    protected lateinit var graphicController: GraphicController
-
-    @Inject
     protected lateinit var buyItemUsecase: BuyItemUsecase
 
     init {
