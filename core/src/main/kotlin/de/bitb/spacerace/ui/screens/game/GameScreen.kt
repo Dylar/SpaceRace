@@ -3,9 +3,9 @@ package de.bitb.spacerace.ui.screens.game
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.DEBUG_CAMERA_TARGET
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GameController
 import de.bitb.spacerace.core.controller.GraphicController
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class GameScreen(
     }
 
     @Inject
-    protected lateinit var graphicController:GraphicController
+    protected lateinit var graphicController: GraphicController
 
     @Inject
     protected lateinit var gameController: GameController

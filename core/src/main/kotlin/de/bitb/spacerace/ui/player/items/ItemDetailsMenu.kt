@@ -66,6 +66,7 @@ class ItemDetailsMenu(
     }
 
     override fun loadData() {
+        Thread.sleep(5)
         playerData = playerDataSource.getDBPlayerByColor(playerData.playerColor).first()
     }
 
