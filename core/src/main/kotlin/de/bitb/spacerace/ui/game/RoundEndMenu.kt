@@ -9,6 +9,7 @@ import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROUND_TITLE
 import de.bitb.spacerace.core.events.commands.phases.StartNextRoundCommand
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.grafik.model.player.PlayerGraphics
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
@@ -32,10 +33,6 @@ class RoundEndMenu(
         setPosition()
     }
 
-    override fun loadData() {
-        //nothing
-    }
-
     private fun setPosition() {
         x = (SCREEN_WIDTH - (SCREEN_WIDTH / 2) - width / 2)
         y = (SCREEN_HEIGHT - (SCREEN_HEIGHT / 2) - height / 2)
@@ -49,12 +46,12 @@ class RoundEndMenu(
 
     private fun addPlayer(players: MutableList<PlayerGraphics>) {
         row()
-        for (player in players) {
-            val displayImage = player.getDisplayImage(color = player.playerColor.color)
+        for (playerGraphic in players) {
+            val displayImage = playerGraphic.getDisplayImage(color = playerGraphic.playerColor.color)
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    val playerDetails = RoundEndDetails(guiStage, this@RoundEndMenu, player.playerColor)
-                    playerDetails.openMenu()
+                    val playerDetails = RoundEndDetails(guiStage, this@RoundEndMenu, player)
+                    playerDetails.openMenu(player!!)
                     guiStage.addActor(playerDetails)
                     return true
                 }
@@ -66,7 +63,6 @@ class RoundEndMenu(
     private fun addButtons(size: Int) {
         row()
         val continueBtn = createButton(name = Strings.GameGuiStrings.GAME_BUTTON_CONTINUE, listener = object : InputListener() {
-
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 closeMenu()
                 EventBus.getDefault().post(StartNextRoundCommand.get())
@@ -78,4 +74,7 @@ class RoundEndMenu(
         setFont(cellBtn.actor)
     }
 
+    override fun refreshMenu() {
+
+    }
 }

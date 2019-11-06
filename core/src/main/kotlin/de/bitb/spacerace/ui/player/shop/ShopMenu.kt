@@ -14,6 +14,9 @@ import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
 class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
+    override fun refreshMenu() {
+
+    }
 
     private lateinit var shopDetails: ShopDetails
 
@@ -30,9 +33,7 @@ class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
 
         setPosition()
     }
-    override fun loadData() {
-//nothing
-    }
+
     private fun setPosition() {
         x = (SCREEN_WIDTH - (SCREEN_WIDTH / 2) - width / 2)
         y = (SCREEN_HEIGHT - (SCREEN_HEIGHT / 2) - height / 2)
@@ -54,8 +55,8 @@ class ShopMenu(guiStage: GameGuiStage) : BaseMenu(guiStage) {
                             guiStage,
                             this@ShopMenu,
                             item.itemType,
-                            playerController.currentPlayerData)
-                    shopDetails.openMenu()
+                            player)
+                    shopDetails.openMenu(player!!)
                     return true
                 }
             })

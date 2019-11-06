@@ -12,30 +12,18 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENU_END_ROU
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_CREDITS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_MINES
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAILS_VICTORIES
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
-import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
-import javax.inject.Inject
 
 class RoundEndDetails(
         guiStage: GameGuiStage,
         endMenu: RoundEndMenu,
-        var playerColor: PlayerColor
-) : BaseMenu(guiStage, endMenu) {
-
-    @Inject
-    lateinit var playerDataSource: PlayerDataSource
-
-    lateinit var playerData: PlayerData
+        player: PlayerData?
+) : BaseMenu(guiStage, endMenu, player) {
 
     init {
-        MainGame.appComponent.inject(this)
-        loadData()
-
         addTitle()
         addImage()
         addText()
@@ -45,27 +33,27 @@ class RoundEndDetails(
         endMenu.closeMenu()
     }
 
-    override fun loadData() {
-        playerData = playerDataSource.getDBPlayerByColor(playerColor).first()
+    override fun refreshMenu() {
+        //nothing to do
     }
 
     private fun addTitle() {
-        val cell = add(GAME_MENU_END_ROUND_DETAILS_TITLE + playerData.playerColor.name)
+        val cell = add(GAME_MENU_END_ROUND_DETAILS_TITLE + player!!.playerColor.name)
         setFont(cell.actor)
     }
 
     private fun addImage() {
         row()
-        val player = graphicController.getPlayerGraphic(playerData.playerColor)
+        val player = graphicController.getPlayerGraphic(player!!.playerColor)
         val cell = add(player.getDisplayImage(color = player.playerColor.color))
         cell.width(SCREEN_WIDTH / 4f)
         cell.height(SCREEN_HEIGHT / 4f)
     }
 
     private fun addText() {
-        addText("$GAME_ROUND_DETAILS_VICTORIES${playerData.victories}")
-        addText("$GAME_ROUND_DETAILS_CREDITS${playerData.credits}")
-        addText("$GAME_ROUND_DETAILS_MINES${playerData.mines.size}")
+        addText("$GAME_ROUND_DETAILS_VICTORIES${player?.victories}")
+        addText("$GAME_ROUND_DETAILS_CREDITS${player?.credits}")
+        addText("$GAME_ROUND_DETAILS_MINES${player?.mines?.size}")
     }
 
     private fun addText(text: String) {

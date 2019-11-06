@@ -15,41 +15,30 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_BUY
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_SELL
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.core.events.commands.player.SellItemCommand
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.items.*
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
-import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
-import javax.inject.Inject
 
 class ShopDetails(
         guiStage: GameGuiStage,
         shopMenu: ShopMenu,
         private val itemType: ItemType,
-        private var playerData: PlayerData,
-        private val itemGraphic: ItemGraphic = itemType.createGraphic()
-) : BaseMenu(guiStage, shopMenu) {
+        player:PlayerData?
+) : BaseMenu(guiStage, shopMenu, player) {
 
-    @Inject
-    lateinit var playerDataSource: PlayerDataSource
-
-    @Inject
-    protected lateinit var observeCommandUsecase: ObserveCommandUsecase
+    private val itemGraphic: ItemGraphic = itemType.createGraphic()
 
     private lateinit var buyBtn: TextButton
     private lateinit var sellBtn: TextButton
     private lateinit var creditsTitle: Cell<Label>
 
     init {
-        MainGame.appComponent.inject(this)
-        initObserver()
-
         addTitle()
         addImage()
         addText()
@@ -58,13 +47,9 @@ class ShopDetails(
         setPosition()
     }
 
-    override fun loadData() {
-        playerData = playerDataSource.getDBPlayerByColor(playerData.playerColor).first()
-    }
-
     private fun addTitle() {
         creditsTitle = add("-")
-        val amount = playerData.storageItems.filter { it::class == itemType::class }.size
+        val amount = player!!.storageItems.filter { it::class == itemType::class }.size
         setCreditsTitle(amount)
         addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
@@ -98,7 +83,7 @@ class ShopDetails(
 
         buyBtn = createButton(name = GAME_BUTTON_BUY, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(BuyItemCommand.get(itemType, playerController.currentColor))
+                EventBus.getDefault().post(BuyItemCommand.get(itemType, player!!.playerColor))
                 return true
             }
         })
@@ -110,7 +95,7 @@ class ShopDetails(
 
         sellBtn = createButton(name = GAME_BUTTON_SELL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(SellItemCommand(itemType, playerController.currentColor))
+                EventBus.getDefault().post(SellItemCommand(itemType, player!!.playerColor))
                 return true
             }
         })
@@ -136,19 +121,10 @@ class ShopDetails(
         creditsTitle.actor.setText("${itemType.getDefaultInfo().price} ($items)")
     }
 
-    fun initObserver() {
-        observeCommandUsecase.observeStream { event ->
-            when (event) {
-                is BuyItemCommand,
-                is SellItemCommand -> {
-                    loadData() //TODO make result dispender ?
-                    val itemCount = playerData.storageItems
-                            .filter { it.itemInfo.type == itemGraphic.itemType }.size
-                    setCreditsTitle(itemCount)
-                }
-            }
-        }
-
+    override fun refreshMenu() {
+        val itemCount = player!!.storageItems
+                .filter { it.itemInfo.type == itemGraphic.itemType }.size
+        setCreditsTitle(itemCount)
     }
 
 }

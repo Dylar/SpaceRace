@@ -13,24 +13,20 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.items.ItemGraphic
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import javax.inject.Inject
 
 class ItemMenu(
         guiStage: GameGuiStage,
-        private var playerData: PlayerData
-) : BaseMenu(guiStage) {
-
-    @Inject
-    lateinit var playerDataSource: PlayerDataSource
+        player:PlayerData?
+) : BaseMenu(guiStage, player = player) {
 
     private lateinit var itemDetailsMenu: ItemDetailsMenu
 
     init {
-        MainGame.appComponent.inject(this)
-
-        val items = graphicController.getStorageItemMap(playerData)
+        val items = graphicController.getStorageItemMap(player!!)
         var size = items.size
         size = if (size < GAME_MENU_ITEM_WIDTH_MIN) GAME_MENU_ITEM_WIDTH_MIN else size
 
@@ -42,9 +38,8 @@ class ItemMenu(
 
         setPosition()
     }
+    override fun refreshMenu() {
 
-    override fun loadData() {
-        playerData = playerDataSource.getDBPlayerByColor(playerData.playerColor).first()
     }
 
     private fun setPosition() {
@@ -65,8 +60,8 @@ class ItemMenu(
             val displayImage = typeList.value.getDisplayImage()
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    itemDetailsMenu = ItemDetailsMenu(guiStage, this@ItemMenu, itemType, playerData)
-                    itemDetailsMenu.openMenu()
+                    itemDetailsMenu = ItemDetailsMenu(guiStage, this@ItemMenu, itemType, player)
+                    itemDetailsMenu.openMenu(player!!)
                     return true
                 }
             })
