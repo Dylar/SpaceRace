@@ -1,4 +1,4 @@
-package de.bitb.spacerace.base
+package de.bitb.spacerace.database.converter
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi

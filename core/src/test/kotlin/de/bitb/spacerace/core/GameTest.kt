@@ -12,6 +12,9 @@ open class GameTest {
     private var application: Application? = null
 //    protected var testGame: TestGame? = null
 
+    open fun inject() {
+
+    }
     // Before running any tests, initialize the application with the headless backend
     @Before
     open fun setup() {
@@ -71,4 +74,5 @@ open class GameTest {
         application = null
 
     }
+
 }

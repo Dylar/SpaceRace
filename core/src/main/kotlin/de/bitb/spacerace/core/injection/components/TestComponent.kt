@@ -5,6 +5,7 @@ import de.bitb.spacerace.env.TestEnvironment
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.core.injection.modules.*
 import de.bitb.spacerace.tests.ObjBoxRelationTest
+import de.bitb.spacerace.tests.items.ItemsTest
 import de.bitb.spacerace.tests.usecase.action.NextPhaseUsecaseTest
 import javax.inject.Singleton
 
@@ -27,5 +28,6 @@ interface TestComponent : AppComponent {
 
     fun inject(nextPhaseUsecaseTest: NextPhaseUsecaseTest)
     fun inject(objBoxRelationTest: ObjBoxRelationTest)
+    fun inject(itemsTest: ItemsTest)
 
 }

@@ -4,6 +4,7 @@ import de.bitb.spacerace.config.ITEM_SELL_MOD
 import de.bitb.spacerace.core.exceptions.ItemNotFoundException
 import de.bitb.spacerace.core.exceptions.PlayerNotOnShopException
 import de.bitb.spacerace.database.items.ItemData
+import de.bitb.spacerace.database.items.ItemDataSource
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.enums.FieldType
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class SellItemUsecase @Inject constructor(
         private val checkCurrentPlayerUsecase: CheckCurrentPlayerUsecase,
         private val checkPlayerPhaseUsecase: CheckPlayerPhaseUsecase,
-        private val playerDataSource: PlayerDataSource
+        private val playerDataSource: PlayerDataSource,
+        private val itemDataSource: ItemDataSource
 ) : ResultUseCase<SellItemResult, SellItemConfig> {
 
     override fun buildUseCaseSingle(params: SellItemConfig): Single<SellItemResult> =
@@ -56,8 +58,8 @@ class SellItemUsecase @Inject constructor(
     }
 
     private fun saveData(player: PlayerData, item: ItemData): Single<SellItemResult> =
-//            remove item ? TODO
-            playerDataSource.insertAndReturnRXPlayer(player)
+            itemDataSource.deleteRXItems(item)
+                    .andThen(playerDataSource.insertAndReturnRXPlayer(player))
                     .map { players ->
                         val savedPlayer = players.first()
                         SellItemResult(savedPlayer, item)

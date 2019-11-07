@@ -4,10 +4,20 @@ import de.bitb.spacerace.core.GameTest
 import de.bitb.spacerace.core.assertPlayerModi
 import de.bitb.spacerace.database.items.DiceAddition
 import de.bitb.spacerace.database.items.DiceModification
+import de.bitb.spacerace.database.items.ItemDataSource
 import de.bitb.spacerace.env.*
+import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.grafik.model.items.ItemInfo
+import javax.inject.Inject
 
 open class ItemsTest : GameTest() {
+
+    @Inject
+    protected lateinit var itemDataSource: ItemDataSource
+
+    override fun inject() {
+        TestGame.testComponent.inject(this)
+    }
 
     open fun equipThatItem(item: ItemInfo, equip: Boolean) =
             TestEnvironment()
