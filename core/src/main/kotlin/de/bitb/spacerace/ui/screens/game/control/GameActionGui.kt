@@ -12,8 +12,8 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CONTINUE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_STORAGE
-import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.events.ObtainShopEvent
 import de.bitb.spacerace.core.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.core.events.commands.phases.NextPhaseCommand
@@ -108,7 +108,7 @@ class GameActionGui(
             itemMenu.closeMenu()
         } else {
             itemMenu = ItemMenu(guiStage, playerController.currentPlayerData)
-            itemMenu.openMenu()
+            itemMenu.openMenu(playerController.currentPlayerData)
             guiStage.addActor(itemMenu)
         }
     }
@@ -121,14 +121,14 @@ class GameActionGui(
             shopMenu.closeMenu()
         } else {
             shopMenu = ShopMenu(guiStage)
-            shopMenu.openMenu()
+            shopMenu.openMenu(playerController.currentPlayerData)
             guiStage.addActor(shopMenu)
         }
     }
 
     private fun openEndRoundMenu() {
         val endMenu = RoundEndMenu(guiStage)
-        endMenu.openMenu()
+        endMenu.openMenu(playerController.currentPlayerData)
         guiStage.addActor(endMenu)
     }
 

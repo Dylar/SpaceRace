@@ -3,14 +3,13 @@ package de.bitb.spacerace.base
 import com.badlogic.gdx.*
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.input.GestureDetector
-import de.bitb.spacerace.CameraActions.CAMERA_FREE
-import de.bitb.spacerace.CameraActions.CAMERA_LOCKED
+import de.bitb.spacerace.CameraActions.*
 import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 import de.bitb.spacerace.core.utils.Logger
+import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 
 
 open class BaseScreen(
@@ -24,7 +23,7 @@ open class BaseScreen(
     var backgroundStage: BaseStage = BaseStage.NONE
     var gameStage: BaseStage = BaseStage.NONE
     var guiStage: BaseStage = BaseStage.NONE
-    var cameraStatus = CAMERA_FREE
+    var cameraStatus = CAMERA_START
 
     var currentZoom: Float = 2f
         set(value) {
@@ -106,18 +105,28 @@ open class BaseScreen(
     }
 
     open fun renderCamera(delta: Float) {
-        if (!cameraStatus.isFree()) {
-            val cameraTarget = getCameraTarget()
-            if (cameraTarget != null) {
-                val posX = cameraTarget.getCenterX()
-                val posY = cameraTarget.getCenterY()
-                gameStage.camera.position.set(posX, posY, 0f)
-                gameStage.camera.update()
+        when (cameraStatus) {
+            CAMERA_START,
+            CAMERA_LOCKED -> {
+                getCameraTarget()?.also {
+                    if (cameraStatus == CAMERA_START) {
+                        cameraStatus = CAMERA_FREE
+                    }
+                    val posX = it.getCenterX()
+                    val posY = it.getCenterY()
+                    setCameraPosition(posX, posY)
 
-                backgroundStage.translateTo(posX / currentZoom, -posY / currentZoom)
-
+                    backgroundStage.translateTo(posX / currentZoom, -posY / currentZoom)
+                }
+            }
+            else -> {
             }
         }
+    }
+
+    fun setCameraPosition(posX: Float, posY: Float) {
+        gameStage.camera.position.set(posX, posY, 0f)
+        gameStage.camera.update()
     }
 
     open fun getCameraTarget(): GameImage? {
@@ -164,7 +173,7 @@ open class BaseScreen(
     }
 
     override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
-        if (cameraStatus.isFree()) {
+        if (cameraStatus == CAMERA_FREE) {
             var gameCam = gameStage.camera as OrthographicCamera
             gameCam.translate(-deltaX * gameCam.zoom, deltaY * gameCam.zoom, 0f)
             gameCam.update()

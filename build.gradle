@@ -1,3 +1,4 @@
+
 buildscript {
 
     apply from: './libversions.gradle'
@@ -30,7 +31,7 @@ allprojects {
 
         majorVersion = "0"
         midVersion = "7"
-        patchVersion = "1"
+        patchVersion = "3"
         versionSuffix = "-ALPHA"
     }
 

@@ -1,10 +1,11 @@
-package de.bitb.spacerace.tests.items
+package de.bitb.spacerace.tests.items.effect
 
 import de.bitb.spacerace.core.assertDBPlayer
 import de.bitb.spacerace.core.assertPlayerModi
 import de.bitb.spacerace.env.TEST_PLAYER_1
 import de.bitb.spacerace.env.endRound
 import de.bitb.spacerace.grafik.model.items.ItemInfo
+import de.bitb.spacerace.tests.items.ItemsTest
 import org.junit.Test
 
 class AttachedItemTest : ItemsTest() {

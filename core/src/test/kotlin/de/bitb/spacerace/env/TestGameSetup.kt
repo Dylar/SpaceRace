@@ -34,6 +34,7 @@ private fun TestEnvironment.initMap(
     circleStep1Field = mapToLoad.fields[5].gamePosition
     circleStep2Field = mapToLoad.fields[6].gamePosition
     bridgeField = mapToLoad.fields[7].gamePosition
+    shopField = mapToLoad.fields[8].gamePosition
 }
 
 fun TestEnvironment.initGame(

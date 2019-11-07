@@ -157,40 +157,5 @@ class GraphicController
 
         fromField.disposedItems.remove(item)
         toField.disposedItems.add(item)
-
-//        fun getField(item: ItemGraphic): FieldGraphic = fieldGraphics.values
-//                .firstOrNull { it.disposedItems.contains(item) }
-//                ?: NONE_SPACE_FIELD
-//
-//        val moveItem = { item: ItemGraphic, toRemove: MutableList<ItemGraphic> ->
-//            val field = getField(item)
-//            val list = field.connections
-//            val con = list[(Math.random() * list.size).toInt()]
-//            val newField = con.getOpposite(field.gamePosition)
-//            newField.disposedItems.add(item)
-//
-//            val itemImage = item.getGameImage() as ItemImage
-//            val point = itemImage.getRotationPosition(itemImage, newField.getGameImage())
-//
-//            item.gamePosition.setPosition(newField.gamePosition)
-//            itemImage.moveTo(item.getGameImage(), point, doAfter = *arrayOf(itemImage.getRotationAction(itemImage, newField.getGameImage())))
-//            toRemove.add(item)
-//        }
-//
-//        val fieldList: MutableList<FieldGraphic> = ArrayList()
-//        fieldGraphics.values
-//                .filter { it.disposedItems.isNotEmpty() }
-//                .forEach { fieldList.add(it) }
-//
-//        fieldList.forEach { field: FieldGraphic ->
-//            val toRemove: MutableList<ItemGraphic> = ArrayList()
-//            field.disposedItems.forEach {
-//                if (it.itemType.getDefaultInfo() is MovableItem && it.getGameImage().isIdling()) {
-//                    moveItem(it, toRemove)
-//                }
-//            }
-//            field.disposedItems.removeAll(toRemove)
-//        }
-
     }
 }

@@ -16,6 +16,8 @@ import de.bitb.spacerace.usecase.game.action.NextPhaseUsecase
 import de.bitb.spacerace.usecase.game.action.items.ActivateItemUsecase
 import de.bitb.spacerace.usecase.game.action.items.DisposeItemUsecase
 import de.bitb.spacerace.usecase.game.action.items.EquipItemUsecase
+import de.bitb.spacerace.usecase.game.action.items.shop.BuyItemUsecase
+import de.bitb.spacerace.usecase.game.action.items.shop.SellItemUsecase
 import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.usecase.game.init.LoadNewGameUsecase
@@ -56,6 +58,10 @@ class TestEnvironment {
     lateinit var activateItemUsecase: ActivateItemUsecase
     @Inject
     lateinit var disposeItemUsecase: DisposeItemUsecase
+    @Inject
+    lateinit var buyItemUsecase: BuyItemUsecase
+    @Inject
+    lateinit var sellItemUsecase: SellItemUsecase
 
     @Inject
     lateinit var playerDataSource: PlayerDataSource
@@ -89,6 +95,7 @@ class TestEnvironment {
     lateinit var circleStep1Field: PositionData
     lateinit var circleStep2Field: PositionData
     lateinit var bridgeField: PositionData
+    lateinit var shopField: PositionData
 
     //
 //    ██████╗ ███████╗████████╗████████╗███████╗██████╗

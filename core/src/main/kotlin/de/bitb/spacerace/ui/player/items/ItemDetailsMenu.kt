@@ -14,36 +14,26 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_USE
-import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.core.events.commands.player.UseItemCommand
 import de.bitb.spacerace.database.items.ActivatableItem
 import de.bitb.spacerace.database.items.DisposableItem
 import de.bitb.spacerace.database.items.EquipItem
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.database.player.PlayerDataSource
-import de.bitb.spacerace.core.events.commands.player.UseItemCommand
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.items.createGraphic
 import de.bitb.spacerace.grafik.model.items.getDefaultInfo
 import de.bitb.spacerace.grafik.model.items.getText
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
-import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
-import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
-import javax.inject.Inject
 
 class ItemDetailsMenu(
         guiStage: GameGuiStage,
         itemMenu: ItemMenu,
         private val itemType: ItemType,
-        private var playerData: PlayerData
-) : BaseMenu(guiStage, itemMenu) {
-
-    @Inject
-    protected lateinit var observeCommandUsecase: ObserveCommandUsecase
-    @Inject
-    protected lateinit var playerDataSource: PlayerDataSource
+        player: PlayerData?
+) : BaseMenu(guiStage, itemMenu, player) {
 
     private lateinit var useBtn: TextButton
     private lateinit var unuseBtn: TextButton
@@ -52,9 +42,6 @@ class ItemDetailsMenu(
     private val itemGraphic = itemType.createGraphic()
 
     init {
-        MainGame.appComponent.inject(this)
-        initObserver()
-
         addTitle()
         addImage()
         addText()
@@ -65,21 +52,10 @@ class ItemDetailsMenu(
         setUseButton()
     }
 
-    override fun loadData() {
-        playerData = playerDataSource.getDBPlayerByColor(playerData.playerColor).first()
-    }
-
-    private fun initObserver() {
-        observeCommandUsecase.observeStream { event ->
-            when (event) {
-                is UseItemCommand -> {
-                    loadData() //TODO make result dispender
-                    setUsedTitle()
-                    setUseButton()
-                    setUnuseButton()
-                }
-            }
-        }
+    override fun refreshMenu() {
+        setUsedTitle()
+        setUseButton()
+        setUnuseButton()
     }
 
     private fun addTitle() {
@@ -118,7 +94,7 @@ class ItemDetailsMenu(
         if (itemType.getDefaultInfo() is EquipItem) {
             unuseBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    EventBus.getDefault().post(UseItemCommand.get(itemType, playerController.currentColor, true))
+                    EventBus.getDefault().post(UseItemCommand.get(itemType, player!!.playerColor, true))
                     return true
                 }
             })
@@ -127,7 +103,7 @@ class ItemDetailsMenu(
 
         useBtn = createButton(name = GAME_BUTTON_USE, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(UseItemCommand.get(itemType, playerController.currentColor))
+                EventBus.getDefault().post(UseItemCommand.get(itemType, player!!.playerColor))
                 return true
             }
         })
@@ -153,10 +129,10 @@ class ItemDetailsMenu(
     }
 
     private fun setUsedTitle() {
-        val inStorage = playerData.storageItems.count { it.itemInfo.type == itemType }
+        val inStorage = player!!.storageItems.count { it.itemInfo.type == itemType }
         val text = when (itemType.getDefaultInfo()) {
             is EquipItem -> {
-                val equipped = playerData.equippedItems.count { it.itemInfo.type == itemType }
+                val equipped = player!!.equippedItems.count { it.itemInfo.type == itemType }
                 "EQUIPPED ($equipped/$inStorage)"
             }
             else -> "STORAGE ($inStorage)"

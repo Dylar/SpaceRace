@@ -16,6 +16,10 @@ class ItemData(
         @Convert(converter = ItemTypeConverter::class, dbType = String::class)
         val itemInfo: ItemInfo = NoneItem()
 ) {
+    companion object {
+        fun createItem(player: PlayerData, itemInfo: ItemInfo) =
+                ItemData(itemInfo = itemInfo).apply { owner.target = player }
+    }
 
     @Transient
     @JvmField
@@ -31,5 +35,4 @@ class ItemData(
                 is ItemData -> itemInfo.type == other.itemInfo.type
                 else -> false
             }
-
 }

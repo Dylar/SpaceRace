@@ -1,11 +1,11 @@
 package de.bitb.spacerace.core.controller
 
-import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
+import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.player.NONE_PLAYER_DATA
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.model.player.PlayerColor
+import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
-import de.bitb.spacerace.core.utils.Logger
 import io.objectbox.Box
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -31,9 +31,7 @@ class PlayerController
     fun initObserver() {
         dispo?.dispose()
         dispo = observeCurrentPlayerUseCase.observeStream(
-                onNext = {
-                    currentPlayerData = it
-                })
+                onNext = { currentPlayerData = it })
     }
 
     fun getPlayerIndex(playerColor: PlayerColor = currentColor) = players.indexOf(playerColor)
