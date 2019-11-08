@@ -33,6 +33,7 @@ open class BaseScreen(
         }
 
     override fun show() {
+
         guiStage = createGuiStage()
         gameStage = createGameStage()
         backgroundStage = createBackgroundStage()

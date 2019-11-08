@@ -2,6 +2,7 @@ package de.bitb.spacerace.core
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.kotcrab.vis.ui.VisUI
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.config.SELECTED_MAP
@@ -57,6 +58,7 @@ open class MainGame(
                     .build()
 
     override fun initGame() {
+        VisUI.load()
         EventBus.getDefault().register(this)
         appComponent = initComponent()
         appComponent.inject(this)
