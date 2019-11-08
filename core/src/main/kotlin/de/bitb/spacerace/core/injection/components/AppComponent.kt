@@ -3,18 +3,17 @@ package de.bitb.spacerace.core.injection.components
 import dagger.Component
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.core.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.core.events.commands.phases.StartNextRoundCommand
 import de.bitb.spacerace.core.events.commands.player.*
 import de.bitb.spacerace.core.events.commands.start.LoadGameCommand
 import de.bitb.spacerace.core.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.core.injection.modules.*
+import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.grafik.model.items.ItemGraphic
 import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
 import de.bitb.spacerace.grafik.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.BaseMenu
-import de.bitb.spacerace.ui.game.RoundEndDetails
 import de.bitb.spacerace.ui.player.PlayerStatsGui
 import de.bitb.spacerace.ui.player.items.ItemDetailsMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
@@ -23,6 +22,7 @@ import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.game.control.GameActionGui
+import de.bitb.spacerace.ui.screens.game.control.GameActionGuiNew
 import de.bitb.spacerace.ui.screens.start.control.LoadGameGui
 import de.bitb.spacerace.ui.screens.start.control.MapSelectionGui
 import de.bitb.spacerace.ui.screens.start.control.StartButtonGui
@@ -48,6 +48,7 @@ interface AppComponent {
 
     //UI
     fun inject(baseGuiStage: BaseGuiStage)
+
     fun inject(gameGuiStage: GameGuiStage)
 
     fun inject(baseMenu: BaseMenu)
@@ -73,6 +74,7 @@ interface AppComponent {
 
     //COMMAND
     fun inject(loadGameCommand: LoadGameCommand)
+
     fun inject(useItemCommand: UseItemCommand)
 
     fun inject(nextPhaseCommand: NextPhaseCommand)
@@ -90,5 +92,6 @@ interface AppComponent {
 
 
     fun inject(itemGraphic: ItemGraphic)
+    fun inject(gameActionGuiNew: GameActionGuiNew)
 
 }

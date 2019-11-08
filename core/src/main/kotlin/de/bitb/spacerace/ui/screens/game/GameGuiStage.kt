@@ -5,6 +5,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.ui.player.PlayerStatsGui
 import de.bitb.spacerace.ui.screens.game.control.DebugGui
 import de.bitb.spacerace.ui.screens.game.control.GameActionGui
+import de.bitb.spacerace.ui.screens.game.control.GameActionGuiNew
 import de.bitb.spacerace.ui.screens.game.control.ViewControlGui
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.disposables.Disposable
@@ -23,6 +24,8 @@ class GameGuiStage(
     private var viewControlGui: ViewControlGui = ViewControlGui(screen)
     private var gameActionGui: GameActionGui = GameActionGui(this)
     private var debugGui: DebugGui = DebugGui(screen)
+
+    private var gameActionGui2: GameActionGuiNew = GameActionGuiNew(this)
 
     init {
         MainGame.appComponent.inject(this)
