@@ -58,7 +58,7 @@ open class MainGame(
                     .build()
 
     override fun initGame() {
-        VisUI.load()
+        VisUI.load(VisUI.SkinScale.X2)
         EventBus.getDefault().register(this)
         appComponent = initComponent()
         appComponent.inject(this)

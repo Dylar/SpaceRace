@@ -18,6 +18,9 @@ object TextureCollection {
 
     val skin = Skin(Gdx.files.internal("uiskin.json"))
 
+    val buttonBackground: String = "gui/reg_0000_save_button.9.png"
+    val buttonBackground1: String =  "gui/reg_0001_save_button.9.png"
+
     val guiBackground: Texture
     val gameOverBackground: Texture
     val gameBackground: Texture
@@ -90,7 +93,8 @@ object TextureCollection {
     val explosionAnimation: BaseAnimation
 
     init {
-        guiBackground = Texture("background/bg_silver.png")
+        guiBackground = Texture(Gdx.files.internal("background/bg_silver.png"), true)
+//        buttonBackground = Texture(Gdx.files.internal("gui/reg_0000_save_button.9.png"), true)
         gameOverBackground = Texture("background/bg_gameover.jpg")
         gameBackground = Texture("background/bg_star.png")
         gameBackground.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat)

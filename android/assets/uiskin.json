@@ -1,7 +1,7 @@
 {
   "com.badlogic.gdx.graphics.g2d.BitmapFont": {
     "default-font": {
-      "file": "space-ranger.fnt"
+      "file": "spaceranger.fnt"
     }
   },
   "com.badlogic.gdx.graphics.Color": {

@@ -18,6 +18,11 @@ object Dimensions {
     val SCREEN_HEIGHT_HALF
         get() = SCREEN_HEIGHT / 2
 
+    val BUTTON_WIDTH
+        get() = SCREEN_WIDTH / 6
+    val BUTTON_HEIGHT
+        get() = SCREEN_HEIGHT / 8
+
     const val ONE_EIGHTY_DEGREE = 180.0
     const val ONE_TWENTY_DEGREE = 120.0
     const val NINETY_DEGREE = 90.0
