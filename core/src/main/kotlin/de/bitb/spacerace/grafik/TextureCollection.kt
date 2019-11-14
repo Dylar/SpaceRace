@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.DEFAULT_BORDER
@@ -18,8 +19,9 @@ object TextureCollection {
 
     val skin = Skin(Gdx.files.internal("uiskin.json"))
 
-    val buttonBackground: String = "gui/reg_0000_save_button.9.png"
-    val buttonBackground1: String =  "gui/reg_0001_save_button.9.png"
+    val buttonUp: String = "gui/reg_0000_save_button.9.png"
+    val buttonDown: String = "gui/reg_0000_save_button_red.9.png"
+    val bitmapFont = BitmapFont(Gdx.files.internal("spaceranger.fnt")).apply { data.setScale(1.1f) }
 
     val guiBackground: Texture
     val gameOverBackground: Texture
@@ -240,4 +242,15 @@ object TextureCollection {
             return PlayerAnimation(movingAnimation, landingAnimation)
         }
 
+//    fun scaleImage(image: Texture, width: Int, height: Int) {
+//        val pixmap200 = Pixmap(Gdx.files.internal(image))
+//        val pixmap100 = Pixmap(width.toInt(), height.toInt(), pixmap200.format)
+//        pixmap100.drawPixmap(pixmap200,
+//                0, 0, pixmap200.width, pixmap200.height,
+//                0, 0, pixmap100.width, pixmap100.height
+//        )
+//        pixmap200.dispose()
+//        pixmap100.dispose()
+//        val texture = Texture(pixmap100)
+//    }
 }

@@ -7,6 +7,7 @@ import de.bitb.spacerace.core.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
 import io.reactivex.rxkotlin.plusAssign
+import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class DiceCommand : BaseCommand() {

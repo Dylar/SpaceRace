@@ -7,20 +7,18 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_MENUITEM_TITLE
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.items.ItemGraphic
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
-import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.screens.GuiNavi
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
-import javax.inject.Inject
+import org.greenrobot.eventbus.EventBus
 
 class ItemMenu(
         guiStage: GameGuiStage,
-        player:PlayerData?
+        player: PlayerData?
 ) : BaseMenu(guiStage, player = player) {
 
     private lateinit var itemDetailsMenu: ItemDetailsMenu
@@ -38,6 +36,7 @@ class ItemMenu(
 
         setPosition()
     }
+
     override fun refreshMenu() {
 
     }
@@ -60,8 +59,9 @@ class ItemMenu(
             val displayImage = typeList.value.getDisplayImage()
             displayImage.addListener(object : InputListener() {
                 override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                    itemDetailsMenu = ItemDetailsMenu(guiStage, this@ItemMenu, itemType, player)
-                    itemDetailsMenu.openMenu(player!!)
+                    EventBus.getDefault().post(GuiNavi.ItemDetailMenu(player!!.playerColor, itemType))
+//                    itemDetailsMenu = ItemDetailsMenu(guiStage, this@ItemMenu, itemType, player)
+//                    itemDetailsMenu.openMenu(player!!)
                     return true
                 }
             })

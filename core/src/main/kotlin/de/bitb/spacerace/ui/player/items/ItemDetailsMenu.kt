@@ -30,10 +30,9 @@ import org.greenrobot.eventbus.EventBus
 
 class ItemDetailsMenu(
         guiStage: GameGuiStage,
-        itemMenu: ItemMenu,
         private val itemType: ItemType,
         player: PlayerData?
-) : BaseMenu(guiStage, itemMenu, player) {
+) : BaseMenu(guiStage, null, player) {
 
     private lateinit var useBtn: TextButton
     private lateinit var unuseBtn: TextButton

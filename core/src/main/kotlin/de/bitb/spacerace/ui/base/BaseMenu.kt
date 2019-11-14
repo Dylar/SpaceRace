@@ -69,7 +69,7 @@ abstract class BaseMenu(
         isOpen = false
     }
 
-    open fun onBack() {
+    fun onBack() {
         closeMenu()
         previousMenu?.openMenu(player!!)
     }

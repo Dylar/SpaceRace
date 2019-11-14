@@ -80,8 +80,6 @@ open class MainGame(
 
     override fun initScreen() {
         setScreen(StartScreen(this))
-//        setScreen(GameScreen(this))
-//        setScreen(GameOverScreen(this))
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

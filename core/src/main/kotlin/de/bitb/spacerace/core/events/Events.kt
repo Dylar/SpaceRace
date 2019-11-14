@@ -10,4 +10,3 @@ class GameOverEvent(val winner: PlayerColor = PlayerColor.NONE)
 class OpenEndRoundMenuEvent
 class ObtainShopEvent(val playerColor: PlayerColor)
 
-

@@ -32,16 +32,12 @@ class GameGuiStage(
     private var gameActionGui: GameActionGui = GameActionGui(this)
     private var debugGui: DebugGui = DebugGui(screen)
 
-    private var gameActionGuiNew: GameActionGuiNew = GameActionGuiNew(this)
+    private var gameActionGuiNew: GameActionGuiNew = GameActionGuiNew()
 
     init {
         MainGame.appComponent.inject(this)
 
 //        addGameActionGui()
-
-
-
-
         listenToUpdate()
 
         addActor(playerStatsGui)
@@ -50,18 +46,6 @@ class GameGuiStage(
         addActor(debugGui)
         debugGui.x = viewControlGui.width
     }
-
-//    private fun addGameActionGui() {
-//        val collapsibleWidget = CollapsibleWidget(gameActionGuiNew)
-//
-//        gameActionGuiNew.addListener(object : ChangeListener() {
-//            override fun changed(event: ChangeEvent, actor: Actor) {
-//                Logger.justPrint("changed")
-//                collapsibleWidget.isCollapsed = !collapsibleWidget.isCollapsed
-//            }
-//        })
-//        addActor(collapsibleWidget)
-//    }
 
     private fun listenToUpdate() {
         dispo?.dispose()
