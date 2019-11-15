@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING_SPACE
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_GUI_PADDING_SPACE
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_MEDIUM
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
@@ -20,7 +20,6 @@ import de.bitb.spacerace.core.events.commands.player.SellItemCommand
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.model.items.*
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
-import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import org.greenrobot.eventbus.EventBus
@@ -51,7 +50,7 @@ class ShopDetails(
         creditsTitle = add("-")
         val amount = player!!.storageItems.filter { it::class == itemType::class }.size
         setCreditsTitle(amount)
-        addPaddingTopBottom(creditsTitle, GAME_MENU_PADDING_SPACE)
+        addPaddingTopBottom(creditsTitle, GAME_GUI_PADDING_SPACE)
         setFont(creditsTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()
     }
@@ -65,7 +64,7 @@ class ShopDetails(
     private fun addText() {
         row()
         val cell = add(itemType.getText())
-        addPaddingTopBottom(cell, GAME_MENU_PADDING_SPACE)
+        addPaddingTopBottom(cell, GAME_GUI_PADDING_SPACE)
         setFont(cell.actor, GAME_SIZE_FONT_SMALL)
     }
 

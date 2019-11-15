@@ -19,10 +19,6 @@ object TextureCollection {
 
     val skin = Skin(Gdx.files.internal("uiskin.json"))
 
-    val buttonUp: String = "gui/reg_0000_save_button.9.png"
-    val buttonDown: String = "gui/reg_0000_save_button_red.9.png"
-    val bitmapFont = BitmapFont(Gdx.files.internal("spaceranger.fnt")).apply { data.setScale(1.1f) }
-
     val guiBackground: Texture
     val gameOverBackground: Texture
     val gameBackground: Texture

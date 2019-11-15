@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING_SPACE
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_GUI_PADDING_SPACE
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_MEDIUM
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
@@ -60,7 +60,7 @@ class ItemDetailsMenu(
     private fun addTitle() {
         usedTitle = add("-")
         setUsedTitle()
-        addPaddingTopBottom(usedTitle, GAME_MENU_PADDING_SPACE)
+        addPaddingTopBottom(usedTitle, GAME_GUI_PADDING_SPACE)
         setFont(usedTitle.actor, GAME_SIZE_FONT_MEDIUM)
         row()
     }
@@ -74,7 +74,7 @@ class ItemDetailsMenu(
     private fun addText() {
         row()
         val cell = add(itemType.getText())
-        addPaddingTopBottom(cell, GAME_MENU_PADDING_SPACE)
+        addPaddingTopBottom(cell, GAME_GUI_PADDING_SPACE)
         setFont(cell.actor, GAME_SIZE_FONT_SMALL)
     }
 

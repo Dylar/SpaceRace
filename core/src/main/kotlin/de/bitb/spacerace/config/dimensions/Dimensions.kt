@@ -3,30 +3,25 @@ package de.bitb.spacerace.config.dimensions
 import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.config.IS_TEST
 import de.bitb.spacerace.config.LANGUAGE
-import de.bitb.spacerace.config.enums.Language.*
+import de.bitb.spacerace.config.enums.Language.ENGLISH
+import de.bitb.spacerace.config.enums.Language.GERMAN
 
 
 object Dimensions {
 
     val SCREEN_WIDTH
-        get() = if(IS_TEST) 200f else Gdx.graphics.width.toFloat()
+        get() = if (IS_TEST) 200f else Gdx.graphics.width.toFloat()
     val SCREEN_HEIGHT
-        get() = if(IS_TEST) 100f else Gdx.graphics.height.toFloat()
+        get() = if (IS_TEST) 100f else Gdx.graphics.height.toFloat()
 
     val SCREEN_WIDTH_HALF
         get() = SCREEN_WIDTH / 2
     val SCREEN_HEIGHT_HALF
         get() = SCREEN_HEIGHT / 2
 
-    val BUTTON_WIDTH
-        get() = SCREEN_WIDTH / 6
-    val BUTTON_HEIGHT
-        get() = SCREEN_HEIGHT / 8
-
     const val ONE_EIGHTY_DEGREE = 180.0
     const val ONE_TWENTY_DEGREE = 120.0
     const val NINETY_DEGREE = 90.0
-
 
     object GameGuiDimensions {
 
@@ -36,10 +31,12 @@ object Dimensions {
         const val GAME_SIZE_FONT_xSMALL = 1f
         const val GAME_SIZE_FONT_TINY = .5f
 
-        const val GAME_BUTTON_WIDTH_DEFAULT = 300f
-        const val GAME_BUTTON_HEIGHT_DEFAULT = 100f
-        const val GAME_MENU_PADDING = 24f
-        const val GAME_MENU_PADDING_SPACE = 12f
+        val GAME_BUTTON_WIDTH_DEFAULT
+            get() = SCREEN_WIDTH / 6
+        val GAME_BUTTON_HEIGHT_DEFAULT
+            get() = SCREEN_HEIGHT / 8
+        const val GAME_GUI_PADDING = 24f
+        const val GAME_GUI_PADDING_SPACE = 12f
 
         const val GAME_MENU_ITEM_WIDTH_MIN = 6
         const val GAME_MENU_END_ROUND_WIDTH_MIN = 6

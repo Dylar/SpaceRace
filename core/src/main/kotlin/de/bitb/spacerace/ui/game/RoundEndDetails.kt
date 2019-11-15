@@ -3,7 +3,7 @@ package de.bitb.spacerace.ui.game
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_MENU_PADDING_SPACE
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_GUI_PADDING_SPACE
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
@@ -59,7 +59,7 @@ class RoundEndDetails(
     private fun addText(text: String) {
         row()
         val cell = add(text)
-        addPaddingTopBottom(cell, GAME_MENU_PADDING_SPACE)
+        addPaddingTopBottom(cell, GAME_GUI_PADDING_SPACE)
         setFont(cell.actor, GAME_SIZE_FONT_SMALL)
     }
 
