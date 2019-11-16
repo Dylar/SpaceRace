@@ -78,7 +78,7 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
     }
 
     private fun addLabel(text: String = "") =
-            createLabel(text = text)
+            createLabel(text = text, fontColor = Color.TEAL)
                     .also {
                         it.setAlignment(Align.center)
                         add(it).width(GAME_LABEL_WIDTH_DEFAULT)
@@ -87,6 +87,16 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
 
 
     //UPDATE
+
+    fun update(playerData: PlayerData) {
+        updatePlayerAmount(playerData)
+        updateCredits(playerData)
+        updateRound(playerData.playerColor)
+        updateDice(playerData)
+        updateDiceMod(playerData)
+        updatePhase(playerData.phase)
+        pack()
+    }
 
     private fun updateCredits(playerData: PlayerData) {
         creditsLabel.setText(playerData.credits.toString())
@@ -127,13 +137,4 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
         playerAmountLabel.setText("$currentIndex/$maxPlayer")
     }
 
-    private fun update(playerData: PlayerData) {
-        updatePlayerAmount(playerData)
-        updateCredits(playerData)
-        updateRound(playerData.playerColor)
-        updateDice(playerData)
-        updateDiceMod(playerData)
-        updatePhase(playerData.phase)
-        pack()
-    }
 }

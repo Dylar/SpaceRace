@@ -24,6 +24,7 @@ import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.game.control.GameActionGui
 import de.bitb.spacerace.ui.screens.game.control.SRActionGui
+import de.bitb.spacerace.ui.screens.game.control.SRViewControlGui
 import de.bitb.spacerace.ui.screens.start.control.LoadGameGui
 import de.bitb.spacerace.ui.screens.start.control.MapSelectionGui
 import de.bitb.spacerace.ui.screens.start.control.StartButtonGui
@@ -50,8 +51,6 @@ interface AppComponent {
     //UI
     fun inject(baseGuiStage: BaseGuiStage)
 
-    fun inject(gameGuiStage: GameGuiStage)
-
     fun inject(baseMenu: BaseMenu)
     fun inject(baseMenu: ItemMenu)
     fun inject(itemDetailsMenu: ItemDetailsMenu)
@@ -66,6 +65,7 @@ interface AppComponent {
     //VisUi
     fun inject(SRActionGui: SRActionGui)
     fun inject(srPlayerStatsGui: SRPlayerStatsGui)
+    fun inject(srViewControlGui: SRViewControlGui)
 
     //GAME
     fun inject(gameScreen: GameScreen)
