@@ -1,5 +1,6 @@
 package de.bitb.spacerace.ui.player
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.kotcrab.vis.ui.widget.VisTable
@@ -77,9 +78,7 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
     }
 
     private fun addLabel(text: String = "") =
-            createLabel(text = text,
-                    width = GAME_LABEL_WIDTH_DEFAULT,
-                    height = GAME_LABEL_HEIGHT_DEFAULT)
+            createLabel(text = text)
                     .also {
                         it.setAlignment(Align.center)
                         add(it).width(GAME_LABEL_WIDTH_DEFAULT)
@@ -94,11 +93,17 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
     }
 
     private fun updateRound(playerColor: PlayerColor) {
-//        setFont(playerAmountLabel, fontColor = playerColor.color)
-//        setFont(diceLabel, fontColor = playerColor.color)
-//        setFont(diceModLabel, fontColor = playerColor.color)
-//        setFont(phaseLabel, fontColor = playerColor.color)
-//        setFont(creditsLabel, fontColor = playerColor.color)
+        setFont(playerAmountLabel, fontColor = playerColor.color)
+        setFont(diceLabel, fontColor = playerColor.color)
+        setFont(diceModLabel, fontColor = playerColor.color)
+        setFont(phaseLabel, fontColor = playerColor.color)
+        setFont(creditsLabel, fontColor = playerColor.color)
+    }
+
+    private fun setFont(label: Label, fontColor: Color) {
+        val style = label.style
+        style.fontColor = fontColor
+        label.style = style
     }
 
     private fun updateDice(playerData: PlayerData) {

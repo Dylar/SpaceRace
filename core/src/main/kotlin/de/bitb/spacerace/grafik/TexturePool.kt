@@ -19,15 +19,15 @@ object TexturePool {
         val width = texture.width - 2
         val height = texture.height - 2
 
-        val left = width / 3
-        val right = width / 3
-        val bot = height / 3
-        val top = height / 3
+        val left = (width * .25f).toInt()
+        val right = (width * .25f).toInt()
+        val bot = (height * .45f).toInt()
+        val top = (height * .45f).toInt()
 
         return NinePatchDrawable(NinePatch(TextureRegion(texture, 1, 1, width, height), left, right, top, bot))
     }
 }
 
-const val IMAGE_PATH_GUI_BACKGROUND: String = "gui/reg_0000_save_button.9.png"
+const val IMAGE_PATH_GUI_BACKGROUND: String = "gui/score_0014_window2.png"
 const val IMAGE_PATH_BUTTON_UP: String = "gui/reg_0000_save_button.9.png"
 const val IMAGE_PATH_BUTTON_DOWN: String = "gui/reg_0000_save_button_red.9.png"
