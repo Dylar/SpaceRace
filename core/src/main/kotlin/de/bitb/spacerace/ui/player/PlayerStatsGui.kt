@@ -13,9 +13,9 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_DICE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_MODS
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_PHASE
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_LABEL_PLAYER_AMOUNT
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.controller.PlayerController
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.TextureCollection
@@ -107,14 +107,18 @@ class PlayerStatsGui(
     }
 
     private fun updateDiceMod(playerData: PlayerData) {
-        playerData.getModifierValues()
-                .also { (mod, add) ->
-                    diceModLabel.setText("${"%.1f".format(mod)} / $add")
-                }
+        val (mod, add) = playerData.getModifierValues()
+        diceModLabel.setText("${"%.1f".format(mod)} / $add")
     }
 
     private fun updatePhase(phase: Phase) {
         phaseLabel.setText(phase.text)
+    }
+
+    private fun updatePlayerAmount(playerData: PlayerData) {
+        val currentIndex = playerController.getPlayerIndex(playerData.playerColor) + 1
+        val maxPlayer = playerController.players.size
+        playerAmountLabel.setText("$currentIndex/$maxPlayer")
     }
 
     fun update(playerData: PlayerData) {
@@ -125,12 +129,6 @@ class PlayerStatsGui(
         updateDiceMod(playerData)
         updatePhase(playerData.phase)
         pack()
-    }
-
-    private fun updatePlayerAmount(playerData: PlayerData) {
-        val currentIndex = playerController.getPlayerIndex(playerData.playerColor) + 1
-        val maxPlayer = playerController.players.size
-        playerAmountLabel.setText("$currentIndex/$maxPlayer")
     }
 
 }

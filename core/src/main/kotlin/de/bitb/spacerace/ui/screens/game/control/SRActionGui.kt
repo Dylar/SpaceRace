@@ -7,14 +7,13 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.core.events.commands.player.DiceCommand
-import de.bitb.spacerace.grafik.IMAGE_PATH_GUI_BACKGROUND
 import de.bitb.spacerace.ui.base.SRAlign
 import de.bitb.spacerace.ui.base.SRGuiGrid
 import de.bitb.spacerace.ui.screens.GuiNavi
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class GameActionGuiNew : SRGuiGrid() {
+class SRActionGui : SRGuiGrid() {
 
     @Inject
     protected lateinit var playerController: PlayerController
@@ -22,7 +21,6 @@ class GameActionGuiNew : SRGuiGrid() {
     init {
         MainGame.appComponent.inject(this)
 
-        setBackgroundByPath(IMAGE_PATH_GUI_BACKGROUND)
         setContent()
         setDimensions()
     }

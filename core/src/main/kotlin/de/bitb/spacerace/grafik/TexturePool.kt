@@ -28,6 +28,6 @@ object TexturePool {
     }
 }
 
-const val IMAGE_PATH_GUI_BACKGROUND: String = "background/bg_silver.png"
+const val IMAGE_PATH_GUI_BACKGROUND: String = "gui/reg_0000_save_button.9.png"
 const val IMAGE_PATH_BUTTON_UP: String = "gui/reg_0000_save_button.9.png"
 const val IMAGE_PATH_BUTTON_DOWN: String = "gui/reg_0000_save_button_red.9.png"

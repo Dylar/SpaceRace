@@ -3,19 +3,14 @@ package de.bitb.spacerace.ui.screens.game
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.ui.player.PlayerStatsGui
+import de.bitb.spacerace.ui.player.SRPlayerStatsGui
 import de.bitb.spacerace.ui.screens.game.control.DebugGui
 import de.bitb.spacerace.ui.screens.game.control.GameActionGui
-import de.bitb.spacerace.ui.screens.game.control.GameActionGuiNew
+import de.bitb.spacerace.ui.screens.game.control.SRActionGui
 import de.bitb.spacerace.ui.screens.game.control.ViewControlGui
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
-import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table
-import com.kotcrab.vis.ui.widget.CollapsibleWidget
-import com.badlogic.gdx.utils.BooleanArray
-import de.bitb.spacerace.core.utils.Logger
 
 
 class GameGuiStage(
@@ -29,10 +24,11 @@ class GameGuiStage(
 
     private var playerStatsGui: PlayerStatsGui = PlayerStatsGui(this)
     private var viewControlGui: ViewControlGui = ViewControlGui(screen)
+//    private var debugGui: DebugGui = DebugGui(screen)
     private var gameActionGui: GameActionGui = GameActionGui(this)
-    private var debugGui: DebugGui = DebugGui(screen)
 
-    private var gameActionGuiNew: GameActionGuiNew = GameActionGuiNew()
+    private var srActionGui: SRActionGui = SRActionGui()
+    private var srPlayerStatsGui: SRPlayerStatsGui = SRPlayerStatsGui()
 
     init {
         MainGame.appComponent.inject(this)
@@ -40,11 +36,13 @@ class GameGuiStage(
 //        addGameActionGui()
         listenToUpdate()
 
-        addActor(playerStatsGui)
+//        addActor(playerStatsGui)
         addActor(viewControlGui)
-        addActor(gameActionGuiNew)
-        addActor(debugGui)
-        debugGui.x = viewControlGui.width
+
+        addActor(srActionGui)
+        addActor(srPlayerStatsGui)
+//        addActor(debugGui)
+//        debugGui.x = viewControlGui.width
     }
 
     private fun listenToUpdate() {

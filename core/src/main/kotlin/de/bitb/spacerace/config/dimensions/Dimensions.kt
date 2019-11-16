@@ -25,16 +25,24 @@ object Dimensions {
 
     object GameGuiDimensions {
 
+        val GAME_BUTTON_WIDTH_DEFAULT
+            get() = SCREEN_WIDTH / 6
+        val GAME_BUTTON_HEIGHT_DEFAULT
+            get() = SCREEN_HEIGHT / 8
+        val GAME_LABEL_WIDTH_DEFAULT
+            get() = SCREEN_HEIGHT / 4
+        val GAME_LABEL_HEIGHT_DEFAULT
+            get() = SCREEN_HEIGHT / 16
+
+
+
+
         const val GAME_SIZE_FONT_BIG = 2.5f
         const val GAME_SIZE_FONT_MEDIUM = 2f
         const val GAME_SIZE_FONT_SMALL = 1.5f
         const val GAME_SIZE_FONT_xSMALL = 1f
         const val GAME_SIZE_FONT_TINY = .5f
 
-        val GAME_BUTTON_WIDTH_DEFAULT
-            get() = SCREEN_WIDTH / 6
-        val GAME_BUTTON_HEIGHT_DEFAULT
-            get() = SCREEN_HEIGHT / 8
         const val GAME_GUI_PADDING = 24f
         const val GAME_GUI_PADDING_SPACE = 12f
 
