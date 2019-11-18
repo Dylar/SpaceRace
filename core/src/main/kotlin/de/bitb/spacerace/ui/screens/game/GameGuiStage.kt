@@ -3,16 +3,9 @@ package de.bitb.spacerace.ui.screens.game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.ui.player.PlayerStatsGui
 import de.bitb.spacerace.ui.player.SRPlayerStatsGui
-import de.bitb.spacerace.ui.screens.game.control.GameActionGui
 import de.bitb.spacerace.ui.screens.game.control.SRActionGui
 import de.bitb.spacerace.ui.screens.game.control.SRViewControlGui
-import de.bitb.spacerace.ui.screens.game.control.ViewControlGui
-import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
-import io.reactivex.disposables.Disposable
-import javax.inject.Inject
 
 
 class GameGuiStage(

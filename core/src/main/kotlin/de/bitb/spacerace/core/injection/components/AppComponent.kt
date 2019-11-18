@@ -14,15 +14,12 @@ import de.bitb.spacerace.grafik.model.items.ItemGraphic
 import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
 import de.bitb.spacerace.grafik.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.BaseMenu
-import de.bitb.spacerace.ui.player.PlayerStatsGui
 import de.bitb.spacerace.ui.player.SRPlayerStatsGui
 import de.bitb.spacerace.ui.player.items.ItemDetailsMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
 import de.bitb.spacerace.ui.player.shop.ShopDetails
-import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
-import de.bitb.spacerace.ui.screens.game.control.GameActionGui
 import de.bitb.spacerace.ui.screens.game.control.SRActionGui
 import de.bitb.spacerace.ui.screens.game.control.SRViewControlGui
 import de.bitb.spacerace.ui.screens.start.control.LoadGameGui
@@ -54,8 +51,6 @@ interface AppComponent {
     fun inject(baseMenu: BaseMenu)
     fun inject(baseMenu: ItemMenu)
     fun inject(itemDetailsMenu: ItemDetailsMenu)
-    fun inject(playerStatsGui: PlayerStatsGui)
-    fun inject(gameActionGui: GameActionGui)
     fun inject(shopDetails: ShopDetails)
     fun inject(mapSelectionGui: MapSelectionGui)
 

@@ -3,6 +3,7 @@ package de.bitb.spacerace.ui.screens.game.control
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.VisTextButton
 import de.bitb.spacerace.CameraActions
+import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_DOWN
@@ -24,6 +25,7 @@ class SRViewControlGui(
 
     init {
         MainGame.appComponent.inject(this)
+        debug = DEBUG_LAYOUT
 
         setContent(screen)
         setDimensions()

@@ -9,8 +9,10 @@ import de.bitb.spacerace.core.controller.GameController
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
+import de.bitb.spacerace.ui.game.RoundEndMenu
 import de.bitb.spacerace.ui.player.items.ItemDetailsMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
+import de.bitb.spacerace.ui.player.shop.ShopMenu
 import de.bitb.spacerace.ui.screens.GuiBackstack
 import de.bitb.spacerace.ui.screens.GuiBackstackHandler
 import de.bitb.spacerace.ui.screens.GuiNavi
@@ -87,6 +89,8 @@ class GameScreen(
         when (event) {
             is GuiNavi.StorageMenu -> openStorageMenu(event)
             is GuiNavi.ItemDetailMenu -> openItemDetailMenu(event)
+            is GuiNavi.EndRoundMenu -> openEndRoundMenu(event)
+            is GuiNavi.ObtainShopMenu -> openShopMenu(event)
         }.also {
             addToBackstack(event, it, guiStage)
         }
@@ -99,6 +103,16 @@ class GameScreen(
     //TODO
     private fun openStorageMenu(event: GuiNavi.StorageMenu): Actor =
             ItemMenu(guiStage as GameGuiStage, playerController.currentPlayerData)
+                    .also { it.isOpen = true }
+
+//TODO do it all
+
+    private fun openEndRoundMenu(event: GuiNavi.EndRoundMenu): Actor =
+            RoundEndMenu(guiStage as GameGuiStage)
+                    .also { it.isOpen = true }
+
+    private fun openShopMenu(event: GuiNavi.ObtainShopMenu): Actor =
+            ShopMenu(guiStage as GameGuiStage)
                     .also { it.isOpen = true }
 
 }

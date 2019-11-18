@@ -59,8 +59,14 @@ object GuiBackstackHandler : GuiBackstack {
 
 }
 
-sealed class GuiNavi(val player: PlayerColor, var previous: GuiNavi? = null) {
+sealed class GuiNavi(
+        val player: PlayerColor = PlayerColor.NONE,
+        var previous: GuiNavi? = null
+) {
 
     class StorageMenu(player: PlayerColor) : GuiNavi(player)
     class ItemDetailMenu(player: PlayerColor, val itemType: ItemType) : GuiNavi(player)
+
+    class EndRoundMenu : GuiNavi()
+    class ObtainShopMenu(player: PlayerColor) : GuiNavi(player)
 }
