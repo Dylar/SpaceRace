@@ -41,23 +41,25 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
     init {
         MainGame.appComponent.inject(this)
 
-        setBackgroundByPath(IMAGE_PATH_GUI_BACKGROUND)
         setContent()
-        setDimensions()
         initObserver()
+        setBackgroundByPath(IMAGE_PATH_GUI_BACKGROUND)
     }
 
     private fun initObserver() {
         //TODO dispose
         observeCurrentPlayerUseCase.observeStream {
             update(it)
+            pack()
+            scaleTable(scaleHeight =  0.7f)
+            setDimensions()
         }
     }
 
     private fun setDimensions() {
         alignGui(guiPosY = SCREEN_HEIGHT,
                 guiWidth = prefWidth,
-                guiHeight = prefHeight,
+                guiHeight = height,
                 alignHoriz = SRAlign.LEFT,
                 alignVert = SRAlign.TOP)
     }
@@ -81,7 +83,8 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
             createLabel(text = text, fontColor = Color.TEAL)
                     .also {
                         it.setAlignment(Align.center)
-                        add(it).width(GAME_LABEL_WIDTH_DEFAULT)
+                        add(it)
+                                .width(GAME_LABEL_WIDTH_DEFAULT)
                                 .height(GAME_LABEL_HEIGHT_DEFAULT)
                     }
 
@@ -95,7 +98,6 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
         updateDice(playerData)
         updateDiceMod(playerData)
         updatePhase(playerData.phase)
-        pack()
     }
 
     private fun updateCredits(playerData: PlayerData) {

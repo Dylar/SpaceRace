@@ -1,13 +1,9 @@
 package de.bitb.spacerace.ui.base
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.kotcrab.vis.ui.widget.VisLabel
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.VisTextButton
@@ -35,8 +31,8 @@ interface GuiBuilder {
     ): VisTextButton {
 
         val style = VisTextButton.VisTextButtonStyle()
-        style.up = TexturePool.getNinePatch(imageUp)
-        style.down = TexturePool.getNinePatch(imageDown)
+        style.up = TexturePool.getButton(imageUp)
+        style.down = TexturePool.getButton(imageDown)
         style.font = TexturePool.bitmapFont
         style.downFontColor = Color.RED //TODO in settings
         style.fontColor = Color.TEAL
@@ -59,7 +55,7 @@ interface GuiBuilder {
     ): VisLabel {
 
         val style = Label.LabelStyle()
-        background?.also { style.background = TexturePool.getNinePatch(it) }
+        background?.also { style.background = TexturePool.getBackground(it) }
         style.font = TexturePool.bitmapFont
         style.fontColor = fontColor //TODO in settings -> or?
 
@@ -72,8 +68,13 @@ interface GuiBuilder {
     }
 
     fun VisTable.setBackgroundByPath(backgroundPath: String) {
-        background = TexturePool.getNinePatch(backgroundPath)
+        background = TexturePool.getBackground(backgroundPath)
 //        background = TextureRegionDrawable(TextureRegion(Texture(Gdx.files.internal(backgroundPath))))
+    }
+
+    fun VisTable.scaleTable(scaleWidth: Float = 1.0f, scaleHeight: Float = 1.0f) {
+        width *= scaleWidth
+        height *= scaleHeight
     }
 
     fun Actor.alignGui(

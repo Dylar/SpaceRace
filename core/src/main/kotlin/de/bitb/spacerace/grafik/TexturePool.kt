@@ -12,17 +12,29 @@ object TexturePool {
     val bitmapFont = BitmapFont(Gdx.files.internal("spaceranger.fnt")).apply { data.setScale(1.1f) }
     private val texturePool: MutableMap<String, Texture> = mutableMapOf()
 
-    fun getNinePatch(imagePath: String): NinePatchDrawable {
+    fun getBackground(imagePath: String) =
+            getNinePatch(imagePath, .25f,.25f,.45f,.45f)
+
+    fun getButton(imagePath: String) =
+            getNinePatch(imagePath, .40f,.40f,.20f,.20f)
+
+    fun getNinePatch(
+            imagePath: String,
+            leftMod: Float,
+            rightMod: Float,
+            botMod: Float,
+            topMod: Float
+    ): NinePatchDrawable {
         val texture = texturePool[imagePath]
                 ?: Texture(Gdx.files.internal(imagePath)).also { texturePool[imagePath] = it }
 
         val width = texture.width - 2
         val height = texture.height - 2
 
-        val left = (width * .25f).toInt()
-        val right = (width * .25f).toInt()
-        val bot = (height * .45f).toInt()
-        val top = (height * .45f).toInt()
+        val left = (width * leftMod).toInt()
+        val right = (width * rightMod).toInt()
+        val bot = (height * botMod).toInt()
+        val top = (height * topMod).toInt()
 
         return NinePatchDrawable(NinePatch(TextureRegion(texture, 1, 1, width, height), left, right, top, bot))
     }

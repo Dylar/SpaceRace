@@ -30,9 +30,9 @@ object Dimensions {
         val GAME_BUTTON_HEIGHT_DEFAULT
             get() = SCREEN_HEIGHT / 8
         val GAME_LABEL_WIDTH_DEFAULT
-            get() = SCREEN_HEIGHT / 4 * 0.8f
+            get() = SCREEN_HEIGHT / 4 * 0.7f
         val GAME_LABEL_HEIGHT_DEFAULT
-            get() = SCREEN_HEIGHT / 20 * 0.8f
+            get() = SCREEN_HEIGHT / 20 * 0.7f
 
 
         const val GAME_SIZE_FONT_BIG = 2.5f

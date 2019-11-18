@@ -11,7 +11,9 @@ import de.bitb.spacerace.ui.base.SRAlign
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import javax.inject.Inject
 
-class SRViewControlGui(screen: GameScreen) : VisTable(), GuiBuilder {
+class SRViewControlGui(
+        screen: GameScreen
+) : VisTable(), GuiBuilder {
 
     @Inject
     protected lateinit var playerController: PlayerController
@@ -20,18 +22,18 @@ class SRViewControlGui(screen: GameScreen) : VisTable(), GuiBuilder {
     init {
         MainGame.appComponent.inject(this)
 
-        setBackgroundByPath(IMAGE_PATH_GUI_BACKGROUND)
         setContent(screen)
         setDimensions()
-        debug = true
+        setBackgroundByPath(IMAGE_PATH_GUI_BACKGROUND)
+        pack()
+        scaleTable(.9f, 0.7f)
     }
+
 
     private fun setDimensions() {
         alignGui(
-                guiPosX = 100f,
-                guiPosY = 100f,
-                guiWidth = 100f,
-                guiHeight = 100f,
+                guiWidth = prefWidth,
+                guiHeight = prefHeight,
                 alignHoriz = SRAlign.LEFT,
                 alignVert = SRAlign.BOTTOM)
     }
@@ -47,19 +49,19 @@ class SRViewControlGui(screen: GameScreen) : VisTable(), GuiBuilder {
                 text = "+",
                 listener = { screen.onZoomPlusClicked() })
                 .also {
-                    add(it)
+                    add(it).pad(4f)
                 }
     }
 
     private fun setLookBtn(screen: GameScreen) {
         lockBtn = createTextButtons(
-                text = "O",
+                text = "(O)",
                 listener = {
                     screen.centerCamera()
                     updateButtons(screen)
                 })
                 .also {
-                    add(it)
+                    add(it).pad(4f)
                 }
     }
 
@@ -68,7 +70,7 @@ class SRViewControlGui(screen: GameScreen) : VisTable(), GuiBuilder {
                 text = "-",
                 listener = { screen.onZoomMinusClicked() })
                 .also {
-                    add(it)
+                    add(it).pad(4f)
                 }
     }
 
