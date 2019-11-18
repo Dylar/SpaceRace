@@ -5,7 +5,10 @@ import com.kotcrab.vis.ui.widget.VisTextButton
 import de.bitb.spacerace.CameraActions
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.PlayerController
+import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_DOWN
+import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_UP
 import de.bitb.spacerace.grafik.IMAGE_PATH_GUI_BACKGROUND
+import de.bitb.spacerace.grafik.TexturePool
 import de.bitb.spacerace.ui.base.GuiBuilder
 import de.bitb.spacerace.ui.base.SRAlign
 import de.bitb.spacerace.ui.screens.game.GameScreen
@@ -45,34 +48,34 @@ class SRViewControlGui(
     }
 
     private fun setZoomInBtn(screen: GameScreen) {
-        createTextButtons(
+        createSmallButtons(
                 text = "+",
                 listener = { screen.onZoomPlusClicked() })
-                .also {
-                    add(it).pad(4f)
-                }
+
     }
 
     private fun setLookBtn(screen: GameScreen) {
-        lockBtn = createTextButtons(
+        lockBtn = createSmallButtons(
                 text = "(O)",
                 listener = {
                     screen.centerCamera()
                     updateButtons(screen)
                 })
-                .also {
-                    add(it).pad(4f)
-                }
     }
 
     private fun setZoomOutBtn(screen: GameScreen) {
-        createTextButtons(
+        createSmallButtons(
                 text = "-",
                 listener = { screen.onZoomMinusClicked() })
-                .also {
-                    add(it).pad(4f)
-                }
     }
+
+    private fun createSmallButtons(text: String, listener: () -> Unit) =
+            createTextButtons(
+                    text = text,
+                    listener = listener,
+                    imageUp = TexturePool.getSmallButton(IMAGE_PATH_BUTTON_UP),
+                    imageDown = TexturePool.getSmallButton(IMAGE_PATH_BUTTON_DOWN))
+                    .also { add(it).pad(4f) }
 
     fun updateButtons(screen: GameScreen) {
         lockBtn.setText(when {

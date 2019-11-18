@@ -18,6 +18,9 @@ object TexturePool {
     fun getButton(imagePath: String) =
             getNinePatch(imagePath, .40f,.40f,.20f,.20f)
 
+    fun getSmallButton(imagePath: String) =
+            getNinePatch(imagePath, .33f,.33f,.33f,.33f)
+
     fun getNinePatch(
             imagePath: String,
             leftMod: Float,

@@ -44,28 +44,29 @@ class SRActionGui : SRGuiGrid() {
     }
 
     private fun setStorageBtn() {
-        createTextButtons(
+        addButton(
                 text = "Storage",
                 listener = {
                     val storageMenu: GuiNavi = GuiNavi.StorageMenu(playerController.currentColor)
                     EventBus.getDefault().post(storageMenu)
                 })
-                .also {
-                    addActor(it)
-                }
     }
 
     private fun setDiceBtn() {
-        createTextButtons(
+        addButton(
                 text = "Dice",
                 listener = { EventBus.getDefault().post(DiceCommand.get(playerController.currentColor)) })
-                .also { addActor(it) }
     }
 
     private fun setContinueBtn() {
-        createTextButtons(
-                text = "Continue",
+        addButton(text = "Continue",
                 listener = { EventBus.getDefault().post(NextPhaseCommand.get(playerController.currentColor)) })
+    }
+
+    private fun addButton(text: String, listener: () -> Unit) {
+        createTextButtons(
+                text = text,
+                listener = listener)
                 .also { addActor(it) }
     }
 }

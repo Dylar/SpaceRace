@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.kotcrab.vis.ui.widget.VisLabel
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.VisTextButton
@@ -23,16 +24,16 @@ interface GuiBuilder {
 
     fun createTextButtons(
             text: String,
-            imageUp: String = IMAGE_PATH_BUTTON_UP,
-            imageDown: String = IMAGE_PATH_BUTTON_DOWN,
+            imageUp: NinePatchDrawable = TexturePool.getButton(IMAGE_PATH_BUTTON_UP),
+            imageDown: NinePatchDrawable = TexturePool.getButton(IMAGE_PATH_BUTTON_DOWN),
             width: Float = GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT,
             height: Float = GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT,
             listener: () -> Unit
     ): VisTextButton {
 
         val style = VisTextButton.VisTextButtonStyle()
-        style.up = TexturePool.getButton(imageUp)
-        style.down = TexturePool.getButton(imageDown)
+        style.up = imageUp
+        style.down = imageDown
         style.font = TexturePool.bitmapFont
         style.downFontColor = Color.RED //TODO in settings
         style.fontColor = Color.TEAL
