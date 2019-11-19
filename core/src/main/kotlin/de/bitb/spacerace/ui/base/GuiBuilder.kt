@@ -22,6 +22,30 @@ interface GuiBuilder {
                 }
             }
 
+//    fun createImageButtons(
+//            text: String,
+//            imageUp: NinePatchDrawable = TexturePool.getButton(IMAGE_PATH_BUTTON_UP),
+//            imageDown: NinePatchDrawable = TexturePool.getButton(IMAGE_PATH_BUTTON_DOWN),
+//            width: Float = GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT,
+//            height: Float = GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT,
+//            listener: () -> Unit
+//    ): VisTextButton {
+//
+//        val style = VisTextButton.VisTextButtonStyle()
+//        style.up = imageUp
+//        style.down = imageDown
+//        style.font = TexturePool.bitmapFont
+//        style.downFontColor = Color.RED //TODO in settings
+//        style.fontColor = Color.TEAL
+//        style.disabledFontColor = Color.DARK_GRAY
+//
+//        val textButton = VisTextButton(text, style)
+//        textButton.addListener(createListener(listener))
+//        textButton.width = width
+//        textButton.height = height
+//        return textButton
+//    }
+
     fun createTextButtons(
             text: String,
             imageUp: NinePatchDrawable = TexturePool.getButton(IMAGE_PATH_BUTTON_UP),

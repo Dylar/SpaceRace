@@ -8,8 +8,10 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GameController
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.controller.PlayerController
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
-import de.bitb.spacerace.ui.game.RoundEndMenu
+import de.bitb.spacerace.ui.game.RoundEndDetails
+import de.bitb.spacerace.ui.game.SRRoundEndMenu
 import de.bitb.spacerace.ui.player.items.ItemDetailsMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
 import de.bitb.spacerace.ui.player.shop.ShopMenu
@@ -30,6 +32,9 @@ class GameScreen(
     init {
         MainGame.appComponent.inject(this)
     }
+
+    @Inject //TODO delete me
+    protected lateinit var playerDataSource: PlayerDataSource
 
     @Inject
     protected lateinit var graphicController: GraphicController
@@ -90,11 +95,16 @@ class GameScreen(
             is GuiNavi.StorageMenu -> openStorageMenu(event)
             is GuiNavi.ItemDetailMenu -> openItemDetailMenu(event)
             is GuiNavi.EndRoundMenu -> openEndRoundMenu(event)
+            is GuiNavi.PlayerEndDetailsMenu -> openPlayerEndDetails(event)
             is GuiNavi.ObtainShopMenu -> openShopMenu(event)
         }.also {
             addToBackstack(event, it, guiStage)
         }
     }
+
+    private fun openPlayerEndDetails(event: GuiNavi.PlayerEndDetailsMenu): Actor =
+            RoundEndDetails(guiStage as GameGuiStage, playerDataSource.getDBPlayerByColor(event.player).first())
+                    .also { it.isOpen = true }
 
     private fun openItemDetailMenu(event: GuiNavi.ItemDetailMenu): Actor =
             ItemDetailsMenu(guiStage as GameGuiStage, event.itemType, playerController.currentPlayerData)
@@ -107,11 +117,9 @@ class GameScreen(
 
 //TODO do it all
 
-    private fun openEndRoundMenu(event: GuiNavi.EndRoundMenu): Actor =
-            RoundEndMenu(guiStage as GameGuiStage)
-                    .also { it.isOpen = true }
+    private fun openEndRoundMenu(event: GuiNavi.EndRoundMenu): Actor = SRRoundEndMenu()
 
-    private fun openShopMenu(event: GuiNavi.ObtainShopMenu): Actor =
+    fun openShopMenu(event: GuiNavi.ObtainShopMenu): Actor =
             ShopMenu(guiStage as GameGuiStage)
                     .also { it.isOpen = true }
 

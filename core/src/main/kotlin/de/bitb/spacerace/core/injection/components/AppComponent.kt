@@ -14,6 +14,7 @@ import de.bitb.spacerace.grafik.model.items.ItemGraphic
 import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
 import de.bitb.spacerace.grafik.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.game.SRRoundEndMenu
 import de.bitb.spacerace.ui.player.SRPlayerStatsGui
 import de.bitb.spacerace.ui.player.items.ItemDetailsMenu
 import de.bitb.spacerace.ui.player.items.ItemMenu
@@ -61,6 +62,7 @@ interface AppComponent {
     fun inject(SRActionGui: SRActionGui)
     fun inject(srPlayerStatsGui: SRPlayerStatsGui)
     fun inject(srViewControlGui: SRViewControlGui)
+    fun inject(srRoundEndMenu: SRRoundEndMenu)
 
     //GAME
     fun inject(gameScreen: GameScreen)
@@ -92,5 +94,4 @@ interface AppComponent {
 
 
     fun inject(itemGraphic: ItemGraphic)
-
 }

@@ -15,13 +15,15 @@ import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_ROUND_DETAIL
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.screens.GuiBackstack
+import de.bitb.spacerace.ui.screens.GuiBackstackHandler
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 
 class RoundEndDetails(
         guiStage: GameGuiStage,
-        endMenu: RoundEndMenu,
-        player: PlayerData?
-) : BaseMenu(guiStage, endMenu, player) {
+        player: PlayerData
+) : BaseMenu(guiStage, null, player),
+        GuiBackstack by GuiBackstackHandler {
 
     init {
         addTitle()
@@ -30,7 +32,6 @@ class RoundEndDetails(
         addButtons()
         pack()
         setPosition()
-        endMenu.closeMenu()
     }
 
     override fun refreshMenu() {

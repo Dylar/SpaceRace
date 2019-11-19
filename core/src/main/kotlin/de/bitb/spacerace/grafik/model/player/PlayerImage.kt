@@ -14,7 +14,6 @@ import de.bitb.spacerace.grafik.model.objecthandling.rotating.IRotatingImage
 import de.bitb.spacerace.grafik.model.objecthandling.rotating.RotatingImage
 import de.bitb.spacerace.core.utils.Logger
 
-
 class PlayerImage(
         val playerColor: PlayerColor,
         val itemType: ItemType

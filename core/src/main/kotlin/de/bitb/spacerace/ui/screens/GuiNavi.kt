@@ -46,10 +46,10 @@ object GuiBackstackHandler : GuiBackstack {
     }
 
     override fun onBack() {
-        if (!backstack.isEmpty()) {
+        removePrevious()
+        if (backstack.isNotEmpty()) {
             backstack.pop().previous?.also { EventBus.getDefault().post(it) }
         }
-        removePrevious()
     }
 
     override fun clearBackstack() {
@@ -68,5 +68,7 @@ sealed class GuiNavi(
     class ItemDetailMenu(player: PlayerColor, val itemType: ItemType) : GuiNavi(player)
 
     class EndRoundMenu : GuiNavi()
+    class PlayerEndDetailsMenu(player: PlayerColor) : GuiNavi(player)
+
     class ObtainShopMenu(player: PlayerColor) : GuiNavi(player)
 }

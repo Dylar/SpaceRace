@@ -13,23 +13,34 @@ object TexturePool {
     private val texturePool: MutableMap<String, Texture> = mutableMapOf()
 
     fun getBackground(imagePath: String) =
-            getNinePatch(imagePath, .25f,.25f,.45f,.45f)
+            getNinePatch(imagePath, .25f, .25f, .45f, .45f)
 
     fun getButton(imagePath: String) =
-            getNinePatch(imagePath, .40f,.40f,.20f,.20f)
+            getNinePatch(imagePath, .40f, .40f, .20f, .20f)
 
     fun getSmallButton(imagePath: String) =
-            getNinePatch(imagePath, .33f,.33f,.33f,.33f)
+            getNinePatch(imagePath, .33f, .33f, .33f, .33f)
 
     fun getNinePatch(
             imagePath: String,
-            leftMod: Float,
-            rightMod: Float,
-            botMod: Float,
-            topMod: Float
+            leftMod: Float = .33f,
+            rightMod: Float = .33f,
+            botMod: Float = .33f,
+            topMod: Float = .33f
     ): NinePatchDrawable {
         val texture = texturePool[imagePath]
                 ?: Texture(Gdx.files.internal(imagePath)).also { texturePool[imagePath] = it }
+
+        return getNinePatch(texture, leftMod, rightMod, botMod, topMod)
+    }
+
+    fun getNinePatch(
+            texture: Texture,
+            leftMod: Float = .33f,
+            rightMod: Float = .33f,
+            botMod: Float = .33f,
+            topMod: Float = .33f
+    ): NinePatchDrawable {
 
         val width = texture.width - 2
         val height = texture.height - 2
