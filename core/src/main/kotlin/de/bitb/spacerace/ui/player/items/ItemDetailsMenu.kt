@@ -25,6 +25,8 @@ import de.bitb.spacerace.grafik.model.items.getDefaultInfo
 import de.bitb.spacerace.grafik.model.items.getText
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.ui.base.BaseMenu
+import de.bitb.spacerace.ui.screens.GuiBackstack
+import de.bitb.spacerace.ui.screens.GuiBackstackHandler
 import de.bitb.spacerace.ui.screens.game.GameGuiStage
 import org.greenrobot.eventbus.EventBus
 
@@ -32,7 +34,8 @@ class ItemDetailsMenu(
         guiStage: GameGuiStage,
         private val itemType: ItemType,
         player: PlayerData?
-) : BaseMenu(guiStage, null, player) {
+) : BaseMenu(guiStage, null, player),
+        GuiBackstack by GuiBackstackHandler {
 
     private lateinit var useBtn: TextButton
     private lateinit var unuseBtn: TextButton
@@ -110,7 +113,7 @@ class ItemDetailsMenu(
 
         val cancelBtn = createButton(name = GAME_BUTTON_CANCEL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                onBackOLD()
+                onBack()
                 return true
             }
         })
@@ -147,7 +150,6 @@ class ItemDetailsMenu(
             else -> "-"
         }
         useBtn.setText(text)
-
     }
 
     private fun setUnuseButton() {

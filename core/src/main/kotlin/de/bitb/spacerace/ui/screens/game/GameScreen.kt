@@ -13,7 +13,7 @@ import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 import de.bitb.spacerace.ui.game.RoundEndDetails
 import de.bitb.spacerace.ui.game.SRRoundEndMenu
 import de.bitb.spacerace.ui.player.items.ItemDetailsMenu
-import de.bitb.spacerace.ui.player.items.ItemMenu
+import de.bitb.spacerace.ui.player.items.SRStorageMenu
 import de.bitb.spacerace.ui.player.shop.ShopMenu
 import de.bitb.spacerace.ui.screens.GuiBackstack
 import de.bitb.spacerace.ui.screens.GuiBackstackHandler
@@ -112,8 +112,7 @@ class GameScreen(
 
     //TODO
     private fun openStorageMenu(event: GuiNavi.StorageMenu): Actor =
-            ItemMenu(guiStage as GameGuiStage, playerController.currentPlayerData)
-                    .also { it.isOpen = true }
+            SRStorageMenu(event.player)
 
 //TODO do it all
 

@@ -145,9 +145,9 @@ fun ItemType.createGraphic(playerColor: PlayerColor = PlayerColor.NONE): ItemGra
         MINE_SLOW -> ItemGraphic(playerColor, this, TextureCollection.slowMine)
         MINE_MOVING -> ItemGraphic(playerColor, this, TextureCollection.slowMine)
         ENGINE_ION -> ItemGraphic(playerColor, this, TextureCollection.blackhole)
-        SHIP_SPEEDER -> ItemGraphic(playerColor, this, this.getAnimation().getDefaultImage()!!.texture)
-        SHIP_RAIDER -> ItemGraphic(playerColor, this, this.getAnimation().getDefaultImage()!!.texture)
-        SHIP_BUMPER -> ItemGraphic(playerColor, this, this.getAnimation().getDefaultImage()!!.texture)
+        SHIP_SPEEDER -> ItemGraphic(playerColor, this, this.getAnimation().getFirstImage()!!.texture)
+        SHIP_RAIDER -> ItemGraphic(playerColor, this, this.getAnimation().getFirstImage()!!.texture)
+        SHIP_BUMPER -> ItemGraphic(playerColor, this, this.getAnimation().getFirstImage()!!.texture)
     }
 }
 

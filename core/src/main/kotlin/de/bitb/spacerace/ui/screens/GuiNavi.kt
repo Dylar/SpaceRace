@@ -46,9 +46,12 @@ object GuiBackstackHandler : GuiBackstack {
     }
 
     override fun onBack() {
-        removePrevious()
         if (backstack.isNotEmpty()) {
             backstack.pop().previous?.also { EventBus.getDefault().post(it) }
+        }
+
+        if(backstack.isEmpty()){
+            removePrevious()
         }
     }
 

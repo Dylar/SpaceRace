@@ -1,5 +1,6 @@
 package de.bitb.spacerace.grafik.model.effects
 
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
@@ -7,9 +8,13 @@ import de.bitb.spacerace.grafik.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 
 
-class SimpleAnimation( private val eachFrame: Float = 0.1f,
-                       private val pauseTime: Float = 2f,
-                       vararg textures: TextureRegion) : BaseAnimation() {
+class SimpleAnimation(
+        private val eachFrame: Float = 0.1f,
+        private val pauseTime: Float = 2f,
+        vararg textures: TextureRegion
+) : BaseAnimation() {
+
+    override fun getDefaultTexture(): Texture? = animation.keyFrames?.firstOrNull()?.texture
 
     private var animationTime = 0f
 

@@ -30,6 +30,15 @@ class SRRoundEndMenu
         debug = DEBUG_LAYOUT
         MainGame.appComponent.inject(this)
 
+        setWindowConfig()
+        setContent()
+        centerWindow()
+        pack()
+        center()
+        fadeIn()
+    }
+
+    private fun setWindowConfig() {
         pad(70f, 10f, 10f, 10f)
         titleLabel.setAlignment(Align.center)
         style = WindowStyle().also {
@@ -37,37 +46,23 @@ class SRRoundEndMenu
             it.titleFontColor = Color.TEAL
             it.background = TexturePool.getBackground(IMAGE_PATH_GUI_BACKGROUND)
         }
-        setContent()
-        setDimensions()
-        pack()
-        center()
-    }
-
-    private fun setDimensions() {
-        centerWindow()
-//        alignGui(
-//                guiPosX = SCREEN_WIDTH * 0.85f,
-//                guiPosY = SCREEN_HEIGHT * 0.8f,
-//                guiWidth = width,
-//                guiHeight = height,
-//                alignHoriz = SRAlign.RIGHT,
-//                alignVert = SRAlign.TOP)
     }
 
     private fun setContent() {
-        graphicController.playerGraphics
-                .forEach {
-                    val animation = it.playerImage.animation as PlayerAnimation
-                    val imageUp = animation.getDefaultImage()?.texture ?: error("NO ANIMATION")
+        val playerGraphics = graphicController.playerGraphics
+        playerGraphics
+                .forEach { player ->
+                    val animation = player.playerImage.animation as PlayerAnimation
+                    val imageUp = animation.getFirstImage()?.texture ?: error("NO ANIMATION")
                     val imageDown = animation.getLastImage()?.texture ?: error("NO ANIMATION")
                     val createBtn = createTextButtons(
                             "",
-                            imageUp = TexturePool.getNinePatch(imageUp).tint(it.playerColor.color),
-                            imageDown = TexturePool.getNinePatch(imageDown).tint(it.playerColor.color)
-                    ) { openPlayerDetails(it) }
+                            imageUp = TexturePool.getNinePatch(imageUp).tint(player.playerColor.color),
+                            imageDown = TexturePool.getNinePatch(imageDown).tint(player.playerColor.color)
+                    ) { openPlayerDetails(player) }
                     add(createBtn).expand()
                 }
-        row().pad(20f).colspan(graphicController.playerGraphics.size + 2)
+        row().pad(20f).colspan(playerGraphics.size + 2)
         addButton("Continue") {
             clearBackstack()
             EventBus.getDefault().post(StartNextRoundCommand.get())
