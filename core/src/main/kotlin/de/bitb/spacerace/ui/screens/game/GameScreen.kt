@@ -8,11 +8,12 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GameController
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.controller.PlayerController
+import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 import de.bitb.spacerace.ui.game.RoundEndDetails
 import de.bitb.spacerace.ui.game.SRRoundEndMenu
-import de.bitb.spacerace.ui.player.items.ItemDetailsMenu
+import de.bitb.spacerace.ui.player.items.SRStorageItemMenu
 import de.bitb.spacerace.ui.player.items.SRStorageMenu
 import de.bitb.spacerace.ui.player.shop.ShopMenu
 import de.bitb.spacerace.ui.screens.GuiBackstack
@@ -91,6 +92,7 @@ class GameScreen(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun navigateEvent(event: GuiNavi) {
+        Logger.justPrint("Open Gui: ${event::class.simpleName}, ${event.player}")
         when (event) {
             is GuiNavi.StorageMenu -> openStorageMenu(event)
             is GuiNavi.ItemDetailMenu -> openItemDetailMenu(event)
@@ -107,12 +109,15 @@ class GameScreen(
                     .also { it.isOpen = true }
 
     private fun openItemDetailMenu(event: GuiNavi.ItemDetailMenu): Actor =
-            ItemDetailsMenu(guiStage as GameGuiStage, event.itemType, playerController.currentPlayerData)
-                    .also { it.isOpen = true }
+            SRStorageItemMenu(event.player, event.itemType)
+//            ItemDetailsMenu(guiStage as GameGuiStage, event.itemType, playerController.currentPlayerData)
+//                    .also { it.isOpen = true }
 
     //TODO
-    private fun openStorageMenu(event: GuiNavi.StorageMenu): Actor =
-            SRStorageMenu(event.player)
+    private fun openStorageMenu(event: GuiNavi.StorageMenu): Actor {
+        Logger.justPrint("Open Gui0: ${this::class.simpleName}, ${event.player}")
+        return SRStorageMenu(event.player)
+    }
 
 //TODO do it all
 

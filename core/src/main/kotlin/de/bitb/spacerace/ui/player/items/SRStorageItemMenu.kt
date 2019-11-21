@@ -1,22 +1,22 @@
 package de.bitb.spacerace.ui.player.items
 
-import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.grafik.TexturePool
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.SRWindowGui
-import de.bitb.spacerace.ui.screens.GuiNavi.ItemDetailMenu
+import de.bitb.spacerace.ui.screens.GuiNavi
 import org.greenrobot.eventbus.EventBus
 
-class SRStorageMenu(
-        private val playerColor: PlayerColor
+class SRStorageItemMenu(
+        val playerColor: PlayerColor,
+        val itemType: ItemType
 ) : SRWindowGui() {
 
     init {
         initWindow()
     }
 
-    override fun getTitle(): String = "Storage"
+    override fun getTitle(): String = itemType.name
 
     override fun setContent() {
         val player = playerDataSource.getDBPlayerByColor(playerColor).first()
@@ -41,7 +41,7 @@ class SRStorageMenu(
     }
 
     private fun openItemDetails(item: ItemType) {
-        EventBus.getDefault().post(ItemDetailMenu(playerColor, item))
+        EventBus.getDefault().post(GuiNavi.ItemDetailMenu(playerColor, item))
     }
 
     private fun addButton(text: String, listener: () -> Unit) {
