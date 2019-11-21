@@ -136,7 +136,7 @@ private fun initPlayerItems(
         saveData: SaveData,
         items: List<ItemInfo>
 ) {
-    saveData.players
+    saveData.players //TODO init random on live
             .onEach { player ->
                 items.map { itemInfo ->
                     repeat(DEBUG_PLAYER_ITEMS_COUNT) {

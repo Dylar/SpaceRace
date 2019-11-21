@@ -61,8 +61,8 @@ class SRStorageItemMenu(
                 }
 
         row().pad(20f).colspan(span)
-        when {
-            itemType.getDefaultInfo() is EquipItem -> addButton("Unequip") { unequipItem() }
+        if (enableUnusedBtn) {
+            addButton("Unequip") { unequipItem() }
         }
         addButton("Use") { useItem() }
         addButton("Cancel") { onBack() }
