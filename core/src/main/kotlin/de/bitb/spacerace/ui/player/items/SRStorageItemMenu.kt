@@ -1,55 +1,87 @@
 package de.bitb.spacerace.ui.player.items
 
-import de.bitb.spacerace.grafik.TexturePool
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.utils.Align
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
+import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.core.events.commands.player.UseItemCommand
+import de.bitb.spacerace.database.items.EquipItem
+import de.bitb.spacerace.database.items.ItemData
+import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.items.ItemType
+import de.bitb.spacerace.grafik.model.items.createGraphic
+import de.bitb.spacerace.grafik.model.items.getDefaultInfo
+import de.bitb.spacerace.grafik.model.items.getText
+import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.SRWindowGui
-import de.bitb.spacerace.ui.screens.GuiNavi
 import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
 class SRStorageItemMenu(
         val playerColor: PlayerColor,
         val itemType: ItemType
 ) : SRWindowGui() {
 
+    @Inject
+    protected lateinit var playerDataSource: PlayerDataSource
+
+    protected lateinit var player: PlayerData
+    protected lateinit var items: List<ItemData>
+
     init {
+        debug = true
         initWindow()
     }
 
-    override fun getTitle(): String = itemType.name
+    override fun inject() {
+        MainGame.appComponent.inject(this)
+        player = playerDataSource.getDBPlayerByColor(playerColor).first()
+        items = player.storageItems.filter { it.itemInfo.type == itemType }
+    }
+
+    override fun getTitle(): String = itemType.name + " (${items.size})"
 
     override fun setContent() {
-        val player = playerDataSource.getDBPlayerByColor(playerColor).first()
-        val items = graphicController.getStorageItemMap(player)
+        val enableUnusedBtn = itemType.getDefaultInfo() is EquipItem
+        val span = if (enableUnusedBtn) 6 else 4
+        val item = itemType.createGraphic(playerColor).getDisplayImage()
+        add(item).width(GAME_BUTTON_WIDTH_DEFAULT)
+                .height(GAME_BUTTON_WIDTH_DEFAULT)
+                .center()
+                .colspan(span)
 
-        items.forEach { (itemType, itemGraphic) ->
-            val texture = itemGraphic.itemImage.animation.getDefaultTexture()
-            val imageUp = texture ?: error("NO ANIMATION")
-            val imageDown = texture
-            val createBtn = createTextButtons(
-                    "",
-                    imageUp = TexturePool.getNinePatch(imageUp),
-                    imageDown = TexturePool.getNinePatch(imageDown)
-            ) { openItemDetails(itemType) }
-            add(createBtn).expand()
-        }
+        row().pad(20f).colspan(span)
 
-        row().pad(20f).colspan(items.size + 2)
-        addButton("Cancel") {
-            onBack()
+        createLabel(text = itemType.getText(), fontColor = Color.TEAL)
+                .also {
+                    it.setAlignment(Align.center)
+                    add(it).colspan(span)
+                }
+
+        row().pad(20f).colspan(span)
+        when {
+            itemType.getDefaultInfo() is EquipItem -> addButton("Unequip") { unequipItem() }
         }
+        addButton("Use") { useItem() }
+        addButton("Cancel") { onBack() }
     }
 
-    private fun openItemDetails(item: ItemType) {
-        EventBus.getDefault().post(GuiNavi.ItemDetailMenu(playerColor, item))
+    private fun unequipItem() {
+        EventBus.getDefault().post(UseItemCommand.get(itemType, player.playerColor, true))
     }
 
-    private fun addButton(text: String, listener: () -> Unit) {
+    private fun useItem() {
+        EventBus.getDefault().post(UseItemCommand.get(itemType, player.playerColor))
+    }
+
+    private fun addButton(text: String, span: Int = 2, listener: () -> Unit) {
         createTextButtons(
                 text = text,
                 listener = listener)
                 .also {
-                    add(it).expandX()
+                    add(it).colspan(span)
                 }
     }
 }

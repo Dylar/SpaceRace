@@ -19,9 +19,6 @@ abstract class SRWindowGui : VisWindow(""),
         GuiBuilder {
 
     @Inject
-    protected lateinit var playerDataSource: PlayerDataSource
-
-    @Inject
     protected lateinit var graphicController: GraphicController
 
     init {
