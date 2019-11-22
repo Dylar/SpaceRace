@@ -42,8 +42,8 @@ const val ITEM_SELL_MOD = 0.7
 val DEFAULT_SHIP = ItemType.SHIP_RAIDER
 
 //GAME UI
-const val MAX_ZOOM = 5.0
-const val MIN_ZOOM = 1.0
+const val MAX_ZOOM = 3.0f
+const val MIN_ZOOM = .3f
 
 const val FIELD_ROTATION = true
 const val STAR_COUNT = 5

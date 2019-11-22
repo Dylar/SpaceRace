@@ -27,8 +27,10 @@ open class BaseScreen(
 
     var currentZoom: Float = 1f
         set(value) {
-            if (value in MIN_ZOOM..MAX_ZOOM) {
-                field = value
+            field = when  {
+                value < MIN_ZOOM -> MIN_ZOOM
+                value > MAX_ZOOM -> MAX_ZOOM
+                else -> value
             }
         }
 
@@ -140,7 +142,7 @@ open class BaseScreen(
     }
 
     override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
-        if (cameraStatus == CAMERA_FREE) {
+        if (cameraStatus == CAMERA_FREE) { //TODO align to max/min
             var gameCam = gameStage.camera as OrthographicCamera
             gameCam.translate(-deltaX * gameCam.zoom, deltaY * gameCam.zoom, 0f)
             gameCam.update()
