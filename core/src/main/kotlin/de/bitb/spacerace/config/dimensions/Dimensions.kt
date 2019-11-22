@@ -10,9 +10,17 @@ import de.bitb.spacerace.config.enums.Language.GERMAN
 object Dimensions {
 
     val SCREEN_WIDTH
-        get() = if (IS_TEST) 200f else Gdx.graphics.width.toFloat()
+        get() = try {
+            if (IS_TEST) 200f else Gdx.graphics.width.toFloat() //TODO not everything with scaling...
+        } catch (e: Exception) {
+            200f
+        }
     val SCREEN_HEIGHT
-        get() = if (IS_TEST) 100f else Gdx.graphics.height.toFloat()
+        get() = try {
+            if (IS_TEST) 100f else Gdx.graphics.height.toFloat()
+        } catch (e: Exception) {
+            100f
+        }
 
     val SCREEN_WIDTH_HALF
         get() = SCREEN_WIDTH / 2
