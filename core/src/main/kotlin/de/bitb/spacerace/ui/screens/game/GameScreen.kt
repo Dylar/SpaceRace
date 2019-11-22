@@ -11,8 +11,8 @@ import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
-import de.bitb.spacerace.ui.game.RoundEndDetails
 import de.bitb.spacerace.ui.game.SRRoundEndMenu
+import de.bitb.spacerace.ui.game.SRRoundEndPlayerMenu
 import de.bitb.spacerace.ui.player.items.SRStorageItemMenu
 import de.bitb.spacerace.ui.player.items.SRStorageMenu
 import de.bitb.spacerace.ui.player.shop.ShopMenu
@@ -94,34 +94,15 @@ class GameScreen(
     fun navigateEvent(event: GuiNavi) {
         Logger.justPrint("Open Gui: ${event::class.simpleName}, ${event.player}")
         when (event) {
-            is GuiNavi.StorageMenu -> openStorageMenu(event)
-            is GuiNavi.ItemDetailMenu -> openItemDetailMenu(event)
-            is GuiNavi.EndRoundMenu -> openEndRoundMenu(event)
-            is GuiNavi.PlayerEndDetailsMenu -> openPlayerEndDetails(event)
+            is GuiNavi.StorageMenu -> SRStorageMenu(event.player)
+            is GuiNavi.ItemDetailMenu -> SRStorageItemMenu(event.player, event.itemType)
+            is GuiNavi.EndRoundMenu -> SRRoundEndMenu()
+            is GuiNavi.PlayerEndDetailsMenu -> SRRoundEndPlayerMenu(event.player)
             is GuiNavi.ObtainShopMenu -> openShopMenu(event)
         }.also {
             addToBackstack(event, it, guiStage)
         }
     }
-
-    private fun openPlayerEndDetails(event: GuiNavi.PlayerEndDetailsMenu): Actor =
-            RoundEndDetails(guiStage as GameGuiStage, playerDataSource.getDBPlayerByColor(event.player).first())
-                    .also { it.isOpen = true }
-
-    private fun openItemDetailMenu(event: GuiNavi.ItemDetailMenu): Actor =
-            SRStorageItemMenu(event.player, event.itemType)
-//            ItemDetailsMenu(guiStage as GameGuiStage, event.itemType, playerController.currentPlayerData)
-//                    .also { it.isOpen = true }
-
-    //TODO
-    private fun openStorageMenu(event: GuiNavi.StorageMenu): Actor {
-        Logger.justPrint("Open Gui0: ${this::class.simpleName}, ${event.player}")
-        return SRStorageMenu(event.player)
-    }
-
-//TODO do it all
-
-    private fun openEndRoundMenu(event: GuiNavi.EndRoundMenu): Actor = SRRoundEndMenu()
 
     fun openShopMenu(event: GuiNavi.ObtainShopMenu): Actor =
             ShopMenu(guiStage as GameGuiStage)

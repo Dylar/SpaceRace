@@ -37,6 +37,7 @@ sealed class ItemInfo(
             return items[(Math.random() * (items.size)).toInt()]
         }
     }
+    //TODO WarpJump -> jump to field in range
 
     //USABLE
     @JsonClass(generateAdapter = true)

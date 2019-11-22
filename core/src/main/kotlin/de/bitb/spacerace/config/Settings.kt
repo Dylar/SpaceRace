@@ -54,9 +54,9 @@ val COLOR_DISCONNECTED = Color(Color.RED).apply { a = 0.7f }
 //DEBUG
 //var PRESELECTED_PLAYER = arrayListOf()
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL, FieldType.GIFT)
-var DEBUG_GIFT_ITEMS: List<ItemInfo> = listOf(EngineIonInfo())
-var DEBUG_PLAYER_ITEMS: List<ItemInfo> = listOf(EngineIonInfo())
-var DEBUG_PLAYER_ITEMS_COUNT = 2
+var DEBUG_GIFT_ITEMS: List<ItemInfo> = listOf()
+var DEBUG_PLAYER_ITEMS: List<ItemInfo> = ItemInfo.getAll()//listOf(EngineIonInfo(), MineSlowInfo(), FuelExtraInfo())
+var DEBUG_PLAYER_ITEMS_COUNT = 6
 
 var DEBUG_WIN_FIELD = true
 const val DEBUG_FIELDS = false

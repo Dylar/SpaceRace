@@ -25,6 +25,11 @@ object Dimensions {
 
     object GameGuiDimensions {
 
+        val GAME_WINDOW_WIDTH
+            get() = if (IS_TEST) 200f else SCREEN_WIDTH * .4f
+        val GAME_WINDOW_HEIGHT
+            get() = if (IS_TEST) 100f else SCREEN_HEIGHT * .6f
+
         val GAME_BUTTON_WIDTH_DEFAULT
             get() = SCREEN_WIDTH / 6
         val GAME_BUTTON_HEIGHT_DEFAULT

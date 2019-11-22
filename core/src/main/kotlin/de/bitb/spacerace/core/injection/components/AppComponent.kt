@@ -16,9 +16,8 @@ import de.bitb.spacerace.grafik.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.base.SRWindowGui
 import de.bitb.spacerace.ui.game.SRRoundEndMenu
+import de.bitb.spacerace.ui.game.SRRoundEndPlayerMenu
 import de.bitb.spacerace.ui.player.SRPlayerStatsGui
-import de.bitb.spacerace.ui.player.items.ItemDetailsMenu
-import de.bitb.spacerace.ui.player.items.ItemMenu
 import de.bitb.spacerace.ui.player.items.SRStorageItemMenu
 import de.bitb.spacerace.ui.player.items.SRStorageMenu
 import de.bitb.spacerace.ui.player.shop.ShopDetails
@@ -53,8 +52,6 @@ interface AppComponent {
     fun inject(baseGuiStage: BaseGuiStage)
 
     fun inject(baseMenu: BaseMenu)
-    fun inject(baseMenu: ItemMenu)
-    fun inject(itemDetailsMenu: ItemDetailsMenu)
     fun inject(shopDetails: ShopDetails)
     fun inject(mapSelectionGui: MapSelectionGui)
 
@@ -69,12 +66,11 @@ interface AppComponent {
     fun inject(srStorageMenu: SRStorageMenu)
     fun inject(srStorageItemMenu: SRStorageItemMenu)
     fun inject(srWindowGui: SRWindowGui)
+    fun inject(sRRoundEndPlayerMenu: SRRoundEndPlayerMenu)
 
     //GAME
     fun inject(gameScreen: GameScreen)
-
     fun inject(gameStage: GameStage)
-
     fun inject(connectionList: ConnectionList)
 
     //MAP
@@ -82,9 +78,7 @@ interface AppComponent {
 
     //COMMAND
     fun inject(loadGameCommand: LoadGameCommand)
-
     fun inject(useItemCommand: UseItemCommand)
-
     fun inject(nextPhaseCommand: NextPhaseCommand)
     fun inject(startNextRoundCommand: StartNextRoundCommand)
     fun inject(moveCommand: MoveCommand)
