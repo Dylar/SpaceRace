@@ -1,11 +1,11 @@
 package de.bitb.spacerace.ui.game
 
-import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings
 import de.bitb.spacerace.core.events.commands.phases.StartNextRoundCommand
 import de.bitb.spacerace.grafik.TexturePool
 import de.bitb.spacerace.grafik.model.player.PlayerAnimation
 import de.bitb.spacerace.grafik.model.player.PlayerGraphics
+import de.bitb.spacerace.ui.base.SRGuiGrid
 import de.bitb.spacerace.ui.base.SRWindowGui
 import de.bitb.spacerace.ui.screens.GuiNavi
 import org.greenrobot.eventbus.EventBus
@@ -14,6 +14,7 @@ class SRRoundEndMenu : SRWindowGui() {
 
     init {
         initWindow()
+        debug = true
     }
 
     override fun getTitle(): String = "End round"
@@ -24,18 +25,18 @@ class SRRoundEndMenu : SRWindowGui() {
     }
 
     private fun addPlayerImages(playerGraphics: MutableList<PlayerGraphics>) {
-        playerGraphics
-                .forEach { player ->
+        SRGuiGrid()
+                .addItems(items = playerGraphics.toList()) { player ->
                     val animation = player.playerImage.animation as PlayerAnimation
                     val imageUp = animation.getFirstImage()?.texture ?: error("NO ANIMATION")
                     val imageDown = animation.getLastImage()?.texture ?: error("NO ANIMATION")
-                    val createBtn = createTextButtons(
+                    createTextButtons(
                             "",
-                            imageUp = TexturePool.getNinePatch(imageUp).tint(player.playerColor.color),
-                            imageDown = TexturePool.getNinePatch(imageDown).tint(player.playerColor.color)
+                            imageUp = TexturePool.getDrawable(imageUp).tint(player.playerColor.color),
+                            imageDown = TexturePool.getDrawable(imageDown).tint(player.playerColor.color)
                     ) { openPlayerDetails(player) }
-                    add(createBtn).expand()
                 }
+                .also { add(it).expand() }
     }
 
     private fun openPlayerDetails(player: PlayerGraphics) {
@@ -54,8 +55,6 @@ class SRRoundEndMenu : SRWindowGui() {
         createTextButtons(
                 text = text,
                 listener = listener)
-                .also {
-                    add(it).expandX()
-                }
+                .also { add(it).expandX() }
     }
 }

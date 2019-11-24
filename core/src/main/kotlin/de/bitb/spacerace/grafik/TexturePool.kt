@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 
 object TexturePool {
 
@@ -52,6 +54,9 @@ object TexturePool {
 
         return NinePatchDrawable(NinePatch(TextureRegion(texture, 1, 1, width, height), left, right, top, bot))
     }
+
+    fun getDrawable(texture: Texture): TextureRegionDrawable = TextureRegionDrawable(texture)
+
 }
 
 const val IMAGE_PATH_GUI_BACKGROUND: String = "gui/score_0014_window2.png"

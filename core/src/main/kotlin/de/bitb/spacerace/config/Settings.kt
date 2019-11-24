@@ -9,7 +9,6 @@ import de.bitb.spacerace.config.enums.Language
 import de.bitb.spacerace.game.VERSION_TEST
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.items.ItemInfo
-import de.bitb.spacerace.grafik.model.items.ItemInfo.*
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 import de.bitb.spacerace.grafik.model.player.PlayerColor
@@ -51,11 +50,15 @@ const val STAR_COUNT = 5
 val COLOR_CONNECTED = Color(Color.GREEN).apply { a = 0.9f }
 val COLOR_DISCONNECTED = Color(Color.RED).apply { a = 0.7f }
 
+//val FONT_COLOR_TITLE = Color(.2f, .65f, .72f, 1f)
+val FONT_COLOR_TITLE = Color(.2f, .85f, .85f, 1f)
+val FONT_COLOR_BUTTON = Color.BLACK
+
 //DEBUG
-//var PRESELECTED_PLAYER = arrayListOf()
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL, FieldType.GIFT)
 var DEBUG_GIFT_ITEMS: List<ItemInfo> = listOf()
-var DEBUG_PLAYER_ITEMS: List<ItemInfo> = ItemInfo.getAll()//listOf(EngineIonInfo(), MineSlowInfo(), FuelExtraInfo())
+//var DEBUG_PLAYER_ITEMS: List<ItemInfo> = ItemInfo.getAll()//listOf(EngineIonInfo(), MineSlowInfo(), FuelExtraInfo())
+var DEBUG_PLAYER_ITEMS: List<ItemInfo> = ItemInfo.getAll().let { it.dropLast(it.size - 2) }
 var DEBUG_PLAYER_ITEMS_COUNT = 6
 
 var DEBUG_WIN_FIELD = true

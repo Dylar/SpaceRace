@@ -63,12 +63,12 @@ class GameScreen(
     }
 
     fun onZoomPlusClicked() {
-        currentZoom--
+        currentZoom -= .3f
         zoom()
     }
 
     fun onZoomMinusClicked() {
-        currentZoom++
+        currentZoom += .3f
         zoom()
     }
 

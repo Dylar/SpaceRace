@@ -142,7 +142,7 @@ open class BaseScreen(
     }
 
     override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
-        if (cameraStatus == CAMERA_FREE) { //TODO align to max/min
+        if (cameraStatus == CAMERA_FREE) {
             var gameCam = gameStage.camera as OrthographicCamera
             gameCam.translate(-deltaX * gameCam.zoom, deltaY * gameCam.zoom, 0f)
             gameCam.update()
@@ -166,6 +166,7 @@ open class BaseScreen(
 
     override fun panStop(x: Float, y: Float, pointer: Int, button: Int): Boolean {
         currentZoom = (gameStage.camera as OrthographicCamera).zoom
+        (gameStage.camera as OrthographicCamera).zoom = currentZoom
         return false
     }
 

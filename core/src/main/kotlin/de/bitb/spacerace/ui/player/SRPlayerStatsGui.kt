@@ -80,7 +80,7 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
     }
 
     private fun addLabel(text: String = "") =
-            createLabel(text = text, fontColor = Color.TEAL)
+            createLabel(text = text)
                     .also {
                         it.setAlignment(Align.center)
                         add(it)

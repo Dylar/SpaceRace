@@ -3,7 +3,6 @@ package de.bitb.spacerace.ui.player.items
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.Align
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
-import de.bitb.spacerace.config.strings.Strings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.events.commands.player.UseItemCommand
@@ -60,7 +59,7 @@ class SRStorageItemMenu(
     override fun getTitle(): String {
         val storageItems = player.storageItems.count { it.itemInfo.type == itemType }
         val equippedItems = when (itemInfo) {
-            is EquipItem -> " / " + player.equippedItems.count { it.itemInfo.type == itemType }.toString() + " )"
+            is EquipItem -> player.equippedItems.count { it.itemInfo.type == itemType }.let { " / $it )" }
             else -> " )"
         }
 
@@ -85,7 +84,7 @@ class SRStorageItemMenu(
     private fun addItemText(span: Int) {
         row().pad(20f).colspan(span)
 
-        createLabel(text = itemType.getText(), fontColor = Color.TEAL)
+        createLabel(text = itemType.getText())
                 .also {
                     it.setAlignment(Align.center)
                     add(it).colspan(span)

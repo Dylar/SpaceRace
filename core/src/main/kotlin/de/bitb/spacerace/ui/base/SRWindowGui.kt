@@ -1,9 +1,9 @@
 package de.bitb.spacerace.ui.base
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.Align
 import com.kotcrab.vis.ui.widget.VisWindow
 import de.bitb.spacerace.config.DEBUG_LAYOUT
+import de.bitb.spacerace.config.FONT_COLOR_TITLE
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GraphicController
@@ -46,7 +46,7 @@ abstract class SRWindowGui : VisWindow(""),
         titleLabel.setAlignment(Align.center)
         style = WindowStyle().also {
             it.titleFont = TexturePool.bitmapFont
-            it.titleFontColor = Color.TEAL
+            it.titleFontColor = FONT_COLOR_TITLE
             it.background = TexturePool.getBackground(IMAGE_PATH_GUI_BACKGROUND)
                     .apply {
                         minWidth = Dimensions.GameGuiDimensions.GAME_WINDOW_WIDTH

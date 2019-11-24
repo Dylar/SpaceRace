@@ -4,10 +4,12 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.kotcrab.vis.ui.widget.VisLabel
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.VisTextButton
+import de.bitb.spacerace.config.FONT_COLOR_BUTTON
+import de.bitb.spacerace.config.FONT_COLOR_TITLE
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions
 import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_DOWN
 import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_UP
@@ -48,8 +50,8 @@ interface GuiBuilder {
 
     fun createTextButtons(
             text: String,
-            imageUp: NinePatchDrawable = TexturePool.getButton(IMAGE_PATH_BUTTON_UP),
-            imageDown: NinePatchDrawable = TexturePool.getButton(IMAGE_PATH_BUTTON_DOWN),
+            imageUp: Drawable = TexturePool.getButton(IMAGE_PATH_BUTTON_UP),
+            imageDown: Drawable = TexturePool.getButton(IMAGE_PATH_BUTTON_DOWN),
             width: Float = GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT,
             height: Float = GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT,
             listener: () -> Unit
@@ -60,7 +62,7 @@ interface GuiBuilder {
         style.down = imageDown
         style.font = TexturePool.bitmapFont
         style.downFontColor = Color.RED //TODO in settings
-        style.fontColor = Color.TEAL
+        style.fontColor = FONT_COLOR_BUTTON
         style.disabledFontColor = Color.DARK_GRAY
 
         val textButton = VisTextButton(text, style)
@@ -73,7 +75,7 @@ interface GuiBuilder {
     fun createLabel(
             text: String = "",
             background: String? = null,
-            fontColor: Color = Color.RED,
+            fontColor: Color = FONT_COLOR_TITLE,
             width: Float = GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT,
             height: Float = GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT,
             listener: () -> Unit = {}

@@ -1,12 +1,14 @@
 package de.bitb.spacerace.ui.base
 
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.kotcrab.vis.ui.layout.GridGroup
 import com.kotcrab.vis.ui.widget.VisLabel
 import de.bitb.spacerace.config.DEBUG_LAYOUT
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT
 import de.bitb.spacerace.core.controller.GraphicController
 import javax.inject.Inject
 
-abstract class SRGuiGrid : GridGroup(), GuiBuilder {
+open class SRGuiGrid : GridGroup(), GuiBuilder {
 
     @Inject
     lateinit var graphicController: GraphicController
@@ -16,7 +18,7 @@ abstract class SRGuiGrid : GridGroup(), GuiBuilder {
         debug = DEBUG_LAYOUT
     }
 
-    protected fun setGuiBorder(
+    fun setGuiBorder(
             columns: Float,
             rows: Float,
             guiPosX: Float = 0f,
@@ -24,8 +26,8 @@ abstract class SRGuiGrid : GridGroup(), GuiBuilder {
             alignHoriz: SRAlign = SRAlign.NONE,
             alignVert: SRAlign = SRAlign.NONE
     ) {
-        width = itemWidth * columns + spacing * 2 * columns
-        height = itemHeight * rows + spacing * 2 * rows
+        width = (itemWidth + spacing * 2) * columns
+        height = (itemHeight + spacing * 2) * rows
 
         alignGui(guiPosX, guiPosY, width, height, alignHoriz, alignVert)
     }
@@ -35,6 +37,25 @@ abstract class SRGuiGrid : GridGroup(), GuiBuilder {
         emptySlot.width = itemWidth
         emptySlot.height = itemHeight
         addActor(emptySlot)
+    }
+
+    fun <T> addItems(
+            items: List<T>,
+            width: Float = GAME_BUTTON_HEIGHT_DEFAULT,
+            height: Float = GAME_BUTTON_HEIGHT_DEFAULT,
+            spacing: Float = 20f,
+            createItemView: (T) -> Actor
+    ) = this.apply {
+        setItemSize(width, height)
+        val rows = 3f % items.size
+        val column = if (items.size < 3) items.size.toFloat() else 3f
+        this.spacing = spacing
+        setGuiBorder(columns = column, rows = rows)
+
+        items.forEach {
+            val gridItem = createItemView(it)
+            addActor(gridItem)
+        }
     }
 }
 
