@@ -23,7 +23,6 @@ class SRStorageMenu(
 
     init {
         initWindow()
-        debug = true
     }
 
     override fun inject() {

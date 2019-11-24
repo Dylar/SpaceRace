@@ -14,7 +14,6 @@ class SRRoundEndMenu : SRWindowGui() {
 
     init {
         initWindow()
-        debug = true
     }
 
     override fun getTitle(): String = "End round"

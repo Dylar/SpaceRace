@@ -19,7 +19,7 @@ sealed class ItemInfo(
         val type: ItemType,
         val price: Int = 0,
         var charges: Int = UNLIMITED_CHARGES,
-        val usablePhase: Set<Phase> = setOf(Phase.MAIN1, Phase.MAIN2)
+        val usablePhase: Set<Phase> = setOf(Phase.MAIN1)
 ) {
     companion object {
         fun getAllItems(): MutableList<ItemGraphic> = getAll().map { it.createGraphic() }.toMutableList()
@@ -58,7 +58,7 @@ sealed class ItemInfo(
     @JsonClass(generateAdapter = true)
     class DroidCleanInfo(
 
-    ) : ItemInfo(DROID_CLEAN, 2000, 1), ActivatableItem, RemoveEffect
+    ) : ItemInfo(DROID_CLEAN, 2000, 1, setOf(Phase.MAIN1, Phase.MAIN2)), ActivatableItem, RemoveEffect
 
     //DISPOSABLE
     @JsonClass(generateAdapter = true)
