@@ -49,8 +49,8 @@ sealed class NextPhaseException(
 
 class MoreDiceException(
         player: PlayerColor,
-        diced: Int,
-        maxDice: Int
+        val diced: Int,
+        val maxDice: Int
 ) : NextPhaseException(player, "Only diced $diced, can $maxDice")
 
 class StepsLeftException(

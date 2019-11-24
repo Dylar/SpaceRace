@@ -108,7 +108,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(Phase.MAIN1)
 
                     //do next phase action
-                    nextPhase(error = MoreDiceException(currentPlayerColor, 0, 0)) //TODO thats not real 0, 0
+                    nextPhase(error = MoreDiceException(currentPlayerColor, 0, 1))
 
                     //assert still same phase
                     assertCurrentPhase(Phase.MAIN1)
