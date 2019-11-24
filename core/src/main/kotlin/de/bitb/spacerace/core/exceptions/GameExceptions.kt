@@ -47,9 +47,11 @@ sealed class NextPhaseException(
         reason: String
 ) : GameException("$player cannot change phase - $reason")
 
-class DiceFirstException(
-        player: PlayerColor
-) : NextPhaseException(player, "Need to dice first")
+class MoreDiceException(
+        player: PlayerColor,
+        diced: Int,
+        maxDice: Int
+) : NextPhaseException(player, "Only diced $diced, can $maxDice")
 
 class StepsLeftException(
         player: PlayerColor,

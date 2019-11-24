@@ -55,7 +55,7 @@ class SRActionGui : SRGuiGrid() {
     private fun setDiceBtn() {
         addButton(
                 text = "Dice",
-                listener = { EventBus.getDefault().post(DiceCommand.get(playerController.currentColor)) })
+                listener = { DiceCommand.get(playerController.currentColor).push() })
     }
 
     private fun setContinueBtn() {

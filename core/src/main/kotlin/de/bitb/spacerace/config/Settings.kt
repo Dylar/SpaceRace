@@ -57,8 +57,8 @@ val FONT_COLOR_BUTTON = Color.BLACK
 //DEBUG
 var DEBUG_TEST_FIELD = arrayListOf(FieldType.GOAL, FieldType.GIFT)
 var DEBUG_GIFT_ITEMS: List<ItemInfo> = listOf()
-//var DEBUG_PLAYER_ITEMS: List<ItemInfo> = ItemInfo.getAll()//listOf(EngineIonInfo(), MineSlowInfo(), FuelExtraInfo())
-var DEBUG_PLAYER_ITEMS: List<ItemInfo> = ItemInfo.getAll().let { it.dropLast(it.size - 2) }
+var DEBUG_PLAYER_ITEMS: List<ItemInfo> = ItemInfo.getAll()//listOf(EngineIonInfo(), MineSlowInfo(), FuelExtraInfo())
+//var DEBUG_PLAYER_ITEMS: List<ItemInfo> = ItemInfo.getAll().let { it.dropLast(it.size - 2) }
 var DEBUG_PLAYER_ITEMS_COUNT = 6
 
 var DEBUG_WIN_FIELD = true

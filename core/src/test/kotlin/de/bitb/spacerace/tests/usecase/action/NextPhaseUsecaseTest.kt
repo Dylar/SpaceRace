@@ -1,10 +1,10 @@
 package de.bitb.spacerace.tests.usecase.action
 
 import de.bitb.spacerace.core.*
-import de.bitb.spacerace.env.*
-import de.bitb.spacerace.core.exceptions.DiceFirstException
+import de.bitb.spacerace.core.exceptions.MoreDiceException
 import de.bitb.spacerace.core.exceptions.NotCurrentPlayerException
 import de.bitb.spacerace.core.exceptions.StepsLeftException
+import de.bitb.spacerace.env.*
 import de.bitb.spacerace.grafik.model.enums.Phase
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -108,7 +108,7 @@ class NextPhaseUsecaseTest : GameTest() {
                     assertCurrentPhase(Phase.MAIN1)
 
                     //do next phase action
-                    nextPhase(error = DiceFirstException(currentPlayerColor))
+                    nextPhase(error = MoreDiceException(currentPlayerColor, 0, 0)) //TODO thats not real 0, 0
 
                     //assert still same phase
                     assertCurrentPhase(Phase.MAIN1)

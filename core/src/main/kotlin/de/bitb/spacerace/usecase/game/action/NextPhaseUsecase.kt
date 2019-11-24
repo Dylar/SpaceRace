@@ -3,7 +3,7 @@ package de.bitb.spacerace.usecase.game.action
 import de.bitb.spacerace.config.DEBUG_WIN_FIELD
 import de.bitb.spacerace.config.GOAL_CREDITS
 import de.bitb.spacerace.core.controller.PlayerController
-import de.bitb.spacerace.core.exceptions.DiceFirstException
+import de.bitb.spacerace.core.exceptions.MoreDiceException
 import de.bitb.spacerace.core.exceptions.RoundIsEndingException
 import de.bitb.spacerace.core.exceptions.StepsLeftException
 import de.bitb.spacerace.core.utils.Logger
@@ -66,9 +66,16 @@ class NextPhaseUsecase @Inject constructor(
             checkPhase(playerData.playerColor, Phase.MAIN1)
                     .flatMap {
                         Single.create { emitter: SingleEmitter<PlayerData> ->
-                            if (playerData.areStepsLeft()) {
-                                emitter.onSuccess(playerData)
-                            } else emitter.onError(DiceFirstException(playerData.playerColor))
+                            when {
+                                !playerData.hasDicedEnough() -> {
+                                    val exception = MoreDiceException(
+                                            player = playerData.playerColor,
+                                            diced = playerData.diceResults.size,
+                                            maxDice = playerData.maxDice())
+                                    emitter.onError(exception)
+                                }
+                                else -> emitter.onSuccess(playerData)
+                            }
                         }
                     }
 

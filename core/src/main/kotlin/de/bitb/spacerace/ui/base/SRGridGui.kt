@@ -5,6 +5,7 @@ import com.kotcrab.vis.ui.layout.GridGroup
 import com.kotcrab.vis.ui.widget.VisLabel
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.controller.GraphicController
 import javax.inject.Inject
 
@@ -47,6 +48,7 @@ open class SRGuiGrid : GridGroup(), GuiBuilder {
             createItemView: (T) -> Actor
     ) = this.apply {
         setItemSize(width, height)
+        val ratio = SCREEN_WIDTH
         val rows = 3f % items.size
         val column = if (items.size < 3) items.size.toFloat() else 3f
         this.spacing = spacing

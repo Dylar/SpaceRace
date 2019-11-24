@@ -8,6 +8,7 @@ import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionListConverter
 import de.bitb.spacerace.database.items.ItemData
+import de.bitb.spacerace.database.items.MultiDice
 import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.isConnectedTo
@@ -131,6 +132,15 @@ data class PlayerData(
     fun clearTurn() {
         steps.clear()
         diceResults.clear()
+    }
+
+    fun hasDicedEnough(): Boolean = diceResults.size == maxDice()
+
+    fun maxDice(): Int {
+        val items: List<MultiDice> = activeItems
+                .map { it.itemInfo }
+                .filterIsInstance<MultiDice>()
+        return 1 + items.sumBy { it.diceAmount }
     }
 }
 
