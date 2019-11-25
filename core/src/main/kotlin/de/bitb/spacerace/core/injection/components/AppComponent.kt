@@ -13,14 +13,13 @@ import de.bitb.spacerace.database.player.PlayerRespository
 import de.bitb.spacerace.grafik.model.items.ItemGraphic
 import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
 import de.bitb.spacerace.grafik.model.space.groups.SpaceGroup
-import de.bitb.spacerace.ui.base.BaseMenu
 import de.bitb.spacerace.ui.base.SRWindowGui
-import de.bitb.spacerace.ui.game.SRRoundEndMenu
-import de.bitb.spacerace.ui.game.SRRoundEndPlayerMenu
-import de.bitb.spacerace.ui.player.SRPlayerStatsGui
-import de.bitb.spacerace.ui.player.items.SRStorageItemMenu
-import de.bitb.spacerace.ui.player.items.SRStorageMenu
-import de.bitb.spacerace.ui.player.shop.ShopDetails
+import de.bitb.spacerace.ui.screens.game.round.SRRoundEndMenu
+import de.bitb.spacerace.ui.screens.game.round.SRRoundEndPlayerMenu
+import de.bitb.spacerace.ui.screens.game.player.SRPlayerStatsGui
+import de.bitb.spacerace.ui.screens.game.player.items.SRStorageItemMenu
+import de.bitb.spacerace.ui.screens.game.player.items.SRStorageMenu
+import de.bitb.spacerace.ui.screens.game.player.shop.SRShopItemMenu
 import de.bitb.spacerace.ui.screens.game.GameScreen
 import de.bitb.spacerace.ui.screens.game.GameStage
 import de.bitb.spacerace.ui.screens.game.control.SRActionGui
@@ -51,22 +50,21 @@ interface AppComponent {
     //UI
     fun inject(baseGuiStage: BaseGuiStage)
 
-    fun inject(baseMenu: BaseMenu)
-    fun inject(shopDetails: ShopDetails)
     fun inject(mapSelectionGui: MapSelectionGui)
 
     fun inject(startButtonGui: StartButtonGui)
     fun inject(loadGameGui: LoadGameGui)
 
     //VisUi
-    fun inject(SRActionGui: SRActionGui)
+    fun inject(srActionGui: SRActionGui)
     fun inject(srPlayerStatsGui: SRPlayerStatsGui)
     fun inject(srViewControlGui: SRViewControlGui)
     fun inject(srRoundEndMenu: SRRoundEndMenu)
     fun inject(srStorageMenu: SRStorageMenu)
     fun inject(srStorageItemMenu: SRStorageItemMenu)
     fun inject(srWindowGui: SRWindowGui)
-    fun inject(sRRoundEndPlayerMenu: SRRoundEndPlayerMenu)
+    fun inject(srRoundEndPlayerMenu: SRRoundEndPlayerMenu)
+    fun inject(srShopItemMenu: SRShopItemMenu)
 
     //GAME
     fun inject(gameScreen: GameScreen)

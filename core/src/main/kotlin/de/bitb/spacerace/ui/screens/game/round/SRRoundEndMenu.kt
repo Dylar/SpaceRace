@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.game
+package de.bitb.spacerace.ui.screens.game.round
 
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings
 import de.bitb.spacerace.core.events.commands.phases.StartNextRoundCommand

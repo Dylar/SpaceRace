@@ -1,9 +1,7 @@
-package de.bitb.spacerace.ui.game
+package de.bitb.spacerace.ui.screens.game.round
 
 import com.badlogic.gdx.utils.Align
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_WINDOW_HEIGHT
-import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_WINDOW_WIDTH
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings.GAME_BUTTON_CANCEL
 import de.bitb.spacerace.core.MainGame

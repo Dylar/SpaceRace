@@ -13,7 +13,9 @@ class MultiDiceItemTest : ItemsTest() {
     fun activateItem_diceOnce_cantContinue_diceAgain_canContinue_BOOST_SPEED() {
         val item = ItemInfo.BoostSpeedInfo()
         TestEnvironment()
-                .initGame().apply {
+                .setPlayerItems { listOf(item) }
+                .initGame()
+                .apply {
                     assertDBPlayer(currentPlayerColor) { it.maxDice() == 1 && it.diceResults.size == 0 }
                     nextPhase(error = MoreDiceException(currentPlayerColor, 0, 1))
                     activateItem(item)

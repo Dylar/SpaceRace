@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.player
+package de.bitb.spacerace.ui.screens.game.player
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.ui.Label

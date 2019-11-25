@@ -13,6 +13,7 @@ import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.isConnectedTo
 import de.bitb.spacerace.grafik.model.enums.Phase
+import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import de.bitb.spacerace.grafik.model.player.PlayerColor
@@ -142,6 +143,10 @@ data class PlayerData(
                 .filterIsInstance<MultiDice>()
         return 1 + items.sumBy { it.diceAmount }
     }
+
+    fun sellableItems(itemType: ItemType): Int =
+            storageItems.count { it.itemInfo.type == itemType } +
+                    equippedItems.count { it.itemInfo.type == itemType }
 }
 
 infix fun PlayerData.isConnectedTo(fieldData: FieldData): Boolean =

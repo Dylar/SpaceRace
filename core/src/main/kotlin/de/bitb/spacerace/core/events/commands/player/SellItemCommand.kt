@@ -14,8 +14,8 @@ import de.bitb.spacerace.usecase.game.action.items.shop.SellItemUsecase
 import javax.inject.Inject
 
 class SellItemCommand(
-        private var itemType: ItemType,
-        seller: PlayerColor
+        private var itemType: ItemType = ItemType.NONE_ITEM,
+        seller: PlayerColor = PlayerColor.NONE
 ) : BaseCommand(seller) {
 
     companion object {

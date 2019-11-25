@@ -68,10 +68,11 @@ sealed class GuiNavi(
 ) {
 
     class StorageMenu(player: PlayerColor) : GuiNavi(player)
-    class ItemDetailMenu(player: PlayerColor, val itemType: ItemType) : GuiNavi(player)
+    class StorageDetailMenu(player: PlayerColor, val itemType: ItemType) : GuiNavi(player)
 
     class EndRoundMenu : GuiNavi()
     class PlayerEndDetailsMenu(player: PlayerColor) : GuiNavi(player)
 
-    class ObtainShopMenu(player: PlayerColor) : GuiNavi(player)
+    class ShopMenu(player: PlayerColor) : GuiNavi(player)
+    class ShopDetailMenu(player: PlayerColor, val itemType: ItemType) : GuiNavi(player)
 }

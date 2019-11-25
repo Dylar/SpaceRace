@@ -1,13 +1,11 @@
-package de.bitb.spacerace.ui.player.items
+package de.bitb.spacerace.ui.screens.game.player.shop
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.Align
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.events.commands.player.UseItemCommand
-import de.bitb.spacerace.database.items.ActivatableItem
-import de.bitb.spacerace.database.items.DisposableItem
+import de.bitb.spacerace.core.events.commands.player.BuyItemCommand
+import de.bitb.spacerace.core.events.commands.player.SellItemCommand
 import de.bitb.spacerace.database.items.EquipItem
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
@@ -23,7 +21,7 @@ import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class SRStorageItemMenu(
+class SRShopItemMenu(
         val playerColor: PlayerColor,
         val itemType: ItemType
 ) : SRWindowGui() {
@@ -57,13 +55,8 @@ class SRStorageItemMenu(
     }
 
     override fun getTitle(): String {
-        val storageItems = player.storageItems.count { it.itemInfo.type == itemType }
-        val equippedItems = when (itemInfo) {
-            is EquipItem -> player.equippedItems.count { it.itemInfo.type == itemType }.let { " / $it )" }
-            else -> " )"
-        }
-
-        return "${itemType.name} ( $storageItems$equippedItems"
+        val itemCount = player.sellableItems(itemType)
+        return "${itemType.getDefaultInfo().price} ($itemCount)"
     }
 
     override fun setContent() {
@@ -93,19 +86,19 @@ class SRStorageItemMenu(
 
     private fun addButtons(span: Int) {
         row().pad(20f).colspan(span)
-        if (itemInfo is EquipItem) {
-            addButton(setUnuseButton()) { unequipItem() }
+        if (player.sellableItems(itemType) > 0) {
+            addButton("Sell") { sellItem() }
         }
-        addButton(getUseButtonText()) { useItem() }
+        addButton("Buy") { buyItem() }
         addButton(GameGuiStrings.GAME_BUTTON_CANCEL) { onBack() }
     }
 
-    private fun unequipItem() {
-        EventBus.getDefault().post(UseItemCommand.get(itemType, player.playerColor, true))
+    private fun buyItem() {
+        EventBus.getDefault().post(BuyItemCommand.get(itemType, playerColor))
     }
 
-    private fun useItem() {
-        EventBus.getDefault().post(UseItemCommand.get(itemType, player.playerColor))
+    private fun sellItem() {
+        EventBus.getDefault().post(SellItemCommand.get(itemType, playerColor))
     }
 
     private fun addButton(text: String, span: Int = 2, listener: () -> Unit) {
@@ -116,20 +109,4 @@ class SRStorageItemMenu(
                     add(it).colspan(span)
                 }
     }
-
-    private fun getUseButtonText() =
-            when (itemType.getDefaultInfo()) {
-                is EquipItem -> "EQUIP"
-                is DisposableItem -> "DISPOSE"
-                is ActivatableItem -> "USE"
-                else -> "-"
-
-            }
-
-    private fun setUnuseButton() =
-            when (itemType.getDefaultInfo()) {
-                is EquipItem -> "UNEQUIP"
-                else -> "-"
-            }
-
 }

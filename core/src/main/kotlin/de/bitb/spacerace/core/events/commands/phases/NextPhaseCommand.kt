@@ -54,7 +54,7 @@ class NextPhaseCommand : BaseCommand() {
         }
 
         when (nextPhaseResult) {
-            is ObtainShopResult -> EventBus.getDefault().post(GuiNavi.ObtainShopMenu(nextPhaseResult.player.playerColor))
+            is ObtainShopResult -> EventBus.getDefault().post(GuiNavi.ShopMenu(nextPhaseResult.player.playerColor))
             is ObtainMineResult -> graphicController.setMineOwner(player)
             is ObtainGoalResult -> graphicController.setGoal(position, nextPhaseResult.newGoal.gamePosition)
             is ObtainTunnelResult -> graphicController.teleportPlayer(player.playerColor, player.gamePosition)

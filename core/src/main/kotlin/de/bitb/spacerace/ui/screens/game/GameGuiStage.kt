@@ -3,7 +3,7 @@ package de.bitb.spacerace.ui.screens.game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.ui.player.SRPlayerStatsGui
+import de.bitb.spacerace.ui.screens.game.player.SRPlayerStatsGui
 import de.bitb.spacerace.ui.screens.game.control.SRActionGui
 import de.bitb.spacerace.ui.screens.game.control.SRViewControlGui
 
