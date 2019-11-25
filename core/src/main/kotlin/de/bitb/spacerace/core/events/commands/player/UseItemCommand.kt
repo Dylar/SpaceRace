@@ -56,7 +56,7 @@ class UseItemCommand(
     }
 
     private fun equipItem() {
-        val config = EquipItemConfig(player, itemType, disable)
+        val config = EquipItemConfig(player, itemType, !disable)
         compositeDisposable += equipItemUsecase.getResult(
                 params = config,
                 onSuccess = resetOnSuccess(),

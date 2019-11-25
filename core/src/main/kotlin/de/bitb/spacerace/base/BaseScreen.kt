@@ -25,52 +25,21 @@ open class BaseScreen(
     var guiStage: BaseStage = BaseStage.NONE
     var cameraStatus = CAMERA_START
 
-    var currentZoom: Float = 2f
+    var currentZoom: Float = 1f
         set(value) {
-            if (value in MIN_ZOOM..MAX_ZOOM) {
-                field = value
+            field = when  {
+                value < MIN_ZOOM -> MIN_ZOOM
+                value > MAX_ZOOM -> MAX_ZOOM
+                else -> value
             }
         }
 
     override fun show() {
+
         guiStage = createGuiStage()
         gameStage = createGameStage()
         backgroundStage = createBackgroundStage()
-        Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this), object : InputProcessor {
-            override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-                return true
-            }
-
-            override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-                return true
-            }
-
-            override fun keyTyped(character: Char): Boolean {
-                return true
-            }
-
-            override fun scrolled(amount: Int): Boolean {
-                return true
-            }
-
-            override fun keyUp(keycode: Int): Boolean {
-                return true
-            }
-
-            override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-                return true
-            }
-
-            override fun keyDown(keycode: Int): Boolean {
-                Logger.justPrint("KEY DOWN: ${Input.Keys.toString(keycode)}, KEY CODE: $keycode")
-                return true
-            }
-
-            override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-                return true
-            }
-
-        })
+        Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this), DebugInputProcessor)
 
         val gameCam = gameStage.camera as OrthographicCamera
         gameCam.zoom = currentZoom
@@ -197,6 +166,7 @@ open class BaseScreen(
 
     override fun panStop(x: Float, y: Float, pointer: Int, button: Int): Boolean {
         currentZoom = (gameStage.camera as OrthographicCamera).zoom
+        (gameStage.camera as OrthographicCamera).zoom = currentZoom
         return false
     }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
+import de.bitb.spacerace.config.FONT_COLOR_BUTTON
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_WIDTH
@@ -102,7 +103,7 @@ interface GuiComponent {
         textButton.style = labelStyle
     }
 
-    fun setFont(checkBox: CheckBox, fontSize: Float = GAME_SIZE_FONT_MEDIUM, fontColor: Color = Color.WHITE) {
+    fun setFont(checkBox: CheckBox, fontSize: Float = GAME_SIZE_FONT_MEDIUM, fontColor: Color = FONT_COLOR_BUTTON) {
 
         val checkboxStyle = CheckBox.CheckBoxStyle(checkBox.style)
         checkboxStyle.fontColor = fontColor

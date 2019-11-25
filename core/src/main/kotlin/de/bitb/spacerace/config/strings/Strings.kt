@@ -28,6 +28,9 @@ object Strings {
 
     object GameGuiStrings {
 
+        val GAME_TITLE_STORAGE: String = "Storage"
+        val GAME_TITLE_SHOP: String = "Shop"
+
         var GAME_BUTTON_CANCEL: String = ""
             get() = when (LANGUAGE) {
                 ENGLISH -> "Cancel"

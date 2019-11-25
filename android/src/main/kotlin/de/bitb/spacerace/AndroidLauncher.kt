@@ -12,6 +12,7 @@ class AndroidLauncher : AndroidApplication() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val version = try {
             context!!.packageManager.getPackageInfo(packageName, 0).versionName
         } catch (e: PackageManager.NameNotFoundException) {
@@ -22,4 +23,5 @@ class AndroidLauncher : AndroidApplication() {
         val config = AndroidApplicationConfiguration()
         initialize(MainGame(version, createNewObjectbox(this)), config)
     }
+
 }

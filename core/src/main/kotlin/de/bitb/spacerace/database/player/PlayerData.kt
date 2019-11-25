@@ -8,10 +8,12 @@ import de.bitb.spacerace.database.converter.PhaseConverter
 import de.bitb.spacerace.database.converter.PlayerColorConverter
 import de.bitb.spacerace.database.converter.PositionListConverter
 import de.bitb.spacerace.database.items.ItemData
+import de.bitb.spacerace.database.items.MultiDice
 import de.bitb.spacerace.database.items.getModifierValues
 import de.bitb.spacerace.database.map.FieldData
 import de.bitb.spacerace.database.map.isConnectedTo
 import de.bitb.spacerace.grafik.model.enums.Phase
+import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.objecthandling.NONE_POSITION
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import de.bitb.spacerace.grafik.model.player.PlayerColor
@@ -132,6 +134,19 @@ data class PlayerData(
         steps.clear()
         diceResults.clear()
     }
+
+    fun hasDicedEnough(): Boolean = diceResults.size == maxDice()
+
+    fun maxDice(): Int {
+        val items: List<MultiDice> = activeItems
+                .map { it.itemInfo }
+                .filterIsInstance<MultiDice>()
+        return 1 + items.sumBy { it.diceAmount }
+    }
+
+    fun sellableItems(itemType: ItemType): Int =
+            storageItems.count { it.itemInfo.type == itemType } +
+                    equippedItems.count { it.itemInfo.type == itemType }
 }
 
 infix fun PlayerData.isConnectedTo(fieldData: FieldData): Boolean =

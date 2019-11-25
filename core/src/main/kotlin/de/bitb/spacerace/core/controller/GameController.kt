@@ -2,10 +2,10 @@ package de.bitb.spacerace.core.controller
 
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.core.events.GameOverEvent
-import de.bitb.spacerace.core.events.OpenEndRoundMenuEvent
 import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.player.PlayerData
+import de.bitb.spacerace.ui.screens.GuiNavi
 import de.bitb.spacerace.usecase.game.observe.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -53,7 +53,7 @@ class GameController
 
     fun initPhaseObserver() {
         compositeDisposable += observeRoundUsecase.observeStream { result ->
-            if (result.roundEnding) EventBus.getDefault().post(OpenEndRoundMenuEvent())
+            if (result.roundEnding) EventBus.getDefault().post(GuiNavi.EndRoundMenu())
         }
     }
 

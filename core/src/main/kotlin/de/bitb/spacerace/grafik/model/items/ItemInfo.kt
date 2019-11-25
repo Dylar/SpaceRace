@@ -19,7 +19,7 @@ sealed class ItemInfo(
         val type: ItemType,
         val price: Int = 0,
         var charges: Int = UNLIMITED_CHARGES,
-        val usablePhase: Set<Phase> = setOf(Phase.MAIN1, Phase.MAIN2)
+        val usablePhase: Set<Phase> = setOf(Phase.MAIN1)
 ) {
     companion object {
         fun getAllItems(): MutableList<ItemGraphic> = getAll().map { it.createGraphic() }.toMutableList()
@@ -37,6 +37,7 @@ sealed class ItemInfo(
             return items[(Math.random() * (items.size)).toInt()]
         }
     }
+    //TODO WarpJump -> jump to field in range
 
     //USABLE
     @JsonClass(generateAdapter = true)
@@ -57,18 +58,18 @@ sealed class ItemInfo(
     @JsonClass(generateAdapter = true)
     class DroidCleanInfo(
 
-    ) : ItemInfo(DROID_CLEAN, 2000, 1), ActivatableItem, RemoveEffect
+    ) : ItemInfo(DROID_CLEAN, 2000, 1, setOf(Phase.MAIN1, Phase.MAIN2)), ActivatableItem, RemoveEffect
 
     //DISPOSABLE
     @JsonClass(generateAdapter = true)
     class MineSlowInfo(
             override val diceModifier: Double = -0.1
-    ) : ItemInfo(MINE_SLOW, 3000, 2), DisposableItem, DiceModification
+    ) : ItemInfo(MINE_SLOW, 3000, 2, setOf(Phase.MAIN1, Phase.MAIN2)), DisposableItem, DiceModification
 
     @JsonClass(generateAdapter = true)
     class MineMovingInfo(
             override val diceAddition: Int = -1
-    ) : ItemInfo(MINE_MOVING, 4000, 3), DisposableItem, DiceAddition, MovableItem
+    ) : ItemInfo(MINE_MOVING, 4000, 3, setOf(Phase.MAIN1, Phase.MAIN2)), DisposableItem, DiceAddition, MovableItem
 
     //EQUIP
     @JsonClass(generateAdapter = true)
@@ -145,9 +146,9 @@ fun ItemType.createGraphic(playerColor: PlayerColor = PlayerColor.NONE): ItemGra
         MINE_SLOW -> ItemGraphic(playerColor, this, TextureCollection.slowMine)
         MINE_MOVING -> ItemGraphic(playerColor, this, TextureCollection.slowMine)
         ENGINE_ION -> ItemGraphic(playerColor, this, TextureCollection.blackhole)
-        SHIP_SPEEDER -> ItemGraphic(playerColor, this, this.getAnimation().getDefaultImage()!!.texture)
-        SHIP_RAIDER -> ItemGraphic(playerColor, this, this.getAnimation().getDefaultImage()!!.texture)
-        SHIP_BUMPER -> ItemGraphic(playerColor, this, this.getAnimation().getDefaultImage()!!.texture)
+        SHIP_SPEEDER -> ItemGraphic(playerColor, this, this.getAnimation().getFirstImage()!!.texture)
+        SHIP_RAIDER -> ItemGraphic(playerColor, this, this.getAnimation().getFirstImage()!!.texture)
+        SHIP_BUMPER -> ItemGraphic(playerColor, this, this.getAnimation().getFirstImage()!!.texture)
     }
 }
 

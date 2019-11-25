@@ -27,6 +27,8 @@ fun GameException.assertMoveException(error: Throwable) =
 
 fun GameException.assertNextPhaseException(error: Throwable) =
         checkBasic(error) || when {
+            this is MoreDiceException && error is MoreDiceException
+            -> this.player == error.player && error.diced == diced && error.maxDice == maxDice
             this is NextPhaseException && error is NextPhaseException
             -> this.player == error.player
             else

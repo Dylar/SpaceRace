@@ -2,11 +2,11 @@ package de.bitb.spacerace.core.events.commands.phases
 
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GraphicController
-import de.bitb.spacerace.core.events.ObtainShopEvent
 import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.core.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.grafik.model.player.PlayerColor
+import de.bitb.spacerace.ui.screens.GuiNavi
 import de.bitb.spacerace.usecase.game.action.*
 import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
@@ -54,7 +54,7 @@ class NextPhaseCommand : BaseCommand() {
         }
 
         when (nextPhaseResult) {
-            is ObtainShopResult -> EventBus.getDefault().post(ObtainShopEvent(nextPhaseResult.player.playerColor))
+            is ObtainShopResult -> EventBus.getDefault().post(GuiNavi.ShopMenu(nextPhaseResult.player.playerColor))
             is ObtainMineResult -> graphicController.setMineOwner(player)
             is ObtainGoalResult -> graphicController.setGoal(position, nextPhaseResult.newGoal.gamePosition)
             is ObtainTunnelResult -> graphicController.teleportPlayer(player.playerColor, player.gamePosition)

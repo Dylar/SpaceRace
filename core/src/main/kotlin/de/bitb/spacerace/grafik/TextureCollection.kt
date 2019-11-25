@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.DEFAULT_BORDER
@@ -90,7 +91,8 @@ object TextureCollection {
     val explosionAnimation: BaseAnimation
 
     init {
-        guiBackground = Texture("background/bg_silver.png")
+        guiBackground = Texture(Gdx.files.internal("background/bg_silver.png"), true)
+//        buttonBackground = Texture(Gdx.files.internal("gui/reg_0000_save_button.9.png"), true)
         gameOverBackground = Texture("background/bg_gameover.jpg")
         gameBackground = Texture("background/bg_star.png")
         gameBackground.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat)
@@ -236,4 +238,15 @@ object TextureCollection {
             return PlayerAnimation(movingAnimation, landingAnimation)
         }
 
+//    fun scaleImage(image: Texture, width: Int, height: Int) {
+//        val pixmap200 = Pixmap(Gdx.files.internal(image))
+//        val pixmap100 = Pixmap(width.toInt(), height.toInt(), pixmap200.format)
+//        pixmap100.drawPixmap(pixmap200,
+//                0, 0, pixmap200.width, pixmap200.height,
+//                0, 0, pixmap100.width, pixmap100.height
+//        )
+//        pixmap200.dispose()
+//        pixmap100.dispose()
+//        val texture = Texture(pixmap100)
+//    }
 }

@@ -1,6 +1,5 @@
 package de.bitb.spacerace.usecase.game.action
 
-import de.bitb.spacerace.database.items.MultiDice
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.player.PlayerColor
@@ -34,12 +33,6 @@ class DiceUsecase @Inject constructor(
             } else Completable.complete()
 
     private fun canExecute(playerData: PlayerData): Boolean =
-            if (playerData.phase.isMain1()) {
-                val items: List<MultiDice> = playerData.storageItems
-                        .map { it.itemInfo }
-                        .filterIsInstance<MultiDice>()
-                val diceCharges = 1 + items.sumBy { it.diceAmount }
-                playerData.diceResults.size < diceCharges
-            } else false
+            playerData.phase.isMain1() && !playerData.hasDicedEnough()
 
 }

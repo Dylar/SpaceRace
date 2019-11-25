@@ -9,26 +9,11 @@ import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.grafik.model.items.disposable.moving.MovingState
 
 abstract class GameImage() : Image() {
-    var animation: BaseAnimation = TextureAnimation()
-        set(value) {
-            drawable = value
-            field = value
-        }
-
     companion object {
         val NONE_GAMEIMAGE: GameImage = object : GameImage() {
             override var movingSpeed: Float = (MOVING_SPS * Math.random()).toFloat()
         }
     }
-
-    var boundingRectangle: Rectangle = Rectangle(0f, 0f, 10f, 10f)
-        get() {
-            field.x = getCenterX()
-            field.y = getCenterY()
-            field.width = 10f
-            field.height = 10f
-            return field
-        }
 
     var movingState: MovingState = MovingState.NONE
 
@@ -42,6 +27,20 @@ abstract class GameImage() : Image() {
         //TODO maybe
         @Synchronized get
 
+    var animation: BaseAnimation = TextureAnimation()
+        set(value) {
+            drawable = value
+            field = value
+        }
+
+    var boundingRectangle: Rectangle = Rectangle(0f, 0f, 10f, 10f)
+        get() {
+            field.x = getCenterX()
+            field.y = getCenterY()
+            field.width = 10f
+            field.height = 10f
+            return field
+        }
 
     init {
         debug = DEBUG_LAYOUT
