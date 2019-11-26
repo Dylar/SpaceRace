@@ -31,7 +31,7 @@ allprojects {
 
         majorVersion = "0"
         midVersion = "8"
-        patchVersion = "0"
+        patchVersion = "1"
         versionSuffix = "-ALPHA"
     }
 
