@@ -1,12 +1,12 @@
 package de.bitb.spacerace.ui.screens.game.player.shop
 
 import com.badlogic.gdx.utils.Align
+import com.kotcrab.vis.ui.widget.VisTextButton
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.events.commands.player.BuyItemCommand
 import de.bitb.spacerace.core.events.commands.player.SellItemCommand
-import de.bitb.spacerace.database.items.EquipItem
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.items.ItemType
@@ -26,6 +26,9 @@ class SRShopItemMenu(
         val itemType: ItemType
 ) : SRWindowGui() {
 
+    private val span = 6
+
+    private lateinit var sellBtn: VisTextButton
     @Inject
     protected lateinit var playerDataSource: PlayerDataSource
 
@@ -46,6 +49,7 @@ class SRShopItemMenu(
         disposable = observePlayerUseCase.observeStream(playerColor) { player ->
             this.player = player
             titleLabel.setText(getTitle())
+            sellBtn.isDisabled = player.sellableItems(itemType) == 0
         }
     }
 
@@ -60,13 +64,12 @@ class SRShopItemMenu(
     }
 
     override fun setContent() {
-        val span = if (itemInfo is EquipItem) 6 else 4
-        addItemImage(span)
-        addItemText(span)
-        addButtons(span)
+        addItemImage()
+        addItemText()
+        addButtons()
     }
 
-    private fun addItemImage(span: Int) {
+    private fun addItemImage() {
         val item = itemType.createGraphic(playerColor).getDisplayImage()
         add(item).width(GAME_BUTTON_WIDTH_DEFAULT)
                 .height(GAME_BUTTON_WIDTH_DEFAULT)
@@ -74,7 +77,7 @@ class SRShopItemMenu(
                 .colspan(span)
     }
 
-    private fun addItemText(span: Int) {
+    private fun addItemText() {
         row().pad(20f).colspan(span)
 
         createLabel(text = itemType.getText())
@@ -84,12 +87,10 @@ class SRShopItemMenu(
                 }
     }
 
-    private fun addButtons(span: Int) {
+    private fun addButtons() {
         row().pad(20f).colspan(span)
-        if (player.sellableItems(itemType) > 0) {
-            addButton("Sell") { sellItem() }
-        }
-        addButton("Buy") { buyItem() }
+        addButton(GameGuiStrings.GAME_BUTTON_SELL) { sellItem() }.also { sellBtn = it }
+        addButton(GameGuiStrings.GAME_BUTTON_BUY) { buyItem() }
         addButton(GameGuiStrings.GAME_BUTTON_CANCEL) { onBack() }
     }
 
@@ -101,12 +102,11 @@ class SRShopItemMenu(
         EventBus.getDefault().post(SellItemCommand.get(itemType, playerColor))
     }
 
-    private fun addButton(text: String, span: Int = 2, listener: () -> Unit) {
-        createTextButtons(
-                text = text,
-                listener = listener)
-                .also {
-                    add(it).colspan(span)
-                }
-    }
+    private fun addButton(text: String, span: Int = 2, listener: () -> Unit) =
+            createTextButtons(
+                    text = text,
+                    listener = listener)
+                    .also {
+                        add(it).colspan(span)
+                    }
 }

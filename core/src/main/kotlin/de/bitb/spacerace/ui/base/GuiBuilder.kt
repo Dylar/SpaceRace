@@ -60,10 +60,11 @@ interface GuiBuilder {
         val style = VisTextButton.VisTextButtonStyle()
         style.up = imageUp
         style.down = imageDown
+        style.disabled = imageDown
         style.font = TexturePool.bitmapFont
         style.downFontColor = Color.RED //TODO in settings
         style.fontColor = FONT_COLOR_BUTTON
-        style.disabledFontColor = Color.DARK_GRAY
+        style.disabledFontColor = Color.DARK_GRAY //TODO in settings
 
         val textButton = VisTextButton(text, style)
         textButton.addListener(createListener(listener))

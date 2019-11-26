@@ -1,7 +1,7 @@
 package de.bitb.spacerace.ui.screens.game.player.items
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.Align
+import com.kotcrab.vis.ui.widget.VisTextButton
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
 import de.bitb.spacerace.config.strings.Strings.GameGuiStrings
 import de.bitb.spacerace.core.MainGame
@@ -28,6 +28,9 @@ class SRStorageItemMenu(
         val itemType: ItemType
 ) : SRWindowGui() {
 
+    private var span: Int = 0
+    private var unusedBtn: VisTextButton? = null
+
     @Inject
     protected lateinit var playerDataSource: PlayerDataSource
 
@@ -48,6 +51,7 @@ class SRStorageItemMenu(
         disposable = observePlayerUseCase.observeStream(playerColor) { player ->
             this.player = player
             titleLabel.setText(getTitle())
+            unusedBtn?.isDisabled = player.equippedItems.count { it.itemInfo.type == itemType } == 0
         }
     }
 
@@ -67,7 +71,7 @@ class SRStorageItemMenu(
     }
 
     override fun setContent() {
-        val span = if (itemInfo is EquipItem) 6 else 4
+        span = if (itemInfo is EquipItem) 6 else 4
         addItemImage(span)
         addItemText(span)
         addButtons(span)
@@ -94,7 +98,7 @@ class SRStorageItemMenu(
     private fun addButtons(span: Int) {
         row().pad(20f).colspan(span)
         if (itemInfo is EquipItem) {
-            addButton(setUnuseButton()) { unequipItem() }
+            addButton(setUnuseButton()) { unequipItem() }.also { unusedBtn = it }
         }
         addButton(getUseButtonText()) { useItem() }
         addButton(GameGuiStrings.GAME_BUTTON_CANCEL) { onBack() }
@@ -108,14 +112,11 @@ class SRStorageItemMenu(
         EventBus.getDefault().post(UseItemCommand.get(itemType, player.playerColor))
     }
 
-    private fun addButton(text: String, span: Int = 2, listener: () -> Unit) {
-        createTextButtons(
-                text = text,
-                listener = listener)
-                .also {
-                    add(it).colspan(span)
-                }
-    }
+    private fun addButton(text: String, span: Int = 2, listener: () -> Unit) =
+            createTextButtons(
+                    text = text,
+                    listener = listener)
+                    .also { add(it).colspan(span) }
 
     private fun getUseButtonText() =
             when (itemType.getDefaultInfo()) {
