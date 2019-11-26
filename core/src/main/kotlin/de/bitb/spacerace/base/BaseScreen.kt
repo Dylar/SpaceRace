@@ -3,14 +3,13 @@ package de.bitb.spacerace.base
 import com.badlogic.gdx.*
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.input.GestureDetector
-import de.bitb.spacerace.CameraActions.CAMERA_FREE
-import de.bitb.spacerace.CameraActions.CAMERA_LOCKED
+import de.bitb.spacerace.CameraActions.*
 import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.model.objecthandling.GameImage
-import de.bitb.spacerace.utils.Logger
+import de.bitb.spacerace.core.utils.Logger
+import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 
 
 open class BaseScreen(
@@ -24,54 +23,23 @@ open class BaseScreen(
     var backgroundStage: BaseStage = BaseStage.NONE
     var gameStage: BaseStage = BaseStage.NONE
     var guiStage: BaseStage = BaseStage.NONE
-    var cameraStatus = CAMERA_FREE
+    var cameraStatus = CAMERA_START
 
-    var currentZoom: Float = 2f
+    var currentZoom: Float = 1f
         set(value) {
-            if (value in MIN_ZOOM..MAX_ZOOM) {
-                field = value
+            field = when  {
+                value < MIN_ZOOM -> MIN_ZOOM
+                value > MAX_ZOOM -> MAX_ZOOM
+                else -> value
             }
         }
 
     override fun show() {
+
         guiStage = createGuiStage()
         gameStage = createGameStage()
         backgroundStage = createBackgroundStage()
-        Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this), object : InputProcessor {
-            override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-                return true
-            }
-
-            override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-                return true
-            }
-
-            override fun keyTyped(character: Char): Boolean {
-                return true
-            }
-
-            override fun scrolled(amount: Int): Boolean {
-                return true
-            }
-
-            override fun keyUp(keycode: Int): Boolean {
-                return true
-            }
-
-            override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-                return true
-            }
-
-            override fun keyDown(keycode: Int): Boolean {
-                Logger.println("KEY DOWN: ${Input.Keys.toString(keycode)}", "KEY CODE: $keycode")
-                return true
-            }
-
-            override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-                return true
-            }
-
-        })
+        Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this), DebugInputProcessor)
 
         val gameCam = gameStage.camera as OrthographicCamera
         gameCam.zoom = currentZoom
@@ -106,18 +74,28 @@ open class BaseScreen(
     }
 
     open fun renderCamera(delta: Float) {
-        if (!cameraStatus.isFree()) {
-            val cameraTarget = getCameraTarget()
-            if (cameraTarget != null) {
-                val posX = cameraTarget.getCenterX()
-                val posY = cameraTarget.getCenterY()
-                gameStage.camera.position.set(posX, posY, 0f)
-                gameStage.camera.update()
+        when (cameraStatus) {
+            CAMERA_START,
+            CAMERA_LOCKED -> {
+                getCameraTarget()?.also {
+                    if (cameraStatus == CAMERA_START) {
+                        cameraStatus = CAMERA_FREE
+                    }
+                    val posX = it.getCenterX()
+                    val posY = it.getCenterY()
+                    setCameraPosition(posX, posY)
 
-                backgroundStage.translateTo(posX / currentZoom, -posY / currentZoom)
-
+                    backgroundStage.translateTo(posX / currentZoom, -posY / currentZoom)
+                }
+            }
+            else -> {
             }
         }
+    }
+
+    fun setCameraPosition(posX: Float, posY: Float) {
+        gameStage.camera.position.set(posX, posY, 0f)
+        gameStage.camera.update()
     }
 
     open fun getCameraTarget(): GameImage? {
@@ -164,7 +142,7 @@ open class BaseScreen(
     }
 
     override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
-        if (cameraStatus.isFree()) {
+        if (cameraStatus == CAMERA_FREE) {
             var gameCam = gameStage.camera as OrthographicCamera
             gameCam.translate(-deltaX * gameCam.zoom, deltaY * gameCam.zoom, 0f)
             gameCam.update()
@@ -188,6 +166,7 @@ open class BaseScreen(
 
     override fun panStop(x: Float, y: Float, pointer: Int, button: Int): Boolean {
         currentZoom = (gameStage.camera as OrthographicCamera).zoom
+        (gameStage.camera as OrthographicCamera).zoom = currentZoom
         return false
     }
 

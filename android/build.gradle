@@ -10,8 +10,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildToolsVersion "28.0.3"
-    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
+    compileSdkVersion 29
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -24,6 +24,14 @@ android {
         }
     }
 
+//    Properties versionProp = new Properties()
+//    def versionPropFile = file('../core/version.prop')
+//    if (versionPropFile.canWrite()) {
+//        versionProp.load(versionPropFile.newReader())
+//        versionProp["version"] = project.version
+//        versionPropFile.withWriter { versionProp.store(it, null) }
+//    }
+
     signingConfigs {
 
         Properties props = new Properties()
@@ -31,25 +39,6 @@ android {
         if (propFile.canRead()) {
             props.load(propFile.newReader())
         }
-
-//        devFreeRelease {
-//            storeFile file("../android/keystores/spacerace.keystore")
-//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: props["storePassword"]
-//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: props["keyAlias"]
-//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: props["keyPassword"]
-//        }
-//        devFreeDebug {
-//            storeFile file("../android/keystores/spacerace.keystore")
-//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: props["storePassword"]
-//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: props["keyAlias"]
-//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: props["keyPassword"]
-//        }
-//        prodPaidRelease {
-//            storeFile file("../android/keystores/spacerace.keystore")
-//            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: props["storePassword"]
-//            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: props["keyAlias"]
-//            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: props["keyPassword"]
-//        }
 
         debug {
             storeFile file("../android/keystores/spacerace.keystore")
@@ -67,49 +56,11 @@ android {
 
     }
 
-//    def applicationDefinitions = [
-//            ['name': 'devFreeDebug', 'suffix': '.devFree',],
-//            ['name': 'stageFreeDebug', 'suffix': '.stageFree',],
-//            ['name': 'prodFreeDebug', 'suffix': '.prodFree',],
-//            ['name': 'prodFreeDebug', 'suffix': '.prodFree',],
-//    ]
-//
-//    Properties props = new Properties()
-//    def propFile = file('../android/signing.prop')
-//    if (propFile.canRead()) {
-//        props.load(propFile.newReader())
-//    }
-
-//    applicationDefinitions.each { applicationDefinition ->
-////        def signingConfig = signingConfigsMap[applicationDefinition['name']]
-//        android.productFlavors.applicationSuffixId = applicationDefinition['suffix']
-//        android.productFlavors.create(applicationDefinition['name'], { flavor ->
-//            flavor.signingConfig = android.signingConfigs.create(applicationDefinition['name'])
-//            flavor.signingConfig.storeFile = file(signingConfig.storeFile)
-//            flavor.signingConfig.storePassword = signingConfig.storePassword
-//            flavor.signingConfig.keyAlias = signingConfig.keyAlias
-//            flavor.signingConfig.keyPassword = signingConfig.keyPassword
-
-//            flavor.signingConfig.storeFile = file(signingConfig.storeFile)
-//            flavor.signingConfig.storePassword = signingConfig.storePassword
-//            flavor.signingConfig.keyAlias = signingConfig.keyAlias
-//            flavor.signingConfig.keyPassword = signingConfig.keyPassword
-//        })
-//    }
-//
-//    applicationVariants.all { variant ->
-//        if (variant.name.contains("Release")) {
-//            variant.mergedFlavor.setSigningConfig(signingConfigs.release)
-//        } else {
-//            variant.mergedFlavor.setSigningConfig(signingConfigs.debug)
-//        }
-//    }
-
     defaultConfig {
         applicationId appId
         minSdkVersion 23
-        targetSdkVersion 28
-        versionCode = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 1
+        targetSdkVersion 29
+        versionCode = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: getDate()
 //        versionCode 1
         versionName project.version
 
@@ -128,11 +79,10 @@ android {
         }
         prod {
             dimension = 'server'
-            applicationIdSuffix = ".prod"
         }
         stage {
             dimension = 'server'
-            applicationIdSuffix = ".test"
+            applicationIdSuffix = ".stage"
         }
         dev {
             dimension = 'server'
@@ -174,19 +124,6 @@ android {
             outputFileName = "SR_${versionName}_${flavor}.apk"
         }
     }
-
-//    applicationVariants.all { variant ->
-////        if (variant.name.contains("Release")) {
-////            variant.mergedFlavor.setSigningConfig(signingConfigs.release)
-////        } else {
-////            variant.mergedFlavor.setSigningConfig(signingConfigs.debug)
-////        }
-////    }
-//// override default for single custom flavor
-//    applicationVariants.all { variant ->
-//        variant.
-////        productFlavors.release.signingConfig signingConfigs.release
-//    }
 }
 
 dependencies {

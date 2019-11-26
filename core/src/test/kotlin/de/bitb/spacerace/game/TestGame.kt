@@ -1,15 +1,15 @@
 package de.bitb.spacerace.game
 
-import de.bitb.spacerace.config.dimensions.Dimensions.IS_TEST
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.env.Setup
-import de.bitb.spacerace.injection.components.AppComponent
-import de.bitb.spacerace.injection.components.DaggerTestComponent
-import de.bitb.spacerace.injection.components.TestComponent
-import de.bitb.spacerace.injection.modules.ApplicationModule
-import de.bitb.spacerace.injection.modules.DatabaseModule
+import de.bitb.spacerace.env.TestSystemSetup
+import de.bitb.spacerace.core.injection.components.AppComponent
+import de.bitb.spacerace.core.injection.components.DaggerTestComponent
+import de.bitb.spacerace.core.injection.components.TestComponent
+import de.bitb.spacerace.core.injection.modules.ApplicationModule
+import de.bitb.spacerace.core.injection.modules.DatabaseModule
 
-class TestGame : MainGame(Setup.createMockBoxStore()) {
+const val VERSION_TEST = "TEST"
+class TestGame : MainGame(VERSION_TEST, TestSystemSetup.createMockBoxStore()) {
 
     companion object {
         lateinit var testComponent: TestComponent
@@ -17,7 +17,6 @@ class TestGame : MainGame(Setup.createMockBoxStore()) {
 
     override fun initGame() {
         super.initGame()
-        IS_TEST = true
         testComponent = appComponent as TestComponent
         testComponent.inject(this)
     }

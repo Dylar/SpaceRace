@@ -1,47 +1,37 @@
 package de.bitb.spacerace.ui.screens.game
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGuiStage
-import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.ui.player.PlayerStatsGui
-import de.bitb.spacerace.ui.screens.game.control.DebugGui
-import de.bitb.spacerace.ui.screens.game.control.GameActionGui
-import de.bitb.spacerace.ui.screens.game.control.ViewControlGui
-import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
-import io.reactivex.disposables.Disposable
-import javax.inject.Inject
+import de.bitb.spacerace.ui.screens.game.player.SRPlayerStatsGui
+import de.bitb.spacerace.ui.screens.game.control.SRActionGui
+import de.bitb.spacerace.ui.screens.game.control.SRViewControlGui
+
 
 class GameGuiStage(
         screen: GameScreen
 ) : BaseGuiStage(screen) {
 
-    @Inject
-    protected lateinit var observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
-
-    private var dispo: Disposable? = null
-
-    private var playerStatsGui: PlayerStatsGui = PlayerStatsGui(this)
-    private var viewControlGui: ViewControlGui = ViewControlGui(screen)
-    private var gameActionGui: GameActionGui = GameActionGui(this)
-    private var debugGui: DebugGui = DebugGui(screen)
+    private var srActionGui: SRActionGui = SRActionGui()
+    private var srPlayerStatsGui: SRPlayerStatsGui = SRPlayerStatsGui()
+    private var srViewControlGui: SRViewControlGui = SRViewControlGui(screen)
 
     init {
-        MainGame.appComponent.inject(this)
-        listenToUpdate()
-
-        addActor(playerStatsGui)
-        addActor(viewControlGui)
-        addActor(gameActionGui)
-        addActor(debugGui)
-        debugGui.x = viewControlGui.width
+        addActor(srActionGui)
+        addActor(srPlayerStatsGui)
+        addActor(srViewControlGui)
     }
 
-    private fun listenToUpdate() {
-        dispo?.dispose()
-        dispo = observeCurrentPlayerUseCase.observeStream(
-                onNext = {
-                    //                    Logger.println("observeCurrentPlayerUseCase NEXT:\n$it")
-                    playerStatsGui.update(it)
-                })
+    override fun act(delta: Float) {
+        when {
+            Gdx.input.isKeyJustPressed(Input.Keys.SPACE) -> {
+                screen.centerCamera()
+                srViewControlGui.updateButtons(screen as GameScreen)
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.SLASH) -> (screen as GameScreen).onZoomMinusClicked()
+            Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET) -> (screen as GameScreen).onZoomPlusClicked()
+        }
+        super.act(delta)
     }
 
 }

@@ -2,8 +2,9 @@ package de.bitb.spacerace.ui.screens.start
 
 import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.config.dimensions.Dimensions
-import de.bitb.spacerace.events.OpenDebugGuiEvent
-import de.bitb.spacerace.events.OpenLoadGameEvent
+import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LOAD
+import de.bitb.spacerace.core.events.OpenDebugGuiEvent
+import de.bitb.spacerace.core.events.OpenLoadGameEvent
 import de.bitb.spacerace.ui.screens.start.control.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -36,13 +37,13 @@ class StartGuiStage(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun openLoadGameEvent(event: OpenLoadGameEvent) {
-        changeMenu(loadGameSelection, "PLAYER", playerSelection, "LOAD")
+        changeMenu(loadGameSelection, START_BUTTON_LOAD, playerSelection, "PLAYER")
                 .also { startButtonControl.updateLoadBtnText(it) }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun openDebugGuiEvent(event: OpenDebugGuiEvent) {
-        changeMenu(mapSelection, "FIELDS", fieldSelectionControl, "MAPS")
+        changeMenu(mapSelection, "MAPS", fieldSelectionControl, "FIELDS")
                 .also { startButtonControl.updateDebugBtnText(it) }
     }
 

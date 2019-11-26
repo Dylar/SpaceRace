@@ -1,9 +1,7 @@
 package de.bitb.spacerace.database.converter
 
-import de.bitb.spacerace.utils.doForEachExceptLast
+import de.bitb.spacerace.core.utils.doForEachExceptLast
 import io.objectbox.converter.PropertyConverter
-
-private const val SEPERATOR = ","
 
 class IntListConverter : PropertyConverter<MutableList<Int>, String> {
 
@@ -18,17 +16,10 @@ class IntListConverter : PropertyConverter<MutableList<Int>, String> {
     }
 
     override fun convertToEntityProperty(databaseValue: String?): MutableList<Int>? {
-        return databaseValue?.let { value ->
-            mutableListOf<Int>()
-                    .also { list ->
-                        try {
-                            //TODO
-                            value.split(SEPERATOR).forEach { list.add(it.toInt()) }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-        } ?: mutableListOf()
+        return databaseValue?.split(SEPERATOR)
+                ?.map { it.toInt() }
+                ?.toMutableList()
+                ?: mutableListOf()
     }
 
 }

@@ -1,11 +1,11 @@
 package de.bitb.spacerace.database.converter
 
-import de.bitb.spacerace.model.objecthandling.PositionData
-import de.bitb.spacerace.utils.doForEachExceptLast
+import de.bitb.spacerace.grafik.model.objecthandling.PositionData
+import de.bitb.spacerace.core.utils.doForEachExceptLast
 import io.objectbox.converter.PropertyConverter
 
-private const val SEPERATOR = ","
-private const val SEPERATOR_GROUP = ";"
+const val SEPERATOR = ","
+const val SEPERATOR_GROUP = ";"
 
 class PositionListConverter : PropertyConverter<MutableList<PositionData>, String> {
 
@@ -31,18 +31,18 @@ class PositionListConverter : PropertyConverter<MutableList<PositionData>, Strin
 
 }
 
-class PositionDataConverter : PropertyConverter<PositionData, String> {
+class PositionDataConverter : PropertyConverter<PositionData?, String?> {
 
     override fun convertToDatabaseValue(entityProperty: PositionData?): String? {
         return entityProperty?.let {
             parsePositionData(it)
-        } ?: ""
+        }
     }
 
     override fun convertToEntityProperty(databaseValue: String?): PositionData? {
         return databaseValue?.let {
             parseString(it)
-        } ?: PositionData()
+        }
     }
 
 }

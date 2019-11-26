@@ -3,7 +3,6 @@ package de.bitb.spacerace
 import android.content.Context
 //import com.getkeepsafe.relinker.ReLinker
 import de.bitb.spacerace.model.MyObjectBox
-import de.bitb.spacerace.utils.Logger
 import io.objectbox.BoxStore
 
 object DatabaseProvider {

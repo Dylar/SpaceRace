@@ -1,3 +1,4 @@
+
 buildscript {
 
     apply from: './libversions.gradle'
@@ -12,7 +13,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.0-alpha12'
+        classpath 'com.android.tools.build:gradle:3.6.0-beta04'
         classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$gdx.roboVMVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.20"
@@ -29,7 +30,7 @@ allprojects {
         appName = "SpaceRace"
 
         majorVersion = "0"
-        midVersion = "7"
+        midVersion = "9"
         patchVersion = "0"
         versionSuffix = "-ALPHA"
     }
@@ -58,6 +59,7 @@ project(":desktop") {
     apply plugin: "kotlin"
     apply plugin: "net.ltgt.apt"
     apply plugin: "idea"
+    apply plugin: "application"
 
     dependencies {
         implementation project(":core")
@@ -155,9 +157,28 @@ project(":core") {
         }
     }
 
+//    task createProperties(dependsOn: processResources) {
+//        doLast {
+//            new File("../core/src/main/res/version.properties").withWriter { w ->
+//                Properties p = new Properties()
+//                p['version'] = project.version.toString()
+//                p.store w, null
+//            }
+//        }
+//    }
+//
+//    classes {
+//        dependsOn createProperties
+//    }
+
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
         implementation "com.google.code.gson:gson:$gsonVersion"
+        implementation 'com.squareup.moshi:moshi:1.8.0'
+        implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
+        implementation("com.squareup.moshi:moshi-adapters:1.8.0")
+        kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.8.0'
 
         implementation 'org.greenrobot:eventbus:3.1.1'
 
@@ -171,6 +192,8 @@ project(":core") {
 
         implementation "com.badlogicgames.gdx:gdx:$gdx.version"
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdx.version"
+        implementation "com.kotcrab.vis:vis-ui:$gdx.visuiVersion"
+//        implementation "io.github.libktx:ktx-$module:$ktxVersion"
 
 //        ██████╗ ███████╗ █████╗  ██████╗████████╗██╗██╗   ██╗
 //        ██╔══██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝██║██║   ██║

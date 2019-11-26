@@ -1,6 +1,6 @@
 package de.bitb.spacerace.database.converter
 
-import de.bitb.spacerace.model.player.PlayerColor
+import de.bitb.spacerace.grafik.model.player.PlayerColor
 import io.objectbox.converter.PropertyConverter
 
 class PlayerColorConverter : PropertyConverter<PlayerColor, String> {

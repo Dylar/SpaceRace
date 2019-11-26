@@ -1,19 +1,18 @@
 package de.bitb.spacerace.tests.usecase.action
 
 import de.bitb.spacerace.core.*
-import de.bitb.spacerace.env.SpaceEnvironment
-import de.bitb.spacerace.env.TEST_PLAYER_1
-import de.bitb.spacerace.env.TEST_PLAYER_2
-import de.bitb.spacerace.exceptions.NotCurrentPlayerException
-import de.bitb.spacerace.model.enums.Phase
+import de.bitb.spacerace.env.*
+import de.bitb.spacerace.core.exceptions.NotCurrentPlayerException
+import de.bitb.spacerace.grafik.model.enums.Phase
 import org.junit.Test
 
 class DiceUsecaseTest : GameTest() {
 
     @Test
     fun onlyCurrentPlayerCanDice_inMain1Phase() {
-        SpaceEnvironment()
-                .apply { initGame()
+        TestEnvironment()
+                .initGame()
+                .apply {
                     //assert start
                     assertNotCurrentPlayer( TEST_PLAYER_2)
                     assertCurrentPlayer( TEST_PLAYER_1)
@@ -39,7 +38,7 @@ class DiceUsecaseTest : GameTest() {
 
     @Test
     fun nobodyCanDice_inMovePhase() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMovePhase()
@@ -69,7 +68,7 @@ class DiceUsecaseTest : GameTest() {
 
     @Test
     fun nobodyCanDice_InMain2Phase() {
-        SpaceEnvironment()
+        TestEnvironment()
                 .apply {
                     initGame()
                     setToMain2Phase()

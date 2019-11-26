@@ -2,17 +2,26 @@ package de.bitb.spacerace.core
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.kotcrab.vis.ui.VisUI
 import de.bitb.spacerace.base.BaseGame
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.events.GameOverEvent
-import de.bitb.spacerace.events.commands.BaseCommand
-import de.bitb.spacerace.injection.components.AppComponent
-import de.bitb.spacerace.injection.components.DaggerAppComponent
-import de.bitb.spacerace.injection.modules.ApplicationModule
-import de.bitb.spacerace.injection.modules.DatabaseModule
+import de.bitb.spacerace.config.SELECTED_MAP
+import de.bitb.spacerace.config.VERSION
+import de.bitb.spacerace.database.map.MapDataSource
+import de.bitb.spacerace.database.player.PlayerDataSource
+import de.bitb.spacerace.database.savegame.SaveDataSource
+import de.bitb.spacerace.env.createTestMap
+import de.bitb.spacerace.core.events.GameOverEvent
+import de.bitb.spacerace.core.events.commands.BaseCommand
+import de.bitb.spacerace.core.injection.components.AppComponent
+import de.bitb.spacerace.core.injection.components.DaggerAppComponent
+import de.bitb.spacerace.core.injection.modules.ApplicationModule
+import de.bitb.spacerace.core.injection.modules.DatabaseModule
+import de.bitb.spacerace.grafik.model.space.maps.MapCreator
+import de.bitb.spacerace.grafik.model.space.maps.initDefaultMap
 import de.bitb.spacerace.ui.screens.GameOverScreen
 import de.bitb.spacerace.ui.screens.start.StartScreen
-import de.bitb.spacerace.usecase.ui.CommandUsecase
+import de.bitb.spacerace.usecase.game.CommandUsecase
 import io.objectbox.BoxStore
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -20,6 +29,7 @@ import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 open class MainGame(
+        version: String = "007",
         protected val objBox: BoxStore? = null
 ) : BaseGame() {
 
@@ -29,6 +39,17 @@ open class MainGame(
 
     @Inject
     protected lateinit var commandUsecase: CommandUsecase
+
+    @Inject
+    protected lateinit var mapDataSource: MapDataSource
+    @Inject
+    protected lateinit var saveDataSource: SaveDataSource
+    @Inject
+    protected lateinit var playerDataSource: PlayerDataSource
+
+    init {
+        VERSION = version
+    }
 
     open fun initComponent(): AppComponent =
             DaggerAppComponent.builder()
@@ -41,13 +62,24 @@ open class MainGame(
         appComponent = initComponent()
         appComponent.inject(this)
 
+        initDefaultMaps()
+
         commandUsecase.observeStream()
     }
 
+    private fun initDefaultMaps() {
+        //TODO delete this some day
+        val maps = MapCreator.values()
+                .map { it.createMap().initDefaultMap(it.name) }
+                .toMutableList()
+
+        maps.add(createTestMap(SELECTED_MAP))
+        mapDataSource.insertDBMaps(*maps.toTypedArray())
+    }
+
     override fun initScreen() {
+        VisUI.load(VisUI.SkinScale.X2)
         setScreen(StartScreen(this))
-//        setScreen(GameScreen(this))
-//        setScreen(GameOverScreen(this))
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -105,4 +137,5 @@ open class MainGame(
     private fun isBackTipped(): Boolean {
         return checkCombi(Input.Keys.ALT_LEFT, Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)
     }
+
 }

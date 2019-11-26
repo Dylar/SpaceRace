@@ -5,8 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import de.bitb.spacerace.core.MainGame;
 
-public class
-DesktopLauncher {
+public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
@@ -21,7 +20,6 @@ DesktopLauncher {
         config.samples = 4;
         config.vSyncEnabled = true;
 
-
-        new LwjglApplication(new MainGame(), config);
+        new LwjglApplication(new MainGame("DESKTOP", null), config);
     }
 }

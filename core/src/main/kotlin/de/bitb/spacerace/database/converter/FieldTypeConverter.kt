@@ -1,6 +1,6 @@
 package de.bitb.spacerace.database.converter
 
-import de.bitb.spacerace.model.enums.FieldType
+import de.bitb.spacerace.grafik.model.enums.FieldType
 import io.objectbox.converter.PropertyConverter
 
 class FieldTypeConverter : PropertyConverter<FieldType, String> {
