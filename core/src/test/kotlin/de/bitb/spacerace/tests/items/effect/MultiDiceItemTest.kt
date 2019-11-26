@@ -12,6 +12,7 @@ class MultiDiceItemTest : ItemsTest() {
     @Test
     fun activateItem_diceOnce_cantContinue_diceAgain_canContinue_BOOST_SPEED() {
         val item = ItemInfo.BoostSpeedInfo()
+        
         TestEnvironment()
                 .setPlayerItems { listOf(item) }
                 .initGame()
