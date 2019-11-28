@@ -6,7 +6,6 @@ import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.core.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.DiceUsecase
-import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
 class DiceCommand : BaseCommand() {
@@ -31,10 +30,11 @@ class DiceCommand : BaseCommand() {
     }
 
     override fun execute() {
-        compositeDisposable += diceUsecase.execute(
+        diceUsecase.execute(
                 params = player to maxResult,
                 onComplete = ::reset,
                 onError = { reset() })
+                .addDisposable()
     }
 
 }

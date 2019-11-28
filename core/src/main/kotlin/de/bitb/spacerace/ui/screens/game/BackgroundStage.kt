@@ -12,7 +12,10 @@ import de.bitb.spacerace.grafik.model.background.FallingStar
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 
 
-class BackgroundStage(val screen: BaseScreen, private var texture: Texture = TextureCollection.gameBackground) : BaseStage() {
+class BackgroundStage(
+        val screen: BaseScreen,
+        private var texture: Texture = TextureCollection.gameBackground
+) : BaseStage() {
 
     var backgroundObjects: MutableList<GameImage> = ArrayList()
 

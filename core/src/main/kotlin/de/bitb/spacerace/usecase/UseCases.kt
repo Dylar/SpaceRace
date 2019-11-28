@@ -2,7 +2,9 @@ package de.bitb.spacerace.usecase
 
 import de.bitb.spacerace.core.utils.Logger
 import io.reactivex.*
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 
 val defaultWorkerThread = GdxSchedulers.workerThread
@@ -10,6 +12,18 @@ val defaultSubscriberThread = GdxSchedulers.mainThread
 val defaultOnError: (Throwable) -> Unit = {
     Logger.printLog("Default onError: ${it::class.simpleName}")
     it.printStackTrace()
+}
+
+interface DisposableContainer {
+    val compositeDisposable: CompositeDisposable
+
+    fun Disposable.addDisposable() {
+        compositeDisposable += this
+    }
+
+    fun disposeDisposables() {
+        compositeDisposable.clear()
+    }
 }
 
 interface ExecuteUseCase<in Params> {

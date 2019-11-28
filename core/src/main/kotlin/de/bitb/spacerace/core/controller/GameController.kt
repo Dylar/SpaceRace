@@ -6,9 +6,9 @@ import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.ui.screens.GuiNavi
+import de.bitb.spacerace.usecase.DisposableContainer
 import de.bitb.spacerace.usecase.game.observe.*
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,8 +23,8 @@ class GameController
         var observeMoveItemUseCase: ObserveMoveItemUseCase,
         var playerController: PlayerController,
         var graphicController: GraphicController
-) {
-    private val compositeDisposable = CompositeDisposable()
+) : DisposableContainer {
+    override val compositeDisposable = CompositeDisposable()
 
     fun clear() {
         compositeDisposable.clear()
@@ -43,43 +43,44 @@ class GameController
     }
 
     fun initWinnerObserver() {
-        compositeDisposable += observeWinnerUsecase.observeStream(
+        observeWinnerUsecase.observeStream(
                 params = WIN_AMOUNT,
                 onNext = { winner ->
                     Logger.justPrint("AND THE WINNER IIIIISSS: $winner")
                     EventBus.getDefault().post(GameOverEvent(winner.playerColor))
                 })
+                .addDisposable()
     }
 
     fun initPhaseObserver() {
-        compositeDisposable += observeRoundUsecase.observeStream { result ->
+        observeRoundUsecase.observeStream { result ->
             if (result.roundEnding) EventBus.getDefault().post(GuiNavi.EndRoundMenu())
-        }
+        }.addDisposable()
     }
 
     fun initAttachPlayerObserver() {
-        compositeDisposable += observeAttachItemUseCase.observeStream { (player, items) ->
+         observeAttachItemUseCase.observeStream { (player, items) ->
             attachItemToPlayer(player, items)
-        }
+        }.addDisposable()
     }
 
     fun initRemoveItemObserver() {
-        compositeDisposable += observeRemoveItemUseCase.observeStream { (player, field, items) ->
+        observeRemoveItemUseCase.observeStream { (player, field, items) ->
             if (player != null) {
                 removeItemFromPlayer(player, items)
             }
 //            else if (field != null) { TODO
 //                removeItemFromField(field, items)
 //            }
-        }
+        }.addDisposable()
     }
 
     fun initMovingItemObserver() {
-        compositeDisposable += observeMoveItemUseCase.observeStream { movingItems ->
+        observeMoveItemUseCase.observeStream { movingItems ->
             movingItems.forEach {
                 graphicController.moveItems(it.fromField, it.toField, it.item)
             }
-        }
+        }.addDisposable()
     }
 
     private fun removeItemFromPlayer(player: PlayerData, items: List<ItemData>) {

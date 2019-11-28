@@ -8,7 +8,6 @@ import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 
 
@@ -130,9 +129,9 @@ open class BaseScreen(
     }
 
     override fun hide() {
-        backgroundStage.compositDisposable.clear()
-        gameStage.compositDisposable.clear()
-        guiStage.compositDisposable.clear()
+        backgroundStage.disposeDisposables()
+        gameStage.disposeDisposables()
+        guiStage.disposeDisposables()
     }
 
     override fun dispose() {

@@ -12,7 +12,6 @@ import de.bitb.spacerace.grafik.model.items.createGraphic
 import de.bitb.spacerace.grafik.model.items.getDefaultInfo
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.items.*
-import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
 class UseItemCommand(
@@ -57,32 +56,32 @@ class UseItemCommand(
 
     private fun equipItem() {
         val config = EquipItemConfig(player, itemType, !disable)
-        compositeDisposable += equipItemUsecase.getResult(
+        equipItemUsecase.getResult(
                 params = config,
                 onSuccess = resetOnSuccess(),
                 onError = resetOnError()
-        )
+        ).addDisposable()
     }
 
     private fun activateItem() {
         val config = ActivateItemConfig(player, itemType)
-        compositeDisposable += activateUsecase.getResult(
+        activateUsecase.getResult(
                 params = config,
                 onSuccess = resetOnSuccess(),
                 onError = resetOnError()
-        )
+        ).addDisposable()
     }
 
     private fun disposeItem() {
         val config = DisposeItemConfig(player, itemType)
-        compositeDisposable += disposeItemUsecase.getResult(
+        disposeItemUsecase.getResult(
                 params = config,
                 onSuccess = {
                     addItemsToField(it)
                     reset()
                 },
                 onError = resetOnError()
-        )
+        ).addDisposable()
     }
 
     private fun addItemsToField(result: UseItemResult) {

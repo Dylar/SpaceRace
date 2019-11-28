@@ -4,26 +4,18 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import de.bitb.spacerace.usecase.DisposableContainer
 import io.reactivex.disposables.CompositeDisposable
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
 
-abstract class BaseStage(viewport: Viewport = ScreenViewport()) : Stage(viewport) {
+abstract class BaseStage(
+        viewport: Viewport = ScreenViewport()
+) : Stage(viewport), DisposableContainer {
 
     companion object {
-        val STAGE_DELEGATE = object : ReadWriteProperty<BaseScreen, BaseStage> {
-            var stage: BaseStage? = null
-            override fun getValue(thisRef: BaseScreen, property: KProperty<*>) =
-                    stage ?: NONE
-
-            override fun setValue(thisRef: BaseScreen, property: KProperty<*>, value: BaseStage) {
-                stage = value
-            }
-        }
         val NONE = object : BaseStage() {}
     }
 
-    val compositDisposable: CompositeDisposable = CompositeDisposable()
+    override val compositeDisposable = CompositeDisposable()
 
     var posX: Float = 0f
     var posY: Float = 0f

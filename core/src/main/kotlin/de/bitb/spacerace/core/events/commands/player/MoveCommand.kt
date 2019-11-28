@@ -35,14 +35,14 @@ class MoveCommand : BaseCommand() {
     }
 
     override fun execute() {
-        compositeDisposable += moveUsecase.getResult(
+        moveUsecase.getResult(
                 params = player to targetPosition,
                 onSuccess = {
                     setGraphics(it)
                     reset()
                 },
                 onError = { reset() }
-        )
+        ).addDisposable()
     }
 
     private fun setGraphics(moveResult: MoveResult) {
