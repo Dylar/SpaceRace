@@ -95,7 +95,7 @@ interface GuiBuilder {
         return label
     }
 
-    fun VisTable.setBackgroundByPath(backgroundPath: String) {
+    fun VisTable.setBackgroundByPath(backgroundPath: String, width: Float, height: Float) {
         background = TexturePool.getBackground(backgroundPath, width, height)
 //        clip = true
     }

@@ -43,7 +43,7 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
 
         setContent()
         initObserver()
-        setBackgroundByPath(IMAGE_PATH_GUI_BACKGROUND)
+        setBackgroundByPath(IMAGE_PATH_GUI_BACKGROUND, GAME_LABEL_WIDTH_DEFAULT, GAME_LABEL_WIDTH_DEFAULT)
         debug = true
 //        width = GAME_LABEL_WIDTH_DEFAULT * children.items.size
 //        height = GAME_LABEL_WIDTH_DEFAULT * 2

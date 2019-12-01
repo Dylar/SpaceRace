@@ -1,6 +1,7 @@
 package de.bitb.spacerace.grafik
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.NinePatch
@@ -8,10 +9,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 
+
 object TexturePool {
 
     val bitmapFont = BitmapFont(Gdx.files.internal("spaceranger.fnt")).apply { data.setScale(1.1f) }
-    private val texturePool: MutableMap<String, Texture> = mutableMapOf()
+    private val texturePool: MutableMap<TextureData, Texture> = mutableMapOf()
 
     fun getBackground(imagePath: String, width: Float, height: Float) =
             getNinePatch(imagePath, width, height, .25f, .25f, .45f, .45f)
@@ -31,10 +33,26 @@ object TexturePool {
             botMod: Float = .33f,
             topMod: Float = .33f
     ): NinePatchDrawable {
-        val texture = texturePool[imagePath]
-                ?: Texture(Gdx.files.internal(imagePath)).also { texturePool[imagePath] = it }
+        val textureData = TextureData(imagePath, width, height)
+        val texture = texturePool[textureData] ?: createTexture(textureData)
 
         return getNinePatch(texture, leftMod, rightMod, botMod, topMod)
+    }
+
+    private fun createTexture(textureData: TextureData): Texture {
+        val loadTexture = Pixmap(Gdx.files.internal(textureData.imagePath))
+        val scaledTexture = Pixmap(textureData.width.toInt(), textureData.height.toInt(), loadTexture.format)
+        scaledTexture.drawPixmap(loadTexture,
+                0, 0, loadTexture.width, loadTexture.height,
+                0, 0, scaledTexture.width, scaledTexture.height
+        )
+        val texture = Texture(scaledTexture)
+        texturePool[textureData] = texture
+
+        loadTexture.dispose()
+        scaledTexture.dispose()
+        return texture
+
     }
 
     fun getNinePatch(
@@ -61,6 +79,8 @@ object TexturePool {
     fun getDrawable(texture: Texture): TextureRegionDrawable = TextureRegionDrawable(texture)
 
 }
+
+data class TextureData(val imagePath: String, val width: Float, val height: Float)
 
 //const val IMAGE_PATH_WINDOW_BACKGROUND: String = "gui/score_0014_window2.9.png"
 const val IMAGE_PATH_WINDOW_BACKGROUND: String = "gui/score_0014_window2_edit.9.png"

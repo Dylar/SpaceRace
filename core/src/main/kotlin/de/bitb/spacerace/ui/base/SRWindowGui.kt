@@ -5,6 +5,8 @@ import com.kotcrab.vis.ui.widget.VisWindow
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.FONT_COLOR_BUTTON
 import de.bitb.spacerace.config.dimensions.Dimensions
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_WINDOW_HEIGHT
+import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_WINDOW_WIDTH
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.grafik.IMAGE_PATH_WINDOW_BACKGROUND
@@ -47,11 +49,11 @@ abstract class SRWindowGui : VisWindow(""),
         style = WindowStyle().also {
             it.titleFont = TexturePool.bitmapFont
             it.titleFontColor = FONT_COLOR_BUTTON
-            it.background = TexturePool.getBackground(IMAGE_PATH_WINDOW_BACKGROUND, width, height)
-                    .apply {
-                        minWidth = Dimensions.GameGuiDimensions.GAME_WINDOW_WIDTH
-                        minHeight = Dimensions.GameGuiDimensions.GAME_WINDOW_HEIGHT
-                    }
+            it.background = TexturePool.getButton(IMAGE_PATH_WINDOW_BACKGROUND)//TexturePool.getBackground(IMAGE_PATH_WINDOW_BACKGROUND, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT)
+//                    .apply {
+//                        minWidth = Dimensions.GameGuiDimensions.GAME_WINDOW_WIDTH
+//                        minHeight = Dimensions.GameGuiDimensions.GAME_WINDOW_HEIGHT
+//                    }
         }
     }
 
