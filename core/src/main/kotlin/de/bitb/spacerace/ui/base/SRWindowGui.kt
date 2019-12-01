@@ -1,5 +1,6 @@
 package de.bitb.spacerace.ui.base
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.Align
 import com.kotcrab.vis.ui.widget.VisWindow
 import de.bitb.spacerace.config.DEBUG_LAYOUT
@@ -29,12 +30,14 @@ abstract class SRWindowGui : VisWindow(""),
     protected fun initWindow() {
         inject()
 
-        setWindowConfig()
-        setContent()
-        centerWindow()
-        center()
-        pack()
-        fadeIn()
+        Gdx.app.postRunnable {
+            setWindowConfig()
+            setContent()
+            centerWindow()
+            center()
+            pack()
+            fadeIn()
+        }
     }
 
     protected open fun inject() {
@@ -42,14 +45,14 @@ abstract class SRWindowGui : VisWindow(""),
     }
 
     private fun setWindowConfig() {
-        pad(80f, 10f, 10f, 10f)
+        pad(110f, 10f, 10f, 10f)
 
         titleLabel.setText(getTitle())
         titleLabel.setAlignment(Align.center)
         style = WindowStyle().also {
             it.titleFont = TexturePool.bitmapFont
             it.titleFontColor = FONT_COLOR_BUTTON
-            it.background = TexturePool.getButton(IMAGE_PATH_WINDOW_BACKGROUND)//TexturePool.getBackground(IMAGE_PATH_WINDOW_BACKGROUND, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT)
+            it.background = TexturePool.getBackground(IMAGE_PATH_WINDOW_BACKGROUND, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT)
 //                    .apply {
 //                        minWidth = Dimensions.GameGuiDimensions.GAME_WINDOW_WIDTH
 //                        minHeight = Dimensions.GameGuiDimensions.GAME_WINDOW_HEIGHT

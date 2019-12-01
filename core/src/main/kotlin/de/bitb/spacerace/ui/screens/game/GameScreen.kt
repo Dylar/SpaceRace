@@ -1,5 +1,6 @@
 package de.bitb.spacerace.ui.screens.game
 
+import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.DEBUG_CAMERA_TARGET
@@ -101,7 +102,9 @@ class GameScreen(
             is GuiNavi.ShopMenu -> SRShopMenu(event.player)
             is GuiNavi.ShopDetailMenu -> SRShopItemMenu(event.player, event.itemType)
         }.also {
-            addToBackstack(event, it, guiStage)
+            Gdx.app.postRunnable {
+                addToBackstack(event, it, guiStage)
+            }
         }
     }
 

@@ -43,8 +43,6 @@ open class MainGame(
     @Inject
     protected lateinit var mapDataSource: MapDataSource
     @Inject
-    protected lateinit var saveDataSource: SaveDataSource
-    @Inject
     protected lateinit var playerDataSource: PlayerDataSource
 
     init {

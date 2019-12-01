@@ -13,6 +13,8 @@ object Logger {
 
     private var time: Long = 0
 
+    var androidLogger: (String) -> Unit = {}
+
     fun startTimer() {
         time = System.currentTimeMillis()
     }
@@ -59,7 +61,7 @@ object Logger {
     private fun printMessage(tag: String, message: String) {
         Gdx.app?.let {
             Gdx.app.log(tag, message)
-        } ?: kotlin.io.println("$tag $message")
+        } ?: androidLogger("$tag $message")
     }
 
     private fun <TYPE : Any> createLog(vararg params: TYPE): LogData {

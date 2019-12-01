@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import de.bitb.spacerace.core.utils.Logger
 
 
 object TexturePool {
@@ -52,7 +53,6 @@ object TexturePool {
         loadTexture.dispose()
         scaledTexture.dispose()
         return texture
-
     }
 
     fun getNinePatch(
