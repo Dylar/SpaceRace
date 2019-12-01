@@ -9,6 +9,7 @@ interface MapDataSource {
     fun insertDBMaps(vararg maps: MapData)
     fun getDBAllMaps(): List<MapData>
     fun getDBMaps(vararg name: String): List<MapData>
+    fun getRXMaps(vararg name: String):  Single<List<MapData>>
 
     fun insertDBField(vararg maps: FieldData)
     fun getDBFields(vararg ids: Long): List<FieldData>

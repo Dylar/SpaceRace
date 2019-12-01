@@ -10,7 +10,7 @@ import de.bitb.spacerace.grafik.model.objecthandling.blink.IBlinkingImage
 
 val NONE_SPACE_FIELD: FieldGraphic = FieldGraphic().apply { id = -1 }
 
-open class FieldGraphic(
+class FieldGraphic(
         val fieldType: FieldType = FieldType.RANDOM,
         val fieldImage: FieldImage = FieldImage(fieldType)
 ) : GameObject(PositionData()),

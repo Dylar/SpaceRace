@@ -25,10 +25,22 @@ class StartGuiStage(
     init {
         EventBus.getDefault().register(this)
 
-        startButtonControl.setPosition(Dimensions.SCREEN_WIDTH / 2 - startButtonControl.width / 2, Dimensions.SCREEN_HEIGHT / 1.5f - startButtonControl.height / 2)
-        playerSelection.setPosition(0f, Dimensions.SCREEN_HEIGHT / 2f - playerSelection.height / 2)
-        mapSelection.setPosition(Dimensions.SCREEN_WIDTH - mapSelection.width, Dimensions.SCREEN_HEIGHT / 2f - mapSelection.height / 2)
-        fieldSelectionControl.setPosition(Dimensions.SCREEN_WIDTH - fieldSelectionControl.width, Dimensions.SCREEN_HEIGHT / 2f - fieldSelectionControl.height / 2)
+        startButtonControl.setPosition(
+                Dimensions.SCREEN_WIDTH / 2 - startButtonControl.width / 2,
+                Dimensions.SCREEN_HEIGHT / 2f - startButtonControl.height / 2
+        )
+        playerSelection.setPosition(
+                0f,
+                Dimensions.SCREEN_HEIGHT / 2f - playerSelection.height / 2
+        )
+        mapSelection.setPosition(
+                Dimensions.SCREEN_WIDTH - mapSelection.width,
+                Dimensions.SCREEN_HEIGHT / 2f - mapSelection.height / 2
+        )
+        fieldSelectionControl.setPosition(
+                Dimensions.SCREEN_WIDTH - fieldSelectionControl.width,
+                Dimensions.SCREEN_HEIGHT / 2f - fieldSelectionControl.height / 2
+        )
 
         addActor(startButtonControl)
         addActor(playerSelection)
@@ -47,10 +59,12 @@ class StartGuiStage(
                 .also { startButtonControl.updateDebugBtnText(it) }
     }
 
-    private fun changeMenu(menu1: BaseGuiControl,
-                           menu1Text: String,
-                           menu2: BaseGuiControl,
-                           menu2Text: String): String {
+    private fun changeMenu(
+            menu1: BaseGuiControl,
+            menu1Text: String,
+            menu2: BaseGuiControl,
+            menu2Text: String
+    ): String {
         val openMenu1 = menu1.stage == null
         addActor(if (openMenu1) menu1 else menu2)
         (if (openMenu1) menu2 else menu1).remove()

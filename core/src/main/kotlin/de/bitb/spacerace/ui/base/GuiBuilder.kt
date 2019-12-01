@@ -83,7 +83,7 @@ interface GuiBuilder {
     ): VisLabel {
 
         val style = Label.LabelStyle()
-        background?.also { style.background = TexturePool.getBackground(it) }
+        background?.also { style.background = TexturePool.getBackground(it, width, height) }
         style.font = TexturePool.bitmapFont
         style.fontColor = fontColor //TODO in settings -> or?
 
@@ -96,8 +96,8 @@ interface GuiBuilder {
     }
 
     fun VisTable.setBackgroundByPath(backgroundPath: String) {
-        background = TexturePool.getBackground(backgroundPath)
-//        background = TextureRegionDrawable(TextureRegion(Texture(Gdx.files.internal(backgroundPath))))
+        background = TexturePool.getBackground(backgroundPath, width, height)
+//        clip = true
     }
 
     fun VisTable.scaleTable(scaleWidth: Float = 1.0f, scaleHeight: Float = 1.0f) {

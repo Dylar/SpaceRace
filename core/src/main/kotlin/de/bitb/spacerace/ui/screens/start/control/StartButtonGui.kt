@@ -7,20 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import de.bitb.spacerace.config.DICE_MAX
+import de.bitb.spacerace.config.SELECTED_MAP
 import de.bitb.spacerace.config.VERSION
 import de.bitb.spacerace.config.WIN_AMOUNT
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
+import de.bitb.spacerace.config.strings.Strings
+import de.bitb.spacerace.config.strings.Strings.GameGuiStrings
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LANGUAGE
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LOAD
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_START
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.events.OpenDebugGuiEvent
 import de.bitb.spacerace.core.events.OpenLoadGameEvent
-import de.bitb.spacerace.core.events.commands.start.ChangeDiceAmountCommand
-import de.bitb.spacerace.core.events.commands.start.ChangeLanguageCommand
-import de.bitb.spacerace.core.events.commands.start.ChangeWinAmountCommand
-import de.bitb.spacerace.core.events.commands.start.LoadGameCommand
+import de.bitb.spacerace.core.events.commands.start.*
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
@@ -39,6 +39,7 @@ class StartButtonGui(
     private lateinit var diceLabel: Label
     private lateinit var debugBtn: TextButton
     private lateinit var loadBtn: TextButton
+    private lateinit var editorBtn: TextButton
 
     private val maxSpan = 7
 
@@ -47,11 +48,12 @@ class StartButtonGui(
         initObserver()
 
         addStartButton()
+        addLoadButton()
+        addEditorButton()
         addWinButtons()
         addDiceButtons()
         addLanguageButtons()
         addDebugButton()
-        addLoadButton()
         addVersionLabel()
         pack()
     }
@@ -169,6 +171,19 @@ class StartButtonGui(
         })
 
         val cell = addCell(loadBtn)
+        setFont(cell.actor)
+        row()
+    }
+
+    private fun addEditorButton() {
+        editorBtn = createButton(name = GameGuiStrings.START_BUTTON_EDITOR, fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                EventBus.getDefault().post(LoadEditorCommand.get(SELECTED_MAP))
+                return true
+            }
+        })
+
+        val cell = addCell(editorBtn)
         setFont(cell.actor)
         row()
     }

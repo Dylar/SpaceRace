@@ -1,7 +1,5 @@
 package de.bitb.spacerace.core.controller
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.InputListener
 import de.bitb.spacerace.config.DEFAULT_SHIP
 import de.bitb.spacerace.core.events.commands.player.MoveCommand
 import de.bitb.spacerace.database.items.ItemData
@@ -63,12 +61,10 @@ class GraphicController
 
     fun addField(spaceField: FieldGraphic) {
         fieldGraphics[spaceField.gamePosition] = spaceField
-        spaceField.getGameImage().addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(MoveCommand.get(spaceField.gamePosition, playerController.currentColor))
-                return true
-            }
-        })
+        spaceField.getGameImage().addListener {
+            EventBus.getDefault().post(MoveCommand.get(spaceField.gamePosition, playerController.currentColor))
+            true
+        }
     }
 
     fun clearGraphics() {
@@ -158,4 +154,5 @@ class GraphicController
         fromField.disposedItems.remove(item)
         toField.disposedItems.add(item)
     }
+
 }

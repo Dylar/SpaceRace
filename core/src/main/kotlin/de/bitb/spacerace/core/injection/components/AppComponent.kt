@@ -6,6 +6,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.core.events.commands.phases.StartNextRoundCommand
 import de.bitb.spacerace.core.events.commands.player.*
+import de.bitb.spacerace.core.events.commands.start.LoadEditorCommand
 import de.bitb.spacerace.core.events.commands.start.LoadGameCommand
 import de.bitb.spacerace.core.events.commands.start.SelectMapCommand
 import de.bitb.spacerace.core.injection.modules.*
@@ -14,6 +15,7 @@ import de.bitb.spacerace.grafik.model.items.ItemGraphic
 import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
 import de.bitb.spacerace.grafik.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.SRWindowGui
+import de.bitb.spacerace.ui.screens.editor.EditorScreen
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndMenu
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndPlayerMenu
 import de.bitb.spacerace.ui.screens.game.player.SRPlayerStatsGui
@@ -71,10 +73,15 @@ interface AppComponent {
     fun inject(gameStage: GameStage)
     fun inject(connectionList: ConnectionList)
 
+
+    //EDITOR
+    fun inject(editorScreen: EditorScreen)
+
     //MAP
     fun inject(spaceGroup: SpaceGroup)
 
     //COMMAND
+    fun inject(loadEditorCommand: LoadEditorCommand)
     fun inject(loadGameCommand: LoadGameCommand)
     fun inject(useItemCommand: UseItemCommand)
     fun inject(nextPhaseCommand: NextPhaseCommand)

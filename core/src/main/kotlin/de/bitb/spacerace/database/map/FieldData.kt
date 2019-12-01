@@ -4,7 +4,6 @@ import de.bitb.spacerace.database.converter.FieldTypeConverter
 import de.bitb.spacerace.database.converter.PositionDataConverter
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.player.PlayerData
-import de.bitb.spacerace.database.player.PlayerData_
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import io.objectbox.BoxStore
@@ -45,6 +44,7 @@ data class FieldData(
 
     @JvmField
     var disposedItems: ToMany<ItemData> = ToMany(this, FieldData_.disposedItems)
+
 
 }
 

@@ -1,4 +1,3 @@
-
 buildscript {
 
     apply from: './libversions.gradle'
@@ -10,6 +9,7 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
         google()
+        maven { url 'https://jitpack.io' }
     }
 
     dependencies {
@@ -105,6 +105,8 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdx.version:natives-x86_64"
+
+//        implementation 'com.github.raeleus.TenPatch:tenpatch:5.0.0'
     }
 }
 

@@ -195,7 +195,6 @@ object TextureCollection {
         return Texture(section)
     }
 
-
     val bumperAnimation: PlayerAnimation
         get() {
             val landingFrame1 = TextureRegion(bumperShipMoving1)

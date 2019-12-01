@@ -44,6 +44,9 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
         setContent()
         initObserver()
         setBackgroundByPath(IMAGE_PATH_GUI_BACKGROUND)
+        debug = true
+//        width = GAME_LABEL_WIDTH_DEFAULT * children.items.size
+//        height = GAME_LABEL_WIDTH_DEFAULT * 2
     }
 
     private fun initObserver() {
@@ -51,14 +54,13 @@ class SRPlayerStatsGui : VisTable(), GuiBuilder {
         observeCurrentPlayerUseCase.observeStream {
             update(it)
             pack()
-            scaleTable(scaleHeight =  0.7f)
             setDimensions()
         }
     }
 
     private fun setDimensions() {
         alignGui(guiPosY = SCREEN_HEIGHT,
-                guiWidth = prefWidth,
+                guiWidth = width,
                 guiHeight = height,
                 alignHoriz = SRAlign.LEFT,
                 alignVert = SRAlign.TOP)

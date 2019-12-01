@@ -24,7 +24,6 @@ class SimpleAnimation(
         region = animation.keyFrames.last()
     }
 
-
     override fun actAnimation(gameImage: GameImage, delta: Float) {
         animationTime += delta
         (gameImage.drawable as TextureRegionDrawable).region = animation.getKeyFrame(animationTime, false)

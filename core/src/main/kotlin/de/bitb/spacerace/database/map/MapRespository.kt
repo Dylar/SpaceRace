@@ -24,6 +24,11 @@ class MapRespository(
                     .inValues(MapData_.name, arrayOf(*name))
                     .build().find()
 
+    override fun getRXMaps(vararg name: String): Single<List<MapData>> =
+            RxQuery.single(mapBox.query()
+                    .inValues(MapData_.name, arrayOf(*name))
+                    .build())
+
     override fun insertDBField(vararg maps: FieldData) {
         fieldBox.put(*maps)
     }

@@ -12,6 +12,7 @@ import de.bitb.spacerace.core.events.commands.player.DiceCommand
 import de.bitb.spacerace.ui.base.SRAlign
 import de.bitb.spacerace.ui.base.SRGuiGrid
 import de.bitb.spacerace.ui.screens.GuiNavi
+import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import de.bitb.spacerace.usecase.game.observe.ObservePlayerUseCase
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.EventBus
@@ -20,7 +21,7 @@ import javax.inject.Inject
 class SRActionGui : SRGuiGrid() {
 
     @Inject
-    protected lateinit var observePlayerUseCase: ObservePlayerUseCase
+    protected lateinit var observePlayerUseCase: ObserveCurrentPlayerUseCase
     private lateinit var disposable: Disposable
 
     @Inject
@@ -49,7 +50,7 @@ class SRActionGui : SRGuiGrid() {
     }
 
     private fun initObserver() {
-        disposable = observePlayerUseCase.observeStream(playerController.currentColor) { player ->
+        disposable = observePlayerUseCase.observeStream { player ->
             diceBtn.isDisabled = !player.phase.isMain1() || player.hasDicedEnough()
         }
     }

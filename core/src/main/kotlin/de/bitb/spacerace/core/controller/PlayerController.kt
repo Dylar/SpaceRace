@@ -15,8 +15,7 @@ import javax.inject.Singleton
 class PlayerController
 @Inject constructor(
         private val playerColorDispenser: PlayerColorDispenser,
-        private val observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase,
-        val box: Box<PlayerData>
+        private val observeCurrentPlayerUseCase: ObserveCurrentPlayerUseCase
 ) {
 
     private var dispo: Disposable? = null
