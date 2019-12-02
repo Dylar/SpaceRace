@@ -84,7 +84,7 @@ class LoadGameCommand : BaseCommand() {
         graphicController.setGoal(currentGoal = saveData.goal.target.gamePosition)
 
         gameController.initGameObserver()
-        game.changeScreen(screen)
+        game.screen = screen
     }
 
     private fun addGraphicPlayers(players: List<PlayerData>) {

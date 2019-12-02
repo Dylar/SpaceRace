@@ -30,14 +30,14 @@ abstract class SRWindowGui : VisWindow(""),
     protected fun initWindow() {
         inject()
 
-        Gdx.app.postRunnable {
-            setWindowConfig()
-            setContent()
-            centerWindow()
-            center()
-            pack()
-            fadeIn()
-        }
+//        Gdx.app.postRunnable {
+//        } // TODO android openGL bug
+        setWindowConfig()
+        setContent()
+        centerWindow()
+        center()
+        pack()
+        fadeIn()
     }
 
     protected open fun inject() {
@@ -53,7 +53,7 @@ abstract class SRWindowGui : VisWindow(""),
             it.titleFont = TexturePool.bitmapFont
             it.titleFontColor = FONT_COLOR_BUTTON
             it.background = TexturePool.getBackground(IMAGE_PATH_WINDOW_BACKGROUND, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT)
-//                    .apply {
+//                    .apply {a
 //                        minWidth = Dimensions.GameGuiDimensions.GAME_WINDOW_WIDTH
 //                        minHeight = Dimensions.GameGuiDimensions.GAME_WINDOW_HEIGHT
 //                    }

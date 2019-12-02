@@ -14,7 +14,7 @@ val defaultOnError: (Throwable) -> Unit = {
     it.printStackTrace()
 }
 
-interface DisposableContainer {
+interface DisposableHandler {
     val compositeDisposable: CompositeDisposable
 
     fun Disposable.addDisposable() {

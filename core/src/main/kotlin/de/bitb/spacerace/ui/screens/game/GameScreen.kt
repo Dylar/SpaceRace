@@ -1,6 +1,5 @@
 package de.bitb.spacerace.ui.screens.game
 
-import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.DEBUG_CAMERA_TARGET
@@ -11,13 +10,13 @@ import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
+import de.bitb.spacerace.ui.screens.GuiBackstack
+import de.bitb.spacerace.ui.screens.GuiBackstackHandler
+import de.bitb.spacerace.ui.screens.GuiNavi
 import de.bitb.spacerace.ui.screens.game.player.items.SRStorageItemMenu
 import de.bitb.spacerace.ui.screens.game.player.items.SRStorageMenu
 import de.bitb.spacerace.ui.screens.game.player.shop.SRShopItemMenu
 import de.bitb.spacerace.ui.screens.game.player.shop.SRShopMenu
-import de.bitb.spacerace.ui.screens.GuiBackstack
-import de.bitb.spacerace.ui.screens.GuiBackstackHandler
-import de.bitb.spacerace.ui.screens.GuiNavi
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndMenu
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndPlayerMenu
 import org.greenrobot.eventbus.EventBus
@@ -102,9 +101,7 @@ class GameScreen(
             is GuiNavi.ShopMenu -> SRShopMenu(event.player)
             is GuiNavi.ShopDetailMenu -> SRShopItemMenu(event.player, event.itemType)
         }.also {
-            Gdx.app.postRunnable {
-                addToBackstack(event, it, guiStage)
-            }
+            addToBackstack(event, it, guiStage)
         }
     }
 

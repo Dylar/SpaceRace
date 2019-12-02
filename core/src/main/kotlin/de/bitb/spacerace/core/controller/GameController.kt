@@ -6,7 +6,7 @@ import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.ui.screens.GuiNavi
-import de.bitb.spacerace.usecase.DisposableContainer
+import de.bitb.spacerace.usecase.DisposableHandler
 import de.bitb.spacerace.usecase.game.observe.*
 import io.reactivex.disposables.CompositeDisposable
 import org.greenrobot.eventbus.EventBus
@@ -23,7 +23,7 @@ class GameController
         var observeMoveItemUseCase: ObserveMoveItemUseCase,
         var playerController: PlayerController,
         var graphicController: GraphicController
-) : DisposableContainer {
+) : DisposableHandler {
     override val compositeDisposable = CompositeDisposable()
 
     fun clear() {

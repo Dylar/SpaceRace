@@ -55,7 +55,7 @@ class LoadEditorCommand : BaseCommand() {
 
         editorController.initEditor(mapData)
 
-        game.changeScreen(screen)
+        game.screen = screen
     }
 
 }

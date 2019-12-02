@@ -18,15 +18,17 @@ import de.bitb.spacerace.grafik.model.items.getText
 import de.bitb.spacerace.grafik.model.objecthandling.getDisplayImage
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.SRWindowGui
+import de.bitb.spacerace.usecase.DisposableHandler
 import de.bitb.spacerace.usecase.game.observe.ObservePlayerUseCase
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class SRStorageItemMenu(
         val playerColor: PlayerColor,
         val itemType: ItemType
-) : SRWindowGui() {
+) : SRWindowGui(), DisposableHandler {
+    override val compositeDisposable = CompositeDisposable()
 
     private var span: Int = 0
     private var unusedBtn: VisTextButton? = null
@@ -37,8 +39,6 @@ class SRStorageItemMenu(
     @Inject
     protected lateinit var observePlayerUseCase: ObservePlayerUseCase
 
-    private lateinit var disposable: Disposable
-
     protected lateinit var player: PlayerData
     protected val itemInfo = itemType.getDefaultInfo()
 
@@ -48,11 +48,11 @@ class SRStorageItemMenu(
     }
 
     private fun initObserver() {
-        disposable = observePlayerUseCase.observeStream(playerColor) { player ->
+        observePlayerUseCase.observeStream(playerColor) { player ->
             this.player = player
             titleLabel.setText(getTitle())
             unusedBtn?.isDisabled = player.equippedItems.count { it.itemInfo.type == itemType } == 0
-        }
+        }.addDisposable()
     }
 
     override fun inject() {

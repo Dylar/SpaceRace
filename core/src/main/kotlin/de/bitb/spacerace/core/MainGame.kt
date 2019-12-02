@@ -87,7 +87,7 @@ open class MainGame(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun gameOverEvent(event: GameOverEvent) {
-        changeScreen(GameOverScreen(this))
+        setScreen(GameOverScreen(this))
     }
 
 //
@@ -110,7 +110,7 @@ open class MainGame(
             isBackTipped() -> {
                 (screen as BaseScreen)
                         .previousScreen
-                        ?.also { changeScreen(it) }
+                        ?.also { setScreen(it) }
                         ?: Gdx.app.exit()
             }
         }

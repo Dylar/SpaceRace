@@ -75,7 +75,8 @@ class SRViewControlGui(
                     text = text,
                     listener = listener,
                     imageUp = TexturePool.getButton(IMAGE_PATH_BUTTON_UP),
-                    imageDown = TexturePool.getButton(IMAGE_PATH_BUTTON_DOWN))
+                    imageDown = TexturePool.getButton(IMAGE_PATH_BUTTON_DOWN)
+            )
                     .also {
                         addActor(it)
                     }

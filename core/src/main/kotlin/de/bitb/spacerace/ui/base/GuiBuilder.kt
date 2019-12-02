@@ -50,10 +50,10 @@ interface GuiBuilder {
 
     fun createTextButtons(
             text: String,
-            imageUp: Drawable = TexturePool.getButton(IMAGE_PATH_BUTTON_UP),
-            imageDown: Drawable = TexturePool.getButton(IMAGE_PATH_BUTTON_DOWN),
             width: Float = GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT,
             height: Float = GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT,
+            imageUp: Drawable = TexturePool.getButton(IMAGE_PATH_BUTTON_UP),
+            imageDown: Drawable = TexturePool.getButton(IMAGE_PATH_BUTTON_DOWN),
             listener: () -> Unit
     ): VisTextButton {
 

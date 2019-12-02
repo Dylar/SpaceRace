@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
-import de.bitb.spacerace.usecase.DisposableContainer
+import de.bitb.spacerace.usecase.DisposableHandler
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseStage(
         viewport: Viewport = ScreenViewport()
-) : Stage(viewport), DisposableContainer {
+) : Stage(viewport), DisposableHandler {
 
     companion object {
         val NONE = object : BaseStage() {}

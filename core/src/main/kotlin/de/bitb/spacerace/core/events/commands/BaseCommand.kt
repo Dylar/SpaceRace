@@ -1,13 +1,13 @@
 package de.bitb.spacerace.core.events.commands
 
 import de.bitb.spacerace.grafik.model.player.PlayerColor
-import de.bitb.spacerace.usecase.DisposableContainer
+import de.bitb.spacerace.usecase.DisposableHandler
 import io.reactivex.disposables.CompositeDisposable
 import org.greenrobot.eventbus.EventBus
 
 abstract class BaseCommand(
         var player: PlayerColor = PlayerColor.NONE
-) : DisposableContainer {
+) : DisposableHandler {
 
     protected fun <T> resetOnSuccess(): (T) -> Unit = { reset() }
     protected fun resetOnError(): (Throwable) -> Unit = { it.printStackTrace(); reset() }

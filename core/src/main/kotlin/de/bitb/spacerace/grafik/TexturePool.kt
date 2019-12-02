@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import de.bitb.spacerace.core.utils.Logger
-
 
 object TexturePool {
 
@@ -23,7 +21,7 @@ object TexturePool {
             getNinePatch(imagePath, 100f, 100f, .40f, .40f, .20f, .20f)
 
     fun getSmallButton(imagePath: String) =
-            getNinePatch(imagePath, 100f, 100f, .33f, .33f, .33f, .33f)
+            getNinePatch(imagePath, 200f, 200f, .33f, .33f, .33f, .33f)
 
     fun getNinePatch(
             imagePath: String,
