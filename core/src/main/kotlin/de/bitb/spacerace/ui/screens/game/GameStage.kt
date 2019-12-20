@@ -1,13 +1,15 @@
 package de.bitb.spacerace.ui.screens.game
 
+import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.math.Rectangle
+import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT_HALF
+import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.controller.PlayerController
-import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.grafik.model.objecthandling.BaseAnimation
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
@@ -20,7 +22,7 @@ import javax.inject.Inject
 
 class GameStage(
         val screen: GameScreen
-) : BaseStage() {
+) : BaseStage(), GestureDetector.GestureListener by GestureListenerAdapter() {
 
     @Inject
     protected lateinit var playerController: PlayerController
@@ -98,5 +100,6 @@ class GameStage(
 //        CAMERA_TARGET = img
         return img
     }
+
 
 }

@@ -2,6 +2,8 @@ package de.bitb.spacerace.ui.base
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -14,6 +16,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions
 import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_DOWN
 import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_UP
 import de.bitb.spacerace.grafik.TexturePool
+import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 
 interface GuiBuilder {
 
@@ -127,3 +130,10 @@ interface GuiBuilder {
         y = guiPosY + translateY
     }
 }
+
+fun GameImage.addClickListener(onClick: () -> Boolean) =
+        object : InputListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                return onClick()
+            }
+        }.also { addListener(it) }

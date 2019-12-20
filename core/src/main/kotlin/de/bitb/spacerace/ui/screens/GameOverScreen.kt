@@ -9,16 +9,22 @@ import de.bitb.spacerace.grafik.TextureCollection
 
 class GameOverScreen(game: MainGame) : BaseScreen(game, null) {
 
-    override fun createBackgroundStage(): BaseStage {
-        return object : BaseStage() {
-            override fun draw() {
-                batch.begin()
-                batch.draw(TextureCollection.gameOverBackground, 0f, 0f, SCREEN_WIDTH, SCREEN_HEIGHT)
-                batch.end()
-                super.draw()
+    private val simpleStage =
+            object : BaseStage() {
+                override fun draw() {
+                    batch.begin()
+                    batch.draw(TextureCollection.gameOverBackground, 0f, 0f, SCREEN_WIDTH, SCREEN_HEIGHT)
+                    batch.end()
+                    super.draw()
+                }
             }
-        }
+
+    override fun actScreen(delta: Float) {
+        simpleStage.act(delta)
     }
 
+    override fun renderScreen() {
+        simpleStage.draw()
+    }
 
 }

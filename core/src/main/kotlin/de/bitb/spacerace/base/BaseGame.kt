@@ -21,4 +21,9 @@ abstract class BaseGame : Game() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }
 
+    override fun render() {
+        clearScreen()
+        super.render()
+    }
+
 }

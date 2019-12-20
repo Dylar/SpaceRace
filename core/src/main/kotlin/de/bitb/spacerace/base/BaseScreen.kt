@@ -1,32 +1,31 @@
 package de.bitb.spacerace.base
 
-import com.badlogic.gdx.*
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.input.GestureDetector
+import com.badlogic.gdx.scenes.scene2d.Stage
 import de.bitb.spacerace.CameraActions.*
-import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
+import de.bitb.spacerace.ui.screens.game.BackgroundStage
 
 
-open class BaseScreen(
+abstract class BaseScreen(
         val game: MainGame,
         val previousScreen: BaseScreen?
-) : Screen, GestureDetector.GestureListener by GestureListenerAdapter() {
+) : Screen {
     companion object {
         var MAIN_DELTA = 0f
     }
 
-    var backgroundStage: BaseStage = BaseStage.NONE
-    var gameStage: BaseStage = BaseStage.NONE
-    var guiStage: BaseStage = BaseStage.NONE
     var cameraStatus = CAMERA_START
 
     var currentZoom: Float = 1f
         set(value) {
-            field = when  {
+            field = when {
                 value < MIN_ZOOM -> MIN_ZOOM
                 value > MAX_ZOOM -> MAX_ZOOM
                 else -> value
@@ -34,45 +33,34 @@ open class BaseScreen(
         }
 
     override fun show() {
+        val stages = getInputStages()
+        Gdx.input.inputProcessor = InputMultiplexer(*stages.toTypedArray(), DebugInputProcessor)
 
-        guiStage = createGuiStage()
-        gameStage = createGameStage()
-        backgroundStage = createBackgroundStage()
-        Gdx.input.inputProcessor = InputMultiplexer(guiStage, gameStage, GestureDetector(this), DebugInputProcessor)
-
-        val gameCam = gameStage.camera as OrthographicCamera
+        val gameCam = stages[1].camera as OrthographicCamera //TODO do this in another way
         gameCam.zoom = currentZoom
         zoom()
     }
 
-    open fun createBackgroundStage(): BaseStage {
-        return BaseStage.NONE
-    }
-
-    open fun createGuiStage(): BaseStage {
-        return BaseStage.NONE
-    }
-
-    open fun createGameStage(): BaseStage {
-        return BaseStage.NONE
-    }
+    abstract fun getAllStages(): List<Stage> //guiStage, gameStage
+    abstract fun getInputStages(): List<Stage> //guiStage, gameStage
 
     override fun render(delta: Float) {
         MAIN_DELTA += delta
-        game.clearScreen(blue = 200f)
 
-        renderBackground(delta)
-        renderGame(delta)
-        renderGui(delta)
-
-        renderCamera(delta)
+        actScreen(delta)
+        renderScreen()
+        renderCamera()
 
         if (MAIN_DELTA > 1f) {
             MAIN_DELTA = 0f
         }
     }
 
-    open fun renderCamera(delta: Float) {
+    abstract fun actScreen(delta: Float)
+    abstract fun renderScreen()
+    abstract fun renderCamera()
+
+    open fun renderCamera(backgroundStage: BackgroundStage, gameStage: Stage) {
         when (cameraStatus) {
             CAMERA_START,
             CAMERA_LOCKED -> {
@@ -82,7 +70,9 @@ open class BaseScreen(
                     }
                     val posX = it.getCenterX()
                     val posY = it.getCenterY()
-                    setCameraPosition(posX, posY)
+
+                    gameStage.camera.position.set(posX, posY, 0f)
+                    gameStage.camera.update()
 
                     backgroundStage.translateTo(posX / currentZoom, -posY / currentZoom)
                 }
@@ -92,28 +82,8 @@ open class BaseScreen(
         }
     }
 
-    fun setCameraPosition(posX: Float, posY: Float) {
-        gameStage.camera.position.set(posX, posY, 0f)
-        gameStage.camera.update()
-    }
-
     open fun getCameraTarget(): GameImage? {
         return null
-    }
-
-    open fun renderBackground(delta: Float) {
-        backgroundStage.act(delta)
-        backgroundStage.draw()
-    }
-
-    open fun renderGame(delta: Float) {
-        gameStage.act(delta)
-        gameStage.draw()
-    }
-
-    open fun renderGui(delta: Float) {
-        guiStage.act(delta)
-        guiStage.draw()
     }
 
     override fun pause() {

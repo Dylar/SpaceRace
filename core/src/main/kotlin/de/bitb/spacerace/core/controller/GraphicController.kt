@@ -19,6 +19,7 @@ import de.bitb.spacerace.grafik.model.player.PlayerImage
 import de.bitb.spacerace.grafik.model.space.fields.FieldGraphic
 import de.bitb.spacerace.grafik.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
+import de.bitb.spacerace.ui.base.addClickListener
 import de.bitb.spacerace.usecase.game.action.MoveResult
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
@@ -61,10 +62,11 @@ class GraphicController
 
     fun addField(spaceField: FieldGraphic) {
         fieldGraphics[spaceField.gamePosition] = spaceField
-        spaceField.getGameImage().addListener {
-            EventBus.getDefault().post(MoveCommand.get(spaceField.gamePosition, playerController.currentColor))
-            true
-        }
+        spaceField.getGameImage()
+                .addClickListener {
+                    EventBus.getDefault().post(MoveCommand.get(spaceField.gamePosition, playerController.currentColor))
+                    true
+                }
     }
 
     fun clearGraphics() {

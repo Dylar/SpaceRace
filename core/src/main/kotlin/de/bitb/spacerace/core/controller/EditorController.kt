@@ -7,6 +7,7 @@ import de.bitb.spacerace.grafik.model.space.fields.ConnectionGraphic
 import de.bitb.spacerace.grafik.model.space.fields.FieldGraphic
 import de.bitb.spacerace.grafik.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
+import de.bitb.spacerace.ui.base.addClickListener
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,7 +40,7 @@ class EditorController
             val spaceField = FieldGraphic.createField(fieldConfigData.fieldType)
                     .also { fieldGraphics[fieldConfigData.gamePosition] = it }
             fields.add(fieldConfigData)
-            spaceField.getGameImage().addListener {
+            spaceField.getGameImage().addClickListener {
                 when (editorMode) {
                     EditorMode.SELECT -> true
                     EditorMode.EDIT -> true
