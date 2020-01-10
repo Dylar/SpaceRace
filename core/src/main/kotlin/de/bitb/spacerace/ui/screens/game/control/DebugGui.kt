@@ -42,8 +42,8 @@ class DebugGui(val screen: GameScreen
 
     override fun act(delta: Float) {
         super.act(delta)
-        val position = screen.gameStage.camera.position
-        label.setText("${"%.1f".format(position.x)}, ${"%.1f".format(position.y)}")
+//        val position = screen.gameStage.camera.position //TODO make that anders
+//        label.setText("${"%.1f".format(position.x)}, ${"%.1f".format(position.y)}")
         pack()
     }
 

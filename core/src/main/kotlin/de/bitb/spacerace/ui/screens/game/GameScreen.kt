@@ -1,7 +1,7 @@
 package de.bitb.spacerace.ui.screens.game
 
+import com.badlogic.gdx.scenes.scene2d.Stage
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.base.CameraRenderer
 import de.bitb.spacerace.base.CameraStateRenderer
 import de.bitb.spacerace.config.DEBUG_CAMERA_TARGET
@@ -10,7 +10,6 @@ import de.bitb.spacerace.core.controller.GameController
 import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.utils.Logger
-import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 import de.bitb.spacerace.ui.screens.GuiBackstack
 import de.bitb.spacerace.ui.screens.GuiBackstackHandler
@@ -37,9 +36,6 @@ class GameScreen(
         MainGame.appComponent.inject(this)
     }
 
-    @Inject //TODO delete me
-    protected lateinit var playerDataSource: PlayerDataSource
-
     @Inject
     protected lateinit var graphicController: GraphicController
 
@@ -49,43 +45,38 @@ class GameScreen(
     @Inject
     protected lateinit var playerController: PlayerController
 
-    override fun createGuiStage(): BaseStage {
-        return GameGuiStage(this)
-    }
+     val cameraTarget: GameImage?
+        get() = DEBUG_CAMERA_TARGET ?: graphicController.currentPlayerGraphic.getGameImage()
 
-    override fun createGameStage(): BaseStage {
-        return GameStage(this)
-    }
+    private lateinit var guiStage: GameGuiStage
 
-    override fun createBackgroundStage(): BaseStage {
-        return BackgroundStage(this)
-    }
-
-    override fun getCameraTarget(): GameImage? {
-        return DEBUG_CAMERA_TARGET ?: graphicController.currentPlayerGraphic.getGameImage()
-    }
-
-    fun onZoomPlusClicked() {
-        currentZoom -= .3f
-        zoom()
-    }
-
-    fun onZoomMinusClicked() {
-        currentZoom += .3f
-        zoom()
-    }
+    override lateinit var allStages: List<Stage>
+    override lateinit var inputStages: List<Stage>
 
     override fun show() {
+        initStages()
         super.show()
-        addEntities()
         EventBus.getDefault().register(this)
     }
 
-    private fun addEntities() {
-        val gameStage = gameStage as GameStage
+    private fun initStages() {
+        guiStage = GameGuiStage(this)
+        val gameStage = GameStage(this)
+        val backgroundStage = BackgroundStage(this)
+        allStages = mutableListOf(backgroundStage, gameStage, guiStage)
+        inputStages = mutableListOf(gameStage, guiStage)
+
         gameStage.clear()
         gameStage.addEntitiesToMap()
+        initCamera(
+                entityStage = gameStage,
+                backgroundStage = backgroundStage,
+                centerOnEntity = cameraTarget
+        )
     }
+
+    fun onZoomPlusClicked() = addZoom(-.3f)
+    fun onZoomMinusClicked() = addZoom(.3f)
 
     override fun hide() {
         super.hide()

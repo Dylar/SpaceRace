@@ -3,6 +3,7 @@ package de.bitb.spacerace.ui.screens.game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseGuiStage
+import de.bitb.spacerace.base.CameraRenderer
 import de.bitb.spacerace.ui.screens.game.player.SRPlayerStatsGui
 import de.bitb.spacerace.ui.screens.game.control.SRActionGui
 import de.bitb.spacerace.ui.screens.game.control.SRViewControlGui
@@ -25,8 +26,10 @@ class GameGuiStage(
     override fun act(delta: Float) {
         when {
             Gdx.input.isKeyJustPressed(Input.Keys.SPACE) -> {
-                screen.centerCamera()
-                srViewControlGui.updateButtons(screen as GameScreen)
+                if(screen is CameraRenderer){
+                    screen.centerCamera((screen as GameScreen).cameraTarget)
+                    srViewControlGui.updateButtons(screen as GameScreen)
+                }
             }
             Gdx.input.isKeyJustPressed(Input.Keys.SLASH) -> (screen as GameScreen).onZoomMinusClicked()
             Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET) -> (screen as GameScreen).onZoomPlusClicked()

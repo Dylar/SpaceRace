@@ -3,6 +3,7 @@ package de.bitb.spacerace.ui.screens.game
 import com.badlogic.gdx.graphics.Texture
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
+import de.bitb.spacerace.base.CameraRenderer
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.STAR_COUNT
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
@@ -11,12 +12,12 @@ import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.grafik.model.background.FallingStar
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 
-
 class BackgroundStage(
         val screen: BaseScreen,
         private var texture: Texture = TextureCollection.gameBackground
 ) : BaseStage() {
 
+    private var currentZoom: Float = 4f
     var backgroundObjects: MutableList<GameImage> = ArrayList()
 
     init {
@@ -43,13 +44,20 @@ class BackgroundStage(
         super.addActor(actor)
     }
 
+    override fun act() {
+        super.act()
+        if (screen is CameraRenderer) {
+            currentZoom = screen.currentZoom
+        }
+    }
+
     override fun draw() {
         clearColor()
         batch.begin()
         setColor(alpha = 0.9f)
         batch.draw(texture, 0f, 0f, posX.toInt(), posY.toInt(),
-                (SCREEN_WIDTH * (MAX_ZOOM - screen.currentZoom + 1)).toInt(),
-                (SCREEN_HEIGHT * (MAX_ZOOM - screen.currentZoom + 1)).toInt())
+                (SCREEN_WIDTH * (MAX_ZOOM - currentZoom + 1)).toInt(),
+                (SCREEN_HEIGHT * (MAX_ZOOM - currentZoom + 1)).toInt())
         clearColor()
         batch.end()
         super.draw()

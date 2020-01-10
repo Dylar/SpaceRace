@@ -47,7 +47,8 @@ class StarImage(
 
     override fun act(delta: Float) {
         super.act(delta)
-        val zoom = (MAX_ZOOM - gameScreen.currentZoom + 1) * BACKGROUND_STARS_SCALE
+        val zoom = (MAX_ZOOM - 4 + 1) * BACKGROUND_STARS_SCALE
+//        val zoom = (MAX_ZOOM - gameScreen.currentZoom + 1) * BACKGROUND_STARS_SCALE
         scaleX = zoom.toFloat()
         scaleY = zoom.toFloat()
 

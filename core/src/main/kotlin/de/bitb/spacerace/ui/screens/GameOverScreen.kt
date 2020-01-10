@@ -1,5 +1,6 @@
 package de.bitb.spacerace.ui.screens
 
+import com.badlogic.gdx.scenes.scene2d.Stage
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_HEIGHT
@@ -18,13 +19,7 @@ class GameOverScreen(game: MainGame) : BaseScreen(game, null) {
                     super.draw()
                 }
             }
-
-    override fun actScreen(delta: Float) {
-        simpleStage.act(delta)
-    }
-
-    override fun renderScreen() {
-        simpleStage.draw()
-    }
+    override var allStages: List<Stage> = listOf(simpleStage)
+    override var inputStages: List<Stage> = listOf()
 
 }

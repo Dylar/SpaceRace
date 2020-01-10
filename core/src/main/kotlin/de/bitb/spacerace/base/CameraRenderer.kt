@@ -1,58 +1,71 @@
 package de.bitb.spacerace.base
 
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.input.GestureDetector.*
 import com.badlogic.gdx.scenes.scene2d.Stage
-import de.bitb.spacerace.CameraAction
+import de.bitb.spacerace.GestureListenerAdapter
+import de.bitb.spacerace.base.CameraAction.TARGET_ACTION
+import de.bitb.spacerace.base.CameraAction.TARGET_ACTION.*
+import de.bitb.spacerace.config.MAX_ZOOM
+import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 
-interface CameraRenderer {
-    var cameraAction: CameraAction
+sealed class CameraAction {
+    sealed class TARGET_ACTION(val targetEntity: GameImage?) : CameraAction() {
+        class CAMERA_START(startEntity: GameImage?) : TARGET_ACTION(startEntity)
+        class CAMERA_LOCKED(lockedEntity: GameImage?) : TARGET_ACTION(lockedEntity)
+    }
 
-    var entityStage: Stage
-    var backgroundStage: BaseStage
-
-    fun initCamera(entityStage: Stage, backgroundStage: BaseStage, startX: Float, endY: Float, centerOnEntity: GameImage?)
-
-    fun centerCamera(targetEntity: GameImage)
-    fun zoom(initialDistance: Float = 1f, distance: Float = 1f)
-
-    fun pan(deltaX: Float, deltaY: Float): Boolean
-    fun panStop(): Boolean
-    fun renderCamera()
+    object CAMERA_FREE : CameraAction()
 }
 
-class CameraStateRenderer : CameraRenderer {
+interface CameraRenderer : GestureListener {
+    var currentZoom: Float
+    var cameraAction: CameraAction
+
+    fun initCamera(entityStage: Stage, backgroundStage: BaseStage, centerOnEntity: GameImage? = null)
+    fun centerCamera(targetEntity: GameImage?)
+    fun zoom()
+    fun renderCamera()
+    fun addZoom(value: Float)
+}
+
+class CameraStateRenderer : CameraRenderer, GestureListener by GestureListenerAdapter() {
 
     override lateinit var cameraAction: CameraAction
 
-    override lateinit var entityStage: Stage
-    override lateinit var backgroundStage: BaseStage
+    private lateinit var entityStage: Stage
+    private lateinit var backgroundStage: BaseStage
 
-    private var currentZoom: Float = 1f
+    override var currentZoom: Float = 1f
+        set(value) {
+            field = when {
+                value < MIN_ZOOM -> MIN_ZOOM
+                value > MAX_ZOOM -> MAX_ZOOM
+                else -> value
+            }
+        }
 
     override fun initCamera(
             entityStage: Stage,
             backgroundStage: BaseStage,
-            startX: Float,
-            endY: Float,
             centerOnEntity: GameImage?
     ) {
         this.entityStage = entityStage
         this.backgroundStage = backgroundStage
-        cameraAction = CameraAction.TARGET_ACTION.CAMERA_START(centerOnEntity)
+        cameraAction = CAMERA_START(centerOnEntity)
 
-        val gameCam = entityStage.getOrthographicCamera()
-        gameCam.zoom = currentZoom
-        zoom()
+        entityStage.getOrthographicCamera().zoom = currentZoom
+        zoom(1f, 1f)
     }
 
     override fun renderCamera() {
         when (cameraAction) {
-            is CameraAction.TARGET_ACTION.CAMERA_START,
-            is CameraAction.TARGET_ACTION.CAMERA_LOCKED -> {
-                val target = (cameraAction as CameraAction.TARGET_ACTION).targetEntity
+            is CAMERA_START,
+            is CAMERA_LOCKED -> {
+                val target = (cameraAction as TARGET_ACTION).targetEntity
                 target?.also {
-                    if (cameraAction is CameraAction.TARGET_ACTION.CAMERA_START) {
+                    if (cameraAction is CAMERA_START) {
                         cameraAction = CameraAction.CAMERA_FREE
                     }
                     val posX = it.getCenterX()
@@ -73,28 +86,30 @@ class CameraStateRenderer : CameraRenderer {
         backgroundStage.translateTo(posX / currentZoom, -posY / currentZoom)
     }
 
-    override fun centerCamera(targetEntity: GameImage) {
-        cameraAction = CameraAction.TARGET_ACTION.CAMERA_LOCKED(targetEntity)
+    override fun centerCamera(targetEntity: GameImage?) {
+        cameraAction = CAMERA_LOCKED(targetEntity)
+    }
+
+    override fun zoom() {
+        zoom(1f, 1f)
     }
 
     override fun zoom(
             initialDistance: Float,
             distance: Float
-    ) {
+    ): Boolean {
         val gameCam = entityStage.getOrthographicCamera()
         gameCam.zoom = initialDistance / distance * currentZoom
         gameCam.update()
+        return true
     }
 
-//    override fun zoom(initialDistance: Float, distance: Float): Boolean {
-//        zoom(initialDistance / distance)
-//        return true
-//    }
+    override fun addZoom(value: Float) {
+        currentZoom += value
+        zoom()
+    }
 
-    override fun pan(
-            deltaX: Float,
-            deltaY: Float
-    ): Boolean {
+    override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
         when (cameraAction) {
             is CameraAction.CAMERA_FREE -> {
                 var gameCam = entityStage.getOrthographicCamera()
@@ -108,7 +123,7 @@ class CameraStateRenderer : CameraRenderer {
         return false
     }
 
-    override fun panStop(): Boolean {
+    override fun panStop(x: Float, y: Float, pointer: Int, button: Int): Boolean {
         currentZoom = (entityStage.getOrthographicCamera()).zoom
         entityStage.getOrthographicCamera().zoom = currentZoom
         return false
