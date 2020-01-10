@@ -2,6 +2,8 @@ package de.bitb.spacerace.ui.screens.game
 
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.base.BaseStage
+import de.bitb.spacerace.base.CameraRenderer
+import de.bitb.spacerace.base.CameraStateRenderer
 import de.bitb.spacerace.config.DEBUG_CAMERA_TARGET
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.GameController
@@ -28,7 +30,8 @@ class GameScreen(
         game: MainGame,
         previousScreen: BaseScreen
 ) : BaseScreen(game, previousScreen),
-        GuiBackstack by GuiBackstackHandler {
+        GuiBackstack by GuiBackstackHandler,
+        CameraRenderer by CameraStateRenderer() {
 
     init {
         MainGame.appComponent.inject(this)

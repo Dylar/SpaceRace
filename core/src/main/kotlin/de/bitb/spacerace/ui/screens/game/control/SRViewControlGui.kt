@@ -1,7 +1,7 @@
 package de.bitb.spacerace.ui.screens.game.control
 
 import com.kotcrab.vis.ui.widget.VisTextButton
-import de.bitb.spacerace.CameraActions
+import de.bitb.spacerace.CameraActionType
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
@@ -83,7 +83,7 @@ class SRViewControlGui(
 
     fun updateButtons(screen: GameScreen) {
         lockBtn.setText(when {
-            screen.cameraStatus == CameraActions.CAMERA_FREE -> "(O)"
+            screen.cameraStatus == CameraActionType.CAMERA_FREE -> "(O)"
             else -> "(X)"
         })
     }
