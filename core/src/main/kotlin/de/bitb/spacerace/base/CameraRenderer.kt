@@ -87,7 +87,7 @@ class CameraStateRenderer : CameraRenderer, GestureListener by GestureListenerAd
     }
 
     override fun centerCamera(targetEntity: GameImage?) {
-        cameraAction = CAMERA_LOCKED(targetEntity)
+        cameraAction = targetEntity?.let { CAMERA_LOCKED(it) } ?: CameraAction.CAMERA_FREE
     }
 
     override fun zoom() {

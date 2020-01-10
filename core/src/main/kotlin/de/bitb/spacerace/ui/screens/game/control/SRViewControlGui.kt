@@ -1,6 +1,7 @@
 package de.bitb.spacerace.ui.screens.game.control
 
 import com.kotcrab.vis.ui.widget.VisTextButton
+import de.bitb.spacerace.base.CameraAction
 import de.bitb.spacerace.base.CameraAction.TARGET_ACTION.*
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT
@@ -60,7 +61,7 @@ class SRViewControlGui(
                 text = "(O)",
                 listener = {
                     screen.centerCamera(screen.cameraTarget)
-                    updateButtons(screen)
+                    updateButtons(screen.cameraAction)
                 })
     }
 
@@ -81,8 +82,8 @@ class SRViewControlGui(
                         addActor(it)
                     }
 
-    fun updateButtons(screen: GameScreen) {
-        val text = when (screen.cameraAction) {
+    fun updateButtons(cameraAction: CameraAction) {
+        val text = when (cameraAction) {
             is CAMERA_LOCKED -> "(O)"
             else -> "(X)"
         }
