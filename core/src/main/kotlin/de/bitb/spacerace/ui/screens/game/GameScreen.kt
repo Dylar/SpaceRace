@@ -45,7 +45,7 @@ class GameScreen(
     @Inject
     protected lateinit var playerController: PlayerController
 
-     val cameraTarget: GameImage?
+    val cameraTarget: GameImage?
         get() = DEBUG_CAMERA_TARGET ?: graphicController.currentPlayerGraphic.getGameImage()
 
     private lateinit var guiStage: GameGuiStage
@@ -55,6 +55,7 @@ class GameScreen(
 
     override fun show() {
         initStages()
+        cameraInput = this
         super.show()
         EventBus.getDefault().register(this)
     }
@@ -64,7 +65,7 @@ class GameScreen(
         val gameStage = GameStage(this)
         val backgroundStage = BackgroundStage(this)
         allStages = mutableListOf(backgroundStage, gameStage, guiStage)
-        inputStages = mutableListOf(gameStage, guiStage)
+        inputStages = mutableListOf(guiStage, gameStage)
 
         gameStage.clear()
         gameStage.addEntitiesToMap()

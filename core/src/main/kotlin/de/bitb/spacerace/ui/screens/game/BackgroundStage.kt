@@ -17,7 +17,7 @@ class BackgroundStage(
         private var texture: Texture = TextureCollection.gameBackground
 ) : BaseStage() {
 
-    private var currentZoom: Float = 4f
+    private var currentZoom: Float = 0.3f
     var backgroundObjects: MutableList<GameImage> = ArrayList()
 
     init {

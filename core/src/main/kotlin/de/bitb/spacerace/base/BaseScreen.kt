@@ -31,7 +31,9 @@ abstract class BaseScreen(
 
         actScreen(delta)
         renderScreen()
-        renderCamera()
+        if(this is CameraRenderer){
+            renderCamera()
+        }
 
         if (MAIN_DELTA > 1f) {
             MAIN_DELTA = 0f
@@ -40,7 +42,6 @@ abstract class BaseScreen(
 
     open fun actScreen(delta: Float) = allStages.forEach { it.act(delta) }
     open fun renderScreen() = allStages.forEach { it.draw() }
-    open fun renderCamera() {}
 
     override fun pause() {
     }
