@@ -29,19 +29,14 @@ abstract class BaseScreen(
     override fun render(delta: Float) {
         MAIN_DELTA += delta
 
-        actScreen(delta)
-        renderScreen()
-        if(this is CameraRenderer){
-            renderCamera()
-        }
+        allStages.forEach { it.act(delta) }
+        allStages.forEach { it.draw() }
+        if (this is CameraRenderer) renderCamera()
 
         if (MAIN_DELTA > 1f) {
             MAIN_DELTA = 0f
         }
     }
-
-    open fun actScreen(delta: Float) = allStages.forEach { it.act(delta) }
-    open fun renderScreen() = allStages.forEach { it.draw() }
 
     override fun pause() {
     }
@@ -54,7 +49,7 @@ abstract class BaseScreen(
     }
 
     override fun hide() {
-        allStages.filterIsInstance<BaseStage>()
+        allStages.mapNotNull { it as? BaseStage }
                 .forEach { it.disposeDisposables() }
     }
 

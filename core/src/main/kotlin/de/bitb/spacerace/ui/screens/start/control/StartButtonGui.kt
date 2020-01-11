@@ -178,7 +178,7 @@ class StartButtonGui(
     private fun addEditorButton() {
         editorBtn = createButton(name = GameGuiStrings.START_BUTTON_EDITOR, fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(LoadEditorCommand.get(SELECTED_MAP))
+                EventBus.getDefault().post(LoadEditorCommand.get(SELECTED_MAP)) //TODO new map
                 return true
             }
         })

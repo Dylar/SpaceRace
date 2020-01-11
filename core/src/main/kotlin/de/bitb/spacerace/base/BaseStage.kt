@@ -12,7 +12,7 @@ abstract class BaseStage(
 ) : Stage(viewport), DisposableHandler {
 
     companion object {
-        val NONE = object : BaseStage() {}
+        val NONE_STAGE = object : BaseStage() {}
     }
 
     override val compositeDisposable = CompositeDisposable()

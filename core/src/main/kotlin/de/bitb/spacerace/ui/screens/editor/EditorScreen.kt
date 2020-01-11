@@ -2,18 +2,23 @@ package de.bitb.spacerace.ui.screens.editor
 
 import com.badlogic.gdx.scenes.scene2d.Stage
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.base.BaseStage
+import de.bitb.spacerace.base.BaseStage.Companion.NONE_STAGE
+import de.bitb.spacerace.base.CameraRenderer
+import de.bitb.spacerace.base.CameraStateRenderer
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.EditorController
+import de.bitb.spacerace.ui.screens.GuiBackstack
+import de.bitb.spacerace.ui.screens.GuiBackstackHandler
 import de.bitb.spacerace.ui.screens.game.BackgroundStage
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 
 class EditorScreen(
         game: MainGame,
         previous: BaseScreen
-) : BaseScreen(game, previous) {
+) : BaseScreen(game, previous),
+        GuiBackstack by GuiBackstackHandler,
+        CameraRenderer by CameraStateRenderer()  {
 
     @Inject
     protected lateinit var editorController: EditorController
@@ -42,12 +47,26 @@ class EditorScreen(
 //                gameStage.addActor(it.spaceField2.getGameImage())
 //            }
 //        }
+
+
+//        guiStage = GameGuiStage(this)
+        val gameStage = NONE_STAGE //TODO make that real
+        val backgroundStage = BackgroundStage(this) //TODO set background
+        allStages = mutableListOf(backgroundStage)
+        inputStages = mutableListOf()
+
+//        gameStage.clear()
+//        gameStage.addEntitiesToMap()
+        initCamera(
+                entityStage = gameStage,
+                backgroundStage = backgroundStage
+        )
     }
 
     override fun hide() {
         super.hide()
         editorController.clear()
-        EventBus.getDefault().unregister(this)
+//        EventBus.getDefault().unregister(this)
     }
 
 }

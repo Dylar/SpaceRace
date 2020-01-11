@@ -1,18 +1,19 @@
 package de.bitb.spacerace.ui.screens.start
 
-import de.bitb.spacerace.base.BaseGuiStage
+import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.strings.Strings.StartGuiStrings.START_BUTTON_LOAD
 import de.bitb.spacerace.core.events.OpenDebugGuiEvent
 import de.bitb.spacerace.core.events.OpenLoadGameEvent
+import de.bitb.spacerace.ui.base.GuiComponent
 import de.bitb.spacerace.ui.screens.start.control.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class StartGuiStage(
-        screen: StartScreen
-) : BaseGuiStage(screen) {
+        val screen: StartScreen
+) : BaseStage(), GuiComponent {
 
     private var startButtonControl = StartButtonGui(this)
 

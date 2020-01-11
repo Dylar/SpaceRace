@@ -1,7 +1,6 @@
 package de.bitb.spacerace.core.injection.components
 
 import dagger.Component
-import de.bitb.spacerace.base.BaseGuiStage
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.core.events.commands.phases.StartNextRoundCommand
@@ -50,8 +49,6 @@ interface AppComponent {
 //    fun inject(playerController: PlayerController)
 
     //UI
-    fun inject(baseGuiStage: BaseGuiStage)
-
     fun inject(mapSelectionGui: MapSelectionGui)
 
     fun inject(startButtonGui: StartButtonGui)

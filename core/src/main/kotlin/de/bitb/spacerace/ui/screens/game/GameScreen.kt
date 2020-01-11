@@ -45,13 +45,13 @@ class GameScreen(
     @Inject
     protected lateinit var playerController: PlayerController
 
-    val cameraTarget: GameImage?
-        get() = DEBUG_CAMERA_TARGET ?: graphicController.currentPlayerGraphic.getGameImage()
-
     private lateinit var guiStage: GameGuiStage
 
     override lateinit var allStages: List<Stage>
     override lateinit var inputStages: List<Stage>
+
+    val cameraTarget: GameImage?
+        get() = DEBUG_CAMERA_TARGET ?: graphicController.currentPlayerGraphic.getGameImage()
 
     override fun show() {
         initStages()

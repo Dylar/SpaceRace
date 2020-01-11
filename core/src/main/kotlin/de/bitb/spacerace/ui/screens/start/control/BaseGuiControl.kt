@@ -9,7 +9,6 @@ import de.bitb.spacerace.ui.screens.start.StartGuiStage
 
 abstract class BaseGuiControl(val guiStage: StartGuiStage) : Table(TextureCollection.skin), GuiComponent by guiStage {
 
-
     init {
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
 
