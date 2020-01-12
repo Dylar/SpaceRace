@@ -18,7 +18,7 @@ import de.bitb.spacerace.core.injection.modules.ApplicationModule
 import de.bitb.spacerace.core.injection.modules.DatabaseModule
 import de.bitb.spacerace.grafik.model.space.maps.MapCreator
 import de.bitb.spacerace.grafik.model.space.maps.initDefaultMap
-import de.bitb.spacerace.ui.screens.GameOverScreen
+import de.bitb.spacerace.ui.screens.over.GameOverScreen
 import de.bitb.spacerace.ui.screens.start.StartScreen
 import de.bitb.spacerace.usecase.game.CommandUsecase
 import io.objectbox.BoxStore
@@ -76,7 +76,7 @@ open class MainGame(
 
     override fun initScreen() {
         VisUI.load(VisUI.SkinScale.X2)
-        setScreen(StartScreen(this))
+        setScreen(StartScreen())
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -86,7 +86,7 @@ open class MainGame(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun gameOverEvent(event: GameOverEvent) {
-        setScreen(GameOverScreen(this))
+        setScreen(GameOverScreen())
     }
 
 //

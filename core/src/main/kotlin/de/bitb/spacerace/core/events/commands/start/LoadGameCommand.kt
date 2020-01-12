@@ -76,7 +76,7 @@ class LoadGameCommand : BaseCommand() {
     }
 
     private fun setGraphics(saveData: SaveData) {
-        val screen = GameScreen(game, game.screen as BaseScreen)
+        val screen = GameScreen(game.screen as BaseScreen)
         val fields = saveData.fields
         addGraphicFields(fields)
         addGraphicConnections(fields)

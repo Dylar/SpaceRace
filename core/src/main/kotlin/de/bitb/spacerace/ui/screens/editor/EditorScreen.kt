@@ -2,70 +2,53 @@ package de.bitb.spacerace.ui.screens.editor
 
 import com.badlogic.gdx.scenes.scene2d.Stage
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.base.BaseStage.Companion.NONE_STAGE
 import de.bitb.spacerace.base.CameraRenderer
 import de.bitb.spacerace.base.CameraStateRenderer
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.controller.EditorController
+import de.bitb.spacerace.core.controller.EditorGloc
 import de.bitb.spacerace.ui.screens.GuiBackstack
 import de.bitb.spacerace.ui.screens.GuiBackstackHandler
-import de.bitb.spacerace.ui.screens.game.BackgroundStage
+import de.bitb.spacerace.ui.screens.BackgroundStage
 import javax.inject.Inject
 
-
 class EditorScreen(
-        game: MainGame,
         previous: BaseScreen
-) : BaseScreen(game, previous),
+) : BaseScreen(previous),
         GuiBackstack by GuiBackstackHandler,
-        CameraRenderer by CameraStateRenderer()  {
+        CameraRenderer by CameraStateRenderer() {
 
     @Inject
-    protected lateinit var editorController: EditorController
+    protected lateinit var editorGloc: EditorGloc
 
-    override  var allStages: List<Stage> = listOf(BackgroundStage(this))
-    override  var inputStages: List<Stage> = listOf()
+    override lateinit var allStages: List<Stage>
+    override lateinit var inputStages: List<Stage>
 
     override fun show() {
         MainGame.appComponent.inject(this)
-        addEntities()
+        initScreen()
         super.show()
     }
 
-    private fun addEntities() {
-//        gameStage.clear()
-//
-//        gameStage.addActor(editorController.connectionGraphics)
-//        editorController.connectionGraphics.zIndex = 0
-//        editorController.connectionGraphics.forEach {
-//
-//            if(!it.spaceField1.getGameImage().hasParent()){
-//                gameStage.addActor(it.spaceField1.getGameImage())
-//            }//TODO add fields undmach die andren
-//
-//            if(!it.spaceField2.getGameImage().hasParent()){
-//                gameStage.addActor(it.spaceField2.getGameImage())
-//            }
-//        }
-
-
+    private fun initScreen() {
 //        guiStage = GameGuiStage(this)
-        val gameStage = NONE_STAGE //TODO make that real
+        val mapStage = MapStage(this)
         val backgroundStage = BackgroundStage(this) //TODO set background
-        allStages = mutableListOf(backgroundStage)
-        inputStages = mutableListOf()
+        allStages = listOf(backgroundStage, mapStage)
+        inputStages = listOf(mapStage)
 
 //        gameStage.clear()
 //        gameStage.addEntitiesToMap()
         initCamera(
-                entityStage = gameStage,
-                backgroundStage = backgroundStage
+                baseScreen = this,
+                entityStage = mapStage,
+                backgroundStage = backgroundStage,
+                centerOnEntity = editorGloc.connectionGraphics.first().spaceField1.fieldImage
         )
     }
 
     override fun hide() {
         super.hide()
-        editorController.clear()
+        editorGloc.clear()
 //        EventBus.getDefault().unregister(this)
     }
 

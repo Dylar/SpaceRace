@@ -15,6 +15,7 @@ import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
 import de.bitb.spacerace.grafik.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.SRWindowGui
 import de.bitb.spacerace.ui.screens.editor.EditorScreen
+import de.bitb.spacerace.ui.screens.editor.MapStage
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndMenu
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndPlayerMenu
 import de.bitb.spacerace.ui.screens.game.player.SRPlayerStatsGui
@@ -73,6 +74,7 @@ interface AppComponent {
 
     //EDITOR
     fun inject(editorScreen: EditorScreen)
+    fun inject(mapStage: MapStage)
 
     //MAP
     fun inject(spaceGroup: SpaceGroup)

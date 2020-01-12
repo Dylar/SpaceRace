@@ -2,7 +2,7 @@ package de.bitb.spacerace.core.events.commands.start
 
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.controller.EditorController
+import de.bitb.spacerace.core.controller.EditorGloc
 import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.core.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.database.map.MapData
@@ -22,7 +22,7 @@ class LoadEditorCommand : BaseCommand() {
     protected lateinit var loadEditorUsecase: LoadEditorUsecase
 
     @Inject
-    protected lateinit var editorController: EditorController
+    protected lateinit var editorGloc: EditorGloc
 
     @Inject
     protected lateinit var game: MainGame
@@ -51,8 +51,8 @@ class LoadEditorCommand : BaseCommand() {
     }
 
     private fun setGraphics(mapData: MapData) {
-        val screen = EditorScreen(game, game.screen as BaseScreen)
-        editorController.initEditor(mapData)
+        val screen = EditorScreen(game.screen as BaseScreen)
+        editorGloc.initEditor(mapData)
         game.screen = screen
     }
 

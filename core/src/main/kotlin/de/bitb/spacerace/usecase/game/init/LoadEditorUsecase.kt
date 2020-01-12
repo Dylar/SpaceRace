@@ -1,6 +1,5 @@
 package de.bitb.spacerace.usecase.game.init
 
-import de.bitb.spacerace.core.controller.EditorController
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.usecase.ResultUseCase
@@ -9,13 +8,10 @@ import javax.inject.Inject
 
 class LoadEditorUsecase
 @Inject constructor(
-        private val editorController: EditorController,
         private val mapDataSource: MapDataSource
 ) : ResultUseCase<MapData, String> {
 
-    override fun buildUseCaseSingle(params: String): Single<MapData> =
-            loadMap(params)
-                    .doOnSuccess { editorController.initEditor(it) }
+    override fun buildUseCaseSingle(params: String): Single<MapData> = loadMap(params)
 
     private fun loadMap(name: String): Single<MapData> =
             mapDataSource.getRXMaps(name)

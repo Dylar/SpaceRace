@@ -1,8 +1,6 @@
 package de.bitb.spacerace.ui.screens.game
 
-import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.math.Rectangle
-import de.bitb.spacerace.GestureListenerAdapter
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.FIELD_BORDER
@@ -22,7 +20,7 @@ import javax.inject.Inject
 
 class GameStage(
         val screen: GameScreen
-) : BaseStage(), GestureDetector.GestureListener by GestureListenerAdapter() {
+) : BaseStage() {
 
     @Inject
     protected lateinit var playerController: PlayerController

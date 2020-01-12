@@ -28,6 +28,7 @@ object Strings {
 
     object GameGuiStrings {
 
+        val START_BUTTON_NEW_EDITOR = "New Editor"
         val START_BUTTON_EDITOR = "Editor"
         val GAME_TITLE_STORAGE: String = "Storage"
         val GAME_TITLE_SHOP: String = "Shop"

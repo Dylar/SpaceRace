@@ -6,10 +6,8 @@ import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.scenes.scene2d.Stage
-import de.bitb.spacerace.core.MainGame
 
 abstract class BaseScreen(
-        val game: MainGame,
         val previousScreen: BaseScreen?
 ) : Screen {
     companion object {
@@ -18,7 +16,7 @@ abstract class BaseScreen(
 
     abstract var allStages: List<Stage>
     abstract var inputStages: List<Stage>
-    protected var cameraInput: GestureDetector.GestureListener? = null
+    var cameraInput: GestureDetector.GestureListener? = null
 
     override fun show() {
         val input = mutableListOf<InputProcessor>(*inputStages.toTypedArray())

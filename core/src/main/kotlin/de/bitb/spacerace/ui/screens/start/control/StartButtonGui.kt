@@ -24,6 +24,7 @@ import de.bitb.spacerace.core.events.commands.start.*
 import de.bitb.spacerace.ui.screens.start.StartGuiStage
 import de.bitb.spacerace.usecase.ui.ObserveCommandUsecase
 import org.greenrobot.eventbus.EventBus
+import java.util.*
 import javax.inject.Inject
 
 class StartButtonGui(
@@ -39,6 +40,7 @@ class StartButtonGui(
     private lateinit var diceLabel: Label
     private lateinit var debugBtn: TextButton
     private lateinit var loadBtn: TextButton
+    private lateinit var newEditorBtn: TextButton
     private lateinit var editorBtn: TextButton
 
     private val maxSpan = 7
@@ -49,6 +51,7 @@ class StartButtonGui(
 
         addStartButton()
         addLoadButton()
+        addNewEditorButton()
         addEditorButton()
         addWinButtons()
         addDiceButtons()
@@ -137,55 +140,46 @@ class StartButtonGui(
     }
 
     private fun addLanguageButtons() {
-        languageBtn = createButton(name = START_BUTTON_LANGUAGE, listener = object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(ChangeLanguageCommand.get())
-                return true
-            }
-        })
-
-        val cell = addCell(languageBtn)
-        setFont(cell.actor)
-        row()
+        languageBtn = addButton(START_BUTTON_LANGUAGE) {
+            EventBus.getDefault().post(ChangeLanguageCommand.get())
+        }
     }
 
     private fun addDebugButton() {
-        debugBtn = createButton(name = "MAPS", fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(OpenDebugGuiEvent())
-                return true
-            }
-        })
-
-        val cell = addCell(debugBtn)
-        setFont(cell.actor)
-        row()
+        debugBtn = addButton("MAPS") {
+            EventBus.getDefault().post(OpenDebugGuiEvent())
+        }
     }
 
     private fun addLoadButton() {
-        loadBtn = createButton(name = START_BUTTON_LOAD, fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(OpenLoadGameEvent())
-                return true
-            }
-        })
+        loadBtn = addButton(START_BUTTON_LOAD) {
+            EventBus.getDefault().post(OpenLoadGameEvent())
+        }
+    }
 
-        val cell = addCell(loadBtn)
-        setFont(cell.actor)
-        row()
+    private fun addNewEditorButton() {
+        newEditorBtn = addButton(GameGuiStrings.START_BUTTON_NEW_EDITOR) {
+            EventBus.getDefault().post(LoadEditorCommand.get(UUID.randomUUID().toString()))
+        }
     }
 
     private fun addEditorButton() {
-        editorBtn = createButton(name = GameGuiStrings.START_BUTTON_EDITOR, fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
+        editorBtn = addButton(GameGuiStrings.START_BUTTON_EDITOR) {
+            EventBus.getDefault().post(LoadEditorCommand.get(SELECTED_MAP))
+        }
+    }
+
+    private fun addButton(name: String, action: () -> Unit): TextButton {
+        return createButton(name = name, fontSize = Dimensions.GameGuiDimensions.GAME_SIZE_FONT_SMALL, listener = object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                EventBus.getDefault().post(LoadEditorCommand.get(SELECTED_MAP)) //TODO new map
+                action()
                 return true
             }
-        })
-
-        val cell = addCell(editorBtn)
-        setFont(cell.actor)
-        row()
+        }).also {
+            val cell = addCell(it)
+            setFont(cell.actor)
+            row()
+        }
     }
 
     private fun addVersionLabel() {

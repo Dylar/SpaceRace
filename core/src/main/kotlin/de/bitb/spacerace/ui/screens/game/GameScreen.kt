@@ -11,6 +11,7 @@ import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.controller.PlayerController
 import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
+import de.bitb.spacerace.ui.screens.BackgroundStage
 import de.bitb.spacerace.ui.screens.GuiBackstack
 import de.bitb.spacerace.ui.screens.GuiBackstackHandler
 import de.bitb.spacerace.ui.screens.GuiNavi
@@ -26,9 +27,8 @@ import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 class GameScreen(
-        game: MainGame,
         previousScreen: BaseScreen
-) : BaseScreen(game, previousScreen),
+) : BaseScreen(previousScreen),
         GuiBackstack by GuiBackstackHandler,
         CameraRenderer by CameraStateRenderer() {
 
@@ -55,7 +55,6 @@ class GameScreen(
 
     override fun show() {
         initStages()
-        cameraInput = this
         super.show()
         EventBus.getDefault().register(this)
     }
@@ -70,6 +69,7 @@ class GameScreen(
         gameStage.clear()
         gameStage.addEntitiesToMap()
         initCamera(
+                baseScreen = this,
                 entityStage = gameStage,
                 backgroundStage = backgroundStage,
                 centerOnEntity = cameraTarget

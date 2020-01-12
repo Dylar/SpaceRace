@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class EditorController
+class EditorGloc
 @Inject constructor(
 ) {
     var editorMode: EditorMode = EditorMode.SELECT
@@ -38,11 +38,12 @@ class EditorController
     private fun addField(fieldConfigDatas: List<FieldConfigData>) {
         fieldConfigDatas.forEach { fieldConfigData ->
             val spaceField = FieldGraphic.createField(fieldConfigData.fieldType)
-                    .also { fieldGraphics[fieldConfigData.gamePosition] = it }
+            spaceField.setPosition(fieldConfigData.gamePosition)
+            fieldGraphics[fieldConfigData.gamePosition] = spaceField
             fields.add(fieldConfigData)
             spaceField.getGameImage().addClickListener {
                 when (editorMode) {
-                    EditorMode.SELECT -> true
+                    EditorMode.SELECT -> true // TODO nextselectEntity(fieldConfigData)
                     EditorMode.EDIT -> true
                 }
             }
@@ -64,9 +65,13 @@ class EditorController
     }
 
     fun clear() {
-        fieldGraphics.values.forEach{
-            it.getGameImage().remove()
-        }
+//        fieldGraphics.values.forEach { it.getGameImage().remove() }
+//        connectionGraphics.remove()
+
+        fieldGraphics.clear()
+        fields.clear()
+        connectionGraphics.clear()
+        connections.clear()
     }
 
 }

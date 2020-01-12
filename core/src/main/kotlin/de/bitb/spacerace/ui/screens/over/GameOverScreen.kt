@@ -1,4 +1,4 @@
-package de.bitb.spacerace.ui.screens
+package de.bitb.spacerace.ui.screens.over
 
 import com.badlogic.gdx.scenes.scene2d.Stage
 import de.bitb.spacerace.base.BaseScreen
@@ -8,7 +8,7 @@ import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.grafik.TextureCollection
 
-class GameOverScreen(game: MainGame) : BaseScreen(game, null) {
+class GameOverScreen() : BaseScreen( null) {
 
     private val simpleStage =
             object : BaseStage() {

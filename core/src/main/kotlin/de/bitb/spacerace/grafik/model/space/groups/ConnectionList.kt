@@ -12,12 +12,13 @@ class ConnectionList(
 ) : MutableList<ConnectionGraphic> by mutableList,
         Actor() {
 
-    //    var reverse = false
+//    var reverse = false
     var index = 0
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
         batch!!.end()
         LineRenderer.startLine(batch.projectionMatrix)
+
 
 //        index += if (reverse) {
 //            -1

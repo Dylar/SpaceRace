@@ -1,41 +1,39 @@
 package de.bitb.spacerace.base
 
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.input.GestureDetector.*
+import com.badlogic.gdx.input.GestureDetector.GestureListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import de.bitb.spacerace.GestureListenerAdapter
-import de.bitb.spacerace.base.CameraAction.TARGET_ACTION
-import de.bitb.spacerace.base.CameraAction.TARGET_ACTION.*
+import de.bitb.spacerace.base.CameraState.FREE
+import de.bitb.spacerace.base.CameraState.LOCKED
 import de.bitb.spacerace.config.MAX_ZOOM
 import de.bitb.spacerace.config.MIN_ZOOM
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
+import de.bitb.spacerace.ui.screens.BackgroundStage
 
-sealed class CameraAction {
-    sealed class TARGET_ACTION(val targetEntity: GameImage?) : CameraAction() {
-        class CAMERA_START(startEntity: GameImage?) : TARGET_ACTION(startEntity)
-        class CAMERA_LOCKED(lockedEntity: GameImage?) : TARGET_ACTION(lockedEntity)
-    }
+sealed class CameraState {
+    class LOCKED(val targetEntity: GameImage?) : CameraState()
 
-    object CAMERA_FREE : CameraAction()
+    object FREE : CameraState()
 }
 
 interface CameraRenderer : GestureListener {
     var currentZoom: Float
-    var cameraAction: CameraAction
+    var cameraState: CameraState
 
-    fun initCamera(entityStage: Stage, backgroundStage: BaseStage, centerOnEntity: GameImage? = null)
+    fun initCamera(baseScreen: BaseScreen, entityStage: Stage, backgroundStage: BackgroundStage, centerOnEntity: GameImage? = null)
     fun centerCamera(targetEntity: GameImage?)
-    fun zoom()
+    fun zoom(): Boolean
     fun renderCamera()
     fun addZoom(value: Float)
 }
 
 class CameraStateRenderer : CameraRenderer, GestureListener by GestureListenerAdapter() {
 
-    override lateinit var cameraAction: CameraAction
+    override var cameraState: CameraState = FREE
 
     private lateinit var entityStage: Stage
-    private lateinit var backgroundStage: BaseStage
+    private lateinit var backgroundStage: BackgroundStage
 
     override var currentZoom: Float = 1f
         set(value) {
@@ -47,34 +45,24 @@ class CameraStateRenderer : CameraRenderer, GestureListener by GestureListenerAd
         }
 
     override fun initCamera(
+            baseScreen: BaseScreen,
             entityStage: Stage,
-            backgroundStage: BaseStage,
+            backgroundStage: BackgroundStage,
             centerOnEntity: GameImage?
     ) {
+        baseScreen.cameraInput = baseScreen as? GestureListener
         this.entityStage = entityStage
         this.backgroundStage = backgroundStage
-        cameraAction = CAMERA_START(centerOnEntity)
 
         entityStage.getOrthographicCamera().zoom = currentZoom
         zoom(1f, 1f)
+        centerOnEntity?.also { setCameraPosition(it.getCenterX(), it.getCenterY()) }
     }
 
     override fun renderCamera() {
-        when (cameraAction) {
-            is CAMERA_START,
-            is CAMERA_LOCKED -> {
-                val target = (cameraAction as TARGET_ACTION).targetEntity
-                target?.also {
-                    if (cameraAction is CAMERA_START) {
-                        cameraAction = CameraAction.CAMERA_FREE
-                    }
-                    val posX = it.getCenterX()
-                    val posY = it.getCenterY()
-
-                    setCameraPosition(posX, posY)
-                }
-            }
-            else -> {
+        when (val state = cameraState) {
+            is LOCKED -> state.targetEntity?.also { setCameraPosition(it.getCenterX(), it.getCenterY()) }
+            is FREE -> {
             }
         }
     }
@@ -87,12 +75,10 @@ class CameraStateRenderer : CameraRenderer, GestureListener by GestureListenerAd
     }
 
     override fun centerCamera(targetEntity: GameImage?) {
-        cameraAction = targetEntity?.let { CAMERA_LOCKED(it) } ?: CameraAction.CAMERA_FREE
+        cameraState = targetEntity?.let { LOCKED(it) } ?: FREE
     }
 
-    override fun zoom() {
-        zoom(1f, 1f)
-    }
+    override fun zoom() = zoom(1f, 1f)
 
     override fun zoom(
             initialDistance: Float,
@@ -110,8 +96,8 @@ class CameraStateRenderer : CameraRenderer, GestureListener by GestureListenerAd
     }
 
     override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
-        when (cameraAction) {
-            is CameraAction.CAMERA_FREE -> {
+        when (cameraState) {
+            is FREE -> {
                 var gameCam = entityStage.getOrthographicCamera()
                 gameCam.translate(-deltaX * gameCam.zoom, deltaY * gameCam.zoom, 0f)
                 gameCam.update()
