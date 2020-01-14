@@ -29,7 +29,6 @@ class SRMapSelectModeGui : SRGuiGrid() {
         pack()
     }
 
-
     private fun setDimensions() {
         setItemSize(GAME_BUTTON_WIDTH_DEFAULT * .7f, GAME_BUTTON_HEIGHT_DEFAULT * .7f)
         setGuiBorder(
@@ -64,5 +63,4 @@ class SRMapSelectModeGui : SRGuiGrid() {
                     .also {
                         addActor(it)
                     }
-
 }

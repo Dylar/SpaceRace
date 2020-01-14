@@ -31,16 +31,14 @@ class EditorScreen(
     }
 
     private fun initScreen() {
-//        guiStage = GameGuiStage(this)
+        val guiStage = MapGuiStage(this)
         val mapStage = MapStage(this)
-        val backgroundStage = BackgroundStage(this) //TODO set background
-        allStages = listOf(backgroundStage, mapStage)
-        inputStages = listOf(mapStage)
+        val backgroundStage = BackgroundStage(this) //TODO set background editable
+        allStages = listOf(backgroundStage, mapStage, guiStage)
+        inputStages = listOf(guiStage, mapStage)
 
         mapStage.addActor(DebugGui(this))
 
-//        gameStage.clear()
-//        gameStage.addEntitiesToMap()
         initCamera(
                 baseScreen = this,
                 entityStage = mapStage,

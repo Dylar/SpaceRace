@@ -1,12 +1,18 @@
 package de.bitb.spacerace.ui.screens.editor
 
 import de.bitb.spacerace.database.map.FieldConfigData
+import javax.inject.Inject
+import javax.inject.Singleton
 
 enum class EditorMode {
     SELECT, EDIT, DRAG
 }
 
-class EditorBloc {
+@Singleton
+class EditorBloc
+@Inject constructor(
+
+) {
     var editorMode: EditorMode = EditorMode.SELECT
     private var selectedEntity: FieldConfigData? = null
 
