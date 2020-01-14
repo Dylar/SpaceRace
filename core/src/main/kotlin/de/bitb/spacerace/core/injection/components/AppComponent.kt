@@ -2,6 +2,7 @@ package de.bitb.spacerace.core.injection.components
 
 import dagger.Component
 import de.bitb.spacerace.core.MainGame
+import de.bitb.spacerace.core.events.commands.editor.DragCommand
 import de.bitb.spacerace.core.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.core.events.commands.phases.StartNextRoundCommand
 import de.bitb.spacerace.core.events.commands.player.*
@@ -16,6 +17,7 @@ import de.bitb.spacerace.grafik.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.SRWindowGui
 import de.bitb.spacerace.ui.screens.editor.EditorScreen
 import de.bitb.spacerace.ui.screens.editor.MapStage
+import de.bitb.spacerace.ui.screens.editor.SRMapSelectModeGui
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndMenu
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndPlayerMenu
 import de.bitb.spacerace.ui.screens.game.player.SRPlayerStatsGui
@@ -75,6 +77,7 @@ interface AppComponent {
     //EDITOR
     fun inject(editorScreen: EditorScreen)
     fun inject(mapStage: MapStage)
+    fun inject(srMapSelectModeGui: SRMapSelectModeGui)
 
     //MAP
     fun inject(spaceGroup: SpaceGroup)
@@ -91,12 +94,13 @@ interface AppComponent {
     fun inject(sellItemCommand: SellItemCommand)
     fun inject(buyItemCommand: BuyItemCommand)
 
+    fun inject(dragCommand: DragCommand)
+
+
     //USE CASE
 
     //DATABASE
     fun inject(playerRespository: PlayerRespository)
 
-
     fun inject(itemGraphic: ItemGraphic)
-
 }

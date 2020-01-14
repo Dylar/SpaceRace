@@ -3,8 +3,8 @@ package de.bitb.spacerace.ui.base
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.kotcrab.vis.ui.widget.VisLabel
@@ -131,9 +131,14 @@ interface GuiBuilder {
     }
 }
 
-fun GameImage.addClickListener(onClick: () -> Boolean) =
-        object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                return onClick()
+fun GameImage.addClickListener(onClick: (() -> Unit)? = null, longClick: (() -> Boolean)? = null) =
+        object : ActorGestureListener() {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
+                onClick?.invoke()
             }
+
+            override fun longPress(actor: Actor?, x: Float, y: Float): Boolean {
+                return longClick?.invoke() ?: super.longPress(actor, x, y)
+            }
+
         }.also { addListener(it) }

@@ -3,6 +3,7 @@ package de.bitb.spacerace.ui.screens.editor
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.EditorGloc
+import de.bitb.spacerace.ui.screens.game.control.DebugGui
 import javax.inject.Inject
 
 class MapStage(

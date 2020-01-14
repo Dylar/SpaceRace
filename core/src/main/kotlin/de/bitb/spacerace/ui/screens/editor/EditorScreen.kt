@@ -9,6 +9,7 @@ import de.bitb.spacerace.core.controller.EditorGloc
 import de.bitb.spacerace.ui.screens.GuiBackstack
 import de.bitb.spacerace.ui.screens.GuiBackstackHandler
 import de.bitb.spacerace.ui.screens.BackgroundStage
+import de.bitb.spacerace.ui.screens.game.control.DebugGui
 import javax.inject.Inject
 
 class EditorScreen(
@@ -35,6 +36,8 @@ class EditorScreen(
         val backgroundStage = BackgroundStage(this) //TODO set background
         allStages = listOf(backgroundStage, mapStage)
         inputStages = listOf(mapStage)
+
+        mapStage.addActor(DebugGui(this))
 
 //        gameStage.clear()
 //        gameStage.addEntitiesToMap()

@@ -1,5 +1,8 @@
 package de.bitb.spacerace.core.controller
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener
+import de.bitb.spacerace.base.getWorldInputCoordination
 import de.bitb.spacerace.database.map.FieldConfigData
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
@@ -8,14 +11,16 @@ import de.bitb.spacerace.grafik.model.space.fields.FieldGraphic
 import de.bitb.spacerace.grafik.model.space.fields.NONE_SPACE_FIELD
 import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
 import de.bitb.spacerace.ui.base.addClickListener
+import de.bitb.spacerace.ui.screens.editor.EditorBloc
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 @Singleton
 class EditorGloc
 @Inject constructor(
+        private val editorBloc: EditorBloc
 ) {
-    var editorMode: EditorMode = EditorMode.SELECT
 
     var fieldGraphics: MutableMap<PositionData, FieldGraphic> = mutableMapOf()
     val fields: MutableList<FieldConfigData> = ArrayList()
@@ -41,12 +46,19 @@ class EditorGloc
             spaceField.setPosition(fieldConfigData.gamePosition)
             fieldGraphics[fieldConfigData.gamePosition] = spaceField
             fields.add(fieldConfigData)
-            spaceField.getGameImage().addClickListener {
-                when (editorMode) {
-                    EditorMode.SELECT -> true // TODO nextselectEntity(fieldConfigData)
-                    EditorMode.EDIT -> true
+            val gameImage = spaceField.getGameImage()
+            gameImage.addClickListener(
+                    onClick = { editorBloc.selectEntity(fieldConfigData) },
+                    longClick = { editorBloc.onLongClickField(fieldConfigDatas) }
+            )
+            gameImage.addListener(object : DragListener() {
+                override fun drag(event: InputEvent?, x: Float, y: Float, pointer: Int) {
+                    if (editorBloc.isDragMode()) {
+                        val input = getWorldInputCoordination(gameImage.stage.camera)
+                        gameImage.setPosition(input.posX, input.posY)
+                    }
                 }
-            }
+            })
         }
     }
 
@@ -76,6 +88,3 @@ class EditorGloc
 
 }
 
-enum class EditorMode {
-    SELECT, EDIT
-}

@@ -80,7 +80,7 @@ class SRActionGui : SRGuiGrid() {
 
     private fun setContinueBtn() {
         addButton(text = GameGuiStrings.GAME_BUTTON_CONTINUE,
-                listener = { EventBus.getDefault().post(NextPhaseCommand.get(playerController.currentColor)) })
+                listener = { NextPhaseCommand.get(playerController.currentColor).push() })
     }
 
     private fun addButton(text: String, listener: () -> Unit) =
