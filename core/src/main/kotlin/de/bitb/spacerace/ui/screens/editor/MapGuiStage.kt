@@ -1,15 +1,17 @@
 package de.bitb.spacerace.ui.screens.editor
 
 import de.bitb.spacerace.base.BaseStage
+import de.bitb.spacerace.ui.base.SRBackgroundWrapper
 
 class MapGuiStage(
-       val screen: EditorScreen
+        val screen: EditorScreen
 ) : BaseStage() {
 
     private var modeGui: SRMapSelectModeGui = SRMapSelectModeGui()
+    private var modeGuiWrapper = SRBackgroundWrapper(modeGui)
 
     init {
-        addActor(modeGui)
+        addActor(modeGuiWrapper)
     }
 
 //    override fun act(delta: Float) {

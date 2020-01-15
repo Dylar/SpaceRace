@@ -7,10 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.bitb.spacerace.base.BaseScreen
-import de.bitb.spacerace.base.SCREEN_INPUT_POSITION
 import de.bitb.spacerace.base.getWorldInputCoordination
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_LABEL_PADDING
+import de.bitb.spacerace.config.dimensions.Dimensions.SCREEN_WIDTH
 import de.bitb.spacerace.grafik.TextureCollection
 import de.bitb.spacerace.ui.base.GuiComponent
 
@@ -30,6 +30,8 @@ class DebugGui(
         pack()
 
         background = TextureRegionDrawable(TextureRegion(TextureCollection.guiBackground))
+
+        x = SCREEN_WIDTH / 2 - width / 2
     }
 
     override fun <T : Actor> add(actor: T): Cell<T> {
@@ -46,8 +48,8 @@ class DebugGui(
     override fun act(delta: Float) {
         super.act(delta)
         val position = getWorldInputCoordination(stage.camera)
-        x = position.posX
-        y = position.posY
+//        x = position.posX
+//        y = position.posY
         label.setText("${"%.1f".format(position.posX)}, ${"%.1f".format(position.posY)}")
         pack()
     }
