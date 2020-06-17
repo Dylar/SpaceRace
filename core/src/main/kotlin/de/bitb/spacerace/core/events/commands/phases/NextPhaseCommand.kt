@@ -8,7 +8,6 @@ import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.screens.GuiNavi
 import de.bitb.spacerace.usecase.game.action.*
-import io.reactivex.rxkotlin.plusAssign
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
