@@ -2,7 +2,6 @@ package de.bitb.spacerace.ui.screens.editor
 
 import com.badlogic.gdx.utils.Align
 import com.kotcrab.vis.ui.widget.VisLabel
-import com.kotcrab.vis.ui.widget.VisTextField
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
@@ -17,7 +16,7 @@ class SRMapSelectModeGui : SRGuiGrid() {
     @Inject
     protected lateinit var editorBloc: EditorBloc
 
-    private var modeLabel: VisLabel = createLabel(text = EditorMode.SELECT.name,background = IMAGE_PATH_GUI_BACKGROUND)
+    private var modeLabel: VisLabel = createLabel(text = EditorMode.SELECT.name)
 
     init {
         MainGame.appComponent.inject(this)
@@ -41,9 +40,7 @@ class SRMapSelectModeGui : SRGuiGrid() {
     }
 
     private fun setContent() {
-        setModeBtn(EditorMode.SELECT)
-        setModeBtn(EditorMode.DRAG)
-        setModeBtn(EditorMode.EDIT)
+        EditorMode.values().forEach { setModeBtn(it) }
     }
 
     private fun setModeBtn(mode: EditorMode) {

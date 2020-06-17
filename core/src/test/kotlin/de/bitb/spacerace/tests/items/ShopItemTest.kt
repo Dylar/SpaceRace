@@ -5,7 +5,7 @@ import de.bitb.spacerace.config.START_CREDITS
 import de.bitb.spacerace.core.assertDBPlayer
 import de.bitb.spacerace.env.*
 import de.bitb.spacerace.grafik.model.items.ItemInfo
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ShopItemTest : ItemsTest() {

@@ -2,12 +2,14 @@ package de.bitb.spacerace.usecase.game.init
 
 import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.map.MapDataSource
+import de.bitb.spacerace.ui.screens.editor.EditorBloc
 import de.bitb.spacerace.usecase.ResultUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
 class LoadEditorUsecase
 @Inject constructor(
+        private val editorBloc: EditorBloc,
         private val mapDataSource: MapDataSource
 ) : ResultUseCase<MapData, String> {
 
@@ -18,6 +20,6 @@ class LoadEditorUsecase
                     .map {
                         if (it.isEmpty()) MapData(name)
                         else it.first()
-                    }
+                    }.doOnSuccess { editorBloc.loadedMap = it }
 
 }

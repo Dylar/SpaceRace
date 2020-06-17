@@ -18,6 +18,7 @@ import de.bitb.spacerace.ui.base.SRWindowGui
 import de.bitb.spacerace.ui.screens.editor.EditorScreen
 import de.bitb.spacerace.ui.screens.editor.MapStage
 import de.bitb.spacerace.ui.screens.editor.SRMapSelectModeGui
+import de.bitb.spacerace.ui.screens.editor.SRSelectEntityGui
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndMenu
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndPlayerMenu
 import de.bitb.spacerace.ui.screens.game.player.SRPlayerStatsGui
@@ -103,4 +104,5 @@ interface AppComponent {
     fun inject(playerRespository: PlayerRespository)
 
     fun inject(itemGraphic: ItemGraphic)
+    fun inject(srSelectEntityGui: SRSelectEntityGui)
 }

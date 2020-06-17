@@ -37,7 +37,7 @@ class EditorScreen(
         allStages = listOf(backgroundStage, mapStage, guiStage)
         inputStages = listOf(guiStage, mapStage)
 
-        mapStage.addActor(DebugGui(this))
+        guiStage.addActor(DebugGui(this)) //TODO just debuging
 
         initCamera(
                 baseScreen = this,
