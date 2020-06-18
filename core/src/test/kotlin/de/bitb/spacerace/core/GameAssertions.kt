@@ -12,7 +12,7 @@ import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.MoveResult
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.*
 

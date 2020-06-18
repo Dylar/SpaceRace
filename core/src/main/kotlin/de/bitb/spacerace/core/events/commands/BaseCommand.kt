@@ -1,8 +1,7 @@
 package de.bitb.spacerace.core.events.commands
 
 import de.bitb.spacerace.grafik.model.player.PlayerColor
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.greenrobot.eventbus.EventBus
 
 abstract class BaseCommand(
@@ -25,7 +24,4 @@ abstract class BaseCommand(
         EventBus.getDefault().post(this)
     }
 
-    operator fun CompositeDisposable.plusAssign(dispo: Disposable) {
-        compositeDisposable.add(dispo)
-    }
 }

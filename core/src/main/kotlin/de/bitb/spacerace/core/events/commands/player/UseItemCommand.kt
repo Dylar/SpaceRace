@@ -12,7 +12,7 @@ import de.bitb.spacerace.grafik.model.items.createGraphic
 import de.bitb.spacerace.grafik.model.items.getDefaultInfo
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.items.*
-import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxjava3.kotlin.plusAssign
 import javax.inject.Inject
 
 class UseItemCommand(

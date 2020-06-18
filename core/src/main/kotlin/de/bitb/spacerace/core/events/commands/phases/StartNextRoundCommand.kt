@@ -4,6 +4,7 @@ import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.core.events.commands.CommandPool
 import de.bitb.spacerace.usecase.game.trigger.StartNewRoundUsecase
+import io.reactivex.rxjava3.kotlin.plusAssign
 import javax.inject.Inject
 
 class StartNextRoundCommand : BaseCommand() {

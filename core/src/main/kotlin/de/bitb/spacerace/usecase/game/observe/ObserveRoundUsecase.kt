@@ -13,9 +13,9 @@ import de.bitb.spacerace.usecase.dispender.MoveItemConfig
 import de.bitb.spacerace.usecase.dispender.MoveItemDispenser
 import de.bitb.spacerace.usecase.dispender.RemoveItemConfig
 import de.bitb.spacerace.usecase.dispender.RemoveItemDispenser
-import io.reactivex.Observable
-import io.reactivex.functions.Function3
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
+import io.reactivex.rxjava3.functions.Function3
 
 class ObserveRoundUsecase
 @Inject constructor(
@@ -110,7 +110,7 @@ class ObserveRoundUsecase
         return result
     }
 
-    private fun saveData(result: ObserveRoundResult) =
+    private fun saveData(result: ObserveRoundResult): Observable<ObserveRoundResult> =
             Observable.zip(
                     savePlayer(result.players),
                     saveItems(result.updatedItems),

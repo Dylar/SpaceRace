@@ -5,7 +5,7 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.ResultUseCase
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class ActivateItemUsecase @Inject constructor(

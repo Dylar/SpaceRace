@@ -1,12 +1,13 @@
 package de.bitb.spacerace.core.utils
 
 import de.bitb.spacerace.usecase.GdxSchedulers
-import io.reactivex.Scheduler
-import io.reactivex.Single
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.functions.BiFunction
+import io.reactivex.rxjava3.functions.Function3
 
 object RXFunctions {
+
     inline fun <T1, T2, R> zipParallel(
             s1: Single<T1>,
             s2: Single<T2>,

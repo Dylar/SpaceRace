@@ -25,9 +25,9 @@ import de.bitb.spacerace.usecase.game.check.CheckCurrentPlayerUsecase
 import de.bitb.spacerace.usecase.game.check.CheckPlayerConfig
 import de.bitb.spacerace.usecase.game.check.CheckPlayerPhaseUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.SingleEmitter
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleEmitter
 import javax.inject.Inject
 
 class NextPhaseUsecase @Inject constructor(

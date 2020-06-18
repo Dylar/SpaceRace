@@ -5,8 +5,8 @@ import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import io.objectbox.Box
 import io.objectbox.kotlin.inValues
-import io.objectbox.rx.RxQuery
-import io.reactivex.Single
+import io.objectbox.rx3.RxQuery
+import io.reactivex.rxjava3.core.Single
 
 class MapRespository(
         private val fieldBox: Box<FieldData>,

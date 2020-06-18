@@ -4,7 +4,7 @@ import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
 import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class ObserveCurrentPlayerUseCase @Inject constructor(

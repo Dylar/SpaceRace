@@ -2,7 +2,7 @@ package de.bitb.spacerace.database.map
 
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 interface MapDataSource {
 

@@ -1,6 +1,6 @@
 package de.bitb.spacerace.core.events.commands
 
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 
 class CommandDispender {
      val publisher: PublishSubject<BaseCommand> =

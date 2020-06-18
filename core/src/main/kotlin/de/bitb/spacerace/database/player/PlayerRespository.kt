@@ -6,10 +6,10 @@ import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.grafik.model.player.toName
 import io.objectbox.Box
 import io.objectbox.kotlin.inValues
-import io.objectbox.rx.RxQuery
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.objectbox.rx3.RxQuery
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 class PlayerRespository(
         private val saveBox: Box<SaveData>,
