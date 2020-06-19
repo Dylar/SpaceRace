@@ -51,7 +51,7 @@ class ObserveRoundUsecase
             fromField.disposedItems.asSequence()
                     .filter { it.itemInfo is MovableItem }
                     .forEach { item ->
-                        val toField = fromField.connections.random() //TODO do this in settings
+                        val toField = fromField.connections.random()//TODO do this in settings
                         moveInfos.add(MoveItemConfig(fromField, toField, item))
                     }
         }

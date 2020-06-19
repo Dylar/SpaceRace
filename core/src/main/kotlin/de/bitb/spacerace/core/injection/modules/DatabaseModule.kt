@@ -48,7 +48,7 @@ class DatabaseModule(
 
     @Provides
     @Singleton
-    fun providePlayerBox(store: BoxStore): Box<PlayerData> = store.boxFor()
+    fun providePlayerBox(store: BoxStore): Box<PlayerData> = store.boxFor(PlayerData::class)
 
     @Provides
     @Singleton
