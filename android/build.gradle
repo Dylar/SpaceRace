@@ -70,26 +70,26 @@ android {
         multiDexEnabled true
     }
 
-    flavorDimensions 'client', 'server'
+    flavorDimensions 'mode', 'api'
     productFlavors {
         paid {
-            dimension = 'client'
+            dimension = 'mode'
             applicationIdSuffix = ".paid"
         }
         free {
-            dimension = 'client'
+            dimension = 'mode'
             applicationIdSuffix = ".free"
         }
         prod {
-            dimension = 'server'
+            dimension = 'api'
         }
         stage {
-            dimension = 'server'
-            applicationIdSuffix = ".stage"
+            dimension = 'api'
+            applicationIdSuffix += ".stage"
         }
         dev {
-            dimension = 'server'
-            applicationIdSuffix = ".dev"
+            dimension = 'api'
+            applicationIdSuffix += ".dev"
         }
     }
 

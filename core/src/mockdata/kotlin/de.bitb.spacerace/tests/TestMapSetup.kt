@@ -1,4 +1,4 @@
-package de.bitb.spacerace.env
+package de.bitb.spacerace.tests
 
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData

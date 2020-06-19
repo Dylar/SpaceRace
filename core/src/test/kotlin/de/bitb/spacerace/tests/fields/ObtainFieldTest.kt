@@ -3,6 +3,7 @@ package de.bitb.spacerace.tests.fields
 import de.bitb.spacerace.core.GameTest
 import de.bitb.spacerace.env.*
 import de.bitb.spacerace.grafik.model.enums.FieldType
+import de.bitb.spacerace.tests.createTestMap
 import de.bitb.spacerace.usecase.game.action.NextPhaseResult
 
 abstract class ObtainFieldTest : GameTest() {

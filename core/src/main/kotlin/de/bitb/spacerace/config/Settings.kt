@@ -6,13 +6,13 @@ import de.bitb.spacerace.config.dimensions.Dimensions.GameDimensions.PLAYER_BORD
 import de.bitb.spacerace.config.enums.GameSpeed
 import de.bitb.spacerace.config.enums.GameType
 import de.bitb.spacerace.config.enums.Language
-import de.bitb.spacerace.game.VERSION_TEST
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.grafik.model.items.ItemInfo
 import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 
+const val VERSION_TEST = "TEST"
 var VERSION = "007"
 val IS_TEST get() = VERSION == VERSION_TEST
 const val MOVE_TIME: Double = 15.0

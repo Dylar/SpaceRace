@@ -1,6 +1,7 @@
-package de.bitb.spacerace.core.injection.components
+package de.bitb.spacerace.core.injection
 
 import dagger.Component
+import de.bitb.spacerace.core.injection.components.AppComponent
 import de.bitb.spacerace.env.TestEnvironment
 import de.bitb.spacerace.game.TestGame
 import de.bitb.spacerace.core.injection.modules.*

@@ -12,6 +12,7 @@ import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.grafik.model.items.ItemInfo
 import de.bitb.spacerace.grafik.model.objecthandling.PositionData
 import de.bitb.spacerace.grafik.model.player.PlayerColor
+import de.bitb.spacerace.tests.createTestMap
 import de.bitb.spacerace.usecase.game.init.LoadGameConfig
 import de.bitb.spacerace.usecase.game.init.LoadGameResult
 
