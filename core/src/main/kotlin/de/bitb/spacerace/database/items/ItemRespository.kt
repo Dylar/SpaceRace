@@ -2,9 +2,9 @@ package de.bitb.spacerace.database.items
 
 import io.objectbox.Box
 import io.objectbox.kotlin.inValues
-import io.objectbox.rx.RxQuery
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.objectbox.rx3.RxQuery
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class ItemRespository(
         private val itemBox: Box<ItemData>

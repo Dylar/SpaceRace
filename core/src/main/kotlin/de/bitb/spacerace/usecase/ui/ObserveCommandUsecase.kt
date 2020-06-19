@@ -3,7 +3,7 @@ package de.bitb.spacerace.usecase.ui
 import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.core.events.commands.CommandDispender
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class ObserveCommandUsecase @Inject constructor(

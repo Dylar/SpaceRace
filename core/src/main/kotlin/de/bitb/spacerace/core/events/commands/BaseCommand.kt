@@ -2,7 +2,7 @@ package de.bitb.spacerace.core.events.commands
 
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.DisposableHandler
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.greenrobot.eventbus.EventBus
 
 abstract class BaseCommand(

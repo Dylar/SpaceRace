@@ -2,9 +2,9 @@ package de.bitb.spacerace.usecase
 
 import com.badlogic.gdx.Gdx
 import de.bitb.spacerace.config.IS_TEST
-import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 

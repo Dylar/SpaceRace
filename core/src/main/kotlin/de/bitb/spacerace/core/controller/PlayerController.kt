@@ -7,7 +7,7 @@ import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.dispender.PlayerColorDispenser
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.objectbox.Box
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
 import javax.inject.Singleton
 

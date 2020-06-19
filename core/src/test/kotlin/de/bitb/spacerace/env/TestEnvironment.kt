@@ -22,7 +22,7 @@ import de.bitb.spacerace.usecase.game.getter.GetSaveGameUsecase
 import de.bitb.spacerace.usecase.game.getter.GetTargetableFieldUsecase
 import de.bitb.spacerace.usecase.game.init.LoadNewGameUsecase
 import de.bitb.spacerace.usecase.game.trigger.StartNewRoundUsecase
-import io.reactivex.observers.TestObserver
+import io.reactivex.rxjava3.observers.TestObserver
 import javax.inject.Inject
 
 val TEST_PLAYER_1 = PlayerColor.ORANGE

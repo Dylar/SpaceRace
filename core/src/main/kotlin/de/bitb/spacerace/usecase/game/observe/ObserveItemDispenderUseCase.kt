@@ -2,7 +2,7 @@ package de.bitb.spacerace.usecase.game.observe
 
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
 import de.bitb.spacerace.usecase.dispender.*
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class ObserveRemoveItemUseCase @Inject constructor(

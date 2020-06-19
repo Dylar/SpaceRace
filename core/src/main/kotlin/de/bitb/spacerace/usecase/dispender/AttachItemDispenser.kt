@@ -2,7 +2,7 @@ package de.bitb.spacerace.usecase.dispender
 
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.player.PlayerData
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 class AttachItemDispenser : Dispenser<AttachItemConfig> {
     override val publisher: BehaviorSubject<AttachItemConfig> = BehaviorSubject.create()

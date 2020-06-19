@@ -20,7 +20,7 @@ import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.SRWindowGui
 import de.bitb.spacerace.usecase.DisposableHandler
 import de.bitb.spacerace.usecase.game.observe.ObservePlayerUseCase
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 

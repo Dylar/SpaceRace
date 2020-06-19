@@ -2,7 +2,7 @@ package de.bitb.spacerace.usecase.dispender
 
 import de.bitb.spacerace.database.items.ItemData
 import de.bitb.spacerace.database.map.FieldData
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 class MoveItemDispenser : Dispenser<List<MoveItemConfig>> {
     override val publisher: BehaviorSubject<List<MoveItemConfig>> = BehaviorSubject.create()

@@ -13,8 +13,7 @@ import de.bitb.spacerace.ui.base.SRAlign
 import de.bitb.spacerace.ui.base.SRGuiGrid
 import de.bitb.spacerace.ui.screens.GuiNavi
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
-import de.bitb.spacerace.usecase.game.observe.ObservePlayerUseCase
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 

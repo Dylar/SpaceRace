@@ -1,11 +1,11 @@
 package de.bitb.spacerace.usecase
 
 import de.bitb.spacerace.core.utils.Logger
-import io.reactivex.*
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.plusAssign
-import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxjava3.core.*
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.plusAssign
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 val defaultWorkerThread = GdxSchedulers.workerThread
 val defaultSubscriberThread = GdxSchedulers.mainThread

@@ -4,7 +4,7 @@ import de.bitb.spacerace.database.map.MapData
 import de.bitb.spacerace.database.map.MapDataSource
 import de.bitb.spacerace.ui.screens.editor.EditorBloc
 import de.bitb.spacerace.usecase.ResultUseCase
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class LoadEditorUsecase

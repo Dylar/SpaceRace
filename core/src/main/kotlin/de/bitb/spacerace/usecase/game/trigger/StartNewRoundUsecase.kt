@@ -5,7 +5,7 @@ import de.bitb.spacerace.database.player.PlayerDataSource
 import de.bitb.spacerace.database.savegame.SaveDataSource
 import de.bitb.spacerace.grafik.model.enums.Phase
 import de.bitb.spacerace.usecase.ResultUseCaseNoParams
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class StartNewRoundUsecase @Inject constructor(

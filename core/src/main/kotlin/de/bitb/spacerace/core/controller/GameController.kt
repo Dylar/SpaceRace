@@ -8,7 +8,7 @@ import de.bitb.spacerace.database.player.PlayerData
 import de.bitb.spacerace.ui.screens.GuiNavi
 import de.bitb.spacerace.usecase.DisposableHandler
 import de.bitb.spacerace.usecase.game.observe.*
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 import javax.inject.Singleton

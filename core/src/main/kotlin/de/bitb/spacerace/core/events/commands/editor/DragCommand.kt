@@ -2,15 +2,10 @@ package de.bitb.spacerace.core.events.commands.editor
 
 import de.bitb.spacerace.core.MainGame
 import de.bitb.spacerace.core.controller.EditorGloc
-import de.bitb.spacerace.core.controller.GraphicController
 import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.core.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage
-import de.bitb.spacerace.grafik.model.objecthandling.PositionData
-import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.usecase.game.action.MoveResult
-import de.bitb.spacerace.usecase.game.action.MoveUsecase
-import io.reactivex.rxkotlin.plusAssign
 import javax.inject.Inject
 
 class DragCommand : BaseCommand() {
