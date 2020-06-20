@@ -21,6 +21,7 @@ import de.bitb.spacerace.ui.screens.game.player.shop.SRShopItemMenu
 import de.bitb.spacerace.ui.screens.game.player.shop.SRShopMenu
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndMenu
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndPlayerMenu
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -75,9 +76,6 @@ class GameScreen(
                 centerOnEntity = cameraTarget
         )
     }
-
-    fun onZoomPlusClicked() = addZoom(-.3f)
-    fun onZoomMinusClicked() = addZoom(.3f)
 
     override fun hide() {
         super.hide()

@@ -18,7 +18,7 @@ class EditorBloc
         get() = modeSubject.value()
         set(value) = modeSubject.publishUpdate(value)
 
-    private var selectedEntity: FieldConfigData
+    var selectedEntity: FieldConfigData
         get() = selectedEntitySubject.value()
         set(value) = selectedEntitySubject.publishUpdate(value)
 

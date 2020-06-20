@@ -36,9 +36,7 @@ class SRMapSelectModeGui : SRGuiGrid(), DisposableHandler {
         setDimensions()
         pack()
 
-        Logger.justPrint("OH NO MODE: -afs")
         editorGloc.observeEditorModeUseCase.observeStream {
-            Logger.justPrint("OH NO MODE: $it")
             modeLabel.setText(it.name)
         }.addDisposable()
     }

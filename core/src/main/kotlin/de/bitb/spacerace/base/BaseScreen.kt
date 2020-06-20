@@ -6,13 +6,17 @@ import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.scenes.scene2d.Stage
+import de.bitb.spacerace.usecase.DisposableHandler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class BaseScreen(
         val previousScreen: BaseScreen?
-) : Screen {
+) : Screen, DisposableHandler {
     companion object {
         var MAIN_DELTA = 0f
     }
+
+    override val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     abstract var allStages: List<Stage>
     abstract var inputStages: List<Stage>

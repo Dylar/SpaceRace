@@ -10,7 +10,6 @@ import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_UP
 import de.bitb.spacerace.grafik.TexturePool
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.ui.base.GuiBuilder
-import de.bitb.spacerace.ui.screens.editor.EditorBloc
 import de.bitb.spacerace.ui.screens.editor.EditorGloc
 import de.bitb.spacerace.ui.screens.editor.EditorMode
 import javax.inject.Inject

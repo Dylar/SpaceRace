@@ -26,6 +26,9 @@ interface CameraRenderer : GestureListener {
     fun zoom(): Boolean
     fun renderCamera()
     fun addZoom(value: Float)
+
+    fun onZoomPlusClicked() = addZoom(-.3f)
+    fun onZoomMinusClicked() = addZoom(.3f)
 }
 
 class CameraStateRenderer : CameraRenderer, GestureListener by GestureListenerAdapter() {

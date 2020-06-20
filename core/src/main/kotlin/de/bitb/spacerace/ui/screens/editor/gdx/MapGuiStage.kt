@@ -1,6 +1,9 @@
 package de.bitb.spacerace.ui.screens.editor.gdx
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import de.bitb.spacerace.base.BaseStage
+import de.bitb.spacerace.base.CameraState
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.ui.base.GuiBuilder
 import de.bitb.spacerace.ui.base.SRAlign
@@ -48,20 +51,12 @@ class MapGuiStage(
                 alignVert = SRAlign.TOP)
     }
 
-//    override fun act(delta: Float) {
-//        when {
-//            Gdx.input.isKeyJustPressed(Input.Keys.SPACE) -> centerCamera()
-//            Gdx.input.isKeyJustPressed(Input.Keys.SLASH) -> screen.onZoomMinusClicked()
-//            Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET) -> screen.onZoomPlusClicked()
-//        }
-//        super.act(delta)
-//    }
-
-//    private fun centerCamera() {
-//        val cameraAction = screen.cameraState
-//        val target = if (cameraAction is CameraState.FREE) screen.cameraTarget else null
-//        screen.centerCamera(target)
-//        srViewControlGui.updateButtons(cameraAction)
-//    }
+    override fun act(delta: Float) {
+        when {
+            Gdx.input.isKeyJustPressed(Input.Keys.SLASH) -> screen.onZoomMinusClicked()
+            Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET) -> screen.onZoomPlusClicked()
+        }
+        super.act(delta)
+    }
 
 }

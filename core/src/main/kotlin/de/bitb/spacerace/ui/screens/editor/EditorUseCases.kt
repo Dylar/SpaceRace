@@ -1,6 +1,5 @@
 package de.bitb.spacerace.ui.screens.editor
 
-import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.map.FieldConfigData
 import de.bitb.spacerace.database.map.NONE_FIELD_CONFIG
 import de.bitb.spacerace.usecase.StreamUseCaseNoParams
@@ -18,7 +17,6 @@ class EditorModeDispenser : Dispenser<EditorMode> {
     override val publisher: BehaviorSubject<EditorMode> = BehaviorSubject.create()
 
     override fun publishUpdate(entity: EditorMode) {
-        Logger.justPrint("OH NO MODE: $entity")
         publisher.onNext(entity)
     }
 }
@@ -28,7 +26,6 @@ class ObserveEditorModeUseCase @Inject constructor(
 ) : StreamUseCaseNoParams<EditorMode> {
 
     override fun buildUseCaseObservable(): Observable<EditorMode> = editorModeDispenser.publisher.doAfterNext {
-        Logger.justPrint("OH NO MODE: $it")
     }
 
 }

@@ -25,14 +25,14 @@ class EditorGloc
         val observeSelectedEntityUseCase: ObserveSelectedEntityUseCase
 ) {
 
-    var fieldGraphics: MutableMap<PositionData, FieldGraphic> = mutableMapOf()
+    var fieldGraphics: MutableMap<String, FieldGraphic> = mutableMapOf()
     val fields: MutableList<FieldConfigData> = ArrayList()
     val connections: MutableList<ConnectionGraphic> = ArrayList()
 
     var connectionGraphics: ConnectionList = ConnectionList()
 
     fun getFieldGraphic(gamePosition: PositionData) =
-            fieldGraphics.keys.find { it.isPosition(gamePosition) }
+            fieldGraphics.keys.firstOrNull { it == (gamePosition.id) }
                     ?.let { fieldGraphics[it] }
                     ?: NONE_SPACE_FIELD
 
@@ -47,8 +47,9 @@ class EditorGloc
         fieldConfigDatas.forEach { fieldConfigData ->
             val spaceField = FieldGraphic.createField(fieldConfigData.fieldType)
             spaceField.setPosition(fieldConfigData.gamePosition)
-            fieldGraphics[fieldConfigData.gamePosition] = spaceField
+            fieldGraphics[fieldConfigData.gamePosition.id] = spaceField
             fields.add(fieldConfigData)
+
             val gameImage = spaceField.getGameImage()
             gameImage.addClickListener(
                     onClick = { editorBloc.selectEntity(fieldConfigData) },
@@ -89,9 +90,8 @@ class EditorGloc
         connections.clear()
     }
 
-    fun getCenterOnEntity(): GameImage? = connectionGraphics.firstOrNull()?.spaceField1?.fieldImage
+    fun getStartField(): GameImage? = connectionGraphics.firstOrNull()?.spaceField1?.fieldImage
     fun setMode(mode: EditorMode) {
-        Logger.justPrint("OH NO MODE: $mode")
         editorBloc.editorMode = mode
     }
 

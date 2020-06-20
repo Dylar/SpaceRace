@@ -43,24 +43,22 @@ class EditorScreen(
                 baseScreen = this,
                 entityStage = mapStage,
                 backgroundStage = backgroundStage,
-                centerOnEntity = editorGloc.getCenterOnEntity()
+                centerOnEntity = editorGloc.getStartField()
         )
 
         observeGloc()
     }
 
     private fun observeGloc() {
-        editorGloc.observeEditorModeUseCase.observeStream {
-
-        }
         editorGloc.observeSelectedEntityUseCase.observeStream {
-
-        }
+            //TODO open selected menu
+        }.addDisposable()
     }
 
     override fun hide() {
         super.hide()
         editorGloc.clear()
+        disposeDisposables()
 //        EventBus.getDefault().unregister(this)
     }
 
