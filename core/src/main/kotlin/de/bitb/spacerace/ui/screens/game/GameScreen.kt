@@ -14,7 +14,7 @@ import de.bitb.spacerace.grafik.model.objecthandling.GameImage
 import de.bitb.spacerace.ui.screens.BackgroundStage
 import de.bitb.spacerace.ui.screens.GuiBackstack
 import de.bitb.spacerace.ui.screens.GuiBackstackHandler
-import de.bitb.spacerace.ui.screens.GuiNavi
+import de.bitb.spacerace.ui.screens.NaviRoute
 import de.bitb.spacerace.ui.screens.game.player.items.SRStorageItemMenu
 import de.bitb.spacerace.ui.screens.game.player.items.SRStorageMenu
 import de.bitb.spacerace.ui.screens.game.player.shop.SRShopItemMenu
@@ -86,15 +86,15 @@ class GameScreen(
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun navigateEvent(event: GuiNavi) {
+    fun navigateEvent(event: NaviRoute) {
         Logger.justPrint("Open Gui: ${event::class.simpleName}, ${event.player}")
         when (event) {
-            is GuiNavi.StorageMenu -> SRStorageMenu(event.player)
-            is GuiNavi.StorageDetailMenu -> SRStorageItemMenu(event.player, event.itemType)
-            is GuiNavi.EndRoundMenu -> SRRoundEndMenu()
-            is GuiNavi.PlayerEndDetailsMenu -> SRRoundEndPlayerMenu(event.player)
-            is GuiNavi.ShopMenu -> SRShopMenu(event.player)
-            is GuiNavi.ShopDetailMenu -> SRShopItemMenu(event.player, event.itemType)
+            is NaviRoute.StorageMenu -> SRStorageMenu(event.player)
+            is NaviRoute.StorageDetailMenu -> SRStorageItemMenu(event.player, event.itemType)
+            is NaviRoute.EndRoundMenu -> SRRoundEndMenu()
+            is NaviRoute.PlayerEndDetailsMenu -> SRRoundEndPlayerMenu(event.player)
+            is NaviRoute.ShopMenu -> SRShopMenu(event.player)
+            is NaviRoute.ShopDetailMenu -> SRShopItemMenu(event.player, event.itemType)
         }.also {
             addToBackstack(event, it, guiStage)
         }

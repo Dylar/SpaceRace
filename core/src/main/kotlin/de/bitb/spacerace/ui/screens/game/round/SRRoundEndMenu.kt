@@ -7,7 +7,7 @@ import de.bitb.spacerace.grafik.model.player.PlayerAnimation
 import de.bitb.spacerace.grafik.model.player.PlayerGraphics
 import de.bitb.spacerace.ui.base.SRGuiGrid
 import de.bitb.spacerace.ui.base.SRWindowGui
-import de.bitb.spacerace.ui.screens.GuiNavi
+import de.bitb.spacerace.ui.screens.NaviRoute
 import org.greenrobot.eventbus.EventBus
 
 class SRRoundEndMenu : SRWindowGui() {
@@ -39,7 +39,7 @@ class SRRoundEndMenu : SRWindowGui() {
     }
 
     private fun openPlayerDetails(player: PlayerGraphics) {
-        EventBus.getDefault().post(GuiNavi.PlayerEndDetailsMenu(player.playerColor))
+        EventBus.getDefault().post(NaviRoute.PlayerEndDetailsMenu(player.playerColor))
     }
 
     private fun addButtons(playerGraphics: MutableList<PlayerGraphics>) {

@@ -2,11 +2,11 @@ package de.bitb.spacerace.core.events.commands.start
 
 import de.bitb.spacerace.base.BaseScreen
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.controller.EditorGloc
+import de.bitb.spacerace.ui.screens.editor.EditorGloc
 import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.core.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.database.map.MapData
-import de.bitb.spacerace.ui.screens.editor.EditorScreen
+import de.bitb.spacerace.ui.screens.editor.gdx.EditorScreen
 import de.bitb.spacerace.usecase.game.init.LoadEditorUsecase
 import javax.inject.Inject
 

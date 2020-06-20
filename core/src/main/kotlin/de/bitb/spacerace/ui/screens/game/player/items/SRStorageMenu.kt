@@ -9,8 +9,7 @@ import de.bitb.spacerace.grafik.model.items.ItemType
 import de.bitb.spacerace.grafik.model.player.PlayerColor
 import de.bitb.spacerace.ui.base.SRGuiGrid
 import de.bitb.spacerace.ui.base.SRWindowGui
-import de.bitb.spacerace.ui.screens.GuiNavi
-import de.bitb.spacerace.ui.screens.GuiNavi.ShopDetailMenu
+import de.bitb.spacerace.ui.screens.NaviRoute
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
@@ -55,7 +54,7 @@ class SRStorageMenu(
     }
 
     private fun openItemDetails(item: ItemType) {
-        EventBus.getDefault().post(GuiNavi.StorageDetailMenu(playerColor, item))
+        EventBus.getDefault().post(NaviRoute.StorageDetailMenu(playerColor, item))
     }
 
     private fun addCancelBtn(items: Map<ItemType, ItemGraphic>) {

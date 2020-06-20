@@ -1,7 +1,7 @@
 package de.bitb.spacerace.core.events.commands.editor
 
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.controller.EditorGloc
+import de.bitb.spacerace.ui.screens.editor.EditorGloc
 import de.bitb.spacerace.core.events.commands.BaseCommand
 import de.bitb.spacerace.core.events.commands.CommandPool.getCommand
 import de.bitb.spacerace.grafik.model.objecthandling.GameImage

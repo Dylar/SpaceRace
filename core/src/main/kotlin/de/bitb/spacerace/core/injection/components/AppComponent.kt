@@ -15,10 +15,10 @@ import de.bitb.spacerace.grafik.model.items.ItemGraphic
 import de.bitb.spacerace.grafik.model.space.groups.ConnectionList
 import de.bitb.spacerace.grafik.model.space.groups.SpaceGroup
 import de.bitb.spacerace.ui.base.SRWindowGui
-import de.bitb.spacerace.ui.screens.editor.EditorScreen
-import de.bitb.spacerace.ui.screens.editor.MapStage
-import de.bitb.spacerace.ui.screens.editor.SRMapSelectModeGui
-import de.bitb.spacerace.ui.screens.editor.SRSelectEntityGui
+import de.bitb.spacerace.ui.screens.editor.gdx.EditorScreen
+import de.bitb.spacerace.ui.screens.editor.gdx.MapStage
+import de.bitb.spacerace.ui.screens.editor.widgets.SRMapSelectModeGui
+import de.bitb.spacerace.ui.screens.editor.widgets.SRSelectEntityGui
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndMenu
 import de.bitb.spacerace.ui.screens.game.round.SRRoundEndPlayerMenu
 import de.bitb.spacerace.ui.screens.game.player.SRPlayerStatsGui

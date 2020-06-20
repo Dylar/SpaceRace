@@ -11,7 +11,7 @@ import de.bitb.spacerace.core.events.commands.phases.NextPhaseCommand
 import de.bitb.spacerace.core.events.commands.player.DiceCommand
 import de.bitb.spacerace.ui.base.SRAlign
 import de.bitb.spacerace.ui.base.SRGuiGrid
-import de.bitb.spacerace.ui.screens.GuiNavi
+import de.bitb.spacerace.ui.screens.NaviRoute
 import de.bitb.spacerace.usecase.game.observe.ObserveCurrentPlayerUseCase
 import io.reactivex.rxjava3.disposables.Disposable
 import org.greenrobot.eventbus.EventBus
@@ -65,7 +65,7 @@ class SRActionGui : SRGuiGrid() {
         addButton(
                 text = GameGuiStrings.GAME_BUTTON_STORAGE,
                 listener = {
-                    val storageMenu: GuiNavi = GuiNavi.StorageMenu(playerController.currentColor)
+                    val storageMenu: NaviRoute = NaviRoute.StorageMenu(playerController.currentColor)
                     EventBus.getDefault().post(storageMenu)
                 })
     }

@@ -8,4 +8,6 @@ interface Dispenser<E> {
 
     fun publishUpdate(entity: E)
 
+    fun value(): E = publisher.value
+
 }

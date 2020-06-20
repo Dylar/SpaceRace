@@ -1,11 +1,9 @@
 package de.bitb.spacerace.ui.base
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.Align
 import com.kotcrab.vis.ui.widget.VisWindow
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.FONT_COLOR_BUTTON
-import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_WINDOW_HEIGHT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_WINDOW_WIDTH
 import de.bitb.spacerace.core.MainGame

@@ -29,6 +29,8 @@ data class MapData(
 
 }
 
+val NONE_FIELD_CONFIG = FieldConfigData()
+
 @Entity
 data class FieldConfigData(
         @Id
