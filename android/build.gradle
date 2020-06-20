@@ -3,6 +3,7 @@ static def getDate() {
 }
 
 android {
+
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
@@ -25,6 +26,17 @@ android {
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
         }
+
+//        amazon {
+//            java.srcDirs = ['src/main/kotlin/']
+//        }
+//        google {
+//            java.srcDirs = ['src/main/kotlin/']
+//        }
+//        generic {
+//            java.srcDirs = ['src/main/kotlin/']
+//        }
+
     }
 
 //    Properties versionProp = new Properties()
@@ -72,29 +84,35 @@ android {
 
     flavorDimensions 'mode', 'api'
     productFlavors {
+
         paid {
             dimension = 'mode'
-            applicationIdSuffix = ".paid"
+//            applicationIdSuffix = ".paid"
         }
+
         free {
             dimension = 'mode'
-            applicationIdSuffix = ".free"
+//            applicationIdSuffix = ".free"
         }
         prod {
+            signingConfig signingConfigs.release
             dimension = 'api'
         }
         stage {
+            signingConfig signingConfigs.debug
             dimension = 'api'
-            applicationIdSuffix += ".stage"
+            applicationIdSuffix = ".stage"
         }
         dev {
+            signingConfig signingConfigs.debug
             dimension = 'api'
-            applicationIdSuffix += ".dev"
+            applicationIdSuffix = ".dev"
         }
     }
 
     buildTypes {
         debug {
+            signingConfig null
             debuggable true
             minifyEnabled false
         }
@@ -103,6 +121,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+//    applicationVariants.all { variant ->
+//        if (variant.name.equals("freeDevDebug")) {
+//            variant.mergedFlavor.setSigningConfig(signingConfigs.debug)
+//        } else {
+//            variant.mergedFlavor.setSigningConfig(signingConfigs.release)
+//        }
+//    }
 
     //IGNO bullshit build variants
     variantFilter { variant ->
@@ -115,10 +141,9 @@ android {
     // loop over all flavors to set default signing config
     productFlavors.all { flavor ->
         if (flavor.name == "prod") {
-            flavor.signingConfig signingConfigs.debug
+            flavor.signingConfig signingConfigs.release
         } else flavor.signingConfig signingConfigs.debug
     }
-
     //rename APK
     applicationVariants.all { variant ->
         variant.outputs.all {

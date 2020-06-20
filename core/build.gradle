@@ -5,7 +5,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 //sourceSets.main.java.srcDirs = ["src/"]
 sourceSets.main.java.srcDirs = ["src/main/kotlin/", "src/mockdata/kotlin"]
 sourceSets.test.java.srcDirs = ["src/test/kotlin/", "src/mockdata/kotlin"]
-sourceSets.test.kotlin.srcDirs = ["src/test/kotlin/"]
+//sourceSets.test.kotlin.srcDirs = ["src/test/kotlin/"]
 //sourceSets.test.resources.srcDirs = ["src/test/res/"]
 eclipse.project {
     name = appName + "-core"
