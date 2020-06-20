@@ -49,7 +49,7 @@ class EditorGloc
             val gameImage = spaceField.getGameImage()
             gameImage.addClickListener(
                     onClick = { editorBloc.selectEntity(fieldConfigData) },
-                    longClick = { editorBloc.onLongClickField(fieldConfigDatas) }
+                    longClick = { editorBloc.onLongClickField(fieldConfigData) }
             )
             gameImage.addListener(object : DragListener() {
                 override fun drag(event: InputEvent?, x: Float, y: Float, pointer: Int) {

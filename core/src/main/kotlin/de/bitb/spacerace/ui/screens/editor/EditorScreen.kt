@@ -43,7 +43,7 @@ class EditorScreen(
                 baseScreen = this,
                 entityStage = mapStage,
                 backgroundStage = backgroundStage,
-                centerOnEntity = editorGloc.connectionGraphics.first().spaceField1.fieldImage
+                centerOnEntity = editorGloc.connectionGraphics.firstOrNull()?.spaceField1?.fieldImage
         )
     }
 

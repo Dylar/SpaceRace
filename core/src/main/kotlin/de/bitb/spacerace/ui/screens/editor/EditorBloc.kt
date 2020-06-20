@@ -1,5 +1,6 @@
 package de.bitb.spacerace.ui.screens.editor
 
+import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.database.map.FieldConfigData
 import de.bitb.spacerace.database.map.MapData
 import javax.inject.Inject
@@ -15,6 +16,7 @@ class EditorBloc
 
 ) {
     lateinit var loadedMap: MapData
+
     var editorMode: EditorMode = EditorMode.PLACE //TODO make on change listener -> als RX?
     private var selectedEntity: FieldConfigData? = null
 
@@ -22,8 +24,10 @@ class EditorBloc
     fun isSelectMode(): Boolean = editorMode == EditorMode.PLACE
     fun isEditMode(): Boolean = editorMode == EditorMode.EDIT
 
-    fun onLongClickField(fieldConfigDatas: List<FieldConfigData>): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun onLongClickField(clickedField: FieldConfigData): Boolean {
+        editorMode = EditorMode.DRAG
+        selectedEntity = clickedField
+        return true
     }
 
     fun selectEntity(fieldConfigData: FieldConfigData) {
