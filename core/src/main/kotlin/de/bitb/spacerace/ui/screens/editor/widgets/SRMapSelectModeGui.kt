@@ -6,7 +6,6 @@ import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.core.utils.Logger
 import de.bitb.spacerace.grafik.*
 import de.bitb.spacerace.ui.base.SRAlign
 import de.bitb.spacerace.ui.base.SRGuiGrid
