@@ -12,31 +12,31 @@ class BoxGroup(offsetX: Float = 0f, offsetY: Float = 0f) : SpaceGroup(offsetX, o
     init {
 
         //BOTTOM
-        val centerBottomField = FieldGraphic.createField(FieldType.LOSE)
+        val centerBottomField = FieldGraphic.createFieldOLD(FieldType.LOSE)
         addField(centerBottomField, SCREEN_WIDTH / 2)
-        val leftBottomCorner = FieldGraphic.createField(FieldType.LOSE)
+        val leftBottomCorner = FieldGraphic.createFieldOLD(FieldType.LOSE)
         addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
-        val rightBottomCorner = FieldGraphic.createField(FieldType.GOAL)
+        val rightBottomCorner = FieldGraphic.createFieldOLD(FieldType.GOAL)
         addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
         connectFields(leftBottomCorner, centerBottomField)
         connectFields(rightBottomCorner, centerBottomField)
 
         //TOP
-        val centerTopField = FieldGraphic.createField(FieldType.LOSE)
+        val centerTopField = FieldGraphic.createFieldOLD(FieldType.LOSE)
         addField(centerTopField, centerBottomField, verticalMod = FIELD_PADDING_XXLARGE)
-        val leftTopCorner = FieldGraphic.createField(FieldType.SHOP)
+        val leftTopCorner = FieldGraphic.createFieldOLD(FieldType.SHOP)
         addField(leftTopCorner, centerTopField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
-        val rightTopCorner = FieldGraphic.createField(FieldType.MINE)
+        val rightTopCorner = FieldGraphic.createFieldOLD(FieldType.MINE)
         addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
 
         connectFields(leftTopCorner, centerTopField)
         connectFields(rightTopCorner, centerTopField)
 
         //CENTER
-        val leftCenterField = FieldGraphic.createField(FieldType.GIFT)
+        val leftCenterField = FieldGraphic.createFieldOLD(FieldType.GIFT)
         addField(leftCenterField, centerBottomField, -FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.LEFT)
-        val rightCenterField = FieldGraphic.createField(FieldType.LOSE)
+        val rightCenterField = FieldGraphic.createFieldOLD(FieldType.LOSE)
         addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
 
         connectFields(leftCenterField, rightCenterField)

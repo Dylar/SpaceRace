@@ -1,6 +1,8 @@
 package de.bitb.spacerace.usecase
 
 import de.bitb.spacerace.core.utils.Logger
+import de.bitb.spacerace.database.map.FieldConfigData
+import de.bitb.spacerace.ui.screens.editor.EditorMode
 import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -124,6 +126,12 @@ interface StreamUseCase<ReturnType, in Params> where ReturnType : Any {
             )
 
 }
+
+fun <ReturnType> createStreamUseCaseNoParams(buildObservable: () -> Observable<ReturnType>)
+        : StreamUseCaseNoParams<ReturnType> where ReturnType : Any =
+        object : StreamUseCaseNoParams<ReturnType> {
+            override fun buildUseCaseObservable(): Observable<ReturnType> = buildObservable()
+        }
 
 interface StreamUseCaseNoParams<ReturnType> where ReturnType : Any {
 

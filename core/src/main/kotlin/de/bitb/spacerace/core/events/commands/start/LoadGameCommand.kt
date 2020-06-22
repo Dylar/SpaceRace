@@ -105,13 +105,13 @@ class LoadGameCommand : BaseCommand() {
                 }
             }
         }
-        graphicController.connectionGraphics.addAll(connections)
+        graphicController.connectionGraphics.connections.addAll(connections)
     }
 
     private fun addGraphicFields(fields: List<FieldData>) {
         fields.forEach { fieldData ->
             val fieldGraphic = FieldGraphic
-                    .createField(fieldData.fieldType)
+                    .createFieldOLD(fieldData.fieldType)
                     .apply { setPosition(fieldData.gamePosition) }
             graphicController.addField(fieldGraphic)
         }

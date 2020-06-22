@@ -18,14 +18,15 @@ class FieldGraphic(
 
     companion object {
 
-        fun createField(fieldType: FieldType): FieldGraphic {
+        fun createFieldOLD(fieldType: FieldType): FieldGraphic {
             return when (fieldType) {
 //                FieldType.MINE -> MineField()
                 FieldType.RANDOM
-                -> createField(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
+                -> createFieldOLD(FieldType.values()[(Math.random() * FieldType.values().size).toInt()])
                 else -> FieldGraphic(fieldType)
             }
         }
+
     }
 
     val disposedItems: MutableList<ItemGraphic> = ArrayList()

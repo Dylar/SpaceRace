@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Color
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_DOWN
-import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_UP
 import de.bitb.spacerace.grafik.TexturePool
 import de.bitb.spacerace.grafik.model.enums.FieldType
 import de.bitb.spacerace.ui.base.GuiBuilder
@@ -51,8 +49,7 @@ class SRSelectEntityGui : SRGuiGrid(), GuiBuilder {
                 imageUp = TexturePool.getDrawable(fieldType.texture),
                 imageDown = TexturePool.getDrawable(fieldType.texture).tint(Color.GRAY),
                 listener = {
-//                    if(editorGloc.editorMode == EditorMode.PLACE){
-//                    }
+                    editorGloc.addEntityClicked(fieldType)
                 }
         ).also { addActor(it) }
     }

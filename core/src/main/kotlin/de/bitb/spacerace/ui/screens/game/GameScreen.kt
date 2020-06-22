@@ -64,8 +64,8 @@ class GameScreen(
         guiStage = GameGuiStage(this)
         val gameStage = GameStage(this)
         val backgroundStage = BackgroundStage(this)
-        allStages = mutableListOf(backgroundStage, gameStage, guiStage)
-        inputStages = mutableListOf(guiStage, gameStage)
+        allStages = listOf(backgroundStage, gameStage, guiStage)
+        inputStages = listOf(guiStage, gameStage)
 
         gameStage.clear()
         gameStage.addEntitiesToMap()

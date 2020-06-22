@@ -3,6 +3,8 @@ package de.bitb.spacerace.core.injection.modules
 import dagger.Module
 import dagger.Provides
 import de.bitb.spacerace.core.events.commands.CommandDispender
+import de.bitb.spacerace.ui.screens.editor.AddEntityDispenser
+import de.bitb.spacerace.ui.screens.editor.AddEntityToMapDispenser
 import de.bitb.spacerace.ui.screens.editor.EditorModeDispenser
 import de.bitb.spacerace.ui.screens.editor.SelectedEntityDispenser
 import de.bitb.spacerace.usecase.dispender.AttachItemDispenser
@@ -12,26 +14,14 @@ import de.bitb.spacerace.usecase.dispender.RemoveItemDispenser
 import javax.inject.Singleton
 
 @Module
-class GameModule {
+class EditorModule {
 
     @Provides
     @Singleton
-    fun provideCommandDispender(): CommandDispender = CommandDispender()
+    fun provideEditorModeDispenser(): EditorModeDispenser = EditorModeDispenser()
 
     @Provides
     @Singleton
-    fun providePlayerColorDispender(): PlayerColorDispenser = PlayerColorDispenser()
-
-    @Provides
-    @Singleton
-    fun provideAttachItemDispender(): AttachItemDispenser = AttachItemDispenser()
-
-    @Provides
-    @Singleton
-    fun provideRemoveItemDispender(): RemoveItemDispenser = RemoveItemDispenser()
-
-    @Provides
-    @Singleton
-    fun provideMoveItemDispender(): MoveItemDispenser = MoveItemDispenser()
+    fun provideSelectedEntityDispenser(): SelectedEntityDispenser = SelectedEntityDispenser()
 
 }

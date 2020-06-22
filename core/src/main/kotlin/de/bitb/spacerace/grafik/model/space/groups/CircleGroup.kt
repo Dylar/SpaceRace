@@ -31,7 +31,7 @@ open class CircleGroup(
             val angle = slice * fieldType.index
             val point = CalculationUtils.calculateRotationPoint(rotationPoint, radius, angle)
 
-            addField = FieldGraphic.createField(fieldType.value)
+            addField = FieldGraphic.createFieldOLD(fieldType.value)
 
             if (anchorField != null) {
                 connectFields(anchorField, addField)

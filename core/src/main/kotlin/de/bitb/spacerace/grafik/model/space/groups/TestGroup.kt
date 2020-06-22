@@ -19,40 +19,40 @@ open class TestGroup(
     init {
         //BOTTOM
         fieldTypeSize = fieldType.size
-        val centerBottomField = FieldGraphic.createField(fieldType[index])
+        val centerBottomField = FieldGraphic.createFieldOLD(fieldType[index])
 /*0*/   addField(centerBottomField, SCREEN_WIDTH / 2)
-        val leftBottomCorner = FieldGraphic.createField(fieldType[index])
+        val leftBottomCorner = FieldGraphic.createFieldOLD(fieldType[index])
 /*1*/   addField(leftBottomCorner, centerBottomField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
-        val rightBottomCorner = FieldGraphic.createField(fieldType[index])
+        val rightBottomCorner = FieldGraphic.createFieldOLD(fieldType[index])
 /*2*/   addField(rightBottomCorner, centerBottomField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.BOTTOM)
 
         connectFields(leftBottomCorner, centerBottomField)
         connectFields(rightBottomCorner, centerBottomField)
 
         //TOP
-        val centerTopField = FieldGraphic.createField(fieldType[index])
+        val centerTopField = FieldGraphic.createFieldOLD(fieldType[index])
 /*3*/   addField(centerTopField, centerBottomField, verticalMod = FIELD_PADDING_XXLARGE)
-        val leftTopCorner = FieldGraphic.createField(fieldType[index])
+        val leftTopCorner = FieldGraphic.createFieldOLD(fieldType[index])
 /*4*/   addField(leftTopCorner, centerTopField, -FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
-        val rightTopCorner = FieldGraphic.createField(fieldType[index])
+        val rightTopCorner = FieldGraphic.createFieldOLD(fieldType[index])
 /*5*/   addField(rightTopCorner, centerTopField, FIELD_PADDING_XXLARGE, connection = ConnectionPoint.TOP)
 
         connectFields(leftTopCorner, centerTopField)
         connectFields(rightTopCorner, centerTopField)
 
         //CENTER
-        val leftCenterField = FieldGraphic.createField(fieldType[index])
+        val leftCenterField = FieldGraphic.createFieldOLD(fieldType[index])
 /*6*/   addField(leftCenterField, centerBottomField, -FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.LEFT)
-        val rightCenterField = FieldGraphic.createField(fieldType[index])
+        val rightCenterField = FieldGraphic.createFieldOLD(fieldType[index])
 /*7*/   addField(rightCenterField, centerBottomField, FIELD_PADDING_LARGE, FIELD_PADDING_LARGE, ConnectionPoint.RIGHT)
 
         //LONG WAY
-        val longWayField = FieldGraphic.createField(fieldType[index])
+        val longWayField = FieldGraphic.createFieldOLD(fieldType[index])
 /*8*/   addField(longWayField, centerBottomField, verticalMod = -FIELD_PADDING_TOO_LARGE, connection = ConnectionPoint.TOP)
 //        addConnectionPoint(ConnectionPoint.BOTTOM, longWayField)
 //        addConnectionPoint(ConnectionPoint.LEFT, longWayField)
 //        addConnectionPoint(ConnectionPoint.RIGHT, longWayField)
-        val moonField = FieldGraphic.createField(fieldType[index])
+        val moonField = FieldGraphic.createFieldOLD(fieldType[index])
         addField(moonField, leftBottomCorner, FIELD_PADDING_LARGE)
 
         moonField.fieldImage.setRotating(moonField, leftBottomCorner.getGameImage(), (moonField.getGameImage().height * FIELD_PADDING_XXLARGE).toDouble())

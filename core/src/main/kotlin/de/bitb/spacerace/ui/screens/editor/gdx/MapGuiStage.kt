@@ -2,6 +2,8 @@ package de.bitb.spacerace.ui.screens.editor.gdx
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.kotcrab.vis.ui.widget.VisScrollPane
+import com.kotcrab.vis.ui.widget.VisTable
 import de.bitb.spacerace.base.BaseStage
 import de.bitb.spacerace.base.CameraState
 import de.bitb.spacerace.config.dimensions.Dimensions
@@ -41,6 +43,12 @@ class MapGuiStage(
     }
 
     private fun addSelectEntityGui() {
+//        val scroller = VisScrollPane(selectEntityGui)
+//
+//        val table = VisTable()
+//        table.setFillParent(true)
+//        table.add(scroller).fill().expand()
+
         addActor(selectEntityGui)
         selectEntityGui.alignGui(
                 guiPosX = Dimensions.SCREEN_WIDTH,

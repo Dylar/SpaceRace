@@ -13,8 +13,6 @@ data class PositionData(
         @Id
         var uuid: Long = 0) {
 
-    val id:String = "$posX,$posY"
-
     fun setPosition(positionData: PositionData) {
         posX = positionData.posX
         posY = positionData.posY

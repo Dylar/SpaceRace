@@ -51,7 +51,7 @@ class LoadEditorCommand : BaseCommand() {
     }
 
     private fun setGraphics(mapData: MapData) {
-        val screen = EditorScreen(game.screen as BaseScreen)
+        val screen = EditorScreen(game.screen as BaseScreen, mapData)
         editorGloc.initEditor(mapData)
         game.screen = screen
     }

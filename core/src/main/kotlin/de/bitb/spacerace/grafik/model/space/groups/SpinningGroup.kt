@@ -21,7 +21,7 @@ open class SpinningGroup(offsetX: Float = 0f,
         //CENTER
 
         fieldTypeSize = fieldType.size
-        val centerPoint = FieldGraphic.createField(fieldType[index])
+        val centerPoint = FieldGraphic.createFieldOLD(fieldType[index])
         addField(centerPoint, SCREEN_WIDTH_HALF, SCREEN_HEIGHT_HALF)
 
 //        solarMap(fieldType, distance, radius)
@@ -31,19 +31,19 @@ open class SpinningGroup(offsetX: Float = 0f,
 
     private fun solarMap(fieldType: Array<out FieldType>, distance: Float, radius: Double) {
 
-        val centerPoint = FieldGraphic.createField(fieldType[index])
+        val centerPoint = FieldGraphic.createFieldOLD(fieldType[index])
         addField(centerPoint, SCREEN_WIDTH_HALF, SCREEN_HEIGHT_HALF)
 
-        val leftPoint = FieldGraphic.createField(fieldType[index])
+        val leftPoint = FieldGraphic.createFieldOLD(fieldType[index])
         addField(leftPoint, centerPoint, -distance, connection = ConnectionPoint.LEFT)
 
-        val rightPoint = FieldGraphic.createField(fieldType[index])
+        val rightPoint = FieldGraphic.createFieldOLD(fieldType[index])
         addField(rightPoint, centerPoint, distance, connection = ConnectionPoint.RIGHT)
 
-        val topPoint = FieldGraphic.createField(fieldType[index])
+        val topPoint = FieldGraphic.createFieldOLD(fieldType[index])
         addField(topPoint, centerPoint, verticalMod = -distance, connection = ConnectionPoint.TOP)
 
-        val bottomPoint = FieldGraphic.createField(fieldType[index])
+        val bottomPoint = FieldGraphic.createFieldOLD(fieldType[index])
         addField(bottomPoint, centerPoint, verticalMod = distance, connection = ConnectionPoint.BOTTOM)
 
         connectFields(centerPoint, leftPoint)
@@ -51,19 +51,19 @@ open class SpinningGroup(offsetX: Float = 0f,
         connectFields(centerPoint, topPoint)
         connectFields(centerPoint, bottomPoint)
 
-        val moonField1 = FieldGraphic.createField(fieldType[index])
+        val moonField1 = FieldGraphic.createFieldOLD(fieldType[index])
         addMoon(moonField1, centerPoint, radius)
         connectFields(centerPoint, moonField1)
     }
 
     private fun testPlanet(centerPoint: FieldGraphic, radius: Double, fieldType: Array<out FieldType>) {
-        val planet1 = FieldGraphic.createField(fieldType[index])
+        val planet1 = FieldGraphic.createFieldOLD(fieldType[index])
         addMoon(planet1, centerPoint, radius * 1.0)
 
-        val planet2 = FieldGraphic.createField(fieldType[index])
+        val planet2 = FieldGraphic.createFieldOLD(fieldType[index])
         addMoon(planet2, centerPoint, radius * 2.0)
 
-        val planet3 = FieldGraphic.createField(fieldType[index])
+        val planet3 = FieldGraphic.createFieldOLD(fieldType[index])
         addMoon(planet3, centerPoint, radius * 3.0)
 
         connectFields(centerPoint, planet1)
@@ -74,7 +74,7 @@ open class SpinningGroup(offsetX: Float = 0f,
     private fun testSnake(centerPoint: FieldGraphic, radius: Double, fieldType: Array<out FieldType>) {
         var center = centerPoint
         for (i in 0..10) {
-            val moon = FieldGraphic.createField(fieldType[index])
+            val moon = FieldGraphic.createFieldOLD(fieldType[index])
             moon.gamePosition.posX = i.toFloat()
             addMoon(moon, center, radius)
             connectFields(center, moon)

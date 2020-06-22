@@ -16,7 +16,7 @@ val SCREEN_INPUT_POSITION: PositionData = PositionData()
 
 //MAYBE BULLSHIT - pseudo backing field
 private val WORLD_INPUT_POSITION: PositionData = PositionData()
-//NOT THIS
+//NOT THIS - this is cool
 fun getWorldInputCoordination(camera: Camera): PositionData {
    val screenInput = SCREEN_INPUT_POSITION
     val vector = camera.unproject(Vector3(screenInput.posX, screenInput.posY, 0f))

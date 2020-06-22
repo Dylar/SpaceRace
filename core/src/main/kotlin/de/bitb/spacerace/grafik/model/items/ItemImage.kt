@@ -29,7 +29,6 @@ class ItemImage(
         super.act(delta)
         color = owner.color
         actRotation(this, followImage, delta)
-
     }
 
 }

@@ -55,7 +55,7 @@ fun SpaceMap.initDefaultMap(name: String): MapData = MapData(name).apply {
     }
 
     fields.forEach { fieldData ->
-        connections
+        connections.connections
                 .filter { it.isConnected(fieldData.gamePosition) }
                 .forEach { connection ->
                     val opposite = connection.getOpposite(fieldData.gamePosition)

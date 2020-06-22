@@ -116,7 +116,7 @@ class GraphicController
     }
 
     fun setConnectionColor(player: PlayerData, fields: MutableList<FieldData>) {
-        connectionGraphics.forEach { connection ->
+        connectionGraphics.connections.forEach { connection ->
             connection.also { (field1, field2) ->
                 val playerPosition = player.gamePosition
                 val field1Position = field1.gamePosition

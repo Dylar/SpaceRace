@@ -8,9 +8,8 @@ import de.bitb.spacerace.grafik.LineRenderer
 import de.bitb.spacerace.grafik.model.space.fields.ConnectionGraphic
 
 class ConnectionList(
-        private val mutableList: MutableList<ConnectionGraphic> = ArrayList()
-) : MutableList<ConnectionGraphic> by mutableList,
-        Actor() {
+        val connections: MutableList<ConnectionGraphic> = ArrayList()
+): Actor() {
 
 //    var reverse = false
     var index = 0
@@ -27,7 +26,7 @@ class ConnectionList(
 //        }
 //        reverse = if (index == 0) false else if (index > 50) true else reverse
 
-        forEach { (spaceField1, spaceField2, color) ->
+        connections.forEach { (spaceField1, spaceField2, color) ->
             val pos1 = spaceField1.fieldImage
             val pos2 = spaceField2.fieldImage
             val start = Vector2(pos1.getCenterX(), pos1.getCenterY())
@@ -39,7 +38,7 @@ class ConnectionList(
     }
 
     override fun clear() {
-        mutableList.clear()
+        connections.clear()
         super.clear()
     }
 }

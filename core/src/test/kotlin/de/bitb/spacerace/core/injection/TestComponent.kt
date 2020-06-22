@@ -17,6 +17,7 @@ import javax.inject.Singleton
 //    NetworkModule::class,
             DatabaseModule::class,
             GameModule::class,
+            EditorModule::class,
             UseCaseModule::class,
 //    UtilsModule::class,
 //    BuilderModule::class,

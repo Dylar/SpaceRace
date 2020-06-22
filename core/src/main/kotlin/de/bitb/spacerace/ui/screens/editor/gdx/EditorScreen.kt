@@ -45,19 +45,12 @@ class EditorScreen(
                 backgroundStage = backgroundStage,
                 centerOnEntity = editorGloc.getStartField()
         )
-
-        observeGloc()
-    }
-
-    private fun observeGloc() {
-        editorGloc.observeSelectedEntityUseCase.observeStream {
-            //TODO open selected menu
-        }.addDisposable()
+        editorGloc.initEditor()
     }
 
     override fun hide() {
         super.hide()
-        editorGloc.clear()
+        editorGloc.dispose()
         disposeDisposables()
 //        EventBus.getDefault().unregister(this)
     }

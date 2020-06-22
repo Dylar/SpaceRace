@@ -23,7 +23,7 @@ class TestMap(vararg fieldType: FieldType) : SpaceMap() {
         centerGroup.connectGroups(ConnectionPoint.TOP, topGroup)
 
         startField = centerGroup.getField(1)
-        connections.apply {
+        connections.connections.apply {
             addAll(centerGroup.connections)
             addAll(crescentGroup.connections)
             addAll(rightGroup.connections)

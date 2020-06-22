@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import de.bitb.spacerace.base.getWorldInputCoordination
 import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.MOVING_SPS
 import de.bitb.spacerace.grafik.model.items.disposable.moving.MovingState
@@ -79,5 +80,11 @@ abstract class GameImage() : Image() {
             actionQueue.clear()
             super.addAction(seq)
         }
+    }
+
+    fun stickToCursor(): PositionData {
+        val input = getWorldInputCoordination(stage.camera)
+        setPosition(input.posX, input.posY)
+        return input
     }
 }

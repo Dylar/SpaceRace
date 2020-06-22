@@ -6,7 +6,9 @@ import de.bitb.spacerace.config.DEBUG_LAYOUT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_HEIGHT_DEFAULT
 import de.bitb.spacerace.config.dimensions.Dimensions.GameGuiDimensions.GAME_BUTTON_WIDTH_DEFAULT
 import de.bitb.spacerace.core.MainGame
-import de.bitb.spacerace.grafik.*
+import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_DOWN
+import de.bitb.spacerace.grafik.IMAGE_PATH_BUTTON_UP
+import de.bitb.spacerace.grafik.TexturePool
 import de.bitb.spacerace.ui.base.SRAlign
 import de.bitb.spacerace.ui.base.SRGuiGrid
 import de.bitb.spacerace.ui.screens.editor.EditorGloc
@@ -62,7 +64,7 @@ class SRMapSelectModeGui : SRGuiGrid(), DisposableHandler {
         createSmallButtons(
                 text = mode.name,
                 listener = {
-                    editorGloc.setMode(mode)
+                    editorGloc.changModeClicked(mode)
                 })
     }
 
