@@ -1,4 +1,16 @@
 project.ext {
+<<<<<<< Updated upstream
+=======
+
+    gsonVersion = '2.8.5'
+    daggerVersion = '2.25.2'
+    koin_version = '2.0.1'
+
+    kotlinVersion = '1.3.72'
+
+    dbVersion = '2.4.1'
+
+>>>>>>> Stashed changes
     gdx = [
             version           : '1.9.10',
             roboVMVersion     : '2.3.7',
